@@ -1,0 +1,56 @@
+2017-11-02 11:22:50,044 INFO [com.lanxi.util.utils.LoggerUtil] - <log4j初始化完成!>
+2017-11-02 11:22:50,450 INFO [com.alibaba.dubbo.config.AbstractConfig] - < [DUBBO] Run shutdown hook now., dubbo version: 2.5.3, current host: 127.0.0.1>
+2017-11-02 11:22:50,450 INFO [org.springframework.context.support.GenericApplicationContext] - <Closing org.springframework.context.support.GenericApplicationContext@77cd7a0: startup date [Thu Nov 02 11:22:45 CST 2017]; root of context hierarchy>
+2017-11-02 11:22:50,456 INFO [com.alibaba.dubbo.registry.support.AbstractRegistryFactory] - < [DUBBO] Close all registries [], dubbo version: 2.5.3, current host: 127.0.0.1>
+2017-11-02 11:25:45,798 INFO [com.lanxi.util.utils.LoggerUtil] - <log4j初始化完成!>
+2017-11-02 11:25:46,000 INFO [com.alibaba.dubbo.config.AbstractConfig] - < [DUBBO] Run shutdown hook now., dubbo version: 2.5.3, current host: 127.0.0.1>
+2017-11-02 11:25:46,000 INFO [org.springframework.context.support.GenericApplicationContext] - <Closing org.springframework.context.support.GenericApplicationContext@77cd7a0: startup date [Thu Nov 02 11:25:42 CST 2017]; root of context hierarchy>
+2017-11-02 11:25:46,005 INFO [com.alibaba.dubbo.registry.support.AbstractRegistryFactory] - < [DUBBO] Close all registries [], dubbo version: 2.5.3, current host: 127.0.0.1>
+2017-11-02 11:29:49,804 INFO [com.lanxi.util.utils.LoggerUtil] - <log4j初始化完成!>
+2017-11-02 11:29:50,002 INFO [org.springframework.context.support.GenericApplicationContext] - <Closing org.springframework.context.support.GenericApplicationContext@77cd7a0: startup date [Thu Nov 02 11:29:46 CST 2017]; root of context hierarchy>
+2017-11-02 11:29:50,003 INFO [com.alibaba.dubbo.config.AbstractConfig] - < [DUBBO] Run shutdown hook now., dubbo version: 2.5.3, current host: 127.0.0.1>
+2017-11-02 11:29:50,007 INFO [com.alibaba.dubbo.registry.support.AbstractRegistryFactory] - < [DUBBO] Close all registries [], dubbo version: 2.5.3, current host: 127.0.0.1>
+2017-11-02 11:31:47,826 INFO [com.lanxi.util.utils.LoggerUtil] - <log4j初始化完成!>
+2017-11-02 11:31:48,077 INFO [org.springframework.context.support.GenericApplicationContext] - <Closing org.springframework.context.support.GenericApplicationContext@77cd7a0: startup date [Thu Nov 02 11:31:44 CST 2017]; root of context hierarchy>
+2017-11-02 11:31:48,078 INFO [com.alibaba.dubbo.config.AbstractConfig] - < [DUBBO] Run shutdown hook now., dubbo version: 2.5.3, current host: 127.0.0.1>
+2017-11-02 11:31:48,088 INFO [com.alibaba.dubbo.registry.support.AbstractRegistryFactory] - < [DUBBO] Close all registries [], dubbo version: 2.5.3, current host: 127.0.0.1>
+2017-11-02 11:32:18,148 INFO [com.lanxi.util.utils.LoggerUtil] - <log4j初始化完成!>
+2017-11-02 11:32:18,390 INFO [com.alibaba.dubbo.config.AbstractConfig] - < [DUBBO] Run shutdown hook now., dubbo version: 2.5.3, current host: 127.0.0.1>
+2017-11-02 11:32:18,390 INFO [org.springframework.context.support.GenericApplicationContext] - <Closing org.springframework.context.support.GenericApplicationContext@77cd7a0: startup date [Thu Nov 02 11:32:15 CST 2017]; root of context hierarchy>
+2017-11-02 11:32:18,395 INFO [com.alibaba.dubbo.registry.support.AbstractRegistryFactory] - < [DUBBO] Close all registries [], dubbo version: 2.5.3, current host: 127.0.0.1>
+2017-11-02 11:32:39,810 INFO [com.lanxi.util.utils.LoggerUtil] - <log4j初始化完成!>
+2017-11-02 11:32:40,067 INFO [com.alibaba.dubbo.config.AbstractConfig] - < [DUBBO] Run shutdown hook now., dubbo version: 2.5.3, current host: 127.0.0.1>
+2017-11-02 11:32:40,068 INFO [org.springframework.context.support.GenericApplicationContext] - <Closing org.springframework.context.support.GenericApplicationContext@77cd7a0: startup date [Thu Nov 02 11:32:36 CST 2017]; root of context hierarchy>
+2017-11-02 11:32:40,076 INFO [com.alibaba.dubbo.registry.support.AbstractRegistryFactory] - < [DUBBO] Close all registries [], dubbo version: 2.5.3, current host: 127.0.0.1>
+2017-11-02 13:36:10,734 INFO [com.lanxi.util.utils.LoggerUtil] - <log4j初始化完成!>
+2017-11-02 13:36:11,116 INFO [com.alibaba.dubbo.config.AbstractConfig] - < [DUBBO] Run shutdown hook now., dubbo version: 2.5.3, current host: 127.0.0.1>
+2017-11-02 13:36:11,116 INFO [org.springframework.context.support.GenericApplicationContext] - <Closing org.springframework.context.support.GenericApplicationContext@4667ae56: startup date [Thu Nov 02 13:36:07 CST 2017]; root of context hierarchy>
+2017-11-02 13:36:11,121 INFO [com.alibaba.dubbo.registry.support.AbstractRegistryFactory] - < [DUBBO] Close all registries [], dubbo version: 2.5.3, current host: 127.0.0.1>
+2017-11-02 13:37:55,746 INFO [com.lanxi.util.utils.LoggerUtil] - <log4j初始化完成!>
+2017-11-02 13:37:56,062 INFO [com.alibaba.dubbo.config.AbstractConfig] - < [DUBBO] Run shutdown hook now., dubbo version: 2.5.3, current host: 127.0.0.1>
+2017-11-02 13:37:56,062 INFO [org.springframework.context.support.GenericApplicationContext] - <Closing org.springframework.context.support.GenericApplicationContext@77cd7a0: startup date [Thu Nov 02 13:37:52 CST 2017]; root of context hierarchy>
+2017-11-02 13:37:56,067 INFO [com.alibaba.dubbo.registry.support.AbstractRegistryFactory] - < [DUBBO] Close all registries [], dubbo version: 2.5.3, current host: 127.0.0.1>
+2017-11-02 13:39:48,146 INFO [com.lanxi.util.utils.LoggerUtil] - <log4j初始化完成!>
+2017-11-02 13:39:48,458 INFO [com.alibaba.dubbo.config.AbstractConfig] - < [DUBBO] Run shutdown hook now., dubbo version: 2.5.3, current host: 127.0.0.1>
+2017-11-02 13:39:48,486 INFO [org.springframework.context.support.GenericApplicationContext] - <Closing org.springframework.context.support.GenericApplicationContext@7995092a: startup date [Thu Nov 02 13:39:44 CST 2017]; root of context hierarchy>
+2017-11-02 13:39:48,491 INFO [com.alibaba.dubbo.registry.support.AbstractRegistryFactory] - < [DUBBO] Close all registries [], dubbo version: 2.5.3, current host: 127.0.0.1>
+2017-11-02 14:05:19,246 INFO [com.lanxi.util.utils.LoggerUtil] - <log4j初始化完成!>
+2017-11-02 14:05:19,516 INFO [com.alibaba.dubbo.config.AbstractConfig] - < [DUBBO] Run shutdown hook now., dubbo version: 2.5.3, current host: 127.0.0.1>
+2017-11-02 14:05:19,517 INFO [org.springframework.context.support.GenericApplicationContext] - <Closing org.springframework.context.support.GenericApplicationContext@7995092a: startup date [Thu Nov 02 14:05:15 CST 2017]; root of context hierarchy>
+2017-11-02 14:05:19,525 INFO [com.alibaba.dubbo.registry.support.AbstractRegistryFactory] - < [DUBBO] Close all registries [], dubbo version: 2.5.3, current host: 127.0.0.1>
+2017-11-02 14:10:52,549 INFO [com.lanxi.util.utils.LoggerUtil] - <log4j初始化完成!>
+2017-11-02 14:10:52,771 INFO [com.alibaba.dubbo.config.AbstractConfig] - < [DUBBO] Run shutdown hook now., dubbo version: 2.5.3, current host: 127.0.0.1>
+2017-11-02 14:10:52,772 INFO [org.springframework.context.support.GenericApplicationContext] - <Closing org.springframework.context.support.GenericApplicationContext@7995092a: startup date [Thu Nov 02 14:10:48 CST 2017]; root of context hierarchy>
+2017-11-02 14:10:52,781 INFO [com.alibaba.dubbo.registry.support.AbstractRegistryFactory] - < [DUBBO] Close all registries [], dubbo version: 2.5.3, current host: 127.0.0.1>
+2017-11-02 17:21:47,821 INFO [com.lanxi.util.utils.LoggerUtil] - <log4j初始化完成!>
+2017-11-02 17:21:48,084 INFO [com.alibaba.dubbo.config.AbstractConfig] - < [DUBBO] Run shutdown hook now., dubbo version: 2.5.3, current host: 127.0.0.1>
+2017-11-02 17:21:48,085 INFO [org.springframework.context.support.GenericApplicationContext] - <Closing org.springframework.context.support.GenericApplicationContext@77cd7a0: startup date [Thu Nov 02 17:21:43 CST 2017]; root of context hierarchy>
+2017-11-02 17:21:48,094 INFO [com.alibaba.dubbo.registry.support.AbstractRegistryFactory] - < [DUBBO] Close all registries [], dubbo version: 2.5.3, current host: 127.0.0.1>
+2017-11-02 17:29:05,799 INFO [com.lanxi.util.utils.LoggerUtil] - <log4j初始化完成!>
+2017-11-02 17:29:05,956 INFO [com.alibaba.dubbo.config.AbstractConfig] - < [DUBBO] Run shutdown hook now., dubbo version: 2.5.3, current host: 127.0.0.1>
+2017-11-02 17:29:05,956 INFO [org.springframework.context.support.GenericApplicationContext] - <Closing org.springframework.context.support.GenericApplicationContext@77cd7a0: startup date [Thu Nov 02 17:29:02 CST 2017]; root of context hierarchy>
+2017-11-02 17:29:05,960 INFO [com.alibaba.dubbo.registry.support.AbstractRegistryFactory] - < [DUBBO] Close all registries [], dubbo version: 2.5.3, current host: 127.0.0.1>
+2017-11-02 17:30:34,768 INFO [com.lanxi.util.utils.LoggerUtil] - <log4j初始化完成!>
+2017-11-02 17:30:35,051 INFO [com.alibaba.dubbo.config.AbstractConfig] - < [DUBBO] Run shutdown hook now., dubbo version: 2.5.3, current host: 127.0.0.1>
+2017-11-02 17:30:35,051 INFO [org.springframework.context.support.GenericApplicationContext] - <Closing org.springframework.context.support.GenericApplicationContext@77cd7a0: startup date [Thu Nov 02 17:30:31 CST 2017]; root of context hierarchy>
+2017-11-02 17:30:35,055 INFO [com.alibaba.dubbo.registry.support.AbstractRegistryFactory] - < [DUBBO] Close all registries [], dubbo version: 2.5.3, current host: 127.0.0.1>

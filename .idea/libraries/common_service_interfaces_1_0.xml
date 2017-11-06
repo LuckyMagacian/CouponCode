@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="common-service-interfaces-1.0">
+    <CLASSES>
+      <root url="jar://$MAVEN_REPOSITORY$/com/lanxi/common-service-interfaces/1.0/common-service-interfaces-1.0.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
