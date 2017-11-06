@@ -114,6 +114,6 @@ public interface CouponCodeService {
     public List<CouponCode> queryCouponCode(String createTimeStart, String createTimeEnd, String merchantName,
                                             String commodityName, Long code, Long codeId,
                                             String codeStatus   , Long commodityId, Long merchantId,
-                                            String overTimeStart, String overTimeEnd
+                                            String overTimeStart, String overTimeEnd,boolean isManager
     );
 }

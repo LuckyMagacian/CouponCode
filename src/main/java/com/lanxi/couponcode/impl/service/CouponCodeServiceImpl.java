@@ -132,12 +132,14 @@ public class CouponCodeServiceImpl implements  CouponCodeService{
                 LogFactory.info(this,"核销失败,商品id不一致,串码中commodityId["+couponCode.getCommodityId()+"],\n"+locker);
                 return false;
             }
+            //需要将核销记录id记录到couponcode实例中去
+            VerificationRecord record = new VerificationRecord();
+            record.setRecordId(IdWorker.getId());
+            couponCode.setDestroyRecordId(record.getRecordId());
             result=couponCode.updateById();
             LogFactory.info(this,"更新串码状态结果["+result+"],\n"+locker);
             //若更新成功增加核销记录
             if(result) {
-                VerificationRecord record = new VerificationRecord();
-                record.setRecordId(IdWorker.getId());
                 record.setMerchantId(merchantId);
                 record.setMerchantName(merchantName);
                 record.setShopId(shopId);
@@ -378,7 +380,7 @@ public class CouponCodeServiceImpl implements  CouponCodeService{
     public List<CouponCode> queryCouponCode(String createTimeStart, String createTimeEnd,   String merchantName,
                                             String commodityName,   Long code,              Long codeId,
                                             String codeStatus   ,   Long commodityId,       Long merchantId,
-                                            String overTimeStart,   String overTimeEnd
+                                            String overTimeStart,   String overTimeEnd,     boolean isManager
     ){
         String locker="createTimeStart["+createTimeStart+"]\n"+
                 "createTimeEnd["+createTimeEnd+"]\n"+
@@ -411,13 +413,16 @@ public class CouponCodeServiceImpl implements  CouponCodeService{
             if(code!=null)
                 wrapper.eq("code",code);
             if(codeId!=null)
-                wrapper.eq("code_id",codeId);
+                wrapper.like("code_id",codeId+"");
             if(codeStatus!=null&&CouponCodeStatus.getType(codeStatus)!=null)
                 wrapper.eq("code_status",codeStatus.toString());
             if(commodityId!=null)
-                wrapper.eq("commodity_id",commodityId);
-            if(merchantId!=null)
+                wrapper.like("commodity_id",commodityId+"");
+            //若isManager参数为true代表是管理员操作,对商户id采用模糊查询
+            if(!isManager&&merchantId!=null)
                 wrapper.eq("merchant_id",merchantId);
+            if(isManager&&merchantId!=null)
+                wrapper.like("merchant_id",merchantId+"");
             if(overTimeStart!=null&&!overTimeStart.isEmpty()){
                 while(overTimeStart.length()<14)
                     overTimeStart+="0";

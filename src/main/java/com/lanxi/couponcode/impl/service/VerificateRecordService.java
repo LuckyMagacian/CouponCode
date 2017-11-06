@@ -12,5 +12,8 @@ public interface VerificateRecordService {
 //    /**根据串码查询核销记录,允许串码模糊*/
 //    List<VerificationRecord> queryVerificateRecord(Integer page, Integer size, Long merchantId, Long code);
 //    /**管理员模糊查询串码核销情况*/
-//    List<VerificationRecord> queryVerificateRecords(Integer page,Integer size,Long merchantId,Long commodityId,Long code);
+public List<VerificationRecord> queryVerificateRecords(Integer page,    Integer size,           String startTime,   String endTime,
+                                                       Long merchantId, Long commodityId,       String shopName,    String operaterPhone,
+                                                       Long code,       String commodityName,   String merchantName,String operaterId,
+                                                       Long recordId,boolean isManager);
 }

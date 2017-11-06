@@ -43,5 +43,8 @@ public interface ConstConfig {
 	long ID_DEFAULT_VALUE=1000000L;
 	/**机器编号  默认值*/
 	String MACHINE_NUMER_DEFAULT_VALUE="1";
+	/**默认分页参数*/
+	Integer DEFAULT_PAGE=1;
+	Integer DEFAULT_PAGE_SIZE=10;
 }
 
