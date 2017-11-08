@@ -1,10 +1,8 @@
 package com.lanxi.couponcode.impl.service;
 
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
-import com.lanxi.common.interfaces.RedisCacheServiceInterface;
 import com.lanxi.couponcode.impl.entity.CodeAlgorithm;
 import com.lanxi.couponcode.impl.entity.CouponCode;
-import com.lanxi.couponcode.spi.consts.enums.LockStatus;
 import com.lanxi.util.entity.LogFactory;
 import org.springframework.stereotype.Service;
 import redis.clients.jedis.Jedis;
@@ -15,12 +13,11 @@ import javax.annotation.Resource;
 import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
-import java.util.stream.LongStream;
 
 import static com.lanxi.couponcode.impl.config.ConstConfig.ARTIFCAT;
 import static com.lanxi.couponcode.impl.config.FunName.CODE_VALUE;
 import static com.lanxi.couponcode.impl.config.FunName.MERCHANT_COUDE_VAR;
-
+import static com.lanxi.couponcode.impl.config.ConstConfig.*;
 /**
  * redis串码生产接口实现类
  * Created by yangyuanjian on 2017/10/31.
@@ -232,7 +229,7 @@ public class RedisCodeServiceImpl implements RedisCodeService {
                     return getCode(merchantId);
                 }
             }else{
-                return -1;
+                return INVALID_LONG;
             }
         }
     }
@@ -254,7 +251,7 @@ public class RedisCodeServiceImpl implements RedisCodeService {
             return var;
         } catch (Exception e) {
             LogFactory.error(this,"获取商户code计数器,merchantId[" + merchantId + "]时发生异常", e);
-            return -1;
+            return INVALID_LONG;
 //            throw new RuntimeException("获取商户code计数器,merchantId[" + merchantId + "]时发生异常", e);
         } finally {
             if (conn != null) {

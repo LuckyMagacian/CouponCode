@@ -2,6 +2,7 @@ package com.lanxi.couponcode.test;
 
 import com.baomidou.mybatisplus.toolkit.IdWorker;
 import com.lanxi.couponcode.impl.entity.CodeAlgorithm;
+import com.lanxi.couponcode.impl.service.CodeOperateRecordService;
 import com.lanxi.util.entity.MyClassLoader;
 import com.lanxi.util.utils.LoggerUtil;
 import com.lanxi.util.utils.LoggerUtil.LogLevel;
@@ -29,6 +30,8 @@ public class TestMybatis {
 	ApplicationContext ac;
 	@Resource
 	SqlSessionFactory ssf;
+	@Resource
+	CodeOperateRecordService codeOperateRecordService;
 	@Before
 	public void init() {
 		LoggerUtil.setLogLevel(LogLevel.DEBUG);
@@ -72,4 +75,11 @@ public class TestMybatis {
         codeAlgorithm.setMerchantId(IdWorker.getId());
         codeAlgorithm.insert();
     }
+    @Test
+	public void test4(){
+		System.out.println(codeOperateRecordService.queryCodeOperateRecord(
+				1,10,null,null,null,null,null,null,
+				null,null,null,null,null,true
+		));
+	}
 }

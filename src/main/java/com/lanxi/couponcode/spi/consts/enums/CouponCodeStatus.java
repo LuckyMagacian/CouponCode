@@ -1,5 +1,7 @@
 package com.lanxi.couponcode.spi.consts.enums;
 
+import java.io.Serializable;
+
 /**
  * <strong>串码状态枚举</strong>
  * destroyed 1 已核销<br>
@@ -9,7 +11,7 @@ package com.lanxi.couponcode.spi.consts.enums;
  * @author yangyuanjian
  *
  */
-public enum CouponCodeStatus {
+public enum CouponCodeStatus  implements Serializable {
 	destroyed(1),undestroyed(2),overtime(3),test(4),cancellation(9);
 	private String value;
 	private CouponCodeStatus(int value) {

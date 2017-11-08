@@ -1,6 +1,7 @@
 package com.lanxi.couponcode.impl.service;
 
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
+import com.baomidou.mybatisplus.mapper.Wrapper;
 import com.baomidou.mybatisplus.toolkit.IdWorker;
 import com.lanxi.couponcode.impl.entity.CouponCode;
 import com.lanxi.couponcode.impl.entity.OperateRecord;
@@ -16,8 +17,10 @@ import org.springframework.stereotype.Service;
 import javax.annotation.Resource;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.*;
-import java.util.stream.Collectors;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+import static com.lanxi.couponcode.impl.config.ConstConfig.*;
 
 /**
  * 串码服务接口实现类<br>
@@ -34,10 +37,10 @@ public class CouponCodeServiceImpl implements  CouponCodeService{
     /***/
     private static final int LOCK_FAIL_WAIT_TIME=1000;
     @Override
-    public boolean getnerateCode(Long merchantId,       Long commodityId,
+    public Long getnerateCode(Long merchantId,       Long commodityId,
                                  String merchantName,   String commodityName,
                                  String commodityInfo,  Integer lifeTime){
-        String locker=",merchantId["+merchantId+"]\n" +
+        String locker="merchantId["+merchantId+"]\n" +
                 ",commodityId["+commodityId+"]\n" +
                 ",merchantName["+merchantName+"]\n" +
                 ",commodityName["+commodityName+"]\n" +
@@ -47,7 +50,7 @@ public class CouponCodeServiceImpl implements  CouponCodeService{
         //生成串码时 merchantId与commodityId不能为空
         if(merchantId==null||commodityId==null) {
             LogFactory.warn(this,"生成串码时,commodityId或merchantId参数为空\n"  + locker);
-            return false;
+            return INVALID_LONG;
         }
         if(lifeTime==null){
             LogFactory.debug(this,"生成串码时,有效期为空,设置为默认有效期["+DEFAULT_LIFE_DATE+"]\n" + locker);
@@ -57,9 +60,9 @@ public class CouponCodeServiceImpl implements  CouponCodeService{
         long code=codeService.getCode(merchantId);
         LogFactory.info(this,"生成串码结果code["+code+"]\n" + locker);
         //当串码为-1时代表串码生成失败
-        if(-1L==code){
+        if(INVALID_LONG.equals(code)){
             LogFactory.warn(this,"生成串码失败!\n" + locker);
-            return false;
+            return INVALID_LONG;
         }
         try {
             //增加串码插入到数据库
@@ -80,20 +83,22 @@ public class CouponCodeServiceImpl implements  CouponCodeService{
                 boolean flag=codeService.addCode(merchantId,code);
                 LogFactory.info(this,"生成串码成功,记录到redis结果["+flag+"]!\n" + locker);
             }
-            return result;
+            if(result)
+                return couponCode.getCodeId();
+            else
+                return INVALID_LONG;
         }catch (Exception e){
             LogFactory.error(this,"发生异常生成串码失败!\n" + locker);
-            return false;
+            return INVALID_LONG;
         }
     }
 
     @Override
-    public boolean destroyCode(Long merchantId,         Long shopId,        Long commodityId,       Long operaterId,
+    public Boolean destroyCode(Long merchantId,         Long shopId,        Long commodityId,       Long operaterId,
                                String merchantName,     String shopName,    String commodityName,   String operaterPhone,
                                String verificationType, Long code,          String shopInfo
                                ){
-        String locker="尝试核销串码\n" +
-                ",merchantId[]\n" +
+        String locker="merchantId[]\n" +
                 ",shopId[]\n" +
                 ",commodityId[]\n" +
                 ",operaterId[]\n" +
@@ -183,7 +188,7 @@ public class CouponCodeServiceImpl implements  CouponCodeService{
 //                .orElse(null);
 //    }
     @Override
-    public boolean postponeCode(Long merchantId,Long code,Long operaterId,String operaterInfo,String operaterPhone){
+    public Boolean postponeCode(Long merchantId,Long code,Long operaterId,String operaterInfo,String operaterPhone){
         String locker="merchantId["+merchantId+"]\n"+
                 "code["+code+"]\n"+
                 "operaterId["+operaterId+"]\n"+
@@ -245,7 +250,7 @@ public class CouponCodeServiceImpl implements  CouponCodeService{
     }
 
     @Override
-    public boolean cancelCode(Long merchantId, Long code, Long operaterId, String operaterInfo,String operaterPhone) {
+    public Boolean cancelCode(Long merchantId, Long code, Long operaterId, String operaterInfo,String operaterPhone) {
         String locker= "merchantId["+merchantId+"]\n"+
                 "code["+code+"]\n"+
                 "operaterId["+operaterId+"]\n"+
@@ -309,7 +314,7 @@ public class CouponCodeServiceImpl implements  CouponCodeService{
 
     }
     @Override
-    public boolean overtimeCode(Long merchantId,Long code){
+    public Boolean overtimeCode(Long merchantId,Long code){
         String locker= "merchantId["+merchantId+"]\n"+
                         "code["+code+"]\n";
         boolean lock=false;
@@ -442,5 +447,34 @@ public class CouponCodeServiceImpl implements  CouponCodeService{
             LogFactory.error(this,"查询多个串码时发生异常,\n" +locker);
             return new ArrayList<>();
         }
+    }
+
+    @Override
+    public Boolean codeExist(Long merchantId, Long code) {
+        Boolean redisCheck=codeService.checkCodeExist(merchantId,code);
+        if(redisCheck)
+            return redisCheck;
+        EntityWrapper<CouponCode> wrapper=new EntityWrapper<>();
+        wrapper.eq("merchant_id",merchantId);
+        wrapper.eq("code",code);
+        List<CouponCode> list=daoService.getCouponCodeDao().selectList(wrapper);
+        if(list.size()==1)
+            return true;
+        else if(list.size()==0)
+            return false;
+        else
+            return null;
+    }
+
+    @Override
+    public Boolean codeExist(Long codeId) {
+        AbstractCouponCode code= daoService.getCouponCodeDao().selectById(codeId);
+        return code==null;
+    }
+
+    @Override
+    public Long getCode(Long codeId) {
+        CouponCode code=daoService.getCouponCodeDao().selectById(codeId);
+        return code==null?INVALID_LONG:code.getCode();
     }
 }

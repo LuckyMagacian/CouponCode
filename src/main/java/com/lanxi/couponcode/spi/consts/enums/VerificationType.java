@@ -1,9 +1,11 @@
 package com.lanxi.couponcode.spi.consts.enums;
 
+import java.io.Serializable;
+
 /**
  * Created by yangyuanjian on 2017/11/2.
  */
-public enum VerificationType {
+public enum VerificationType  implements Serializable {
     input(1),scan(2),unknown(3);
     private String value;
     private VerificationType(int value) {

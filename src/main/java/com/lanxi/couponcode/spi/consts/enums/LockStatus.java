@@ -1,9 +1,11 @@
 package com.lanxi.couponcode.spi.consts.enums;
 
+import java.io.Serializable;
+
 /**
  * Created by yangyuanjian on 2017/10/31.
  */
-public enum LockStatus {
+public enum LockStatus  implements Serializable {
     lock(10),unlock(-10);
     private String value;
     private LockStatus(int value) {

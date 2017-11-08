@@ -1,5 +1,7 @@
 package com.lanxi.couponcode.spi.consts.enums;
 
+import java.io.Serializable;
+
 /**
  * <strong>请求操作类型</strong>
  * createMerchant 1 请求类型-添加商户<br>
@@ -51,7 +53,7 @@ package com.lanxi.couponcode.spi.consts.enums;
  * @author yangyuanjian
  *
  */
-public enum RequestOperateType{
+public enum RequestOperateType implements Serializable {
 	createMerchant(1),			unfreezeMerchant(2),			freezeMerchant(3),			deleteMerchant(4),			modifyMerchant(5),			queryMerchant(6),			cancelMerchant(9),
 	createShop(11),				unfreezeShop(12),				freezeShop(13),				deleteShop(14),				modifyShop(15),				queryShop(16),				cancelShop(19),
 	createMerchantManager(21),	unfreezeMerchantManager(22),	freezeMerchantManager(23),	deleteMerchantManager(24),	modifyMerchantManager(25),	queryMerchantManager(26),	cancelMerchantManager(29),

@@ -4,7 +4,9 @@ import com.baomidou.mybatisplus.annotations.TableField;
 import com.baomidou.mybatisplus.annotations.TableId;
 import com.baomidou.mybatisplus.annotations.TableName;
 import com.lanxi.couponcode.spi.abstractentity.AbstractVerificationRecord;
+import com.lanxi.couponcode.spi.consts.enums.ClearStatus;
 import com.lanxi.couponcode.spi.consts.enums.VerificationType;
+import org.apache.zookeeper.data.Stat;
 
 import java.io.Serializable;
 import java.sql.JDBCType;
@@ -51,6 +53,10 @@ public class VerificationRecord extends AbstractVerificationRecord{
     /**验证方式*/
     @TableField(value = "verification_type")
     private VerificationType verificationType;
+    /**清算状态*/
+    @TableField("clear_status")
+    private ClearStatus clearStatus;
+
 //    /**商品详情*/
 //    @TableField("commodity_info")
 //    private String commodityInfo;
@@ -156,7 +162,7 @@ public class VerificationRecord extends AbstractVerificationRecord{
                 ", shopId=" + shopId +
                 ", shopName='" + shopName + '\'' +
                 ", verificationType=" + verificationType +
-//                ", commodityInfo='" + commodityInfo + '\'' +
+                ", clearStatus=" + clearStatus +
                 ", shopInfo='" + shopInfo + '\'' +
                 '}';
     }
@@ -194,5 +200,16 @@ public class VerificationRecord extends AbstractVerificationRecord{
 
     public void setShopInfo(String shopInfo) {
         this.shopInfo = shopInfo;
+    }
+
+    public String getClearStatus() {
+        return clearStatus==null?null:clearStatus.toString();
+    }
+
+    public void setClearStatus(ClearStatus clearStatus) {
+        this.clearStatus = clearStatus;
+    }
+    public void setClearStatus(String clearStatus) {
+        this.clearStatus = ClearStatus.getType(clearStatus);
     }
 }

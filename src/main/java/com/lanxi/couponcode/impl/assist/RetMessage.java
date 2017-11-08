@@ -11,6 +11,16 @@ public class RetMessage implements ToJson,ToMap{
     private String retMessage;
     private Object detail;
 
+    public RetMessage() {
+
+    }
+
+    public RetMessage(String retCode, String retMessage, Object detail) {
+        this.retCode = retCode;
+        this.retMessage = retMessage;
+        this.detail = detail;
+    }
+
     public String getRetCode() {
         return retCode;
     }
