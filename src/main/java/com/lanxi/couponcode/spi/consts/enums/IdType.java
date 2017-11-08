@@ -1,9 +1,11 @@
 package com.lanxi.couponcode.spi.consts.enums;
 
+import java.io.Serializable;
+
 /**
  * Created by yangyuanjian on 2017/10/31.
  */
-public enum IdType {
+public enum IdType  implements Serializable {
     MERCHANT("MERCHANT-ID-"),COMMODITY("MERCHANT-COMMODITY-ID-"),
     SHOP("MERCHANT-SHOP-ID-"),USER("MERCHANT-USER-ID-"),
     CLEAR("MERCHANT-CLEAR-ID-"),OPERATE("MERCHANT-OPERATE-ID-");

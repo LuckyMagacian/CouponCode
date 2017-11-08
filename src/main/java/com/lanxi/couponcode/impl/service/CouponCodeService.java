@@ -18,11 +18,11 @@ public interface CouponCodeService {
      * @param commodityName 商品名称<br>
      * @param commodityInfo 商品信息<br>
      * @param lifeTime 有效期<br>
-     * @return 生产结果 true成功|false失败<br>
+     * @return 成功将返回串码id否则返回-1
      */
-    public boolean getnerateCode(Long merchantId,       Long commodityId,
-                                 String merchantName,   String commodityName,
-                                 String commodityInfo,  Integer lifeTime);
+    public Long getnerateCode(Long merchantId, Long commodityId,
+                              String merchantName, String commodityName,
+                              String commodityInfo, Integer lifeTime);
 
     /**
      * 核销串码<br>
@@ -39,9 +39,9 @@ public interface CouponCodeService {
      * @param shopInfo 门店信息<br>
      * @return 核销结果 true成功|false失败<br>
      */
-    public boolean destroyCode(Long merchantId,         Long shopId,        Long commodityId,       Long operaterId,
-                               String merchantName,     String shopName,    String commodityName,   String operaterPhone,
-                               String verificationType, Long code,          String shopInfo
+    public Boolean destroyCode(Long merchantId, Long shopId, Long commodityId, Long operaterId,
+                               String merchantName, String shopName, String commodityName, String operaterPhone,
+                               String verificationType, Long code, String shopInfo
     );
 
 //    /**
@@ -66,7 +66,7 @@ public interface CouponCodeService {
      * @param code 串码<br>
      * @return 过期结果 true成功|false失败<br>
      */
-    public boolean overtimeCode(Long merchantId,Long code);
+    public Boolean overtimeCode(Long merchantId, Long code);
 
     /**
      * 串码延期<br>
@@ -76,7 +76,7 @@ public interface CouponCodeService {
      * @param operaterInfo 操作人员信息<br>
      * @return 延期结果 true成功|false失败<br>
      */
-    public boolean postponeCode(Long merchantId,Long code,Long operaterId,String operaterInfo,String operaterPhone);
+    public Boolean postponeCode(Long merchantId, Long code, Long operaterId, String operaterInfo, String operaterPhone);
 
     /**
      * 销毁串码<br>
@@ -86,7 +86,7 @@ public interface CouponCodeService {
      * @param operaterInfo 操作人员信息<br>
      * @return 销毁结果 true 成功|false 失败<br>
      */
-    public boolean cancelCode(Long merchantId,Long code,Long operaterId,String operaterInfo,String operaterPhone);
+    public Boolean cancelCode(Long merchantId, Long code, Long operaterId, String operaterInfo, String operaterPhone);
 
     /**
      * 查询单个串码
@@ -113,7 +113,35 @@ public interface CouponCodeService {
      */
     public List<CouponCode> queryCouponCode(String createTimeStart, String createTimeEnd, String merchantName,
                                             String commodityName, Long code, Long codeId,
-                                            String codeStatus   , Long commodityId, Long merchantId,
-                                            String overTimeStart, String overTimeEnd,boolean isManager
+                                            String codeStatus, Long commodityId, Long merchantId,
+                                            String overTimeStart, String overTimeEnd, boolean isManager
     );
+
+    /**
+     * 根据商户编号及串码值判断串码是否存在
+     * @param merchantId 商户编号
+     * @param code 串码值
+     * @return true 存在|false 不存在| null 多于1个
+     */
+    Boolean codeExist(Long merchantId, Long code);
+
+    /**
+     * 根据串码编号查询串码是否存在
+     * @param codeId 串码编号
+     * @return
+     */
+    Boolean codeExist(Long codeId);
+
+    /**
+     * 根据串码id获取对应的串码
+     * @param codeId
+     * @return
+     */
+    Long getCode(Long codeId);
+
+
+
+
+
+
 }

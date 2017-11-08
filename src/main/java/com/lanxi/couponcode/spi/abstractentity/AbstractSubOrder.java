@@ -10,6 +10,7 @@ import java.io.Serializable;
  * @author yangyuanjian
  *
  */
+@Deprecated
 public abstract class AbstractSubOrder extends Model<AbstractSubOrder> implements Serializable,CommonDefaultMethodOfEntity {
 
 }

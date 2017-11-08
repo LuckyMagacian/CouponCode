@@ -46,5 +46,6 @@ public interface ConstConfig {
 	/**默认分页参数*/
 	Integer DEFAULT_PAGE=1;
 	Integer DEFAULT_PAGE_SIZE=10;
+	Long INVALID_LONG=-1L;
 }
 

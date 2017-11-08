@@ -11,7 +11,7 @@ import javax.annotation.Resource;
  */
 @Service("daoService")
 public class DaoServiceImpl implements DaoService{
-
+    @Resource
     private AccountDao accountDao;
     private BankApiDao bankApiDao;
     @Resource

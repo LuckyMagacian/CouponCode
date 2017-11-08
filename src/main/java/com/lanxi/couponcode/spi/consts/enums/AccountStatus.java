@@ -1,5 +1,7 @@
 package com.lanxi.couponcode.spi.consts.enums;
 
+import java.io.Serializable;
+
 /**
  * <strong>用户账户状态</strong><br>
  * normal 1正常<br>
@@ -9,7 +11,7 @@ package com.lanxi.couponcode.spi.consts.enums;
  * @author yangyuanjian
  *
  */
-public enum AccountStatus {
+public enum AccountStatus implements Serializable{
 	normal(1),freeze(2),deleted(3),test(4),cancellation(9);
 	private String value;
 	private AccountStatus(int value) {

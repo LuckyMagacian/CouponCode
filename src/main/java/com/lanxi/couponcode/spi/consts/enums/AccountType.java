@@ -1,5 +1,7 @@
 package com.lanxi.couponcode.spi.consts.enums;
 
+import java.io.Serializable;
+
 /**
  * <strong>用户账户类型</strong><br>
  * admin 1系统管理员<br>
@@ -9,7 +11,7 @@ package com.lanxi.couponcode.spi.consts.enums;
  * @author yangyuanjian
  *
  */
-public enum AccountType {
+public enum AccountType implements Serializable{
 	admin(1),merchantManager(2),shopManager(2),shopEmployee(4),cancellation(9);
 	
 	private String value;

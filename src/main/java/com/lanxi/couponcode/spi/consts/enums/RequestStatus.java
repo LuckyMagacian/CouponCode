@@ -1,5 +1,7 @@
 package com.lanxi.couponcode.spi.consts.enums;
 
+import java.io.Serializable;
+
 /**
  * <strong>请求状态</strong>
  * submit 1 已提交<br>
@@ -9,7 +11,7 @@ package com.lanxi.couponcode.spi.consts.enums;
  * @author yangyuanjian
  *
  */
-public enum RequestStatus {
+public enum RequestStatus  implements Serializable {
 	submit(1),pass(2),reject(3),test(4),cancellation(9);
 	private String value;
 	private RequestStatus(int value) {

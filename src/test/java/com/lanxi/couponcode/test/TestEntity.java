@@ -4,6 +4,9 @@ import java.lang.invoke.MethodHandle;
 import java.lang.invoke.MethodHandles;
 import java.lang.invoke.MethodType;
 
+import com.baomidou.mybatisplus.toolkit.IdWorker;
+import com.google.common.collect.BiMap;
+import com.google.common.collect.HashBiMap;
 import org.junit.Test;
 
 import com.lanxi.couponcode.spi.entity.User;
@@ -42,5 +45,12 @@ public class TestEntity {
 	
 	public static void main(String[] args) {
 		System.out.println(RandomUtil.getRandomChar());
+	}
+	@Test
+	public void test5(){
+		BiMap<Long,Long> map= HashBiMap.create();
+		long i=0;
+		while(i<100000000)
+			map.put(i, IdWorker.getId());
 	}
 }
