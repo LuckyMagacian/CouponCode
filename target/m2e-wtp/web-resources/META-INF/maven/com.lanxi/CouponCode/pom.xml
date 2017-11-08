@@ -113,15 +113,21 @@
   		<artifactId>mysql-connector-java</artifactId>
   		<version>5.1.37</version>
   	</dependency>
-	  <dependency>
+	   <dependency>
 		  <groupId>com.lanxi</groupId>
-		  <artifactId>common-service-interface</artifactId>
-		  <version>1.0.0</version>
+		  <artifactId>common-utils</artifactId>
+		  <version>1.0</version>
 	  </dependency>
 	  <dependency>
 		  <groupId>javax.servlet</groupId>
 		  <artifactId>javax.servlet-api</artifactId>
 		  <version>3.1.0</version>
+	  </dependency>
+	  <!-- https://mvnrepository.com/artifact/com.google.guava/guava -->
+	  <dependency>
+		  <groupId>com.google.guava</groupId>
+		  <artifactId>guava</artifactId>
+		  <version>23.3-jre</version>
 	  </dependency>
   </dependencies>
 </project>
