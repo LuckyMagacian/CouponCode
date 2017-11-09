@@ -1,5 +1,6 @@
 package com.lanxi.couponcode.spi.service;
 
+import com.lanxi.couponcode.impl.assist.RetMessage;
 import com.lanxi.couponcode.spi.consts.annotations.HiddenArg;
 import com.lanxi.couponcode.spi.consts.enums.ClearStatus;
 
@@ -10,10 +11,10 @@ import java.io.File;
  */
 public interface ClearService {
 
-    File merchantClearExport(String timeStart,
-                             String timeStop,
-                             ClearStatus status,
-                             @HiddenArg Long operaterId);
+    RetMessage<File> merchantClearExport(String timeStart,
+                                   String timeStop,
+                                   ClearStatus status,
+                                   @HiddenArg Long operaterId);
 
 
 }

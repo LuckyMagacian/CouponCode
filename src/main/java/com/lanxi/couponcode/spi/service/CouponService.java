@@ -1,5 +1,6 @@
 package com.lanxi.couponcode.spi.service;
 
+import com.lanxi.couponcode.impl.assist.RetMessage;
 import com.lanxi.couponcode.impl.entity.CouponCode;
 import com.lanxi.couponcode.spi.consts.annotations.HiddenArg;
 import com.lanxi.couponcode.spi.consts.annotations.RealReturnType;
@@ -12,18 +13,18 @@ import java.util.List;
  */
 public interface CouponService {
     @RealReturnType("List<CouponCode>")
-    String  queryCodes(String   timeStart,
-                       String   timeEnd,
-                       String   merchantName,
-                       String   commodityName,
-                       Long     code,
-                       Long     codeId,
-                       @HiddenArg Integer  pageNum,
-                       @HiddenArg Integer  pageSize,
-                       @HiddenArg Long     operaterId
+    RetMessage<String> queryCodes(String   timeStart,
+                                   String   timeEnd,
+                                   String   merchantName,
+                                   String   commodityName,
+                                   Long     code,
+                                   Long     codeId,
+                                   @HiddenArg Integer  pageNum,
+                                   @HiddenArg Integer  pageSize,
+                                   @HiddenArg Long     operaterId
     );
 
-    File queryCodesExport(String   timeStart,
+    RetMessage<File> queryCodesExport(String   timeStart,
                           String   timeEnd,
                           String   merchantName,
                           String   commodityName,
@@ -31,29 +32,29 @@ public interface CouponService {
                           Long     codeId,
                           @HiddenArg Long     operaterId);
 
-    Boolean destroyCode(@HiddenArg Long codeId);
-    Boolean destroyCode(Long code,
+    RetMessage<Boolean> destroyCode(@HiddenArg Long codeId);
+    RetMessage<Boolean> destroyCode(Long code,
                         @HiddenArg Long accountId,
                         @HiddenArg Long operaterId);
 
-    Boolean verificateCode(@HiddenArg Long codeId);
-    Boolean verificateCode(Long code,
+    RetMessage<Boolean> verificateCode(@HiddenArg Long codeId);
+    RetMessage<Boolean> verificateCode(Long code,
                            @HiddenArg Long accountId,
                            @HiddenArg Long operaterId);
 
-    Boolean postoneCode(@HiddenArg Long codeId,
+    RetMessage<Boolean> postoneCode(@HiddenArg Long codeId,
                         @HiddenArg Long accountId);
-    Boolean generateCode(Long merchantId,
+    RetMessage<Boolean> generateCode(Long merchantId,
                          Long commodityId,
                          String reason,
                          @HiddenArg Integer channel);
 
 
     @RealReturnType("CouponCode")
-    String couponCodeInfo(Long codeId,
+    RetMessage<String> couponCodeInfo(Long codeId,
                           @HiddenArg Long operaterId);
     @RealReturnType(("CouponCode"))
-    String couponCodeInfo(Long merchantId,
+    RetMessage<String> couponCodeInfo(Long merchantId,
                           Long code,
                           @HiddenArg Long operaterId);
 

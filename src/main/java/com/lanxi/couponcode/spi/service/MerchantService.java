@@ -1,5 +1,6 @@
 package com.lanxi.couponcode.spi.service;
 
+import com.lanxi.couponcode.impl.assist.RetMessage;
 import com.lanxi.couponcode.spi.abstractentity.AbstractMerchant;
 import com.lanxi.couponcode.spi.consts.annotations.HiddenArg;
 import com.lanxi.couponcode.spi.consts.annotations.RealReturnType;
@@ -12,17 +13,17 @@ import java.util.List;
  * Created by yangyuanjian on 2017/11/7.
  */
 public interface MerchantService {
-    Boolean addMerchant(String merchantName,
-                        String workAddress,
-                        @HiddenArg Long operaterId);
+    RetMessage<Boolean> addMerchant(String merchantName,
+                                    String workAddress,
+                                    @HiddenArg Long operaterId);
 
-    Boolean modifyMerchant(String merchantName,
+    RetMessage<Boolean> modifyMerchant(String merchantName,
                            String workAddress,
                            Long operaterId,
                            @HiddenArg Long merchantId);
 
     @RealReturnType("List<Merchant>")
-    String queryMerchants(String merchantName,
+    RetMessage<String> queryMerchants(String merchantName,
                           MerchantStatus merchantStatus,
                           String timeStart,
                           String timeStop,
@@ -30,19 +31,19 @@ public interface MerchantService {
                           @HiddenArg Integer pageSize,
                           @HiddenArg Long operaterId);
 
-    File queryMerchantsExport(String merchantName,
+    RetMessage<File> queryMerchantsExport(String merchantName,
                               MerchantStatus merchantStatus,
                               String timeStart,
                               String  timeStop,
                               @HiddenArg Long operaterId);
 
-    Boolean enableMerchant(@HiddenArg Long merchantId,
+    RetMessage<Boolean> enableMerchant(@HiddenArg Long merchantId,
                            @HiddenArg Long operaterId);
 
-    Boolean disableMerchant(@HiddenArg Long merchantId,
+    RetMessage<Boolean> disableMerchant(@HiddenArg Long merchantId,
                             @HiddenArg Long operaterId);
 
-    Boolean inputMerchantInfo(String merchantName,
+    RetMessage<Boolean> inputMerchantInfo(String merchantName,
                               String serviceDistription,
                               String workAddress,
                               String businessLicenseNum,
@@ -58,7 +59,7 @@ public interface MerchantService {
                               @HiddenArg Long operaterId,
                               @HiddenArg Long merchantId);
 
-    Boolean modifyMerchantInfo(String merchantName,
+    RetMessage<Boolean> modifyMerchantInfo(String merchantName,
                                String serviceDistription,
                                String workAddress,
                                String businessLicenseNum,

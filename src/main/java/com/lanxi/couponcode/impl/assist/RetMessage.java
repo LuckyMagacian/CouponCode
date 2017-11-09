@@ -8,16 +8,16 @@ import java.io.Serializable;
 /**
  * Created by yangyuanjian on 2017/11/2.
  */
-public class RetMessage implements ToJson,ToMap,Serializable{
+public class RetMessage<T extends  Serializable> implements ToJson,ToMap,Serializable{
     private String retCode;
     private String retMessage;
-    private Serializable detail;
+    private T detail;
 
     public RetMessage() {
 
     }
 
-    public RetMessage(String retCode, String retMessage, Serializable detail) {
+    public RetMessage(String retCode, String retMessage, T detail) {
         this.retCode = retCode;
         this.retMessage = retMessage;
         this.detail = detail;
@@ -43,7 +43,7 @@ public class RetMessage implements ToJson,ToMap,Serializable{
         return detail;
     }
 
-    public void setDetail(Serializable detail) {
+    public void setDetail(T detail) {
         this.detail = detail;
     }
 

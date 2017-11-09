@@ -1,5 +1,6 @@
 package com.lanxi.couponcode.spi.service;
 
+import com.lanxi.couponcode.impl.assist.RetMessage;
 import com.lanxi.couponcode.spi.consts.annotations.HiddenArg;
 import com.lanxi.couponcode.spi.consts.annotations.RealReturnType;
 import com.lanxi.couponcode.spi.consts.enums.CommodityType;
@@ -14,20 +15,20 @@ import java.math.BigDecimal;
  */
 public interface RequestService {
     @RealReturnType("List<")
-    String queryRequests(String timeStart,
-                         String timeStop,
-                         String commodityName,
-                         String merchantName,
-                         RequestOperateType type,
-                         RequestStatus status,
-                         @HiddenArg Long merchantId,
-                         @HiddenArg Integer pageNum,
-                         @HiddenArg Integer pageSize);
-    Boolean agreeRequest(@HiddenArg Long requestId,
+    RetMessage<String> queryRequests(String timeStart,
+                                      String timeStop,
+                                      String commodityName,
+                                      String merchantName,
+                                      RequestOperateType type,
+                                      RequestStatus status,
+                                      @HiddenArg Long merchantId,
+                                      @HiddenArg Integer pageNum,
+                                      @HiddenArg Integer pageSize);
+    RetMessage<Boolean> agreeRequest(@HiddenArg Long requestId,
                         @HiddenArg Long operaterId);
-    Boolean disagreeRequest(@HiddenArg Long requestId,
+    RetMessage<Boolean> disagreeRequest(@HiddenArg Long requestId,
                             @HiddenArg Long operaterId);
-    Boolean requestAddCommodity(String commodityName,
+    RetMessage<Boolean> requestAddCommodity(String commodityName,
                                 CommodityType commodityType,
                                 BigDecimal facePrice,
                                 BigDecimal costPrice,
@@ -37,7 +38,7 @@ public interface RequestService {
                                 @HiddenArg Long operaterId,
                                 @HiddenArg Long merchantId);
     @RealReturnType("List<OperateRequest>")
-    String queryCommodityRequest(String commodityName,
+    RetMessage<String> queryCommodityRequest(String commodityName,
                                  CommodityType type,
                                  OperateType operateType,
                                  RequestStatus status,

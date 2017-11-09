@@ -1,5 +1,6 @@
 package com.lanxi.couponcode.spi.service;
 
+import com.lanxi.couponcode.impl.assist.RetMessage;
 import com.lanxi.couponcode.spi.consts.annotations.HiddenArg;
 import com.lanxi.couponcode.spi.consts.annotations.RealReturnType;
 import com.lanxi.couponcode.spi.consts.enums.AccountStatus;
@@ -9,31 +10,41 @@ import com.lanxi.couponcode.spi.consts.enums.AccountType;
  * Created by yangyuanjian on 2017/11/9.
  */
 public interface AccountService {
-    Boolean addAccount(AccountType type,
-                       String name,
-                       String phone,
-                       String merchantName,
-                       @HiddenArg Long merchantId,
-                       @HiddenArg Long operaterId);
+    /**
+     * 添加账户
+     * @param type
+     * @param name
+     * @param phone
+     * @param merchantName
+     * @param merchantId
+     * @param operaterId
+     * @return
+     */
+    RetMessage<Boolean> addAccount(AccountType type,
+                          String name,
+                          String phone,
+                          String merchantName,
+                          @HiddenArg Long merchantId,
+                          @HiddenArg Long operaterId);
 
-    Boolean merchantAddAccount(AccountType type,
+    RetMessage<Boolean> merchantAddAccount(AccountType type,
                        String name,
                        String phone,
                        String shopName,
                        @HiddenArg Long shopId,
                        @HiddenArg Long operaterId);
 
-    Boolean freezeAccount(Long accountId,
+    RetMessage<Boolean> freezeAccount(Long accountId,
                           @HiddenArg Long operaterId);
 
-    Boolean unfreezeAccount(Long accountId,
+    RetMessage<Boolean> unfreezeAccount(Long accountId,
                             @HiddenArg Long operaterId);
 
-    Boolean delAccount(Long accountId,
+    RetMessage<Boolean> delAccount(Long accountId,
                        @HiddenArg Long operaterId);
 
     @RealReturnType("List<Account>")
-    String queryAccounts(String phone,
+    RetMessage<String> queryAccounts(String phone,
                          String merchantName,
                          AccountType type,
                          AccountStatus status,
@@ -43,7 +54,7 @@ public interface AccountService {
 
 
     @RealReturnType("List<Account>")
-    String merchantQueryAccounts(String phone,
+    RetMessage<String> merchantQueryAccounts(String phone,
                          String shopName,
                          AccountType type,
                          AccountStatus status,
@@ -52,11 +63,11 @@ public interface AccountService {
                          @HiddenArg Long operaterId);
 
 
-    String queryAccountInfo(Long accountId,
+    RetMessage<String> queryAccountInfo(Long accountId,
                             @HiddenArg Long operaterId);
 
     @RealReturnType("List<Account>")
-    String queryShopAccounts(@HiddenArg Long shopId,
+    RetMessage<String> queryShopAccounts(@HiddenArg Long shopId,
                              @HiddenArg Long operaterId);
 
 }

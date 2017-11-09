@@ -1,5 +1,6 @@
 package com.lanxi.couponcode.spi.service;
 
+import com.lanxi.couponcode.impl.assist.RetMessage;
 import com.lanxi.couponcode.spi.consts.annotations.HiddenArg;
 import com.lanxi.couponcode.spi.consts.annotations.RealReturnType;
 
@@ -15,16 +16,16 @@ public interface LoginService {
      * @return 登录结果 成功或者 错误及对应的错误信息<br>
      */
     @RealReturnType("RetMessage")
-    String login(String phone,
-                 String password,
-                 String validateCode);
+    RetMessage<String> login(String phone,
+                              String password,
+                              String validateCode);
 
     /**
      * 登出<br>
      * @param accountId 登录账户id<br>
      * @return 登出结果 true 登出成功 | false 登出失败<br>
      */
-    Boolean logout(@HiddenArg Long accountId);
+    RetMessage<Boolean> logout(@HiddenArg Long accountId);
 
     /**
      * 忘记密码<br>
@@ -36,7 +37,7 @@ public interface LoginService {
      * @return 操作结果 成功或者 对应的错误信息
      */
     @RealReturnType("RetMessage")
-    String forgetPassword(String phone,
+    RetMessage<String> forgetPassword(String phone,
                           String validateCode,
                           String newPassword,
                           String newRepeat,
@@ -51,7 +52,7 @@ public interface LoginService {
      * @return 操作结果 成功或 对应的错误信息<br>
      */
     @RealReturnType("RetMessage")
-    String changePassword(
+    RetMessage<String> changePassword(
                            String oldPasswd,
                            String newPasswd,
                            String newRepeat,

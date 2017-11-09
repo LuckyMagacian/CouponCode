@@ -1,9 +1,11 @@
 package com.lanxi.couponcode.spi.service;
 
+import com.lanxi.couponcode.impl.assist.RetMessage;
+
 /**
  * Created by yangyuanjian on 2017/11/7.
  */
 public interface AssistService {
-    Boolean sendValidateCode(String phone);
-    Boolean verifyCode(String phone,String code);
+    RetMessage<Boolean> sendValidateCode(String phone);
+    RetMessage<Boolean> verifyCode(String phone,String code);
 }

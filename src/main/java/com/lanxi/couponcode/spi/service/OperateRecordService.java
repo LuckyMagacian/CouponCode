@@ -1,5 +1,6 @@
 package com.lanxi.couponcode.spi.service;
 
+import com.lanxi.couponcode.impl.assist.RetMessage;
 import com.lanxi.couponcode.spi.consts.annotations.HiddenArg;
 import com.lanxi.couponcode.spi.consts.annotations.RealReturnType;
 import com.lanxi.couponcode.spi.consts.enums.AccountType;
@@ -12,21 +13,21 @@ import com.lanxi.couponcode.spi.consts.enums.OperateType;
 public interface OperateRecordService {
 
     @RealReturnType("List<OperaterRecord>")
-    String queryOperateRecord(OperateType type,
-                              OperateTargetType targetType,
-                              String merchantName,
-                              String shopName,
-                              String timeStart,
-                              String timeStop,
-                              AccountType accountType,
-                              String name,
-                              String phone,
-                              @HiddenArg Long merchantId,
-                              @HiddenArg Long shopId,
-                              @HiddenArg Long operaterId,
-                              @HiddenArg Long recordOperaterId);
+    RetMessage<String> queryOperateRecord(OperateType type,
+                                           OperateTargetType targetType,
+                                           String merchantName,
+                                           String shopName,
+                                           String timeStart,
+                                           String timeStop,
+                                           AccountType accountType,
+                                           String name,
+                                           String phone,
+                                           @HiddenArg Long merchantId,
+                                           @HiddenArg Long shopId,
+                                           @HiddenArg Long operaterId,
+                                           @HiddenArg Long recordOperaterId);
 
-    String queryMerchantOperaterRecord(OperateType type,
+    RetMessage<String> queryMerchantOperaterRecord(OperateType type,
                                        String shopName,
                                        String timeStart,
                                        String timeEnd,
@@ -35,16 +36,16 @@ public interface OperateRecordService {
                                        String operaterPhone,
                                        @HiddenArg Long querierId);
 
-    Boolean commodityShelveRequest(@HiddenArg Long commodityId,
+    RetMessage<Boolean> commodityShelveRequest(@HiddenArg Long commodityId,
                                    @HiddenArg Long operaterId);
 
-    Boolean commodityUnshelveRequest(@HiddenArg Long commodityId,
+    RetMessage<Boolean> commodityUnshelveRequest(@HiddenArg Long commodityId,
                                      @HiddenArg Long operaterId);
 
-    Boolean commodityDelRequest(@HiddenArg Long commodityId,
+    RetMessage<Boolean> commodityDelRequest(@HiddenArg Long commodityId,
                                 @HiddenArg Long operaterId);
 
-    Boolean commodityModifyRequest(Integer costPrice,
+    RetMessage<Boolean> commodityModifyRequest(Integer costPrice,
                                    Integer lifeTime,
                                    String useDistription,
                                    @HiddenArg Long commodityId,
