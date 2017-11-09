@@ -1,7 +1,7 @@
 package com.lanxi.couponcode.impl.entity;
 
 import java.io.Serializable;
-import java.util.Date;
+
 
 import com.baomidou.mybatisplus.annotations.TableField;
 import com.baomidou.mybatisplus.annotations.TableId;
@@ -25,9 +25,6 @@ public class Merchant extends AbstractMerchant{
 	/*商户状态*/
 	@TableField("merchant_status")
 	private String merchantStatus;
-	/*删除状态*/
-	@TableField("delete_status")
-	private String deleteStatus;
 	/*信息提交时间*/
 	@TableField("create_time")
 	private String createTime;
@@ -76,11 +73,10 @@ public class Merchant extends AbstractMerchant{
 	/*其他证明材料*/
 	@TableField("other_pic")
 	private String otherPic;
-	
 	@Override
 	protected Serializable pkVal() {
 		// TODO Auto-generated method stub
-		return null;
+		return this.merchantId;
 	}
 
 	public Long getMerchantId() {
@@ -107,13 +103,7 @@ public class Merchant extends AbstractMerchant{
 		this.merchantStatus = merchantStatus;
 	}
 
-	public String getDeleteStatus() {
-		return deleteStatus;
-	}
 
-	public void setDeleteStatus(String deleteStatus) {
-		this.deleteStatus = deleteStatus;
-	}
 
 	public String getCreateTime() {
 		return createTime;
@@ -246,7 +236,7 @@ public class Merchant extends AbstractMerchant{
 	@Override
 	public String toString() {
 		return "Merchant [merchantId=" + merchantId + ", merchantName=" + merchantName + ", merchantStatus="
-				+ merchantStatus + ", deleteStatus=" + deleteStatus + ", createTime=" + createTime + ", workAddress="
+				+ merchantStatus +  ", createTime=" + createTime + ", workAddress="
 				+ workAddress + ", minuteWorkAddress=" + minuteWorkAddress + ", serveExplain=" + serveExplain
 				+ ", registerAddress=" + registerAddress + ", minuteRegisterAddress=" + minuteRegisterAddress
 				+ ", oraganizingCode=" + oraganizingCode + ", charterCode=" + charterCode + ", principal=" + principal

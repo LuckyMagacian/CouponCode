@@ -7,7 +7,10 @@ import com.lanxi.couponcode.impl.entity.Merchant;
 /**
  * 商户操作
  * 		添加商户
- * 		商户查询等
+ * 		修改商户
+ * 		分页商户查询无查询条件
+ * 		根据条件查询商户
+ * 		查询商户详情
  * @author wuxiaobo
  *
  */
@@ -15,9 +18,19 @@ import com.lanxi.couponcode.impl.entity.Merchant;
 
 public interface MerchantService {
 	/*添加商户*/
-	public boolean addMerchant(Merchant merchant,Long merchantId,Long operaterId,String operaterInfo,String operaterPhone);
+	public Boolean addMerchant(Merchant merchant,Long operaterId,String operaterInfo,
+			String operaterPhone);
 	/*修改商户*/
-	public boolean updateMerchantById(Merchant merchant,Long merchantId,Long operaterId,String operaterInfo,String operaterPhone);
-	/*获取所有商户*/
-	public List<Merchant> getAllMerchant();
+	public Boolean updateMerchantById(Merchant merchant,Long operaterId,String operaterInfo,
+			String operaterPhone);
+	/*分页获取商户无查询条件*/
+	public List<Merchant> getAllMerchant(Integer page,Integer size, Long operaterId, 
+			String operaterInfo,String operaterPhone);
+	/*根据条件获取商户*/
+	public List<Merchant> getMerChantByCondition(Integer page,Integer size, Long operaterId, 
+			String operaterInfo,String operaterPhone,String startTime,String endTime,String merchantStatus,
+			String merchantName);
+	/*查询商户详情*/
+	public Merchant queryMerchantParticularsById(Long merchantId,Long operaterId,String operaterInfo,
+			String operaterPhone);
 }

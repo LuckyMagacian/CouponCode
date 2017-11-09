@@ -21,9 +21,11 @@ public class DaoServiceImpl implements DaoService{
     private CouponCodeDao couponCodeDao;
     private EnterpriseDao enterpriseDao;
     private MerchantClearDao merchantClearDao;
+    @Resource
     private MerchantDao merchantDao;
     private MessageDao messageDao;
     private MessageObserverDao messageObserverDao;
+    @Resource
     private OperateRecordDao operateRecordDao;
     private OrderDao orderDao;
     private RecordDao recordDao;
