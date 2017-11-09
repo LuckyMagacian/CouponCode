@@ -30,6 +30,7 @@ public class DaoServiceImpl implements DaoService{
     private OrderDao orderDao;
     private RecordDao recordDao;
     private RequestDao requestDao;
+    @Resource
     private ShopDao shopDao;
     private StatisticDao statisticDao;
     private SubOrderDao subOrderDao;
