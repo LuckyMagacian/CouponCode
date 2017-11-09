@@ -1,17 +1,614 @@
-2017-11-08 09:52:09,082 DEBUG [org.springframework.test.context.TestContextManager] - <afterTestMethod(): instance [com.lanxi.couponcode.test.TestMybatis@8bd1b6a], method [public void com.lanxi.couponcode.test.TestMybatis.test4()], exception [null]>
-2017-11-08 09:52:09,086 DEBUG [org.springframework.test.context.support.AbstractDirtiesContextTestExecutionListener] - <After test method: context [DefaultTestContext@4cc0edeb testClass = TestMybatis, testInstance = com.lanxi.couponcode.test.TestMybatis@8bd1b6a, testMethod = test4@TestMybatis, testException = [null], mergedContextConfiguration = [MergedContextConfiguration@457e2f02 testClass = TestMybatis, locations = '{classpath:xml/spring-mvc.xml}', classes = '{}', contextInitializerClasses = '[]', activeProfiles = '{}', propertySourceLocations = '{}', propertySourceProperties = '{}', contextLoader = 'org.springframework.test.context.support.DelegatingSmartContextLoader', parent = [null]]], class annotated with @DirtiesContext [false] with mode [null], method annotated with @DirtiesContext [false] with mode [null].>
-2017-11-08 09:52:09,200 DEBUG [org.springframework.test.context.TestContextManager] - <afterTestClass(): class [com.lanxi.couponcode.test.TestMybatis]>
-2017-11-08 09:52:09,200 DEBUG [org.springframework.test.context.support.AbstractDirtiesContextTestExecutionListener] - <After test class: context [DefaultTestContext@4cc0edeb testClass = TestMybatis, testInstance = [null], testMethod = [null], testException = [null], mergedContextConfiguration = [MergedContextConfiguration@457e2f02 testClass = TestMybatis, locations = '{classpath:xml/spring-mvc.xml}', classes = '{}', contextInitializerClasses = '[]', activeProfiles = '{}', propertySourceLocations = '{}', propertySourceProperties = '{}', contextLoader = 'org.springframework.test.context.support.DelegatingSmartContextLoader', parent = [null]]], class annotated with @DirtiesContext [false] with mode [null].>
-2017-11-08 09:52:09,204 DEBUG [org.springframework.context.support.GenericApplicationContext] - <Publishing event in org.springframework.context.support.GenericApplicationContext@e25b2fe: org.springframework.context.event.ContextClosedEvent[source=org.springframework.context.support.GenericApplicationContext@e25b2fe: startup date [Wed Nov 08 09:52:05 CST 2017]; root of context hierarchy]>
-2017-11-08 09:52:09,205 DEBUG [org.springframework.beans.factory.support.DefaultListableBeanFactory] - <Returning cached instance of singleton bean 'ssfb'>
-2017-11-08 09:52:09,206 DEBUG [org.springframework.beans.factory.support.DefaultListableBeanFactory] - <Returning cached instance of singleton bean 'lifecycleProcessor'>
-2017-11-08 09:52:09,206 DEBUG [org.springframework.beans.factory.support.DefaultListableBeanFactory] - <Destroying singletons in org.springframework.beans.factory.support.DefaultListableBeanFactory@708f5957: defining beans [mvcContentNegotiationManager,org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping,mvcCorsConfigurations,org.springframework.format.support.FormattingConversionServiceFactoryBean#0,org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter,mvcUriComponentsContributor,org.springframework.web.servlet.handler.MappedInterceptor#0,org.springframework.web.servlet.mvc.method.annotation.ExceptionHandlerExceptionResolver#0,org.springframework.web.servlet.mvc.annotation.ResponseStatusExceptionResolver#0,org.springframework.web.servlet.mvc.support.DefaultHandlerExceptionResolver#0,org.springframework.web.servlet.handler.BeanNameUrlHandlerMapping,org.springframework.web.servlet.mvc.HttpRequestHandlerAdapter,org.springframework.web.servlet.mvc.SimpleControllerHandlerAdapter,org.springframework.aop.config.internalAutoProxyCreator,codeOperateRecordService,configService,couponCodeService,daoService,codeService,org.springframework.context.annotation.internalConfigurationAnnotationProcessor,org.springframework.context.annotation.internalAutowiredAnnotationProcessor,org.springframework.context.annotation.internalRequiredAnnotationProcessor,org.springframework.context.annotation.internalCommonAnnotationProcessor,org.springframework.context.event.internalEventListenerProcessor,org.springframework.context.event.internalEventListenerFactory,consume-loan,com.alibaba.dubbo.config.RegistryConfig,SmsService,redisService,org.springframework.transaction.config.internalTransactionalEventListenerFactory,org.springframework.transaction.annotation.AnnotationTransactionAttributeSource#0,org.springframework.transaction.interceptor.TransactionInterceptor#0,org.springframework.transaction.config.internalTransactionAdvisor,dbconfig,ds,globalConfig,ssfb,txManager,mappers,org.springframework.context.annotation.ConfigurationClassPostProcessor.importAwareProcessor,org.springframework.context.annotation.ConfigurationClassPostProcessor.enhancedConfigurationProcessor,accountDao,bankApiDao,codeAlgorithmDao,commodityDao,couponCodeDao,enterpriseDao,merchantClearDao,merchantDao,messageDao,messageObserverDao,operateRecordDao,orderDao,recordDao,requestDao,shopDao,statisticDao,subOrderDao,userDao,verificationRecordDao]; root of factory hierarchy>
-2017-11-08 09:52:09,209 DEBUG [org.springframework.beans.factory.support.DefaultListableBeanFactory] - <Retrieved dependent beans for bean 'codeOperateRecordService': [com.lanxi.couponcode.test.TestMybatis]>
-2017-11-08 09:52:09,209 DEBUG [org.springframework.beans.factory.support.DefaultListableBeanFactory] - <Retrieved dependent beans for bean 'paginationInterceptor': [ssfb]>
-2017-11-08 09:52:09,210 DEBUG [org.springframework.beans.factory.support.DefaultListableBeanFactory] - <Retrieved dependent beans for bean '(inner bean)#436c81a3#2': [org.springframework.web.servlet.mvc.method.annotation.ExceptionHandlerExceptionResolver#0]>
-2017-11-08 09:52:09,211 DEBUG [org.springframework.beans.factory.support.DefaultListableBeanFactory] - <Retrieved dependent beans for bean '(inner bean)#67d18ed7': [mvcUriComponentsContributor]>
-2017-11-08 09:52:09,211 DEBUG [org.springframework.beans.factory.support.DefaultListableBeanFactory] - <Retrieved dependent beans for bean '(inner bean)#41294f8#1': [(inner bean)#67d18ed7]>
-2017-11-08 09:52:09,211 DEBUG [org.springframework.beans.factory.support.DefaultListableBeanFactory] - <Retrieved dependent beans for bean '(inner bean)#41294f8': [org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter]>
-2017-11-08 09:52:09,211 DEBUG [org.springframework.beans.factory.support.DisposableBeanAdapter] - <Invoking destroy() on bean with name 'redisService'>
-2017-11-08 09:52:09,211 DEBUG [org.springframework.beans.factory.support.DisposableBeanAdapter] - <Invoking destroy() on bean with name 'SmsService'>
-2017-11-08 09:52:09,211 DEBUG [org.springframework.beans.factory.support.DefaultListableBeanFactory] - <Retrieved dependent beans for bean '(inner bean)#550dbc7a': [org.springframework.web.servlet.handler.MappedInterceptor#0]>
+2017-11-09 08:52:44,050 DEBUG [org.springframework.beans.factory.support.DefaultListableBeanFactory] - <Returning cached instance of singleton bean 'merchantService'>
+2017-11-09 08:52:44,330 DEBUG [org.mybatis.spring.SqlSessionUtils] - <Creating a new SqlSession>
+2017-11-09 08:52:44,339 DEBUG [org.mybatis.spring.SqlSessionUtils] - <SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@7651218e] was not registered for synchronization because synchronization is not active>
+2017-11-09 08:52:44,461 DEBUG [org.springframework.jdbc.datasource.DataSourceUtils] - <Fetching JDBC Connection from DataSource>
+2017-11-09 08:52:44,474 DEBUG [org.mybatis.spring.transaction.SpringManagedTransaction] - <JDBC Connection [jdbc:mysql://192.168.17.62:3306/couponcode?autoReconnect=true, UserName=yyj@192.168.17.64, MySQL Connector Java] will not be managed by Spring>
+2017-11-09 08:52:44,497 DEBUG [com.lanxi.couponcode.impl.dao.MerchantDao.updateById] - <==>  Preparing: UPDATE merchants SET merchant_name=?, create_time=?, workaddress=?, minute_workaddress=? WHERE merchant_id=? >
+2017-11-09 08:52:44,552 DEBUG [com.lanxi.couponcode.impl.dao.MerchantDao.updateById] - <==> Parameters: 123(String), 20171109085244(String), 杭州(String), 蓝喜(String), 1(Long)>
+2017-11-09 08:52:44,561 DEBUG [com.lanxi.couponcode.impl.dao.MerchantDao.updateById] - <<==    Updates: 1>
+2017-11-09 08:52:44,561 DEBUG [org.mybatis.spring.SqlSessionUtils] - <Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@7651218e]>
+2017-11-09 08:52:44,562 DEBUG [org.springframework.jdbc.datasource.DataSourceUtils] - <Returning JDBC Connection to DataSource>
+2017-11-09 08:52:44,570 DEBUG [org.springframework.jdbc.datasource.DataSourceUtils] - <Fetching JDBC Connection from DataSource>
+2017-11-09 08:52:44,572 DEBUG [org.mybatis.spring.transaction.SpringManagedTransaction] - <JDBC Connection [jdbc:mysql://192.168.17.62:3306/couponcode?autoReconnect=true, UserName=yyj@192.168.17.64, MySQL Connector Java] will not be managed by Spring>
+2017-11-09 08:52:44,573 DEBUG [com.lanxi.couponcode.impl.dao.OperateRecordDao.insert] - <==>  Preparing: INSERT INTO operate_record ( record_id, operater_id, operater_phone, target_type, description, operate_time, operate_result, operater_info, target_info ) VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ? ) >
+2017-11-09 08:52:44,575 DEBUG [com.lanxi.couponcode.impl.dao.OperateRecordDao.insert] - <==> Parameters: 928425084703346688(Long), 1(Long), 1(String), 7(String), 修改商户(String), 20171109085244(String), 成功(String), 1(String), {"createTime":"20171109085244","merchantId":1,"merchantName":"123","minuteWorkAddress":"蓝喜","workAddress":"杭州"}(String)>
+2017-11-09 08:52:44,602 DEBUG [com.lanxi.couponcode.impl.dao.OperateRecordDao.insert] - <<==    Updates: 1>
+2017-11-09 08:52:44,602 DEBUG [org.springframework.jdbc.datasource.DataSourceUtils] - <Returning JDBC Connection to DataSource>
+2017-11-09 08:57:12,921 DEBUG [org.springframework.beans.factory.support.DefaultListableBeanFactory] - <Returning cached instance of singleton bean 'merchantService'>
+2017-11-09 08:57:12,935 DEBUG [org.mybatis.spring.SqlSessionUtils] - <Creating a new SqlSession>
+2017-11-09 08:57:12,942 DEBUG [org.mybatis.spring.SqlSessionUtils] - <SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@45cff11c] was not registered for synchronization because synchronization is not active>
+2017-11-09 08:57:13,029 DEBUG [org.mybatis.spring.SqlSessionUtils] - <Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@45cff11c]>
+2017-11-09 09:02:09,722 DEBUG [org.springframework.beans.factory.support.DefaultListableBeanFactory] - <Returning cached instance of singleton bean 'merchantService'>
+2017-11-09 09:02:09,739 DEBUG [org.mybatis.spring.SqlSessionUtils] - <Creating a new SqlSession>
+2017-11-09 09:02:09,748 DEBUG [org.mybatis.spring.SqlSessionUtils] - <SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@45cff11c] was not registered for synchronization because synchronization is not active>
+2017-11-09 09:02:09,863 DEBUG [org.springframework.jdbc.datasource.DataSourceUtils] - <Fetching JDBC Connection from DataSource>
+2017-11-09 09:02:09,867 DEBUG [org.mybatis.spring.transaction.SpringManagedTransaction] - <JDBC Connection [jdbc:mysql://192.168.17.62:3306/couponcode?autoReconnect=true, UserName=yyj@192.168.17.64, MySQL Connector Java] will not be managed by Spring>
+2017-11-09 09:02:09,893 DEBUG [com.lanxi.couponcode.impl.dao.MerchantDao.selectPage] - <==>  Preparing: SELECT COUNT(1) FROM ( SELECT merchant_id AS merchantId,merchant_name AS merchantName,merchant_status AS merchantStatus,create_time AS createTime,workaddress AS workAddress,minute_workaddress AS minuteWorkAddress,serve_explain AS serveExplain,registeraddress AS registerAddress,minute_registeraddress AS minuteRegisterAddress,oraganizingcode AS oraganizingCode,chartercode AS charterCode,principal,linkman AS linkMan,linkman_phone AS linkManPhone,servicetel AS serviceTel,email,organizing_institution_bar_code_pic AS organizingInstitutionBarCodePic,business_license_pic AS businessLicensePic,other_pic AS otherPic FROM merchants ) TOTAL >
+2017-11-09 09:02:09,931 DEBUG [com.lanxi.couponcode.impl.dao.MerchantDao.selectPage] - <==> Parameters: >
+2017-11-09 09:02:09,949 DEBUG [com.lanxi.couponcode.impl.dao.MerchantDao.selectPage] - <==>  Preparing: SELECT merchant_id AS merchantId,merchant_name AS merchantName,merchant_status AS merchantStatus,create_time AS createTime,workaddress AS workAddress,minute_workaddress AS minuteWorkAddress,serve_explain AS serveExplain,registeraddress AS registerAddress,minute_registeraddress AS minuteRegisterAddress,oraganizingcode AS oraganizingCode,chartercode AS charterCode,principal,linkman AS linkMan,linkman_phone AS linkManPhone,servicetel AS serviceTel,email,organizing_institution_bar_code_pic AS organizingInstitutionBarCodePic,business_license_pic AS businessLicensePic,other_pic AS otherPic FROM merchants LIMIT 0,10 >
+2017-11-09 09:02:09,951 DEBUG [com.lanxi.couponcode.impl.dao.MerchantDao.selectPage] - <==> Parameters: >
+2017-11-09 09:02:09,971 DEBUG [com.lanxi.couponcode.impl.dao.MerchantDao.selectPage] - <<==      Total: 4>
+2017-11-09 09:02:09,973 DEBUG [org.mybatis.spring.SqlSessionUtils] - <Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@45cff11c]>
+2017-11-09 09:02:09,973 DEBUG [org.springframework.jdbc.datasource.DataSourceUtils] - <Returning JDBC Connection to DataSource>
+2017-11-09 09:02:09,974 DEBUG [com.lanxi.couponcode.impl.service.MerchantServiceImpl] - <查询结果[[Merchant [merchantId=1, merchantName=123, merchantStatus=1, createTime=20171109085244, workAddress=杭州, minuteWorkAddress=蓝喜, serveExplain=1, registerAddress=1, minuteRegisterAddress=1, oraganizingCode=1, charterCode=1, principal=1, linkMan=1, linkManPhone=1, serviceTel=1, email=1, organizingInstitutionBarCodePic=1, businessLicensePic=1, otherPic=1], Merchant [merchantId=928196149310840832, merchantName=123, merchantStatus=null, createTime=20171108054301, workAddress=杭州, minuteWorkAddress=蓝喜, serveExplain=null, registerAddress=null, minuteRegisterAddress=null, oraganizingCode=null, charterCode=null, principal=null, linkMan=null, linkManPhone=null, serviceTel=null, email=null, organizingInstitutionBarCodePic=null, businessLicensePic=null, otherPic=null], Merchant [merchantId=928196466400288768, merchantName=123, merchantStatus=null, createTime=20171108054417, workAddress=杭州, minuteWorkAddress=蓝喜, serveExplain=null, registerAddress=null, minuteRegisterAddress=null, oraganizingCode=null, charterCode=null, principal=null, linkMan=null, linkManPhone=null, serviceTel=null, email=null, organizingInstitutionBarCodePic=null, businessLicensePic=null, otherPic=null], Merchant [merchantId=928196826263068672, merchantName=123, merchantStatus=null, createTime=20171108054543, workAddress=杭州, minuteWorkAddress=蓝喜, serveExplain=null, registerAddress=null, minuteRegisterAddress=null, oraganizingCode=null, charterCode=null, principal=null, linkMan=null, linkManPhone=null, serviceTel=null, email=null, organizingInstitutionBarCodePic=null, businessLicensePic=null, otherPic=null]]]page[0]
+,size[null]
+,operaterId[1]
+,operaterPhone[1]
+,operaterInfo[1]
+>
+2017-11-09 09:10:19,210 DEBUG [org.springframework.beans.factory.support.DefaultListableBeanFactory] - <Returning cached instance of singleton bean 'merchantService'>
+2017-11-09 09:10:19,226 DEBUG [org.mybatis.spring.SqlSessionUtils] - <Creating a new SqlSession>
+2017-11-09 09:10:19,231 DEBUG [org.mybatis.spring.SqlSessionUtils] - <SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@636e8cc] was not registered for synchronization because synchronization is not active>
+2017-11-09 09:10:19,360 DEBUG [org.springframework.jdbc.datasource.DataSourceUtils] - <Fetching JDBC Connection from DataSource>
+2017-11-09 09:10:19,363 DEBUG [org.mybatis.spring.transaction.SpringManagedTransaction] - <JDBC Connection [jdbc:mysql://192.168.17.62:3306/couponcode?autoReconnect=true, UserName=yyj@192.168.17.64, MySQL Connector Java] will not be managed by Spring>
+2017-11-09 09:10:19,374 DEBUG [com.lanxi.couponcode.impl.dao.MerchantDao.selectPage] - <==>  Preparing: SELECT COUNT(1) FROM ( SELECT merchant_id AS merchantId,merchant_name AS merchantName,merchant_status AS merchantStatus,create_time AS createTime,workaddress AS workAddress,minute_workaddress AS minuteWorkAddress,serve_explain AS serveExplain,registeraddress AS registerAddress,minute_registeraddress AS minuteRegisterAddress,oraganizingcode AS oraganizingCode,chartercode AS charterCode,principal,linkman AS linkMan,linkman_phone AS linkManPhone,servicetel AS serviceTel,email,organizing_institution_bar_code_pic AS organizingInstitutionBarCodePic,business_license_pic AS businessLicensePic,other_pic AS otherPic FROM merchants WHERE (create_time >= ? AND create_time <= ?) ) TOTAL >
+2017-11-09 09:10:19,411 DEBUG [com.lanxi.couponcode.impl.dao.MerchantDao.selectPage] - <==> Parameters: 20171108000000(String), 20171109999999(String)>
+2017-11-09 09:10:19,431 DEBUG [com.lanxi.couponcode.impl.dao.MerchantDao.selectPage] - <==>  Preparing: SELECT merchant_id AS merchantId,merchant_name AS merchantName,merchant_status AS merchantStatus,create_time AS createTime,workaddress AS workAddress,minute_workaddress AS minuteWorkAddress,serve_explain AS serveExplain,registeraddress AS registerAddress,minute_registeraddress AS minuteRegisterAddress,oraganizingcode AS oraganizingCode,chartercode AS charterCode,principal,linkman AS linkMan,linkman_phone AS linkManPhone,servicetel AS serviceTel,email,organizing_institution_bar_code_pic AS organizingInstitutionBarCodePic,business_license_pic AS businessLicensePic,other_pic AS otherPic FROM merchants WHERE (create_time >= ? AND create_time <= ?) LIMIT 0,10 >
+2017-11-09 09:10:19,432 DEBUG [com.lanxi.couponcode.impl.dao.MerchantDao.selectPage] - <==> Parameters: 20171108000000(String), 20171109999999(String)>
+2017-11-09 09:10:19,444 DEBUG [com.lanxi.couponcode.impl.dao.MerchantDao.selectPage] - <<==      Total: 4>
+2017-11-09 09:10:19,445 DEBUG [org.mybatis.spring.SqlSessionUtils] - <Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@636e8cc]>
+2017-11-09 09:10:19,445 DEBUG [org.springframework.jdbc.datasource.DataSourceUtils] - <Returning JDBC Connection to DataSource>
+2017-11-09 09:10:19,446 DEBUG [com.lanxi.couponcode.impl.service.MerchantServiceImpl] - <查询结果[[Merchant [merchantId=1, merchantName=123, merchantStatus=1, createTime=20171109085244, workAddress=杭州, minuteWorkAddress=蓝喜, serveExplain=1, registerAddress=1, minuteRegisterAddress=1, oraganizingCode=1, charterCode=1, principal=1, linkMan=1, linkManPhone=1, serviceTel=1, email=1, organizingInstitutionBarCodePic=1, businessLicensePic=1, otherPic=1], Merchant [merchantId=928196149310840832, merchantName=123, merchantStatus=null, createTime=20171108054301, workAddress=杭州, minuteWorkAddress=蓝喜, serveExplain=null, registerAddress=null, minuteRegisterAddress=null, oraganizingCode=null, charterCode=null, principal=null, linkMan=null, linkManPhone=null, serviceTel=null, email=null, organizingInstitutionBarCodePic=null, businessLicensePic=null, otherPic=null], Merchant [merchantId=928196466400288768, merchantName=123, merchantStatus=null, createTime=20171108054417, workAddress=杭州, minuteWorkAddress=蓝喜, serveExplain=null, registerAddress=null, minuteRegisterAddress=null, oraganizingCode=null, charterCode=null, principal=null, linkMan=null, linkManPhone=null, serviceTel=null, email=null, organizingInstitutionBarCodePic=null, businessLicensePic=null, otherPic=null], Merchant [merchantId=928196826263068672, merchantName=123, merchantStatus=null, createTime=20171108054543, workAddress=杭州, minuteWorkAddress=蓝喜, serveExplain=null, registerAddress=null, minuteRegisterAddress=null, oraganizingCode=null, charterCode=null, principal=null, linkMan=null, linkManPhone=null, serviceTel=null, email=null, organizingInstitutionBarCodePic=null, businessLicensePic=null, otherPic=null]]]page[0]
+,size[null]
+,operaterId[1]
+,operaterInfo[1]
+,operaterPhone[1]
+,startTime[20171108]
+,endTime[20171109]
+,merchantStatus[]
+,merchantName[]
+>
+2017-11-09 09:11:00,596 DEBUG [org.springframework.beans.factory.support.DefaultListableBeanFactory] - <Returning cached instance of singleton bean 'merchantService'>
+2017-11-09 09:11:00,612 DEBUG [org.mybatis.spring.SqlSessionUtils] - <Creating a new SqlSession>
+2017-11-09 09:11:00,617 DEBUG [org.mybatis.spring.SqlSessionUtils] - <SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@636e8cc] was not registered for synchronization because synchronization is not active>
+2017-11-09 09:11:00,739 DEBUG [org.springframework.jdbc.datasource.DataSourceUtils] - <Fetching JDBC Connection from DataSource>
+2017-11-09 09:11:00,743 DEBUG [org.mybatis.spring.transaction.SpringManagedTransaction] - <JDBC Connection [jdbc:mysql://192.168.17.62:3306/couponcode?autoReconnect=true, UserName=yyj@192.168.17.64, MySQL Connector Java] will not be managed by Spring>
+2017-11-09 09:11:00,753 DEBUG [com.lanxi.couponcode.impl.dao.MerchantDao.selectPage] - <==>  Preparing: SELECT COUNT(1) FROM ( SELECT merchant_id AS merchantId,merchant_name AS merchantName,merchant_status AS merchantStatus,create_time AS createTime,workaddress AS workAddress,minute_workaddress AS minuteWorkAddress,serve_explain AS serveExplain,registeraddress AS registerAddress,minute_registeraddress AS minuteRegisterAddress,oraganizingcode AS oraganizingCode,chartercode AS charterCode,principal,linkman AS linkMan,linkman_phone AS linkManPhone,servicetel AS serviceTel,email,organizing_institution_bar_code_pic AS organizingInstitutionBarCodePic,business_license_pic AS businessLicensePic,other_pic AS otherPic FROM merchants WHERE (create_time >= ? AND create_time <= ?) ) TOTAL >
+2017-11-09 09:11:00,787 DEBUG [com.lanxi.couponcode.impl.dao.MerchantDao.selectPage] - <==> Parameters: 20171108000000(String), 20171108999999(String)>
+2017-11-09 09:11:00,803 DEBUG [com.lanxi.couponcode.impl.dao.MerchantDao.selectPage] - <==>  Preparing: SELECT merchant_id AS merchantId,merchant_name AS merchantName,merchant_status AS merchantStatus,create_time AS createTime,workaddress AS workAddress,minute_workaddress AS minuteWorkAddress,serve_explain AS serveExplain,registeraddress AS registerAddress,minute_registeraddress AS minuteRegisterAddress,oraganizingcode AS oraganizingCode,chartercode AS charterCode,principal,linkman AS linkMan,linkman_phone AS linkManPhone,servicetel AS serviceTel,email,organizing_institution_bar_code_pic AS organizingInstitutionBarCodePic,business_license_pic AS businessLicensePic,other_pic AS otherPic FROM merchants WHERE (create_time >= ? AND create_time <= ?) LIMIT 0,10 >
+2017-11-09 09:11:00,805 DEBUG [com.lanxi.couponcode.impl.dao.MerchantDao.selectPage] - <==> Parameters: 20171108000000(String), 20171108999999(String)>
+2017-11-09 09:11:00,816 DEBUG [com.lanxi.couponcode.impl.dao.MerchantDao.selectPage] - <<==      Total: 3>
+2017-11-09 09:11:00,816 DEBUG [org.mybatis.spring.SqlSessionUtils] - <Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@636e8cc]>
+2017-11-09 09:11:00,816 DEBUG [org.springframework.jdbc.datasource.DataSourceUtils] - <Returning JDBC Connection to DataSource>
+2017-11-09 09:11:00,817 DEBUG [com.lanxi.couponcode.impl.service.MerchantServiceImpl] - <查询结果[[Merchant [merchantId=928196149310840832, merchantName=123, merchantStatus=null, createTime=20171108054301, workAddress=杭州, minuteWorkAddress=蓝喜, serveExplain=null, registerAddress=null, minuteRegisterAddress=null, oraganizingCode=null, charterCode=null, principal=null, linkMan=null, linkManPhone=null, serviceTel=null, email=null, organizingInstitutionBarCodePic=null, businessLicensePic=null, otherPic=null], Merchant [merchantId=928196466400288768, merchantName=123, merchantStatus=null, createTime=20171108054417, workAddress=杭州, minuteWorkAddress=蓝喜, serveExplain=null, registerAddress=null, minuteRegisterAddress=null, oraganizingCode=null, charterCode=null, principal=null, linkMan=null, linkManPhone=null, serviceTel=null, email=null, organizingInstitutionBarCodePic=null, businessLicensePic=null, otherPic=null], Merchant [merchantId=928196826263068672, merchantName=123, merchantStatus=null, createTime=20171108054543, workAddress=杭州, minuteWorkAddress=蓝喜, serveExplain=null, registerAddress=null, minuteRegisterAddress=null, oraganizingCode=null, charterCode=null, principal=null, linkMan=null, linkManPhone=null, serviceTel=null, email=null, organizingInstitutionBarCodePic=null, businessLicensePic=null, otherPic=null]]]page[0]
+,size[null]
+,operaterId[1]
+,operaterInfo[1]
+,operaterPhone[1]
+,startTime[20171108]
+,endTime[20171108]
+,merchantStatus[]
+,merchantName[]
+>
+2017-11-09 09:12:42,317 DEBUG [org.springframework.beans.factory.support.DefaultListableBeanFactory] - <Returning cached instance of singleton bean 'merchantService'>
+2017-11-09 09:12:42,331 DEBUG [org.mybatis.spring.SqlSessionUtils] - <Creating a new SqlSession>
+2017-11-09 09:12:42,339 DEBUG [org.mybatis.spring.SqlSessionUtils] - <SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@636e8cc] was not registered for synchronization because synchronization is not active>
+2017-11-09 09:12:42,478 DEBUG [org.springframework.jdbc.datasource.DataSourceUtils] - <Fetching JDBC Connection from DataSource>
+2017-11-09 09:12:42,481 DEBUG [org.mybatis.spring.transaction.SpringManagedTransaction] - <JDBC Connection [jdbc:mysql://192.168.17.62:3306/couponcode?autoReconnect=true, UserName=yyj@192.168.17.64, MySQL Connector Java] will not be managed by Spring>
+2017-11-09 09:12:42,494 DEBUG [com.lanxi.couponcode.impl.dao.MerchantDao.selectPage] - <==>  Preparing: SELECT COUNT(1) FROM ( SELECT merchant_id AS merchantId,merchant_name AS merchantName,merchant_status AS merchantStatus,create_time AS createTime,workaddress AS workAddress,minute_workaddress AS minuteWorkAddress,serve_explain AS serveExplain,registeraddress AS registerAddress,minute_registeraddress AS minuteRegisterAddress,oraganizingcode AS oraganizingCode,chartercode AS charterCode,principal,linkman AS linkMan,linkman_phone AS linkManPhone,servicetel AS serviceTel,email,organizing_institution_bar_code_pic AS organizingInstitutionBarCodePic,business_license_pic AS businessLicensePic,other_pic AS otherPic FROM merchants WHERE (merchant_name = ?) ) TOTAL >
+2017-11-09 09:12:42,534 DEBUG [com.lanxi.couponcode.impl.dao.MerchantDao.selectPage] - <==> Parameters: 123(String)>
+2017-11-09 09:12:42,584 DEBUG [com.lanxi.couponcode.impl.dao.MerchantDao.selectPage] - <==>  Preparing: SELECT merchant_id AS merchantId,merchant_name AS merchantName,merchant_status AS merchantStatus,create_time AS createTime,workaddress AS workAddress,minute_workaddress AS minuteWorkAddress,serve_explain AS serveExplain,registeraddress AS registerAddress,minute_registeraddress AS minuteRegisterAddress,oraganizingcode AS oraganizingCode,chartercode AS charterCode,principal,linkman AS linkMan,linkman_phone AS linkManPhone,servicetel AS serviceTel,email,organizing_institution_bar_code_pic AS organizingInstitutionBarCodePic,business_license_pic AS businessLicensePic,other_pic AS otherPic FROM merchants WHERE (merchant_name = ?) LIMIT 0,10 >
+2017-11-09 09:12:42,585 DEBUG [com.lanxi.couponcode.impl.dao.MerchantDao.selectPage] - <==> Parameters: 123(String)>
+2017-11-09 09:12:42,597 DEBUG [com.lanxi.couponcode.impl.dao.MerchantDao.selectPage] - <<==      Total: 4>
+2017-11-09 09:12:42,597 DEBUG [org.mybatis.spring.SqlSessionUtils] - <Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@636e8cc]>
+2017-11-09 09:12:42,598 DEBUG [org.springframework.jdbc.datasource.DataSourceUtils] - <Returning JDBC Connection to DataSource>
+2017-11-09 09:12:42,599 DEBUG [com.lanxi.couponcode.impl.service.MerchantServiceImpl] - <查询结果[[Merchant [merchantId=1, merchantName=123, merchantStatus=1, createTime=20171109085244, workAddress=杭州, minuteWorkAddress=蓝喜, serveExplain=1, registerAddress=1, minuteRegisterAddress=1, oraganizingCode=1, charterCode=1, principal=1, linkMan=1, linkManPhone=1, serviceTel=1, email=1, organizingInstitutionBarCodePic=1, businessLicensePic=1, otherPic=1], Merchant [merchantId=928196149310840832, merchantName=123, merchantStatus=null, createTime=20171108054301, workAddress=杭州, minuteWorkAddress=蓝喜, serveExplain=null, registerAddress=null, minuteRegisterAddress=null, oraganizingCode=null, charterCode=null, principal=null, linkMan=null, linkManPhone=null, serviceTel=null, email=null, organizingInstitutionBarCodePic=null, businessLicensePic=null, otherPic=null], Merchant [merchantId=928196466400288768, merchantName=123, merchantStatus=null, createTime=20171108054417, workAddress=杭州, minuteWorkAddress=蓝喜, serveExplain=null, registerAddress=null, minuteRegisterAddress=null, oraganizingCode=null, charterCode=null, principal=null, linkMan=null, linkManPhone=null, serviceTel=null, email=null, organizingInstitutionBarCodePic=null, businessLicensePic=null, otherPic=null], Merchant [merchantId=928196826263068672, merchantName=123, merchantStatus=null, createTime=20171108054543, workAddress=杭州, minuteWorkAddress=蓝喜, serveExplain=null, registerAddress=null, minuteRegisterAddress=null, oraganizingCode=null, charterCode=null, principal=null, linkMan=null, linkManPhone=null, serviceTel=null, email=null, organizingInstitutionBarCodePic=null, businessLicensePic=null, otherPic=null]]]page[0]
+,size[null]
+,operaterId[1]
+,operaterInfo[1]
+,operaterPhone[1]
+,startTime[]
+,endTime[]
+,merchantStatus[]
+,merchantName[123]
+>
+2017-11-09 09:14:36,663 DEBUG [org.springframework.beans.factory.support.DefaultListableBeanFactory] - <Returning cached instance of singleton bean 'merchantService'>
+2017-11-09 09:14:36,675 DEBUG [org.mybatis.spring.SqlSessionUtils] - <Creating a new SqlSession>
+2017-11-09 09:14:36,684 DEBUG [org.mybatis.spring.SqlSessionUtils] - <SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@5b11a194] was not registered for synchronization because synchronization is not active>
+2017-11-09 09:14:36,698 DEBUG [org.springframework.jdbc.datasource.DataSourceUtils] - <Fetching JDBC Connection from DataSource>
+2017-11-09 09:14:36,701 DEBUG [org.mybatis.spring.transaction.SpringManagedTransaction] - <JDBC Connection [jdbc:mysql://192.168.17.62:3306/couponcode?autoReconnect=true, UserName=yyj@192.168.17.64, MySQL Connector Java] will not be managed by Spring>
+2017-11-09 09:14:36,723 DEBUG [com.lanxi.couponcode.impl.dao.MerchantDao.selectById] - <==>  Preparing: SELECT merchant_id AS merchantId,merchant_name AS merchantName,merchant_status AS merchantStatus,create_time AS createTime,workaddress AS workAddress,minute_workaddress AS minuteWorkAddress,serve_explain AS serveExplain,registeraddress AS registerAddress,minute_registeraddress AS minuteRegisterAddress,oraganizingcode AS oraganizingCode,chartercode AS charterCode,principal,linkman AS linkMan,linkman_phone AS linkManPhone,servicetel AS serviceTel,email,organizing_institution_bar_code_pic AS organizingInstitutionBarCodePic,business_license_pic AS businessLicensePic,other_pic AS otherPic FROM merchants WHERE merchant_id=? >
+2017-11-09 09:14:36,772 DEBUG [com.lanxi.couponcode.impl.dao.MerchantDao.selectById] - <==> Parameters: 1(Long)>
+2017-11-09 09:14:36,799 DEBUG [com.lanxi.couponcode.impl.dao.MerchantDao.selectById] - <<==      Total: 1>
+2017-11-09 09:14:36,800 DEBUG [org.mybatis.spring.SqlSessionUtils] - <Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@5b11a194]>
+2017-11-09 09:14:36,801 DEBUG [org.springframework.jdbc.datasource.DataSourceUtils] - <Returning JDBC Connection to DataSource>
+2017-11-09 09:14:36,801 DEBUG [com.lanxi.couponcode.impl.service.MerchantServiceImpl] - <查询结果[Merchant [merchantId=1, merchantName=123, merchantStatus=1, createTime=20171109085244, workAddress=杭州, minuteWorkAddress=蓝喜, serveExplain=1, registerAddress=1, minuteRegisterAddress=1, oraganizingCode=1, charterCode=1, principal=1, linkMan=1, linkManPhone=1, serviceTel=1, email=1, organizingInstitutionBarCodePic=1, businessLicensePic=1, otherPic=1]]merchantId[1]
+,operaterId[null]
+,operaterPhone[null]
+,operaterInfo[null]
+>
+2017-11-09 13:30:17,463 DEBUG [org.springframework.beans.factory.support.DefaultListableBeanFactory] - <Returning cached instance of singleton bean 'merchantService'>
+2017-11-09 13:30:17,482 DEBUG [org.mybatis.spring.SqlSessionUtils] - <Creating a new SqlSession>
+2017-11-09 13:30:17,491 DEBUG [org.mybatis.spring.SqlSessionUtils] - <SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@12dae582] was not registered for synchronization because synchronization is not active>
+2017-11-09 13:30:17,619 DEBUG [org.springframework.jdbc.datasource.DataSourceUtils] - <Fetching JDBC Connection from DataSource>
+2017-11-09 13:30:17,623 DEBUG [org.mybatis.spring.transaction.SpringManagedTransaction] - <JDBC Connection [jdbc:mysql://192.168.17.62:3306/couponcode?autoReconnect=true, UserName=yyj@192.168.17.64, MySQL Connector Java] will not be managed by Spring>
+2017-11-09 13:30:17,636 DEBUG [com.lanxi.couponcode.impl.dao.ShopDao.selectPage] - <==>  Preparing: SELECT COUNT(1) FROM ( SELECT shop_id AS shopId,merchant_id AS merchantId,shop_name AS shopName,create_time AS createTime,merchant_status AS merchantStatus,shop_address AS shopAddress,minute_shop_address AS minuteShopAddress,shop_status AS shorStatus,servicetel FROM shop WHERE (merchant_id = ?) ) TOTAL >
+2017-11-09 13:30:17,669 DEBUG [com.lanxi.couponcode.impl.dao.ShopDao.selectPage] - <==> Parameters: 1(Long)>
+2017-11-09 13:30:17,692 DEBUG [com.lanxi.couponcode.impl.dao.ShopDao.selectPage] - <==>  Preparing: SELECT shop_id AS shopId,merchant_id AS merchantId,shop_name AS shopName,create_time AS createTime,merchant_status AS merchantStatus,shop_address AS shopAddress,minute_shop_address AS minuteShopAddress,shop_status AS shorStatus,servicetel FROM shop WHERE (merchant_id = ?) >
+2017-11-09 13:30:17,693 DEBUG [com.lanxi.couponcode.impl.dao.ShopDao.selectPage] - <==> Parameters: 1(Long)>
+2017-11-09 13:30:17,698 DEBUG [org.mybatis.spring.SqlSessionUtils] - <Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@12dae582]>
+2017-11-09 13:30:17,698 DEBUG [org.springframework.jdbc.datasource.DataSourceUtils] - <Returning JDBC Connection to DataSource>
+2017-11-09 13:30:17,714 DEBUG [org.springframework.core.env.StandardEnvironment] - <Adding [systemProperties] PropertySource with lowest search precedence>
+2017-11-09 13:30:17,714 DEBUG [org.springframework.core.env.StandardEnvironment] - <Adding [systemEnvironment] PropertySource with lowest search precedence>
+2017-11-09 13:30:17,715 DEBUG [org.springframework.core.env.StandardEnvironment] - <Initialized StandardEnvironment with PropertySources [systemProperties,systemEnvironment]>
+2017-11-09 13:30:17,717 DEBUG [org.springframework.beans.factory.xml.DefaultDocumentLoader] - <Using JAXP provider [com.sun.org.apache.xerces.internal.jaxp.DocumentBuilderFactoryImpl]>
+2017-11-09 13:30:17,718 DEBUG [org.springframework.beans.factory.xml.BeansDtdResolver] - <Trying to resolve XML entity with public ID [-//SPRING//DTD BEAN 2.0//EN] and system ID [http://www.springframework.org/dtd/spring-beans-2.0.dtd]>
+2017-11-09 13:30:17,718 DEBUG [org.springframework.beans.factory.xml.BeansDtdResolver] - <Trying to locate [spring-beans-2.0.dtd] in Spring jar on classpath>
+2017-11-09 13:30:17,719 DEBUG [org.springframework.beans.factory.xml.BeansDtdResolver] - <Found beans DTD [http://www.springframework.org/dtd/spring-beans-2.0.dtd] in classpath: spring-beans-2.0.dtd>
+2017-11-09 13:30:17,727 DEBUG [org.springframework.beans.factory.xml.DefaultBeanDefinitionDocumentReader] - <Loading bean definitions>
+2017-11-09 13:30:17,736 DEBUG [org.springframework.beans.factory.support.DefaultListableBeanFactory] - <Creating shared instance of singleton bean 'DB2'>
+2017-11-09 13:30:17,736 DEBUG [org.springframework.beans.factory.support.DefaultListableBeanFactory] - <Creating instance of bean 'DB2'>
+2017-11-09 13:30:17,736 DEBUG [org.springframework.beans.factory.support.DefaultListableBeanFactory] - <Eagerly caching bean 'DB2' to allow for resolving potential circular references>
+2017-11-09 13:30:17,737 DEBUG [org.springframework.beans.CachedIntrospectionResults] - <Getting BeanInfo for class [org.springframework.jdbc.support.SQLErrorCodes]>
+2017-11-09 13:30:17,741 DEBUG [org.springframework.beans.CachedIntrospectionResults] - <Caching PropertyDescriptors for class [org.springframework.jdbc.support.SQLErrorCodes]>
+2017-11-09 13:30:17,741 DEBUG [org.springframework.beans.CachedIntrospectionResults] - <Found bean property 'badSqlGrammarCodes' of type [[Ljava.lang.String;]>
+2017-11-09 13:30:17,742 DEBUG [org.springframework.beans.CachedIntrospectionResults] - <Found bean property 'cannotAcquireLockCodes' of type [[Ljava.lang.String;]>
+2017-11-09 13:30:17,743 DEBUG [org.springframework.beans.CachedIntrospectionResults] - <Found bean property 'cannotSerializeTransactionCodes' of type [[Ljava.lang.String;]>
+2017-11-09 13:30:17,743 DEBUG [org.springframework.beans.CachedIntrospectionResults] - <Found bean property 'class' of type [java.lang.Class]>
+2017-11-09 13:30:17,744 DEBUG [org.springframework.beans.CachedIntrospectionResults] - <Found bean property 'customSqlExceptionTranslator' of type [org.springframework.jdbc.support.SQLExceptionTranslator]>
+2017-11-09 13:30:17,744 DEBUG [org.springframework.beans.CachedIntrospectionResults] - <Found bean property 'customSqlExceptionTranslatorClass' of type [java.lang.Class]>
+2017-11-09 13:30:17,744 DEBUG [org.springframework.beans.CachedIntrospectionResults] - <Found bean property 'customTranslations' of type [[Lorg.springframework.jdbc.support.CustomSQLErrorCodesTranslation;]>
+2017-11-09 13:30:17,744 DEBUG [org.springframework.beans.CachedIntrospectionResults] - <Found bean property 'dataAccessResourceFailureCodes' of type [[Ljava.lang.String;]>
+2017-11-09 13:30:17,744 DEBUG [org.springframework.beans.CachedIntrospectionResults] - <Found bean property 'dataIntegrityViolationCodes' of type [[Ljava.lang.String;]>
+2017-11-09 13:30:17,745 DEBUG [org.springframework.beans.CachedIntrospectionResults] - <Found bean property 'databaseProductName' of type [java.lang.String]>
+2017-11-09 13:30:17,745 DEBUG [org.springframework.beans.CachedIntrospectionResults] - <Found bean property 'databaseProductNames' of type [[Ljava.lang.String;]>
+2017-11-09 13:30:17,745 DEBUG [org.springframework.beans.CachedIntrospectionResults] - <Found bean property 'deadlockLoserCodes' of type [[Ljava.lang.String;]>
+2017-11-09 13:30:17,745 DEBUG [org.springframework.beans.CachedIntrospectionResults] - <Found bean property 'duplicateKeyCodes' of type [[Ljava.lang.String;]>
+2017-11-09 13:30:17,745 DEBUG [org.springframework.beans.CachedIntrospectionResults] - <Found bean property 'invalidResultSetAccessCodes' of type [[Ljava.lang.String;]>
+2017-11-09 13:30:17,745 DEBUG [org.springframework.beans.CachedIntrospectionResults] - <Found bean property 'permissionDeniedCodes' of type [[Ljava.lang.String;]>
+2017-11-09 13:30:17,745 DEBUG [org.springframework.beans.CachedIntrospectionResults] - <Found bean property 'transientDataAccessResourceCodes' of type [[Ljava.lang.String;]>
+2017-11-09 13:30:17,745 DEBUG [org.springframework.beans.CachedIntrospectionResults] - <Found bean property 'useSqlStateForTranslation' of type [boolean]>
+2017-11-09 13:30:17,746 DEBUG [org.springframework.beans.TypeConverterDelegate] - <Converting String to [class [Ljava.lang.String;] using property editor [org.springframework.beans.propertyeditors.StringArrayPropertyEditor@6c67e137]>
+2017-11-09 13:30:17,746 DEBUG [org.springframework.beans.TypeConverterDelegate] - <Converting String to [class [Ljava.lang.String;] using property editor [org.springframework.beans.propertyeditors.StringArrayPropertyEditor@6c67e137]>
+2017-11-09 13:30:17,747 DEBUG [org.springframework.beans.TypeConverterDelegate] - <Converting String to [class [Ljava.lang.String;] using property editor [org.springframework.beans.propertyeditors.StringArrayPropertyEditor@6c67e137]>
+2017-11-09 13:30:17,747 DEBUG [org.springframework.beans.TypeConverterDelegate] - <Converting String to [class [Ljava.lang.String;] using property editor [org.springframework.beans.propertyeditors.StringArrayPropertyEditor@6c67e137]>
+2017-11-09 13:30:17,747 DEBUG [org.springframework.beans.TypeConverterDelegate] - <Converting String to [class [Ljava.lang.String;] using property editor [org.springframework.beans.propertyeditors.StringArrayPropertyEditor@6c67e137]>
+2017-11-09 13:30:17,747 DEBUG [org.springframework.beans.TypeConverterDelegate] - <Converting String to [class [Ljava.lang.String;] using property editor [org.springframework.beans.propertyeditors.StringArrayPropertyEditor@6c67e137]>
+2017-11-09 13:30:17,748 DEBUG [org.springframework.beans.factory.support.DefaultListableBeanFactory] - <Finished creating instance of bean 'DB2'>
+2017-11-09 13:30:17,748 DEBUG [org.springframework.beans.factory.support.DefaultListableBeanFactory] - <Creating shared instance of singleton bean 'Derby'>
+2017-11-09 13:30:17,748 DEBUG [org.springframework.beans.factory.support.DefaultListableBeanFactory] - <Creating instance of bean 'Derby'>
+2017-11-09 13:30:17,748 DEBUG [org.springframework.beans.factory.support.DefaultListableBeanFactory] - <Eagerly caching bean 'Derby' to allow for resolving potential circular references>
+2017-11-09 13:30:17,748 DEBUG [org.springframework.beans.TypeConverterDelegate] - <Converting String to [boolean] using property editor [org.springframework.beans.propertyeditors.CustomBooleanEditor@2c9399a4]>
+2017-11-09 13:30:17,749 DEBUG [org.springframework.beans.TypeConverterDelegate] - <Converting String to [class [Ljava.lang.String;] using property editor [org.springframework.beans.propertyeditors.StringArrayPropertyEditor@191ae03f]>
+2017-11-09 13:30:17,749 DEBUG [org.springframework.beans.TypeConverterDelegate] - <Converting String to [class [Ljava.lang.String;] using property editor [org.springframework.beans.propertyeditors.StringArrayPropertyEditor@191ae03f]>
+2017-11-09 13:30:17,749 DEBUG [org.springframework.beans.TypeConverterDelegate] - <Converting String to [class [Ljava.lang.String;] using property editor [org.springframework.beans.propertyeditors.StringArrayPropertyEditor@191ae03f]>
+2017-11-09 13:30:17,749 DEBUG [org.springframework.beans.TypeConverterDelegate] - <Converting String to [class [Ljava.lang.String;] using property editor [org.springframework.beans.propertyeditors.StringArrayPropertyEditor@191ae03f]>
+2017-11-09 13:30:17,749 DEBUG [org.springframework.beans.TypeConverterDelegate] - <Converting String to [class [Ljava.lang.String;] using property editor [org.springframework.beans.propertyeditors.StringArrayPropertyEditor@191ae03f]>
+2017-11-09 13:30:17,750 DEBUG [org.springframework.beans.TypeConverterDelegate] - <Converting String to [class [Ljava.lang.String;] using property editor [org.springframework.beans.propertyeditors.StringArrayPropertyEditor@191ae03f]>
+2017-11-09 13:30:17,750 DEBUG [org.springframework.beans.factory.support.DefaultListableBeanFactory] - <Finished creating instance of bean 'Derby'>
+2017-11-09 13:30:17,750 DEBUG [org.springframework.beans.factory.support.DefaultListableBeanFactory] - <Creating shared instance of singleton bean 'H2'>
+2017-11-09 13:30:17,751 DEBUG [org.springframework.beans.factory.support.DefaultListableBeanFactory] - <Creating instance of bean 'H2'>
+2017-11-09 13:30:17,751 DEBUG [org.springframework.beans.factory.support.DefaultListableBeanFactory] - <Eagerly caching bean 'H2' to allow for resolving potential circular references>
+2017-11-09 13:30:17,751 DEBUG [org.springframework.beans.TypeConverterDelegate] - <Converting String to [class [Ljava.lang.String;] using property editor [org.springframework.beans.propertyeditors.StringArrayPropertyEditor@9635fa]>
+2017-11-09 13:30:17,751 DEBUG [org.springframework.beans.TypeConverterDelegate] - <Converting String to [class [Ljava.lang.String;] using property editor [org.springframework.beans.propertyeditors.StringArrayPropertyEditor@9635fa]>
+2017-11-09 13:30:17,752 DEBUG [org.springframework.beans.TypeConverterDelegate] - <Converting String to [class [Ljava.lang.String;] using property editor [org.springframework.beans.propertyeditors.StringArrayPropertyEditor@9635fa]>
+2017-11-09 13:30:17,752 DEBUG [org.springframework.beans.TypeConverterDelegate] - <Converting String to [class [Ljava.lang.String;] using property editor [org.springframework.beans.propertyeditors.StringArrayPropertyEditor@9635fa]>
+2017-11-09 13:30:17,752 DEBUG [org.springframework.beans.TypeConverterDelegate] - <Converting String to [class [Ljava.lang.String;] using property editor [org.springframework.beans.propertyeditors.StringArrayPropertyEditor@9635fa]>
+2017-11-09 13:30:17,752 DEBUG [org.springframework.beans.factory.support.DefaultListableBeanFactory] - <Finished creating instance of bean 'H2'>
+2017-11-09 13:30:17,752 DEBUG [org.springframework.beans.factory.support.DefaultListableBeanFactory] - <Creating shared instance of singleton bean 'HSQL'>
+2017-11-09 13:30:17,752 DEBUG [org.springframework.beans.factory.support.DefaultListableBeanFactory] - <Creating instance of bean 'HSQL'>
+2017-11-09 13:30:17,753 DEBUG [org.springframework.beans.factory.support.DefaultListableBeanFactory] - <Eagerly caching bean 'HSQL' to allow for resolving potential circular references>
+2017-11-09 13:30:17,753 DEBUG [org.springframework.beans.TypeConverterDelegate] - <Converting String to [class [Ljava.lang.String;] using property editor [org.springframework.beans.propertyeditors.StringArrayPropertyEditor@53ab0286]>
+2017-11-09 13:30:17,753 DEBUG [org.springframework.beans.TypeConverterDelegate] - <Converting String to [class [Ljava.lang.String;] using property editor [org.springframework.beans.propertyeditors.StringArrayPropertyEditor@53ab0286]>
+2017-11-09 13:30:17,753 DEBUG [org.springframework.beans.TypeConverterDelegate] - <Converting String to [class [Ljava.lang.String;] using property editor [org.springframework.beans.propertyeditors.StringArrayPropertyEditor@53ab0286]>
+2017-11-09 13:30:17,754 DEBUG [org.springframework.beans.TypeConverterDelegate] - <Converting String to [class [Ljava.lang.String;] using property editor [org.springframework.beans.propertyeditors.StringArrayPropertyEditor@53ab0286]>
+2017-11-09 13:30:17,754 DEBUG [org.springframework.beans.factory.support.DefaultListableBeanFactory] - <Finished creating instance of bean 'HSQL'>
+2017-11-09 13:30:17,754 DEBUG [org.springframework.beans.factory.support.DefaultListableBeanFactory] - <Creating shared instance of singleton bean 'Informix'>
+2017-11-09 13:30:17,754 DEBUG [org.springframework.beans.factory.support.DefaultListableBeanFactory] - <Creating instance of bean 'Informix'>
+2017-11-09 13:30:17,754 DEBUG [org.springframework.beans.factory.support.DefaultListableBeanFactory] - <Eagerly caching bean 'Informix' to allow for resolving potential circular references>
+2017-11-09 13:30:17,755 DEBUG [org.springframework.beans.TypeConverterDelegate] - <Converting String to [class [Ljava.lang.String;] using property editor [org.springframework.beans.propertyeditors.StringArrayPropertyEditor@63c5efee]>
+2017-11-09 13:30:17,755 DEBUG [org.springframework.beans.TypeConverterDelegate] - <Converting String to [class [Ljava.lang.String;] using property editor [org.springframework.beans.propertyeditors.StringArrayPropertyEditor@63c5efee]>
+2017-11-09 13:30:17,755 DEBUG [org.springframework.beans.TypeConverterDelegate] - <Converting String to [class [Ljava.lang.String;] using property editor [org.springframework.beans.propertyeditors.StringArrayPropertyEditor@63c5efee]>
+2017-11-09 13:30:17,756 DEBUG [org.springframework.beans.factory.support.DefaultListableBeanFactory] - <Finished creating instance of bean 'Informix'>
+2017-11-09 13:30:17,756 DEBUG [org.springframework.beans.factory.support.DefaultListableBeanFactory] - <Creating shared instance of singleton bean 'MS-SQL'>
+2017-11-09 13:30:17,756 DEBUG [org.springframework.beans.factory.support.DefaultListableBeanFactory] - <Creating instance of bean 'MS-SQL'>
+2017-11-09 13:30:17,756 DEBUG [org.springframework.beans.factory.support.DefaultListableBeanFactory] - <Eagerly caching bean 'MS-SQL' to allow for resolving potential circular references>
+2017-11-09 13:30:17,756 DEBUG [org.springframework.beans.TypeConverterDelegate] - <Converting String to [class [Ljava.lang.String;] using property editor [org.springframework.beans.propertyeditors.StringArrayPropertyEditor@2d10e0b1]>
+2017-11-09 13:30:17,756 DEBUG [org.springframework.beans.TypeConverterDelegate] - <Converting String to [class [Ljava.lang.String;] using property editor [org.springframework.beans.propertyeditors.StringArrayPropertyEditor@2d10e0b1]>
+2017-11-09 13:30:17,756 DEBUG [org.springframework.beans.TypeConverterDelegate] - <Converting String to [class [Ljava.lang.String;] using property editor [org.springframework.beans.propertyeditors.StringArrayPropertyEditor@2d10e0b1]>
+2017-11-09 13:30:17,756 DEBUG [org.springframework.beans.TypeConverterDelegate] - <Converting String to [class [Ljava.lang.String;] using property editor [org.springframework.beans.propertyeditors.StringArrayPropertyEditor@2d10e0b1]>
+2017-11-09 13:30:17,756 DEBUG [org.springframework.beans.TypeConverterDelegate] - <Converting String to [class [Ljava.lang.String;] using property editor [org.springframework.beans.propertyeditors.StringArrayPropertyEditor@2d10e0b1]>
+2017-11-09 13:30:17,757 DEBUG [org.springframework.beans.TypeConverterDelegate] - <Converting String to [class [Ljava.lang.String;] using property editor [org.springframework.beans.propertyeditors.StringArrayPropertyEditor@2d10e0b1]>
+2017-11-09 13:30:17,757 DEBUG [org.springframework.beans.TypeConverterDelegate] - <Converting String to [class [Ljava.lang.String;] using property editor [org.springframework.beans.propertyeditors.StringArrayPropertyEditor@2d10e0b1]>
+2017-11-09 13:30:17,757 DEBUG [org.springframework.beans.factory.support.DefaultListableBeanFactory] - <Finished creating instance of bean 'MS-SQL'>
+2017-11-09 13:30:17,757 DEBUG [org.springframework.beans.factory.support.DefaultListableBeanFactory] - <Creating shared instance of singleton bean 'MySQL'>
+2017-11-09 13:30:17,757 DEBUG [org.springframework.beans.factory.support.DefaultListableBeanFactory] - <Creating instance of bean 'MySQL'>
+2017-11-09 13:30:17,757 DEBUG [org.springframework.beans.factory.support.DefaultListableBeanFactory] - <Eagerly caching bean 'MySQL' to allow for resolving potential circular references>
+2017-11-09 13:30:17,757 DEBUG [org.springframework.beans.TypeConverterDelegate] - <Converting String to [class [Ljava.lang.String;] using property editor [org.springframework.beans.propertyeditors.StringArrayPropertyEditor@1c98290c]>
+2017-11-09 13:30:17,757 DEBUG [org.springframework.beans.TypeConverterDelegate] - <Converting String to [class [Ljava.lang.String;] using property editor [org.springframework.beans.propertyeditors.StringArrayPropertyEditor@1c98290c]>
+2017-11-09 13:30:17,758 DEBUG [org.springframework.beans.TypeConverterDelegate] - <Converting String to [class [Ljava.lang.String;] using property editor [org.springframework.beans.propertyeditors.StringArrayPropertyEditor@1c98290c]>
+2017-11-09 13:30:17,758 DEBUG [org.springframework.beans.TypeConverterDelegate] - <Converting String to [class [Ljava.lang.String;] using property editor [org.springframework.beans.propertyeditors.StringArrayPropertyEditor@1c98290c]>
+2017-11-09 13:30:17,758 DEBUG [org.springframework.beans.TypeConverterDelegate] - <Converting String to [class [Ljava.lang.String;] using property editor [org.springframework.beans.propertyeditors.StringArrayPropertyEditor@1c98290c]>
+2017-11-09 13:30:17,758 DEBUG [org.springframework.beans.TypeConverterDelegate] - <Converting String to [class [Ljava.lang.String;] using property editor [org.springframework.beans.propertyeditors.StringArrayPropertyEditor@1c98290c]>
+2017-11-09 13:30:17,758 DEBUG [org.springframework.beans.factory.support.DefaultListableBeanFactory] - <Finished creating instance of bean 'MySQL'>
+2017-11-09 13:30:17,758 DEBUG [org.springframework.beans.factory.support.DefaultListableBeanFactory] - <Creating shared instance of singleton bean 'Oracle'>
+2017-11-09 13:30:17,758 DEBUG [org.springframework.beans.factory.support.DefaultListableBeanFactory] - <Creating instance of bean 'Oracle'>
+2017-11-09 13:30:17,759 DEBUG [org.springframework.beans.factory.support.DefaultListableBeanFactory] - <Eagerly caching bean 'Oracle' to allow for resolving potential circular references>
+2017-11-09 13:30:17,759 DEBUG [org.springframework.beans.TypeConverterDelegate] - <Converting String to [class [Ljava.lang.String;] using property editor [org.springframework.beans.propertyeditors.StringArrayPropertyEditor@172ca72b]>
+2017-11-09 13:30:17,759 DEBUG [org.springframework.beans.TypeConverterDelegate] - <Converting String to [class [Ljava.lang.String;] using property editor [org.springframework.beans.propertyeditors.StringArrayPropertyEditor@172ca72b]>
+2017-11-09 13:30:17,759 DEBUG [org.springframework.beans.TypeConverterDelegate] - <Converting String to [class [Ljava.lang.String;] using property editor [org.springframework.beans.propertyeditors.StringArrayPropertyEditor@172ca72b]>
+2017-11-09 13:30:17,759 DEBUG [org.springframework.beans.TypeConverterDelegate] - <Converting String to [class [Ljava.lang.String;] using property editor [org.springframework.beans.propertyeditors.StringArrayPropertyEditor@172ca72b]>
+2017-11-09 13:30:17,759 DEBUG [org.springframework.beans.TypeConverterDelegate] - <Converting String to [class [Ljava.lang.String;] using property editor [org.springframework.beans.propertyeditors.StringArrayPropertyEditor@172ca72b]>
+2017-11-09 13:30:17,759 DEBUG [org.springframework.beans.TypeConverterDelegate] - <Converting String to [class [Ljava.lang.String;] using property editor [org.springframework.beans.propertyeditors.StringArrayPropertyEditor@172ca72b]>
+2017-11-09 13:30:17,759 DEBUG [org.springframework.beans.TypeConverterDelegate] - <Converting String to [class [Ljava.lang.String;] using property editor [org.springframework.beans.propertyeditors.StringArrayPropertyEditor@172ca72b]>
+2017-11-09 13:30:17,759 DEBUG [org.springframework.beans.TypeConverterDelegate] - <Converting String to [class [Ljava.lang.String;] using property editor [org.springframework.beans.propertyeditors.StringArrayPropertyEditor@172ca72b]>
+2017-11-09 13:30:17,760 DEBUG [org.springframework.beans.factory.support.DefaultListableBeanFactory] - <Finished creating instance of bean 'Oracle'>
+2017-11-09 13:30:17,760 DEBUG [org.springframework.beans.factory.support.DefaultListableBeanFactory] - <Creating shared instance of singleton bean 'PostgreSQL'>
+2017-11-09 13:30:17,760 DEBUG [org.springframework.beans.factory.support.DefaultListableBeanFactory] - <Creating instance of bean 'PostgreSQL'>
+2017-11-09 13:30:17,760 DEBUG [org.springframework.beans.factory.support.DefaultListableBeanFactory] - <Eagerly caching bean 'PostgreSQL' to allow for resolving potential circular references>
+2017-11-09 13:30:17,761 DEBUG [org.springframework.beans.TypeConverterDelegate] - <Converting String to [boolean] using property editor [org.springframework.beans.propertyeditors.CustomBooleanEditor@5bda80bf]>
+2017-11-09 13:30:17,761 DEBUG [org.springframework.beans.TypeConverterDelegate] - <Converting String to [class [Ljava.lang.String;] using property editor [org.springframework.beans.propertyeditors.StringArrayPropertyEditor@71e5f61d]>
+2017-11-09 13:30:17,761 DEBUG [org.springframework.beans.TypeConverterDelegate] - <Converting String to [class [Ljava.lang.String;] using property editor [org.springframework.beans.propertyeditors.StringArrayPropertyEditor@71e5f61d]>
+2017-11-09 13:30:17,761 DEBUG [org.springframework.beans.TypeConverterDelegate] - <Converting String to [class [Ljava.lang.String;] using property editor [org.springframework.beans.propertyeditors.StringArrayPropertyEditor@71e5f61d]>
+2017-11-09 13:30:17,761 DEBUG [org.springframework.beans.TypeConverterDelegate] - <Converting String to [class [Ljava.lang.String;] using property editor [org.springframework.beans.propertyeditors.StringArrayPropertyEditor@71e5f61d]>
+2017-11-09 13:30:17,761 DEBUG [org.springframework.beans.TypeConverterDelegate] - <Converting String to [class [Ljava.lang.String;] using property editor [org.springframework.beans.propertyeditors.StringArrayPropertyEditor@71e5f61d]>
+2017-11-09 13:30:17,761 DEBUG [org.springframework.beans.TypeConverterDelegate] - <Converting String to [class [Ljava.lang.String;] using property editor [org.springframework.beans.propertyeditors.StringArrayPropertyEditor@71e5f61d]>
+2017-11-09 13:30:17,761 DEBUG [org.springframework.beans.TypeConverterDelegate] - <Converting String to [class [Ljava.lang.String;] using property editor [org.springframework.beans.propertyeditors.StringArrayPropertyEditor@71e5f61d]>
+2017-11-09 13:30:17,762 DEBUG [org.springframework.beans.factory.support.DefaultListableBeanFactory] - <Finished creating instance of bean 'PostgreSQL'>
+2017-11-09 13:30:17,762 DEBUG [org.springframework.beans.factory.support.DefaultListableBeanFactory] - <Creating shared instance of singleton bean 'Sybase'>
+2017-11-09 13:30:17,762 DEBUG [org.springframework.beans.factory.support.DefaultListableBeanFactory] - <Creating instance of bean 'Sybase'>
+2017-11-09 13:30:17,762 DEBUG [org.springframework.beans.factory.support.DefaultListableBeanFactory] - <Eagerly caching bean 'Sybase' to allow for resolving potential circular references>
+2017-11-09 13:30:17,762 DEBUG [org.springframework.beans.TypeConverterDelegate] - <Converting String to [class [Ljava.lang.String;] using property editor [org.springframework.beans.propertyeditors.StringArrayPropertyEditor@2ce86164]>
+2017-11-09 13:30:17,762 DEBUG [org.springframework.beans.TypeConverterDelegate] - <Converting String to [class [Ljava.lang.String;] using property editor [org.springframework.beans.propertyeditors.StringArrayPropertyEditor@2ce86164]>
+2017-11-09 13:30:17,762 DEBUG [org.springframework.beans.TypeConverterDelegate] - <Converting String to [class [Ljava.lang.String;] using property editor [org.springframework.beans.propertyeditors.StringArrayPropertyEditor@2ce86164]>
+2017-11-09 13:30:17,763 DEBUG [org.springframework.beans.TypeConverterDelegate] - <Converting String to [class [Ljava.lang.String;] using property editor [org.springframework.beans.propertyeditors.StringArrayPropertyEditor@2ce86164]>
+2017-11-09 13:30:17,763 DEBUG [org.springframework.beans.TypeConverterDelegate] - <Converting String to [class [Ljava.lang.String;] using property editor [org.springframework.beans.propertyeditors.StringArrayPropertyEditor@2ce86164]>
+2017-11-09 13:30:17,763 DEBUG [org.springframework.beans.TypeConverterDelegate] - <Converting String to [class [Ljava.lang.String;] using property editor [org.springframework.beans.propertyeditors.StringArrayPropertyEditor@2ce86164]>
+2017-11-09 13:30:17,763 DEBUG [org.springframework.beans.factory.support.DefaultListableBeanFactory] - <Finished creating instance of bean 'Sybase'>
+2017-11-09 13:30:17,763 DEBUG [org.springframework.beans.factory.support.DefaultListableBeanFactory] - <Creating shared instance of singleton bean 'Hana'>
+2017-11-09 13:30:17,764 DEBUG [org.springframework.beans.factory.support.DefaultListableBeanFactory] - <Creating instance of bean 'Hana'>
+2017-11-09 13:30:17,764 DEBUG [org.springframework.beans.factory.support.DefaultListableBeanFactory] - <Eagerly caching bean 'Hana' to allow for resolving potential circular references>
+2017-11-09 13:30:17,764 DEBUG [org.springframework.beans.TypeConverterDelegate] - <Converting String to [class [Ljava.lang.String;] using property editor [org.springframework.beans.propertyeditors.StringArrayPropertyEditor@5e8f9e2d]>
+2017-11-09 13:30:17,764 DEBUG [org.springframework.beans.TypeConverterDelegate] - <Converting String to [class [Ljava.lang.String;] using property editor [org.springframework.beans.propertyeditors.StringArrayPropertyEditor@5e8f9e2d]>
+2017-11-09 13:30:17,764 DEBUG [org.springframework.beans.TypeConverterDelegate] - <Converting String to [class [Ljava.lang.String;] using property editor [org.springframework.beans.propertyeditors.StringArrayPropertyEditor@5e8f9e2d]>
+2017-11-09 13:30:17,764 DEBUG [org.springframework.beans.TypeConverterDelegate] - <Converting String to [class [Ljava.lang.String;] using property editor [org.springframework.beans.propertyeditors.StringArrayPropertyEditor@5e8f9e2d]>
+2017-11-09 13:30:17,764 DEBUG [org.springframework.beans.TypeConverterDelegate] - <Converting String to [class [Ljava.lang.String;] using property editor [org.springframework.beans.propertyeditors.StringArrayPropertyEditor@5e8f9e2d]>
+2017-11-09 13:30:17,764 DEBUG [org.springframework.beans.TypeConverterDelegate] - <Converting String to [class [Ljava.lang.String;] using property editor [org.springframework.beans.propertyeditors.StringArrayPropertyEditor@5e8f9e2d]>
+2017-11-09 13:30:17,765 DEBUG [org.springframework.beans.TypeConverterDelegate] - <Converting String to [class [Ljava.lang.String;] using property editor [org.springframework.beans.propertyeditors.StringArrayPropertyEditor@5e8f9e2d]>
+2017-11-09 13:30:17,765 DEBUG [org.springframework.beans.TypeConverterDelegate] - <Converting String to [class [Ljava.lang.String;] using property editor [org.springframework.beans.propertyeditors.StringArrayPropertyEditor@5e8f9e2d]>
+2017-11-09 13:30:17,765 DEBUG [org.springframework.beans.TypeConverterDelegate] - <Converting String to [class [Ljava.lang.String;] using property editor [org.springframework.beans.propertyeditors.StringArrayPropertyEditor@5e8f9e2d]>
+2017-11-09 13:30:17,765 DEBUG [org.springframework.beans.factory.support.DefaultListableBeanFactory] - <Finished creating instance of bean 'Hana'>
+2017-11-09 13:30:17,766 DEBUG [org.springframework.jdbc.support.SQLErrorCodesFactory] - <Looking up default SQLErrorCodes for DataSource [org.apache.commons.dbcp.BasicDataSource@51df223b]>
+2017-11-09 13:30:17,770 DEBUG [org.springframework.jdbc.datasource.DataSourceUtils] - <Fetching JDBC Connection from DataSource>
+2017-11-09 13:30:17,774 DEBUG [org.springframework.jdbc.datasource.DataSourceUtils] - <Returning JDBC Connection to DataSource>
+2017-11-09 13:30:17,774 DEBUG [org.springframework.jdbc.support.SQLErrorCodesFactory] - <Database product name cached for DataSource [org.apache.commons.dbcp.BasicDataSource@51df223b]: name is 'MySQL'>
+2017-11-09 13:30:17,775 DEBUG [org.springframework.jdbc.support.SQLErrorCodesFactory] - <SQL error codes for 'MySQL' found>
+2017-11-09 13:30:17,775 DEBUG [org.springframework.jdbc.support.SQLErrorCodeSQLExceptionTranslator] - <Translating SQLException with SQL state '42S22', error code '1054', message [Unknown column 'shop_status' in 'field list']; SQL was [] for task [
+### Error querying database.  Cause: com.mysql.jdbc.exceptions.jdbc4.MySQLSyntaxErrorException: Unknown column 'shop_status' in 'field list'
+### The error may exist in file [C:\Users\Administrator\eclipse-workspace\CouponCode\target\classes\com\lanxi\couponcode\impl\dao\ShopDao.xml]
+### The error may involve defaultParameterMap
+### The error occurred while setting parameters
+### SQL: SELECT  shop_id AS shopId,merchant_id AS merchantId,shop_name AS shopName,create_time AS createTime,merchant_status AS merchantStatus,shop_address AS shopAddress,minute_shop_address AS minuteShopAddress,shop_status AS shorStatus,servicetel  FROM shop        WHERE (merchant_id = ?)
+### Cause: com.mysql.jdbc.exceptions.jdbc4.MySQLSyntaxErrorException: Unknown column 'shop_status' in 'field list'
+]>
+2017-11-09 13:34:03,469 DEBUG [org.springframework.beans.factory.support.DefaultListableBeanFactory] - <Returning cached instance of singleton bean 'merchantService'>
+2017-11-09 13:34:03,491 DEBUG [org.mybatis.spring.SqlSessionUtils] - <Creating a new SqlSession>
+2017-11-09 13:34:03,499 DEBUG [org.mybatis.spring.SqlSessionUtils] - <SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@12dae582] was not registered for synchronization because synchronization is not active>
+2017-11-09 13:34:03,636 DEBUG [org.springframework.jdbc.datasource.DataSourceUtils] - <Fetching JDBC Connection from DataSource>
+2017-11-09 13:34:03,640 DEBUG [org.mybatis.spring.transaction.SpringManagedTransaction] - <JDBC Connection [jdbc:mysql://192.168.17.62:3306/couponcode?autoReconnect=true, UserName=yyj@192.168.17.64, MySQL Connector Java] will not be managed by Spring>
+2017-11-09 13:34:03,650 DEBUG [com.lanxi.couponcode.impl.dao.ShopDao.selectPage] - <==>  Preparing: SELECT COUNT(1) FROM ( SELECT shop_id AS shopId,merchant_id AS merchantId,shop_name AS shopName,create_time AS createTime,merchant_status AS merchantStatus,shop_address AS shopAddress,minute_shop_address AS minuteShopAddress,shop_status AS shopStatus,servicetel FROM shop WHERE (merchant_id = ?) ) TOTAL >
+2017-11-09 13:34:03,686 DEBUG [com.lanxi.couponcode.impl.dao.ShopDao.selectPage] - <==> Parameters: 1(Long)>
+2017-11-09 13:34:03,708 DEBUG [com.lanxi.couponcode.impl.dao.ShopDao.selectPage] - <==>  Preparing: SELECT shop_id AS shopId,merchant_id AS merchantId,shop_name AS shopName,create_time AS createTime,merchant_status AS merchantStatus,shop_address AS shopAddress,minute_shop_address AS minuteShopAddress,shop_status AS shopStatus,servicetel FROM shop WHERE (merchant_id = ?) LIMIT 0,10 >
+2017-11-09 13:34:03,709 DEBUG [com.lanxi.couponcode.impl.dao.ShopDao.selectPage] - <==> Parameters: 1(Long)>
+2017-11-09 13:34:03,719 DEBUG [com.lanxi.couponcode.impl.dao.ShopDao.selectPage] - <<==      Total: 1>
+2017-11-09 13:34:03,720 DEBUG [org.mybatis.spring.SqlSessionUtils] - <Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@12dae582]>
+2017-11-09 13:34:03,720 DEBUG [org.springframework.jdbc.datasource.DataSourceUtils] - <Returning JDBC Connection to DataSource>
+2017-11-09 13:34:03,722 DEBUG [com.lanxi.couponcode.impl.service.MerchantServiceImpl] - <查询结果[[Shop [shopId=1, merchantId=1, shopName=null, createTime=null, merchantStatus=null, shopAddress=null, minuteShopAddress=null, shorStatus=null, servicetel=null]]]merchantId[1]
+,operaterId[null]
+,operaterPhone[null]
+,operaterInfo[null]
+>
+2017-11-09 14:29:29,003 DEBUG [org.springframework.beans.factory.support.DefaultListableBeanFactory] - <Returning cached instance of singleton bean 'merchantService'>
+2017-11-09 14:29:29,258 DEBUG [org.mybatis.spring.SqlSessionUtils] - <Creating a new SqlSession>
+2017-11-09 14:29:29,265 DEBUG [org.mybatis.spring.SqlSessionUtils] - <SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@3185fa6b] was not registered for synchronization because synchronization is not active>
+2017-11-09 14:29:29,387 DEBUG [org.springframework.jdbc.datasource.DataSourceUtils] - <Fetching JDBC Connection from DataSource>
+2017-11-09 14:29:29,391 DEBUG [org.mybatis.spring.transaction.SpringManagedTransaction] - <JDBC Connection [jdbc:mysql://192.168.17.62:3306/couponcode?autoReconnect=true, UserName=yyj@192.168.17.64, MySQL Connector Java] will not be managed by Spring>
+2017-11-09 14:29:29,410 DEBUG [com.lanxi.couponcode.impl.dao.MerchantDao.updateById] - <==>  Preparing: UPDATE merchants SET minute_workaddress=? WHERE merchant_id=? >
+2017-11-09 14:29:29,454 DEBUG [com.lanxi.couponcode.impl.dao.MerchantDao.updateById] - <==> Parameters: 正泰大厦蓝喜(String), 1(Long)>
+2017-11-09 14:29:29,479 DEBUG [com.lanxi.couponcode.impl.dao.MerchantDao.updateById] - <<==    Updates: 1>
+2017-11-09 14:29:29,479 DEBUG [org.mybatis.spring.SqlSessionUtils] - <Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@3185fa6b]>
+2017-11-09 14:29:29,479 DEBUG [org.springframework.jdbc.datasource.DataSourceUtils] - <Returning JDBC Connection to DataSource>
+2017-11-09 14:29:29,491 DEBUG [org.springframework.jdbc.datasource.DataSourceUtils] - <Fetching JDBC Connection from DataSource>
+2017-11-09 14:29:29,494 DEBUG [org.mybatis.spring.transaction.SpringManagedTransaction] - <JDBC Connection [jdbc:mysql://192.168.17.62:3306/couponcode?autoReconnect=true, UserName=yyj@192.168.17.64, MySQL Connector Java] will not be managed by Spring>
+2017-11-09 14:29:29,495 DEBUG [com.lanxi.couponcode.impl.dao.OperateRecordDao.insert] - <==>  Preparing: INSERT INTO operate_record ( record_id, operater_id, operater_phone, target_type, description, operate_time, operate_result, operater_info, target_info ) VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ? ) >
+2017-11-09 14:29:29,500 DEBUG [com.lanxi.couponcode.impl.dao.OperateRecordDao.insert] - <==> Parameters: 928509830385090560(Long), 1(Long), 1(String), 7(String), 修改商户(String), 20171109142929(String), 成功(String), 1(String), {"merchantId":1,"minuteWorkAddress":"正泰大厦蓝喜"}(String)>
+2017-11-09 14:29:29,543 DEBUG [com.lanxi.couponcode.impl.dao.OperateRecordDao.insert] - <<==    Updates: 1>
+2017-11-09 14:29:29,543 DEBUG [org.springframework.jdbc.datasource.DataSourceUtils] - <Returning JDBC Connection to DataSource>
+2017-11-09 14:50:29,381 DEBUG [org.springframework.beans.factory.support.DefaultListableBeanFactory] - <Returning cached instance of singleton bean 'merchantService'>
+2017-11-09 14:50:29,678 DEBUG [org.mybatis.spring.SqlSessionUtils] - <Creating a new SqlSession>
+2017-11-09 14:50:29,688 DEBUG [org.mybatis.spring.SqlSessionUtils] - <SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@62e70ea3] was not registered for synchronization because synchronization is not active>
+2017-11-09 14:50:29,825 DEBUG [org.springframework.jdbc.datasource.DataSourceUtils] - <Fetching JDBC Connection from DataSource>
+2017-11-09 14:50:29,829 DEBUG [org.mybatis.spring.transaction.SpringManagedTransaction] - <JDBC Connection [jdbc:mysql://192.168.17.62:3306/couponcode?autoReconnect=true, UserName=yyj@192.168.17.64, MySQL Connector Java] will not be managed by Spring>
+2017-11-09 14:50:29,846 DEBUG [com.lanxi.couponcode.impl.dao.MerchantDao.updateById] - <==>  Preparing: UPDATE merchants SET merchant_status=? WHERE merchant_id=? >
+2017-11-09 14:50:29,887 DEBUG [com.lanxi.couponcode.impl.dao.MerchantDao.updateById] - <==> Parameters: 2(String), 1(Long)>
+2017-11-09 14:50:29,924 DEBUG [com.lanxi.couponcode.impl.dao.MerchantDao.updateById] - <<==    Updates: 1>
+2017-11-09 14:50:29,925 DEBUG [org.mybatis.spring.SqlSessionUtils] - <Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@62e70ea3]>
+2017-11-09 14:50:29,925 DEBUG [org.springframework.jdbc.datasource.DataSourceUtils] - <Returning JDBC Connection to DataSource>
+2017-11-09 14:50:29,931 DEBUG [org.springframework.jdbc.datasource.DataSourceUtils] - <Fetching JDBC Connection from DataSource>
+2017-11-09 14:50:29,936 DEBUG [org.mybatis.spring.transaction.SpringManagedTransaction] - <JDBC Connection [jdbc:mysql://192.168.17.62:3306/couponcode?autoReconnect=true, UserName=yyj@192.168.17.64, MySQL Connector Java] will not be managed by Spring>
+2017-11-09 14:50:29,936 DEBUG [com.lanxi.couponcode.impl.dao.OperateRecordDao.insert] - <==>  Preparing: INSERT INTO operate_record ( record_id, operater_id, target_type, description, operate_time, operate_result, target_info ) VALUES ( ?, ?, ?, ?, ?, ?, ? ) >
+2017-11-09 14:50:29,938 DEBUG [com.lanxi.couponcode.impl.dao.OperateRecordDao.insert] - <==> Parameters: 928515116881645568(Long), 1(Long), 7(String), 修改商户状态(String), 20171109145029(String), 成功(String), {"merchantId":1}(String)>
+2017-11-09 14:50:29,943 DEBUG [com.lanxi.couponcode.impl.dao.OperateRecordDao.insert] - <<==    Updates: 1>
+2017-11-09 14:50:29,943 DEBUG [org.springframework.jdbc.datasource.DataSourceUtils] - <Returning JDBC Connection to DataSource>
+2017-11-09 16:12:35,189 DEBUG [org.springframework.beans.factory.support.DefaultListableBeanFactory] - <Returning cached instance of singleton bean 'shopService'>
+2017-11-09 16:12:35,206 DEBUG [org.mybatis.spring.SqlSessionUtils] - <Creating a new SqlSession>
+2017-11-09 16:12:35,211 DEBUG [org.mybatis.spring.SqlSessionUtils] - <SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@7a8fa663] was not registered for synchronization because synchronization is not active>
+2017-11-09 16:12:35,339 DEBUG [org.springframework.jdbc.datasource.DataSourceUtils] - <Fetching JDBC Connection from DataSource>
+2017-11-09 16:12:35,342 DEBUG [org.mybatis.spring.transaction.SpringManagedTransaction] - <JDBC Connection [jdbc:mysql://192.168.17.62:3306/couponcode?autoReconnect=true, UserName=yyj@192.168.17.64, MySQL Connector Java] will not be managed by Spring>
+2017-11-09 16:12:35,357 DEBUG [com.lanxi.couponcode.impl.dao.ShopDao.update] - <==>  Preparing: UPDATE shop SET shop_status=? WHERE (merchant_id = ?) >
+2017-11-09 16:12:35,391 DEBUG [com.lanxi.couponcode.impl.dao.ShopDao.update] - <==> Parameters: 2(String), 1(Long)>
+2017-11-09 16:12:35,396 DEBUG [com.lanxi.couponcode.impl.dao.ShopDao.update] - <<==    Updates: 1>
+2017-11-09 16:12:35,396 DEBUG [org.mybatis.spring.SqlSessionUtils] - <Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@7a8fa663]>
+2017-11-09 16:12:35,396 DEBUG [org.springframework.jdbc.datasource.DataSourceUtils] - <Returning JDBC Connection to DataSource>
+2017-11-09 16:14:20,851 DEBUG [org.springframework.beans.factory.support.DefaultListableBeanFactory] - <Returning cached instance of singleton bean 'shopService'>
+2017-11-09 16:14:20,871 DEBUG [org.mybatis.spring.SqlSessionUtils] - <Creating a new SqlSession>
+2017-11-09 16:14:20,879 DEBUG [org.mybatis.spring.SqlSessionUtils] - <SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@7a8fa663] was not registered for synchronization because synchronization is not active>
+2017-11-09 16:14:21,001 DEBUG [org.springframework.jdbc.datasource.DataSourceUtils] - <Fetching JDBC Connection from DataSource>
+2017-11-09 16:14:21,005 DEBUG [org.mybatis.spring.transaction.SpringManagedTransaction] - <JDBC Connection [jdbc:mysql://192.168.17.62:3306/couponcode?autoReconnect=true, UserName=yyj@192.168.17.64, MySQL Connector Java] will not be managed by Spring>
+2017-11-09 16:14:21,018 DEBUG [com.lanxi.couponcode.impl.dao.ShopDao.update] - <==>  Preparing: UPDATE shop SET shop_status=? WHERE (merchant_id = ?) >
+2017-11-09 16:14:21,052 DEBUG [com.lanxi.couponcode.impl.dao.ShopDao.update] - <==> Parameters: 2(String), 1(Long)>
+2017-11-09 16:14:21,060 DEBUG [com.lanxi.couponcode.impl.dao.ShopDao.update] - <<==    Updates: 2>
+2017-11-09 16:14:21,060 DEBUG [org.mybatis.spring.SqlSessionUtils] - <Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@7a8fa663]>
+2017-11-09 16:14:21,060 DEBUG [org.springframework.jdbc.datasource.DataSourceUtils] - <Returning JDBC Connection to DataSource>
+2017-11-09 16:44:00,048 DEBUG [org.springframework.beans.factory.support.DefaultListableBeanFactory] - <Returning cached instance of singleton bean 'merchantService'>
+2017-11-09 16:44:00,299 DEBUG [org.mybatis.spring.SqlSessionUtils] - <Creating a new SqlSession>
+2017-11-09 16:44:00,305 DEBUG [org.mybatis.spring.SqlSessionUtils] - <SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@305f031] was not registered for synchronization because synchronization is not active>
+2017-11-09 16:44:00,454 DEBUG [org.springframework.jdbc.datasource.DataSourceUtils] - <Fetching JDBC Connection from DataSource>
+2017-11-09 16:44:00,458 DEBUG [org.mybatis.spring.transaction.SpringManagedTransaction] - <JDBC Connection [jdbc:mysql://192.168.17.62:3306/couponcode?autoReconnect=true, UserName=yyj@192.168.17.64, MySQL Connector Java] will not be managed by Spring>
+2017-11-09 16:44:00,474 DEBUG [com.lanxi.couponcode.impl.dao.ShopDao.update] - <==>  Preparing: UPDATE shop SET shop_status=? WHERE (merchant_id = ?) >
+2017-11-09 16:44:00,514 DEBUG [com.lanxi.couponcode.impl.dao.ShopDao.update] - <==> Parameters: 2(String), 1(Long)>
+2017-11-09 16:44:00,522 DEBUG [com.lanxi.couponcode.impl.dao.ShopDao.update] - <<==    Updates: 2>
+2017-11-09 16:44:00,523 DEBUG [org.mybatis.spring.SqlSessionUtils] - <Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@305f031]>
+2017-11-09 16:44:00,523 DEBUG [org.springframework.jdbc.datasource.DataSourceUtils] - <Returning JDBC Connection to DataSource>
+2017-11-09 16:44:00,524 DEBUG [org.mybatis.spring.SqlSessionUtils] - <Creating a new SqlSession>
+2017-11-09 16:44:00,524 DEBUG [org.mybatis.spring.SqlSessionUtils] - <SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@a77614d] was not registered for synchronization because synchronization is not active>
+2017-11-09 16:44:00,530 DEBUG [org.springframework.jdbc.datasource.DataSourceUtils] - <Fetching JDBC Connection from DataSource>
+2017-11-09 16:44:00,534 DEBUG [org.mybatis.spring.transaction.SpringManagedTransaction] - <JDBC Connection [jdbc:mysql://192.168.17.62:3306/couponcode?autoReconnect=true, UserName=yyj@192.168.17.64, MySQL Connector Java] will not be managed by Spring>
+2017-11-09 16:44:00,534 DEBUG [com.lanxi.couponcode.impl.dao.MerchantDao.updateById] - <==>  Preparing: UPDATE merchants SET merchant_status=? WHERE merchant_id=? >
+2017-11-09 16:44:00,535 DEBUG [com.lanxi.couponcode.impl.dao.MerchantDao.updateById] - <==> Parameters: 2(String), 1(Long)>
+2017-11-09 16:44:00,542 DEBUG [com.lanxi.couponcode.impl.dao.MerchantDao.updateById] - <<==    Updates: 1>
+2017-11-09 16:44:00,543 DEBUG [org.mybatis.spring.SqlSessionUtils] - <Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@a77614d]>
+2017-11-09 16:44:00,543 DEBUG [org.springframework.jdbc.datasource.DataSourceUtils] - <Returning JDBC Connection to DataSource>
+2017-11-09 16:44:00,549 DEBUG [org.springframework.jdbc.datasource.DataSourceUtils] - <Fetching JDBC Connection from DataSource>
+2017-11-09 16:44:00,552 DEBUG [org.mybatis.spring.transaction.SpringManagedTransaction] - <JDBC Connection [jdbc:mysql://192.168.17.62:3306/couponcode?autoReconnect=true, UserName=yyj@192.168.17.64, MySQL Connector Java] will not be managed by Spring>
+2017-11-09 16:44:00,553 DEBUG [com.lanxi.couponcode.impl.dao.OperateRecordDao.insert] - <==>  Preparing: INSERT INTO operate_record ( record_id, target_type, description, operate_time, operate_result, target_info ) VALUES ( ?, ?, ?, ?, ?, ? ) >
+2017-11-09 16:44:00,555 DEBUG [com.lanxi.couponcode.impl.dao.OperateRecordDao.insert] - <==> Parameters: 928543682788786176(Long), 7(String), 修改商户状态(String), 20171109164400(String), 成功(String), {"merchantId":1}(String)>
+2017-11-09 16:44:00,586 DEBUG [com.lanxi.couponcode.impl.dao.OperateRecordDao.insert] - <<==    Updates: 1>
+2017-11-09 16:44:00,586 DEBUG [org.springframework.jdbc.datasource.DataSourceUtils] - <Returning JDBC Connection to DataSource>
+2017-11-09 16:49:04,522 DEBUG [org.springframework.beans.factory.support.DefaultListableBeanFactory] - <Returning cached instance of singleton bean 'merchantService'>
+2017-11-09 16:49:04,773 DEBUG [org.mybatis.spring.SqlSessionUtils] - <Creating a new SqlSession>
+2017-11-09 16:49:04,782 DEBUG [org.mybatis.spring.SqlSessionUtils] - <SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@7c351808] was not registered for synchronization because synchronization is not active>
+2017-11-09 16:49:04,911 DEBUG [org.springframework.jdbc.datasource.DataSourceUtils] - <Fetching JDBC Connection from DataSource>
+2017-11-09 16:49:04,914 DEBUG [org.mybatis.spring.transaction.SpringManagedTransaction] - <JDBC Connection [jdbc:mysql://192.168.17.62:3306/couponcode?autoReconnect=true, UserName=yyj@192.168.17.64, MySQL Connector Java] will not be managed by Spring>
+2017-11-09 16:49:04,929 DEBUG [com.lanxi.couponcode.impl.dao.ShopDao.update] - <==>  Preparing: UPDATE shop SET shop_status=? WHERE (merchant_id = ?) >
+2017-11-09 16:49:04,965 DEBUG [com.lanxi.couponcode.impl.dao.ShopDao.update] - <==> Parameters: 2(String), 1(Long)>
+2017-11-09 16:49:04,971 DEBUG [com.lanxi.couponcode.impl.dao.ShopDao.update] - <<==    Updates: 2>
+2017-11-09 16:49:04,971 DEBUG [org.mybatis.spring.SqlSessionUtils] - <Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@7c351808]>
+2017-11-09 16:49:04,971 DEBUG [org.springframework.jdbc.datasource.DataSourceUtils] - <Returning JDBC Connection to DataSource>
+2017-11-09 16:58:43,914 DEBUG [org.springframework.beans.factory.support.DefaultListableBeanFactory] - <Returning cached instance of singleton bean 'merchantService'>
+2017-11-09 16:58:44,174 DEBUG [org.mybatis.spring.SqlSessionUtils] - <Creating a new SqlSession>
+2017-11-09 16:58:44,180 DEBUG [org.mybatis.spring.SqlSessionUtils] - <SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@274872f8] was not registered for synchronization because synchronization is not active>
+2017-11-09 16:58:44,317 DEBUG [org.springframework.jdbc.datasource.DataSourceUtils] - <Fetching JDBC Connection from DataSource>
+2017-11-09 16:58:44,322 DEBUG [org.mybatis.spring.transaction.SpringManagedTransaction] - <JDBC Connection [jdbc:mysql://192.168.17.62:3306/couponcode?autoReconnect=true, UserName=yyj@192.168.17.64, MySQL Connector Java] will not be managed by Spring>
+2017-11-09 16:58:44,336 DEBUG [com.lanxi.couponcode.impl.dao.ShopDao.update] - <==>  Preparing: UPDATE shop SET shop_status=? WHERE (merchant_id = ?) >
+2017-11-09 16:58:44,373 DEBUG [com.lanxi.couponcode.impl.dao.ShopDao.update] - <==> Parameters: 2(String), 1(Long)>
+2017-11-09 16:58:44,385 DEBUG [com.lanxi.couponcode.impl.dao.ShopDao.update] - <<==    Updates: 2>
+2017-11-09 16:58:44,385 DEBUG [org.mybatis.spring.SqlSessionUtils] - <Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@274872f8]>
+2017-11-09 16:58:44,385 DEBUG [org.springframework.jdbc.datasource.DataSourceUtils] - <Returning JDBC Connection to DataSource>
+2017-11-09 16:58:44,387 DEBUG [org.mybatis.spring.SqlSessionUtils] - <Creating a new SqlSession>
+2017-11-09 16:58:44,387 DEBUG [org.mybatis.spring.SqlSessionUtils] - <SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@74bdc168] was not registered for synchronization because synchronization is not active>
+2017-11-09 16:58:44,397 DEBUG [org.springframework.jdbc.datasource.DataSourceUtils] - <Fetching JDBC Connection from DataSource>
+2017-11-09 16:58:44,401 DEBUG [org.mybatis.spring.transaction.SpringManagedTransaction] - <JDBC Connection [jdbc:mysql://192.168.17.62:3306/couponcode?autoReconnect=true, UserName=yyj@192.168.17.64, MySQL Connector Java] will not be managed by Spring>
+2017-11-09 16:58:44,404 DEBUG [com.lanxi.couponcode.impl.dao.MerchantDao.updateById] - <==>  Preparing: UPDATE merchants SET merchant_status=? WHERE merchant_id=? >
+2017-11-09 16:58:44,405 DEBUG [com.lanxi.couponcode.impl.dao.MerchantDao.updateById] - <==> Parameters: 2(String), 1(Long)>
+2017-11-09 16:58:44,412 DEBUG [com.lanxi.couponcode.impl.dao.MerchantDao.updateById] - <<==    Updates: 1>
+2017-11-09 16:58:44,412 DEBUG [org.mybatis.spring.SqlSessionUtils] - <Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@74bdc168]>
+2017-11-09 16:58:44,412 DEBUG [org.springframework.jdbc.datasource.DataSourceUtils] - <Returning JDBC Connection to DataSource>
+2017-11-09 16:58:44,419 DEBUG [org.springframework.jdbc.datasource.DataSourceUtils] - <Fetching JDBC Connection from DataSource>
+2017-11-09 16:58:44,423 DEBUG [org.mybatis.spring.transaction.SpringManagedTransaction] - <JDBC Connection [jdbc:mysql://192.168.17.62:3306/couponcode?autoReconnect=true, UserName=yyj@192.168.17.64, MySQL Connector Java] will not be managed by Spring>
+2017-11-09 16:58:44,424 DEBUG [com.lanxi.couponcode.impl.dao.OperateRecordDao.insert] - <==>  Preparing: INSERT INTO operate_record ( record_id, target_type, description, operate_time, operate_result, target_info ) VALUES ( ?, ?, ?, ?, ?, ? ) >
+2017-11-09 16:58:44,426 DEBUG [com.lanxi.couponcode.impl.dao.OperateRecordDao.insert] - <==> Parameters: 928547389983121408(Long), 7(String), 修改商户状态(String), 20171109165844(String), 成功(String), {"merchantId":1}(String)>
+2017-11-09 16:58:44,431 DEBUG [com.lanxi.couponcode.impl.dao.OperateRecordDao.insert] - <<==    Updates: 1>
+2017-11-09 16:58:44,431 DEBUG [org.springframework.jdbc.datasource.DataSourceUtils] - <Returning JDBC Connection to DataSource>
+2017-11-09 17:00:06,646 DEBUG [org.springframework.beans.factory.support.DefaultListableBeanFactory] - <Returning cached instance of singleton bean 'merchantService'>
+2017-11-09 17:00:06,919 DEBUG [org.mybatis.spring.SqlSessionUtils] - <Creating a new SqlSession>
+2017-11-09 17:00:06,925 DEBUG [org.mybatis.spring.SqlSessionUtils] - <SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@180e6ac4] was not registered for synchronization because synchronization is not active>
+2017-11-09 17:00:07,067 DEBUG [org.springframework.jdbc.datasource.DataSourceUtils] - <Fetching JDBC Connection from DataSource>
+2017-11-09 17:00:07,072 DEBUG [org.mybatis.spring.transaction.SpringManagedTransaction] - <JDBC Connection [jdbc:mysql://192.168.17.62:3306/couponcode?autoReconnect=true, UserName=yyj@192.168.17.64, MySQL Connector Java] will not be managed by Spring>
+2017-11-09 17:00:07,088 DEBUG [com.lanxi.couponcode.impl.dao.ShopDao.update] - <==>  Preparing: UPDATE shop SET shop_status=? WHERE (merchant_id = ?) >
+2017-11-09 17:00:07,137 DEBUG [com.lanxi.couponcode.impl.dao.ShopDao.update] - <==> Parameters: 2(String), 1(Long)>
+2017-11-09 17:00:07,154 DEBUG [com.lanxi.couponcode.impl.dao.ShopDao.update] - <<==    Updates: 2>
+2017-11-09 17:00:07,155 DEBUG [org.mybatis.spring.SqlSessionUtils] - <Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@180e6ac4]>
+2017-11-09 17:00:07,155 DEBUG [org.springframework.jdbc.datasource.DataSourceUtils] - <Returning JDBC Connection to DataSource>
+2017-11-09 17:02:43,590 DEBUG [org.springframework.beans.factory.support.DefaultListableBeanFactory] - <Returning cached instance of singleton bean 'merchantService'>
+2017-11-09 17:02:43,866 DEBUG [org.mybatis.spring.SqlSessionUtils] - <Creating a new SqlSession>
+2017-11-09 17:02:43,874 DEBUG [org.mybatis.spring.SqlSessionUtils] - <SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@180e6ac4] was not registered for synchronization because synchronization is not active>
+2017-11-09 17:02:44,013 DEBUG [org.springframework.jdbc.datasource.DataSourceUtils] - <Fetching JDBC Connection from DataSource>
+2017-11-09 17:02:44,016 DEBUG [org.mybatis.spring.transaction.SpringManagedTransaction] - <JDBC Connection [jdbc:mysql://192.168.17.62:3306/couponcode?autoReconnect=true, UserName=yyj@192.168.17.64, MySQL Connector Java] will not be managed by Spring>
+2017-11-09 17:02:44,032 DEBUG [com.lanxi.couponcode.impl.dao.ShopDao.update] - <==>  Preparing: UPDATE shop SET shop_status=? WHERE (merchant_id = ?) >
+2017-11-09 17:02:44,074 DEBUG [com.lanxi.couponcode.impl.dao.ShopDao.update] - <==> Parameters: 2(String), 1(Long)>
+2017-11-09 17:02:44,080 DEBUG [com.lanxi.couponcode.impl.dao.ShopDao.update] - <<==    Updates: 2>
+2017-11-09 17:02:44,080 DEBUG [org.mybatis.spring.SqlSessionUtils] - <Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@180e6ac4]>
+2017-11-09 17:02:44,080 DEBUG [org.springframework.jdbc.datasource.DataSourceUtils] - <Returning JDBC Connection to DataSource>
+2017-11-09 17:05:06,859 DEBUG [org.springframework.beans.factory.support.DefaultListableBeanFactory] - <Returning cached instance of singleton bean 'merchantService'>
+2017-11-09 17:05:07,136 DEBUG [org.mybatis.spring.SqlSessionUtils] - <Creating a new SqlSession>
+2017-11-09 17:05:07,143 DEBUG [org.mybatis.spring.SqlSessionUtils] - <SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@76ba13c] was not registered for synchronization because synchronization is not active>
+2017-11-09 17:05:07,279 DEBUG [org.springframework.jdbc.datasource.DataSourceUtils] - <Fetching JDBC Connection from DataSource>
+2017-11-09 17:05:07,283 DEBUG [org.mybatis.spring.transaction.SpringManagedTransaction] - <JDBC Connection [jdbc:mysql://192.168.17.62:3306/couponcode?autoReconnect=true, UserName=yyj@192.168.17.64, MySQL Connector Java] will not be managed by Spring>
+2017-11-09 17:05:07,299 DEBUG [com.lanxi.couponcode.impl.dao.ShopDao.update] - <==>  Preparing: UPDATE shop SET shop_status=? WHERE (merchant_id = ?) >
+2017-11-09 17:05:07,338 DEBUG [com.lanxi.couponcode.impl.dao.ShopDao.update] - <==> Parameters: 2(String), 1(Long)>
+2017-11-09 17:05:07,354 DEBUG [com.lanxi.couponcode.impl.dao.ShopDao.update] - <<==    Updates: 2>
+2017-11-09 17:05:07,355 DEBUG [org.mybatis.spring.SqlSessionUtils] - <Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@76ba13c]>
+2017-11-09 17:05:07,355 DEBUG [org.springframework.jdbc.datasource.DataSourceUtils] - <Returning JDBC Connection to DataSource>
+2017-11-09 17:16:57,662 DEBUG [org.springframework.beans.factory.support.DefaultListableBeanFactory] - <Returning cached instance of singleton bean 'merchantService'>
+2017-11-09 17:16:57,931 DEBUG [org.mybatis.spring.SqlSessionUtils] - <Creating a new SqlSession>
+2017-11-09 17:16:57,939 DEBUG [org.mybatis.spring.SqlSessionUtils] - <SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@61526469] was not registered for synchronization because synchronization is not active>
+2017-11-09 17:16:58,077 DEBUG [org.springframework.jdbc.datasource.DataSourceUtils] - <Fetching JDBC Connection from DataSource>
+2017-11-09 17:16:58,080 DEBUG [org.mybatis.spring.transaction.SpringManagedTransaction] - <JDBC Connection [jdbc:mysql://192.168.17.62:3306/couponcode?autoReconnect=true, UserName=yyj@192.168.17.64, MySQL Connector Java] will not be managed by Spring>
+2017-11-09 17:16:58,098 DEBUG [com.lanxi.couponcode.impl.dao.ShopDao.update] - <==>  Preparing: UPDATE shop SET shop_status=? WHERE (merchant_id = ?) >
+2017-11-09 17:16:58,161 DEBUG [com.lanxi.couponcode.impl.dao.ShopDao.update] - <==> Parameters: 2(String), 1(Long)>
+2017-11-09 17:16:58,167 DEBUG [com.lanxi.couponcode.impl.dao.ShopDao.update] - <<==    Updates: 2>
+2017-11-09 17:16:58,167 DEBUG [org.mybatis.spring.SqlSessionUtils] - <Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@61526469]>
+2017-11-09 17:16:58,167 DEBUG [org.springframework.jdbc.datasource.DataSourceUtils] - <Returning JDBC Connection to DataSource>
+2017-11-09 17:25:33,920 DEBUG [org.springframework.beans.factory.support.DefaultListableBeanFactory] - <Returning cached instance of singleton bean 'merchantService'>
+2017-11-09 17:25:34,251 DEBUG [org.mybatis.spring.SqlSessionUtils] - <Creating a new SqlSession>
+2017-11-09 17:25:34,262 DEBUG [org.mybatis.spring.SqlSessionUtils] - <SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@48c40605] was not registered for synchronization because synchronization is not active>
+2017-11-09 17:25:34,396 DEBUG [org.springframework.jdbc.datasource.DataSourceUtils] - <Fetching JDBC Connection from DataSource>
+2017-11-09 17:25:34,399 DEBUG [org.mybatis.spring.transaction.SpringManagedTransaction] - <JDBC Connection [jdbc:mysql://192.168.17.62:3306/couponcode?autoReconnect=true, UserName=yyj@192.168.17.64, MySQL Connector Java] will not be managed by Spring>
+2017-11-09 17:25:34,417 DEBUG [com.lanxi.couponcode.impl.dao.ShopDao.update] - <==>  Preparing: UPDATE shop SET shop_status=? WHERE (merchant_id = ?) >
+2017-11-09 17:25:34,469 DEBUG [com.lanxi.couponcode.impl.dao.ShopDao.update] - <==> Parameters: 2(String), 1(Long)>
+2017-11-09 17:25:34,477 DEBUG [com.lanxi.couponcode.impl.dao.ShopDao.update] - <<==    Updates: 2>
+2017-11-09 17:25:34,477 DEBUG [org.mybatis.spring.SqlSessionUtils] - <Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@48c40605]>
+2017-11-09 17:25:34,478 DEBUG [org.springframework.jdbc.datasource.DataSourceUtils] - <Returning JDBC Connection to DataSource>
+2017-11-09 17:39:43,531 DEBUG [org.springframework.beans.factory.support.DefaultListableBeanFactory] - <Returning cached instance of singleton bean 'merchantService'>
+2017-11-09 17:39:43,869 DEBUG [org.mybatis.spring.SqlSessionUtils] - <Creating a new SqlSession>
+2017-11-09 17:39:43,877 DEBUG [org.mybatis.spring.SqlSessionUtils] - <SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@54107f42] was not registered for synchronization because synchronization is not active>
+2017-11-09 17:39:44,023 DEBUG [org.springframework.jdbc.datasource.DataSourceUtils] - <Fetching JDBC Connection from DataSource>
+2017-11-09 17:39:44,027 DEBUG [org.mybatis.spring.transaction.SpringManagedTransaction] - <JDBC Connection [jdbc:mysql://192.168.17.62:3306/couponcode?autoReconnect=true, UserName=yyj@192.168.17.64, MySQL Connector Java] will not be managed by Spring>
+2017-11-09 17:39:44,044 DEBUG [com.lanxi.couponcode.impl.dao.ShopDao.update] - <==>  Preparing: UPDATE shop SET shop_status=? WHERE (merchant_id = ?) >
+2017-11-09 17:39:44,089 DEBUG [com.lanxi.couponcode.impl.dao.ShopDao.update] - <==> Parameters: 2(String), 1(Long)>
+2017-11-09 17:39:44,100 DEBUG [com.lanxi.couponcode.impl.dao.ShopDao.update] - <<==    Updates: 2>
+2017-11-09 17:39:44,100 DEBUG [org.mybatis.spring.SqlSessionUtils] - <Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@54107f42]>
+2017-11-09 17:39:44,100 DEBUG [org.springframework.jdbc.datasource.DataSourceUtils] - <Returning JDBC Connection to DataSource>
+2017-11-09 18:28:43,816 DEBUG [org.springframework.beans.factory.support.DefaultListableBeanFactory] - <Returning cached instance of singleton bean 'merchantService'>
+2017-11-09 18:28:44,342 DEBUG [org.mybatis.spring.SqlSessionUtils] - <Creating a new SqlSession>
+2017-11-09 18:28:44,349 DEBUG [org.mybatis.spring.SqlSessionUtils] - <SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@1b28f282] was not registered for synchronization because synchronization is not active>
+2017-11-09 18:28:44,485 DEBUG [org.springframework.jdbc.datasource.DataSourceUtils] - <Fetching JDBC Connection from DataSource>
+2017-11-09 18:28:44,489 DEBUG [org.mybatis.spring.transaction.SpringManagedTransaction] - <JDBC Connection [jdbc:mysql://192.168.17.62:3306/couponcode?autoReconnect=true, UserName=yyj@192.168.17.64, MySQL Connector Java] will not be managed by Spring>
+2017-11-09 18:28:44,504 DEBUG [com.lanxi.couponcode.impl.dao.ShopDao.update] - <==>  Preparing: UPDATE shop SET shop_status=? WHERE (merchant_id = ?) >
+2017-11-09 18:28:44,544 DEBUG [com.lanxi.couponcode.impl.dao.ShopDao.update] - <==> Parameters: 2(String), 1(Long)>
+2017-11-09 18:28:44,578 DEBUG [com.lanxi.couponcode.impl.dao.ShopDao.update] - <<==    Updates: 2>
+2017-11-09 18:28:44,579 DEBUG [org.mybatis.spring.SqlSessionUtils] - <Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@1b28f282]>
+2017-11-09 18:28:44,579 DEBUG [org.springframework.jdbc.datasource.DataSourceUtils] - <Returning JDBC Connection to DataSource>
+2017-11-09 19:27:14,341 DEBUG [org.springframework.beans.factory.support.DefaultListableBeanFactory] - <Returning cached instance of singleton bean 'merchantService'>
+2017-11-09 19:30:00,021 DEBUG [org.springframework.beans.factory.support.DefaultListableBeanFactory] - <Returning cached instance of singleton bean 'merchantService'>
+2017-11-09 19:31:28,272 DEBUG [org.springframework.beans.factory.support.DefaultListableBeanFactory] - <Returning cached instance of singleton bean 'merchantService'>
+2017-11-09 19:47:48,370 DEBUG [org.springframework.beans.factory.support.DefaultListableBeanFactory] - <Returning cached instance of singleton bean 'merchantService'>
+2017-11-09 19:47:48,621 DEBUG [org.springframework.jdbc.datasource.DataSourceTransactionManager] - <Creating new transaction with name [null]: PROPAGATION_REQUIRED,ISOLATION_DEFAULT>
+2017-11-09 19:47:48,625 DEBUG [org.springframework.jdbc.datasource.DataSourceTransactionManager] - <Acquired Connection [jdbc:mysql://192.168.17.62:3306/couponcode?autoReconnect=true, UserName=yyj@192.168.17.64, MySQL Connector Java] for JDBC transaction>
+2017-11-09 19:47:48,632 DEBUG [org.springframework.jdbc.datasource.DataSourceTransactionManager] - <Switching JDBC Connection [jdbc:mysql://192.168.17.62:3306/couponcode?autoReconnect=true, UserName=yyj@192.168.17.64, MySQL Connector Java] to manual commit>
+2017-11-09 19:47:48,633 DEBUG [org.springframework.transaction.support.TransactionSynchronizationManager] - <Bound value [org.springframework.jdbc.datasource.ConnectionHolder@45be7cd5] for key [org.apache.commons.dbcp.BasicDataSource@68d6972f] to thread [main]>
+2017-11-09 19:47:48,634 DEBUG [org.springframework.transaction.support.TransactionSynchronizationManager] - <Initializing transaction synchronization>
+2017-11-09 19:47:48,646 DEBUG [org.mybatis.spring.SqlSessionUtils] - <Creating a new SqlSession>
+2017-11-09 19:47:48,652 DEBUG [org.mybatis.spring.SqlSessionUtils] - <Registering transaction synchronization for SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@52b56a3e]>
+2017-11-09 19:47:48,652 DEBUG [org.springframework.transaction.support.TransactionSynchronizationManager] - <Bound value [org.mybatis.spring.SqlSessionHolder@36b0fcd5] for key [org.apache.ibatis.session.defaults.DefaultSqlSessionFactory@1d1f7216] to thread [main]>
+2017-11-09 19:47:48,785 DEBUG [org.springframework.transaction.support.TransactionSynchronizationManager] - <Retrieved value [org.springframework.jdbc.datasource.ConnectionHolder@45be7cd5] for key [org.apache.commons.dbcp.BasicDataSource@68d6972f] bound to thread [main]>
+2017-11-09 19:47:48,785 DEBUG [org.springframework.transaction.support.TransactionSynchronizationManager] - <Retrieved value [org.springframework.jdbc.datasource.ConnectionHolder@45be7cd5] for key [org.apache.commons.dbcp.BasicDataSource@68d6972f] bound to thread [main]>
+2017-11-09 19:47:48,787 DEBUG [org.mybatis.spring.transaction.SpringManagedTransaction] - <JDBC Connection [jdbc:mysql://192.168.17.62:3306/couponcode?autoReconnect=true, UserName=yyj@192.168.17.64, MySQL Connector Java] will be managed by Spring>
+2017-11-09 19:47:48,793 DEBUG [org.springframework.transaction.support.TransactionSynchronizationManager] - <Retrieved value [org.springframework.jdbc.datasource.ConnectionHolder@45be7cd5] for key [org.apache.commons.dbcp.BasicDataSource@68d6972f] bound to thread [main]>
+2017-11-09 19:47:48,802 DEBUG [com.lanxi.couponcode.impl.dao.ShopDao.update] - <==>  Preparing: UPDATE shop SET shop_status=? WHERE (merchant_id = ?) >
+2017-11-09 19:47:48,848 DEBUG [com.lanxi.couponcode.impl.dao.ShopDao.update] - <==> Parameters: 2(String), 1(Long)>
+2017-11-09 19:47:48,852 DEBUG [com.lanxi.couponcode.impl.dao.ShopDao.update] - <<==    Updates: 2>
+2017-11-09 19:47:48,852 DEBUG [org.springframework.transaction.support.TransactionSynchronizationManager] - <Retrieved value [org.mybatis.spring.SqlSessionHolder@36b0fcd5] for key [org.apache.ibatis.session.defaults.DefaultSqlSessionFactory@1d1f7216] bound to thread [main]>
+2017-11-09 19:47:48,853 DEBUG [org.springframework.transaction.support.TransactionSynchronizationManager] - <Retrieved value [org.mybatis.spring.SqlSessionHolder@36b0fcd5] for key [org.apache.ibatis.session.defaults.DefaultSqlSessionFactory@1d1f7216] bound to thread [main]>
+2017-11-09 19:47:48,853 DEBUG [org.mybatis.spring.SqlSessionUtils] - <Releasing transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@52b56a3e]>
+2017-11-09 19:47:48,853 DEBUG [org.springframework.transaction.support.TransactionSynchronizationManager] - <Retrieved value [org.mybatis.spring.SqlSessionHolder@36b0fcd5] for key [org.apache.ibatis.session.defaults.DefaultSqlSessionFactory@1d1f7216] bound to thread [main]>
+2017-11-09 19:47:48,853 DEBUG [org.mybatis.spring.SqlSessionUtils] - <Fetched SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@52b56a3e] from current transaction>
+2017-11-09 19:47:48,859 DEBUG [org.springframework.transaction.support.TransactionSynchronizationManager] - <Retrieved value [org.springframework.jdbc.datasource.ConnectionHolder@45be7cd5] for key [org.apache.commons.dbcp.BasicDataSource@68d6972f] bound to thread [main]>
+2017-11-09 19:47:48,860 DEBUG [com.lanxi.couponcode.impl.dao.MerchantDao.updateById] - <==>  Preparing: UPDATE merchants SET merchant_status=? WHERE merchant_id=? >
+2017-11-09 19:47:48,861 DEBUG [com.lanxi.couponcode.impl.dao.MerchantDao.updateById] - <==> Parameters: 2(String), 1(Long)>
+2017-11-09 19:47:48,864 DEBUG [com.lanxi.couponcode.impl.dao.MerchantDao.updateById] - <<==    Updates: 1>
+2017-11-09 19:47:48,865 DEBUG [org.springframework.transaction.support.TransactionSynchronizationManager] - <Retrieved value [org.mybatis.spring.SqlSessionHolder@36b0fcd5] for key [org.apache.ibatis.session.defaults.DefaultSqlSessionFactory@1d1f7216] bound to thread [main]>
+2017-11-09 19:47:48,865 DEBUG [org.springframework.transaction.support.TransactionSynchronizationManager] - <Retrieved value [org.mybatis.spring.SqlSessionHolder@36b0fcd5] for key [org.apache.ibatis.session.defaults.DefaultSqlSessionFactory@1d1f7216] bound to thread [main]>
+2017-11-09 19:47:48,865 DEBUG [org.mybatis.spring.SqlSessionUtils] - <Releasing transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@52b56a3e]>
+2017-11-09 19:47:48,865 DEBUG [org.springframework.jdbc.datasource.DataSourceTransactionManager] - <Triggering beforeCommit synchronization>
+2017-11-09 19:47:48,865 DEBUG [org.mybatis.spring.SqlSessionUtils] - <Transaction synchronization committing SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@52b56a3e]>
+2017-11-09 19:47:48,866 DEBUG [org.springframework.jdbc.datasource.DataSourceTransactionManager] - <Triggering beforeCompletion synchronization>
+2017-11-09 19:47:48,866 DEBUG [org.mybatis.spring.SqlSessionUtils] - <Transaction synchronization deregistering SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@52b56a3e]>
+2017-11-09 19:47:48,866 DEBUG [org.springframework.transaction.support.TransactionSynchronizationManager] - <Removed value [org.mybatis.spring.SqlSessionHolder@36b0fcd5] for key [org.apache.ibatis.session.defaults.DefaultSqlSessionFactory@1d1f7216] from thread [main]>
+2017-11-09 19:47:48,866 DEBUG [org.mybatis.spring.SqlSessionUtils] - <Transaction synchronization closing SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@52b56a3e]>
+2017-11-09 19:47:48,866 DEBUG [org.springframework.transaction.support.TransactionSynchronizationManager] - <Retrieved value [org.springframework.jdbc.datasource.ConnectionHolder@45be7cd5] for key [org.apache.commons.dbcp.BasicDataSource@68d6972f] bound to thread [main]>
+2017-11-09 19:47:48,866 DEBUG [org.springframework.jdbc.datasource.DataSourceTransactionManager] - <Initiating transaction commit>
+2017-11-09 19:47:48,868 DEBUG [org.springframework.jdbc.datasource.DataSourceTransactionManager] - <Committing JDBC transaction on Connection [jdbc:mysql://192.168.17.62:3306/couponcode?autoReconnect=true, UserName=yyj@192.168.17.64, MySQL Connector Java]>
+2017-11-09 19:47:48,875 DEBUG [org.springframework.jdbc.datasource.DataSourceTransactionManager] - <Triggering afterCommit synchronization>
+2017-11-09 19:47:48,875 DEBUG [org.springframework.jdbc.datasource.DataSourceTransactionManager] - <Triggering afterCompletion synchronization>
+2017-11-09 19:47:48,875 DEBUG [org.springframework.transaction.support.TransactionSynchronizationManager] - <Clearing transaction synchronization>
+2017-11-09 19:47:48,875 DEBUG [org.springframework.transaction.support.TransactionSynchronizationManager] - <Removed value [org.springframework.jdbc.datasource.ConnectionHolder@45be7cd5] for key [org.apache.commons.dbcp.BasicDataSource@68d6972f] from thread [main]>
+2017-11-09 19:47:48,886 DEBUG [org.springframework.jdbc.datasource.DataSourceTransactionManager] - <Releasing JDBC Connection [jdbc:mysql://192.168.17.62:3306/couponcode?autoReconnect=true, UserName=yyj@192.168.17.64, MySQL Connector Java] after transaction>
+2017-11-09 19:47:48,886 DEBUG [org.springframework.jdbc.datasource.DataSourceUtils] - <Returning JDBC Connection to DataSource>
+2017-11-09 19:47:48,892 DEBUG [org.springframework.jdbc.datasource.DataSourceUtils] - <Fetching JDBC Connection from DataSource>
+2017-11-09 19:47:48,896 DEBUG [org.mybatis.spring.transaction.SpringManagedTransaction] - <JDBC Connection [jdbc:mysql://192.168.17.62:3306/couponcode?autoReconnect=true, UserName=yyj@192.168.17.64, MySQL Connector Java] will not be managed by Spring>
+2017-11-09 19:47:48,896 DEBUG [com.lanxi.couponcode.impl.dao.OperateRecordDao.insert] - <==>  Preparing: INSERT INTO operate_record ( record_id, target_type, description, operate_time, operate_result, target_info ) VALUES ( ?, ?, ?, ?, ?, ? ) >
+2017-11-09 19:47:48,898 DEBUG [com.lanxi.couponcode.impl.dao.OperateRecordDao.insert] - <==> Parameters: 928589938940669952(Long), 7(String), 修改商户状态(String), 20171109194748(String), 成功(String), {"merchantId":1}(String)>
+2017-11-09 19:47:48,907 DEBUG [com.lanxi.couponcode.impl.dao.OperateRecordDao.insert] - <<==    Updates: 1>
+2017-11-09 19:47:48,907 DEBUG [org.springframework.jdbc.datasource.DataSourceUtils] - <Returning JDBC Connection to DataSource>
+2017-11-09 19:48:59,192 DEBUG [org.springframework.beans.factory.support.DefaultListableBeanFactory] - <Returning cached instance of singleton bean 'merchantService'>
+2017-11-09 19:48:59,432 DEBUG [org.springframework.jdbc.datasource.DataSourceTransactionManager] - <Creating new transaction with name [null]: PROPAGATION_REQUIRED,ISOLATION_DEFAULT>
+2017-11-09 19:48:59,436 DEBUG [org.springframework.jdbc.datasource.DataSourceTransactionManager] - <Acquired Connection [jdbc:mysql://192.168.17.62:3306/couponcode?autoReconnect=true, UserName=yyj@192.168.17.64, MySQL Connector Java] for JDBC transaction>
+2017-11-09 19:48:59,446 DEBUG [org.springframework.jdbc.datasource.DataSourceTransactionManager] - <Switching JDBC Connection [jdbc:mysql://192.168.17.62:3306/couponcode?autoReconnect=true, UserName=yyj@192.168.17.64, MySQL Connector Java] to manual commit>
+2017-11-09 19:48:59,447 DEBUG [org.springframework.transaction.support.TransactionSynchronizationManager] - <Bound value [org.springframework.jdbc.datasource.ConnectionHolder@3185fa6b] for key [org.apache.commons.dbcp.BasicDataSource@7651218e] to thread [main]>
+2017-11-09 19:48:59,447 DEBUG [org.springframework.transaction.support.TransactionSynchronizationManager] - <Initializing transaction synchronization>
+2017-11-09 19:48:59,461 DEBUG [org.mybatis.spring.SqlSessionUtils] - <Creating a new SqlSession>
+2017-11-09 19:48:59,467 DEBUG [org.mybatis.spring.SqlSessionUtils] - <Registering transaction synchronization for SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@4eed46ee]>
+2017-11-09 19:48:59,468 DEBUG [org.springframework.transaction.support.TransactionSynchronizationManager] - <Bound value [org.mybatis.spring.SqlSessionHolder@475835b1] for key [org.apache.ibatis.session.defaults.DefaultSqlSessionFactory@6e16b8b5] to thread [main]>
+2017-11-09 19:48:59,603 DEBUG [org.springframework.transaction.support.TransactionSynchronizationManager] - <Retrieved value [org.springframework.jdbc.datasource.ConnectionHolder@3185fa6b] for key [org.apache.commons.dbcp.BasicDataSource@7651218e] bound to thread [main]>
+2017-11-09 19:48:59,603 DEBUG [org.springframework.transaction.support.TransactionSynchronizationManager] - <Retrieved value [org.springframework.jdbc.datasource.ConnectionHolder@3185fa6b] for key [org.apache.commons.dbcp.BasicDataSource@7651218e] bound to thread [main]>
+2017-11-09 19:48:59,605 DEBUG [org.mybatis.spring.transaction.SpringManagedTransaction] - <JDBC Connection [jdbc:mysql://192.168.17.62:3306/couponcode?autoReconnect=true, UserName=yyj@192.168.17.64, MySQL Connector Java] will be managed by Spring>
+2017-11-09 19:48:59,611 DEBUG [org.springframework.transaction.support.TransactionSynchronizationManager] - <Retrieved value [org.springframework.jdbc.datasource.ConnectionHolder@3185fa6b] for key [org.apache.commons.dbcp.BasicDataSource@7651218e] bound to thread [main]>
+2017-11-09 19:48:59,621 DEBUG [com.lanxi.couponcode.impl.dao.ShopDao.update] - <==>  Preparing: UPDATE shop SET shop_status=? WHERE (merchant_id = ?) >
+2017-11-09 19:48:59,667 DEBUG [com.lanxi.couponcode.impl.dao.ShopDao.update] - <==> Parameters: 2(String), 1(Long)>
+2017-11-09 19:48:59,670 DEBUG [com.lanxi.couponcode.impl.dao.ShopDao.update] - <<==    Updates: 2>
+2017-11-09 19:48:59,671 DEBUG [org.springframework.transaction.support.TransactionSynchronizationManager] - <Retrieved value [org.mybatis.spring.SqlSessionHolder@475835b1] for key [org.apache.ibatis.session.defaults.DefaultSqlSessionFactory@6e16b8b5] bound to thread [main]>
+2017-11-09 19:48:59,671 DEBUG [org.springframework.transaction.support.TransactionSynchronizationManager] - <Retrieved value [org.mybatis.spring.SqlSessionHolder@475835b1] for key [org.apache.ibatis.session.defaults.DefaultSqlSessionFactory@6e16b8b5] bound to thread [main]>
+2017-11-09 19:48:59,671 DEBUG [org.mybatis.spring.SqlSessionUtils] - <Releasing transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@4eed46ee]>
+2017-11-09 19:48:59,677 DEBUG [org.springframework.jdbc.datasource.DataSourceTransactionManager] - <Triggering beforeCompletion synchronization>
+2017-11-09 19:48:59,677 DEBUG [org.mybatis.spring.SqlSessionUtils] - <Transaction synchronization deregistering SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@4eed46ee]>
+2017-11-09 19:48:59,678 DEBUG [org.springframework.transaction.support.TransactionSynchronizationManager] - <Removed value [org.mybatis.spring.SqlSessionHolder@475835b1] for key [org.apache.ibatis.session.defaults.DefaultSqlSessionFactory@6e16b8b5] from thread [main]>
+2017-11-09 19:48:59,678 DEBUG [org.mybatis.spring.SqlSessionUtils] - <Transaction synchronization closing SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@4eed46ee]>
+2017-11-09 19:48:59,678 DEBUG [org.springframework.transaction.support.TransactionSynchronizationManager] - <Retrieved value [org.springframework.jdbc.datasource.ConnectionHolder@3185fa6b] for key [org.apache.commons.dbcp.BasicDataSource@7651218e] bound to thread [main]>
+2017-11-09 19:48:59,678 DEBUG [org.springframework.jdbc.datasource.DataSourceTransactionManager] - <Initiating transaction rollback>
+2017-11-09 19:48:59,680 DEBUG [org.springframework.jdbc.datasource.DataSourceTransactionManager] - <Rolling back JDBC transaction on Connection [jdbc:mysql://192.168.17.62:3306/couponcode?autoReconnect=true, UserName=yyj@192.168.17.64, MySQL Connector Java]>
+2017-11-09 19:48:59,684 DEBUG [org.springframework.jdbc.datasource.DataSourceTransactionManager] - <Triggering afterCompletion synchronization>
+2017-11-09 19:48:59,684 DEBUG [org.springframework.transaction.support.TransactionSynchronizationManager] - <Clearing transaction synchronization>
+2017-11-09 19:48:59,684 DEBUG [org.springframework.transaction.support.TransactionSynchronizationManager] - <Removed value [org.springframework.jdbc.datasource.ConnectionHolder@3185fa6b] for key [org.apache.commons.dbcp.BasicDataSource@7651218e] from thread [main]>
+2017-11-09 19:48:59,690 DEBUG [org.springframework.jdbc.datasource.DataSourceTransactionManager] - <Releasing JDBC Connection [jdbc:mysql://192.168.17.62:3306/couponcode?autoReconnect=true, UserName=yyj@192.168.17.64, MySQL Connector Java] after transaction>
+2017-11-09 19:48:59,690 DEBUG [org.springframework.jdbc.datasource.DataSourceUtils] - <Returning JDBC Connection to DataSource>
+2017-11-09 19:52:31,515 DEBUG [org.springframework.beans.factory.support.DefaultListableBeanFactory] - <Returning cached instance of singleton bean 'merchantService'>
+2017-11-09 19:52:31,784 DEBUG [org.springframework.jdbc.datasource.DataSourceTransactionManager] - <Creating new transaction with name [null]: PROPAGATION_REQUIRED,ISOLATION_DEFAULT>
+2017-11-09 19:52:31,789 DEBUG [org.springframework.jdbc.datasource.DataSourceTransactionManager] - <Acquired Connection [jdbc:mysql://192.168.17.62:3306/couponcode?autoReconnect=true, UserName=yyj@192.168.17.64, MySQL Connector Java] for JDBC transaction>
+2017-11-09 19:52:31,797 DEBUG [org.springframework.jdbc.datasource.DataSourceTransactionManager] - <Switching JDBC Connection [jdbc:mysql://192.168.17.62:3306/couponcode?autoReconnect=true, UserName=yyj@192.168.17.64, MySQL Connector Java] to manual commit>
+2017-11-09 19:52:31,799 DEBUG [org.springframework.transaction.support.TransactionSynchronizationManager] - <Bound value [org.springframework.jdbc.datasource.ConnectionHolder@45be7cd5] for key [org.apache.commons.dbcp.BasicDataSource@68d6972f] to thread [main]>
+2017-11-09 19:52:31,799 DEBUG [org.springframework.transaction.support.TransactionSynchronizationManager] - <Initializing transaction synchronization>
+2017-11-09 19:52:31,813 DEBUG [org.mybatis.spring.SqlSessionUtils] - <Creating a new SqlSession>
+2017-11-09 19:52:31,821 DEBUG [org.mybatis.spring.SqlSessionUtils] - <Registering transaction synchronization for SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@52b56a3e]>
+2017-11-09 19:52:31,822 DEBUG [org.springframework.transaction.support.TransactionSynchronizationManager] - <Bound value [org.mybatis.spring.SqlSessionHolder@36b0fcd5] for key [org.apache.ibatis.session.defaults.DefaultSqlSessionFactory@1d1f7216] to thread [main]>
+2017-11-09 19:52:31,961 DEBUG [org.springframework.transaction.support.TransactionSynchronizationManager] - <Retrieved value [org.springframework.jdbc.datasource.ConnectionHolder@45be7cd5] for key [org.apache.commons.dbcp.BasicDataSource@68d6972f] bound to thread [main]>
+2017-11-09 19:52:31,961 DEBUG [org.springframework.transaction.support.TransactionSynchronizationManager] - <Retrieved value [org.springframework.jdbc.datasource.ConnectionHolder@45be7cd5] for key [org.apache.commons.dbcp.BasicDataSource@68d6972f] bound to thread [main]>
+2017-11-09 19:52:31,963 DEBUG [org.mybatis.spring.transaction.SpringManagedTransaction] - <JDBC Connection [jdbc:mysql://192.168.17.62:3306/couponcode?autoReconnect=true, UserName=yyj@192.168.17.64, MySQL Connector Java] will be managed by Spring>
+2017-11-09 19:52:31,969 DEBUG [org.springframework.transaction.support.TransactionSynchronizationManager] - <Retrieved value [org.springframework.jdbc.datasource.ConnectionHolder@45be7cd5] for key [org.apache.commons.dbcp.BasicDataSource@68d6972f] bound to thread [main]>
+2017-11-09 19:52:31,979 DEBUG [com.lanxi.couponcode.impl.dao.ShopDao.update] - <==>  Preparing: UPDATE shop SET shop_status=? WHERE (merchant_id = ?) >
+2017-11-09 19:52:32,019 DEBUG [com.lanxi.couponcode.impl.dao.ShopDao.update] - <==> Parameters: 2(String), 1(Long)>
+2017-11-09 19:52:32,024 DEBUG [com.lanxi.couponcode.impl.dao.ShopDao.update] - <<==    Updates: 2>
+2017-11-09 19:52:32,024 DEBUG [org.springframework.transaction.support.TransactionSynchronizationManager] - <Retrieved value [org.mybatis.spring.SqlSessionHolder@36b0fcd5] for key [org.apache.ibatis.session.defaults.DefaultSqlSessionFactory@1d1f7216] bound to thread [main]>
+2017-11-09 19:52:32,024 DEBUG [org.springframework.transaction.support.TransactionSynchronizationManager] - <Retrieved value [org.mybatis.spring.SqlSessionHolder@36b0fcd5] for key [org.apache.ibatis.session.defaults.DefaultSqlSessionFactory@1d1f7216] bound to thread [main]>
+2017-11-09 19:52:32,024 DEBUG [org.mybatis.spring.SqlSessionUtils] - <Releasing transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@52b56a3e]>
+2017-11-09 19:52:32,025 DEBUG [org.springframework.transaction.support.TransactionSynchronizationManager] - <Retrieved value [org.mybatis.spring.SqlSessionHolder@36b0fcd5] for key [org.apache.ibatis.session.defaults.DefaultSqlSessionFactory@1d1f7216] bound to thread [main]>
+2017-11-09 19:52:32,025 DEBUG [org.mybatis.spring.SqlSessionUtils] - <Fetched SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@52b56a3e] from current transaction>
+2017-11-09 19:52:32,030 DEBUG [org.springframework.transaction.support.TransactionSynchronizationManager] - <Retrieved value [org.springframework.jdbc.datasource.ConnectionHolder@45be7cd5] for key [org.apache.commons.dbcp.BasicDataSource@68d6972f] bound to thread [main]>
+2017-11-09 19:52:32,031 DEBUG [com.lanxi.couponcode.impl.dao.MerchantDao.updateById] - <==>  Preparing: UPDATE merchants SET merchant_status=? WHERE merchant_id=? >
+2017-11-09 19:52:32,031 DEBUG [com.lanxi.couponcode.impl.dao.MerchantDao.updateById] - <==> Parameters: 2(String), 1(Long)>
+2017-11-09 19:52:32,034 DEBUG [com.lanxi.couponcode.impl.dao.MerchantDao.updateById] - <<==    Updates: 1>
+2017-11-09 19:52:32,034 DEBUG [org.springframework.transaction.support.TransactionSynchronizationManager] - <Retrieved value [org.mybatis.spring.SqlSessionHolder@36b0fcd5] for key [org.apache.ibatis.session.defaults.DefaultSqlSessionFactory@1d1f7216] bound to thread [main]>
+2017-11-09 19:52:32,034 DEBUG [org.springframework.transaction.support.TransactionSynchronizationManager] - <Retrieved value [org.mybatis.spring.SqlSessionHolder@36b0fcd5] for key [org.apache.ibatis.session.defaults.DefaultSqlSessionFactory@1d1f7216] bound to thread [main]>
+2017-11-09 19:52:32,035 DEBUG [org.mybatis.spring.SqlSessionUtils] - <Releasing transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@52b56a3e]>
+2017-11-09 19:52:32,035 DEBUG [org.springframework.jdbc.datasource.DataSourceTransactionManager] - <Triggering beforeCommit synchronization>
+2017-11-09 19:52:32,035 DEBUG [org.mybatis.spring.SqlSessionUtils] - <Transaction synchronization committing SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@52b56a3e]>
+2017-11-09 19:52:32,035 DEBUG [org.springframework.jdbc.datasource.DataSourceTransactionManager] - <Triggering beforeCompletion synchronization>
+2017-11-09 19:52:32,036 DEBUG [org.mybatis.spring.SqlSessionUtils] - <Transaction synchronization deregistering SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@52b56a3e]>
+2017-11-09 19:52:32,036 DEBUG [org.springframework.transaction.support.TransactionSynchronizationManager] - <Removed value [org.mybatis.spring.SqlSessionHolder@36b0fcd5] for key [org.apache.ibatis.session.defaults.DefaultSqlSessionFactory@1d1f7216] from thread [main]>
+2017-11-09 19:52:32,036 DEBUG [org.mybatis.spring.SqlSessionUtils] - <Transaction synchronization closing SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@52b56a3e]>
+2017-11-09 19:52:32,036 DEBUG [org.springframework.transaction.support.TransactionSynchronizationManager] - <Retrieved value [org.springframework.jdbc.datasource.ConnectionHolder@45be7cd5] for key [org.apache.commons.dbcp.BasicDataSource@68d6972f] bound to thread [main]>
+2017-11-09 19:52:32,036 DEBUG [org.springframework.jdbc.datasource.DataSourceTransactionManager] - <Initiating transaction commit>
+2017-11-09 19:52:32,038 DEBUG [org.springframework.jdbc.datasource.DataSourceTransactionManager] - <Committing JDBC transaction on Connection [jdbc:mysql://192.168.17.62:3306/couponcode?autoReconnect=true, UserName=yyj@192.168.17.64, MySQL Connector Java]>
+2017-11-09 19:52:32,041 DEBUG [org.springframework.jdbc.datasource.DataSourceTransactionManager] - <Triggering afterCommit synchronization>
+2017-11-09 19:52:32,041 DEBUG [org.springframework.jdbc.datasource.DataSourceTransactionManager] - <Triggering afterCompletion synchronization>
+2017-11-09 19:52:32,041 DEBUG [org.springframework.transaction.support.TransactionSynchronizationManager] - <Clearing transaction synchronization>
+2017-11-09 19:52:32,041 DEBUG [org.springframework.transaction.support.TransactionSynchronizationManager] - <Removed value [org.springframework.jdbc.datasource.ConnectionHolder@45be7cd5] for key [org.apache.commons.dbcp.BasicDataSource@68d6972f] from thread [main]>
+2017-11-09 19:52:32,047 DEBUG [org.springframework.jdbc.datasource.DataSourceTransactionManager] - <Releasing JDBC Connection [jdbc:mysql://192.168.17.62:3306/couponcode?autoReconnect=true, UserName=yyj@192.168.17.64, MySQL Connector Java] after transaction>
+2017-11-09 19:52:32,047 DEBUG [org.springframework.jdbc.datasource.DataSourceUtils] - <Returning JDBC Connection to DataSource>
+2017-11-09 19:52:32,054 DEBUG [org.springframework.jdbc.datasource.DataSourceUtils] - <Fetching JDBC Connection from DataSource>
+2017-11-09 19:52:32,057 DEBUG [org.mybatis.spring.transaction.SpringManagedTransaction] - <JDBC Connection [jdbc:mysql://192.168.17.62:3306/couponcode?autoReconnect=true, UserName=yyj@192.168.17.64, MySQL Connector Java] will not be managed by Spring>
+2017-11-09 19:52:32,058 DEBUG [com.lanxi.couponcode.impl.dao.OperateRecordDao.insert] - <==>  Preparing: INSERT INTO operate_record ( record_id, target_type, description, operate_time, operate_result, target_info ) VALUES ( ?, ?, ?, ?, ?, ? ) >
+2017-11-09 19:52:32,060 DEBUG [com.lanxi.couponcode.impl.dao.OperateRecordDao.insert] - <==> Parameters: 928591126541103104(Long), 7(String), 修改商户状态(String), 20171109195231(String), 成功(String), {"merchantId":1}(String)>
+2017-11-09 19:52:32,065 DEBUG [com.lanxi.couponcode.impl.dao.OperateRecordDao.insert] - <<==    Updates: 1>
+2017-11-09 19:52:32,065 DEBUG [org.springframework.jdbc.datasource.DataSourceUtils] - <Returning JDBC Connection to DataSource>

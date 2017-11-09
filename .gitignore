@@ -1,3 +1,6 @@
+<<<<<<< HEAD
+/target/
+=======
 
 # Created by https://www.gitignore.io/api/maven,intellij,eclipse,java
 
@@ -127,3 +130,4 @@ hs_err_pid*
 
 *.log.*
 
+>>>>>>> e96708925fb4340a7868acb84306a6e68113575b
