@@ -1,51 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="f2080ead-9381-4629-9d90-c7037b5dc552" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/com/lanxi/couponcode/impl/entity/Merchant.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/com/lanxi/couponcode/impl/entity/Shop.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/com/lanxi/couponcode/impl/service/MerchantService.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/com/lanxi/couponcode/impl/service/MerchantServiceImpl.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/com/lanxi/couponcode/impl/service/ShopService.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/com/lanxi/couponcode/impl/service/ShopServiceImpl.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/resources/log/debug/debug.log2017-11-08.debug.log" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/resources/log/error/error.log2017-11-08.error.log" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/resources/log/info/info.log2017-11-08.info.log" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/libraries/Maven__com_lanxi_common_service_interface_1_0_0.xml" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/lanxi/couponcode/impl/assist/RetMessage.class" afterPath="$PROJECT_DIR$/target/classes/com/lanxi/couponcode/impl/assist/RetMessage.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/lanxi/couponcode/impl/config/StaticConfig.class" afterPath="$PROJECT_DIR$/target/classes/com/lanxi/couponcode/impl/config/StaticConfig.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/lanxi/couponcode/impl/dao/MerchantDao.class" afterPath="$PROJECT_DIR$/target/classes/com/lanxi/couponcode/impl/dao/MerchantDao.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/lanxi/couponcode/impl/dao/OperateRecordDao.class" afterPath="$PROJECT_DIR$/target/classes/com/lanxi/couponcode/impl/dao/OperateRecordDao.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/lanxi/couponcode/impl/dao/ShopDao.class" afterPath="$PROJECT_DIR$/target/classes/com/lanxi/couponcode/impl/dao/ShopDao.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/lanxi/couponcode/impl/service/ConfigService.class" afterPath="$PROJECT_DIR$/target/classes/com/lanxi/couponcode/impl/service/ConfigService.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/lanxi/couponcode/impl/service/DaoServiceImpl.class" afterPath="$PROJECT_DIR$/target/classes/com/lanxi/couponcode/impl/service/DaoServiceImpl.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/lanxi/couponcode/spi/consts/enums/OperateTargetType.class" afterPath="$PROJECT_DIR$/target/classes/com/lanxi/couponcode/spi/consts/enums/OperateTargetType.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/lanxi/couponcode/spi/consts/enums/RequestOperateType.class" afterPath="$PROJECT_DIR$/target/classes/com/lanxi/couponcode/spi/consts/enums/RequestOperateType.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/lanxi/couponcode/spi/consts/future/CouponType.class" afterPath="$PROJECT_DIR$/target/classes/com/lanxi/couponcode/spi/consts/future/CouponType.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/lanxi/couponcode/spi/consts/future/MerchantType.class" afterPath="$PROJECT_DIR$/target/classes/com/lanxi/couponcode/spi/consts/future/MerchantType.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/lanxi/couponcode/view/controller/CouponCodeController.class" afterPath="$PROJECT_DIR$/target/classes/com/lanxi/couponcode/view/controller/CouponCodeController.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/test-classes/com/lanxi/couponcode/test/TestSpring.class" afterPath="$PROJECT_DIR$/target/test-classes/com/lanxi/couponcode/test/TestSpring.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/test-classes/com/lanxi/couponcode/test/TestSql.class" afterPath="$PROJECT_DIR$/target/test-classes/com/lanxi/couponcode/test/TestSql.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.classpath" afterPath="$PROJECT_DIR$/.classpath" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gitignore" afterPath="$PROJECT_DIR$/.gitignore" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/artifacts/CouponCode_war_exploded.xml" afterPath="$PROJECT_DIR$/.idea/artifacts/CouponCode_war_exploded.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/CouponCode.iml" afterPath="$PROJECT_DIR$/CouponCode.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pom.xml" afterPath="$PROJECT_DIR$/pom.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/lanxi/couponcode/impl/dao/MerchantDao.java" afterPath="$PROJECT_DIR$/src/main/java/com/lanxi/couponcode/impl/dao/MerchantDao.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/lanxi/couponcode/impl/dao/OperateRecordDao.java" afterPath="$PROJECT_DIR$/src/main/java/com/lanxi/couponcode/impl/dao/OperateRecordDao.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/lanxi/couponcode/impl/dao/ShopDao.java" afterPath="$PROJECT_DIR$/src/main/java/com/lanxi/couponcode/impl/dao/ShopDao.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/lanxi/couponcode/impl/service/DaoServiceImpl.java" afterPath="$PROJECT_DIR$/src/main/java/com/lanxi/couponcode/impl/service/DaoServiceImpl.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/resources/log/debug/debug.log" afterPath="$PROJECT_DIR$/src/main/resources/log/debug/debug.log" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/resources/log/error/error.log" afterPath="$PROJECT_DIR$/src/main/resources/log/error/error.log" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/resources/log/info/info.log" afterPath="$PROJECT_DIR$/src/main/resources/log/info/info.log" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/test/java/com/lanxi/couponcode/test/TestSpring.java" afterPath="$PROJECT_DIR$/src/test/java/com/lanxi/couponcode/test/TestSpring.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/log/debug/debug.log" afterPath="$PROJECT_DIR$/target/classes/log/debug/debug.log" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/log/error/error.log" afterPath="$PROJECT_DIR$/target/classes/log/error/error.log" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/log/info/info.log" afterPath="$PROJECT_DIR$/target/classes/log/info/info.log" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/m2e-wtp/web-resources/META-INF/MANIFEST.MF" afterPath="$PROJECT_DIR$/target/m2e-wtp/web-resources/META-INF/MANIFEST.MF" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/m2e-wtp/web-resources/META-INF/maven/com.lanxi/CouponCode/pom.properties" afterPath="$PROJECT_DIR$/target/m2e-wtp/web-resources/META-INF/maven/com.lanxi/CouponCode/pom.properties" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/m2e-wtp/web-resources/META-INF/maven/com.lanxi/CouponCode/pom.xml" afterPath="$PROJECT_DIR$/target/m2e-wtp/web-resources/META-INF/maven/com.lanxi/CouponCode/pom.xml" />
-    </list>
+    <list default="true" id="f2080ead-9381-4629-9d90-c7037b5dc552" name="Default" comment="" />
     <ignored path="$PROJECT_DIR$/out/" />
     <ignored path="$PROJECT_DIR$/target/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -758,6 +714,48 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
+              <option name="myItemId" value="service" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="CouponCode" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="CouponCode" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="main" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="java" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="com" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="lanxi" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="couponcode" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="impl" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
               <option name="myItemId" value="entity" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
@@ -885,20 +883,6 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="assist" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="CouponCode" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="CouponCode" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="out" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -1452,7 +1436,7 @@
       <updated>1510036421117</updated>
       <workItem from="1510036422971" duration="14978000" />
       <workItem from="1510130222921" duration="4873000" />
-      <workItem from="1510196853734" duration="12447000" />
+      <workItem from="1510196853734" duration="12515000" />
     </task>
     <servers />
   </component>
@@ -1480,7 +1464,7 @@
     </history-entry>
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="32298000" />
+    <option name="totallyTimeSpent" value="32366000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-4" y="-4" width="1928" height="1058" extended-state="1" />
@@ -1507,7 +1491,7 @@
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.2693133" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Spring" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.21908316" sideWeight="0.5" order="7" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.21908316" sideWeight="0.5" order="7" side_tool="false" content_ui="combo" />
       <window_info id="Web" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="5" side_tool="true" content_ui="tabs" />
       <window_info id="Theme Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="true" content_ui="tabs" />
@@ -1534,13 +1518,6 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/lanxi/couponcode/spi/consts/enums/Gettype.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="171">
-          <caret line="10" column="17" lean-forward="false" selection-start-line="10" selection-start-column="17" selection-end-line="10" selection-end-column="17" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/lanxi/couponcode/spi/consts/enums/IdType.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="133">
@@ -1936,6 +1913,14 @@
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/lanxi/couponcode/impl/service/MerchantServiceImpl.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="171">
+          <caret line="33" column="13" lean-forward="false" selection-start-line="33" selection-start-column="13" selection-end-line="33" selection-end-column="13" />
+          <folding />
         </state>
       </provider>
     </entry>
