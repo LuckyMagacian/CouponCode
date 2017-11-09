@@ -5,4 +5,5 @@ package com.lanxi.couponcode.spi.service;
  */
 public interface AssistService {
     Boolean sendValidateCode(String phone);
+    Boolean verifyCode(String phone,String code);
 }

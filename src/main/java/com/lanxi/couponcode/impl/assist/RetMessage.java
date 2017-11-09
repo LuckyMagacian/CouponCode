@@ -3,19 +3,21 @@ package com.lanxi.couponcode.impl.assist;
 import com.lanxi.util.interfaces.ToJson;
 import com.lanxi.util.interfaces.ToMap;
 
+import java.io.Serializable;
+
 /**
  * Created by yangyuanjian on 2017/11/2.
  */
-public class RetMessage implements ToJson,ToMap{
+public class RetMessage implements ToJson,ToMap,Serializable{
     private String retCode;
     private String retMessage;
-    private Object detail;
+    private Serializable detail;
 
     public RetMessage() {
 
     }
 
-    public RetMessage(String retCode, String retMessage, Object detail) {
+    public RetMessage(String retCode, String retMessage, Serializable detail) {
         this.retCode = retCode;
         this.retMessage = retMessage;
         this.detail = detail;
@@ -41,7 +43,7 @@ public class RetMessage implements ToJson,ToMap{
         return detail;
     }
 
-    public void setDetail(Object detail) {
+    public void setDetail(Serializable detail) {
         this.detail = detail;
     }
 

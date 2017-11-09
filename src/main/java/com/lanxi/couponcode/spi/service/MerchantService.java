@@ -27,12 +27,14 @@ public interface MerchantService {
                           String timeStart,
                           String timeStop,
                           @HiddenArg Integer pageNum,
-                          @HiddenArg Integer pageSize);
+                          @HiddenArg Integer pageSize,
+                          @HiddenArg Long operaterId);
 
     File queryMerchantsExport(String merchantName,
                               MerchantStatus merchantStatus,
                               String timeStart,
-                              String  timeStop);
+                              String  timeStop,
+                              @HiddenArg Long operaterId);
 
     Boolean enableMerchant(@HiddenArg Long merchantId,
                            @HiddenArg Long operaterId);
@@ -40,6 +42,37 @@ public interface MerchantService {
     Boolean disableMerchant(@HiddenArg Long merchantId,
                             @HiddenArg Long operaterId);
 
+    Boolean inputMerchantInfo(String merchantName,
+                              String serviceDistription,
+                              String workAddress,
+                              String businessLicenseNum,
+                              String organizingInstitutionBarCode,
+                              String enterpriseLegalRepresentativeName,
+                              String contactsName,
+                              String contactPhone,
+                              String serviceTel,
+                              String contactEmail,
+                              File organizingInstitutionBarCodePic,
+                              File businessLicensePic,
+                              File otherFile,
+                              @HiddenArg Long operaterId,
+                              @HiddenArg Long merchantId);
+
+    Boolean modifyMerchantInfo(String merchantName,
+                               String serviceDistription,
+                               String workAddress,
+                               String businessLicenseNum,
+                               String organizingInstitutionBarCode,
+                               String enterpriseLegalRepresentativeName,
+                               String contactsName,
+                               String contactPhone,
+                               String serviceTel,
+                               String contactEmail,
+                               File organizingInstitutionBarCodePic,
+                               File businessLicensePic,
+                               File otherFile,
+                               @HiddenArg Long operaterId,
+                               @HiddenArg Long merchantId);
 
 }
 

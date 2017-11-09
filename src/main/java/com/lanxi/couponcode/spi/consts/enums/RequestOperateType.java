@@ -53,17 +53,17 @@ import java.io.Serializable;
  * @author yangyuanjian
  *
  */
+@Deprecated
 public enum RequestOperateType implements Serializable {
-	createMerchant(1),			unfreezeMerchant(2),			freezeMerchant(3),			deleteMerchant(4),			modifyMerchant(5),			queryMerchant(6),			cancelMerchant(9),
+
 	createShop(11),				unfreezeShop(12),				freezeShop(13),				deleteShop(14),				modifyShop(15),				queryShop(16),				cancelShop(19),
 	createMerchantManager(21),	unfreezeMerchantManager(22),	freezeMerchantManager(23),	deleteMerchantManager(24),	modifyMerchantManager(25),	queryMerchantManager(26),	cancelMerchantManager(29),
 	createShopManager(31),		unfreezeShopManager(32),		freezeShopManager(33),		deleteShopManager(34),		modifyShopManager(35),		queryShopManager(36),		cancelShopManager(39),
 	createEmployee(41),			unfreezeEmployee(42),			freezeEmployee(43),			deleteEmployee(44),			modifyEmployee(45),			queryEmployee(46),			cancelEmployee(49),
 	createCommodity(51),		unshelveCommodity(52),			shelveCommodity(53),		deleteCommodity(54),		modifyCommodity(55),		queryCommodity(56),			cancelCommodity(59),
 	destroyCouponCode(61),		createCouponCode(62),			queryCouponCode(66),		cancelCouponCode(69),
-	createAccount(71),			unfreezeAccount(72),			freezeAccount(73),			deleteAccount(74),			modifyAccount(75),			queryAccount(76),			cancelAccount(79);
-	
-	
+	createAccount(71),			unfreezeAccount(72),			freezeAccount(73),			deleteAccount(74),			modifyAccount(75),			queryAccount(76),			cancelAccount(79),
+	createMerchant(81),			unfreezeMerchant(82),			freezeMerchant(83),			deleteMerchant(84),			modifyMerchant(85),			queryMerchant(86),			cancelMerchant(89);
 	private String value;
 	
 	private RequestOperateType(int value) {

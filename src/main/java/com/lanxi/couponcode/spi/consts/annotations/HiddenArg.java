@@ -6,7 +6,7 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * 隐含的参数|附加的参数
+ * 表明被标记的参数为 隐含的参数|附加的参数
  * Created by yangyuanjian on 2017/11/7.
  */
 @Retention (RetentionPolicy.SOURCE)

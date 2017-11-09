@@ -6,6 +6,7 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
+ * 表明被标记的方法返回的转型之前的类型
  * Created by yangyuanjian on 2017/11/7.
  */
 @Retention(RetentionPolicy.SOURCE)

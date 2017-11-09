@@ -3,10 +3,11 @@ package com.lanxi.couponcode.spi.consts.enums;
 import java.io.Serializable;
 
 /**
+ * 操作目标枚举
  * Created by yangyuanjian on 2017/11/2.
  */
 public enum OperateTargetType  implements Serializable {
-    merchant(1),shop(2),merchantManager(3),shopManager(4),employee(5),commodity(6),code(7),account(8),unknown(9);
+    shop(1),merchantManager(2),shopManager(3),employee(4),commodity(5),code(6),account(7),merchant(8),statstic(9);
     private String value;
     private OperateTargetType(int value) {
         this.value=value+"";
