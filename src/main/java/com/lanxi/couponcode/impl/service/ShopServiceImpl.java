@@ -1,5 +1,7 @@
 package com.lanxi.couponcode.impl.service;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -21,7 +23,8 @@ import com.lanxi.util.utils.TimeUtil;
 public class ShopServiceImpl implements ShopService{
 	@Resource
 	private DaoService dao;
-
+	@Resource
+	private MerchantService merchantService;
 	@Override
 	public Boolean freezeAllShop(Long merchantId, Long operaterId, String operaterInfo, String operaterPhone) {
 		String locker="merchantId["+merchantId+"]\n"+
@@ -50,6 +53,51 @@ public class ShopServiceImpl implements ShopService{
 				// TODO: handle exception
             	LogFactory.error(this,"冻结所有门店时发生异常",e);
 			}
+		// TODO Auto-generated method stub
+		return result;
+	}
+
+	@Override
+	public Boolean addShop(Shop shop, Long operaterId, Long accountId, String operaterInfo) {
+		String locker="operaterId["+operaterId+"]\n"+
+                ",accountId["+accountId+"]\n"+
+                ",operaterInfo["+operaterInfo+"]\n";
+		LogFactory.info(this, "尝试单个添加门店,\n"+locker);
+		OperateRecord record=null;
+		boolean result=false;
+		try {
+			if(shop.getShopId()!=null) {
+				shop.setShopId(IdWorker.getId());
+			}
+			shop.setShopStatus(ShopStatus.normal+"");
+			shop.setMerchantStatus(merchantService.queryMerchantStatusByid(shop.getMerchantId(), accountId, operaterId, operaterInfo));
+			shop.setCreateTime(LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMddhhmmss")));
+			record=new OperateRecord();
+            record.setRecordId(IdWorker.getId());
+            record.setOperaterId(operaterId);
+            record.setOperaterInfo(operaterInfo);
+            record.setTargetType(OperateTargetType.shop);
+            record.setDescription("单个添加门店");
+            record.setOperateTime(TimeUtil.getDateTime());
+            record.setTargetInfo(shop.toJson());
+            Integer var=dao.getShopDao().insert(shop);
+            if(var<0) {
+				LogFactory.info(this,"添加门店失败\n"+locker);
+				record.setOperateResult("失败");
+				result=false;
+			}else if (var>0) {
+				LogFactory.info(this,"添加门店成功\n"+locker);
+				record.setOperateResult("成功");
+				result=true;
+				boolean flag=record.insert();
+	             LogFactory.info(this,"添加门店操作记录["+record+"]结果["+flag+"],\n"+locker); 
+			}
+		} catch (Exception e) {
+			// TODO: handle exception
+			LogFactory.error(this,"添加门店的时候发生异常,\n"+locker,e);
+			result=false;
+			return result;
+		}
 		// TODO Auto-generated method stub
 		return result;
 	}

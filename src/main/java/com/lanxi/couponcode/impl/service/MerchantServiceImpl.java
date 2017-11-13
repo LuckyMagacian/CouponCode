@@ -56,7 +56,7 @@ public class MerchantServiceImpl implements MerchantService{
 		try {
 			merchant.setMerchantStatus(MerchantStatus.normal+"");
 			merchant.setMerchantId(IdWorker.getId());
-			System.out.println(merchant.getMerchantId());
+			//System.out.println(merchant.getMerchantId());
 			merchant.setCreateTime(LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMddhhmmss")));
 			//尝试添加操作记录
 			record=new OperateRecord();
@@ -64,7 +64,7 @@ public class MerchantServiceImpl implements MerchantService{
             record.setOperaterId(operaterId);
             record.setOperaterPhone(operaterPhone);
             record.setOperaterInfo(operaterInfo);
-            record.setTargetType(OperateTargetType.code);
+            record.setTargetType(OperateTargetType.merchant);
             record.setDescription("添加商户");
             record.setOperateTime(TimeUtil.getDateTime());
             record.setTargetInfo(merchant.toJson());
@@ -104,7 +104,7 @@ public class MerchantServiceImpl implements MerchantService{
             record.setOperaterId(operaterId);
             record.setOperaterPhone(operaterPhone);
             record.setOperaterInfo(operaterInfo);
-            record.setTargetType(OperateTargetType.code);
+            record.setTargetType(OperateTargetType.merchant);
             record.setDescription("修改商户");
             record.setOperateTime(TimeUtil.getDateTime());
             record.setTargetInfo(merchant.toJson());
@@ -287,7 +287,7 @@ public class MerchantServiceImpl implements MerchantService{
             record.setOperaterId(operaterId);
             record.setOperaterPhone(operaterPhone);
             record.setOperaterInfo(operaterInfo);
-            record.setTargetType(OperateTargetType.code);
+            record.setTargetType(OperateTargetType.merchant);
             record.setDescription("修改商户状态");
             record.setOperateTime(TimeUtil.getDateTime());
             record.setTargetInfo(merchant.toJson());
@@ -371,7 +371,7 @@ public class MerchantServiceImpl implements MerchantService{
             record.setRecordId(IdWorker.getId());
             record.setOperaterId(operaterId);
             record.setOperaterInfo(operaterInfo);
-            record.setTargetType(OperateTargetType.code);
+            record.setTargetType(OperateTargetType.merchant);
             record.setDescription("上传商户组织机构代码证");
             record.setOperateTime(TimeUtil.getDateTime());
             record.setTargetInfo(merchant.toJson());
@@ -430,7 +430,7 @@ public class MerchantServiceImpl implements MerchantService{
             record.setRecordId(IdWorker.getId());
             record.setOperaterId(operaterId);
             record.setOperaterInfo(operaterInfo);
-            record.setTargetType(OperateTargetType.code);
+            record.setTargetType(OperateTargetType.merchant);
             record.setDescription("上传商户工商营业执照");
             record.setOperateTime(TimeUtil.getDateTime());
             record.setTargetInfo(merchant.toJson());
@@ -489,7 +489,7 @@ public class MerchantServiceImpl implements MerchantService{
             record.setRecordId(IdWorker.getId());
             record.setOperaterId(operaterId);
             record.setOperaterInfo(operaterInfo);
-            record.setTargetType(OperateTargetType.code);
+            record.setTargetType(OperateTargetType.merchant);
             record.setDescription("上传商户其他证明资料");
             record.setOperateTime(TimeUtil.getDateTime());
             record.setTargetInfo(merchant.toJson());
@@ -546,7 +546,7 @@ public class MerchantServiceImpl implements MerchantService{
             record.setRecordId(IdWorker.getId());
             record.setOperaterId(operaterId);
             record.setOperaterInfo(operaterInfo);
-            record.setTargetType(OperateTargetType.code);
+            record.setTargetType(OperateTargetType.merchant);
             record.setDescription("完善添加商户详细信息");
             record.setOperateTime(TimeUtil.getDateTime());
             record.setTargetInfo(merchant.toJson());
@@ -606,6 +606,27 @@ public class MerchantServiceImpl implements MerchantService{
 		}
 		// TODO Auto-generated method stub
 		return result;
+	}
+	@Override
+	public String queryMerchantStatusByid(Long merchantId, Long accountId, Long operaterId, String operaterInfo) {
+		String locker="merchantId["+merchantId+"]"+
+				"operaterId["+operaterId+"]\n"+
+                ",accountId["+accountId+"]\n"+
+                ",operaterInfo["+operaterInfo+"]\n";
+		LogFactory.info(this, "尝试添加商户其他证明资料,\n"+locker);
+		String merchantStatus=null;
+		try {
+			if(merchantId!=null) {
+				Merchant merchant=dao.getMerchantDao().selectById(merchantId);
+				merchantStatus=merchant.getMerchantStatus();
+				LogFactory.info(this,"获取到的商户状态["+merchantStatus+"]"+locker);
+			}
+		} catch (Exception e) {
+			LogFactory.error(this,"获取商户状态时发生异常",e);
+			// TODO: handle exception
+		}
+		// TODO Auto-generated method stub
+		return merchantStatus;
 	}
 	
 	
