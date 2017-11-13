@@ -23,7 +23,7 @@ import java.util.Map;
 public class AddLog {
     @Pointcut("")
     public void debugAll(){}
-    @with
+
     public void debugService(){}
     public void infoService(){};
 

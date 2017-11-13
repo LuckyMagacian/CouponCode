@@ -72,8 +72,6 @@
         <!-- 全局配置注入 -->
         <property name="globalConfig" ref="globalConfig"/>
     </bean>
-	
-	
 	<!--&lt;!&ndash; 配置事务管理数据源 &ndash;&gt;-->
 	<bean id="txManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
 	   <property name="dataSource" ref="ds"></property>
@@ -81,5 +79,12 @@
 	 <!--mapper扫描-->
 	<bean id="mappers" class="org.mybatis.spring.mapper.MapperScannerConfigurer">
 	    <property name="basePackage" value="com.lanxi.couponcode.impl.dao"></property>
+	</bean>
+	<!-- 图片上传配置 -->
+	<bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">    
+    <!-- 设置默认编码 -->  
+    <property name="defaultEncoding" value="utf-8"></property>  
+    <!-- 上传图片最大大小5M-->   
+    <property name="maxUploadSize" value="5242440"></property>    
 	</bean>
 </beans>

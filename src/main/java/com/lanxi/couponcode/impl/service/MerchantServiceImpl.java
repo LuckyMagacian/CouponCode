@@ -1,5 +1,6 @@
 package com.lanxi.couponcode.impl.service;
 
+import java.io.File;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
@@ -13,6 +14,7 @@ import org.springframework.transaction.TransactionDefinition;
 import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.interceptor.TransactionAspectSupport;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.plugins.Page;
@@ -20,7 +22,9 @@ import com.baomidou.mybatisplus.toolkit.IdWorker;
 import com.lanxi.couponcode.impl.config.ConstConfig;
 import com.lanxi.couponcode.impl.entity.Merchant;
 import com.lanxi.couponcode.impl.entity.OperateRecord;
+import com.lanxi.couponcode.impl.entity.Path;
 import com.lanxi.couponcode.impl.entity.Shop;
+import com.lanxi.couponcode.impl.util.ImageUtil;
 import com.lanxi.couponcode.spi.consts.enums.MerchantStatus;
 import com.lanxi.couponcode.spi.consts.enums.OperateTargetType;
 import com.lanxi.util.entity.LogFactory;
@@ -52,7 +56,7 @@ public class MerchantServiceImpl implements MerchantService{
 		try {
 			merchant.setMerchantStatus(MerchantStatus.normal+"");
 			merchant.setMerchantId(IdWorker.getId());
-			System.out.println(merchant.getMerchantId());
+			//System.out.println(merchant.getMerchantId());
 			merchant.setCreateTime(LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMddhhmmss")));
 			//尝试添加操作记录
 			record=new OperateRecord();
@@ -60,7 +64,7 @@ public class MerchantServiceImpl implements MerchantService{
             record.setOperaterId(operaterId);
             record.setOperaterPhone(operaterPhone);
             record.setOperaterInfo(operaterInfo);
-            record.setTargetType(OperateTargetType.code);
+            record.setTargetType(OperateTargetType.merchant);
             record.setDescription("添加商户");
             record.setOperateTime(TimeUtil.getDateTime());
             record.setTargetInfo(merchant.toJson());
@@ -100,7 +104,7 @@ public class MerchantServiceImpl implements MerchantService{
             record.setOperaterId(operaterId);
             record.setOperaterPhone(operaterPhone);
             record.setOperaterInfo(operaterInfo);
-            record.setTargetType(OperateTargetType.code);
+            record.setTargetType(OperateTargetType.merchant);
             record.setDescription("修改商户");
             record.setOperateTime(TimeUtil.getDateTime());
             record.setTargetInfo(merchant.toJson());
@@ -283,7 +287,7 @@ public class MerchantServiceImpl implements MerchantService{
             record.setOperaterId(operaterId);
             record.setOperaterPhone(operaterPhone);
             record.setOperaterInfo(operaterInfo);
-            record.setTargetType(OperateTargetType.code);
+            record.setTargetType(OperateTargetType.merchant);
             record.setDescription("修改商户状态");
             record.setOperateTime(TimeUtil.getDateTime());
             record.setTargetInfo(merchant.toJson());
@@ -337,9 +341,10 @@ public class MerchantServiceImpl implements MerchantService{
 				Integer var=dao.getMerchantDao().updateById(merchant);
 				if(var>0&&freezeResult) {
 					LogFactory.info(this,"同时冻结门店和商户成功");
-					result=true;
+					result=true;	
 				}
 			}
+			
 			txManager.commit(txStatus);
 		} catch (Exception e) {
 			// TODO: handle exception
@@ -349,6 +354,279 @@ public class MerchantServiceImpl implements MerchantService{
 			
 		}
 		return result;
+	}
+	
+	@Override
+	public Boolean organizingInstitutionBarCodePicUpLoad(Merchant merchant, MultipartFile file, Long accountId,
+			Long operaterId, String operaterInfo) {
+		
+		String locker="operaterId["+operaterId+"]\n"+
+                ",accountId["+accountId+"]\n"+
+                ",operaterInfo["+operaterInfo+"]\n";
+		LogFactory.info(this, "尝试添加商户组织机构代码证,\n"+locker);
+		OperateRecord record=null;
+		boolean result=false;
+		try {
+			record=new OperateRecord();
+            record.setRecordId(IdWorker.getId());
+            record.setOperaterId(operaterId);
+            record.setOperaterInfo(operaterInfo);
+            record.setTargetType(OperateTargetType.merchant);
+            record.setDescription("上传商户组织机构代码证");
+            record.setOperateTime(TimeUtil.getDateTime());
+            record.setTargetInfo(merchant.toJson());
+			if(file!=null&&!file.isEmpty()) {
+				 //获取文件类型，即后缀名
+                String str = file.getOriginalFilename();
+                String suffix = str.substring(str.lastIndexOf("."));
+                if(!ImageUtil.isImage(suffix)) {
+                	LogFactory.error(this,"上传的不是图片文件"+locker);
+                	result=false;
+                	return result;
+                }
+                
+                //为避免文件重复用日期+商户id+证件类型做文件名
+                String time=LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMddhhmmss"));
+                String path=Path.organizingInstitutionBarCodePicPath+time+merchant.getMerchantId()+"organizingInstitutionBarCodePic"+suffix;
+                LogFactory.info(this, "尝试保存商户组织机构代码证"+locker);
+                file.transferTo(new File(path));
+                merchant.setOrganizingInstitutionBarCodePic(path);
+                Integer var=dao.getMerchantDao().updateById(merchant);
+                if(var<0) {
+					LogFactory.info(this,"保存商户组织机构代码证失败\n"+locker);
+					record.setOperateResult("失败");
+					result=false;
+					
+				}else if (var>0) {
+					LogFactory.info(this,"保存商户组织机构代码证成功\n"+locker);
+					 record.setTargetInfo(merchant.toJson());
+					record.setOperateResult("成功");
+					result=true;
+					
+					boolean flag=record.insert();
+		             LogFactory.info(this,"保存商户组织机构代码证操作记录["+record+"]结果["+flag+"],\n"+locker); 
+				}
+			}
+		} catch (Exception e) {
+			// TODO: handle exception
+			LogFactory.error(this,"保存商户组织机构代码失败"+locker,e);
+			
+		}
+		// TODO Auto-generated method stub
+		return result;
+	}
+	@Override
+	public Boolean businessLicensePicUpLoad(Merchant merchant, MultipartFile file, Long accountId, Long operaterId,
+			String operaterInfo) {
+		
+		String locker="operaterId["+operaterId+"]\n"+
+                ",accountId["+accountId+"]\n"+
+                ",operaterInfo["+operaterInfo+"]\n";
+		LogFactory.info(this, "尝试添加商户工商营业执照,\n"+locker);
+		OperateRecord record=null;
+		boolean result=false;
+		try {
+			record=new OperateRecord();
+            record.setRecordId(IdWorker.getId());
+            record.setOperaterId(operaterId);
+            record.setOperaterInfo(operaterInfo);
+            record.setTargetType(OperateTargetType.merchant);
+            record.setDescription("上传商户工商营业执照");
+            record.setOperateTime(TimeUtil.getDateTime());
+            record.setTargetInfo(merchant.toJson());
+			if(file!=null&&!file.isEmpty()) {
+				 //获取文件类型，即后缀名
+                String str = file.getOriginalFilename();
+                String suffix = str.substring(str.lastIndexOf("."));
+                if(!ImageUtil.isImage(suffix)) {
+                	LogFactory.error(this,"上传的不是图片文件"+locker);
+                	result=false;
+                	return result;
+                }
+                //为避免文件重复用日期+商户id+证件类型做文件名
+                String time=LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMddhhmmss"));
+                String path=Path.businessLicensePicPath+time+merchant.getMerchantId()+"organizingInstitutionBarCodePic"+suffix;
+                LogFactory.info(this, "尝试保存商户工商营业执照"+locker);
+                file.transferTo(new File(path));
+                merchant.setOrganizingInstitutionBarCodePic(path);
+                Integer var=dao.getMerchantDao().updateById(merchant);
+                if(var<0) {
+					LogFactory.info(this,"保存商户工商营业执照失败\n"+locker);
+					record.setOperateResult("失败");
+					result=false;
+					
+				}else if (var>0) {
+					LogFactory.info(this,"保存商户工商营业执照成功\n"+locker);
+					 record.setTargetInfo(merchant.toJson());
+					record.setOperateResult("成功");
+					result=true;
+					
+					boolean flag=record.insert();
+		             LogFactory.info(this,"保存商户工商营业执照操作记录["+record+"]结果["+flag+"],\n"+locker); 
+				}
+			}
+		} catch (Exception e) {
+			// TODO: handle exception
+			LogFactory.error(this,"保存商户工商营业执照失败"+locker,e);
+			
+		}
+		// TODO Auto-generated method stub
+		return result;
+		
+	}
+	@Override
+	public Boolean otherPicUpLoad(Merchant merchant, MultipartFile file, Long accountId, Long operaterId,
+			String operaterInfo) {
+		
+		String locker="operaterId["+operaterId+"]\n"+
+                ",accountId["+accountId+"]\n"+
+                ",operaterInfo["+operaterInfo+"]\n";
+		LogFactory.info(this, "尝试添加商户其他证明资料,\n"+locker);
+		OperateRecord record=null;
+		boolean result=false;
+		try {
+			record=new OperateRecord();
+            record.setRecordId(IdWorker.getId());
+            record.setOperaterId(operaterId);
+            record.setOperaterInfo(operaterInfo);
+            record.setTargetType(OperateTargetType.merchant);
+            record.setDescription("上传商户其他证明资料");
+            record.setOperateTime(TimeUtil.getDateTime());
+            record.setTargetInfo(merchant.toJson());
+			if(file!=null&&!file.isEmpty()) {
+				 //获取文件类型，即后缀名
+                String str = file.getOriginalFilename();
+                String suffix = str.substring(str.lastIndexOf("."));
+                if(!ImageUtil.isImage(suffix)) {
+                	LogFactory.error(this,"上传的不是图片文件"+locker);
+                	result=false;
+                	return result;
+                }
+                //为避免文件重复用日期+商户id+证件类型做文件名
+                String time=LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMddhhmmss"));
+                String path=Path.otherPicPath+time+merchant.getMerchantId()+"organizingInstitutionBarCodePic"+suffix;
+                LogFactory.info(this, "尝试保存商户其他证明资料"+locker);
+                file.transferTo(new File(path));
+                merchant.setOrganizingInstitutionBarCodePic(path);
+                Integer var=dao.getMerchantDao().updateById(merchant);
+                if(var<0) {
+					LogFactory.info(this,"保存商户其他证明资料\n"+locker);
+					record.setOperateResult("失败");
+					result=false;
+					
+				}else if (var>0) {
+					LogFactory.info(this,"保存商户其他证明资料\n"+locker);
+					 record.setTargetInfo(merchant.toJson());
+					record.setOperateResult("成功");
+					result=true;
+					boolean flag=record.insert();
+		             LogFactory.info(this,"保存商户其他证明资料操作记录["+record+"]结果["+flag+"],\n"+locker); 
+				}
+			}
+		} catch (Exception e) {
+			// TODO: handle exception
+			LogFactory.error(this,"保存商户其他证明资料失败"+locker,e);
+		}
+		// TODO Auto-generated method stub
+		return result;
+	}
+	@Override
+	public Boolean fillInInformation(Merchant merchant, MultipartFile organizingInstitutionBarCodePicFile,
+			MultipartFile businessLicensePicFile, MultipartFile otherPicFile, Long accountId, Long operaterId,
+			String operaterInfo) {
+		TransactionStatus txStatus = txManager.getTransaction(txDefinition);
+		String locker="operaterId["+operaterId+"]\n"+
+                ",accountId["+accountId+"]\n"+
+                ",operaterInfo["+operaterInfo+"]\n";
+		LogFactory.info(this, "尝试添加商户详细信息,\n"+locker);
+		OperateRecord record=null;
+		boolean result=false;
+		try {
+			record=new OperateRecord();
+            record.setRecordId(IdWorker.getId());
+            record.setOperaterId(operaterId);
+            record.setOperaterInfo(operaterInfo);
+            record.setTargetType(OperateTargetType.merchant);
+            record.setDescription("完善添加商户详细信息");
+            record.setOperateTime(TimeUtil.getDateTime());
+            record.setTargetInfo(merchant.toJson());
+            if(merchant!=null) {
+            	LogFactory.info(this,"尝试添加资料"+locker);
+            	Integer var=dao.getMerchantDao().updateById(merchant);
+            	if(var>0) {
+            		LogFactory.info(this,"添加商户资料成功"+locker);
+            		result=true;
+            	}else if (var<0) {
+					LogFactory.debug(this,"添加商户资料失败"+locker);
+					result=false;
+					return result;
+				}
+            }
+            if(organizingInstitutionBarCodePicFile!=null&&!organizingInstitutionBarCodePicFile.isEmpty()) {
+            	Boolean b=organizingInstitutionBarCodePicUpLoad(merchant, organizingInstitutionBarCodePicFile, accountId, operaterId, operaterInfo);
+            	if(b) {
+            		result=b;
+            	}else {
+					result=false;
+					String s=null;
+					s.length();
+					txManager.commit(txStatus);
+					return result;
+				}
+            	
+            }
+            if(otherPicFile!=null&&!otherPicFile.isEmpty()) {
+            	Boolean b=otherPicUpLoad(merchant, otherPicFile, accountId, operaterId, operaterInfo);
+            	if(b) {
+            		result=b;
+            	}else {
+					result=false;
+					String s=null;
+					s.length();
+					txManager.commit(txStatus);
+					return result;
+				}
+            }
+            if(businessLicensePicFile!=null&&!businessLicensePicFile.isEmpty()) {
+            	Boolean b=businessLicensePicUpLoad(merchant, businessLicensePicFile, accountId, operaterId, operaterInfo);
+            	if(b) {
+            		result=b;
+            	}else {
+					result=false;
+					String s=null;
+					s.length();
+					txManager.commit(txStatus);
+					return result;
+				}
+            }
+		} catch (Exception e) {
+			// TODO: handle exception
+			LogFactory.error(this,"添加商户详细信息失败"+locker,e);
+			result=false;
+		}
+		// TODO Auto-generated method stub
+		return result;
+	}
+	@Override
+	public String queryMerchantStatusByid(Long merchantId, Long accountId, Long operaterId, String operaterInfo) {
+		String locker="merchantId["+merchantId+"]"+
+				"operaterId["+operaterId+"]\n"+
+                ",accountId["+accountId+"]\n"+
+                ",operaterInfo["+operaterInfo+"]\n";
+		LogFactory.info(this, "尝试添加商户其他证明资料,\n"+locker);
+		String merchantStatus=null;
+		try {
+			if(merchantId!=null) {
+				Merchant merchant=dao.getMerchantDao().selectById(merchantId);
+				merchantStatus=merchant.getMerchantStatus();
+				LogFactory.info(this,"获取到的商户状态["+merchantStatus+"]"+locker);
+			}
+		} catch (Exception e) {
+			LogFactory.error(this,"获取商户状态时发生异常",e);
+			// TODO: handle exception
+		}
+		// TODO Auto-generated method stub
+		return merchantStatus;
 	}
 	
 	
