@@ -1,5 +1,6 @@
 package com.lanxi.couponcode.impl.assist;
 
+import com.lanxi.couponcode.spi.consts.enums.RetCodeEnum;
 import com.lanxi.util.interfaces.ToJson;
 import com.lanxi.util.interfaces.ToMap;
 
@@ -15,6 +16,10 @@ public class RetMessage<T extends  Serializable> implements ToJson,ToMap,Seriali
 
     public RetMessage() {
 
+    }
+
+    public RetMessage(RetCodeEnum retCode, String retMessage, T detail) {
+        this(retCode.toString(),retMessage,detail);
     }
 
     public RetMessage(String retCode, String retMessage, T detail) {
