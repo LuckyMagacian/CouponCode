@@ -142,14 +142,16 @@ public class Account extends AbstractAccount{
 		this.userName = userName;
 	}
 
-	public AccountStatus getStatus() {
-		return status;
+	public String getStatus() {
+		return status==null?null:status.getValue();
 	}
 
 	public void setStatus(AccountStatus status) {
 		this.status = status;
 	}
-
+	public void setStatus(String status) {
+		this.status=AccountStatus.getType(status);
+	}
 	public Long getMerchantId() {
 		return merchantId;
 	}

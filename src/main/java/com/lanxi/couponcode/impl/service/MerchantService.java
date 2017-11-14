@@ -1,12 +1,13 @@
 package com.lanxi.couponcode.impl.service;
 
+import java.io.File;
 import java.util.List;
 
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.lanxi.couponcode.impl.entity.Merchant;
 import com.lanxi.couponcode.impl.entity.Shop;
+import com.lanxi.couponcode.spi.consts.enums.MerchantStatus;
 
 /**
  * 商户操作
@@ -34,8 +35,8 @@ public interface MerchantService {
 	public List<Merchant> getAllMerchant(Integer page,Integer size, Long operaterId, 
 			String operaterInfo,String operaterPhone);
 	/*根据条件获取商户*/
-	public List<Merchant> getMerChantByCondition(Integer page,Integer size, Long operaterId, 
-			String operaterInfo,String operaterPhone,String startTime,String endTime,String merchantStatus,
+	public List<Merchant> getMerchantByCondition(Integer page,Integer size, Long operaterId, 
+			String operaterInfo,String operaterPhone,String startTime,String endTime,MerchantStatus merchantStatus,
 			String merchantName);
 	/*查询商户详情*/
 	public Merchant queryMerchantParticularsById(Long merchantId,Long operaterId,String operaterInfo,
@@ -47,14 +48,14 @@ public interface MerchantService {
 	public Boolean changeMerchanStatus(Long merchantId,Long operaterId,String operaterInfo,
 			String operaterPhone,String merchantStatus);	
 	/*商户信息填写*/
-	public Boolean fillInInformation(Merchant merchant,MultipartFile organizingInstitutionBarCodePicFile,MultipartFile businessLicensePicFile,
-			MultipartFile otherPicFile,Long accountId,Long operaterId,String operaterInfo);
+	public Boolean fillInInformation(Merchant merchant,File organizingInstitutionBarCodePicFile,File businessLicensePicFile,
+			File otherPicFile,Long accountId,Long operaterId,String operaterInfo);
 	/*商户组织机构代码证上传*/
-	public Boolean organizingInstitutionBarCodePicUpLoad(Merchant merchant,MultipartFile file,Long accountId,Long operaterId,String operaterInfo);
+	public Boolean organizingInstitutionBarCodePicUpLoad(Merchant merchant,File file,Long accountId,Long operaterId,String operaterInfo);
 	/*商户工商营业执照上传*/
-	public Boolean businessLicensePicUpLoad(Merchant merchant,MultipartFile file,Long accountId,Long operaterId,String operaterInfo);
+	public Boolean businessLicensePicUpLoad(Merchant merchant,File file,Long accountId,Long operaterId,String operaterInfo);
 	/*商户其他证明材料上传*/
-	public Boolean otherPicUpLoad(Merchant merchant,MultipartFile file,Long accountId,Long operaterId,String operaterInfo);
+	public Boolean otherPicUpLoad(Merchant merchant,File file,Long accountId,Long operaterId,String operaterInfo);
 	/*根据商户id查询商户的状态*/
 	public String queryMerchantStatusByid(Long merchantId,Long accountId,Long operaterId,String operaterInfo);
 	/*导出*/

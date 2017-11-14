@@ -6,9 +6,9 @@ package com.lanxi.couponcode.impl.entity;
  */
 public class Path {
 	/*组织机构代码证地址*/
-	public static final String  organizingInstitutionBarCodePicPath="E:/organizingInstitutionBarCode/";
+	public static final String  organizingInstitutionBarCodePicPath="F:/organizingInstitutionBarCode/";
 	/*工商营业执照地址*/
-	public static final String businessLicensePicPath="E:/businessLicensePic/";
+	public static final String businessLicensePicPath="F:/businessLicensePic/";
 	/*其他证明材料地址*/
-	public static final String otherPicPath="E:/otherPic/";
+	public static final String otherPicPath="F:/otherPic/";
 }

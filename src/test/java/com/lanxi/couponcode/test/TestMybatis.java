@@ -2,6 +2,7 @@ package com.lanxi.couponcode.test;
 
 import com.baomidou.mybatisplus.toolkit.IdWorker;
 import com.lanxi.couponcode.impl.entity.CodeAlgorithm;
+import com.lanxi.couponcode.impl.entity.Merchant;
 import com.lanxi.couponcode.impl.service.CodeOperateRecordService;
 import com.lanxi.util.entity.MyClassLoader;
 import com.lanxi.util.utils.LoggerUtil;
@@ -82,4 +83,15 @@ public class TestMybatis {
 				null,null,null,null,null,true
 		));
 	}
+    @Test
+    public void test5() {
+    	Merchant merchant=new Merchant();
+    	merchant.setMerchantId(1L);
+    	System.err.println(merchant);
+    	merchant=(Merchant) merchant.selectById();
+    	System.err.println(merchant);
+    	merchant.setMerchantName("123456");
+    	merchant.updateById();
+    	System.err.println(merchant);
+    }	
 }

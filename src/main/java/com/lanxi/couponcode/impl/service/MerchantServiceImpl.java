@@ -1,6 +1,9 @@
 package com.lanxi.couponcode.impl.service;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
@@ -24,6 +27,7 @@ import com.lanxi.couponcode.impl.entity.Merchant;
 import com.lanxi.couponcode.impl.entity.OperateRecord;
 import com.lanxi.couponcode.impl.entity.Path;
 import com.lanxi.couponcode.impl.entity.Shop;
+import com.lanxi.couponcode.impl.util.FileUpLoadUtil;
 import com.lanxi.couponcode.impl.util.ImageUtil;
 import com.lanxi.couponcode.spi.consts.enums.MerchantStatus;
 import com.lanxi.couponcode.spi.consts.enums.OperateTargetType;
@@ -54,7 +58,7 @@ public class MerchantServiceImpl implements MerchantService{
 		OperateRecord record=null;
 		boolean result=false;
 		try {
-			merchant.setMerchantStatus(MerchantStatus.normal+"");
+			merchant.setMerchantStatus(MerchantStatus.normal);
 			merchant.setMerchantId(IdWorker.getId());
 			//System.out.println(merchant.getMerchantId());
 			merchant.setCreateTime(LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMddhhmmss")));
@@ -78,12 +82,13 @@ public class MerchantServiceImpl implements MerchantService{
 				record.setOperateResult("成功");
 				result=true;
 				boolean flag=record.insert();
-	             LogFactory.info(this,"添加商户操作记录["+record+"]结果["+flag+"],\n"+locker); 
+	            LogFactory.info(this,"添加商户操作记录["+record+"]结果["+flag+"],\n"+locker); 
 			}
 			
 		} catch (Exception e) {
 			// TODO: handle exception
 			LogFactory.error(this,"添加商户时发生异常,\n"+locker,e);
+			return result;
 			//throw new RuntimeException("添加商户时发生异常",e);
 		}
 		return result;
@@ -125,6 +130,7 @@ public class MerchantServiceImpl implements MerchantService{
 			// TODO: handle exception
 			LogFactory.error(this,"修改商户时发生异常,\n"+locker,e);
 			//throw new RuntimeException("修改商户时发生异常",e);
+			return result;
 		}
 		return result;
 	}
@@ -159,8 +165,8 @@ public class MerchantServiceImpl implements MerchantService{
 		
 	}
 	@Override
-	public List<Merchant> getMerChantByCondition(Integer page, Integer size,Long operaterId,
-			String operaterInfo, String operaterPhone, String startTime, String endTime, String merchantStatus,
+	public List<Merchant> getMerchantByCondition(Integer page, Integer size,Long operaterId,
+			String operaterInfo, String operaterPhone, String startTime, String endTime, MerchantStatus merchantStatus,
 			String merchantName) {
 		String locker="page["+page+"]\n"+
 				",size["+size+"]\n"+
@@ -192,7 +198,7 @@ public class MerchantServiceImpl implements MerchantService{
 	                    endTime+="9";
 	                wrapper.le("create_time",endTime);
 	            }
-	            if(merchantStatus!=null&&!merchantStatus.isEmpty()) {
+	            if(merchantStatus!=null) {
 	            	wrapper.eq("merchant_status", merchantStatus);
 	            }
 	            if(merchantName!=null&&!merchantName.isEmpty()) {
@@ -293,7 +299,7 @@ public class MerchantServiceImpl implements MerchantService{
             record.setTargetInfo(merchant.toJson());
 			//先判断要把商户状态修改为什么状态
 			if(merchantStatus.equals("normal")) {
-				merchant.setMerchantStatus(MerchantStatus.normal+"");
+				merchant.setMerchantStatus(MerchantStatus.normal);
 				Integer var=dao.getMerchantDao().updateById(merchant);
 				if(var<0) {
 					LogFactory.info(this,"修改商户状态失败\n"+locker);
@@ -309,7 +315,7 @@ public class MerchantServiceImpl implements MerchantService{
 				}
 			}
 			if(merchantStatus.equals("freeze")) {
-				merchant.setMerchantStatus(MerchantStatus.freeze+"");
+				merchant.setMerchantStatus(MerchantStatus.freeze);
 				Boolean change=changeStatus(merchant, operaterId, operaterInfo, operaterPhone);
 				if(change) {
 					LogFactory.info(this,"修改商户状态成功\n"+locker);
@@ -324,6 +330,7 @@ public class MerchantServiceImpl implements MerchantService{
 		} catch (Exception e) {
 			// TODO: handle exception
 			LogFactory.error(this,"尝试根据商户id修改商户状态时发生异常"+locker,e);
+			return result;
 		}
 		// TODO Auto-generated method stub
 		return result;
@@ -337,7 +344,6 @@ public class MerchantServiceImpl implements MerchantService{
 			if(merchant!=null) {
 				LogFactory.info(this,"尝试同时冻结门店和商户");
 				Boolean freezeResult=shopService.freezeAllShop(merchant.getMerchantId(),operaterId , operaterInfo, operaterPhone);
-				
 				Integer var=dao.getMerchantDao().updateById(merchant);
 				if(var>0&&freezeResult) {
 					LogFactory.info(this,"同时冻结门店和商户成功");
@@ -357,7 +363,7 @@ public class MerchantServiceImpl implements MerchantService{
 	}
 	
 	@Override
-	public Boolean organizingInstitutionBarCodePicUpLoad(Merchant merchant, MultipartFile file, Long accountId,
+	public Boolean organizingInstitutionBarCodePicUpLoad(Merchant merchant, File file, Long accountId,
 			Long operaterId, String operaterInfo) {
 		
 		String locker="operaterId["+operaterId+"]\n"+
@@ -375,9 +381,9 @@ public class MerchantServiceImpl implements MerchantService{
             record.setDescription("上传商户组织机构代码证");
             record.setOperateTime(TimeUtil.getDateTime());
             record.setTargetInfo(merchant.toJson());
-			if(file!=null&&!file.isEmpty()) {
+			if(file!=null) {
 				 //获取文件类型，即后缀名
-                String str = file.getOriginalFilename();
+                String str = file.getName();
                 String suffix = str.substring(str.lastIndexOf("."));
                 if(!ImageUtil.isImage(suffix)) {
                 	LogFactory.error(this,"上传的不是图片文件"+locker);
@@ -389,7 +395,7 @@ public class MerchantServiceImpl implements MerchantService{
                 String time=LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMddhhmmss"));
                 String path=Path.organizingInstitutionBarCodePicPath+time+merchant.getMerchantId()+"organizingInstitutionBarCodePic"+suffix;
                 LogFactory.info(this, "尝试保存商户组织机构代码证"+locker);
-                file.transferTo(new File(path));
+                FileUpLoadUtil.fileUpLoad(file, path);
                 merchant.setOrganizingInstitutionBarCodePic(path);
                 Integer var=dao.getMerchantDao().updateById(merchant);
                 if(var<0) {
@@ -410,13 +416,13 @@ public class MerchantServiceImpl implements MerchantService{
 		} catch (Exception e) {
 			// TODO: handle exception
 			LogFactory.error(this,"保存商户组织机构代码失败"+locker,e);
-			
+			return result;
 		}
 		// TODO Auto-generated method stub
 		return result;
 	}
 	@Override
-	public Boolean businessLicensePicUpLoad(Merchant merchant, MultipartFile file, Long accountId, Long operaterId,
+	public Boolean businessLicensePicUpLoad(Merchant merchant, File file, Long accountId, Long operaterId,
 			String operaterInfo) {
 		
 		String locker="operaterId["+operaterId+"]\n"+
@@ -434,9 +440,9 @@ public class MerchantServiceImpl implements MerchantService{
             record.setDescription("上传商户工商营业执照");
             record.setOperateTime(TimeUtil.getDateTime());
             record.setTargetInfo(merchant.toJson());
-			if(file!=null&&!file.isEmpty()) {
+			if(file!=null) {
 				 //获取文件类型，即后缀名
-                String str = file.getOriginalFilename();
+				 String str = file.getName();
                 String suffix = str.substring(str.lastIndexOf("."));
                 if(!ImageUtil.isImage(suffix)) {
                 	LogFactory.error(this,"上传的不是图片文件"+locker);
@@ -445,16 +451,15 @@ public class MerchantServiceImpl implements MerchantService{
                 }
                 //为避免文件重复用日期+商户id+证件类型做文件名
                 String time=LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMddhhmmss"));
-                String path=Path.businessLicensePicPath+time+merchant.getMerchantId()+"organizingInstitutionBarCodePic"+suffix;
+                String path=Path.businessLicensePicPath+time+merchant.getMerchantId()+"businessLicensePic"+suffix;
                 LogFactory.info(this, "尝试保存商户工商营业执照"+locker);
-                file.transferTo(new File(path));
-                merchant.setOrganizingInstitutionBarCodePic(path);
+                FileUpLoadUtil.fileUpLoad(file, path);
+                merchant.setBusinessLicensePic(path);
                 Integer var=dao.getMerchantDao().updateById(merchant);
                 if(var<0) {
 					LogFactory.info(this,"保存商户工商营业执照失败\n"+locker);
 					record.setOperateResult("失败");
 					result=false;
-					
 				}else if (var>0) {
 					LogFactory.info(this,"保存商户工商营业执照成功\n"+locker);
 					 record.setTargetInfo(merchant.toJson());
@@ -468,14 +473,14 @@ public class MerchantServiceImpl implements MerchantService{
 		} catch (Exception e) {
 			// TODO: handle exception
 			LogFactory.error(this,"保存商户工商营业执照失败"+locker,e);
-			
+			return result;
 		}
 		// TODO Auto-generated method stub
 		return result;
 		
 	}
 	@Override
-	public Boolean otherPicUpLoad(Merchant merchant, MultipartFile file, Long accountId, Long operaterId,
+	public Boolean otherPicUpLoad(Merchant merchant, File file, Long accountId, Long operaterId,
 			String operaterInfo) {
 		
 		String locker="operaterId["+operaterId+"]\n"+
@@ -493,9 +498,10 @@ public class MerchantServiceImpl implements MerchantService{
             record.setDescription("上传商户其他证明资料");
             record.setOperateTime(TimeUtil.getDateTime());
             record.setTargetInfo(merchant.toJson());
-			if(file!=null&&!file.isEmpty()) {
+            
+			if(file!=null) {
 				 //获取文件类型，即后缀名
-                String str = file.getOriginalFilename();
+                String str = file.getName();
                 String suffix = str.substring(str.lastIndexOf("."));
                 if(!ImageUtil.isImage(suffix)) {
                 	LogFactory.error(this,"上传的不是图片文件"+locker);
@@ -504,10 +510,10 @@ public class MerchantServiceImpl implements MerchantService{
                 }
                 //为避免文件重复用日期+商户id+证件类型做文件名
                 String time=LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMddhhmmss"));
-                String path=Path.otherPicPath+time+merchant.getMerchantId()+"organizingInstitutionBarCodePic"+suffix;
+                String path=Path.otherPicPath+time+merchant.getMerchantId()+"otherPic"+suffix;
                 LogFactory.info(this, "尝试保存商户其他证明资料"+locker);
-                file.transferTo(new File(path));
-                merchant.setOrganizingInstitutionBarCodePic(path);
+                FileUpLoadUtil.fileUpLoad(file, path);
+                merchant.setOtherPic(path);
                 Integer var=dao.getMerchantDao().updateById(merchant);
                 if(var<0) {
 					LogFactory.info(this,"保存商户其他证明资料\n"+locker);
@@ -526,13 +532,14 @@ public class MerchantServiceImpl implements MerchantService{
 		} catch (Exception e) {
 			// TODO: handle exception
 			LogFactory.error(this,"保存商户其他证明资料失败"+locker,e);
+			return result;
 		}
 		// TODO Auto-generated method stub
 		return result;
 	}
 	@Override
-	public Boolean fillInInformation(Merchant merchant, MultipartFile organizingInstitutionBarCodePicFile,
-			MultipartFile businessLicensePicFile, MultipartFile otherPicFile, Long accountId, Long operaterId,
+	public Boolean fillInInformation(Merchant merchant, File organizingInstitutionBarCodePicFile,
+			File businessLicensePicFile, File otherPicFile, Long accountId, Long operaterId,
 			String operaterInfo) {
 		TransactionStatus txStatus = txManager.getTransaction(txDefinition);
 		String locker="operaterId["+operaterId+"]\n"+
@@ -551,18 +558,20 @@ public class MerchantServiceImpl implements MerchantService{
             record.setOperateTime(TimeUtil.getDateTime());
             record.setTargetInfo(merchant.toJson());
             if(merchant!=null) {
-            	LogFactory.info(this,"尝试添加资料"+locker);
-            	Integer var=dao.getMerchantDao().updateById(merchant);
-            	if(var>0) {
-            		LogFactory.info(this,"添加商户资料成功"+locker);
-            		result=true;
-            	}else if (var<0) {
-					LogFactory.debug(this,"添加商户资料失败"+locker);
+            	LogFactory.info(this,"尝试添加商户资料"+locker);
+            	int var=dao.getMerchantDao().updateById(merchant);
+            	if(var<0) {
+            		LogFactory.debug(this,"添加商户资料失败\n"+locker);
 					result=false;
 					return result;
+            		
+            	}else if (var>0) {
+            		LogFactory.info(this,"添加商户资料成功\n"+locker);
+            		result=true;
 				}
             }
-            if(organizingInstitutionBarCodePicFile!=null&&!organizingInstitutionBarCodePicFile.isEmpty()) {
+        	
+            if(organizingInstitutionBarCodePicFile!=null) {
             	Boolean b=organizingInstitutionBarCodePicUpLoad(merchant, organizingInstitutionBarCodePicFile, accountId, operaterId, operaterInfo);
             	if(b) {
             		result=b;
@@ -575,7 +584,19 @@ public class MerchantServiceImpl implements MerchantService{
 				}
             	
             }
-            if(otherPicFile!=null&&!otherPicFile.isEmpty()) {
+            if(businessLicensePicFile!=null) {
+        	Boolean b=businessLicensePicUpLoad(merchant, businessLicensePicFile, accountId, operaterId, operaterInfo);
+        		if(b) {
+        		result=b;
+        		}else {
+				result=false;
+				String s=null;
+				s.length();
+				txManager.commit(txStatus);
+				return result;
+        		}
+            }
+            if(otherPicFile!=null) {
             	Boolean b=otherPicUpLoad(merchant, otherPicFile, accountId, operaterId, operaterInfo);
             	if(b) {
             		result=b;
@@ -587,22 +608,12 @@ public class MerchantServiceImpl implements MerchantService{
 					return result;
 				}
             }
-            if(businessLicensePicFile!=null&&!businessLicensePicFile.isEmpty()) {
-            	Boolean b=businessLicensePicUpLoad(merchant, businessLicensePicFile, accountId, operaterId, operaterInfo);
-            	if(b) {
-            		result=b;
-            	}else {
-					result=false;
-					String s=null;
-					s.length();
-					txManager.commit(txStatus);
-					return result;
-				}
-            }
+
 		} catch (Exception e) {
 			// TODO: handle exception
 			LogFactory.error(this,"添加商户详细信息失败"+locker,e);
 			result=false;
+			txManager.rollback(txStatus);
 		}
 		// TODO Auto-generated method stub
 		return result;

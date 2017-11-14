@@ -38,7 +38,7 @@ public class ShopServiceImpl implements ShopService{
 		Shop shop=null;
 		try {
 			shop=new Shop();
-			shop.setShopStatus(ShopStatus.freeze+"");
+			shop.setShopStatus(ShopStatus.freeze);
 			EntityWrapper<Shop> wrapper=new EntityWrapper<Shop>();
 			wrapper.eq("merchant_id", merchantId);
             Integer var=dao.getShopDao().update(shop, wrapper);
@@ -69,7 +69,7 @@ public class ShopServiceImpl implements ShopService{
 			if(shop.getShopId()!=null) {
 				shop.setShopId(IdWorker.getId());
 			}
-			shop.setShopStatus(ShopStatus.normal+"");
+			shop.setShopStatus(ShopStatus.normal);
 			shop.setMerchantStatus(merchantService.queryMerchantStatusByid(shop.getMerchantId(), accountId, operaterId, operaterInfo));
 			shop.setCreateTime(LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMddhhmmss")));
 			record=new OperateRecord();

@@ -7,6 +7,7 @@ import com.baomidou.mybatisplus.annotations.TableField;
 import com.baomidou.mybatisplus.annotations.TableId;
 import com.baomidou.mybatisplus.annotations.TableName;
 import com.lanxi.couponcode.spi.abstractentity.AbstractMerchant;
+import com.lanxi.couponcode.spi.consts.enums.MerchantStatus;
 /**
  * 商户类
  * @author wuxiaobo
@@ -24,7 +25,7 @@ public class Merchant extends AbstractMerchant{
 	private String merchantName;
 	/*商户状态*/
 	@TableField("merchant_status")
-	private String merchantStatus;
+	private MerchantStatus merchantStatus;
 	/*信息提交时间*/
 	@TableField("create_time")
 	private String createTime;
@@ -96,13 +97,16 @@ public class Merchant extends AbstractMerchant{
 	}
 
 	public String getMerchantStatus() {
-		return merchantStatus;
+		return merchantStatus==null?null:merchantStatus.getValue();
+		//return merchantStatus.toString();
 	}
-
-	public void setMerchantStatus(String merchantStatus) {
+	
+	public void setMerchantStatus(MerchantStatus merchantStatus) {
 		this.merchantStatus = merchantStatus;
 	}
-
+	public void setMerchantStatus(String merchantStatus) {
+		this.merchantStatus = MerchantStatus.getType(merchantStatus);
+	}
 
 
 	public String getCreateTime() {
