@@ -100,13 +100,13 @@ public class Merchant extends AbstractMerchant{
 		return merchantStatus==null?null:merchantStatus.getValue();
 		//return merchantStatus.toString();
 	}
-	
-	public void setMerchantStatus(MerchantStatus merchantStatus) {
-		this.merchantStatus = merchantStatus;
-	}
 	public void setMerchantStatus(String merchantStatus) {
 		this.merchantStatus = MerchantStatus.getType(merchantStatus);
 	}
+	public void setMerchantStatus(MerchantStatus merchantStatus) {
+		this.merchantStatus = merchantStatus;
+	}
+
 
 
 	public String getCreateTime() {

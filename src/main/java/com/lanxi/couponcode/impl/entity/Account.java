@@ -8,6 +8,7 @@ import com.baomidou.mybatisplus.annotations.TableId;
 import com.baomidou.mybatisplus.annotations.TableName;
 import com.lanxi.couponcode.spi.abstractentity.AbstractAccount;
 import com.lanxi.couponcode.spi.consts.enums.AccountStatus;
+import com.lanxi.couponcode.spi.consts.enums.AccountType;
 @TableName("account")
 public class Account extends AbstractAccount{
 	/**账户编号*/
@@ -62,7 +63,9 @@ public class Account extends AbstractAccount{
 	/**请求时间*/
 	@TableField("request_time")
 	private String requestTime;
-
+	/**账户类型*/
+	@TableField("account_type")
+	private AccountType accountType;
 
 
 	/**审核者编号*/
@@ -84,31 +87,20 @@ public class Account extends AbstractAccount{
 		return this.accountId;
 	}
 
+	
+
 	@Override
 	public String toString() {
-		return "Account{" +
-				"accountId=" + accountId +
-				", phone='" + phone + '\'' +
-				", password='" + password + '\'' +
-				", userName='" + userName + '\'' +
-				", status=" + status +
-				", merchantId=" + merchantId +
-				", merchantName='" + merchantName + '\'' +
-				", shopId=" + shopId +
-				", shopName='" + shopName + '\'' +
-				", addById=" + addById +
-				", addByName='" + addByName + '\'' +
-				", addTime='" + addTime + '\'' +
-				", requesterId=" + requesterId +
-				", requesterName='" + requesterName + '\'' +
-				", requestId=" + requestId +
-				", requestTime='" + requestTime + '\'' +
-				", checkById=" + checkById +
-				", checkName='" + checkName + '\'' +
-				", checkTime='" + checkTime + '\'' +
-				", remark='" + remark + '\'' +
-				'}';
+		return "Account [accountId=" + accountId + ", phone=" + phone + ", password=" + password + ", userName="
+				+ userName + ", status=" + status + ", merchantId=" + merchantId + ", merchantName=" + merchantName
+				+ ", shopId=" + shopId + ", shopName=" + shopName + ", addById=" + addById + ", addByName=" + addByName
+				+ ", addTime=" + addTime + ", requesterId=" + requesterId + ", requesterName=" + requesterName
+				+ ", requestId=" + requestId + ", requestTime=" + requestTime + ", accountType=" + accountType
+				+ ", checkById=" + checkById + ", checkName=" + checkName + ", checkTime=" + checkTime + ", remark="
+				+ remark + "]";
 	}
+
+
 
 	public Long getAccountId() {
 		return accountId;
@@ -152,6 +144,19 @@ public class Account extends AbstractAccount{
 	public void setStatus(String status) {
 		this.status=AccountStatus.getType(status);
 	}
+	
+	public String getAccountType() {
+		
+		return accountType==null?null:accountType.getValue();
+	}
+
+	public void setAccountType(AccountType accountType) {
+		this.accountType = accountType;
+	}
+	public void setAccountType(String accountType) {
+		this.accountType=AccountType.getType(accountType);
+	}
+
 	public Long getMerchantId() {
 		return merchantId;
 	}

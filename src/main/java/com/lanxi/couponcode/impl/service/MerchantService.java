@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.springframework.web.multipart.MultipartFile;
 
+import com.baomidou.mybatisplus.plugins.Page;
 import com.lanxi.couponcode.impl.entity.Merchant;
 import com.lanxi.couponcode.impl.entity.Shop;
 import com.lanxi.couponcode.spi.consts.enums.MerchantStatus;
@@ -32,17 +33,17 @@ public interface MerchantService {
 	public Boolean updateMerchantById(Merchant merchant,Long operaterId,String operaterInfo,
 			String operaterPhone);
 	/*分页获取商户无查询条件*/
-	public List<Merchant> getAllMerchant(Integer page,Integer size, Long operaterId, 
+	public List<Merchant> getAllMerchant(Page<Merchant> pageObj, Long operaterId, 
 			String operaterInfo,String operaterPhone);
 	/*根据条件获取商户*/
-	public List<Merchant> getMerchantByCondition(Integer page,Integer size, Long operaterId, 
+	public List<Merchant> getMerchantByCondition(Page<Merchant> pageObj, Long operaterId, 
 			String operaterInfo,String operaterPhone,String startTime,String endTime,MerchantStatus merchantStatus,
 			String merchantName);
 	/*查询商户详情*/
 	public Merchant queryMerchantParticularsById(Long merchantId,Long operaterId,String operaterInfo,
 			String operaterPhone);
 	/*查询拥有门店*/
-	public List<Shop> queryPossessShopByMerchantId(Integer page,Integer size,Long merchantId,Long operaterId,String operaterInfo,
+	public List<Shop> queryPossessShopByMerchantId(Page<Shop> pageObj,Long merchantId,Long operaterId,String operaterInfo,
 			String operaterPhone);
 	/*更改商户状态*/
 	public Boolean changeMerchanStatus(Long merchantId,Long operaterId,String operaterInfo,

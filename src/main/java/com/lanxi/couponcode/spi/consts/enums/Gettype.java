@@ -23,15 +23,17 @@ public interface Gettype{
 			clazz=Class.forName(className);
 			if(!Enum.class.isAssignableFrom(clazz))
 				throw new IllegalStateException("method : \"getType\" can only be invoked in class which extends enum !");
-			clazz.getField(value+"");
+			clazz.getDeclaredField("value");
 			T[] all=(T[]) clazz.getMethod("values").invoke(null);
 			Optional<T> opt=Stream.of(all).filter(
 						(e)->e.toString().equals(value)
 					).findAny();
 			return opt.equals(Optional.empty())?null:opt.get();
-		}catch (NoSuchFieldException e) {
+		}
+		catch (NoSuchFieldException e) {
 			throw new IllegalArgumentException("枚举类:"+clazz.getName()+"中不包含value字段!");
-		}catch (Exception e) {
+		}
+		catch (Exception e) {
 			e.printStackTrace();
 			return null;
 		}	

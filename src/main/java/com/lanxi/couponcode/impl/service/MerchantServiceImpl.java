@@ -1,12 +1,10 @@
 package com.lanxi.couponcode.impl.service;
 
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.InputStream;
-import java.io.OutputStream;
+
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.HashMap;
+
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -15,9 +13,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.TransactionDefinition;
 import org.springframework.transaction.TransactionStatus;
-import org.springframework.transaction.annotation.Transactional;
-import org.springframework.transaction.interceptor.TransactionAspectSupport;
-import org.springframework.web.multipart.MultipartFile;
 
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.plugins.Page;
@@ -136,26 +131,21 @@ public class MerchantServiceImpl implements MerchantService{
 	}
 	
 	@Override
-	public List<Merchant> getAllMerchant(Integer page,Integer size, Long operaterId, String operaterInfo,
+	public List<Merchant> getAllMerchant(Page<Merchant> pageObj, Long operaterId, String operaterInfo,
 			String operaterPhone) {
-		String locker="page["+page+"]\n"+
-			    ",size["+size+"]\n"+
-                ",operaterId["+operaterId+"]\n"+
+		String locker=
+                "operaterId["+operaterId+"]\n"+
                 ",operaterPhone["+operaterPhone+"]\n"+
                 ",operaterInfo["+operaterInfo+"]\n";
 		LogFactory.info(this, "尝试获取商户信息,\n"+locker);
 		List<Merchant> list=null;
 		try {
-			Page<Merchant>pageObj=null;
-			if(page!=null) {
-				//分页信息
-				size=size==null? ConstConfig.DEFAULT_PAGE_SIZE:size;
-				pageObj=new Page<Merchant>(page,size);
-			}
+			if(pageObj!=null) {
 			//执行查询
 			list=dao.getMerchantDao().selectPage(pageObj,null);
 			LogFactory.debug(this,"查询结果["+list+"]"+locker);
 			LogFactory.info(this,"查询到的记录数["+list.size()+"]"+locker);
+			}
 			return list;
 		} catch (Exception e) {
 			LogFactory.error(this,"查询商户时发生异常"+locker,e);
@@ -165,12 +155,10 @@ public class MerchantServiceImpl implements MerchantService{
 		
 	}
 	@Override
-	public List<Merchant> getMerchantByCondition(Integer page, Integer size,Long operaterId,
+	public List<Merchant> getMerchantByCondition(Page<Merchant> pageObj,Long operaterId,
 			String operaterInfo, String operaterPhone, String startTime, String endTime, MerchantStatus merchantStatus,
 			String merchantName) {
-		String locker="page["+page+"]\n"+
-				",size["+size+"]\n"+
-				",operaterId["+operaterId+"]\n"+
+		String locker="operaterId["+operaterId+"]\n"+
 				",operaterInfo["+operaterInfo+"]\n"+
 				",operaterPhone["+operaterPhone+"]\n"+
 				",startTime["+startTime+"]\n"+
@@ -180,37 +168,33 @@ public class MerchantServiceImpl implements MerchantService{
 		LogFactory.info(this, "尝试按条件获取商户信息\n,"+locker);
 		List<Merchant> list=null;
 		try {
-			 Page<Merchant> pageObj=null;
 	         EntityWrapper<Merchant> wrapper=new EntityWrapper<Merchant>();
-	         if(page!=null) {
-	        	 //配置分页信息
-	        	 size=size==null? ConstConfig.DEFAULT_PAGE_SIZE:size;
-	        	 pageObj=new Page<Merchant>(page,size);
-	         }
-	         //组装查询条件
-	         if(startTime!=null&&!startTime.isEmpty()){
-	                while(startTime.length()<14)
-	                    startTime+="0";
-	                wrapper.ge("create_time",startTime);
-	            }
-	            if(endTime!=null&&!endTime.isEmpty()){
-	                while(endTime.length()<14)
-	                    endTime+="9";
-	                wrapper.le("create_time",endTime);
-	            }
-	            if(merchantStatus!=null) {
-	            	wrapper.eq("merchant_status", merchantStatus);
-	            }
-	            if(merchantName!=null&&!merchantName.isEmpty()) {
-	            	wrapper.eq("merchant_name", merchantName);
-	            }
-	            list=dao.getMerchantDao().selectPage(pageObj, wrapper);
-	            //日志记录
-	            LogFactory.info(this, "条件装饰结果["+wrapper+"]"+locker);
-	            LogFactory.debug(this,"查询结果["+list+"]"+locker);
-				LogFactory.info(this,"查询到的记录数["+list.size()+"]"+locker);
-				
-				return list;
+	       if(pageObj!=null) {
+	    	   //组装查询条件
+		         if(startTime!=null&&!startTime.isEmpty()){
+		                while(startTime.length()<14)
+		                    startTime+="0";
+		                wrapper.ge("create_time",startTime);
+		            }
+		            if(endTime!=null&&!endTime.isEmpty()){
+		                while(endTime.length()<14)
+		                    endTime+="9";
+		                wrapper.le("create_time",endTime);
+		            }
+		            if(merchantStatus!=null) {
+		            	wrapper.eq("merchant_status", merchantStatus);
+		            }
+		            if(merchantName!=null&&!merchantName.isEmpty()) {
+		            	wrapper.eq("merchant_name", merchantName);
+		            }
+		            list=dao.getMerchantDao().selectPage(pageObj, wrapper);
+		            //日志记录
+		            LogFactory.info(this, "条件装饰结果["+wrapper+"]\n"+locker);
+		            LogFactory.debug(this,"查询结果["+list+"]\n"+locker);
+					LogFactory.info(this,"查询到的记录数["+list.size()+"]\n"+locker);
+	    	   
+	       }
+	        return list;
 		} catch (Exception e) {
 			// TODO: handle exception
 			LogFactory.error(this,"查询商户时发生异常"+locker,e);
@@ -242,7 +226,7 @@ public class MerchantServiceImpl implements MerchantService{
 		
 	}
 	@Override
-	public List<Shop> queryPossessShopByMerchantId(Integer page,Integer size,Long merchantId, Long operaterId, String operaterInfo,
+	public List<Shop> queryPossessShopByMerchantId(Page<Shop> pageObj,Long merchantId, Long operaterId, String operaterInfo,
 			String operaterPhone) {
 		String locker="merchantId["+merchantId+"]\n"+
                 ",operaterId["+operaterId+"]\n"+
@@ -251,21 +235,20 @@ public class MerchantServiceImpl implements MerchantService{
 		LogFactory.info(this,"尝试获取商户下属门店"+locker);
 		List<Shop> list=null;
 		try {
-			Page<Shop> pageObj=null;
-	        EntityWrapper<Shop> wrapper=new EntityWrapper<Shop>();
-	        if(page!=null) {
-	        	 //配置分页信息
-	        	 size=size==null? ConstConfig.DEFAULT_PAGE_SIZE:size;
-	        	 pageObj=new Page<Shop>(page,size);
-	         }
-			if(merchantId!=null) {
-				wrapper.eq("merchant_id", merchantId);
-			}
-			list=dao.getShopDao().selectPage(pageObj, wrapper);
-			LogFactory.info(this, "条件装饰结果["+wrapper+"]"+locker);
-			LogFactory.debug(this,"查询结果["+list+"]"+locker);
-			LogFactory.info(this,"查询到的记录数["+list.size()+"]"+locker);
-			return list;
+			
+		    EntityWrapper<Shop> wrapper=new EntityWrapper<Shop>();
+	        if(pageObj!=null) {
+	        	if(merchantId!=null) {
+					wrapper.eq("merchant_id", merchantId);
+				}
+				list=dao.getShopDao().selectPage(pageObj, wrapper);
+				LogFactory.info(this, "条件装饰结果["+wrapper+"]"+locker);
+				LogFactory.debug(this,"查询结果["+list+"]"+locker);
+				LogFactory.info(this,"查询到的记录数["+list.size()+"]"+locker);
+				
+	        }
+	        
+	        return list;
 		} catch (Exception e) {
 			// TODO: handle exception
 			LogFactory.error(this,"尝试根据商户id获取门店时发生异常"+locker,e);
@@ -541,7 +524,7 @@ public class MerchantServiceImpl implements MerchantService{
 	public Boolean fillInInformation(Merchant merchant, File organizingInstitutionBarCodePicFile,
 			File businessLicensePicFile, File otherPicFile, Long accountId, Long operaterId,
 			String operaterInfo) {
-		TransactionStatus txStatus = txManager.getTransaction(txDefinition);
+		//TransactionStatus txStatus = txManager.getTransaction(txDefinition);
 		String locker="operaterId["+operaterId+"]\n"+
                 ",accountId["+accountId+"]\n"+
                 ",operaterInfo["+operaterInfo+"]\n";
@@ -577,9 +560,9 @@ public class MerchantServiceImpl implements MerchantService{
             		result=b;
             	}else {
 					result=false;
-					String s=null;
-					s.length();
-					txManager.commit(txStatus);
+//					String s=null;
+//					s.length();
+//					txManager.commit(txStatus);
 					return result;
 				}
             	
@@ -590,9 +573,9 @@ public class MerchantServiceImpl implements MerchantService{
         		result=b;
         		}else {
 				result=false;
-				String s=null;
-				s.length();
-				txManager.commit(txStatus);
+//				String s=null;
+//				s.length();
+//				txManager.commit(txStatus);
 				return result;
         		}
             }
@@ -602,9 +585,9 @@ public class MerchantServiceImpl implements MerchantService{
             		result=b;
             	}else {
 					result=false;
-					String s=null;
-					s.length();
-					txManager.commit(txStatus);
+//					String s=null;
+//					s.length();
+//					txManager.commit(txStatus);
 					return result;
 				}
             }
@@ -613,7 +596,7 @@ public class MerchantServiceImpl implements MerchantService{
 			// TODO: handle exception
 			LogFactory.error(this,"添加商户详细信息失败"+locker,e);
 			result=false;
-			txManager.rollback(txStatus);
+			//txManager.rollback(txStatus);
 		}
 		// TODO Auto-generated method stub
 		return result;
@@ -639,32 +622,5 @@ public class MerchantServiceImpl implements MerchantService{
 		// TODO Auto-generated method stub
 		return merchantStatus;
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 	
 }
