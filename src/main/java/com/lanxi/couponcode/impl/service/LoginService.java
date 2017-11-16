@@ -6,15 +6,17 @@ package com.lanxi.couponcode.impl.service;
  */
 
 import com.lanxi.couponcode.impl.assist.RetMessage;
+import com.lanxi.couponcode.impl.entity.Account;
 
 
 public interface LoginService {
-	/*用户登录*/
-	public RetMessage<Boolean> login(String phone,String password,String validateCode); 
+	/*登录*/
+	public RetMessage<Account> login(String phone,String password,String validateCode); 
 	/*登出*/
 	public Boolean logout(Long accountId);
 	/*忘记密码*/
 	public RetMessage<Boolean> forgetPassword(String phone,String validateCode,String newPassword,String newRepeat,Long accountId);
 	/*修改密码*/
 	public RetMessage<Boolean> changePassword(String oldPasswd,String newPasswd,String newRepeat,Long accountId);
+	
 }

@@ -56,7 +56,7 @@ public class MerchantServiceImpl implements MerchantService{
 			merchant.setMerchantStatus(MerchantStatus.normal);
 			merchant.setMerchantId(IdWorker.getId());
 			//System.out.println(merchant.getMerchantId());
-			merchant.setCreateTime(LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMddhhmmss")));
+			merchant.setCreateTime(LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMddHHmmss")));
 			//尝试添加操作记录
 			record=new OperateRecord();
             record.setRecordId(IdWorker.getId());
@@ -375,7 +375,7 @@ public class MerchantServiceImpl implements MerchantService{
                 }
                 
                 //为避免文件重复用日期+商户id+证件类型做文件名
-                String time=LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMddhhmmss"));
+                String time=LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMddHHmmss"));
                 String path=Path.organizingInstitutionBarCodePicPath+time+merchant.getMerchantId()+"organizingInstitutionBarCodePic"+suffix;
                 LogFactory.info(this, "尝试保存商户组织机构代码证"+locker);
                 FileUpLoadUtil.fileUpLoad(file, path);
@@ -433,7 +433,7 @@ public class MerchantServiceImpl implements MerchantService{
                 	return result;
                 }
                 //为避免文件重复用日期+商户id+证件类型做文件名
-                String time=LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMddhhmmss"));
+                String time=LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMddHHmmss"));
                 String path=Path.businessLicensePicPath+time+merchant.getMerchantId()+"businessLicensePic"+suffix;
                 LogFactory.info(this, "尝试保存商户工商营业执照"+locker);
                 FileUpLoadUtil.fileUpLoad(file, path);
@@ -492,7 +492,7 @@ public class MerchantServiceImpl implements MerchantService{
                 	return result;
                 }
                 //为避免文件重复用日期+商户id+证件类型做文件名
-                String time=LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMddhhmmss"));
+                String time=LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMddHHmmss"));
                 String path=Path.otherPicPath+time+merchant.getMerchantId()+"otherPic"+suffix;
                 LogFactory.info(this, "尝试保存商户其他证明资料"+locker);
                 FileUpLoadUtil.fileUpLoad(file, path);

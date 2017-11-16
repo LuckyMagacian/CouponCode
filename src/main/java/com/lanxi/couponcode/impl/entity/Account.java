@@ -14,6 +14,12 @@ public class Account extends AbstractAccount{
 	/**账户编号*/
 	@TableId("account_id")
 	private Long accountId;
+	/**账户登录失败次数*/
+	@TableField("login_failure_num")
+	private Integer loginFailureNum;
+	/**账户上次登录失败时间*/
+	@TableField("login_failure_time")
+	private String loginFailureTime;
 	/**用户手机号码*/
 	@TableField("phone")
 	private String phone;
@@ -87,21 +93,32 @@ public class Account extends AbstractAccount{
 		return this.accountId;
 	}
 
-	
+	public Integer getLoginFailureNum() {
+		return loginFailureNum;
+	}
+
+	public void setLoginFailureNum(Integer loginFailureNum) {
+		this.loginFailureNum = loginFailureNum;
+	}
+
+	public String getLoginFailureTime() {
+		return loginFailureTime;
+	}
+
+	public void setLoginFailureTime(String loginFailureTime) {
+		this.loginFailureTime = loginFailureTime;
+	}
 
 	@Override
 	public String toString() {
-		return "Account [accountId=" + accountId + ", phone=" + phone + ", password=" + password + ", userName="
-				+ userName + ", status=" + status + ", merchantId=" + merchantId + ", merchantName=" + merchantName
-				+ ", shopId=" + shopId + ", shopName=" + shopName + ", addById=" + addById + ", addByName=" + addByName
-				+ ", addTime=" + addTime + ", requesterId=" + requesterId + ", requesterName=" + requesterName
-				+ ", requestId=" + requestId + ", requestTime=" + requestTime + ", accountType=" + accountType
-				+ ", checkById=" + checkById + ", checkName=" + checkName + ", checkTime=" + checkTime + ", remark="
-				+ remark + "]";
+		return "Account [accountId=" + accountId + ", loginFailureNum=" + loginFailureNum + ", loginFailureTime="
+				+ loginFailureTime + ", phone=" + phone + ", password=" + password + ", userName=" + userName
+				+ ", status=" + status + ", merchantId=" + merchantId + ", merchantName=" + merchantName + ", shopId="
+				+ shopId + ", shopName=" + shopName + ", addById=" + addById + ", addByName=" + addByName + ", addTime="
+				+ addTime + ", requesterId=" + requesterId + ", requesterName=" + requesterName + ", requestId="
+				+ requestId + ", requestTime=" + requestTime + ", accountType=" + accountType + ", checkById="
+				+ checkById + ", checkName=" + checkName + ", checkTime=" + checkTime + ", remark=" + remark + "]";
 	}
-
-
-
 	public Long getAccountId() {
 		return accountId;
 	}

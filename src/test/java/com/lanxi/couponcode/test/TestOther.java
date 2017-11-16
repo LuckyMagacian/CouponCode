@@ -29,6 +29,5 @@ public class TestOther {
     public void test2() {
     	System.out.println(JSON.toJSONString(null));
     }
-    
-    
+  
 }

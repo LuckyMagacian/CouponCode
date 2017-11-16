@@ -7,6 +7,7 @@ import com.lanxi.couponcode.impl.entity.Shop;
 import com.lanxi.couponcode.impl.service.AccountServiceImpl;
 import com.lanxi.couponcode.impl.service.CodeOperateRecordServiceImpl;
 import com.lanxi.couponcode.impl.service.CouponCodeServiceImpl;
+import com.lanxi.couponcode.impl.service.LoginServiceImpl;
 import com.lanxi.couponcode.impl.service.MerchantServiceImpl;
 import com.lanxi.couponcode.impl.service.ShopServiceImpl;
 import com.lanxi.couponcode.spi.consts.enums.AccountType;
@@ -66,14 +67,17 @@ public class TestSpring {
     }
     @Test
     public void test4() {
-    	AccountServiceImpl serviceImpl=ac.getBean(AccountServiceImpl.class);
+    	
+    	LoginServiceImpl serviceImpl=ac.getBean(LoginServiceImpl.class);
     	//System.out.println(serviceImpl.merchantAccount(AccountType.admin, "aa", "13165978091", "bb", 1L, 1L));
     	//System.out.println(serviceImpl.delAccount(930337119628374016L,null));
 //    	Page<Account>pageObj=new Page<Account>(1,10);
 //    	System.out.println(serviceImpl.queryAccounts("13165978091", null, null, null, pageObj, null));
     	//System.out.println(serviceImpl.queryAccountInfo(930337119628374016L,null));
-    	System.out.println(serviceImpl.phoneVerify("18838427407", null));
+    	System.out.println(serviceImpl.login("13165978091","123456789", "a"));
+    	
     }
+    
     
    
 }

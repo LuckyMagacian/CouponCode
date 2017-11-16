@@ -1,701 +1,229 @@
-2017-11-14 09:18:53,563 INFO [com.lanxi.util.utils.LoggerUtil] - <log4j初始化完成!>
-2017-11-14 09:18:53,600 INFO [com.lanxi.couponcode.impl.service.MerchantServiceImpl] - <尝试添加商户详细信息,
-operaterId[null]
-,accountId[null]
-,operaterInfo[null]
->
-2017-11-14 09:18:53,834 INFO [com.lanxi.couponcode.impl.service.MerchantServiceImpl] - <尝试添加商户资料operaterId[null]
-,accountId[null]
-,operaterInfo[null]
->
-2017-11-14 09:18:54,065 INFO [com.lanxi.couponcode.impl.service.MerchantServiceImpl] - <添加商户资料成功
-operaterId[null]
-,accountId[null]
-,operaterInfo[null]
->
-2017-11-14 09:18:54,065 INFO [com.lanxi.couponcode.impl.service.MerchantServiceImpl] - <尝试添加商户组织机构代码证,
-operaterId[null]
-,accountId[null]
-,operaterInfo[null]
->
-2017-11-14 09:18:54,071 INFO [com.lanxi.couponcode.impl.service.MerchantServiceImpl] - <尝试保存商户组织机构代码证operaterId[null]
-,accountId[null]
-,operaterInfo[null]
->
-2017-11-14 09:18:54,086 INFO [com.lanxi.couponcode.impl.service.MerchantServiceImpl] - <保存商户组织机构代码证成功
-operaterId[null]
-,accountId[null]
-,operaterInfo[null]
->
-2017-11-14 09:18:54,103 INFO [com.lanxi.couponcode.impl.service.MerchantServiceImpl] - <保存商户组织机构代码证操作记录[OperateRecord{recordId=930243608707039232, operaterId=null, operaterPhone='null', targetType=8, description='上传商户组织机构代码证', operateTime='20171114091854', operateResult='成功', remark='null', operaterInfo='null', targetInfo='{"merchantId":1,"merchantName":"56789","organizingInstitutionBarCodePic":"F:/organizingInstitutionBarCode/201711140918541organizingInstitutionBarCodePic.jpg"}', targetResultInfo='null', moreInfo='null'}]结果[true],
-operaterId[null]
-,accountId[null]
-,operaterInfo[null]
->
-2017-11-14 09:18:54,103 INFO [com.lanxi.couponcode.impl.service.MerchantServiceImpl] - <尝试添加商户工商营业执照,
-operaterId[null]
-,accountId[null]
-,operaterInfo[null]
->
-2017-11-14 09:18:54,103 INFO [com.lanxi.couponcode.impl.service.MerchantServiceImpl] - <尝试保存商户工商营业执照operaterId[null]
-,accountId[null]
-,operaterInfo[null]
->
-2017-11-14 09:18:54,127 INFO [com.lanxi.couponcode.impl.service.MerchantServiceImpl] - <保存商户工商营业执照成功
-operaterId[null]
-,accountId[null]
-,operaterInfo[null]
->
-2017-11-14 09:18:54,146 INFO [com.lanxi.couponcode.impl.service.MerchantServiceImpl] - <保存商户工商营业执照操作记录[OperateRecord{recordId=930243608858034176, operaterId=null, operaterPhone='null', targetType=8, description='上传商户工商营业执照', operateTime='20171114091854', operateResult='成功', remark='null', operaterInfo='null', targetInfo='{"businessLicensePic":"F:/businessLicensePic/201711140918541businessLicensePic.jpg","merchantId":1,"merchantName":"56789","organizingInstitutionBarCodePic":"F:/organizingInstitutionBarCode/201711140918541organizingInstitutionBarCodePic.jpg"}', targetResultInfo='null', moreInfo='null'}]结果[true],
-operaterId[null]
-,accountId[null]
-,operaterInfo[null]
->
-2017-11-14 09:18:54,146 INFO [com.lanxi.couponcode.impl.service.MerchantServiceImpl] - <尝试添加商户其他证明资料,
-operaterId[null]
-,accountId[null]
-,operaterInfo[null]
->
-2017-11-14 09:18:54,147 INFO [com.lanxi.couponcode.impl.service.MerchantServiceImpl] - <尝试保存商户其他证明资料operaterId[null]
-,accountId[null]
-,operaterInfo[null]
->
-2017-11-14 09:18:54,160 INFO [com.lanxi.couponcode.impl.service.MerchantServiceImpl] - <保存商户其他证明资料
-operaterId[null]
-,accountId[null]
-,operaterInfo[null]
->
-2017-11-14 09:18:54,177 INFO [com.lanxi.couponcode.impl.service.MerchantServiceImpl] - <保存商户其他证明资料操作记录[OperateRecord{recordId=930243609055166464, operaterId=null, operaterPhone='null', targetType=8, description='上传商户其他证明资料', operateTime='20171114091854', operateResult='成功', remark='null', operaterInfo='null', targetInfo='{"businessLicensePic":"F:/businessLicensePic/201711140918541businessLicensePic.jpg","merchantId":1,"merchantName":"56789","organizingInstitutionBarCodePic":"F:/organizingInstitutionBarCode/201711140918541organizingInstitutionBarCodePic.jpg","otherPic":"F:/otherPic/201711140918541otherPic.jpg"}', targetResultInfo='null', moreInfo='null'}]结果[true],
-operaterId[null]
-,accountId[null]
-,operaterInfo[null]
->
-2017-11-14 09:18:54,182 INFO [com.alibaba.dubbo.config.AbstractConfig] - < [DUBBO] Run shutdown hook now., dubbo version: 2.5.3, current host: 127.0.0.1>
-2017-11-14 09:18:54,187 INFO [com.alibaba.dubbo.registry.support.AbstractRegistryFactory] - < [DUBBO] Close all registries [], dubbo version: 2.5.3, current host: 127.0.0.1>
-2017-11-14 09:20:10,119 INFO [com.lanxi.util.utils.LoggerUtil] - <log4j初始化完成!>
-2017-11-14 09:20:10,120 INFO [com.lanxi.couponcode.impl.service.MerchantServiceImpl] - <尝试添加商户详细信息,
-operaterId[null]
-,accountId[null]
-,operaterInfo[null]
->
-2017-11-14 09:20:10,363 INFO [com.lanxi.couponcode.impl.service.MerchantServiceImpl] - <尝试添加商户资料operaterId[null]
-,accountId[null]
-,operaterInfo[null]
->
-2017-11-14 09:20:10,615 INFO [com.lanxi.couponcode.impl.service.MerchantServiceImpl] - <添加商户资料成功
-operaterId[null]
-,accountId[null]
-,operaterInfo[null]
->
-2017-11-14 09:20:10,615 INFO [com.lanxi.couponcode.impl.service.MerchantServiceImpl] - <尝试添加商户组织机构代码证,
-operaterId[null]
-,accountId[null]
-,operaterInfo[null]
->
-2017-11-14 09:20:10,622 INFO [com.lanxi.couponcode.impl.service.MerchantServiceImpl] - <尝试保存商户组织机构代码证operaterId[null]
-,accountId[null]
-,operaterInfo[null]
->
-2017-11-14 09:20:10,751 INFO [com.lanxi.couponcode.impl.service.MerchantServiceImpl] - <保存商户组织机构代码证成功
-operaterId[null]
-,accountId[null]
-,operaterInfo[null]
->
-2017-11-14 09:20:10,770 INFO [com.lanxi.couponcode.impl.service.MerchantServiceImpl] - <保存商户组织机构代码证操作记录[OperateRecord{recordId=930243929780981760, operaterId=null, operaterPhone='null', targetType=8, description='上传商户组织机构代码证', operateTime='20171114092010', operateResult='成功', remark='null', operaterInfo='null', targetInfo='{"merchantId":1,"merchantName":"56789","organizingInstitutionBarCodePic":"F:/organizingInstitutionBarCode/201711140920101organizingInstitutionBarCodePic.jpg"}', targetResultInfo='null', moreInfo='null'}]结果[true],
-operaterId[null]
-,accountId[null]
-,operaterInfo[null]
->
-2017-11-14 09:20:10,770 INFO [com.lanxi.couponcode.impl.service.MerchantServiceImpl] - <尝试添加商户工商营业执照,
-operaterId[null]
-,accountId[null]
-,operaterInfo[null]
->
-2017-11-14 09:20:10,770 INFO [com.lanxi.couponcode.impl.service.MerchantServiceImpl] - <尝试保存商户工商营业执照operaterId[null]
-,accountId[null]
-,operaterInfo[null]
->
-2017-11-14 09:20:10,804 INFO [com.lanxi.couponcode.impl.service.MerchantServiceImpl] - <保存商户工商营业执照成功
-operaterId[null]
-,accountId[null]
-,operaterInfo[null]
->
-2017-11-14 09:20:10,822 INFO [com.lanxi.couponcode.impl.service.MerchantServiceImpl] - <保存商户工商营业执照操作记录[OperateRecord{recordId=930243930435293184, operaterId=null, operaterPhone='null', targetType=8, description='上传商户工商营业执照', operateTime='20171114092010', operateResult='成功', remark='null', operaterInfo='null', targetInfo='{"businessLicensePic":"F:/businessLicensePic/201711140920101businessLicensePic.jpg","merchantId":1,"merchantName":"56789","organizingInstitutionBarCodePic":"F:/organizingInstitutionBarCode/201711140920101organizingInstitutionBarCodePic.jpg"}', targetResultInfo='null', moreInfo='null'}]结果[true],
-operaterId[null]
-,accountId[null]
-,operaterInfo[null]
->
-2017-11-14 09:20:10,824 INFO [com.lanxi.couponcode.impl.service.MerchantServiceImpl] - <尝试添加商户其他证明资料,
-operaterId[null]
-,accountId[null]
-,operaterInfo[null]
->
-2017-11-14 09:20:10,825 INFO [com.lanxi.couponcode.impl.service.MerchantServiceImpl] - <尝试保存商户其他证明资料operaterId[null]
-,accountId[null]
-,operaterInfo[null]
->
-2017-11-14 09:20:10,867 INFO [com.lanxi.couponcode.impl.service.MerchantServiceImpl] - <保存商户其他证明资料
-operaterId[null]
-,accountId[null]
-,operaterInfo[null]
->
-2017-11-14 09:20:10,894 INFO [com.lanxi.couponcode.impl.service.MerchantServiceImpl] - <保存商户其他证明资料操作记录[OperateRecord{recordId=930243930670174208, operaterId=null, operaterPhone='null', targetType=8, description='上传商户其他证明资料', operateTime='20171114092010', operateResult='成功', remark='null', operaterInfo='null', targetInfo='{"businessLicensePic":"F:/businessLicensePic/201711140920101businessLicensePic.jpg","merchantId":1,"merchantName":"56789","organizingInstitutionBarCodePic":"F:/organizingInstitutionBarCode/201711140920101organizingInstitutionBarCodePic.jpg","otherPic":"F:/otherPic/201711140920101otherPic.jpg"}', targetResultInfo='null', moreInfo='null'}]结果[true],
-operaterId[null]
-,accountId[null]
-,operaterInfo[null]
->
-2017-11-14 09:20:10,898 INFO [com.alibaba.dubbo.config.AbstractConfig] - < [DUBBO] Run shutdown hook now., dubbo version: 2.5.3, current host: 127.0.0.1>
-2017-11-14 09:20:10,915 INFO [com.alibaba.dubbo.registry.support.AbstractRegistryFactory] - < [DUBBO] Close all registries [], dubbo version: 2.5.3, current host: 127.0.0.1>
-2017-11-14 14:33:37,956 INFO [com.lanxi.util.utils.LoggerUtil] - <log4j初始化完成!>
-2017-11-14 14:33:37,957 INFO [com.lanxi.couponcode.impl.service.MerchantServiceImpl] - <尝试获取商户信息,
-operaterId[null]
-,operaterPhone[null]
-,operaterInfo[null]
->
-2017-11-14 14:33:38,223 INFO [com.alibaba.dubbo.config.AbstractConfig] - < [DUBBO] Run shutdown hook now., dubbo version: 2.5.3, current host: 127.0.0.1>
-2017-11-14 14:33:38,229 INFO [com.alibaba.dubbo.registry.support.AbstractRegistryFactory] - < [DUBBO] Close all registries [], dubbo version: 2.5.3, current host: 127.0.0.1>
-2017-11-14 15:00:37,574 INFO [com.lanxi.util.utils.LoggerUtil] - <log4j初始化完成!>
-2017-11-14 15:00:37,587 INFO [com.alibaba.dubbo.config.AbstractConfig] - < [DUBBO] Run shutdown hook now., dubbo version: 2.5.3, current host: 127.0.0.1>
-2017-11-14 15:00:37,591 INFO [com.alibaba.dubbo.registry.support.AbstractRegistryFactory] - < [DUBBO] Close all registries [], dubbo version: 2.5.3, current host: 127.0.0.1>
-2017-11-14 15:01:58,039 INFO [com.lanxi.util.utils.LoggerUtil] - <log4j初始化完成!>
-2017-11-14 15:01:58,040 INFO [com.lanxi.couponcode.impl.service.MerchantServiceImpl] - <尝试获取商户信息,
-operaterId[null]
-,operaterPhone[null]
-,operaterInfo[null]
->
-2017-11-14 15:01:58,302 INFO [com.alibaba.dubbo.config.AbstractConfig] - < [DUBBO] Run shutdown hook now., dubbo version: 2.5.3, current host: 127.0.0.1>
-2017-11-14 15:01:58,307 INFO [com.alibaba.dubbo.registry.support.AbstractRegistryFactory] - < [DUBBO] Close all registries [], dubbo version: 2.5.3, current host: 127.0.0.1>
-2017-11-14 15:03:28,338 INFO [com.lanxi.util.utils.LoggerUtil] - <log4j初始化完成!>
-2017-11-14 15:03:28,339 INFO [com.lanxi.couponcode.impl.service.MerchantServiceImpl] - <尝试获取商户信息,
-operaterId[null]
-,operaterPhone[null]
-,operaterInfo[null]
->
-2017-11-14 15:03:28,656 INFO [com.alibaba.dubbo.config.AbstractConfig] - < [DUBBO] Run shutdown hook now., dubbo version: 2.5.3, current host: 127.0.0.1>
-2017-11-14 15:03:28,662 INFO [com.alibaba.dubbo.registry.support.AbstractRegistryFactory] - < [DUBBO] Close all registries [], dubbo version: 2.5.3, current host: 127.0.0.1>
-2017-11-14 15:19:33,566 INFO [com.lanxi.util.utils.LoggerUtil] - <log4j初始化完成!>
-2017-11-14 15:19:33,568 INFO [com.lanxi.couponcode.impl.service.CouponCodeServiceImpl] - <尝试根据条件查询串码,
-createTimeStart[null]
-createTimeEnd[null]
-merchantName[null]
-commodityName[null]
-code[null]
-codeId[1]
-codeStatus[null]
-commodityId[null]
-merchantId[null]
-overTimeStart[null]
-overTimeEnd[null]
->
-2017-11-14 15:19:33,587 INFO [com.lanxi.couponcode.impl.service.CouponCodeServiceImpl] - <根据条件查询串码,实体装饰器拼装结果[WHERE (code_id LIKE ?)],
-createTimeStart[null]
-createTimeEnd[null]
-merchantName[null]
-commodityName[null]
-code[null]
-codeId[1]
-codeStatus[null]
-commodityId[null]
-merchantId[null]
-overTimeStart[null]
-overTimeEnd[null]
->
-2017-11-14 15:19:33,871 INFO [com.alibaba.dubbo.config.AbstractConfig] - < [DUBBO] Run shutdown hook now., dubbo version: 2.5.3, current host: 127.0.0.1>
-2017-11-14 15:19:33,875 INFO [com.alibaba.dubbo.registry.support.AbstractRegistryFactory] - < [DUBBO] Close all registries [], dubbo version: 2.5.3, current host: 127.0.0.1>
-2017-11-14 15:30:28,651 INFO [com.lanxi.util.utils.LoggerUtil] - <log4j初始化完成!>
-2017-11-14 15:30:28,653 INFO [com.lanxi.couponcode.impl.service.AccountServiceImpl] - <尝试添加商户账户,
-accountType[1]
-,name[aa]
-,phone[13165978091]
-,merchantName[bb]
-,merchantId[1]
-,operaterId[1]
->
-2017-11-14 15:30:29,061 INFO [com.lanxi.couponcode.impl.service.AccountServiceImpl] - <添加商户账户成功
-accountType[1]
-,name[aa]
-,phone[13165978091]
-,merchantName[bb]
-,merchantId[1]
-,operaterId[1]
->
-2017-11-14 15:30:29,216 INFO [com.lanxi.couponcode.impl.service.AccountServiceImpl] - <尝试添加商户账户操作记录
-accountType[1]
-,name[aa]
-,phone[13165978091]
-,merchantName[bb]
-,merchantId[1]
-,operaterId[1]
->
-2017-11-14 15:30:29,235 INFO [com.lanxi.couponcode.impl.service.AccountServiceImpl] - <添加商户账户操作记录[OperateRecord{recordId=930337120702115840, operaterId=1, operaterPhone='null', targetType=7, description='添加商户账户', operateTime='20171114153029', operateResult='null', remark='null', operaterInfo='null', targetInfo='{"accountId":930337119628374016,"accountType":"1","addTime":"20171114033028","merchantId":1,"merchantName":"bb","phone":"13165978091","requesterId":1,"status":"1","userName":"aa"}', targetResultInfo='null', moreInfo='null'}]结果[true],
-accountType[1]
-,name[aa]
-,phone[13165978091]
-,merchantName[bb]
-,merchantId[1]
-,operaterId[1]
->
-2017-11-14 15:30:29,244 INFO [com.alibaba.dubbo.config.AbstractConfig] - < [DUBBO] Run shutdown hook now., dubbo version: 2.5.3, current host: 127.0.0.1>
-2017-11-14 15:30:29,248 INFO [com.alibaba.dubbo.registry.support.AbstractRegistryFactory] - < [DUBBO] Close all registries [], dubbo version: 2.5.3, current host: 127.0.0.1>
-2017-11-14 15:31:51,097 INFO [com.lanxi.util.utils.LoggerUtil] - <log4j初始化完成!>
-2017-11-14 15:31:51,098 INFO [com.lanxi.couponcode.impl.service.AccountServiceImpl] - <尝试添加门店账户,
-accountType[1]
-,name[aa]
-,phone[13165978091]
-,shopName[bb]
-,merchantId[1]
-,operaterId[1]
->
-2017-11-14 15:31:51,534 INFO [com.lanxi.couponcode.impl.service.AccountServiceImpl] - <添加门店账户成功
-accountType[1]
-,name[aa]
-,phone[13165978091]
-,shopName[bb]
-,merchantId[1]
-,operaterId[1]
->
-2017-11-14 15:31:51,647 INFO [com.lanxi.couponcode.impl.service.AccountServiceImpl] - <尝试添加门店账户操作记录
-accountType[1]
-,name[aa]
-,phone[13165978091]
-,shopName[bb]
-,merchantId[1]
-,operaterId[1]
->
-2017-11-14 15:31:51,667 INFO [com.lanxi.couponcode.impl.service.AccountServiceImpl] - <添加门店账户操作记录[OperateRecord{recordId=930337466623156224, operaterId=1, operaterPhone='null', targetType=7, description='添加门店账户', operateTime='20171114153151', operateResult='null', remark='null', operaterInfo='null', targetInfo='{"accountId":930337465276784640,"accountType":"1","addTime":"20171114033151","merchantId":1,"phone":"13165978091","requesterId":1,"shopName":"bb","status":"1","userName":"aa"}', targetResultInfo='null', moreInfo='null'}]结果[true],
-accountType[1]
-,name[aa]
-,phone[13165978091]
-,shopName[bb]
-,merchantId[1]
-,operaterId[1]
->
-2017-11-14 15:31:51,671 INFO [com.alibaba.dubbo.config.AbstractConfig] - < [DUBBO] Run shutdown hook now., dubbo version: 2.5.3, current host: 127.0.0.1>
-2017-11-14 15:31:51,675 INFO [com.alibaba.dubbo.registry.support.AbstractRegistryFactory] - < [DUBBO] Close all registries [], dubbo version: 2.5.3, current host: 127.0.0.1>
-2017-11-14 15:33:50,501 INFO [com.lanxi.util.utils.LoggerUtil] - <log4j初始化完成!>
-2017-11-14 15:33:50,503 INFO [com.lanxi.couponcode.impl.service.AccountServiceImpl] - <尝试冻结账号
-accountId[930337119628374016]
-,operaterId[null]>
-2017-11-14 15:33:50,693 INFO [com.lanxi.couponcode.impl.service.AccountServiceImpl] - <冻结账户成功
-accountId[930337119628374016]
-,operaterId[null]>
-2017-11-14 15:33:50,693 INFO [com.lanxi.couponcode.impl.service.AccountServiceImpl] - <尝试添加冻结账户操作记录
-accountId[930337119628374016]
-,operaterId[null]>
-2017-11-14 15:33:50,978 INFO [com.lanxi.couponcode.impl.service.AccountServiceImpl] - <添加冻结账户操作记录[OperateRecord{recordId=930337966831644672, operaterId=null, operaterPhone='null', targetType=7, description='冻结账户', operateTime='20171114153350', operateResult='null', remark='null', operaterInfo='null', targetInfo='{"accountId":930337119628374016,"status":"2"}', targetResultInfo='null', moreInfo='null'}]结果[true],
-accountId[930337119628374016]
-,operaterId[null]>
-2017-11-14 15:33:51,013 INFO [com.alibaba.dubbo.config.AbstractConfig] - < [DUBBO] Run shutdown hook now., dubbo version: 2.5.3, current host: 127.0.0.1>
-2017-11-14 15:33:51,052 INFO [com.alibaba.dubbo.registry.support.AbstractRegistryFactory] - < [DUBBO] Close all registries [], dubbo version: 2.5.3, current host: 127.0.0.1>
-2017-11-14 15:34:40,516 INFO [com.lanxi.util.utils.LoggerUtil] - <log4j初始化完成!>
-2017-11-14 15:34:40,517 INFO [com.lanxi.couponcode.impl.service.AccountServiceImpl] - <尝试开启账户
-accountId[930337119628374016]
-,operaterId[null]>
-2017-11-14 15:34:40,731 INFO [com.lanxi.couponcode.impl.service.AccountServiceImpl] - <开启账户成功
-accountId[930337119628374016]
-,operaterId[null]>
-2017-11-14 15:34:40,732 INFO [com.lanxi.couponcode.impl.service.AccountServiceImpl] - <尝试开启冻结账户操作记录
-accountId[930337119628374016]
-,operaterId[null]>
-2017-11-14 15:34:40,998 INFO [com.lanxi.couponcode.impl.service.AccountServiceImpl] - <添加开启账户操作记录[OperateRecord{recordId=930338176685248512, operaterId=null, operaterPhone='null', targetType=7, description='开启账户', operateTime='20171114153440', operateResult='null', remark='null', operaterInfo='null', targetInfo='{"accountId":930337119628374016,"status":"1"}', targetResultInfo='null', moreInfo='null'}]结果[true],
-accountId[930337119628374016]
-,operaterId[null]>
-2017-11-14 15:34:41,016 INFO [com.alibaba.dubbo.config.AbstractConfig] - < [DUBBO] Run shutdown hook now., dubbo version: 2.5.3, current host: 127.0.0.1>
-2017-11-14 15:34:41,020 INFO [com.alibaba.dubbo.registry.support.AbstractRegistryFactory] - < [DUBBO] Close all registries [], dubbo version: 2.5.3, current host: 127.0.0.1>
-2017-11-14 15:35:18,301 INFO [com.lanxi.util.utils.LoggerUtil] - <log4j初始化完成!>
-2017-11-14 15:35:18,302 INFO [com.lanxi.couponcode.impl.service.AccountServiceImpl] - <尝试删除账号
-accountId[930337119628374016]
-,operaterId[null]>
-2017-11-14 15:35:18,526 INFO [com.lanxi.couponcode.impl.service.AccountServiceImpl] - <删除账户成功
-accountId[930337119628374016]
-,operaterId[null]>
-2017-11-14 15:35:18,526 INFO [com.lanxi.couponcode.impl.service.AccountServiceImpl] - <尝试添加删除账户操作记录
-accountId[930337119628374016]
-,operaterId[null]>
-2017-11-14 15:35:18,788 INFO [com.lanxi.couponcode.impl.service.AccountServiceImpl] - <添加删除账户操作记录[OperateRecord{recordId=930338335234134016, operaterId=null, operaterPhone='null', targetType=7, description='删除账户', operateTime='20171114153518', operateResult='null', remark='null', operaterInfo='null', targetInfo='{"accountId":930337119628374016,"status":"3"}', targetResultInfo='null', moreInfo='null'}]结果[true],
-accountId[930337119628374016]
-,operaterId[null]>
-2017-11-14 15:35:18,793 INFO [com.alibaba.dubbo.config.AbstractConfig] - < [DUBBO] Run shutdown hook now., dubbo version: 2.5.3, current host: 127.0.0.1>
-2017-11-14 15:35:18,799 INFO [com.alibaba.dubbo.registry.support.AbstractRegistryFactory] - < [DUBBO] Close all registries [], dubbo version: 2.5.3, current host: 127.0.0.1>
-2017-11-14 15:37:26,322 INFO [com.lanxi.util.utils.LoggerUtil] - <log4j初始化完成!>
-2017-11-14 15:37:26,324 INFO [com.lanxi.couponcode.impl.service.AccountServiceImpl] - <尝试获取账户信息/nphone[13165978091]
-,merchantName[null]
-,AccountType[null]
-,AccountStatus[null]
-,operaterId[null]>
-2017-11-14 15:37:26,327 INFO [com.lanxi.couponcode.impl.service.AccountServiceImpl] - <条件装饰结果[null]
+2017-11-15 15:14:46,095 INFO [com.lanxi.util.utils.LoggerUtil] - <log4j初始化完成!>
+2017-11-15 15:14:46,430 INFO [com.alibaba.dubbo.config.AbstractConfig] - < [DUBBO] Run shutdown hook now., dubbo version: 2.5.3, current host: 127.0.0.1>
+2017-11-15 15:14:46,435 INFO [com.alibaba.dubbo.registry.support.AbstractRegistryFactory] - < [DUBBO] Close all registries [], dubbo version: 2.5.3, current host: 127.0.0.1>
+2017-11-15 17:13:20,542 INFO [com.lanxi.util.utils.LoggerUtil] - <log4j初始化完成!>
+2017-11-15 17:13:20,544 INFO [com.lanxi.couponcode.impl.service.LoginServiceImpl] - <尝试登录账户
 phone[13165978091]
-,merchantName[null]
-,AccountType[null]
-,AccountStatus[null]
-,operaterId[null]>
-2017-11-14 15:37:26,632 INFO [org.springframework.beans.factory.xml.XmlBeanDefinitionReader] - <Loading XML bean definitions from class path resource [org/springframework/jdbc/support/sql-error-codes.xml]>
-2017-11-14 15:37:26,782 INFO [org.springframework.jdbc.support.SQLErrorCodesFactory] - <SQLErrorCodes loaded: [DB2, Derby, H2, HSQL, Informix, MS-SQL, MySQL, Oracle, PostgreSQL, Sybase, Hana]>
-2017-11-14 15:37:26,809 INFO [com.alibaba.dubbo.config.AbstractConfig] - < [DUBBO] Run shutdown hook now., dubbo version: 2.5.3, current host: 127.0.0.1>
-2017-11-14 15:37:26,813 INFO [com.alibaba.dubbo.registry.support.AbstractRegistryFactory] - < [DUBBO] Close all registries [], dubbo version: 2.5.3, current host: 127.0.0.1>
-2017-11-14 15:42:02,490 INFO [com.lanxi.util.utils.LoggerUtil] - <log4j初始化完成!>
-2017-11-14 15:42:02,491 INFO [com.lanxi.couponcode.impl.service.AccountServiceImpl] - <尝试获取账户信息/nphone[13165978091]
-,merchantName[null]
-,AccountType[null]
-,AccountStatus[null]
-,operaterId[null]>
-2017-11-14 15:42:02,495 INFO [com.lanxi.couponcode.impl.service.AccountServiceImpl] - <条件装饰结果[null]
+,password[123456789]
+,validateCode[null]
+>
+2017-11-15 17:13:20,554 INFO [com.alibaba.dubbo.config.AbstractConfig] - < [DUBBO] Run shutdown hook now., dubbo version: 2.5.3, current host: 127.0.0.1>
+2017-11-15 17:13:20,560 INFO [com.alibaba.dubbo.registry.support.AbstractRegistryFactory] - < [DUBBO] Close all registries [], dubbo version: 2.5.3, current host: 127.0.0.1>
+2017-11-15 17:14:19,181 INFO [com.lanxi.util.utils.LoggerUtil] - <log4j初始化完成!>
+2017-11-15 17:14:19,182 INFO [com.lanxi.couponcode.impl.service.LoginServiceImpl] - <尝试登录账户
 phone[13165978091]
-,merchantName[null]
-,AccountType[null]
-,AccountStatus[null]
-,operaterId[null]>
-2017-11-14 15:42:02,815 INFO [com.alibaba.dubbo.config.AbstractConfig] - < [DUBBO] Run shutdown hook now., dubbo version: 2.5.3, current host: 127.0.0.1>
-2017-11-14 15:42:02,828 INFO [com.alibaba.dubbo.registry.support.AbstractRegistryFactory] - < [DUBBO] Close all registries [], dubbo version: 2.5.3, current host: 127.0.0.1>
-2017-11-14 15:46:13,662 INFO [com.lanxi.util.utils.LoggerUtil] - <log4j初始化完成!>
-2017-11-14 15:46:13,664 INFO [com.lanxi.couponcode.impl.service.AccountServiceImpl] - <尝试获取账户信息/nphone[13165978091]
-,merchantName[null]
-,AccountType[null]
-,AccountStatus[null]
-,operaterId[null]>
-2017-11-14 15:46:13,668 INFO [com.lanxi.couponcode.impl.service.AccountServiceImpl] - <条件装饰结果[WHERE (phone = ?)]
+,password[123456789]
+,validateCode[a]
+>
+2017-11-15 17:14:19,195 INFO [com.alibaba.dubbo.config.AbstractConfig] - < [DUBBO] Run shutdown hook now., dubbo version: 2.5.3, current host: 127.0.0.1>
+2017-11-15 17:14:19,202 INFO [com.alibaba.dubbo.registry.support.AbstractRegistryFactory] - < [DUBBO] Close all registries [], dubbo version: 2.5.3, current host: 127.0.0.1>
+2017-11-15 17:16:49,963 INFO [com.lanxi.util.utils.LoggerUtil] - <log4j初始化完成!>
+2017-11-15 17:16:49,965 INFO [com.lanxi.couponcode.impl.service.LoginServiceImpl] - <尝试登录账户
 phone[13165978091]
-,merchantName[null]
-,AccountType[null]
-,AccountStatus[null]
-,operaterId[null]>
-2017-11-14 15:46:13,969 INFO [com.alibaba.dubbo.config.AbstractConfig] - < [DUBBO] Run shutdown hook now., dubbo version: 2.5.3, current host: 127.0.0.1>
-2017-11-14 15:46:13,973 INFO [com.alibaba.dubbo.registry.support.AbstractRegistryFactory] - < [DUBBO] Close all registries [], dubbo version: 2.5.3, current host: 127.0.0.1>
-2017-11-14 16:00:10,383 INFO [com.lanxi.util.utils.LoggerUtil] - <log4j初始化完成!>
-2017-11-14 16:00:10,385 INFO [com.lanxi.couponcode.impl.service.AccountServiceImpl] - <尝试获取账户信息/nphone[13165978091]
-,merchantName[null]
-,AccountType[null]
-,AccountStatus[null]
-,operaterId[null]>
-2017-11-14 16:00:10,390 INFO [com.lanxi.couponcode.impl.service.AccountServiceImpl] - <条件装饰结果[WHERE (phone = ?)]
+,password[123456789]
+,validateCode[a]
+>
+2017-11-15 17:16:49,965 INFO [com.lanxi.couponcode.impl.service.LoginServiceImpl] - <判断[13165978091]所对应的用户是否存在,
 phone[13165978091]
-,merchantName[null]
-,AccountType[null]
-,AccountStatus[null]
-,operaterId[null]>
-2017-11-14 16:00:10,661 INFO [com.lanxi.couponcode.impl.service.AccountServiceImpl] - <查询到的总记录数[2]
+,password[123456789]
+,validateCode[a]
+>
+2017-11-15 17:16:50,288 INFO [com.alibaba.dubbo.config.AbstractConfig] - < [DUBBO] Run shutdown hook now., dubbo version: 2.5.3, current host: 127.0.0.1>
+2017-11-15 17:16:50,292 INFO [com.alibaba.dubbo.registry.support.AbstractRegistryFactory] - < [DUBBO] Close all registries [], dubbo version: 2.5.3, current host: 127.0.0.1>
+2017-11-15 17:18:21,254 INFO [com.lanxi.util.utils.LoggerUtil] - <log4j初始化完成!>
+2017-11-15 17:18:21,255 INFO [com.lanxi.couponcode.impl.service.LoginServiceImpl] - <尝试登录账户
 phone[13165978091]
-,merchantName[null]
-,AccountType[null]
-,AccountStatus[null]
-,operaterId[null]>
-2017-11-14 16:00:10,666 INFO [com.alibaba.dubbo.config.AbstractConfig] - < [DUBBO] Run shutdown hook now., dubbo version: 2.5.3, current host: 127.0.0.1>
-2017-11-14 16:00:10,670 INFO [com.alibaba.dubbo.registry.support.AbstractRegistryFactory] - < [DUBBO] Close all registries [], dubbo version: 2.5.3, current host: 127.0.0.1>
-2017-11-14 16:05:19,250 INFO [com.lanxi.util.utils.LoggerUtil] - <log4j初始化完成!>
-2017-11-14 16:05:19,252 INFO [com.lanxi.couponcode.impl.service.AccountServiceImpl] - <尝试获取账户信息
-shopId[1]
-,operaterId[null]>
-2017-11-14 16:05:19,257 INFO [com.lanxi.couponcode.impl.service.AccountServiceImpl] - <条件装饰结果[WHERE (shop_id = ?)]
-shopId[1]
-,operaterId[null]>
-2017-11-14 16:05:19,533 INFO [com.lanxi.couponcode.impl.service.AccountServiceImpl] - <查询到的总记录数[1]
-shopId[1]
-,operaterId[null]>
-2017-11-14 16:05:19,537 INFO [com.alibaba.dubbo.config.AbstractConfig] - < [DUBBO] Run shutdown hook now., dubbo version: 2.5.3, current host: 127.0.0.1>
-2017-11-14 16:05:19,570 INFO [com.alibaba.dubbo.registry.support.AbstractRegistryFactory] - < [DUBBO] Close all registries [], dubbo version: 2.5.3, current host: 127.0.0.1>
-2017-11-14 16:07:35,276 INFO [com.lanxi.util.utils.LoggerUtil] - <log4j初始化完成!>
-2017-11-14 16:07:35,277 INFO [com.lanxi.couponcode.impl.service.AccountServiceImpl] - <尝试获取账户信息
-shopId[1]
-,operaterId[null]>
-2017-11-14 16:07:35,282 INFO [com.lanxi.couponcode.impl.service.AccountServiceImpl] - <条件装饰结果[WHERE (shop_id = ?)]
-shopId[1]
-,operaterId[null]>
-2017-11-14 16:07:35,537 INFO [com.lanxi.couponcode.impl.service.AccountServiceImpl] - <查询到的总记录数[1]
-shopId[1]
-,operaterId[null]>
-2017-11-14 16:07:35,539 INFO [com.alibaba.dubbo.config.AbstractConfig] - < [DUBBO] Run shutdown hook now., dubbo version: 2.5.3, current host: 127.0.0.1>
-2017-11-14 16:07:35,544 INFO [com.alibaba.dubbo.registry.support.AbstractRegistryFactory] - < [DUBBO] Close all registries [], dubbo version: 2.5.3, current host: 127.0.0.1>
-2017-11-14 16:08:47,298 INFO [com.lanxi.util.utils.LoggerUtil] - <log4j初始化完成!>
-2017-11-14 16:08:47,299 INFO [com.lanxi.couponcode.impl.service.AccountServiceImpl] - <尝试根据账户id获取账户信息
-accountId[930337119628374016]
-,operaterId[null]>
-2017-11-14 16:08:47,482 INFO [com.alibaba.dubbo.config.AbstractConfig] - < [DUBBO] Run shutdown hook now., dubbo version: 2.5.3, current host: 127.0.0.1>
-2017-11-14 16:08:47,486 INFO [com.alibaba.dubbo.registry.support.AbstractRegistryFactory] - < [DUBBO] Close all registries [], dubbo version: 2.5.3, current host: 127.0.0.1>
-2017-11-14 16:14:11,825 INFO [com.lanxi.util.utils.LoggerUtil] - <log4j初始化完成!>
-2017-11-14 16:14:11,827 INFO [com.lanxi.couponcode.impl.service.MerchantServiceImpl] - <尝试获取商户信息,
-operaterId[null]
-,operaterPhone[null]
-,operaterInfo[null]
+,password[123456789]
+,validateCode[a]
 >
-2017-11-14 16:14:12,110 INFO [com.lanxi.couponcode.impl.service.MerchantServiceImpl] - <查询到的记录数[3]operaterId[null]
-,operaterPhone[null]
-,operaterInfo[null]
->
-2017-11-14 16:14:12,114 INFO [com.alibaba.dubbo.config.AbstractConfig] - < [DUBBO] Run shutdown hook now., dubbo version: 2.5.3, current host: 127.0.0.1>
-2017-11-14 16:14:12,118 INFO [com.alibaba.dubbo.registry.support.AbstractRegistryFactory] - < [DUBBO] Close all registries [], dubbo version: 2.5.3, current host: 127.0.0.1>
-2017-11-14 16:17:03,826 INFO [com.lanxi.util.utils.LoggerUtil] - <log4j初始化完成!>
-2017-11-14 16:17:03,828 INFO [com.lanxi.couponcode.impl.service.MerchantServiceImpl] - <尝试按条件获取商户信息
-,operaterId[null]
-,operaterInfo[null]
-,operaterPhone[null]
-,startTime[null]
-,endTime[null]
-,merchantStatus[null]
-,merchantName[null]
->
-2017-11-14 16:17:04,108 INFO [com.lanxi.couponcode.impl.service.MerchantServiceImpl] - <条件装饰结果[null]
-operaterId[null]
-,operaterInfo[null]
-,operaterPhone[null]
-,startTime[null]
-,endTime[null]
-,merchantStatus[null]
-,merchantName[null]
->
-2017-11-14 16:17:04,109 INFO [com.lanxi.couponcode.impl.service.MerchantServiceImpl] - <查询到的记录数[3]
-operaterId[null]
-,operaterInfo[null]
-,operaterPhone[null]
-,startTime[null]
-,endTime[null]
-,merchantStatus[null]
-,merchantName[null]
->
-2017-11-14 16:17:04,114 INFO [com.alibaba.dubbo.config.AbstractConfig] - < [DUBBO] Run shutdown hook now., dubbo version: 2.5.3, current host: 127.0.0.1>
-2017-11-14 16:17:04,118 INFO [com.alibaba.dubbo.registry.support.AbstractRegistryFactory] - < [DUBBO] Close all registries [], dubbo version: 2.5.3, current host: 127.0.0.1>
-2017-11-14 16:19:13,180 INFO [com.lanxi.util.utils.LoggerUtil] - <log4j初始化完成!>
-2017-11-14 16:19:13,182 INFO [com.lanxi.couponcode.impl.service.MerchantServiceImpl] - <尝试获取商户详情merchantId[1]
-,operaterId[null]
-,operaterPhone[null]
-,operaterInfo[null]
->
-2017-11-14 16:19:13,341 INFO [com.alibaba.dubbo.config.AbstractConfig] - < [DUBBO] Run shutdown hook now., dubbo version: 2.5.3, current host: 127.0.0.1>
-2017-11-14 16:19:13,346 INFO [com.alibaba.dubbo.registry.support.AbstractRegistryFactory] - < [DUBBO] Close all registries [], dubbo version: 2.5.3, current host: 127.0.0.1>
-2017-11-14 16:21:43,245 INFO [com.lanxi.util.utils.LoggerUtil] - <log4j初始化完成!>
-2017-11-14 16:21:43,246 INFO [com.lanxi.couponcode.impl.service.MerchantServiceImpl] - <尝试获取商户下属门店merchantId[1]
-,operaterId[null]
-,operaterPhone[null]
-,operaterInfo[null]
->
-2017-11-14 16:21:43,505 INFO [com.lanxi.couponcode.impl.service.MerchantServiceImpl] - <条件装饰结果[WHERE (merchant_id = ?)]merchantId[1]
-,operaterId[null]
-,operaterPhone[null]
-,operaterInfo[null]
->
-2017-11-14 16:21:43,505 INFO [com.lanxi.couponcode.impl.service.MerchantServiceImpl] - <查询到的记录数[2]merchantId[1]
-,operaterId[null]
-,operaterPhone[null]
-,operaterInfo[null]
->
-2017-11-14 16:21:43,510 INFO [com.alibaba.dubbo.config.AbstractConfig] - < [DUBBO] Run shutdown hook now., dubbo version: 2.5.3, current host: 127.0.0.1>
-2017-11-14 16:21:43,515 INFO [com.alibaba.dubbo.registry.support.AbstractRegistryFactory] - < [DUBBO] Close all registries [], dubbo version: 2.5.3, current host: 127.0.0.1>
-2017-11-14 16:25:04,837 INFO [com.lanxi.util.utils.LoggerUtil] - <log4j初始化完成!>
-2017-11-14 16:25:04,859 INFO [com.lanxi.couponcode.impl.service.MerchantServiceImpl] - <尝试添加商户详细信息,
-operaterId[null]
-,accountId[null]
-,operaterInfo[null]
->
-2017-11-14 16:25:05,195 INFO [com.lanxi.couponcode.impl.service.MerchantServiceImpl] - <尝试添加商户资料operaterId[null]
-,accountId[null]
-,operaterInfo[null]
->
-2017-11-14 16:25:05,450 INFO [com.lanxi.couponcode.impl.service.MerchantServiceImpl] - <添加商户资料成功
-operaterId[null]
-,accountId[null]
-,operaterInfo[null]
->
-2017-11-14 16:25:05,450 INFO [com.lanxi.couponcode.impl.service.MerchantServiceImpl] - <尝试添加商户组织机构代码证,
-operaterId[null]
-,accountId[null]
-,operaterInfo[null]
->
-2017-11-14 16:25:05,455 INFO [com.lanxi.couponcode.impl.service.MerchantServiceImpl] - <尝试保存商户组织机构代码证operaterId[null]
-,accountId[null]
-,operaterInfo[null]
->
-2017-11-14 16:25:05,495 INFO [com.lanxi.couponcode.impl.service.MerchantServiceImpl] - <保存商户组织机构代码证成功
-operaterId[null]
-,accountId[null]
-,operaterInfo[null]
->
-2017-11-14 16:25:05,518 INFO [com.lanxi.couponcode.impl.service.MerchantServiceImpl] - <保存商户组织机构代码证操作记录[OperateRecord{recordId=930350862659694592, operaterId=null, operaterPhone='null', targetType=8, description='上传商户组织机构代码证', operateTime='20171114162505', operateResult='成功', remark='null', operaterInfo='null', targetInfo='{"merchantId":1,"merchantName":"蓝喜","organizingInstitutionBarCodePic":"F:/organizingInstitutionBarCode/201711140425051organizingInstitutionBarCodePic.jpg"}', targetResultInfo='null', moreInfo='null'}]结果[true],
-operaterId[null]
-,accountId[null]
-,operaterInfo[null]
->
-2017-11-14 16:25:05,518 INFO [com.lanxi.couponcode.impl.service.MerchantServiceImpl] - <尝试添加商户工商营业执照,
-operaterId[null]
-,accountId[null]
-,operaterInfo[null]
->
-2017-11-14 16:25:05,518 INFO [com.lanxi.couponcode.impl.service.MerchantServiceImpl] - <尝试保存商户工商营业执照operaterId[null]
-,accountId[null]
-,operaterInfo[null]
->
-2017-11-14 16:25:05,560 INFO [com.lanxi.couponcode.impl.service.MerchantServiceImpl] - <保存商户工商营业执照成功
-operaterId[null]
-,accountId[null]
-,operaterInfo[null]
->
-2017-11-14 16:25:05,571 INFO [com.lanxi.couponcode.impl.service.MerchantServiceImpl] - <保存商户工商营业执照操作记录[OperateRecord{recordId=930350863137845248, operaterId=null, operaterPhone='null', targetType=8, description='上传商户工商营业执照', operateTime='20171114162505', operateResult='成功', remark='null', operaterInfo='null', targetInfo='{"businessLicensePic":"F:/businessLicensePic/201711140425051businessLicensePic.jpg","merchantId":1,"merchantName":"蓝喜","organizingInstitutionBarCodePic":"F:/organizingInstitutionBarCode/201711140425051organizingInstitutionBarCodePic.jpg"}', targetResultInfo='null', moreInfo='null'}]结果[true],
-operaterId[null]
-,accountId[null]
-,operaterInfo[null]
->
-2017-11-14 16:25:05,571 INFO [com.lanxi.couponcode.impl.service.MerchantServiceImpl] - <尝试添加商户其他证明资料,
-operaterId[null]
-,accountId[null]
-,operaterInfo[null]
->
-2017-11-14 16:25:05,572 INFO [com.lanxi.couponcode.impl.service.MerchantServiceImpl] - <尝试保存商户其他证明资料operaterId[null]
-,accountId[null]
-,operaterInfo[null]
->
-2017-11-14 16:25:05,591 INFO [com.lanxi.couponcode.impl.service.MerchantServiceImpl] - <保存商户其他证明资料
-operaterId[null]
-,accountId[null]
-,operaterInfo[null]
->
-2017-11-14 16:25:05,633 INFO [com.lanxi.couponcode.impl.service.MerchantServiceImpl] - <保存商户其他证明资料操作记录[OperateRecord{recordId=930350863385309184, operaterId=null, operaterPhone='null', targetType=8, description='上传商户其他证明资料', operateTime='20171114162505', operateResult='成功', remark='null', operaterInfo='null', targetInfo='{"businessLicensePic":"F:/businessLicensePic/201711140425051businessLicensePic.jpg","merchantId":1,"merchantName":"蓝喜","organizingInstitutionBarCodePic":"F:/organizingInstitutionBarCode/201711140425051organizingInstitutionBarCodePic.jpg","otherPic":"F:/otherPic/201711140425051otherPic.jpg"}', targetResultInfo='null', moreInfo='null'}]结果[true],
-operaterId[null]
-,accountId[null]
-,operaterInfo[null]
->
-2017-11-14 16:25:05,649 INFO [com.alibaba.dubbo.config.AbstractConfig] - < [DUBBO] Run shutdown hook now., dubbo version: 2.5.3, current host: 127.0.0.1>
-2017-11-14 16:25:05,665 INFO [com.alibaba.dubbo.registry.support.AbstractRegistryFactory] - < [DUBBO] Close all registries [], dubbo version: 2.5.3, current host: 127.0.0.1>
-2017-11-14 16:34:28,361 INFO [com.lanxi.util.utils.LoggerUtil] - <log4j初始化完成!>
-2017-11-14 16:34:28,362 INFO [com.lanxi.couponcode.impl.service.MerchantServiceImpl] - <尝试添加商户详细信息,
-operaterId[null]
-,accountId[null]
-,operaterInfo[null]
->
-2017-11-14 16:34:28,655 INFO [com.lanxi.couponcode.impl.service.MerchantServiceImpl] - <尝试添加商户资料operaterId[null]
-,accountId[null]
-,operaterInfo[null]
->
-2017-11-14 16:34:28,929 INFO [com.lanxi.couponcode.impl.service.MerchantServiceImpl] - <添加商户资料成功
-operaterId[null]
-,accountId[null]
-,operaterInfo[null]
->
-2017-11-14 16:34:28,929 INFO [com.lanxi.couponcode.impl.service.MerchantServiceImpl] - <尝试添加商户组织机构代码证,
-operaterId[null]
-,accountId[null]
-,operaterInfo[null]
->
-2017-11-14 16:34:28,936 INFO [com.lanxi.couponcode.impl.service.MerchantServiceImpl] - <尝试保存商户组织机构代码证operaterId[null]
-,accountId[null]
-,operaterInfo[null]
->
-2017-11-14 16:34:28,961 INFO [com.lanxi.couponcode.impl.service.MerchantServiceImpl] - <保存商户组织机构代码证成功
-operaterId[null]
-,accountId[null]
-,operaterInfo[null]
->
-2017-11-14 16:34:28,983 INFO [com.lanxi.couponcode.impl.service.MerchantServiceImpl] - <保存商户组织机构代码证操作记录[OperateRecord{recordId=930353226271621120, operaterId=null, operaterPhone='null', targetType=8, description='上传商户组织机构代码证', operateTime='20171114163428', operateResult='成功', remark='null', operaterInfo='null', targetInfo='{"merchantId":1,"merchantName":"蓝喜","organizingInstitutionBarCodePic":"F:/organizingInstitutionBarCode/201711140434281organizingInstitutionBarCodePic.jpg"}', targetResultInfo='null', moreInfo='null'}]结果[true],
-operaterId[null]
-,accountId[null]
-,operaterInfo[null]
->
-2017-11-14 16:34:28,983 INFO [com.lanxi.couponcode.impl.service.MerchantServiceImpl] - <尝试添加商户工商营业执照,
-operaterId[null]
-,accountId[null]
-,operaterInfo[null]
->
-2017-11-14 16:34:28,984 INFO [com.lanxi.couponcode.impl.service.MerchantServiceImpl] - <尝试保存商户工商营业执照operaterId[null]
-,accountId[null]
-,operaterInfo[null]
->
-2017-11-14 16:34:29,011 INFO [com.lanxi.couponcode.impl.service.MerchantServiceImpl] - <保存商户工商营业执照成功
-operaterId[null]
-,accountId[null]
-,operaterInfo[null]
->
-2017-11-14 16:34:29,040 INFO [com.lanxi.couponcode.impl.service.MerchantServiceImpl] - <保存商户工商营业执照操作记录[OperateRecord{recordId=930353226502307840, operaterId=null, operaterPhone='null', targetType=8, description='上传商户工商营业执照', operateTime='20171114163428', operateResult='成功', remark='null', operaterInfo='null', targetInfo='{"businessLicensePic":"F:/businessLicensePic/201711140434281businessLicensePic.jpg","merchantId":1,"merchantName":"蓝喜","organizingInstitutionBarCodePic":"F:/organizingInstitutionBarCode/201711140434281organizingInstitutionBarCodePic.jpg"}', targetResultInfo='null', moreInfo='null'}]结果[true],
-operaterId[null]
-,accountId[null]
-,operaterInfo[null]
->
-2017-11-14 16:34:29,040 INFO [com.lanxi.couponcode.impl.service.MerchantServiceImpl] - <尝试添加商户其他证明资料,
-operaterId[null]
-,accountId[null]
-,operaterInfo[null]
->
-2017-11-14 16:34:29,041 INFO [com.lanxi.couponcode.impl.service.MerchantServiceImpl] - <尝试保存商户其他证明资料operaterId[null]
-,accountId[null]
-,operaterInfo[null]
->
-2017-11-14 16:34:29,105 INFO [com.lanxi.couponcode.impl.service.MerchantServiceImpl] - <保存商户其他证明资料
-operaterId[null]
-,accountId[null]
-,operaterInfo[null]
->
-2017-11-14 16:34:29,124 INFO [com.lanxi.couponcode.impl.service.MerchantServiceImpl] - <保存商户其他证明资料操作记录[OperateRecord{recordId=930353226745577472, operaterId=null, operaterPhone='null', targetType=8, description='上传商户其他证明资料', operateTime='20171114163429', operateResult='成功', remark='null', operaterInfo='null', targetInfo='{"businessLicensePic":"F:/businessLicensePic/201711140434281businessLicensePic.jpg","merchantId":1,"merchantName":"蓝喜","organizingInstitutionBarCodePic":"F:/organizingInstitutionBarCode/201711140434281organizingInstitutionBarCodePic.jpg","otherPic":"F:/otherPic/201711140434291otherPic.jpg"}', targetResultInfo='null', moreInfo='null'}]结果[true],
-operaterId[null]
-,accountId[null]
-,operaterInfo[null]
->
-2017-11-14 16:34:29,127 INFO [com.alibaba.dubbo.config.AbstractConfig] - < [DUBBO] Run shutdown hook now., dubbo version: 2.5.3, current host: 127.0.0.1>
-2017-11-14 16:34:29,131 INFO [com.alibaba.dubbo.registry.support.AbstractRegistryFactory] - < [DUBBO] Close all registries [], dubbo version: 2.5.3, current host: 127.0.0.1>
-2017-11-14 16:45:09,532 INFO [com.lanxi.util.utils.LoggerUtil] - <log4j初始化完成!>
-2017-11-14 16:45:09,534 INFO [com.lanxi.couponcode.impl.service.MerchantServiceImpl] - <尝试修改商户状态,
-merchantId[1]
-,operaterId[null]
-,operaterPhone[null]
-,operaterInfo[null]
-,merchatStatus[freeze]
->
-2017-11-14 16:45:09,898 INFO [com.lanxi.couponcode.impl.service.MerchantServiceImpl] - <尝试同时冻结门店和商户>
-2017-11-14 16:45:09,898 INFO [com.lanxi.couponcode.impl.service.ShopServiceImpl] - <尝试冻结1所有门店,
-merchantId[1]
-,operaterId[null]
-,operaterPhone[null]
-,operaterInfo[null]
->
-2017-11-14 16:45:10,179 INFO [com.lanxi.couponcode.impl.service.ShopServiceImpl] - <冻结所有门店成功merchantId[1]
-,operaterId[null]
-,operaterPhone[null]
-,operaterInfo[null]
->
-2017-11-14 16:45:10,197 INFO [com.lanxi.couponcode.impl.service.MerchantServiceImpl] - <同时冻结门店和商户成功>
-2017-11-14 16:45:10,211 INFO [com.lanxi.couponcode.impl.service.MerchantServiceImpl] - <修改商户状态成功
-merchantId[1]
-,operaterId[null]
-,operaterPhone[null]
-,operaterInfo[null]
-,merchatStatus[freeze]
->
-2017-11-14 16:45:10,243 INFO [com.lanxi.couponcode.impl.service.MerchantServiceImpl] - <修改商户状态操作记录[OperateRecord{recordId=930355913927086080, operaterId=null, operaterPhone='null', targetType=8, description='修改商户状态', operateTime='20171114164509', operateResult='成功', remark='null', operaterInfo='null', targetInfo='{"merchantId":1}', targetResultInfo='null', moreInfo='null'}]结果[true],
-merchantId[1]
-,operaterId[null]
-,operaterPhone[null]
-,operaterInfo[null]
-,merchatStatus[freeze]
->
-2017-11-14 16:45:10,247 INFO [com.alibaba.dubbo.config.AbstractConfig] - < [DUBBO] Run shutdown hook now., dubbo version: 2.5.3, current host: 127.0.0.1>
-2017-11-14 16:45:10,250 INFO [com.alibaba.dubbo.registry.support.AbstractRegistryFactory] - < [DUBBO] Close all registries [], dubbo version: 2.5.3, current host: 127.0.0.1>
-2017-11-14 16:46:50,940 INFO [com.lanxi.util.utils.LoggerUtil] - <log4j初始化完成!>
-2017-11-14 16:46:50,941 INFO [com.lanxi.couponcode.impl.service.MerchantServiceImpl] - <尝试修改商户状态,
-merchantId[1]
-,operaterId[null]
-,operaterPhone[null]
-,operaterInfo[null]
-,merchatStatus[freeze]
->
-2017-11-14 16:46:51,219 INFO [com.lanxi.couponcode.impl.service.MerchantServiceImpl] - <尝试同时冻结门店和商户>
-2017-11-14 16:46:51,220 INFO [com.lanxi.couponcode.impl.service.ShopServiceImpl] - <尝试冻结1所有门店,
-merchantId[1]
-,operaterId[null]
-,operaterPhone[null]
-,operaterInfo[null]
->
-2017-11-14 16:46:51,470 INFO [com.lanxi.couponcode.impl.service.ShopServiceImpl] - <冻结所有门店成功merchantId[1]
-,operaterId[null]
-,operaterPhone[null]
-,operaterInfo[null]
->
-2017-11-14 16:46:51,481 INFO [com.lanxi.couponcode.impl.service.MerchantServiceImpl] - <同时冻结门店和商户成功>
-2017-11-14 16:46:51,509 INFO [com.alibaba.dubbo.config.AbstractConfig] - < [DUBBO] Run shutdown hook now., dubbo version: 2.5.3, current host: 127.0.0.1>
-2017-11-14 16:46:51,513 INFO [com.alibaba.dubbo.registry.support.AbstractRegistryFactory] - < [DUBBO] Close all registries [], dubbo version: 2.5.3, current host: 127.0.0.1>
-2017-11-14 17:07:18,790 INFO [com.lanxi.util.utils.LoggerUtil] - <log4j初始化完成!>
-2017-11-14 17:07:18,791 INFO [com.lanxi.couponcode.impl.service.AccountServiceImpl] - <查询手机号码是否已注册
+2017-11-15 17:18:21,255 INFO [com.lanxi.couponcode.impl.service.LoginServiceImpl] - <判断[13165978091]所对应的用户是否存在,
 phone[13165978091]
-,operaterId[null]>
-2017-11-14 17:07:19,056 INFO [com.alibaba.dubbo.config.AbstractConfig] - < [DUBBO] Run shutdown hook now., dubbo version: 2.5.3, current host: 127.0.0.1>
-2017-11-14 17:07:19,062 INFO [com.alibaba.dubbo.registry.support.AbstractRegistryFactory] - < [DUBBO] Close all registries [], dubbo version: 2.5.3, current host: 127.0.0.1>
-2017-11-14 17:07:47,280 INFO [com.lanxi.util.utils.LoggerUtil] - <log4j初始化完成!>
-2017-11-14 17:07:47,282 INFO [com.lanxi.couponcode.impl.service.AccountServiceImpl] - <查询手机号码是否已注册
-phone[18838427407]
-,operaterId[null]>
-2017-11-14 17:07:47,540 INFO [com.alibaba.dubbo.config.AbstractConfig] - < [DUBBO] Run shutdown hook now., dubbo version: 2.5.3, current host: 127.0.0.1>
-2017-11-14 17:07:47,543 INFO [com.alibaba.dubbo.registry.support.AbstractRegistryFactory] - < [DUBBO] Close all registries [], dubbo version: 2.5.3, current host: 127.0.0.1>
+,password[123456789]
+,validateCode[a]
+>
+2017-11-15 17:18:21,546 INFO [com.alibaba.dubbo.config.AbstractConfig] - < [DUBBO] Run shutdown hook now., dubbo version: 2.5.3, current host: 127.0.0.1>
+2017-11-15 17:18:21,551 INFO [com.alibaba.dubbo.registry.support.AbstractRegistryFactory] - < [DUBBO] Close all registries [], dubbo version: 2.5.3, current host: 127.0.0.1>
+2017-11-15 17:20:35,598 INFO [com.lanxi.util.utils.LoggerUtil] - <log4j初始化完成!>
+2017-11-15 17:20:35,600 INFO [com.lanxi.couponcode.impl.service.LoginServiceImpl] - <尝试登录账户
+phone[13165978091]
+,password[123456789]
+,validateCode[a]
+>
+2017-11-15 17:20:35,600 INFO [com.lanxi.couponcode.impl.service.LoginServiceImpl] - <判断[13165978091]所对应的用户是否存在,
+phone[13165978091]
+,password[123456789]
+,validateCode[a]
+>
+2017-11-15 17:20:35,875 INFO [com.alibaba.dubbo.config.AbstractConfig] - < [DUBBO] Run shutdown hook now., dubbo version: 2.5.3, current host: 127.0.0.1>
+2017-11-15 17:20:35,879 INFO [com.alibaba.dubbo.registry.support.AbstractRegistryFactory] - < [DUBBO] Close all registries [], dubbo version: 2.5.3, current host: 127.0.0.1>
+2017-11-15 17:21:13,430 INFO [com.lanxi.util.utils.LoggerUtil] - <log4j初始化完成!>
+2017-11-15 17:21:13,433 INFO [com.lanxi.couponcode.impl.service.LoginServiceImpl] - <尝试登录账户
+phone[13165978091]
+,password[123456789]
+,validateCode[a]
+>
+2017-11-15 17:21:13,433 INFO [com.lanxi.couponcode.impl.service.LoginServiceImpl] - <判断[13165978091]所对应的用户是否存在,
+phone[13165978091]
+,password[123456789]
+,validateCode[a]
+>
+2017-11-15 17:21:13,748 INFO [com.lanxi.couponcode.impl.service.LoginServiceImpl] - <尝试插入登录操作记录
+phone[13165978091]
+,password[123456789]
+,validateCode[a]
+>
+2017-11-15 17:21:14,071 INFO [com.lanxi.couponcode.impl.service.LoginServiceImpl] - <登录成功把失败登录次数和失败登录时间清零,/nphone[13165978091]
+,password[123456789]
+,validateCode[a]
+>
+2017-11-15 17:21:14,119 INFO [com.lanxi.couponcode.impl.service.LoginServiceImpl] - <添加登录账户操作记录[OperateRecord{recordId=930727379084402688, operaterId=null, operaterPhone='13165978091', targetType=7, description='账户登录', operateTime='20171115172113', operateResult='null', remark='null', operaterInfo='null', targetInfo='{"accountId":930337119628374016,"accountType":"1","addTime":"20171114033028","loginFailureNum":0,"loginFailureTime":"20171114033028","merchantId":1,"merchantName":"bb","password":"123456789","phone":"13165978091","requesterId":1,"status":"1","userName":"aa"}', targetResultInfo='null', moreInfo='null'}]结果[true],
+phone[13165978091]
+,password[123456789]
+,validateCode[a]
+>
+2017-11-15 17:21:14,123 INFO [com.alibaba.dubbo.config.AbstractConfig] - < [DUBBO] Run shutdown hook now., dubbo version: 2.5.3, current host: 127.0.0.1>
+2017-11-15 17:21:14,128 INFO [com.alibaba.dubbo.registry.support.AbstractRegistryFactory] - < [DUBBO] Close all registries [], dubbo version: 2.5.3, current host: 127.0.0.1>
+2017-11-15 17:21:53,960 INFO [com.lanxi.util.utils.LoggerUtil] - <log4j初始化完成!>
+2017-11-15 17:21:53,962 INFO [com.lanxi.couponcode.impl.service.LoginServiceImpl] - <尝试登录账户
+phone[13165978091]
+,password[12345679]
+,validateCode[a]
+>
+2017-11-15 17:21:53,962 INFO [com.lanxi.couponcode.impl.service.LoginServiceImpl] - <判断[13165978091]所对应的用户是否存在,
+phone[13165978091]
+,password[12345679]
+,validateCode[a]
+>
+2017-11-15 17:21:54,269 INFO [com.alibaba.dubbo.config.AbstractConfig] - < [DUBBO] Run shutdown hook now., dubbo version: 2.5.3, current host: 127.0.0.1>
+2017-11-15 17:21:54,274 INFO [com.alibaba.dubbo.registry.support.AbstractRegistryFactory] - < [DUBBO] Close all registries [], dubbo version: 2.5.3, current host: 127.0.0.1>
+2017-11-15 17:22:31,899 INFO [com.lanxi.util.utils.LoggerUtil] - <log4j初始化完成!>
+2017-11-15 17:22:31,901 INFO [com.lanxi.couponcode.impl.service.LoginServiceImpl] - <尝试登录账户
+phone[13165978091]
+,password[12345679]
+,validateCode[a]
+>
+2017-11-15 17:22:31,901 INFO [com.lanxi.couponcode.impl.service.LoginServiceImpl] - <判断[13165978091]所对应的用户是否存在,
+phone[13165978091]
+,password[12345679]
+,validateCode[a]
+>
+2017-11-15 17:22:32,226 INFO [com.alibaba.dubbo.config.AbstractConfig] - < [DUBBO] Run shutdown hook now., dubbo version: 2.5.3, current host: 127.0.0.1>
+2017-11-15 17:22:32,231 INFO [com.alibaba.dubbo.registry.support.AbstractRegistryFactory] - < [DUBBO] Close all registries [], dubbo version: 2.5.3, current host: 127.0.0.1>
+2017-11-15 17:22:57,116 INFO [com.lanxi.util.utils.LoggerUtil] - <log4j初始化完成!>
+2017-11-15 17:22:57,118 INFO [com.lanxi.couponcode.impl.service.LoginServiceImpl] - <尝试登录账户
+phone[13165978091]
+,password[12345679]
+,validateCode[a]
+>
+2017-11-15 17:22:57,118 INFO [com.lanxi.couponcode.impl.service.LoginServiceImpl] - <判断[13165978091]所对应的用户是否存在,
+phone[13165978091]
+,password[12345679]
+,validateCode[a]
+>
+2017-11-15 17:22:57,445 INFO [com.alibaba.dubbo.config.AbstractConfig] - < [DUBBO] Run shutdown hook now., dubbo version: 2.5.3, current host: 127.0.0.1>
+2017-11-15 17:22:57,454 INFO [com.alibaba.dubbo.registry.support.AbstractRegistryFactory] - < [DUBBO] Close all registries [], dubbo version: 2.5.3, current host: 127.0.0.1>
+2017-11-15 17:23:17,337 INFO [com.lanxi.util.utils.LoggerUtil] - <log4j初始化完成!>
+2017-11-15 17:23:17,339 INFO [com.lanxi.couponcode.impl.service.LoginServiceImpl] - <尝试登录账户
+phone[13165978091]
+,password[12345679]
+,validateCode[a]
+>
+2017-11-15 17:23:17,340 INFO [com.lanxi.couponcode.impl.service.LoginServiceImpl] - <判断[13165978091]所对应的用户是否存在,
+phone[13165978091]
+,password[12345679]
+,validateCode[a]
+>
+2017-11-15 17:23:17,639 INFO [com.alibaba.dubbo.config.AbstractConfig] - < [DUBBO] Run shutdown hook now., dubbo version: 2.5.3, current host: 127.0.0.1>
+2017-11-15 17:23:17,645 INFO [com.alibaba.dubbo.registry.support.AbstractRegistryFactory] - < [DUBBO] Close all registries [], dubbo version: 2.5.3, current host: 127.0.0.1>
+2017-11-15 17:23:48,666 INFO [com.lanxi.util.utils.LoggerUtil] - <log4j初始化完成!>
+2017-11-15 17:23:48,668 INFO [com.lanxi.couponcode.impl.service.LoginServiceImpl] - <尝试登录账户
+phone[13165978091]
+,password[12345679]
+,validateCode[a]
+>
+2017-11-15 17:23:48,668 INFO [com.lanxi.couponcode.impl.service.LoginServiceImpl] - <判断[13165978091]所对应的用户是否存在,
+phone[13165978091]
+,password[12345679]
+,validateCode[a]
+>
+2017-11-15 17:23:48,980 INFO [com.alibaba.dubbo.config.AbstractConfig] - < [DUBBO] Run shutdown hook now., dubbo version: 2.5.3, current host: 127.0.0.1>
+2017-11-15 17:23:48,985 INFO [com.alibaba.dubbo.registry.support.AbstractRegistryFactory] - < [DUBBO] Close all registries [], dubbo version: 2.5.3, current host: 127.0.0.1>
+2017-11-15 17:38:08,627 INFO [com.lanxi.util.utils.LoggerUtil] - <log4j初始化完成!>
+2017-11-15 17:38:08,629 INFO [com.lanxi.couponcode.impl.service.LoginServiceImpl] - <尝试登录账户
+phone[13165978091]
+,password[12345679]
+,validateCode[a]
+>
+2017-11-15 17:38:08,629 INFO [com.lanxi.couponcode.impl.service.LoginServiceImpl] - <判断[13165978091]所对应的用户是否存在,
+phone[13165978091]
+,password[12345679]
+,validateCode[a]
+>
+2017-11-15 17:38:08,948 INFO [com.alibaba.dubbo.config.AbstractConfig] - < [DUBBO] Run shutdown hook now., dubbo version: 2.5.3, current host: 127.0.0.1>
+2017-11-15 17:38:08,971 INFO [com.alibaba.dubbo.registry.support.AbstractRegistryFactory] - < [DUBBO] Close all registries [], dubbo version: 2.5.3, current host: 127.0.0.1>
+2017-11-15 17:38:27,452 INFO [com.lanxi.util.utils.LoggerUtil] - <log4j初始化完成!>
+2017-11-15 17:38:27,453 INFO [com.lanxi.couponcode.impl.service.LoginServiceImpl] - <尝试登录账户
+phone[13165978091]
+,password[12345679]
+,validateCode[a]
+>
+2017-11-15 17:38:27,453 INFO [com.lanxi.couponcode.impl.service.LoginServiceImpl] - <判断[13165978091]所对应的用户是否存在,
+phone[13165978091]
+,password[12345679]
+,validateCode[a]
+>
+2017-11-15 17:38:27,738 INFO [com.alibaba.dubbo.config.AbstractConfig] - < [DUBBO] Run shutdown hook now., dubbo version: 2.5.3, current host: 127.0.0.1>
+2017-11-15 17:38:27,742 INFO [com.alibaba.dubbo.registry.support.AbstractRegistryFactory] - < [DUBBO] Close all registries [], dubbo version: 2.5.3, current host: 127.0.0.1>
+2017-11-15 17:40:41,758 INFO [com.lanxi.util.utils.LoggerUtil] - <log4j初始化完成!>
+2017-11-15 17:40:41,759 INFO [com.lanxi.couponcode.impl.service.LoginServiceImpl] - <尝试登录账户
+phone[13165978091]
+,password[123456789]
+,validateCode[a]
+>
+2017-11-15 17:40:41,759 INFO [com.lanxi.couponcode.impl.service.LoginServiceImpl] - <判断[13165978091]所对应的用户是否存在,
+phone[13165978091]
+,password[123456789]
+,validateCode[a]
+>
+2017-11-15 17:40:42,039 INFO [com.alibaba.dubbo.config.AbstractConfig] - < [DUBBO] Run shutdown hook now., dubbo version: 2.5.3, current host: 127.0.0.1>
+2017-11-15 17:40:42,044 INFO [com.alibaba.dubbo.registry.support.AbstractRegistryFactory] - < [DUBBO] Close all registries [], dubbo version: 2.5.3, current host: 127.0.0.1>
+2017-11-15 17:42:14,563 INFO [com.lanxi.util.utils.LoggerUtil] - <log4j初始化完成!>
+2017-11-15 17:42:14,565 INFO [com.lanxi.couponcode.impl.service.LoginServiceImpl] - <尝试登录账户
+phone[13165978091]
+,password[123456789]
+,validateCode[a]
+>
+2017-11-15 17:42:14,565 INFO [com.lanxi.couponcode.impl.service.LoginServiceImpl] - <判断[13165978091]所对应的用户是否存在,
+phone[13165978091]
+,password[123456789]
+,validateCode[a]
+>
+2017-11-15 17:42:14,850 INFO [com.alibaba.dubbo.config.AbstractConfig] - < [DUBBO] Run shutdown hook now., dubbo version: 2.5.3, current host: 127.0.0.1>
+2017-11-15 17:42:14,856 INFO [com.alibaba.dubbo.registry.support.AbstractRegistryFactory] - < [DUBBO] Close all registries [], dubbo version: 2.5.3, current host: 127.0.0.1>
+2017-11-15 17:42:58,407 INFO [com.lanxi.util.utils.LoggerUtil] - <log4j初始化完成!>
+2017-11-15 17:42:58,408 INFO [com.lanxi.couponcode.impl.service.LoginServiceImpl] - <尝试登录账户
+phone[13165978091]
+,password[123456789]
+,validateCode[a]
+>
+2017-11-15 17:42:58,408 INFO [com.lanxi.couponcode.impl.service.LoginServiceImpl] - <判断[13165978091]所对应的用户是否存在,
+phone[13165978091]
+,password[123456789]
+,validateCode[a]
+>
+2017-11-15 17:42:58,670 INFO [com.lanxi.couponcode.impl.service.LoginServiceImpl] - <尝试插入登录操作记录
+phone[13165978091]
+,password[123456789]
+,validateCode[a]
+>
+2017-11-15 17:42:59,014 INFO [com.lanxi.couponcode.impl.service.LoginServiceImpl] - <登录成功把失败登录次数和失败登录时间清零,/nphone[13165978091]
+,password[123456789]
+,validateCode[a]
+>
+2017-11-15 17:42:59,072 INFO [com.lanxi.couponcode.impl.service.LoginServiceImpl] - <添加登录账户操作记录[OperateRecord{recordId=930732852374278144, operaterId=null, operaterPhone='13165978091', targetType=7, description='账户登录', operateTime='20171115174258', operateResult='null', remark='null', operaterInfo='null', targetInfo='{"accountId":930337119628374016,"accountType":"1","addTime":"20171114033028","loginFailureNum":6,"loginFailureTime":"20171115143808","merchantId":1,"merchantName":"bb","password":"123456789","phone":"13165978091","requesterId":1,"status":"1","userName":"aa"}', targetResultInfo='null', moreInfo='null'}]结果[true],
+phone[13165978091]
+,password[123456789]
+,validateCode[a]
+>
+2017-11-15 17:42:59,075 INFO [com.alibaba.dubbo.config.AbstractConfig] - < [DUBBO] Run shutdown hook now., dubbo version: 2.5.3, current host: 127.0.0.1>
+2017-11-15 17:42:59,081 INFO [com.alibaba.dubbo.registry.support.AbstractRegistryFactory] - < [DUBBO] Close all registries [], dubbo version: 2.5.3, current host: 127.0.0.1>

@@ -71,7 +71,7 @@ public class ShopServiceImpl implements ShopService{
 			}
 			shop.setShopStatus(ShopStatus.normal);
 			shop.setMerchantStatus(merchantService.queryMerchantStatusByid(shop.getMerchantId(), accountId, operaterId, operaterInfo));
-			shop.setCreateTime(LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMddhhmmss")));
+			shop.setCreateTime(LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMddHHmmss")));
 			record=new OperateRecord();
             record.setRecordId(IdWorker.getId());
             record.setOperaterId(operaterId);

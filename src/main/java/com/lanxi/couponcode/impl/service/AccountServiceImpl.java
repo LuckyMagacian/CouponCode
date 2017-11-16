@@ -40,12 +40,14 @@ public class AccountServiceImpl implements AccountService{
 				account=new Account();
 				account.setAccountId(IdWorker.getId());
 				account.setAccountType(accountType);
+				account.setLoginFailureNum(0);
+				account.setLoginFailureTime("20171114033028");
 				account.setUserName(name);
 				account.setPhone(phone);
 				account.setStatus(AccountStatus.normal);
 				account.setMerchantName(merchantName);
 				account.setMerchantId(merchantId);
-				account.setAddTime(LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMddhhmmss")));
+				account.setAddTime(LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMddHHmmss")));
 				account.setRequesterId(operaterId);
 				Integer var=dao.getAccountDao().insert(account);
 				if(var<0) {
@@ -93,11 +95,13 @@ public class AccountServiceImpl implements AccountService{
 				account.setAccountId(IdWorker.getId());
 				account.setAccountType(accountType);
 				account.setUserName(name);
+				account.setLoginFailureNum(0);
+				account.setLoginFailureTime("0");
 				account.setPhone(phone);
 				account.setStatus(AccountStatus.normal);
 				account.setShopName(shopName);
 				account.setShopId(shopId);
-				account.setAddTime(LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMddhhmmss")));
+				account.setAddTime(LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMddHHmmss")));
 				account.setRequesterId(operaterId);
 				Integer var=dao.getAccountDao().insert(account);
 				if(var<0) {
@@ -232,7 +236,6 @@ public class AccountServiceImpl implements AccountService{
 					result=true;
 					LogFactory.info(this,"删除账户成功\n"+locker);
 					LogFactory.info(this,"尝试添加删除账户操作记录\n"+locker);
-					record=new OperateRecord();
 					record=new OperateRecord();
 					record.setRecordId(IdWorker.getId());
 					record.setOperaterId(operaterId);
