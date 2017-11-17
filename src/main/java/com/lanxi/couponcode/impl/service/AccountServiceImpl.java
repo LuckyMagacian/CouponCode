@@ -399,7 +399,6 @@ public class AccountServiceImpl implements AccountService{
 			
 		} catch (Exception e) {
 			LogFactory.error(this,"查询手机号码是否已注册时发生异常\n"+locker,e);
-			result=false;
 			// TODO: handle exception
 		}
 		// TODO Auto-generated method stub

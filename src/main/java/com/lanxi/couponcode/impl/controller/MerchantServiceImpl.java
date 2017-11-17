@@ -11,7 +11,7 @@ import com.lanxi.couponcode.spi.consts.enums.RetCodeEnum;
 import com.lanxi.util.entity.LogFactory;
 
 import java.io.File;
-import java.util.ArrayList;
+
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -23,13 +23,20 @@ public class MerchantServiceImpl implements com.lanxi.couponcode.spi.service.Mer
 	@Resource
 	private MerchantService merchantService;
     @Override
-    public RetMessage<Boolean> addMerchant(String merchantName, String workAddress, Long operaterId) {
+    public RetMessage<Boolean> addMerchant(String merchantName, String workAddress, String minuteWorkAddress,Long operaterId) {
     	RetMessage<Boolean> retMessage=new RetMessage<Boolean>();
     	Boolean result=false;
     	try {
     		Merchant merchant=new Merchant();
-    		merchant.setMerchantName(merchantName);
-    		merchant.setWorkAddress(workAddress);
+    		if (merchantName!=null&&!merchantName.isEmpty()) {
+    			merchant.setMerchantName(merchantName);
+			}
+    		if (workAddress!=null&&!workAddress.isEmpty()) {
+    			merchant.setWorkAddress(workAddress);
+			}
+    		if (minuteWorkAddress!=null&&!minuteWorkAddress.isEmpty()) {
+    			merchant.setMinuteWorkAddress(minuteWorkAddress);
+			}
 			result=merchantService.addMerchant(merchant, operaterId, null, null);
 			if(result) {
 				retMessage.setRetCode(RetCodeEnum.success.getValue());
@@ -52,14 +59,23 @@ public class MerchantServiceImpl implements com.lanxi.couponcode.spi.service.Mer
     }
 
     @Override
-    public RetMessage<Boolean> modifyMerchant(String merchantName, String workAddress, Long operaterId, Long merchantId) {
+    public RetMessage<Boolean> modifyMerchant(String merchantName, String workAddress,String minuteWorkAddress, Long operaterId, Long merchantId) {
     	RetMessage<Boolean> retMessage=new RetMessage<Boolean>();
     	Boolean result=false;
     	try {
     		Merchant merchant=new Merchant();
-    		merchant.setMerchantName(merchantName);
-    		merchant.setWorkAddress(workAddress);
-    		merchant.setMerchantId(merchantId);
+    		if (merchantId!=null) {
+    			merchant.setMerchantId(merchantId);
+    			if (merchantName!=null&&!merchantName.isEmpty()) {
+    				merchant.setMerchantName(merchantName);
+				}
+    			if (workAddress!=null&&!workAddress.isEmpty()) {
+    				merchant.setWorkAddress(workAddress);
+				}
+    			if(minuteWorkAddress!=null&&!minuteWorkAddress.isEmpty()) {
+    				merchant.setMinuteWorkAddress(minuteWorkAddress);
+    			}
+			}
 			result=merchantService.updateMerchantById(merchant, operaterId, null, null);
 			if(result) {
 				retMessage.setRetCode(RetCodeEnum.success.getValue());
@@ -81,7 +97,8 @@ public class MerchantServiceImpl implements com.lanxi.couponcode.spi.service.Mer
     }
 
     @Override
-    public RetMessage<String> queryMerchants(String merchantName, MerchantStatus merchantStatus, String timeStart, String timeStop, Integer pageNum, Integer pageSize, Long operaterId) {
+    public RetMessage<String> queryMerchants(String merchantName, MerchantStatus merchantStatus, 
+    		String timeStart, String timeStop, Integer pageNum, Integer pageSize, Long operaterId) {
     	RetMessage<String> retMessage=new RetMessage<String>();
     	List<Merchant>merchants=null;
     	try {
@@ -173,7 +190,7 @@ public class MerchantServiceImpl implements com.lanxi.couponcode.spi.service.Mer
 
     @Override
     public RetMessage<Boolean> inputMerchantInfo(String merchantName, String serviceDistription, String workAddress,
-    		String businessLicenseNum, String organizingInstitutionBarCode, String enterpriseLegalRepresentativeName, 
+    		String minuteWorkAddress,String businessLicenseNum, String organizingInstitutionBarCode, String enterpriseLegalRepresentativeName, 
     		String contactsName, String contactPhone, String serviceTel, String contactEmail, 
     		File organizingInstitutionBarCodePic, File businessLicensePic, File otherFile, Long operaterId,
     		Long merchantId) {
@@ -183,6 +200,7 @@ public class MerchantServiceImpl implements com.lanxi.couponcode.spi.service.Mer
     		Merchant merchant=new Merchant();
     		merchant.setMerchantName(merchantName);
     		merchant.setWorkAddress(workAddress);
+    		merchant.setMinuteWorkAddress(minuteWorkAddress);
     		merchant.setCharterCode(businessLicenseNum);
     		merchant.setOraganizingCode(organizingInstitutionBarCode);
     		merchant.setPrincipal(enterpriseLegalRepresentativeName);
@@ -212,13 +230,14 @@ public class MerchantServiceImpl implements com.lanxi.couponcode.spi.service.Mer
     }
 
     @Override
-    public RetMessage<Boolean> modifyMerchantInfo(String merchantName, String serviceDistription, String workAddress, String businessLicenseNum, String organizingInstitutionBarCode, String enterpriseLegalRepresentativeName, String contactsName, String contactPhone, String serviceTel, String contactEmail, File organizingInstitutionBarCodePic, File businessLicensePic, File otherFile, Long operaterId, Long merchantId) {
+    public RetMessage<Boolean> modifyMerchantInfo(String merchantName, String serviceDistription, String workAddress, String minuteWorkAddress,String businessLicenseNum, String organizingInstitutionBarCode, String enterpriseLegalRepresentativeName, String contactsName, String contactPhone, String serviceTel, String contactEmail, File organizingInstitutionBarCodePic, File businessLicensePic, File otherFile, Long operaterId, Long merchantId) {
     	RetMessage<Boolean> retMessage=new RetMessage<Boolean>();
     	Boolean result=false;
     	try {
     		Merchant merchant=new Merchant();
     		merchant.setMerchantName(merchantName);
     		merchant.setWorkAddress(workAddress);
+    		merchant.setMinuteWorkAddress(minuteWorkAddress);
     		merchant.setCharterCode(businessLicenseNum);
     		merchant.setOraganizingCode(organizingInstitutionBarCode);
     		merchant.setPrincipal(enterpriseLegalRepresentativeName);

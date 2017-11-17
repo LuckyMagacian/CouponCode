@@ -165,7 +165,7 @@ public class AccountServiceImpl implements com.lanxi.couponcode.spi.service.Acco
 			if(pageNum!=null) {
 				pageSize=pageSize==null?ConstConfig.DEFAULT_PAGE_SIZE:pageSize;
 			}
-			Page<Account> pageObj=new Page<>(pageNum,pageSize);
+			Page<Account> pageObj=new Page<Account>(pageNum,pageSize);
 			accounts=accountService.queryAccounts(phone, merchantName, type, status, pageObj, operaterId);
 			if(accounts!=null&&accounts.size()>0) {
 				retMessage.setRetCode(RetCodeEnum.success.getValue());

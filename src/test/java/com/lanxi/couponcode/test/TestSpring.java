@@ -77,7 +77,12 @@ public class TestSpring {
     	System.out.println(serviceImpl.login("13165978091","123456789", "a"));
     	
     }
-    
+    @Test
+    public void test5() {
+    	ShopServiceImpl serviceImpl=ac.getBean(ShopServiceImpl.class);
+    	System.out.println(serviceImpl.addShop("蓝喜","杭州","aa", null, 1L, null));
+    	
+    }
     
    
 }

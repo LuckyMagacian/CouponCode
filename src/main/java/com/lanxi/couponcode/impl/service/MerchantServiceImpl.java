@@ -602,11 +602,9 @@ public class MerchantServiceImpl implements MerchantService{
 		return result;
 	}
 	@Override
-	public String queryMerchantStatusByid(Long merchantId, Long accountId, Long operaterId, String operaterInfo) {
+	public String queryMerchantStatusByid(Long merchantId, Long operaterId) {
 		String locker="merchantId["+merchantId+"]"+
-				"operaterId["+operaterId+"]\n"+
-                ",accountId["+accountId+"]\n"+
-                ",operaterInfo["+operaterInfo+"]\n";
+				"operaterId["+operaterId+"]\n";
 		LogFactory.info(this, "尝试添加商户其他证明资料,\n"+locker);
 		String merchantStatus=null;
 		try {

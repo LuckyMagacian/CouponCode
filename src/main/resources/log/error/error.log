@@ -1,13 +1,17 @@
-2017-11-15 17:16:50,264 ERROR [com.lanxi.couponcode.impl.service.LoginServiceImpl] - <登录账户时发生异常
-phone[13165978091]
-,password[123456789]
-,validateCode[a]
+2017-11-17 14:45:11,592 ERROR [com.lanxi.couponcode.impl.service.ShopServiceImpl] - <添加门店的时候发生异常,
+operaterId[null]
+,serviceTel[null]
+,merchantId[1]
+,shopName[蓝喜]
+,shopAddress[杭州]
 >
-java.text.ParseException: Unparseable date: "0"
-	at java.text.DateFormat.parse(Unknown Source)
-	at com.lanxi.couponcode.impl.service.LoginServiceImpl.localdateLtDate(LoginServiceImpl.java:315)
-	at com.lanxi.couponcode.impl.service.LoginServiceImpl.login(LoginServiceImpl.java:49)
-	at com.lanxi.couponcode.test.TestSpring.test4(TestSpring.java:77)
+com.baomidou.mybatisplus.exceptions.MybatisPlusException: java.lang.reflect.InvocationTargetException
+	at com.baomidou.mybatisplus.MybatisSqlSessionTemplate$SqlSessionInterceptor.invoke(MybatisSqlSessionTemplate.java:407)
+	at com.sun.proxy.$Proxy20.insert(Unknown Source)
+	at com.baomidou.mybatisplus.MybatisSqlSessionTemplate.insert(MybatisSqlSessionTemplate.java:246)
+	at com.baomidou.mybatisplus.activerecord.Model.insert(Model.java:56)
+	at com.lanxi.couponcode.impl.service.ShopServiceImpl.addShop(ShopServiceImpl.java:117)
+	at com.lanxi.couponcode.test.TestSpring.test5(TestSpring.java:83)
 	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
 	at sun.reflect.NativeMethodAccessorImpl.invoke(Unknown Source)
 	at sun.reflect.DelegatingMethodAccessorImpl.invoke(Unknown Source)
@@ -32,37 +36,56 @@ java.text.ParseException: Unparseable date: "0"
 	at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.runTests(RemoteTestRunner.java:761)
 	at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.run(RemoteTestRunner.java:461)
 	at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.main(RemoteTestRunner.java:207)
-2017-11-15 17:18:21,532 ERROR [com.lanxi.couponcode.impl.service.LoginServiceImpl] - <登录账户时发生异常
-phone[13165978091]
-,password[123456789]
-,validateCode[a]
->
-java.text.ParseException: Unparseable date: "null"
-	at java.text.DateFormat.parse(Unknown Source)
-	at com.lanxi.couponcode.impl.service.LoginServiceImpl.localdateLtDate(LoginServiceImpl.java:315)
-	at com.lanxi.couponcode.impl.service.LoginServiceImpl.login(LoginServiceImpl.java:49)
-	at com.lanxi.couponcode.test.TestSpring.test4(TestSpring.java:77)
+Caused by: java.lang.reflect.InvocationTargetException
 	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
 	at sun.reflect.NativeMethodAccessorImpl.invoke(Unknown Source)
 	at sun.reflect.DelegatingMethodAccessorImpl.invoke(Unknown Source)
 	at java.lang.reflect.Method.invoke(Unknown Source)
-	at org.junit.runners.model.FrameworkMethod$1.runReflectiveCall(FrameworkMethod.java:50)
-	at org.junit.internal.runners.model.ReflectiveCallable.run(ReflectiveCallable.java:12)
-	at org.junit.runners.model.FrameworkMethod.invokeExplosively(FrameworkMethod.java:47)
-	at org.junit.internal.runners.statements.InvokeMethod.evaluate(InvokeMethod.java:17)
-	at org.junit.internal.runners.statements.RunBefores.evaluate(RunBefores.java:26)
-	at org.junit.runners.ParentRunner.runLeaf(ParentRunner.java:325)
-	at org.junit.runners.BlockJUnit4ClassRunner.runChild(BlockJUnit4ClassRunner.java:78)
-	at org.junit.runners.BlockJUnit4ClassRunner.runChild(BlockJUnit4ClassRunner.java:57)
-	at org.junit.runners.ParentRunner$3.run(ParentRunner.java:290)
-	at org.junit.runners.ParentRunner$1.schedule(ParentRunner.java:71)
-	at org.junit.runners.ParentRunner.runChildren(ParentRunner.java:288)
-	at org.junit.runners.ParentRunner.access$000(ParentRunner.java:58)
-	at org.junit.runners.ParentRunner$2.evaluate(ParentRunner.java:268)
-	at org.junit.runners.ParentRunner.run(ParentRunner.java:363)
-	at org.eclipse.jdt.internal.junit4.runner.JUnit4TestReference.run(JUnit4TestReference.java:86)
-	at org.eclipse.jdt.internal.junit.runner.TestExecution.run(TestExecution.java:38)
-	at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.runTests(RemoteTestRunner.java:539)
-	at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.runTests(RemoteTestRunner.java:761)
-	at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.run(RemoteTestRunner.java:461)
-	at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.main(RemoteTestRunner.java:207)
+	at com.baomidou.mybatisplus.MybatisSqlSessionTemplate$SqlSessionInterceptor.invoke(MybatisSqlSessionTemplate.java:403)
+	... 29 more
+Caused by: org.apache.ibatis.exceptions.PersistenceException: 
+### Error updating database.  Cause: com.mysql.jdbc.exceptions.jdbc4.MySQLSyntaxErrorException: Table 'couponcode.operate_record' doesn't exist
+### The error may involve com.lanxi.couponcode.impl.dao.OperateRecordDao.insert-Inline
+### The error occurred while setting parameters
+### SQL: INSERT INTO operate_record   ( record_id,      target_type,  description,  operate_time,  operate_result,      target_info )  VALUES   ( ?,      ?,  ?,  ?,  ?,      ? )
+### Cause: com.mysql.jdbc.exceptions.jdbc4.MySQLSyntaxErrorException: Table 'couponcode.operate_record' doesn't exist
+	at org.apache.ibatis.exceptions.ExceptionFactory.wrapException(ExceptionFactory.java:30)
+	at org.apache.ibatis.session.defaults.DefaultSqlSession.update(DefaultSqlSession.java:200)
+	at org.apache.ibatis.session.defaults.DefaultSqlSession.insert(DefaultSqlSession.java:185)
+	... 34 more
+Caused by: com.mysql.jdbc.exceptions.jdbc4.MySQLSyntaxErrorException: Table 'couponcode.operate_record' doesn't exist
+	at sun.reflect.NativeConstructorAccessorImpl.newInstance0(Native Method)
+	at sun.reflect.NativeConstructorAccessorImpl.newInstance(Unknown Source)
+	at sun.reflect.DelegatingConstructorAccessorImpl.newInstance(Unknown Source)
+	at java.lang.reflect.Constructor.newInstance(Unknown Source)
+	at com.mysql.jdbc.Util.handleNewInstance(Util.java:404)
+	at com.mysql.jdbc.Util.getInstance(Util.java:387)
+	at com.mysql.jdbc.SQLError.createSQLException(SQLError.java:941)
+	at com.mysql.jdbc.MysqlIO.checkErrorPacket(MysqlIO.java:3870)
+	at com.mysql.jdbc.MysqlIO.checkErrorPacket(MysqlIO.java:3806)
+	at com.mysql.jdbc.MysqlIO.sendCommand(MysqlIO.java:2470)
+	at com.mysql.jdbc.MysqlIO.sqlQueryDirect(MysqlIO.java:2617)
+	at com.mysql.jdbc.ConnectionImpl.execSQL(ConnectionImpl.java:2550)
+	at com.mysql.jdbc.PreparedStatement.executeInternal(PreparedStatement.java:1861)
+	at com.mysql.jdbc.PreparedStatement.execute(PreparedStatement.java:1192)
+	at org.apache.commons.dbcp.DelegatingPreparedStatement.execute(DelegatingPreparedStatement.java:172)
+	at org.apache.commons.dbcp.DelegatingPreparedStatement.execute(DelegatingPreparedStatement.java:172)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(Unknown Source)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(Unknown Source)
+	at java.lang.reflect.Method.invoke(Unknown Source)
+	at org.apache.ibatis.logging.jdbc.PreparedStatementLogger.invoke(PreparedStatementLogger.java:59)
+	at com.sun.proxy.$Proxy33.execute(Unknown Source)
+	at org.apache.ibatis.executor.statement.PreparedStatementHandler.update(PreparedStatementHandler.java:46)
+	at org.apache.ibatis.executor.statement.RoutingStatementHandler.update(RoutingStatementHandler.java:74)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(Unknown Source)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(Unknown Source)
+	at java.lang.reflect.Method.invoke(Unknown Source)
+	at org.apache.ibatis.plugin.Plugin.invoke(Plugin.java:63)
+	at com.sun.proxy.$Proxy31.update(Unknown Source)
+	at org.apache.ibatis.executor.SimpleExecutor.doUpdate(SimpleExecutor.java:50)
+	at org.apache.ibatis.executor.BaseExecutor.update(BaseExecutor.java:117)
+	at org.apache.ibatis.executor.CachingExecutor.update(CachingExecutor.java:76)
+	at org.apache.ibatis.session.defaults.DefaultSqlSession.update(DefaultSqlSession.java:198)
+	... 35 more

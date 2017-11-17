@@ -58,7 +58,7 @@ public interface MerchantService {
 	/*商户其他证明材料上传*/
 	public Boolean otherPicUpLoad(Merchant merchant,File file,Long accountId,Long operaterId,String operaterInfo);
 	/*根据商户id查询商户的状态*/
-	public String queryMerchantStatusByid(Long merchantId,Long accountId,Long operaterId,String operaterInfo);
+	public String queryMerchantStatusByid(Long merchantId,Long operaterId);
 	/*导出*/
 	
 	

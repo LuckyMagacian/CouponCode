@@ -94,10 +94,10 @@ public class LoginServiceImpl implements LoginService{
 						
 					}else {
 						//距离上次登录失败小于15分钟
-						if(account.getLoginFailureNum()>3) {
+						if(account.getLoginFailureNum()>2) {
 							retMessage.setDetail(null);
 							retMessage.setRetCode(RetCodeEnum.fail.getValue());
-							retMessage.setRetMessage("密码输入错误次数大于三次15分钟内不能重新登录");
+							retMessage.setRetMessage("密码输入错误次数三次15分钟内不能重新登录");
 						}else {
 							if(password.equals(account.getPassword())) {
 								if(account.getStatus().equals(AccountStatus.freeze.getValue())) {
