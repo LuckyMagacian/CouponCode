@@ -3,7 +3,7 @@ package com.lanxi.couponcode.impl.newcontroller;
 import com.alibaba.fastjson.JSON;
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.plugins.Page;
-import com.lanxi.couponcode.impl.assist.RetMessage;
+import com.lanxi.couponcode.spi.assist.RetMessage;
 import com.lanxi.couponcode.impl.entity.Account;
 import com.lanxi.couponcode.impl.entity.VerificationRecord;
 import com.lanxi.couponcode.impl.newservice.VerificationRecordService;

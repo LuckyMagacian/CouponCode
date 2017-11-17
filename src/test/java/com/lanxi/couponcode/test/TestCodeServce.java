@@ -1,12 +1,6 @@
 package com.lanxi.couponcode.test;
 
-import com.google.common.collect.HashBiMap;
-import com.lanxi.couponcode.impl.entity.CodeAlgorithm;
-import com.lanxi.couponcode.impl.service.RedisCodeServiceImpl;
 import org.junit.Test;
-
-import java.util.Optional;
-import java.util.concurrent.atomic.AtomicLong;
 
 /**
  * Created by yangyuanjian on 2017/10/31.

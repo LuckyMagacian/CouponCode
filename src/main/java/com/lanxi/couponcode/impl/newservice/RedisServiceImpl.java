@@ -22,6 +22,7 @@ import java.util.function.Function;
 @Service("redisService")
 public class RedisServiceImpl implements RedisService{
     /**job接口,用于真正执行redis操作*/
+    @FunctionalInterface
     private interface Job<T>{
         T job(Jedis conn);
     };

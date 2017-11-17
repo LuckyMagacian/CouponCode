@@ -1,25 +1,23 @@
-package com.lanxi.couponcode.impl.controller;
+package com.lanxi.couponcode.impl.newcontroller;
 
 import com.alibaba.fastjson.JSON;
 import com.baomidou.mybatisplus.plugins.Page;
-import com.lanxi.couponcode.impl.assist.RetMessage;
+import com.lanxi.couponcode.spi.assist.RetMessage;
 import com.lanxi.couponcode.impl.config.ConstConfig;
 import com.lanxi.couponcode.impl.entity.Merchant;
-import com.lanxi.couponcode.impl.service.MerchantService;
+import com.lanxi.couponcode.impl.newservice.MerchantService;
 import com.lanxi.couponcode.spi.consts.enums.MerchantStatus;
 import com.lanxi.couponcode.spi.consts.enums.RetCodeEnum;
 import com.lanxi.util.entity.LogFactory;
 
-import java.io.File;
-
-import java.util.List;
-
 import javax.annotation.Resource;
+import java.io.File;
+import java.util.List;
 
 /**
  * Created by yangyuanjian on 2017/11/13.
  */
-public class MerchantServiceImpl implements com.lanxi.couponcode.spi.service.MerchantService{
+public class MerchantServiceController implements com.lanxi.couponcode.spi.service.MerchantService{
 	@Resource
 	private MerchantService merchantService;
     @Override

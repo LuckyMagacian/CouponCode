@@ -1,9 +1,9 @@
 package com.lanxi.couponcode.impl.dao;
 
 import com.baomidou.mybatisplus.mapper.BaseMapper;
-import com.lanxi.couponcode.spi.entity.User;
+import com.lanxi.couponcode.impl.entity.Merchant;
 
 
-public interface MerchantClearDao extends BaseMapper<User>{
+public interface MerchantClearDao extends BaseMapper<Object>{
 
 }

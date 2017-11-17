@@ -1,7 +1,7 @@
 package com.lanxi.couponcode.impl.aop;
 
-import com.lanxi.couponcode.impl.assist.RetMessage;
-import com.lanxi.couponcode.impl.service.DaoService;
+import com.lanxi.couponcode.spi.assist.RetMessage;
+import com.lanxi.couponcode.impl.newservice.DaoService;
 import com.lanxi.util.entity.LogFactory;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Aspect;

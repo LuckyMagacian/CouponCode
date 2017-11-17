@@ -1,4 +1,4 @@
-package com.lanxi.couponcode.impl.assist;
+package com.lanxi.couponcode.spi.assist;
 
 import com.lanxi.couponcode.spi.consts.enums.RetCodeEnum;
 import com.lanxi.util.interfaces.ToJson;

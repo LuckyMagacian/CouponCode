@@ -1,6 +1,6 @@
 package com.lanxi.couponcode.spi.service;
 
-import com.lanxi.couponcode.impl.assist.RetMessage;
+import com.lanxi.couponcode.spi.assist.RetMessage;
 import com.lanxi.couponcode.spi.consts.annotations.HiddenArg;
 import com.lanxi.couponcode.spi.consts.enums.ClearStatus;
 

@@ -1,23 +1,8 @@
-package com.lanxi.couponcode.impl.service;
-
-import java.io.File;
-
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-
-import java.util.List;
-
-import javax.annotation.Resource;
-
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.PlatformTransactionManager;
-import org.springframework.transaction.TransactionDefinition;
-import org.springframework.transaction.TransactionStatus;
+package com.lanxi.couponcode.impl.newservice;
 
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.plugins.Page;
 import com.baomidou.mybatisplus.toolkit.IdWorker;
-import com.lanxi.couponcode.impl.config.ConstConfig;
 import com.lanxi.couponcode.impl.entity.Merchant;
 import com.lanxi.couponcode.impl.entity.OperateRecord;
 import com.lanxi.couponcode.impl.entity.Path;
@@ -28,13 +13,24 @@ import com.lanxi.couponcode.spi.consts.enums.MerchantStatus;
 import com.lanxi.couponcode.spi.consts.enums.OperateTargetType;
 import com.lanxi.util.entity.LogFactory;
 import com.lanxi.util.utils.TimeUtil;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.PlatformTransactionManager;
+import org.springframework.transaction.TransactionDefinition;
+import org.springframework.transaction.TransactionStatus;
+
+import javax.annotation.Resource;
+import java.io.File;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.List;
+
 /**
  * 
  * @author wuxiaobo
  *
  */
 @Service("merchantService")
-public class MerchantServiceImpl implements MerchantService{
+public class MerchantServiceImpl implements MerchantService {
 	
 	private TransactionDefinition txDefinition;
 	@Resource
@@ -61,7 +57,7 @@ public class MerchantServiceImpl implements MerchantService{
 			record=new OperateRecord();
             record.setRecordId(IdWorker.getId());
             record.setOperaterId(operaterId);
-            record.setOperaterPhone(operaterPhone);
+            record.setPhone(operaterPhone);
             record.setOperaterInfo(operaterInfo);
             record.setTargetType(OperateTargetType.merchant);
             record.setDescription("添加商户");
@@ -102,7 +98,7 @@ public class MerchantServiceImpl implements MerchantService{
 			record=new OperateRecord();
             record.setRecordId(IdWorker.getId());
             record.setOperaterId(operaterId);
-            record.setOperaterPhone(operaterPhone);
+            record.setPhone(operaterPhone);
             record.setOperaterInfo(operaterInfo);
             record.setTargetType(OperateTargetType.merchant);
             record.setDescription("修改商户");
@@ -274,7 +270,7 @@ public class MerchantServiceImpl implements MerchantService{
 			record=new OperateRecord();
             record.setRecordId(IdWorker.getId());
             record.setOperaterId(operaterId);
-            record.setOperaterPhone(operaterPhone);
+            record.setPhone(operaterPhone);
             record.setOperaterInfo(operaterInfo);
             record.setTargetType(OperateTargetType.merchant);
             record.setDescription("修改商户状态");

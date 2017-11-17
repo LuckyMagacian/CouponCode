@@ -1,18 +1,8 @@
-package com.lanxi.couponcode.impl.service;
-
-import java.text.SimpleDateFormat;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.util.Date;
-
-
-import javax.annotation.Resource;
-
-import org.springframework.stereotype.Service;
+package com.lanxi.couponcode.impl.newservice;
 
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.toolkit.IdWorker;
-import com.lanxi.couponcode.impl.assist.RetMessage;
+import com.lanxi.couponcode.spi.assist.RetMessage;
 import com.lanxi.couponcode.impl.entity.Account;
 import com.lanxi.couponcode.impl.entity.OperateRecord;
 import com.lanxi.couponcode.spi.consts.enums.AccountStatus;
@@ -20,6 +10,13 @@ import com.lanxi.couponcode.spi.consts.enums.OperateTargetType;
 import com.lanxi.couponcode.spi.consts.enums.RetCodeEnum;
 import com.lanxi.util.entity.LogFactory;
 import com.lanxi.util.utils.TimeUtil;
+import org.springframework.stereotype.Service;
+
+import javax.annotation.Resource;
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Date;
 
 @Service("loginService")
 public class LoginServiceImpl implements LoginService{
@@ -64,7 +61,7 @@ public class LoginServiceImpl implements LoginService{
 								LogFactory.info(this,"尝试插入登录操作记录\n"+locker);
 								record=new OperateRecord();
 								record.setRecordId(IdWorker.getId());
-								record.setOperaterPhone(phone);
+								record.setPhone(phone);
 								record.setTargetType(OperateTargetType.account);
 								record.setDescription("账户登录");
 								record.setOperateTime(TimeUtil.getDateTime());
@@ -117,7 +114,7 @@ public class LoginServiceImpl implements LoginService{
 									LogFactory.info(this,"尝试插入登录操作记录\n"+locker);
 									record=new OperateRecord();
 									record.setRecordId(IdWorker.getId());
-									record.setOperaterPhone(phone);
+									record.setPhone(phone);
 									record.setTargetType(OperateTargetType.account);
 									record.setDescription("账户登录");
 									record.setOperateTime(TimeUtil.getDateTime());
@@ -214,7 +211,7 @@ public class LoginServiceImpl implements LoginService{
 					LogFactory.info(this,"尝试插入重置密码操作记录\n"+locker);
 					record=new OperateRecord();
 					record.setRecordId(IdWorker.getId());
-					record.setOperaterPhone(phone);
+					record.setPhone(phone);
 					record.setTargetType(OperateTargetType.account);
 					record.setDescription("重置账户密码");
 					record.setOperateTime(TimeUtil.getDateTime());

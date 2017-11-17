@@ -1,6 +1,6 @@
 package com.lanxi.couponcode.spi.service;
 
-import com.lanxi.couponcode.impl.assist.RetMessage;
+import com.lanxi.couponcode.spi.assist.RetMessage;
 import com.lanxi.couponcode.spi.consts.annotations.HiddenArg;
 import com.lanxi.couponcode.spi.consts.annotations.RealReturnType;
 
@@ -15,7 +15,6 @@ public interface LoginService {
      * @param validateCode 图形验证码<br>
      * @return 登录结果 成功或者 错误及对应的错误信息<br>
      */
-    @RealReturnType("RetMessage")
     RetMessage<String> login(String phone,
                               String password,
                               String validateCode);

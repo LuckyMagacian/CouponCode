@@ -5,7 +5,7 @@ import com.baomidou.mybatisplus.mapper.Wrapper;
 import com.baomidou.mybatisplus.plugins.Page;
 import com.lanxi.couponcode.impl.entity.CodeAlgorithm;
 import com.lanxi.couponcode.impl.entity.CouponCode;
-import com.lanxi.couponcode.impl.service.ConfigService;
+import com.lanxi.couponcode.impl.newservice.ConfigService;
 import com.lanxi.couponcode.spi.consts.annotations.EasyLog;
 import com.lanxi.couponcode.spi.consts.enums.CouponCodeStatus;
 import com.lanxi.util.entity.LogFactory;

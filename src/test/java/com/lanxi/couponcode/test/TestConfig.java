@@ -1,11 +1,8 @@
 package com.lanxi.couponcode.test;
 
-import org.junit.Test;
-
-import com.lanxi.couponcode.impl.service.ConfigServiceImpl;
-
 import com.lanxi.util.utils.LoggerUtil;
 import com.lanxi.util.utils.LoggerUtil.LogLevel;
+import org.junit.Test;
 
 public class TestConfig {
 	@Test
@@ -17,7 +14,6 @@ public class TestConfig {
 	public void test2() {
 		LoggerUtil.setLogLevel(LogLevel.DEBUG);
 		LoggerUtil.init();
-		System.out.println(new ConfigServiceImpl().getValue("redis","url"));
 	}
 	
 }

@@ -114,19 +114,11 @@
             <artifactId>mysql-connector-java</artifactId>
             <version>5.1.37</version>
         </dependency>
-<<<<<<< HEAD
-        <!--<dependency>-->
-        <!--<groupId>com.lanxi</groupId>-->
-        <!--<artifactId>common-utils</artifactId>-->
-        <!--<version>1.0</version>-->
-        <!--</dependency>-->
-=======
        <dependency>
         <groupId>com.lanxi</groupId>
         <artifactId>common-utils</artifactId>
         <version>1.0</version>
         </dependency>
->>>>>>> 3c441174f60e273d953f4f9ec9389353e9dfc74a
         <dependency>
             <groupId>javax.servlet</groupId>
             <artifactId>javax.servlet-api</artifactId>
@@ -138,15 +130,6 @@
             <artifactId>guava</artifactId>
             <version>23.3-jre</version>
         </dependency>
-<<<<<<< HEAD
-=======
-        <!-- https://mvnrepository.com/artifact/org.aspectj/aspectjrt -->
-        <dependency>
-            <groupId>org.aspectj</groupId>
-            <artifactId>aspectjrt</artifactId>
-            <version>1.8.12</version>
-        </dependency>
->>>>>>> 3c441174f60e273d953f4f9ec9389353e9dfc74a
         <!-- https://mvnrepository.com/artifact/org.springframework/spring-aop -->
         <dependency>
             <groupId>org.springframework</groupId>
@@ -164,7 +147,6 @@
             <artifactId>commons-io</artifactId>
             <version>2.4</version>
         </dependency>
-<<<<<<< HEAD
         <!-- https://mvnrepository.com/artifact/aopalliance/aopalliance -->
         <dependency>
             <groupId>aopalliance</groupId>
@@ -189,7 +171,6 @@
             <artifactId>hibernate-validator</artifactId>
             <version>6.0.4.Final</version>
         </dependency>
-=======
         <!-- 以下为导入Excel所需支持jar包    poi-scratchpad,   poi-ooxml-schemas, poi-ooxml,  xmlbeans ,poi  -->
 		<!-- https://mvnrepository.com/artifact/org.apache.poi/poi-scratchpad -->
 		<dependency>
@@ -225,8 +206,6 @@
 		    <artifactId>poi</artifactId>
 		    <version>3.8</version>
 		</dependency>
-
->>>>>>> 3c441174f60e273d953f4f9ec9389353e9dfc74a
 
     </dependencies>
 </project>

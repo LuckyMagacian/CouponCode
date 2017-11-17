@@ -1,6 +1,6 @@
 package com.lanxi.couponcode.impl.newservice;
 
-import com.lanxi.couponcode.impl.service.ConfigService;
+import com.lanxi.couponcode.impl.newservice.ConfigService;
 import redis.clients.jedis.Jedis;
 
 import javax.annotation.Resource;

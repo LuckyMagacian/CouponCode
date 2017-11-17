@@ -3,7 +3,7 @@ package com.lanxi.couponcode.impl.newcontroller;
 import com.alibaba.fastjson.JSON;
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.plugins.Page;
-import com.lanxi.couponcode.impl.assist.RetMessage;
+import com.lanxi.couponcode.spi.assist.RetMessage;
 import com.lanxi.couponcode.impl.entity.Account;
 import com.lanxi.couponcode.impl.entity.CouponCode;
 import com.lanxi.couponcode.impl.entity.Merchant;
@@ -12,6 +12,7 @@ import com.lanxi.couponcode.impl.newservice.DaoService;
 import com.lanxi.couponcode.impl.newservice.RedisCodeService;
 import com.lanxi.couponcode.impl.newservice.RedisEnhancedService;
 import com.lanxi.couponcode.spi.consts.annotations.EasyLog;
+import com.lanxi.couponcode.spi.consts.annotations.Trim;
 import com.lanxi.couponcode.spi.consts.enums.CouponCodeStatus;
 import com.lanxi.couponcode.spi.consts.enums.RetCodeEnum;
 import com.lanxi.util.utils.ExcelUtil;
@@ -38,7 +39,7 @@ public class CodeController implements com.lanxi.couponcode.spi.service.CouponSe
     @Resource
     private RedisEnhancedService redisEnhancedService;
 
-    private List<CouponCode> queryCodesHidden(String timeStart, String timeEnd, String merchantName, String commodityName, Long code, Long codeId,Page page, Long operaterId) {
+    private List<CouponCode> queryCodesHidden(String timeStart, String timeEnd, String merchantName, String commodityName, Long code, Long codeId, Page page, Long operaterId) {
         //装配查询条件
         EntityWrapper<CouponCode> wrapper = new EntityWrapper<>();
         if (timeStart != null && !timeStart.isEmpty()) {

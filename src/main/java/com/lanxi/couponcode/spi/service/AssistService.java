@@ -1,6 +1,6 @@
 package com.lanxi.couponcode.spi.service;
 
-import com.lanxi.couponcode.impl.assist.RetMessage;
+import com.lanxi.couponcode.spi.assist.RetMessage;
 
 /**
  * Created by yangyuanjian on 2017/11/7.

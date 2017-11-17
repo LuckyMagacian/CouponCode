@@ -1,21 +1,20 @@
-package com.lanxi.couponcode.impl.controller;
-
-import java.io.File;
-import java.util.List;
-
-import javax.annotation.Resource;
+package com.lanxi.couponcode.impl.newcontroller;
 
 import com.alibaba.fastjson.JSON;
 import com.baomidou.mybatisplus.plugins.Page;
-import com.lanxi.couponcode.impl.assist.RetMessage;
+import com.lanxi.couponcode.spi.assist.RetMessage;
 import com.lanxi.couponcode.impl.config.ConstConfig;
 import com.lanxi.couponcode.impl.entity.Shop;
-import com.lanxi.couponcode.impl.service.ShopService;
+import com.lanxi.couponcode.impl.newservice.ShopService;
 import com.lanxi.couponcode.spi.consts.enums.RetCodeEnum;
 import com.lanxi.couponcode.spi.consts.enums.ShopStatus;
 import com.lanxi.util.entity.LogFactory;
 
-public class ShopServiceImpl implements com.lanxi.couponcode.spi.service.ShopService{
+import javax.annotation.Resource;
+import java.io.File;
+import java.util.List;
+
+public class ShopServiceController implements com.lanxi.couponcode.spi.service.ShopService{
 	@Resource
 	private ShopService shopService;
 	@Override

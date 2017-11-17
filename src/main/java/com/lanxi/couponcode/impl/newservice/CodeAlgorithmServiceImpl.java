@@ -1,7 +1,7 @@
 package com.lanxi.couponcode.impl.newservice;
 
 import com.lanxi.couponcode.impl.entity.CodeAlgorithm;
-import com.lanxi.couponcode.impl.service.ConfigService;
+import com.lanxi.couponcode.impl.newservice.ConfigService;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Service;
 

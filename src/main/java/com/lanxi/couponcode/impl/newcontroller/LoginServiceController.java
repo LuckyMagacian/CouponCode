@@ -1,15 +1,16 @@
-package com.lanxi.couponcode.impl.controller;
-
-import javax.annotation.Resource;
+package com.lanxi.couponcode.impl.newcontroller;
 
 import com.alibaba.fastjson.JSON;
-import com.lanxi.couponcode.impl.assist.RetMessage;
+import com.lanxi.couponcode.spi.assist.RetMessage;
 import com.lanxi.couponcode.impl.entity.Account;
-import com.lanxi.couponcode.impl.service.LoginService;
+
+import com.lanxi.couponcode.impl.newservice.LoginService;
 import com.lanxi.couponcode.spi.consts.enums.RetCodeEnum;
 import com.lanxi.util.entity.LogFactory;
 
-public class LoginServiceImpl implements com.lanxi.couponcode.spi.service.LoginService{
+import javax.annotation.Resource;
+
+public class LoginServiceController implements com.lanxi.couponcode.spi.service.LoginService{
 	@Resource
 	private LoginService loginService;
 	@Override
