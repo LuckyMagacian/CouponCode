@@ -1,8 +1,13 @@
 package com.lanxi.couponcode.test;
 
+import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.toolkit.IdWorker;
+import com.lanxi.couponcode.impl.aop.AddLog;
 import com.lanxi.couponcode.impl.entity.CodeAlgorithm;
+import com.lanxi.couponcode.impl.entity.CouponCode;
+import com.lanxi.couponcode.impl.newservice.DaoService;
 import com.lanxi.couponcode.impl.service.CodeOperateRecordService;
+import com.lanxi.couponcode.impl.ztest.TestAop;
 import com.lanxi.util.entity.MyClassLoader;
 import com.lanxi.util.utils.LoggerUtil;
 import com.lanxi.util.utils.LoggerUtil.LogLevel;
@@ -31,10 +36,10 @@ public class TestMybatis {
 	@Resource
 	SqlSessionFactory ssf;
 	@Resource
-	CodeOperateRecordService codeOperateRecordService;
+	DaoService daoService;
 	@Before
 	public void init() {
-		LoggerUtil.setLogLevel(LogLevel.DEBUG);
+		LoggerUtil.setLogLevel(LogLevel.INFO);
 		LoggerUtil.init();
 		SpringUtil.setAc(ac);
 	}
@@ -76,10 +81,17 @@ public class TestMybatis {
         codeAlgorithm.insert();
     }
     @Test
-	public void test4(){
-		System.out.println(codeOperateRecordService.queryCodeOperateRecord(
-				1,10,null,null,null,null,null,null,
-				null,null,null,null,null,true
-		));
+	public void test4() throws NoSuchMethodException {
+//		System.out.println(codeOperateRecordService.queryCodeOperateRecord(
+//				1,10,null,null,null,null,null,null,
+//				null,null,null,null,null,true
+//		).getClass());
+		System.out.println(daoService.getCouponCodeDao().selectList(new EntityWrapper<CouponCode>().eq("code",123456L)).getClass());
+	}
+
+	@Test
+	public void testAop(){
+		TestAop test=ac.getBean(TestAop.class);
+		test.sayHello();
 	}
 }

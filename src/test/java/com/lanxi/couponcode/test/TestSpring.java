@@ -25,11 +25,11 @@ public class TestSpring {
         LoggerUtil.setLogLevel(LogLevel.DEBUG);
         LoggerUtil.init();
     }
-//    @Test
-//    public void test1(){
-//        CodeOperateRecordServiceImpl service=ac.getBean(CodeOperateRecordServiceImpl.class);
-//        System.out.println(service);
-//    }
+    @Test
+    public void test1(){
+        CodeOperateRecordServiceImpl service=ac.getBean(CodeOperateRecordServiceImpl.class);
+        System.out.println(service);
+    }
     @Test
     public void test2() {
     	MerchantServiceImpl serviceImpl =ac.getBean(MerchantServiceImpl.class);

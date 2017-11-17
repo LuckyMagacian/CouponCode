@@ -130,12 +130,6 @@
             <artifactId>guava</artifactId>
             <version>23.3-jre</version>
         </dependency>
-        <!-- https://mvnrepository.com/artifact/org.aspectj/aspectjrt -->
-        <dependency>
-            <groupId>org.aspectj</groupId>
-            <artifactId>aspectjrt</artifactId>
-            <version>1.8.12</version>
-        </dependency>
         <!-- https://mvnrepository.com/artifact/org.springframework/spring-aop -->
         <dependency>
             <groupId>org.springframework</groupId>
@@ -153,5 +147,30 @@
             <artifactId>commons-io</artifactId>
             <version>2.4</version>
         </dependency>
+        <!-- https://mvnrepository.com/artifact/aopalliance/aopalliance -->
+        <dependency>
+            <groupId>aopalliance</groupId>
+            <artifactId>aopalliance</artifactId>
+            <version>1.0</version>
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/org.aspectj/aspectjweaver -->
+        <dependency>
+            <groupId>org.aspectj</groupId>
+            <artifactId>aspectjweaver</artifactId>
+            <version>1.8.11</version>
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/org.aspectj/aspectjrt -->
+        <dependency>
+            <groupId>org.aspectj</groupId>
+            <artifactId>aspectjrt</artifactId>
+            <version>1.8.11</version>
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/org.hibernate/hibernate-validator -->
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-validator</artifactId>
+            <version>6.0.4.Final</version>
+        </dependency>
+
     </dependencies>
 </project>

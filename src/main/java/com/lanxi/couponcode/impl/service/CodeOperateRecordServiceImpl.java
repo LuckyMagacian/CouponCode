@@ -16,7 +16,8 @@ import java.util.List;
  * 串码操作记录服务实现类<br>
  * Created by yangyuanjian on 2017/11/3.<br>
  */
-@Service("codeOperateRecordService")
+@Deprecated
+//@Service("codeOperateRecordService")
 public class CodeOperateRecordServiceImpl implements CodeOperateRecordService{
     @Resource
     private DaoService daoService;

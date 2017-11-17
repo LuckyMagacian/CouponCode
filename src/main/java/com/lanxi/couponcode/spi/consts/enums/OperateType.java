@@ -3,7 +3,7 @@ package com.lanxi.couponcode.spi.consts.enums;
 import java.io.Serializable;
 
 /**
- * 朝珠哦美剧
+ * 操作类型枚举
  * Created by yangyuanjian on 2017/11/9.
  */
 public enum OperateType implements Serializable{

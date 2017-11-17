@@ -18,6 +18,11 @@ public class RetMessage<T extends  Serializable> implements ToJson,ToMap,Seriali
 
     }
 
+
+    public RetMessage(RetCodeEnum retCode, String retMessage) {
+        this(retCode,retMessage,null);
+    }
+
     public RetMessage(RetCodeEnum retCode, String retMessage, T detail) {
         this(retCode.toString(),retMessage,detail);
     }
@@ -28,12 +33,26 @@ public class RetMessage<T extends  Serializable> implements ToJson,ToMap,Seriali
         this.detail = detail;
     }
 
+    public void setCodeAndMessage(RetCodeEnum code,String message){
+        setRetCode(code);
+        setRetMessage(message);
+    }
+
+    public void setAll(RetCodeEnum code,String message,T deatil){
+        setCodeAndMessage(code,message);
+        setDetail(deatil);
+    }
+
     public String getRetCode() {
         return retCode;
     }
 
     public void setRetCode(String retCode) {
         this.retCode = retCode;
+    }
+
+    public void setRetCode(RetCodeEnum retCode) {
+        this.retCode = retCode.toString();
     }
 
     public String getRetMessage() {

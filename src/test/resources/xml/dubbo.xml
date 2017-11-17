@@ -40,6 +40,6 @@
      -->
     <!-- 蓝喜短信平台服务 -->
     <dubbo:reference interface="com.lanxi.common.interfaces.SmsSendServiceInterface" id="SmsService" check="false"></dubbo:reference>
-    <!-- redis缓存服务 -->
-    <dubbo:reference interface="com.lanxi.common.interfaces.RedisCacheServiceInterface" id="redisService" check="false"></dubbo:reference>
+    <!--&lt;!&ndash; redis缓存服务 &ndash;&gt;-->
+    <!--<dubbo:reference interface="com.lanxi.common.interfaces.RedisCacheServiceInterface" id="redisService" check="false"></dubbo:reference>-->
   </beans>

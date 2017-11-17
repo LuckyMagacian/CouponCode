@@ -6,6 +6,7 @@ import com.lanxi.couponcode.impl.dao.*;
  * dao接口
  * Created by yangyuanjian on 2017/11/1.
  */
+@Deprecated
 public interface DaoService {
     public AccountDao getAccountDao();
 

@@ -48,7 +48,7 @@ public interface MerchantService {
 			String operaterPhone,String merchantStatus);	
 	/*商户信息填写*/
 	public Boolean fillInInformation(Merchant merchant,MultipartFile organizingInstitutionBarCodePicFile,MultipartFile businessLicensePicFile,
-			MultipartFile otherPicFile,Long accountId,Long operaterId,String operaterInfo);
+	MultipartFile otherPicFile,Long accountId,Long operaterId,String operaterInfo);
 	/*商户组织机构代码证上传*/
 	public Boolean organizingInstitutionBarCodePicUpLoad(Merchant merchant,MultipartFile file,Long accountId,Long operaterId,String operaterInfo);
 	/*商户工商营业执照上传*/

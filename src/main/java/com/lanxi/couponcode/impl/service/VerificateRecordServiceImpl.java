@@ -13,6 +13,7 @@ import java.util.List;
  * 串码核销记录服务接口实现类<br>
  * Created by yangyuanjian on 2017/11/3.<br>
  */
+@Deprecated
 public class VerificateRecordServiceImpl implements VerificateRecordService{
     @Resource
     private DaoService daoService;

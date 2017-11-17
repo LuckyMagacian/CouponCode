@@ -30,9 +30,10 @@
     <!-- 支持@RequestMapping请求和Controller映射 -->
     <mvc:annotation-driven/>
     <!-- 启用aop切入 -->
-    <!--<aop:aspectj-autoproxy expose-proxy="true"  proxy-target-class="true"/>-->
+    <aop:aspectj-autoproxy expose-proxy="true"  proxy-target-class="true"/>
     <!-- 扫描包 -->
     <context:component-scan base-package="com.lanxi.couponcode.*" />
     <import resource="mybatis.xml"></import>
     <import resource="dubbo.xml"></import>
+
 </beans>

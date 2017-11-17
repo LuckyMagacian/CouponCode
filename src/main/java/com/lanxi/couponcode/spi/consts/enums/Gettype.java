@@ -23,7 +23,7 @@ public interface Gettype{
 			clazz=Class.forName(className);
 			if(!Enum.class.isAssignableFrom(clazz))
 				throw new IllegalStateException("method : \"getType\" can only be invoked in class which extends enum !");
-			clazz.getField(value+"");
+			clazz.getDeclaredField("value");
 			T[] all=(T[]) clazz.getMethod("values").invoke(null);
 			Optional<T> opt=Stream.of(all).filter(
 						(e)->e.toString().equals(value)

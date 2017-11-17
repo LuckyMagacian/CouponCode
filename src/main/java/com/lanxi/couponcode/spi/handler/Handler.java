@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletResponse;
 /**
  * Created by yangyuanjian on 2017/10/27.
  */
+@Deprecated
 public interface Handler {
     public <T> String  handle(HttpServletRequest req, HttpServletResponse res);
     public <T> void handle(HttpRequest req,HttpServletResponse res,boolean fileWanted);

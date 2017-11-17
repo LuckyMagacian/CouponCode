@@ -70,8 +70,8 @@ public class CodeAlgorithm extends AbstractCodeAlgorithm {
 //        BigDecimal code = bVar.pow(power).remainder(this.n);
 //        return code.longValue();
 //    }
-    public long getCode(long var) {
-        if (var < 0) {
+    public long getCode(Long var) {
+        if (var==null||var < 0) {
             synchronized (this) {
                 var = getAndIncyVar();
                 this.updateById();

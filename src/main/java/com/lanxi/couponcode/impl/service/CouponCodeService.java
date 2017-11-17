@@ -1,5 +1,6 @@
 package com.lanxi.couponcode.impl.service;
 
+import com.baomidou.mybatisplus.plugins.Page;
 import com.lanxi.couponcode.impl.entity.CouponCode;
 
 import java.util.List;
@@ -9,6 +10,7 @@ import java.util.Optional;
  * 串码服务接口<br>
  * Created by yangyuanjian on 2017/10/31.<br>
  */
+@Deprecated
 public interface CouponCodeService {
     /**
      * 生产串码<br>
@@ -39,7 +41,7 @@ public interface CouponCodeService {
      * @param shopInfo 门店信息<br>
      * @return 核销结果 true成功|false失败<br>
      */
-    public Boolean destroyCode(Long merchantId, Long shopId, Long commodityId, Long operaterId,
+    public Boolean verificateCode(Long merchantId, Long shopId, Long commodityId, Long operaterId,
                                String merchantName, String shopName, String commodityName, String operaterPhone,
                                String verificationType, Long code, String shopInfo
     );
@@ -86,15 +88,16 @@ public interface CouponCodeService {
      * @param operaterInfo 操作人员信息<br>
      * @return 销毁结果 true 成功|false 失败<br>
      */
-    public Boolean cancelCode(Long merchantId, Long code, Long operaterId, String operaterInfo, String operaterPhone);
+    public Boolean destroyCode(Long merchantId, Long code, Long operaterId, String operaterInfo, String operaterPhone);
 
+    public Boolean destroyCode(Long codeId,Long operaterId,String operaterInfo,String operaterPhone);
     /**
      * 查询单个串码
      * @param merchantId 商户id
      * @param code 串码
      * @return 串码查询结果,可能为Optional.empty();
      */
-    public Optional<CouponCode> queryCouponCode(Long merchantId, Long code);
+    public CouponCode queryCouponCode(Long merchantId, Long code);
 
     /**
      * 根据条件查询串码
@@ -114,7 +117,8 @@ public interface CouponCodeService {
     public List<CouponCode> queryCouponCode(String createTimeStart, String createTimeEnd, String merchantName,
                                             String commodityName, Long code, Long codeId,
                                             String codeStatus, Long commodityId, Long merchantId,
-                                            String overTimeStart, String overTimeEnd, boolean isManager
+                                            String overTimeStart, String overTimeEnd, boolean isManager,
+                                            Page page
     );
 
     /**

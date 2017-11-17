@@ -22,7 +22,7 @@ import static com.lanxi.couponcode.impl.config.ConstConfig.*;
  * redis串码生产接口实现类
  * Created by yangyuanjian on 2017/10/31.
  */
-@Service("codeService")
+@Deprecated
 public class RedisCodeServiceImpl implements RedisCodeService {
     /**
      * redis服务

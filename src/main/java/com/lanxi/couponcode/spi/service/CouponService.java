@@ -12,50 +12,56 @@ import java.util.List;
  * Created by yangyuanjian on 2017/11/7.
  */
 public interface CouponService {
-    @RealReturnType("List<CouponCode>")
-    RetMessage<String> queryCodes(String   timeStart,
-                                   String   timeEnd,
-                                   String   merchantName,
-                                   String   commodityName,
-                                   Long     code,
-                                   Long     codeId,
-                                   @HiddenArg Integer  pageNum,
-                                   @HiddenArg Integer  pageSize,
-                                   @HiddenArg Long     operaterId
+    @RealReturnType ("List<CouponCode>")
+    RetMessage<String> queryCodes(String timeStart,
+                                  String timeEnd,
+                                  String merchantName,
+                                  String commodityName,
+                                  Long code,
+                                  Long codeId,
+                                  @HiddenArg Integer pageNum,
+                                  @HiddenArg Integer pageSize,
+                                  @HiddenArg Long operaterId
     );
 
-    RetMessage<File> queryCodesExport(String   timeStart,
-                          String   timeEnd,
-                          String   merchantName,
-                          String   commodityName,
-                          Long     code,
-                          Long     codeId,
-                          @HiddenArg Long     operaterId);
+    RetMessage<File> queryCodesExport(String timeStart,
+                                      String timeEnd,
+                                      String merchantName,
+                                      String commodityName,
+                                      Long code,
+                                      Long codeId,
+                                      @HiddenArg Long operaterId);
 
-    RetMessage<Boolean> destroyCode(@HiddenArg Long codeId);
+    RetMessage<Boolean> destroyCode(@HiddenArg Long codeId,
+                                    @HiddenArg Long operaterId);
+
     RetMessage<Boolean> destroyCode(Long code,
-                        @HiddenArg Long accountId,
-                        @HiddenArg Long operaterId);
+                                    @HiddenArg Long merchantId,
+                                    @HiddenArg Long operaterId);
 
-    RetMessage<Boolean> verificateCode(@HiddenArg Long codeId);
+    RetMessage<Boolean> verificateCode(@HiddenArg Long codeId,
+                                       @HiddenArg Long operaterId);
+
     RetMessage<Boolean> verificateCode(Long code,
-                           @HiddenArg Long accountId,
-                           @HiddenArg Long operaterId);
+                                       @HiddenArg Long accountId,
+                                       @HiddenArg Long operaterId);
 
     RetMessage<Boolean> postoneCode(@HiddenArg Long codeId,
-                        @HiddenArg Long accountId);
+                                    @HiddenArg Long operaterId);
+
     RetMessage<Boolean> generateCode(Long merchantId,
-                         Long commodityId,
-                         String reason,
-                         @HiddenArg Integer channel);
+                                     Long commodityId,
+                                     String reason,
+                                     @HiddenArg Integer channel);
 
 
-    @RealReturnType("CouponCode")
+    @RealReturnType ("CouponCode")
     RetMessage<String> couponCodeInfo(Long codeId,
-                          @HiddenArg Long operaterId);
-    @RealReturnType(("CouponCode"))
+                                      @HiddenArg Long operaterId);
+
+    @RealReturnType (("CouponCode"))
     RetMessage<String> couponCodeInfo(Long merchantId,
-                          Long code,
-                          @HiddenArg Long operaterId);
+                                      Long code,
+                                      @HiddenArg Long operaterId);
 
 }

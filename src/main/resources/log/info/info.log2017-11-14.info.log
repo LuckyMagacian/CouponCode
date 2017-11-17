@@ -1,0 +1,41 @@
+2017-11-14 09:34:12,209 INFO [com.lanxi.util.utils.LoggerUtil] - <log4j初始化完成!>
+2017-11-14 09:34:12,226 INFO [com.lanxi.couponcode.impl.service.DaoServiceImpl] - <尝试调用:
+[com.lanxi.couponcode.impl.service.DaoServiceImpl]
+的
+[public com.lanxi.couponcode.impl.dao.OperateRecordDao com.lanxi.couponcode.impl.service.DaoServiceImpl.getOperateRecordDao()]
+方法
+,参数:
+[[]]>
+2017-11-14 09:34:12,251 INFO [com.lanxi.couponcode.impl.service.DaoServiceImpl] - <[com.lanxi.couponcode.impl.service.DaoServiceImpl]的[getOperateRecordDao]方法的返回结果为[org.apache.ibatis.binding.MapperProxy@6a078481],参数:
+[[]]>
+2017-11-14 09:34:12,483 INFO [com.lanxi.couponcode.impl.service.CodeOperateRecordServiceImpl] - <条件装饰结果wrapper[WHERE (target_type = ?)]page[1], size[10], startTime[null], endTime[null],merchantId[1],commodityId[1],shopName[1],operaterPhone[1],code[1],commodityName[1],merchantName[1],operaterId[1],recordId[1],isManager[1],>
+2017-11-14 09:34:12,483 INFO [com.lanxi.couponcode.impl.service.CodeOperateRecordServiceImpl] - <查询到的记录数list.size[0]page[1], size[10], startTime[null], endTime[null],merchantId[1],commodityId[1],shopName[1],operaterPhone[1],code[1],commodityName[1],merchantName[1],operaterId[1],recordId[1],isManager[1],>
+2017-11-14 09:34:12,486 INFO [com.alibaba.dubbo.config.AbstractConfig] - < [DUBBO] Run shutdown hook now., dubbo version: 2.5.3, current host: 127.0.0.1>
+2017-11-14 09:34:12,486 INFO [org.springframework.context.support.GenericApplicationContext] - <Closing org.springframework.context.support.GenericApplicationContext@6eebc39e: startup date [Tue Nov 14 09:34:07 CST 2017]; root of context hierarchy>
+2017-11-14 09:34:12,492 INFO [com.alibaba.dubbo.registry.support.AbstractRegistryFactory] - < [DUBBO] Close all registries [], dubbo version: 2.5.3, current host: 127.0.0.1>
+2017-11-14 09:35:35,865 INFO [com.lanxi.util.utils.LoggerUtil] - <log4j初始化完成!>
+2017-11-14 09:35:35,877 INFO [com.lanxi.couponcode.impl.service.DaoServiceImpl] - <尝试调用:
+[com.lanxi.couponcode.impl.service.DaoServiceImpl]的方法:
+[public com.lanxi.couponcode.impl.dao.OperateRecordDao com.lanxi.couponcode.impl.service.DaoServiceImpl.getOperateRecordDao()],参数:
+[[]]>
+2017-11-14 09:35:35,907 INFO [com.lanxi.couponcode.impl.service.DaoServiceImpl] - <[com.lanxi.couponcode.impl.service.DaoServiceImpl]的[getOperateRecordDao]方法的返回结果为[org.apache.ibatis.binding.MapperProxy@6a078481],参数:
+[[]]>
+2017-11-14 09:35:36,140 INFO [com.lanxi.couponcode.impl.service.CodeOperateRecordServiceImpl] - <条件装饰结果wrapper[WHERE (target_type = ?)]page[1], size[10], startTime[null], endTime[null],merchantId[1],commodityId[1],shopName[1],operaterPhone[1],code[1],commodityName[1],merchantName[1],operaterId[1],recordId[1],isManager[1],>
+2017-11-14 09:35:36,140 INFO [com.lanxi.couponcode.impl.service.CodeOperateRecordServiceImpl] - <查询到的记录数list.size[0]page[1], size[10], startTime[null], endTime[null],merchantId[1],commodityId[1],shopName[1],operaterPhone[1],code[1],commodityName[1],merchantName[1],operaterId[1],recordId[1],isManager[1],>
+2017-11-14 09:35:36,142 INFO [com.alibaba.dubbo.config.AbstractConfig] - < [DUBBO] Run shutdown hook now., dubbo version: 2.5.3, current host: 127.0.0.1>
+2017-11-14 09:35:36,143 INFO [org.springframework.context.support.GenericApplicationContext] - <Closing org.springframework.context.support.GenericApplicationContext@6eebc39e: startup date [Tue Nov 14 09:35:31 CST 2017]; root of context hierarchy>
+2017-11-14 09:35:36,147 INFO [com.alibaba.dubbo.registry.support.AbstractRegistryFactory] - < [DUBBO] Close all registries [], dubbo version: 2.5.3, current host: 127.0.0.1>
+2017-11-14 09:40:11,395 INFO [com.lanxi.util.utils.LoggerUtil] - <log4j初始化完成!>
+2017-11-14 09:40:11,409 INFO [com.lanxi.couponcode.impl.service.DaoServiceImpl] - <尝试调用
+class:[com.lanxi.couponcode.impl.service.DaoServiceImpl]
+method:[public com.lanxi.couponcode.impl.dao.OperateRecordDao com.lanxi.couponcode.impl.service.DaoServiceImpl.getOperateRecordDao()]
+arg:[[]]>
+2017-11-14 09:40:11,429 INFO [com.lanxi.couponcode.impl.service.DaoServiceImpl] - <class:[com.lanxi.couponcode.impl.service.DaoServiceImpl]
+method:[getOperateRecordDao]
+result:[org.apache.ibatis.binding.MapperProxy@74cf8b28]
+arg:[[]]>
+2017-11-14 09:40:11,688 INFO [com.lanxi.couponcode.impl.service.CodeOperateRecordServiceImpl] - <条件装饰结果wrapper[WHERE (target_type = ?)]page[1], size[10], startTime[null], endTime[null],merchantId[1],commodityId[1],shopName[1],operaterPhone[1],code[1],commodityName[1],merchantName[1],operaterId[1],recordId[1],isManager[1],>
+2017-11-14 09:40:11,689 INFO [com.lanxi.couponcode.impl.service.CodeOperateRecordServiceImpl] - <查询到的记录数list.size[0]page[1], size[10], startTime[null], endTime[null],merchantId[1],commodityId[1],shopName[1],operaterPhone[1],code[1],commodityName[1],merchantName[1],operaterId[1],recordId[1],isManager[1],>
+2017-11-14 09:40:11,690 INFO [org.springframework.context.support.GenericApplicationContext] - <Closing org.springframework.context.support.GenericApplicationContext@6eebc39e: startup date [Tue Nov 14 09:40:07 CST 2017]; root of context hierarchy>
+2017-11-14 09:40:11,691 INFO [com.alibaba.dubbo.config.AbstractConfig] - < [DUBBO] Run shutdown hook now., dubbo version: 2.5.3, current host: 127.0.0.1>
+2017-11-14 09:40:11,695 INFO [com.alibaba.dubbo.registry.support.AbstractRegistryFactory] - < [DUBBO] Close all registries [], dubbo version: 2.5.3, current host: 127.0.0.1>

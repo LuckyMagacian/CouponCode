@@ -24,8 +24,9 @@ import com.lanxi.util.entity.LogFactory;
  * 配置接口实现类
  * @author yangyuanjian
  */
-@Order(-10)
-@Service("configService")
+@Order(-100000)
+@Service("configServiceOld")
+@Deprecated
 public class ConfigServiceImpl extends StaticConfig implements ConfigService {
 	private volatile Map<String, Properties> configs;
 

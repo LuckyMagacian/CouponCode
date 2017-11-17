@@ -9,24 +9,33 @@ import com.lanxi.couponcode.spi.consts.enums.VerificationType;
  * Created by yangyuanjian on 2017/11/9.
  */
 public interface VerificationRecordService {
-    @RealReturnType("List<VerificationRecord>")
+    @RealReturnType ("List<VerificationRecord>")
     RetMessage<String> queryVerificationRecords(Long code,
-                                                 String timeStart,
-                                                 String timeStop,
-                                                 String shopName,
-                                                 String workerPhone,
-                                                 VerificationType type,
-                                                 String commodityName,
-                                                 @HiddenArg Integer pageNum,
-                                                 @HiddenArg Integer pageSize,
-                                                 @HiddenArg Long operaterId);
+                                                String timeStart,
+                                                String timeStop,
+                                                String merchantName,
+                                                String shopName,
+                                                String commodityName,
+                                                String phone,
+                                                VerificationType type,
+                                                @HiddenArg Integer pageNum,
+                                                @HiddenArg Integer pageSize,
+                                                @HiddenArg Long operaterId);
 
-    /**需要包含统计信息*/
-    @RealReturnType("Map<String,Object>")
+    /**
+     * 需要包含统计信息
+     */
+    @RealReturnType ("Map<String,Object>")
     RetMessage<String> queryShopVerificationRecords(String timeStart,
-                                        String timeStop,
-                                        String shopName,
-                                        @HiddenArg Long shopId,
-                                        @HiddenArg Long operaterId);
+                                                    String timeStop,
+                                                    String shopName,
+                                                    Long code,
+                                                    String commodityName,
+                                                    String phone,
+                                                    VerificationType type,
+                                                    @HiddenArg Integer pageNum,
+                                                    @HiddenArg Integer pageSize,
+                                                    @HiddenArg Long operaterId);
 
+    RetMessage<String> queryVerificationRecordInfo(Long recordId,Long operaterId);
 }

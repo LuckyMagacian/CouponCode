@@ -8,6 +8,7 @@ import java.util.List;
  * redis串码生成接口
  * Created by yangyuanjian on 2017/10/31.
  */
+@Deprecated
 public interface RedisCodeService {
     public long getCodeVar(Long merchantId);
     public boolean addCode(Long merchantId,Long code);

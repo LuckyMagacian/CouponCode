@@ -8,6 +8,7 @@ import java.util.List;
  * 串码核销记录服务接口<br>
  * Created by yangyuanjian on 2017/11/3.<br>
  */
+@Deprecated
 public interface VerificateRecordService {
 //    /**根据串码查询核销记录,允许串码模糊*/
 //    List<VerificationRecord> queryVerificateRecord(Integer page, Integer size, Long merchantId, Long code);

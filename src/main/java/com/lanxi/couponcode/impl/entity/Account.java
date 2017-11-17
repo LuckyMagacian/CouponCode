@@ -8,6 +8,8 @@ import com.baomidou.mybatisplus.annotations.TableId;
 import com.baomidou.mybatisplus.annotations.TableName;
 import com.lanxi.couponcode.spi.abstractentity.AbstractAccount;
 import com.lanxi.couponcode.spi.consts.enums.AccountStatus;
+import com.lanxi.couponcode.spi.consts.enums.AccountType;
+
 @TableName("account")
 public class Account extends AbstractAccount{
 	/**账户编号*/
@@ -25,6 +27,9 @@ public class Account extends AbstractAccount{
 	/**账户状态*/
 	@TableField("status")
 	private AccountStatus status;
+	/**账户类型*/
+	@TableField("type")
+	private AccountType type;
 
 	/**所属商户编号*/
 	@TableField("merchant_id")
@@ -92,6 +97,7 @@ public class Account extends AbstractAccount{
 				", password='" + password + '\'' +
 				", userName='" + userName + '\'' +
 				", status=" + status +
+				", type=" + type +
 				", merchantId=" + merchantId +
 				", merchantName='" + merchantName + '\'' +
 				", shopId=" + shopId +
@@ -150,6 +156,14 @@ public class Account extends AbstractAccount{
 		this.status = status;
 	}
 
+	public AccountType getType() {
+		return type;
+	}
+
+	public void setType(AccountType type) {
+		this.type = type;
+	}
+
 	public Long getMerchantId() {
 		return merchantId;
 	}
@@ -206,14 +220,6 @@ public class Account extends AbstractAccount{
 		this.addTime = addTime;
 	}
 
-	public Long getRequestId() {
-		return requestId;
-	}
-
-	public void setRequestId(Long requestId) {
-		this.requestId = requestId;
-	}
-
 	public Long getRequesterId() {
 		return requesterId;
 	}
@@ -228,6 +234,14 @@ public class Account extends AbstractAccount{
 
 	public void setRequesterName(String requesterName) {
 		this.requesterName = requesterName;
+	}
+
+	public Long getRequestId() {
+		return requestId;
+	}
+
+	public void setRequestId(Long requestId) {
+		this.requestId = requestId;
 	}
 
 	public String getRequestTime() {
