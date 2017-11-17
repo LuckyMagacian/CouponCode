@@ -605,7 +605,7 @@ public class MerchantServiceImpl implements MerchantService{
 	public String queryMerchantStatusByid(Long merchantId, Long operaterId) {
 		String locker="merchantId["+merchantId+"]"+
 				"operaterId["+operaterId+"]\n";
-		LogFactory.info(this, "尝试添加商户其他证明资料,\n"+locker);
+		LogFactory.info(this, "尝试获取商户状态,\n"+locker);
 		String merchantStatus=null;
 		try {
 			if(merchantId!=null) {

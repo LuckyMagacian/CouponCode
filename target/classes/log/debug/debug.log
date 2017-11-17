@@ -337,4 +337,220 @@ operaterId[null]
 2017-11-17 14:45:11,522 DEBUG [com.lanxi.couponcode.impl.dao.OperateRecordDao.insert] - <==>  Preparing: INSERT INTO operate_record ( record_id, target_type, description, operate_time, operate_result, target_info ) VALUES ( ?, ?, ?, ?, ?, ? ) >
 2017-11-17 14:45:11,523 DEBUG [com.lanxi.couponcode.impl.dao.OperateRecordDao.insert] - <==> Parameters: 931412885342486528(Long), 1(String), 单个添加门店(String), 20171117144511(String), 成功(String), {"createTime":"20171117144511","merchantId":1,"merchantStatus":"1","minuteShopAddress":"aa","shopAddress":"杭州","shopId":931412883098533888,"shopName":"蓝喜","shopStatus":"1"}(String)>
 2017-11-17 14:45:11,578 DEBUG [org.springframework.jdbc.datasource.DataSourceUtils] - <Returning JDBC Connection to DataSource>
+<<<<<<< HEAD
 >>>>>>> 3c441174f60e273d953f4f9ec9389353e9dfc74a
+=======
+2017-11-17 14:57:49,133 DEBUG [org.springframework.beans.factory.support.DefaultListableBeanFactory] - <Returning cached instance of singleton bean 'shopService'>
+2017-11-17 14:57:49,147 DEBUG [org.mybatis.spring.SqlSessionUtils] - <Creating a new SqlSession>
+2017-11-17 14:57:49,157 DEBUG [org.mybatis.spring.SqlSessionUtils] - <SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@458342d3] was not registered for synchronization because synchronization is not active>
+2017-11-17 14:57:49,291 DEBUG [org.springframework.jdbc.datasource.DataSourceUtils] - <Fetching JDBC Connection from DataSource>
+2017-11-17 14:57:49,294 DEBUG [org.mybatis.spring.transaction.SpringManagedTransaction] - <JDBC Connection [jdbc:mysql://192.168.17.62:3306/couponcode?autoReconnect=true, UserName=yyj@MS-20160330EVIQ, MySQL Connector Java] will not be managed by Spring>
+2017-11-17 14:57:49,311 DEBUG [com.lanxi.couponcode.impl.dao.ShopDao.updateById] - <==>  Preparing: UPDATE shop SET shop_status=? WHERE shop_id=? >
+2017-11-17 14:57:49,351 DEBUG [com.lanxi.couponcode.impl.dao.ShopDao.updateById] - <==> Parameters: 2(String), 931412883098533888(Long)>
+2017-11-17 14:57:49,444 DEBUG [com.lanxi.couponcode.impl.dao.ShopDao.updateById] - <<==    Updates: 1>
+2017-11-17 14:57:49,444 DEBUG [org.mybatis.spring.SqlSessionUtils] - <Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@458342d3]>
+2017-11-17 14:57:49,445 DEBUG [org.springframework.jdbc.datasource.DataSourceUtils] - <Returning JDBC Connection to DataSource>
+2017-11-17 14:57:49,446 DEBUG [com.lanxi.couponcode.impl.service.ShopServiceImpl] - <冻结门店成功
+shopId[931412883098533888]
+,operaterId[null]
+>
+2017-11-17 14:57:49,729 DEBUG [org.springframework.jdbc.datasource.DataSourceUtils] - <Fetching JDBC Connection from DataSource>
+2017-11-17 14:57:49,733 DEBUG [org.mybatis.spring.transaction.SpringManagedTransaction] - <JDBC Connection [jdbc:mysql://192.168.17.62:3306/couponcode?autoReconnect=true, UserName=yyj@MS-20160330EVIQ, MySQL Connector Java] will not be managed by Spring>
+2017-11-17 14:57:49,734 DEBUG [com.lanxi.couponcode.impl.dao.OperateRecordDao.insert] - <==>  Preparing: INSERT INTO operate_record ( record_id, target_type, description, operate_time, operate_result, target_info ) VALUES ( ?, ?, ?, ?, ?, ? ) >
+2017-11-17 14:57:49,736 DEBUG [com.lanxi.couponcode.impl.dao.OperateRecordDao.insert] - <==> Parameters: 931416065505673216(Long), 1(String), 冻结门店(String), 20171117145749(String), 成功(String), {"shopId":931412883098533888,"shopStatus":"2"}(String)>
+2017-11-17 14:57:49,758 DEBUG [org.springframework.jdbc.datasource.DataSourceUtils] - <Returning JDBC Connection to DataSource>
+2017-11-17 14:58:33,576 DEBUG [org.springframework.beans.factory.support.DefaultListableBeanFactory] - <Returning cached instance of singleton bean 'shopService'>
+2017-11-17 14:58:33,600 DEBUG [org.mybatis.spring.SqlSessionUtils] - <Creating a new SqlSession>
+2017-11-17 14:58:33,613 DEBUG [org.mybatis.spring.SqlSessionUtils] - <SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@74cadd41] was not registered for synchronization because synchronization is not active>
+2017-11-17 14:58:33,751 DEBUG [org.springframework.jdbc.datasource.DataSourceUtils] - <Fetching JDBC Connection from DataSource>
+2017-11-17 14:58:33,754 DEBUG [org.mybatis.spring.transaction.SpringManagedTransaction] - <JDBC Connection [jdbc:mysql://192.168.17.62:3306/couponcode?autoReconnect=true, UserName=yyj@MS-20160330EVIQ, MySQL Connector Java] will not be managed by Spring>
+2017-11-17 14:58:33,772 DEBUG [com.lanxi.couponcode.impl.dao.ShopDao.updateById] - <==>  Preparing: UPDATE shop SET shop_status=? WHERE shop_id=? >
+2017-11-17 14:58:33,815 DEBUG [com.lanxi.couponcode.impl.dao.ShopDao.updateById] - <==> Parameters: 1(String), 931412883098533888(Long)>
+2017-11-17 14:58:33,908 DEBUG [com.lanxi.couponcode.impl.dao.ShopDao.updateById] - <<==    Updates: 1>
+2017-11-17 14:58:33,909 DEBUG [org.mybatis.spring.SqlSessionUtils] - <Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@74cadd41]>
+2017-11-17 14:58:33,909 DEBUG [org.springframework.jdbc.datasource.DataSourceUtils] - <Returning JDBC Connection to DataSource>
+2017-11-17 14:58:33,909 DEBUG [com.lanxi.couponcode.impl.service.ShopServiceImpl] - <开启门店成功
+shopId[931412883098533888]
+,operaterId[null]
+>
+2017-11-17 14:58:34,195 DEBUG [org.springframework.jdbc.datasource.DataSourceUtils] - <Fetching JDBC Connection from DataSource>
+2017-11-17 14:58:34,199 DEBUG [org.mybatis.spring.transaction.SpringManagedTransaction] - <JDBC Connection [jdbc:mysql://192.168.17.62:3306/couponcode?autoReconnect=true, UserName=yyj@MS-20160330EVIQ, MySQL Connector Java] will not be managed by Spring>
+2017-11-17 14:58:34,199 DEBUG [com.lanxi.couponcode.impl.dao.OperateRecordDao.insert] - <==>  Preparing: INSERT INTO operate_record ( record_id, target_type, description, operate_time, operate_result, target_info ) VALUES ( ?, ?, ?, ?, ?, ? ) >
+2017-11-17 14:58:34,204 DEBUG [com.lanxi.couponcode.impl.dao.OperateRecordDao.insert] - <==> Parameters: 931416251976097792(Long), 1(String), 开启门店(String), 20171117145834(String), 成功(String), {"shopId":931412883098533888,"shopStatus":"1"}(String)>
+2017-11-17 14:58:34,228 DEBUG [org.springframework.jdbc.datasource.DataSourceUtils] - <Returning JDBC Connection to DataSource>
+2017-11-17 15:00:36,232 DEBUG [org.springframework.beans.factory.support.DefaultListableBeanFactory] - <Returning cached instance of singleton bean 'shopService'>
+2017-11-17 15:00:36,273 DEBUG [org.mybatis.spring.SqlSessionUtils] - <Creating a new SqlSession>
+2017-11-17 15:00:36,281 DEBUG [org.mybatis.spring.SqlSessionUtils] - <SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@62fad19] was not registered for synchronization because synchronization is not active>
+2017-11-17 15:00:36,454 DEBUG [org.springframework.jdbc.datasource.DataSourceUtils] - <Fetching JDBC Connection from DataSource>
+2017-11-17 15:00:36,458 DEBUG [org.mybatis.spring.transaction.SpringManagedTransaction] - <JDBC Connection [jdbc:mysql://192.168.17.62:3306/couponcode?autoReconnect=true, UserName=yyj@MS-20160330EVIQ, MySQL Connector Java] will not be managed by Spring>
+2017-11-17 15:00:36,469 DEBUG [com.lanxi.couponcode.impl.dao.ShopDao.selectList] - <==>  Preparing: SELECT shop_id AS shopId,merchant_id AS merchantId,shop_name AS shopName,create_time AS createTime,merchant_status AS merchantStatus,shop_address AS shopAddress,minute_shop_address AS minuteShopAddress,shop_status AS shopStatus,servicetel FROM shop WHERE (merchant_id = ?) >
+2017-11-17 15:00:36,508 DEBUG [com.lanxi.couponcode.impl.dao.ShopDao.selectList] - <==> Parameters: 1(Long)>
+2017-11-17 15:00:36,532 DEBUG [com.lanxi.couponcode.impl.dao.ShopDao.selectList] - <<==      Total: 1>
+2017-11-17 15:00:36,533 DEBUG [org.mybatis.spring.SqlSessionUtils] - <Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@62fad19]>
+2017-11-17 15:00:36,533 DEBUG [org.springframework.jdbc.datasource.DataSourceUtils] - <Returning JDBC Connection to DataSource>
+2017-11-17 15:00:36,535 DEBUG [com.lanxi.couponcode.impl.service.ShopServiceImpl] - <查询到的结果[[Shop [shopId=931412883098533888, merchantId=1, shopName=蓝喜, createTime=20171117144511, merchantStatus=1, shopAddress=杭州, minuteShopAddress=aa, shorStatus=1, servicetel=null]]]
+shopName[null]
+,status[null]
+,shopAddress[null]
+,merchantId[1]
+,operaterId[null]
+>
+2017-11-17 15:01:53,202 DEBUG [org.springframework.beans.factory.support.DefaultListableBeanFactory] - <Returning cached instance of singleton bean 'shopService'>
+2017-11-17 15:03:20,389 DEBUG [org.springframework.beans.factory.support.DefaultListableBeanFactory] - <Returning cached instance of singleton bean 'shopService'>
+2017-11-17 15:03:20,404 DEBUG [org.mybatis.spring.SqlSessionUtils] - <Creating a new SqlSession>
+2017-11-17 15:03:20,412 DEBUG [org.mybatis.spring.SqlSessionUtils] - <SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@2692b61e] was not registered for synchronization because synchronization is not active>
+2017-11-17 15:03:20,548 DEBUG [org.springframework.jdbc.datasource.DataSourceUtils] - <Fetching JDBC Connection from DataSource>
+2017-11-17 15:03:20,551 DEBUG [org.mybatis.spring.transaction.SpringManagedTransaction] - <JDBC Connection [jdbc:mysql://192.168.17.62:3306/couponcode?autoReconnect=true, UserName=yyj@MS-20160330EVIQ, MySQL Connector Java] will not be managed by Spring>
+2017-11-17 15:03:20,569 DEBUG [com.lanxi.couponcode.impl.dao.ShopDao.updateById] - <==>  Preparing: UPDATE shop SET shop_name=?, shop_address=? WHERE shop_id=? >
+2017-11-17 15:03:20,610 DEBUG [com.lanxi.couponcode.impl.dao.ShopDao.updateById] - <==> Parameters: 杭州蓝喜(String), 杭州(String), 931412883098533888(Long)>
+2017-11-17 15:03:20,747 DEBUG [com.lanxi.couponcode.impl.dao.ShopDao.updateById] - <<==    Updates: 1>
+2017-11-17 15:03:20,748 DEBUG [org.mybatis.spring.SqlSessionUtils] - <Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@2692b61e]>
+2017-11-17 15:03:20,748 DEBUG [org.springframework.jdbc.datasource.DataSourceUtils] - <Returning JDBC Connection to DataSource>
+2017-11-17 15:03:20,749 DEBUG [com.lanxi.couponcode.impl.service.ShopServiceImpl] - <修改门店信息成功
+shopName[杭州蓝喜]
+,serviceTel[null]
+,shopAddress[杭州]
+,minuteShopAddress[null]
+,shopId[931412883098533888]
+,operaterId[null]
+>
+2017-11-17 15:03:21,029 DEBUG [org.springframework.jdbc.datasource.DataSourceUtils] - <Fetching JDBC Connection from DataSource>
+2017-11-17 15:03:21,033 DEBUG [org.mybatis.spring.transaction.SpringManagedTransaction] - <JDBC Connection [jdbc:mysql://192.168.17.62:3306/couponcode?autoReconnect=true, UserName=yyj@MS-20160330EVIQ, MySQL Connector Java] will not be managed by Spring>
+2017-11-17 15:03:21,034 DEBUG [com.lanxi.couponcode.impl.dao.OperateRecordDao.insert] - <==>  Preparing: INSERT INTO operate_record ( record_id, target_type, description, operate_time, operate_result, target_info ) VALUES ( ?, ?, ?, ?, ?, ? ) >
+2017-11-17 15:03:21,040 DEBUG [com.lanxi.couponcode.impl.dao.OperateRecordDao.insert] - <==> Parameters: 931417455087009792(Long), 1(String), 修改门店信息(String), 20171117150320(String), 成功(String), {"shopAddress":"杭州","shopId":931412883098533888,"shopName":"杭州蓝喜"}(String)>
+2017-11-17 15:03:21,064 DEBUG [org.springframework.jdbc.datasource.DataSourceUtils] - <Returning JDBC Connection to DataSource>
+2017-11-17 15:06:38,176 DEBUG [org.springframework.beans.factory.support.DefaultListableBeanFactory] - <Returning cached instance of singleton bean 'shopService'>
+2017-11-17 15:09:18,338 DEBUG [org.springframework.beans.factory.support.DefaultListableBeanFactory] - <Returning cached instance of singleton bean 'shopService'>
+2017-11-17 15:09:19,576 DEBUG [org.mybatis.spring.SqlSessionUtils] - <Creating a new SqlSession>
+2017-11-17 15:09:19,585 DEBUG [org.mybatis.spring.SqlSessionUtils] - <SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@545f80bf] was not registered for synchronization because synchronization is not active>
+2017-11-17 15:09:19,755 DEBUG [org.springframework.jdbc.datasource.DataSourceUtils] - <Fetching JDBC Connection from DataSource>
+2017-11-17 15:09:19,759 DEBUG [org.mybatis.spring.transaction.SpringManagedTransaction] - <JDBC Connection [jdbc:mysql://192.168.17.62:3306/couponcode?autoReconnect=true, UserName=yyj@MS-20160330EVIQ, MySQL Connector Java] will not be managed by Spring>
+2017-11-17 15:09:19,776 DEBUG [com.lanxi.couponcode.impl.dao.ShopDao.insert] - <==>  Preparing: INSERT INTO shop ( shop_id, merchant_id, shop_name, create_time, shop_address, shop_status, servicetel ) VALUES ( ?, ?, ?, ?, ?, ?, ? ) >
+2017-11-17 15:09:19,817 DEBUG [com.lanxi.couponcode.impl.dao.ShopDao.insert] - <==> Parameters: 931418959600644096(Long), 1(Long), 蓝喜(String), 20171117150919(String), 杭州(String), 1(String), 13165978091(String)>
+2017-11-17 15:09:19,915 DEBUG [com.lanxi.couponcode.impl.dao.ShopDao.insert] - <<==    Updates: 1>
+2017-11-17 15:09:19,915 DEBUG [org.mybatis.spring.SqlSessionUtils] - <Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@545f80bf]>
+2017-11-17 15:09:19,915 DEBUG [org.springframework.jdbc.datasource.DataSourceUtils] - <Returning JDBC Connection to DataSource>
+2017-11-17 15:09:19,916 DEBUG [com.lanxi.couponcode.impl.service.ShopServiceImpl] - <批量添加门店----第[0]个sheet第[1]个门店添加成功
+shopId[1]
+,operaterId[null]
+>
+2017-11-17 15:09:19,917 DEBUG [org.mybatis.spring.SqlSessionUtils] - <Creating a new SqlSession>
+2017-11-17 15:09:19,917 DEBUG [org.mybatis.spring.SqlSessionUtils] - <SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@78b236a0] was not registered for synchronization because synchronization is not active>
+2017-11-17 15:09:19,918 DEBUG [org.springframework.jdbc.datasource.DataSourceUtils] - <Fetching JDBC Connection from DataSource>
+2017-11-17 15:09:19,922 DEBUG [org.mybatis.spring.transaction.SpringManagedTransaction] - <JDBC Connection [jdbc:mysql://192.168.17.62:3306/couponcode?autoReconnect=true, UserName=yyj@MS-20160330EVIQ, MySQL Connector Java] will not be managed by Spring>
+2017-11-17 15:09:19,922 DEBUG [com.lanxi.couponcode.impl.dao.ShopDao.insert] - <==>  Preparing: INSERT INTO shop ( shop_id, merchant_id, shop_name, create_time, shop_address, shop_status, servicetel ) VALUES ( ?, ?, ?, ?, ?, ?, ? ) >
+2017-11-17 15:09:19,924 DEBUG [com.lanxi.couponcode.impl.dao.ShopDao.insert] - <==> Parameters: 931418961114787840(Long), 1(Long), 蓝喜科技(String), 20171117150919(String), 杭州(String), 1(String), 0395-888888(String)>
+2017-11-17 15:09:20,097 DEBUG [com.lanxi.couponcode.impl.dao.ShopDao.insert] - <<==    Updates: 1>
+2017-11-17 15:09:20,097 DEBUG [org.mybatis.spring.SqlSessionUtils] - <Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@78b236a0]>
+2017-11-17 15:09:20,097 DEBUG [org.springframework.jdbc.datasource.DataSourceUtils] - <Returning JDBC Connection to DataSource>
+2017-11-17 15:09:20,097 DEBUG [com.lanxi.couponcode.impl.service.ShopServiceImpl] - <批量添加门店----第[0]个sheet第[2]个门店添加成功
+shopId[1]
+,operaterId[null]
+>
+2017-11-17 15:09:20,099 DEBUG [org.mybatis.spring.SqlSessionUtils] - <Creating a new SqlSession>
+2017-11-17 15:09:20,099 DEBUG [org.mybatis.spring.SqlSessionUtils] - <SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@65e7f52a] was not registered for synchronization because synchronization is not active>
+2017-11-17 15:09:20,100 DEBUG [org.springframework.jdbc.datasource.DataSourceUtils] - <Fetching JDBC Connection from DataSource>
+2017-11-17 15:09:20,106 DEBUG [org.mybatis.spring.transaction.SpringManagedTransaction] - <JDBC Connection [jdbc:mysql://192.168.17.62:3306/couponcode?autoReconnect=true, UserName=yyj@MS-20160330EVIQ, MySQL Connector Java] will not be managed by Spring>
+2017-11-17 15:09:20,107 DEBUG [com.lanxi.couponcode.impl.dao.ShopDao.insert] - <==>  Preparing: INSERT INTO shop ( shop_id, merchant_id, shop_name, create_time, shop_address, shop_status, servicetel ) VALUES ( ?, ?, ?, ?, ?, ?, ? ) >
+2017-11-17 15:09:20,113 DEBUG [com.lanxi.couponcode.impl.dao.ShopDao.insert] - <==> Parameters: 931418961882345472(Long), 1(Long), 蓝喜喜(String), 20171117150920(String), 杭州(String), 1(String), 0395-888888(String)>
+2017-11-17 15:09:20,319 DEBUG [com.lanxi.couponcode.impl.dao.ShopDao.insert] - <<==    Updates: 1>
+2017-11-17 15:09:20,319 DEBUG [org.mybatis.spring.SqlSessionUtils] - <Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@65e7f52a]>
+2017-11-17 15:09:20,320 DEBUG [org.springframework.jdbc.datasource.DataSourceUtils] - <Returning JDBC Connection to DataSource>
+2017-11-17 15:09:20,320 DEBUG [com.lanxi.couponcode.impl.service.ShopServiceImpl] - <批量添加门店----第[0]个sheet第[3]个门店添加成功
+shopId[1]
+,operaterId[null]
+>
+2017-11-17 15:14:16,361 DEBUG [org.springframework.beans.factory.support.DefaultListableBeanFactory] - <Returning cached instance of singleton bean 'shopService'>
+2017-11-17 15:16:17,762 DEBUG [org.springframework.beans.factory.support.DefaultListableBeanFactory] - <Returning cached instance of singleton bean 'shopService'>
+2017-11-17 15:16:17,778 DEBUG [org.mybatis.spring.SqlSessionUtils] - <Creating a new SqlSession>
+2017-11-17 15:16:17,789 DEBUG [org.mybatis.spring.SqlSessionUtils] - <SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@2692b61e] was not registered for synchronization because synchronization is not active>
+2017-11-17 15:16:17,808 DEBUG [org.springframework.jdbc.datasource.DataSourceUtils] - <Fetching JDBC Connection from DataSource>
+2017-11-17 15:16:17,811 DEBUG [org.mybatis.spring.transaction.SpringManagedTransaction] - <JDBC Connection [jdbc:mysql://192.168.17.62:3306/couponcode?autoReconnect=true, UserName=yyj@MS-20160330EVIQ, MySQL Connector Java] will not be managed by Spring>
+2017-11-17 15:16:17,836 DEBUG [com.lanxi.couponcode.impl.dao.MerchantDao.selectById] - <==>  Preparing: SELECT merchant_id AS merchantId,merchant_name AS merchantName,merchant_status AS merchantStatus,create_time AS createTime,workaddress AS workAddress,minute_workaddress AS minuteWorkAddress,serve_explain AS serveExplain,registeraddress AS registerAddress,minute_registeraddress AS minuteRegisterAddress,oraganizingcode AS oraganizingCode,chartercode AS charterCode,principal,linkman AS linkMan,linkman_phone AS linkManPhone,servicetel AS serviceTel,email,organizing_institution_bar_code_pic AS organizingInstitutionBarCodePic,business_license_pic AS businessLicensePic,other_pic AS otherPic FROM merchants WHERE merchant_id=? >
+2017-11-17 15:16:17,894 DEBUG [com.lanxi.couponcode.impl.dao.MerchantDao.selectById] - <==> Parameters: 1(Long)>
+2017-11-17 15:16:17,921 DEBUG [com.lanxi.couponcode.impl.dao.MerchantDao.selectById] - <<==      Total: 1>
+2017-11-17 15:16:17,921 DEBUG [org.mybatis.spring.SqlSessionUtils] - <Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@2692b61e]>
+2017-11-17 15:16:17,922 DEBUG [org.springframework.jdbc.datasource.DataSourceUtils] - <Returning JDBC Connection to DataSource>
+2017-11-17 15:16:19,097 DEBUG [org.mybatis.spring.SqlSessionUtils] - <Creating a new SqlSession>
+2017-11-17 15:16:19,097 DEBUG [org.mybatis.spring.SqlSessionUtils] - <SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@3f3c7bdb] was not registered for synchronization because synchronization is not active>
+2017-11-17 15:16:19,192 DEBUG [org.springframework.jdbc.datasource.DataSourceUtils] - <Fetching JDBC Connection from DataSource>
+2017-11-17 15:16:19,195 DEBUG [org.mybatis.spring.transaction.SpringManagedTransaction] - <JDBC Connection [jdbc:mysql://192.168.17.62:3306/couponcode?autoReconnect=true, UserName=yyj@MS-20160330EVIQ, MySQL Connector Java] will not be managed by Spring>
+2017-11-17 15:16:19,196 DEBUG [com.lanxi.couponcode.impl.dao.ShopDao.insert] - <==>  Preparing: INSERT INTO shop ( shop_id, merchant_id, shop_name, create_time, merchant_status, shop_address, shop_status, servicetel ) VALUES ( ?, ?, ?, ?, ?, ?, ?, ? ) >
+2017-11-17 15:16:19,198 DEBUG [com.lanxi.couponcode.impl.dao.ShopDao.insert] - <==> Parameters: 931420719266336768(Long), 1(Long), 蓝喜(String), 20171117151618(String), 1(String), 杭州(String), 1(String), 13165978091(String)>
+2017-11-17 15:16:19,337 DEBUG [com.lanxi.couponcode.impl.dao.ShopDao.insert] - <<==    Updates: 1>
+2017-11-17 15:16:19,337 DEBUG [org.mybatis.spring.SqlSessionUtils] - <Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@3f3c7bdb]>
+2017-11-17 15:16:19,337 DEBUG [org.springframework.jdbc.datasource.DataSourceUtils] - <Returning JDBC Connection to DataSource>
+2017-11-17 15:16:19,337 DEBUG [com.lanxi.couponcode.impl.service.ShopServiceImpl] - <批量添加门店----第[0]个sheet第[1]个门店添加成功
+shopId[1]
+,operaterId[null]
+>
+2017-11-17 15:16:19,478 DEBUG [org.springframework.jdbc.datasource.DataSourceUtils] - <Fetching JDBC Connection from DataSource>
+2017-11-17 15:16:19,482 DEBUG [org.mybatis.spring.transaction.SpringManagedTransaction] - <JDBC Connection [jdbc:mysql://192.168.17.62:3306/couponcode?autoReconnect=true, UserName=yyj@MS-20160330EVIQ, MySQL Connector Java] will not be managed by Spring>
+2017-11-17 15:16:19,483 DEBUG [com.lanxi.couponcode.impl.dao.OperateRecordDao.insert] - <==>  Preparing: INSERT INTO operate_record ( record_id, target_type, description, operate_time, operate_result, target_info ) VALUES ( ?, ?, ?, ?, ?, ? ) >
+2017-11-17 15:16:19,484 DEBUG [com.lanxi.couponcode.impl.dao.OperateRecordDao.insert] - <==> Parameters: 931420720298135552(Long), 1(String), 单个添加门店(String), 20171117151619(String), 成功(String), {"createTime":"20171117151618","merchantId":1,"merchantStatus":"1","servicetel":"13165978091","shopAddress":"杭州","shopId":931420719266336768,"shopName":"蓝喜","shopStatus":"1"}(String)>
+2017-11-17 15:16:19,504 DEBUG [org.springframework.jdbc.datasource.DataSourceUtils] - <Returning JDBC Connection to DataSource>
+2017-11-17 15:19:15,692 DEBUG [org.springframework.beans.factory.support.DefaultListableBeanFactory] - <Returning cached instance of singleton bean 'shopService'>
+2017-11-17 15:19:15,709 DEBUG [org.mybatis.spring.SqlSessionUtils] - <Creating a new SqlSession>
+2017-11-17 15:19:15,716 DEBUG [org.mybatis.spring.SqlSessionUtils] - <SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@74cadd41] was not registered for synchronization because synchronization is not active>
+2017-11-17 15:19:15,739 DEBUG [org.springframework.jdbc.datasource.DataSourceUtils] - <Fetching JDBC Connection from DataSource>
+2017-11-17 15:19:15,744 DEBUG [org.mybatis.spring.transaction.SpringManagedTransaction] - <JDBC Connection [jdbc:mysql://192.168.17.62:3306/couponcode?autoReconnect=true, UserName=yyj@MS-20160330EVIQ, MySQL Connector Java] will not be managed by Spring>
+2017-11-17 15:19:15,773 DEBUG [com.lanxi.couponcode.impl.dao.MerchantDao.selectById] - <==>  Preparing: SELECT merchant_id AS merchantId,merchant_name AS merchantName,merchant_status AS merchantStatus,create_time AS createTime,workaddress AS workAddress,minute_workaddress AS minuteWorkAddress,serve_explain AS serveExplain,registeraddress AS registerAddress,minute_registeraddress AS minuteRegisterAddress,oraganizingcode AS oraganizingCode,chartercode AS charterCode,principal,linkman AS linkMan,linkman_phone AS linkManPhone,servicetel AS serviceTel,email,organizing_institution_bar_code_pic AS organizingInstitutionBarCodePic,business_license_pic AS businessLicensePic,other_pic AS otherPic FROM merchants WHERE merchant_id=? >
+2017-11-17 15:19:15,837 DEBUG [com.lanxi.couponcode.impl.dao.MerchantDao.selectById] - <==> Parameters: 1(Long)>
+2017-11-17 15:19:15,869 DEBUG [com.lanxi.couponcode.impl.dao.MerchantDao.selectById] - <<==      Total: 1>
+2017-11-17 15:19:15,870 DEBUG [org.mybatis.spring.SqlSessionUtils] - <Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@74cadd41]>
+2017-11-17 15:19:15,870 DEBUG [org.springframework.jdbc.datasource.DataSourceUtils] - <Returning JDBC Connection to DataSource>
+2017-11-17 15:19:17,173 DEBUG [org.mybatis.spring.SqlSessionUtils] - <Creating a new SqlSession>
+2017-11-17 15:19:17,173 DEBUG [org.mybatis.spring.SqlSessionUtils] - <SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@219f4597] was not registered for synchronization because synchronization is not active>
+2017-11-17 15:19:17,281 DEBUG [org.springframework.jdbc.datasource.DataSourceUtils] - <Fetching JDBC Connection from DataSource>
+2017-11-17 15:19:17,285 DEBUG [org.mybatis.spring.transaction.SpringManagedTransaction] - <JDBC Connection [jdbc:mysql://192.168.17.62:3306/couponcode?autoReconnect=true, UserName=yyj@MS-20160330EVIQ, MySQL Connector Java] will not be managed by Spring>
+2017-11-17 15:19:17,286 DEBUG [com.lanxi.couponcode.impl.dao.ShopDao.insert] - <==>  Preparing: INSERT INTO shop ( shop_id, merchant_id, shop_name, create_time, merchant_status, shop_address, shop_status, servicetel ) VALUES ( ?, ?, ?, ?, ?, ?, ?, ? ) >
+2017-11-17 15:19:17,289 DEBUG [com.lanxi.couponcode.impl.dao.ShopDao.insert] - <==> Parameters: 931421466162880512(Long), 1(Long), 蓝喜(String), 20171117151917(String), 1(String), 杭州(String), 1(String), 13165978091(String)>
+2017-11-17 15:19:17,485 DEBUG [com.lanxi.couponcode.impl.dao.ShopDao.insert] - <<==    Updates: 1>
+2017-11-17 15:19:17,486 DEBUG [org.mybatis.spring.SqlSessionUtils] - <Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@219f4597]>
+2017-11-17 15:19:17,486 DEBUG [org.springframework.jdbc.datasource.DataSourceUtils] - <Returning JDBC Connection to DataSource>
+2017-11-17 15:19:17,486 DEBUG [com.lanxi.couponcode.impl.service.ShopServiceImpl] - <批量添加门店----第[0]个sheet第[1]个门店添加成功
+shopId[1]
+,operaterId[null]
+>
+2017-11-17 15:19:17,638 DEBUG [org.springframework.jdbc.datasource.DataSourceUtils] - <Fetching JDBC Connection from DataSource>
+2017-11-17 15:19:17,641 DEBUG [org.mybatis.spring.transaction.SpringManagedTransaction] - <JDBC Connection [jdbc:mysql://192.168.17.62:3306/couponcode?autoReconnect=true, UserName=yyj@MS-20160330EVIQ, MySQL Connector Java] will not be managed by Spring>
+2017-11-17 15:19:17,642 DEBUG [com.lanxi.couponcode.impl.dao.OperateRecordDao.insert] - <==>  Preparing: INSERT INTO operate_record ( record_id, target_type, description, operate_time, operate_result, target_info ) VALUES ( ?, ?, ?, ?, ?, ? ) >
+2017-11-17 15:19:17,643 DEBUG [com.lanxi.couponcode.impl.dao.OperateRecordDao.insert] - <==> Parameters: 931421467509252096(Long), 1(String), 单个添加门店(String), 20171117151917(String), 成功(String), {"createTime":"20171117151917","merchantId":1,"merchantStatus":"1","servicetel":"13165978091","shopAddress":"杭州","shopId":931421466162880512,"shopName":"蓝喜","shopStatus":"1"}(String)>
+2017-11-17 15:19:17,664 DEBUG [org.springframework.jdbc.datasource.DataSourceUtils] - <Returning JDBC Connection to DataSource>
+2017-11-17 15:19:17,666 DEBUG [org.mybatis.spring.SqlSessionUtils] - <Creating a new SqlSession>
+2017-11-17 15:19:17,666 DEBUG [org.mybatis.spring.SqlSessionUtils] - <SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@464a4442] was not registered for synchronization because synchronization is not active>
+2017-11-17 15:19:17,668 DEBUG [org.springframework.jdbc.datasource.DataSourceUtils] - <Fetching JDBC Connection from DataSource>
+2017-11-17 15:19:17,673 DEBUG [org.mybatis.spring.transaction.SpringManagedTransaction] - <JDBC Connection [jdbc:mysql://192.168.17.62:3306/couponcode?autoReconnect=true, UserName=yyj@MS-20160330EVIQ, MySQL Connector Java] will not be managed by Spring>
+2017-11-17 15:19:17,674 DEBUG [com.lanxi.couponcode.impl.dao.ShopDao.insert] - <==>  Preparing: INSERT INTO shop ( shop_id, merchant_id, shop_name, create_time, merchant_status, shop_address, shop_status, servicetel ) VALUES ( ?, ?, ?, ?, ?, ?, ?, ? ) >
+2017-11-17 15:19:17,676 DEBUG [com.lanxi.couponcode.impl.dao.ShopDao.insert] - <==> Parameters: 931421468260032512(Long), 1(Long), 蓝喜科技(String), 20171117151917(String), 1(String), 杭州(String), 1(String), 0395-888888(String)>
+2017-11-17 15:19:17,872 DEBUG [com.lanxi.couponcode.impl.dao.ShopDao.insert] - <<==    Updates: 1>
+2017-11-17 15:19:17,873 DEBUG [org.mybatis.spring.SqlSessionUtils] - <Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@464a4442]>
+2017-11-17 15:19:17,873 DEBUG [org.springframework.jdbc.datasource.DataSourceUtils] - <Returning JDBC Connection to DataSource>
+2017-11-17 15:19:17,873 DEBUG [com.lanxi.couponcode.impl.service.ShopServiceImpl] - <批量添加门店----第[0]个sheet第[2]个门店添加成功
+shopId[1]
+,operaterId[null]
+>
+2017-11-17 15:19:17,874 DEBUG [org.springframework.jdbc.datasource.DataSourceUtils] - <Fetching JDBC Connection from DataSource>
+2017-11-17 15:19:17,878 DEBUG [org.mybatis.spring.transaction.SpringManagedTransaction] - <JDBC Connection [jdbc:mysql://192.168.17.62:3306/couponcode?autoReconnect=true, UserName=yyj@MS-20160330EVIQ, MySQL Connector Java] will not be managed by Spring>
+2017-11-17 15:19:17,879 DEBUG [com.lanxi.couponcode.impl.dao.OperateRecordDao.insert] - <==>  Preparing: INSERT INTO operate_record ( record_id, target_type, description, operate_time, operate_result, target_info ) VALUES ( ?, ?, ?, ?, ?, ? ) >
+2017-11-17 15:19:17,880 DEBUG [com.lanxi.couponcode.impl.dao.OperateRecordDao.insert] - <==> Parameters: 931421469132447744(Long), 1(String), 单个添加门店(String), 20171117151917(String), 成功(String), {"createTime":"20171117151917","merchantId":1,"merchantStatus":"1","servicetel":"0395-888888","shopAddress":"杭州","shopId":931421468260032512,"shopName":"蓝喜科技","shopStatus":"1"}(String)>
+2017-11-17 15:19:17,891 DEBUG [org.springframework.jdbc.datasource.DataSourceUtils] - <Returning JDBC Connection to DataSource>
+2017-11-17 15:19:17,893 DEBUG [org.mybatis.spring.SqlSessionUtils] - <Creating a new SqlSession>
+2017-11-17 15:19:17,893 DEBUG [org.mybatis.spring.SqlSessionUtils] - <SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@41e1455d] was not registered for synchronization because synchronization is not active>
+2017-11-17 15:19:17,895 DEBUG [org.springframework.jdbc.datasource.DataSourceUtils] - <Fetching JDBC Connection from DataSource>
+2017-11-17 15:19:17,900 DEBUG [org.mybatis.spring.transaction.SpringManagedTransaction] - <JDBC Connection [jdbc:mysql://192.168.17.62:3306/couponcode?autoReconnect=true, UserName=yyj@MS-20160330EVIQ, MySQL Connector Java] will not be managed by Spring>
+2017-11-17 15:19:17,902 DEBUG [com.lanxi.couponcode.impl.dao.ShopDao.insert] - <==>  Preparing: INSERT INTO shop ( shop_id, merchant_id, shop_name, create_time, merchant_status, shop_address, shop_status ) VALUES ( ?, ?, ?, ?, ?, ?, ? ) >
+2017-11-17 15:19:17,903 DEBUG [com.lanxi.couponcode.impl.dao.ShopDao.insert] - <==> Parameters: 931421469220528128(Long), 1(Long), 蓝喜喜(String), 20171117151917(String), 1(String), 杭州(String), 1(String)>
+2017-11-17 15:19:18,051 DEBUG [com.lanxi.couponcode.impl.dao.ShopDao.insert] - <<==    Updates: 1>
+2017-11-17 15:19:18,052 DEBUG [org.mybatis.spring.SqlSessionUtils] - <Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@41e1455d]>
+2017-11-17 15:19:18,052 DEBUG [org.springframework.jdbc.datasource.DataSourceUtils] - <Returning JDBC Connection to DataSource>
+2017-11-17 15:19:18,052 DEBUG [com.lanxi.couponcode.impl.service.ShopServiceImpl] - <批量添加门店----第[0]个sheet第[3]个门店添加成功
+shopId[1]
+,operaterId[null]
+>
+2017-11-17 15:19:18,053 DEBUG [org.springframework.jdbc.datasource.DataSourceUtils] - <Fetching JDBC Connection from DataSource>
+2017-11-17 15:19:18,057 DEBUG [org.mybatis.spring.transaction.SpringManagedTransaction] - <JDBC Connection [jdbc:mysql://192.168.17.62:3306/couponcode?autoReconnect=true, UserName=yyj@MS-20160330EVIQ, MySQL Connector Java] will not be managed by Spring>
+2017-11-17 15:19:18,058 DEBUG [com.lanxi.couponcode.impl.dao.OperateRecordDao.insert] - <==>  Preparing: INSERT INTO operate_record ( record_id, target_type, description, operate_time, operate_result, target_info ) VALUES ( ?, ?, ?, ?, ?, ? ) >
+2017-11-17 15:19:18,059 DEBUG [com.lanxi.couponcode.impl.dao.OperateRecordDao.insert] - <==> Parameters: 931421469887422464(Long), 1(String), 单个添加门店(String), 20171117151918(String), 成功(String), {"createTime":"20171117151917","merchantId":1,"merchantStatus":"1","shopAddress":"杭州","shopId":931421469220528128,"shopName":"蓝喜喜","shopStatus":"1"}(String)>
+2017-11-17 15:19:18,064 DEBUG [org.springframework.jdbc.datasource.DataSourceUtils] - <Returning JDBC Connection to DataSource>
+>>>>>>> d030d9523159e6e21ead44f87f39ef42eee642fc
