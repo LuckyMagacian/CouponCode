@@ -80,7 +80,8 @@ public class TestSpring {
     @Test
     public void test5() {
     	ShopServiceImpl serviceImpl=ac.getBean(ShopServiceImpl.class);
-    	System.out.println(serviceImpl.addShop("蓝喜","杭州","aa", null, 1L, null));
+    	System.out.println(serviceImpl.importShops(new File("F:/aa.xlsx"), 1L, null));
+    	//System.out.println(serviceImpl.addShop("蓝喜","杭州","aa", null, 1L, null));
     	
     }
     

@@ -89,3 +89,27 @@ Caused by: com.mysql.jdbc.exceptions.jdbc4.MySQLSyntaxErrorException: Table 'cou
 	at org.apache.ibatis.executor.CachingExecutor.update(CachingExecutor.java:76)
 	at org.apache.ibatis.session.defaults.DefaultSqlSession.update(DefaultSqlSession.java:198)
 	... 35 more
+2017-11-17 14:57:49,759 ERROR [com.lanxi.couponcode.impl.service.ShopServiceImpl] - <冻结门店时发生异常,
+shopId[931412883098533888]
+,operaterId[null]
+>
+2017-11-17 14:58:34,229 ERROR [com.lanxi.couponcode.impl.service.ShopServiceImpl] - <开启门店时发生异常,
+shopId[931412883098533888]
+,operaterId[null]
+>
+2017-11-17 15:03:21,064 ERROR [com.lanxi.couponcode.impl.service.ShopServiceImpl] - <修改门店信息发生异常
+shopName[杭州蓝喜]
+,serviceTel[null]
+,shopAddress[杭州]
+,minuteShopAddress[null]
+,shopId[931412883098533888]
+,operaterId[null]
+>
+2017-11-17 15:14:16,361 ERROR [com.lanxi.couponcode.impl.service.ShopServiceImpl] - <批量添加门店的时候发生异常
+shopId[1]
+,operaterId[null]
+>
+2017-11-17 15:16:19,505 ERROR [com.lanxi.couponcode.impl.service.ShopServiceImpl] - <批量添加门店的时候发生异常
+shopId[1]
+,operaterId[null]
+>

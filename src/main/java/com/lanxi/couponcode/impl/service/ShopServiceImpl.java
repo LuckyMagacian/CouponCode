@@ -135,11 +135,9 @@ public class ShopServiceImpl implements ShopService{
 		List<String> list=new ArrayList<String>();
 		try {
 			if (file!=null&&merchantId!=null) {
+				String merchantStatus=merchantService.queryMerchantStatusByid(merchantId, operaterId);
 				InputStream inputStream=new FileInputStream(file);
-				shop=new Shop();
-				shop.setMerchantStatus(merchantService.queryMerchantStatusByid(shop.getMerchantId(), operaterId));
-				shop.setShopStatus(ShopStatus.normal);
-				shop.setMerchantId(merchantId);
+				
 				Workbook workbook=null;
 				try {
 					workbook=new HSSFWorkbook(inputStream);
@@ -159,6 +157,10 @@ public class ShopServiceImpl implements ShopService{
 					for(int i=1;i<=total;i++) {
 						//获得第i行对象
 						Row row=sheet.getRow(i);
+						shop=new Shop();
+						shop.setMerchantStatus(merchantStatus);
+						shop.setShopStatus(ShopStatus.normal);
+						shop.setMerchantId(merchantId);
 							//获得第i行第j列的String类型对象
 							//Cell cell=row.getCell(1);
 						try {
@@ -180,17 +182,23 @@ public class ShopServiceImpl implements ShopService{
 							if(var>0) {
 								LogFactory.debug(this,"批量添加门店----第["+j+"]个sheet第["+i+"]个门店添加成功\n"+locker);
 								LogFactory.info(this,"开始尝试添加添加门店操作记录\n"+locker);
-								OperateRecord record=new OperateRecord();
-								record=new OperateRecord();
-					            record.setRecordId(IdWorker.getId());
-					            record.setOperaterId(operaterId);
-					            record.setTargetType(OperateTargetType.shop);
-					            record.setDescription("单个添加门店");
-					            record.setOperateTime(TimeUtil.getDateTime());
-					            record.setTargetInfo(shop.toJson());
-					            record.setOperateResult("成功");
-								boolean flag=record.insert();
-					            LogFactory.info(this,"添加门店操作记录["+record+"]结果["+flag+"],\n"+locker); 
+								try {
+									OperateRecord record=new OperateRecord();
+									record=new OperateRecord();
+						            record.setRecordId(IdWorker.getId());
+						            record.setOperaterId(operaterId);
+						            record.setTargetType(OperateTargetType.shop);
+						            record.setDescription("单个添加门店");
+						            record.setOperateTime(TimeUtil.getDateTime());
+						            record.setTargetInfo(shop.toJson());
+						            record.setOperateResult("成功");
+									boolean flag=record.insert();
+						            LogFactory.info(this,"添加门店操作记录["+record+"]结果["+flag+"],\n"+locker); 
+								} catch (Exception e) {
+									// TODO: handle exception
+									LogFactory.info(this, "添加门店操作记录时发生异常\n"+locker);
+								}
+								
 							}else {
 								list.add("批量添加门店----第["+j+"]个sheet第["+i+"]个门店添加失败");
 								//num[i-1]=i;
