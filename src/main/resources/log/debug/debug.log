@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 2017-11-10 16:17:09,138 DEBUG [org.springframework.beans.factory.support.DefaultListableBeanFactory] - <Returning cached instance of singleton bean 'merchantService'>
 2017-11-10 16:17:09,439 DEBUG [org.springframework.jdbc.datasource.DataSourceTransactionManager] - <Creating new transaction with name [null]: PROPAGATION_REQUIRED,ISOLATION_DEFAULT>
 2017-11-10 16:17:09,442 DEBUG [org.springframework.jdbc.datasource.DataSourceTransactionManager] - <Acquired Connection [jdbc:mysql://192.168.17.62:3306/couponcode?autoReconnect=true, UserName=yyj@192.168.17.64, MySQL Connector Java] for JDBC transaction>
@@ -304,3 +305,36 @@
 2017-11-13 10:29:22,425 DEBUG [org.springframework.beans.factory.support.DisposableBeanAdapter] - <Invoking destroy() on bean with name 'redisService'>
 2017-11-13 10:29:22,425 DEBUG [org.springframework.beans.factory.support.DisposableBeanAdapter] - <Invoking destroy() on bean with name 'SmsService'>
 2017-11-13 10:29:22,425 DEBUG [org.springframework.beans.factory.support.DefaultListableBeanFactory] - <Retrieved dependent beans for bean '(inner bean)#428640fa': [org.springframework.web.servlet.handler.MappedInterceptor#0]>
+=======
+2017-11-17 14:45:10,664 DEBUG [org.springframework.beans.factory.support.DefaultListableBeanFactory] - <Returning cached instance of singleton bean 'shopService'>
+2017-11-17 14:45:10,878 DEBUG [org.mybatis.spring.SqlSessionUtils] - <Creating a new SqlSession>
+2017-11-17 14:45:10,885 DEBUG [org.mybatis.spring.SqlSessionUtils] - <SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@47dbb1e2] was not registered for synchronization because synchronization is not active>
+2017-11-17 14:45:10,921 DEBUG [org.springframework.jdbc.datasource.DataSourceUtils] - <Fetching JDBC Connection from DataSource>
+2017-11-17 14:45:10,945 DEBUG [org.mybatis.spring.transaction.SpringManagedTransaction] - <JDBC Connection [jdbc:mysql://192.168.17.62:3306/couponcode?autoReconnect=true, UserName=yyj@MS-20160330EVIQ, MySQL Connector Java] will not be managed by Spring>
+2017-11-17 14:45:10,994 DEBUG [com.lanxi.couponcode.impl.dao.MerchantDao.selectById] - <==>  Preparing: SELECT merchant_id AS merchantId,merchant_name AS merchantName,merchant_status AS merchantStatus,create_time AS createTime,workaddress AS workAddress,minute_workaddress AS minuteWorkAddress,serve_explain AS serveExplain,registeraddress AS registerAddress,minute_registeraddress AS minuteRegisterAddress,oraganizingcode AS oraganizingCode,chartercode AS charterCode,principal,linkman AS linkMan,linkman_phone AS linkManPhone,servicetel AS serviceTel,email,organizing_institution_bar_code_pic AS organizingInstitutionBarCodePic,business_license_pic AS businessLicensePic,other_pic AS otherPic FROM merchants WHERE merchant_id=? >
+2017-11-17 14:45:11,045 DEBUG [com.lanxi.couponcode.impl.dao.MerchantDao.selectById] - <==> Parameters: 1(Long)>
+2017-11-17 14:45:11,074 DEBUG [com.lanxi.couponcode.impl.dao.MerchantDao.selectById] - <<==      Total: 1>
+2017-11-17 14:45:11,081 DEBUG [org.mybatis.spring.SqlSessionUtils] - <Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@47dbb1e2]>
+2017-11-17 14:45:11,081 DEBUG [org.springframework.jdbc.datasource.DataSourceUtils] - <Returning JDBC Connection to DataSource>
+2017-11-17 14:45:11,101 DEBUG [org.mybatis.spring.SqlSessionUtils] - <Creating a new SqlSession>
+2017-11-17 14:45:11,101 DEBUG [org.mybatis.spring.SqlSessionUtils] - <SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@4ae33a11] was not registered for synchronization because synchronization is not active>
+2017-11-17 14:45:11,238 DEBUG [org.springframework.jdbc.datasource.DataSourceUtils] - <Fetching JDBC Connection from DataSource>
+2017-11-17 14:45:11,241 DEBUG [org.mybatis.spring.transaction.SpringManagedTransaction] - <JDBC Connection [jdbc:mysql://192.168.17.62:3306/couponcode?autoReconnect=true, UserName=yyj@MS-20160330EVIQ, MySQL Connector Java] will not be managed by Spring>
+2017-11-17 14:45:11,242 DEBUG [com.lanxi.couponcode.impl.dao.ShopDao.insert] - <==>  Preparing: INSERT INTO shop ( shop_id, merchant_id, shop_name, create_time, merchant_status, shop_address, minute_shop_address, shop_status ) VALUES ( ?, ?, ?, ?, ?, ?, ?, ? ) >
+2017-11-17 14:45:11,245 DEBUG [com.lanxi.couponcode.impl.dao.ShopDao.insert] - <==> Parameters: 931412883098533888(Long), 1(Long), 蓝喜(String), 20171117144511(String), 1(String), 杭州(String), aa(String), 1(String)>
+2017-11-17 14:45:11,337 DEBUG [com.lanxi.couponcode.impl.dao.ShopDao.insert] - <<==    Updates: 1>
+2017-11-17 14:45:11,337 DEBUG [org.mybatis.spring.SqlSessionUtils] - <Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@4ae33a11]>
+2017-11-17 14:45:11,338 DEBUG [org.springframework.jdbc.datasource.DataSourceUtils] - <Returning JDBC Connection to DataSource>
+2017-11-17 14:45:11,338 DEBUG [com.lanxi.couponcode.impl.service.ShopServiceImpl] - <添加门店成功
+operaterId[null]
+,serviceTel[null]
+,merchantId[1]
+,shopName[蓝喜]
+,shopAddress[杭州]
+>
+2017-11-17 14:45:11,514 DEBUG [org.springframework.jdbc.datasource.DataSourceUtils] - <Fetching JDBC Connection from DataSource>
+2017-11-17 14:45:11,521 DEBUG [org.mybatis.spring.transaction.SpringManagedTransaction] - <JDBC Connection [jdbc:mysql://192.168.17.62:3306/couponcode?autoReconnect=true, UserName=yyj@MS-20160330EVIQ, MySQL Connector Java] will not be managed by Spring>
+2017-11-17 14:45:11,522 DEBUG [com.lanxi.couponcode.impl.dao.OperateRecordDao.insert] - <==>  Preparing: INSERT INTO operate_record ( record_id, target_type, description, operate_time, operate_result, target_info ) VALUES ( ?, ?, ?, ?, ?, ? ) >
+2017-11-17 14:45:11,523 DEBUG [com.lanxi.couponcode.impl.dao.OperateRecordDao.insert] - <==> Parameters: 931412885342486528(Long), 1(String), 单个添加门店(String), 20171117144511(String), 成功(String), {"createTime":"20171117144511","merchantId":1,"merchantStatus":"1","minuteShopAddress":"aa","shopAddress":"杭州","shopId":931412883098533888,"shopName":"蓝喜","shopStatus":"1"}(String)>
+2017-11-17 14:45:11,578 DEBUG [org.springframework.jdbc.datasource.DataSourceUtils] - <Returning JDBC Connection to DataSource>
+>>>>>>> 3c441174f60e273d953f4f9ec9389353e9dfc74a

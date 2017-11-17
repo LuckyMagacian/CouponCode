@@ -7,6 +7,9 @@ import com.lanxi.couponcode.spi.consts.annotations.EasyLog;
 import com.lanxi.util.utils.LoggerUtil;
 import org.junit.Test;
 
+import com.alibaba.fastjson.JSON;
+import com.lanxi.couponcode.spi.consts.enums.AccountStatus;
+import com.lanxi.couponcode.spi.consts.enums.ShopStatus;
 import com.lanxi.util.utils.ExcelUtil;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -16,6 +19,7 @@ import java.lang.reflect.Array;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 /**
  * Created by yangyuanjian on 2017/11/9.
@@ -31,6 +35,7 @@ public class TestOther {
         System.out.println(Serializable.class.isAssignableFrom(ArrayList.class));
     }
     @Test
+<<<<<<< HEAD
     public void test2(){
         JSON.toJSONString("");
     }
@@ -69,4 +74,10 @@ public class TestOther {
 
 //        System.out.println(method.gettype);
     }
+=======
+    public void test2() {
+    	System.out.println(JSON.toJSONString(null));
+    }
+  
+>>>>>>> 3c441174f60e273d953f4f9ec9389353e9dfc74a
 }

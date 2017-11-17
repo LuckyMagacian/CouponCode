@@ -1,4 +1,29 @@
+<<<<<<< HEAD
 2017-11-16 11:31:05,072 INFO [com.lanxi.util.utils.LoggerUtil] - <log4j初始化完成!>
 2017-11-16 11:31:05,555 INFO [org.springframework.context.support.GenericApplicationContext] - <Closing org.springframework.context.support.GenericApplicationContext@6eebc39e: startup date [Thu Nov 16 11:31:01 CST 2017]; root of context hierarchy>
 2017-11-16 11:31:05,555 INFO [com.alibaba.dubbo.config.AbstractConfig] - < [DUBBO] Run shutdown hook now., dubbo version: 2.5.3, current host: 127.0.0.1>
 2017-11-16 11:31:05,563 INFO [com.alibaba.dubbo.registry.support.AbstractRegistryFactory] - < [DUBBO] Close all registries [], dubbo version: 2.5.3, current host: 127.0.0.1>
+=======
+2017-11-17 14:45:10,660 INFO [com.lanxi.util.utils.LoggerUtil] - <log4j初始化完成!>
+2017-11-17 14:45:10,669 INFO [com.lanxi.couponcode.impl.service.ShopServiceImpl] - <尝试单个添加门店,
+operaterId[null]
+,serviceTel[null]
+,merchantId[1]
+,shopName[蓝喜]
+,shopAddress[杭州]
+>
+2017-11-17 14:45:10,860 INFO [com.lanxi.couponcode.impl.service.MerchantServiceImpl] - <尝试添加商户其他证明资料,
+merchantId[1]operaterId[null]
+>
+2017-11-17 14:45:11,081 INFO [com.lanxi.couponcode.impl.service.MerchantServiceImpl] - <获取到的商户状态[1]merchantId[1]operaterId[null]
+>
+2017-11-17 14:45:11,338 INFO [com.lanxi.couponcode.impl.service.ShopServiceImpl] - <尝试单个添加门店
+operaterId[null]
+,serviceTel[null]
+,merchantId[1]
+,shopName[蓝喜]
+,shopAddress[杭州]
+>
+2017-11-17 14:45:11,621 INFO [com.alibaba.dubbo.config.AbstractConfig] - < [DUBBO] Run shutdown hook now., dubbo version: 2.5.3, current host: 127.0.0.1>
+2017-11-17 14:45:11,644 INFO [com.alibaba.dubbo.registry.support.AbstractRegistryFactory] - < [DUBBO] Close all registries [], dubbo version: 2.5.3, current host: 127.0.0.1>
+>>>>>>> 3c441174f60e273d953f4f9ec9389353e9dfc74a

@@ -13,6 +13,7 @@ import java.io.File;
 public interface ShopService {
     RetMessage<Boolean> addShop(String shopName,
                                 String shopAddress,
+                                String minuteShopAddress,
                                 String serviceTel,
                                 @HiddenArg Long merchantId,
                                 @HiddenArg Long operaterId);
@@ -44,6 +45,16 @@ public interface ShopService {
                      @HiddenArg Long merchantId,
                      @HiddenArg Long operaterId);
 
-
-
+    RetMessage<Boolean> modifyShop(String shopName,
+    					String shopAddress,
+    					String minuteShopAddress,
+    					String serviceTel,
+    					@HiddenArg Long shopId,
+    					@HiddenArg Long operaterId);
+  
+    RetMessage<File> queryShopsExport(String shopName,
+    				String shopAddress,
+    				ShopStatus status,
+    				@HiddenArg Long merchantId,
+    				@HiddenArg Long operaterId);
 }

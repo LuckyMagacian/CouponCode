@@ -15,10 +15,12 @@ import java.util.List;
 public interface MerchantService {
     RetMessage<Boolean> addMerchant(String merchantName,
                                     String workAddress,
+                                    String minuteWorkAddress,
                                     @HiddenArg Long operaterId);
 
     RetMessage<Boolean> modifyMerchant(String merchantName,
                            String workAddress,
+                           String minuteWorkAddress,
                            Long operaterId,
                            @HiddenArg Long merchantId);
 
@@ -46,6 +48,7 @@ public interface MerchantService {
     RetMessage<Boolean> inputMerchantInfo(String merchantName,
                               String serviceDistription,
                               String workAddress,
+                              String minuteWorkAddress,
                               String businessLicenseNum,
                               String organizingInstitutionBarCode,
                               String enterpriseLegalRepresentativeName,
@@ -62,6 +65,7 @@ public interface MerchantService {
     RetMessage<Boolean> modifyMerchantInfo(String merchantName,
                                String serviceDistription,
                                String workAddress,
+                               String minuteWorkAddress,
                                String businessLicenseNum,
                                String organizingInstitutionBarCode,
                                String enterpriseLegalRepresentativeName,

@@ -6,6 +6,8 @@ import com.baomidou.mybatisplus.annotations.TableField;
 import com.baomidou.mybatisplus.annotations.TableId;
 import com.baomidou.mybatisplus.annotations.TableName;
 import com.lanxi.couponcode.spi.abstractentity.AbstractShop;
+import com.lanxi.couponcode.spi.consts.enums.MerchantStatus;
+import com.lanxi.couponcode.spi.consts.enums.ShopStatus;
 /**
  * 门店实体类
  * @author wuxiaobo
@@ -27,7 +29,7 @@ public class Shop extends AbstractShop{
 	private String createTime;
 	/*所对应商户的状态*/
 	@TableField("merchant_status")
-	private String merchantStatus;
+	private MerchantStatus merchantStatus;
 	/*门店地址*/
 	@TableField("shop_address")
 	private String shopAddress;
@@ -36,7 +38,7 @@ public class Shop extends AbstractShop{
 	private String minuteShopAddress;
 	/*门店状态*/
 	@TableField("shop_status")
-	private String shopStatus;
+	private ShopStatus shopStatus;
 	/*客服电话*/
 	@TableField("servicetel")
 	private String servicetel;
@@ -71,10 +73,13 @@ public class Shop extends AbstractShop{
 		this.createTime = createTime;
 	}
 	public String getMerchantStatus() {
-		return merchantStatus;
+		return merchantStatus==null?null:merchantStatus.getValue();
+	}
+	public void setMerchantStatus(MerchantStatus merchantStatus) {
+		this.merchantStatus = merchantStatus;
 	}
 	public void setMerchantStatus(String merchantStatus) {
-		this.merchantStatus = merchantStatus;
+		this.merchantStatus = MerchantStatus.getType(merchantStatus);
 	}
 	public String getShopAddress() {
 		return shopAddress;
@@ -89,10 +94,14 @@ public class Shop extends AbstractShop{
 		this.minuteShopAddress = minuteShopAddress;
 	}
 	public String getShopStatus() {
-		return shopStatus;
+		
+		return shopStatus==null?null:shopStatus.getValue();
 	}
-	public void setShopStatus(String shorStatus) {
-		this.shopStatus = shorStatus;
+	public void setShopStatus(ShopStatus shopStatus) {
+		this.shopStatus = shopStatus;
+	}
+	public void setShopStatus(String shopStatus) {
+		this.shopStatus=ShopStatus.getType(shopStatus);
 	}
 	public String getServicetel() {
 		return servicetel;

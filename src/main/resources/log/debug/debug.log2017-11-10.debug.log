@@ -1,0 +1,244 @@
+2017-11-10 16:17:09,138 DEBUG [org.springframework.beans.factory.support.DefaultListableBeanFactory] - <Returning cached instance of singleton bean 'merchantService'>
+2017-11-10 16:17:09,439 DEBUG [org.springframework.jdbc.datasource.DataSourceTransactionManager] - <Creating new transaction with name [null]: PROPAGATION_REQUIRED,ISOLATION_DEFAULT>
+2017-11-10 16:17:09,442 DEBUG [org.springframework.jdbc.datasource.DataSourceTransactionManager] - <Acquired Connection [jdbc:mysql://192.168.17.62:3306/couponcode?autoReconnect=true, UserName=yyj@192.168.17.64, MySQL Connector Java] for JDBC transaction>
+2017-11-10 16:17:09,452 DEBUG [org.springframework.jdbc.datasource.DataSourceTransactionManager] - <Switching JDBC Connection [jdbc:mysql://192.168.17.62:3306/couponcode?autoReconnect=true, UserName=yyj@192.168.17.64, MySQL Connector Java] to manual commit>
+2017-11-10 16:17:09,454 DEBUG [org.springframework.transaction.support.TransactionSynchronizationManager] - <Bound value [org.springframework.jdbc.datasource.ConnectionHolder@68d6972f] for key [org.apache.commons.dbcp.BasicDataSource@63648ee9] to thread [main]>
+2017-11-10 16:17:09,454 DEBUG [org.springframework.transaction.support.TransactionSynchronizationManager] - <Initializing transaction synchronization>
+2017-11-10 16:17:09,481 DEBUG [org.mybatis.spring.SqlSessionUtils] - <Creating a new SqlSession>
+2017-11-10 16:17:09,494 DEBUG [org.mybatis.spring.SqlSessionUtils] - <Registering transaction synchronization for SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@4fad94a7]>
+2017-11-10 16:17:09,496 DEBUG [org.springframework.transaction.support.TransactionSynchronizationManager] - <Bound value [org.mybatis.spring.SqlSessionHolder@5241cf67] for key [org.apache.ibatis.session.defaults.DefaultSqlSessionFactory@25ddbbbb] to thread [main]>
+2017-11-10 16:17:09,669 DEBUG [org.springframework.transaction.support.TransactionSynchronizationManager] - <Retrieved value [org.springframework.jdbc.datasource.ConnectionHolder@68d6972f] for key [org.apache.commons.dbcp.BasicDataSource@63648ee9] bound to thread [main]>
+2017-11-10 16:17:09,670 DEBUG [org.springframework.transaction.support.TransactionSynchronizationManager] - <Retrieved value [org.springframework.jdbc.datasource.ConnectionHolder@68d6972f] for key [org.apache.commons.dbcp.BasicDataSource@63648ee9] bound to thread [main]>
+2017-11-10 16:17:09,672 DEBUG [org.mybatis.spring.transaction.SpringManagedTransaction] - <JDBC Connection [jdbc:mysql://192.168.17.62:3306/couponcode?autoReconnect=true, UserName=yyj@192.168.17.64, MySQL Connector Java] will be managed by Spring>
+2017-11-10 16:17:09,678 DEBUG [org.springframework.transaction.support.TransactionSynchronizationManager] - <Retrieved value [org.springframework.jdbc.datasource.ConnectionHolder@68d6972f] for key [org.apache.commons.dbcp.BasicDataSource@63648ee9] bound to thread [main]>
+2017-11-10 16:17:09,688 DEBUG [com.lanxi.couponcode.impl.dao.MerchantDao.updateById] - <==>  Preparing: UPDATE merchants SET merchant_status=? WHERE merchant_id=? >
+2017-11-10 16:17:09,729 DEBUG [com.lanxi.couponcode.impl.dao.MerchantDao.updateById] - <==> Parameters: 2(String), 1(Long)>
+2017-11-10 16:17:09,736 DEBUG [com.lanxi.couponcode.impl.dao.MerchantDao.updateById] - <<==    Updates: 1>
+2017-11-10 16:17:09,736 DEBUG [org.springframework.transaction.support.TransactionSynchronizationManager] - <Retrieved value [org.mybatis.spring.SqlSessionHolder@5241cf67] for key [org.apache.ibatis.session.defaults.DefaultSqlSessionFactory@25ddbbbb] bound to thread [main]>
+2017-11-10 16:17:09,736 DEBUG [org.springframework.transaction.support.TransactionSynchronizationManager] - <Retrieved value [org.mybatis.spring.SqlSessionHolder@5241cf67] for key [org.apache.ibatis.session.defaults.DefaultSqlSessionFactory@25ddbbbb] bound to thread [main]>
+2017-11-10 16:17:09,736 DEBUG [org.mybatis.spring.SqlSessionUtils] - <Releasing transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@4fad94a7]>
+2017-11-10 16:17:09,737 DEBUG [org.springframework.jdbc.datasource.DataSourceTransactionManager] - <Triggering beforeCommit synchronization>
+2017-11-10 16:17:09,737 DEBUG [org.mybatis.spring.SqlSessionUtils] - <Transaction synchronization committing SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@4fad94a7]>
+2017-11-10 16:17:09,737 DEBUG [org.springframework.jdbc.datasource.DataSourceTransactionManager] - <Triggering beforeCompletion synchronization>
+2017-11-10 16:17:09,737 DEBUG [org.mybatis.spring.SqlSessionUtils] - <Transaction synchronization deregistering SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@4fad94a7]>
+2017-11-10 16:17:09,737 DEBUG [org.springframework.transaction.support.TransactionSynchronizationManager] - <Removed value [org.mybatis.spring.SqlSessionHolder@5241cf67] for key [org.apache.ibatis.session.defaults.DefaultSqlSessionFactory@25ddbbbb] from thread [main]>
+2017-11-10 16:17:09,737 DEBUG [org.mybatis.spring.SqlSessionUtils] - <Transaction synchronization closing SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@4fad94a7]>
+2017-11-10 16:17:09,737 DEBUG [org.springframework.transaction.support.TransactionSynchronizationManager] - <Retrieved value [org.springframework.jdbc.datasource.ConnectionHolder@68d6972f] for key [org.apache.commons.dbcp.BasicDataSource@63648ee9] bound to thread [main]>
+2017-11-10 16:17:09,738 DEBUG [org.springframework.jdbc.datasource.DataSourceTransactionManager] - <Initiating transaction commit>
+2017-11-10 16:17:09,740 DEBUG [org.springframework.jdbc.datasource.DataSourceTransactionManager] - <Committing JDBC transaction on Connection [jdbc:mysql://192.168.17.62:3306/couponcode?autoReconnect=true, UserName=yyj@192.168.17.64, MySQL Connector Java]>
+2017-11-10 16:17:09,748 DEBUG [org.springframework.jdbc.datasource.DataSourceTransactionManager] - <Triggering afterCommit synchronization>
+2017-11-10 16:17:09,748 DEBUG [org.springframework.jdbc.datasource.DataSourceTransactionManager] - <Triggering afterCompletion synchronization>
+2017-11-10 16:17:09,748 DEBUG [org.springframework.transaction.support.TransactionSynchronizationManager] - <Clearing transaction synchronization>
+2017-11-10 16:17:09,749 DEBUG [org.springframework.transaction.support.TransactionSynchronizationManager] - <Removed value [org.springframework.jdbc.datasource.ConnectionHolder@68d6972f] for key [org.apache.commons.dbcp.BasicDataSource@63648ee9] from thread [main]>
+2017-11-10 16:17:09,757 DEBUG [org.springframework.jdbc.datasource.DataSourceTransactionManager] - <Releasing JDBC Connection [jdbc:mysql://192.168.17.62:3306/couponcode?autoReconnect=true, UserName=yyj@192.168.17.64, MySQL Connector Java] after transaction>
+2017-11-10 16:17:09,757 DEBUG [org.springframework.jdbc.datasource.DataSourceUtils] - <Returning JDBC Connection to DataSource>
+2017-11-10 16:20:02,428 DEBUG [org.springframework.beans.factory.support.DefaultListableBeanFactory] - <Returning cached instance of singleton bean 'merchantService'>
+2017-11-10 16:20:02,744 DEBUG [org.springframework.jdbc.datasource.DataSourceTransactionManager] - <Creating new transaction with name [null]: PROPAGATION_REQUIRED,ISOLATION_DEFAULT>
+2017-11-10 16:20:02,749 DEBUG [org.springframework.jdbc.datasource.DataSourceTransactionManager] - <Acquired Connection [jdbc:mysql://192.168.17.62:3306/couponcode?autoReconnect=true, UserName=yyj@192.168.17.64, MySQL Connector Java] for JDBC transaction>
+2017-11-10 16:20:02,757 DEBUG [org.springframework.jdbc.datasource.DataSourceTransactionManager] - <Switching JDBC Connection [jdbc:mysql://192.168.17.62:3306/couponcode?autoReconnect=true, UserName=yyj@192.168.17.64, MySQL Connector Java] to manual commit>
+2017-11-10 16:20:02,761 DEBUG [org.springframework.transaction.support.TransactionSynchronizationManager] - <Bound value [org.springframework.jdbc.datasource.ConnectionHolder@68d6972f] for key [org.apache.commons.dbcp.BasicDataSource@63648ee9] to thread [main]>
+2017-11-10 16:20:02,761 DEBUG [org.springframework.transaction.support.TransactionSynchronizationManager] - <Initializing transaction synchronization>
+2017-11-10 16:20:02,783 DEBUG [org.mybatis.spring.SqlSessionUtils] - <Creating a new SqlSession>
+2017-11-10 16:20:02,792 DEBUG [org.mybatis.spring.SqlSessionUtils] - <Registering transaction synchronization for SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@4fad94a7]>
+2017-11-10 16:20:02,793 DEBUG [org.springframework.transaction.support.TransactionSynchronizationManager] - <Bound value [org.mybatis.spring.SqlSessionHolder@5241cf67] for key [org.apache.ibatis.session.defaults.DefaultSqlSessionFactory@25ddbbbb] to thread [main]>
+2017-11-10 16:20:02,947 DEBUG [org.springframework.transaction.support.TransactionSynchronizationManager] - <Retrieved value [org.springframework.jdbc.datasource.ConnectionHolder@68d6972f] for key [org.apache.commons.dbcp.BasicDataSource@63648ee9] bound to thread [main]>
+2017-11-10 16:20:02,947 DEBUG [org.springframework.transaction.support.TransactionSynchronizationManager] - <Retrieved value [org.springframework.jdbc.datasource.ConnectionHolder@68d6972f] for key [org.apache.commons.dbcp.BasicDataSource@63648ee9] bound to thread [main]>
+2017-11-10 16:20:02,954 DEBUG [org.mybatis.spring.transaction.SpringManagedTransaction] - <JDBC Connection [jdbc:mysql://192.168.17.62:3306/couponcode?autoReconnect=true, UserName=yyj@192.168.17.64, MySQL Connector Java] will be managed by Spring>
+2017-11-10 16:20:02,972 DEBUG [org.springframework.transaction.support.TransactionSynchronizationManager] - <Retrieved value [org.springframework.jdbc.datasource.ConnectionHolder@68d6972f] for key [org.apache.commons.dbcp.BasicDataSource@63648ee9] bound to thread [main]>
+2017-11-10 16:20:02,988 DEBUG [com.lanxi.couponcode.impl.dao.MerchantDao.updateById] - <==>  Preparing: UPDATE merchants SET merchant_status=? WHERE merchant_id=? >
+2017-11-10 16:20:03,031 DEBUG [com.lanxi.couponcode.impl.dao.MerchantDao.updateById] - <==> Parameters: 2(String), 1(Long)>
+2017-11-10 16:20:03,035 DEBUG [com.lanxi.couponcode.impl.dao.MerchantDao.updateById] - <<==    Updates: 1>
+2017-11-10 16:20:03,035 DEBUG [org.springframework.transaction.support.TransactionSynchronizationManager] - <Retrieved value [org.mybatis.spring.SqlSessionHolder@5241cf67] for key [org.apache.ibatis.session.defaults.DefaultSqlSessionFactory@25ddbbbb] bound to thread [main]>
+2017-11-10 16:20:03,035 DEBUG [org.springframework.transaction.support.TransactionSynchronizationManager] - <Retrieved value [org.mybatis.spring.SqlSessionHolder@5241cf67] for key [org.apache.ibatis.session.defaults.DefaultSqlSessionFactory@25ddbbbb] bound to thread [main]>
+2017-11-10 16:20:03,035 DEBUG [org.mybatis.spring.SqlSessionUtils] - <Releasing transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@4fad94a7]>
+2017-11-10 16:20:03,035 DEBUG [org.springframework.jdbc.datasource.DataSourceTransactionManager] - <Triggering beforeCommit synchronization>
+2017-11-10 16:20:03,036 DEBUG [org.mybatis.spring.SqlSessionUtils] - <Transaction synchronization committing SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@4fad94a7]>
+2017-11-10 16:20:03,036 DEBUG [org.springframework.jdbc.datasource.DataSourceTransactionManager] - <Triggering beforeCompletion synchronization>
+2017-11-10 16:20:03,036 DEBUG [org.mybatis.spring.SqlSessionUtils] - <Transaction synchronization deregistering SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@4fad94a7]>
+2017-11-10 16:20:03,036 DEBUG [org.springframework.transaction.support.TransactionSynchronizationManager] - <Removed value [org.mybatis.spring.SqlSessionHolder@5241cf67] for key [org.apache.ibatis.session.defaults.DefaultSqlSessionFactory@25ddbbbb] from thread [main]>
+2017-11-10 16:20:03,036 DEBUG [org.mybatis.spring.SqlSessionUtils] - <Transaction synchronization closing SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@4fad94a7]>
+2017-11-10 16:20:03,036 DEBUG [org.springframework.transaction.support.TransactionSynchronizationManager] - <Retrieved value [org.springframework.jdbc.datasource.ConnectionHolder@68d6972f] for key [org.apache.commons.dbcp.BasicDataSource@63648ee9] bound to thread [main]>
+2017-11-10 16:20:03,036 DEBUG [org.springframework.jdbc.datasource.DataSourceTransactionManager] - <Initiating transaction commit>
+2017-11-10 16:20:03,038 DEBUG [org.springframework.jdbc.datasource.DataSourceTransactionManager] - <Committing JDBC transaction on Connection [jdbc:mysql://192.168.17.62:3306/couponcode?autoReconnect=true, UserName=yyj@192.168.17.64, MySQL Connector Java]>
+2017-11-10 16:20:03,040 DEBUG [org.springframework.jdbc.datasource.DataSourceTransactionManager] - <Triggering afterCommit synchronization>
+2017-11-10 16:20:03,040 DEBUG [org.springframework.jdbc.datasource.DataSourceTransactionManager] - <Triggering afterCompletion synchronization>
+2017-11-10 16:20:03,041 DEBUG [org.springframework.transaction.support.TransactionSynchronizationManager] - <Clearing transaction synchronization>
+2017-11-10 16:20:03,041 DEBUG [org.springframework.transaction.support.TransactionSynchronizationManager] - <Removed value [org.springframework.jdbc.datasource.ConnectionHolder@68d6972f] for key [org.apache.commons.dbcp.BasicDataSource@63648ee9] from thread [main]>
+2017-11-10 16:20:03,047 DEBUG [org.springframework.jdbc.datasource.DataSourceTransactionManager] - <Releasing JDBC Connection [jdbc:mysql://192.168.17.62:3306/couponcode?autoReconnect=true, UserName=yyj@192.168.17.64, MySQL Connector Java] after transaction>
+2017-11-10 16:20:03,047 DEBUG [org.springframework.jdbc.datasource.DataSourceUtils] - <Returning JDBC Connection to DataSource>
+2017-11-10 16:23:55,542 DEBUG [org.springframework.beans.factory.support.DefaultListableBeanFactory] - <Returning cached instance of singleton bean 'merchantService'>
+2017-11-10 16:23:55,825 DEBUG [org.springframework.jdbc.datasource.DataSourceTransactionManager] - <Creating new transaction with name [null]: PROPAGATION_REQUIRED,ISOLATION_DEFAULT>
+2017-11-10 16:23:55,829 DEBUG [org.springframework.jdbc.datasource.DataSourceTransactionManager] - <Acquired Connection [jdbc:mysql://192.168.17.62:3306/couponcode?autoReconnect=true, UserName=yyj@192.168.17.64, MySQL Connector Java] for JDBC transaction>
+2017-11-10 16:23:55,837 DEBUG [org.springframework.jdbc.datasource.DataSourceTransactionManager] - <Switching JDBC Connection [jdbc:mysql://192.168.17.62:3306/couponcode?autoReconnect=true, UserName=yyj@192.168.17.64, MySQL Connector Java] to manual commit>
+2017-11-10 16:23:55,839 DEBUG [org.springframework.transaction.support.TransactionSynchronizationManager] - <Bound value [org.springframework.jdbc.datasource.ConnectionHolder@68d6972f] for key [org.apache.commons.dbcp.BasicDataSource@63648ee9] to thread [main]>
+2017-11-10 16:23:55,839 DEBUG [org.springframework.transaction.support.TransactionSynchronizationManager] - <Initializing transaction synchronization>
+2017-11-10 16:23:55,856 DEBUG [org.mybatis.spring.SqlSessionUtils] - <Creating a new SqlSession>
+2017-11-10 16:23:55,868 DEBUG [org.mybatis.spring.SqlSessionUtils] - <Registering transaction synchronization for SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@4fad94a7]>
+2017-11-10 16:23:55,869 DEBUG [org.springframework.transaction.support.TransactionSynchronizationManager] - <Bound value [org.mybatis.spring.SqlSessionHolder@5241cf67] for key [org.apache.ibatis.session.defaults.DefaultSqlSessionFactory@25ddbbbb] to thread [main]>
+2017-11-10 16:23:56,013 DEBUG [org.springframework.transaction.support.TransactionSynchronizationManager] - <Retrieved value [org.springframework.jdbc.datasource.ConnectionHolder@68d6972f] for key [org.apache.commons.dbcp.BasicDataSource@63648ee9] bound to thread [main]>
+2017-11-10 16:23:56,014 DEBUG [org.springframework.transaction.support.TransactionSynchronizationManager] - <Retrieved value [org.springframework.jdbc.datasource.ConnectionHolder@68d6972f] for key [org.apache.commons.dbcp.BasicDataSource@63648ee9] bound to thread [main]>
+2017-11-10 16:23:56,016 DEBUG [org.mybatis.spring.transaction.SpringManagedTransaction] - <JDBC Connection [jdbc:mysql://192.168.17.62:3306/couponcode?autoReconnect=true, UserName=yyj@192.168.17.64, MySQL Connector Java] will be managed by Spring>
+2017-11-10 16:23:56,022 DEBUG [org.springframework.transaction.support.TransactionSynchronizationManager] - <Retrieved value [org.springframework.jdbc.datasource.ConnectionHolder@68d6972f] for key [org.apache.commons.dbcp.BasicDataSource@63648ee9] bound to thread [main]>
+2017-11-10 16:23:56,046 DEBUG [com.lanxi.couponcode.impl.dao.MerchantDao.updateById] - <==>  Preparing: UPDATE merchants SET merchant_status=? WHERE merchant_id=? >
+2017-11-10 16:23:56,089 DEBUG [com.lanxi.couponcode.impl.dao.MerchantDao.updateById] - <==> Parameters: 2(String), 1(Long)>
+2017-11-10 16:23:56,118 DEBUG [com.lanxi.couponcode.impl.dao.MerchantDao.updateById] - <<==    Updates: 1>
+2017-11-10 16:23:56,118 DEBUG [org.springframework.transaction.support.TransactionSynchronizationManager] - <Retrieved value [org.mybatis.spring.SqlSessionHolder@5241cf67] for key [org.apache.ibatis.session.defaults.DefaultSqlSessionFactory@25ddbbbb] bound to thread [main]>
+2017-11-10 16:23:56,118 DEBUG [org.springframework.transaction.support.TransactionSynchronizationManager] - <Retrieved value [org.mybatis.spring.SqlSessionHolder@5241cf67] for key [org.apache.ibatis.session.defaults.DefaultSqlSessionFactory@25ddbbbb] bound to thread [main]>
+2017-11-10 16:23:56,118 DEBUG [org.mybatis.spring.SqlSessionUtils] - <Releasing transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@4fad94a7]>
+2017-11-10 16:23:56,118 DEBUG [org.springframework.jdbc.datasource.DataSourceTransactionManager] - <Triggering beforeCommit synchronization>
+2017-11-10 16:23:56,119 DEBUG [org.mybatis.spring.SqlSessionUtils] - <Transaction synchronization committing SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@4fad94a7]>
+2017-11-10 16:23:56,121 DEBUG [org.springframework.jdbc.datasource.DataSourceTransactionManager] - <Triggering beforeCompletion synchronization>
+2017-11-10 16:23:56,121 DEBUG [org.mybatis.spring.SqlSessionUtils] - <Transaction synchronization deregistering SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@4fad94a7]>
+2017-11-10 16:23:56,121 DEBUG [org.springframework.transaction.support.TransactionSynchronizationManager] - <Removed value [org.mybatis.spring.SqlSessionHolder@5241cf67] for key [org.apache.ibatis.session.defaults.DefaultSqlSessionFactory@25ddbbbb] from thread [main]>
+2017-11-10 16:23:56,121 DEBUG [org.mybatis.spring.SqlSessionUtils] - <Transaction synchronization closing SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@4fad94a7]>
+2017-11-10 16:23:56,121 DEBUG [org.springframework.transaction.support.TransactionSynchronizationManager] - <Retrieved value [org.springframework.jdbc.datasource.ConnectionHolder@68d6972f] for key [org.apache.commons.dbcp.BasicDataSource@63648ee9] bound to thread [main]>
+2017-11-10 16:23:56,122 DEBUG [org.springframework.jdbc.datasource.DataSourceTransactionManager] - <Initiating transaction commit>
+2017-11-10 16:23:56,127 DEBUG [org.springframework.jdbc.datasource.DataSourceTransactionManager] - <Committing JDBC transaction on Connection [jdbc:mysql://192.168.17.62:3306/couponcode?autoReconnect=true, UserName=yyj@192.168.17.64, MySQL Connector Java]>
+2017-11-10 16:23:56,131 DEBUG [org.springframework.jdbc.datasource.DataSourceTransactionManager] - <Triggering afterCommit synchronization>
+2017-11-10 16:23:56,131 DEBUG [org.springframework.jdbc.datasource.DataSourceTransactionManager] - <Triggering afterCompletion synchronization>
+2017-11-10 16:23:56,131 DEBUG [org.springframework.transaction.support.TransactionSynchronizationManager] - <Clearing transaction synchronization>
+2017-11-10 16:23:56,132 DEBUG [org.springframework.transaction.support.TransactionSynchronizationManager] - <Removed value [org.springframework.jdbc.datasource.ConnectionHolder@68d6972f] for key [org.apache.commons.dbcp.BasicDataSource@63648ee9] from thread [main]>
+2017-11-10 16:23:56,144 DEBUG [org.springframework.jdbc.datasource.DataSourceTransactionManager] - <Releasing JDBC Connection [jdbc:mysql://192.168.17.62:3306/couponcode?autoReconnect=true, UserName=yyj@192.168.17.64, MySQL Connector Java] after transaction>
+2017-11-10 16:23:56,144 DEBUG [org.springframework.jdbc.datasource.DataSourceUtils] - <Returning JDBC Connection to DataSource>
+2017-11-10 17:20:13,518 DEBUG [org.springframework.beans.factory.support.DefaultListableBeanFactory] - <Returning cached instance of singleton bean 'merchantService'>
+2017-11-10 17:20:13,813 DEBUG [org.mybatis.spring.SqlSessionUtils] - <Creating a new SqlSession>
+2017-11-10 17:20:13,821 DEBUG [org.mybatis.spring.SqlSessionUtils] - <SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@24faea88] was not registered for synchronization because synchronization is not active>
+2017-11-10 17:20:13,965 DEBUG [org.springframework.jdbc.datasource.DataSourceUtils] - <Fetching JDBC Connection from DataSource>
+2017-11-10 17:20:13,969 DEBUG [org.mybatis.spring.transaction.SpringManagedTransaction] - <JDBC Connection [jdbc:mysql://192.168.17.62:3306/couponcode?autoReconnect=true, UserName=yyj@192.168.17.64, MySQL Connector Java] will not be managed by Spring>
+2017-11-10 17:20:13,991 DEBUG [com.lanxi.couponcode.impl.dao.MerchantDao.updateById] - <==>  Preparing: UPDATE merchants SET merchant_status=? WHERE merchant_id=? >
+2017-11-10 17:20:14,044 DEBUG [com.lanxi.couponcode.impl.dao.MerchantDao.updateById] - <==> Parameters: 1(String), 1(Long)>
+2017-11-10 17:20:14,057 DEBUG [com.lanxi.couponcode.impl.dao.MerchantDao.updateById] - <<==    Updates: 1>
+2017-11-10 17:20:14,058 DEBUG [org.mybatis.spring.SqlSessionUtils] - <Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@24faea88]>
+2017-11-10 17:20:14,058 DEBUG [org.springframework.jdbc.datasource.DataSourceUtils] - <Returning JDBC Connection to DataSource>
+2017-11-10 17:22:00,885 DEBUG [org.springframework.beans.factory.support.DefaultListableBeanFactory] - <Returning cached instance of singleton bean 'merchantService'>
+2017-11-10 17:22:01,182 DEBUG [org.springframework.jdbc.datasource.DataSourceTransactionManager] - <Creating new transaction with name [null]: PROPAGATION_REQUIRED,ISOLATION_DEFAULT>
+2017-11-10 17:22:01,186 DEBUG [org.springframework.jdbc.datasource.DataSourceTransactionManager] - <Acquired Connection [jdbc:mysql://192.168.17.62:3306/couponcode?autoReconnect=true, UserName=yyj@192.168.17.64, MySQL Connector Java] for JDBC transaction>
+2017-11-10 17:22:01,195 DEBUG [org.springframework.jdbc.datasource.DataSourceTransactionManager] - <Switching JDBC Connection [jdbc:mysql://192.168.17.62:3306/couponcode?autoReconnect=true, UserName=yyj@192.168.17.64, MySQL Connector Java] to manual commit>
+2017-11-10 17:22:01,197 DEBUG [org.springframework.transaction.support.TransactionSynchronizationManager] - <Bound value [org.springframework.jdbc.datasource.ConnectionHolder@68d6972f] for key [org.apache.commons.dbcp.BasicDataSource@63648ee9] to thread [main]>
+2017-11-10 17:22:01,197 DEBUG [org.springframework.transaction.support.TransactionSynchronizationManager] - <Initializing transaction synchronization>
+2017-11-10 17:22:01,214 DEBUG [org.mybatis.spring.SqlSessionUtils] - <Creating a new SqlSession>
+2017-11-10 17:22:01,224 DEBUG [org.mybatis.spring.SqlSessionUtils] - <Registering transaction synchronization for SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@4fad94a7]>
+2017-11-10 17:22:01,225 DEBUG [org.springframework.transaction.support.TransactionSynchronizationManager] - <Bound value [org.mybatis.spring.SqlSessionHolder@5241cf67] for key [org.apache.ibatis.session.defaults.DefaultSqlSessionFactory@25ddbbbb] to thread [main]>
+2017-11-10 17:22:01,397 DEBUG [org.springframework.transaction.support.TransactionSynchronizationManager] - <Retrieved value [org.springframework.jdbc.datasource.ConnectionHolder@68d6972f] for key [org.apache.commons.dbcp.BasicDataSource@63648ee9] bound to thread [main]>
+2017-11-10 17:22:01,397 DEBUG [org.springframework.transaction.support.TransactionSynchronizationManager] - <Retrieved value [org.springframework.jdbc.datasource.ConnectionHolder@68d6972f] for key [org.apache.commons.dbcp.BasicDataSource@63648ee9] bound to thread [main]>
+2017-11-10 17:22:01,399 DEBUG [org.mybatis.spring.transaction.SpringManagedTransaction] - <JDBC Connection [jdbc:mysql://192.168.17.62:3306/couponcode?autoReconnect=true, UserName=yyj@192.168.17.64, MySQL Connector Java] will be managed by Spring>
+2017-11-10 17:22:01,410 DEBUG [org.springframework.transaction.support.TransactionSynchronizationManager] - <Retrieved value [org.springframework.jdbc.datasource.ConnectionHolder@68d6972f] for key [org.apache.commons.dbcp.BasicDataSource@63648ee9] bound to thread [main]>
+2017-11-10 17:22:01,426 DEBUG [com.lanxi.couponcode.impl.dao.MerchantDao.updateById] - <==>  Preparing: UPDATE merchants SET merchant_status=? WHERE merchant_id=? >
+2017-11-10 17:22:01,483 DEBUG [com.lanxi.couponcode.impl.dao.MerchantDao.updateById] - <==> Parameters: 2(String), 1(Long)>
+2017-11-10 17:22:01,488 DEBUG [com.lanxi.couponcode.impl.dao.MerchantDao.updateById] - <<==    Updates: 1>
+2017-11-10 17:22:01,488 DEBUG [org.springframework.transaction.support.TransactionSynchronizationManager] - <Retrieved value [org.mybatis.spring.SqlSessionHolder@5241cf67] for key [org.apache.ibatis.session.defaults.DefaultSqlSessionFactory@25ddbbbb] bound to thread [main]>
+2017-11-10 17:22:01,488 DEBUG [org.springframework.transaction.support.TransactionSynchronizationManager] - <Retrieved value [org.mybatis.spring.SqlSessionHolder@5241cf67] for key [org.apache.ibatis.session.defaults.DefaultSqlSessionFactory@25ddbbbb] bound to thread [main]>
+2017-11-10 17:22:01,489 DEBUG [org.mybatis.spring.SqlSessionUtils] - <Releasing transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@4fad94a7]>
+2017-11-10 17:22:01,489 DEBUG [org.springframework.jdbc.datasource.DataSourceTransactionManager] - <Triggering beforeCommit synchronization>
+2017-11-10 17:22:01,489 DEBUG [org.mybatis.spring.SqlSessionUtils] - <Transaction synchronization committing SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@4fad94a7]>
+2017-11-10 17:22:01,491 DEBUG [org.springframework.jdbc.datasource.DataSourceTransactionManager] - <Triggering beforeCompletion synchronization>
+2017-11-10 17:22:01,491 DEBUG [org.mybatis.spring.SqlSessionUtils] - <Transaction synchronization deregistering SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@4fad94a7]>
+2017-11-10 17:22:01,491 DEBUG [org.springframework.transaction.support.TransactionSynchronizationManager] - <Removed value [org.mybatis.spring.SqlSessionHolder@5241cf67] for key [org.apache.ibatis.session.defaults.DefaultSqlSessionFactory@25ddbbbb] from thread [main]>
+2017-11-10 17:22:01,491 DEBUG [org.mybatis.spring.SqlSessionUtils] - <Transaction synchronization closing SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@4fad94a7]>
+2017-11-10 17:22:01,491 DEBUG [org.springframework.transaction.support.TransactionSynchronizationManager] - <Retrieved value [org.springframework.jdbc.datasource.ConnectionHolder@68d6972f] for key [org.apache.commons.dbcp.BasicDataSource@63648ee9] bound to thread [main]>
+2017-11-10 17:22:01,491 DEBUG [org.springframework.jdbc.datasource.DataSourceTransactionManager] - <Initiating transaction commit>
+2017-11-10 17:22:01,495 DEBUG [org.springframework.jdbc.datasource.DataSourceTransactionManager] - <Committing JDBC transaction on Connection [jdbc:mysql://192.168.17.62:3306/couponcode?autoReconnect=true, UserName=yyj@192.168.17.64, MySQL Connector Java]>
+2017-11-10 17:22:01,498 DEBUG [org.springframework.jdbc.datasource.DataSourceTransactionManager] - <Triggering afterCommit synchronization>
+2017-11-10 17:22:01,499 DEBUG [org.springframework.jdbc.datasource.DataSourceTransactionManager] - <Triggering afterCompletion synchronization>
+2017-11-10 17:22:01,499 DEBUG [org.springframework.transaction.support.TransactionSynchronizationManager] - <Clearing transaction synchronization>
+2017-11-10 17:22:01,499 DEBUG [org.springframework.transaction.support.TransactionSynchronizationManager] - <Removed value [org.springframework.jdbc.datasource.ConnectionHolder@68d6972f] for key [org.apache.commons.dbcp.BasicDataSource@63648ee9] from thread [main]>
+2017-11-10 17:22:01,509 DEBUG [org.springframework.jdbc.datasource.DataSourceTransactionManager] - <Releasing JDBC Connection [jdbc:mysql://192.168.17.62:3306/couponcode?autoReconnect=true, UserName=yyj@192.168.17.64, MySQL Connector Java] after transaction>
+2017-11-10 17:22:01,510 DEBUG [org.springframework.jdbc.datasource.DataSourceUtils] - <Returning JDBC Connection to DataSource>
+2017-11-10 17:50:46,563 DEBUG [org.springframework.beans.factory.support.DefaultListableBeanFactory] - <Returning cached instance of singleton bean 'merchantService'>
+2017-11-10 17:50:46,843 DEBUG [org.springframework.jdbc.datasource.DataSourceTransactionManager] - <Creating new transaction with name [null]: PROPAGATION_REQUIRED,ISOLATION_DEFAULT>
+2017-11-10 17:50:46,846 DEBUG [org.springframework.jdbc.datasource.DataSourceTransactionManager] - <Acquired Connection [jdbc:mysql://192.168.17.62:3306/couponcode?autoReconnect=true, UserName=yyj@192.168.17.64, MySQL Connector Java] for JDBC transaction>
+2017-11-10 17:50:46,855 DEBUG [org.springframework.jdbc.datasource.DataSourceTransactionManager] - <Switching JDBC Connection [jdbc:mysql://192.168.17.62:3306/couponcode?autoReconnect=true, UserName=yyj@192.168.17.64, MySQL Connector Java] to manual commit>
+2017-11-10 17:50:46,856 DEBUG [org.springframework.transaction.support.TransactionSynchronizationManager] - <Bound value [org.springframework.jdbc.datasource.ConnectionHolder@475835b1] for key [org.apache.commons.dbcp.BasicDataSource@4fad94a7] to thread [main]>
+2017-11-10 17:50:46,857 DEBUG [org.springframework.transaction.support.TransactionSynchronizationManager] - <Initializing transaction synchronization>
+2017-11-10 17:50:46,872 DEBUG [org.mybatis.spring.SqlSessionUtils] - <Creating a new SqlSession>
+2017-11-10 17:50:46,880 DEBUG [org.mybatis.spring.SqlSessionUtils] - <Registering transaction synchronization for SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@3e2943ab]>
+2017-11-10 17:50:46,881 DEBUG [org.springframework.transaction.support.TransactionSynchronizationManager] - <Bound value [org.mybatis.spring.SqlSessionHolder@35beb15e] for key [org.apache.ibatis.session.defaults.DefaultSqlSessionFactory@5d465e4b] to thread [main]>
+2017-11-10 17:50:47,033 DEBUG [org.springframework.transaction.support.TransactionSynchronizationManager] - <Retrieved value [org.springframework.jdbc.datasource.ConnectionHolder@475835b1] for key [org.apache.commons.dbcp.BasicDataSource@4fad94a7] bound to thread [main]>
+2017-11-10 17:50:47,033 DEBUG [org.springframework.transaction.support.TransactionSynchronizationManager] - <Retrieved value [org.springframework.jdbc.datasource.ConnectionHolder@475835b1] for key [org.apache.commons.dbcp.BasicDataSource@4fad94a7] bound to thread [main]>
+2017-11-10 17:50:47,046 DEBUG [org.mybatis.spring.transaction.SpringManagedTransaction] - <JDBC Connection [jdbc:mysql://192.168.17.62:3306/couponcode?autoReconnect=true, UserName=yyj@192.168.17.64, MySQL Connector Java] will be managed by Spring>
+2017-11-10 17:50:47,053 DEBUG [org.springframework.transaction.support.TransactionSynchronizationManager] - <Retrieved value [org.springframework.jdbc.datasource.ConnectionHolder@475835b1] for key [org.apache.commons.dbcp.BasicDataSource@4fad94a7] bound to thread [main]>
+2017-11-10 17:50:47,062 DEBUG [com.lanxi.couponcode.impl.dao.ShopDao.update] - <==>  Preparing: UPDATE shop SET shop_status=? WHERE (merchant_id = ?) >
+2017-11-10 17:50:47,102 DEBUG [com.lanxi.couponcode.impl.dao.ShopDao.update] - <==> Parameters: 2(String), 1(Long)>
+2017-11-10 17:50:47,107 DEBUG [com.lanxi.couponcode.impl.dao.ShopDao.update] - <<==    Updates: 2>
+2017-11-10 17:50:47,107 DEBUG [org.springframework.transaction.support.TransactionSynchronizationManager] - <Retrieved value [org.mybatis.spring.SqlSessionHolder@35beb15e] for key [org.apache.ibatis.session.defaults.DefaultSqlSessionFactory@5d465e4b] bound to thread [main]>
+2017-11-10 17:50:47,107 DEBUG [org.springframework.transaction.support.TransactionSynchronizationManager] - <Retrieved value [org.mybatis.spring.SqlSessionHolder@35beb15e] for key [org.apache.ibatis.session.defaults.DefaultSqlSessionFactory@5d465e4b] bound to thread [main]>
+2017-11-10 17:50:47,107 DEBUG [org.mybatis.spring.SqlSessionUtils] - <Releasing transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@3e2943ab]>
+2017-11-10 17:50:47,109 DEBUG [org.springframework.transaction.support.TransactionSynchronizationManager] - <Retrieved value [org.mybatis.spring.SqlSessionHolder@35beb15e] for key [org.apache.ibatis.session.defaults.DefaultSqlSessionFactory@5d465e4b] bound to thread [main]>
+2017-11-10 17:50:47,109 DEBUG [org.mybatis.spring.SqlSessionUtils] - <Fetched SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@3e2943ab] from current transaction>
+2017-11-10 17:50:47,123 DEBUG [org.springframework.transaction.support.TransactionSynchronizationManager] - <Retrieved value [org.springframework.jdbc.datasource.ConnectionHolder@475835b1] for key [org.apache.commons.dbcp.BasicDataSource@4fad94a7] bound to thread [main]>
+2017-11-10 17:50:47,124 DEBUG [com.lanxi.couponcode.impl.dao.MerchantDao.updateById] - <==>  Preparing: UPDATE merchants SET merchant_status=? WHERE merchant_id=? >
+2017-11-10 17:50:47,125 DEBUG [com.lanxi.couponcode.impl.dao.MerchantDao.updateById] - <==> Parameters: 2(String), 1(Long)>
+2017-11-10 17:50:47,128 DEBUG [com.lanxi.couponcode.impl.dao.MerchantDao.updateById] - <<==    Updates: 1>
+2017-11-10 17:50:47,128 DEBUG [org.springframework.transaction.support.TransactionSynchronizationManager] - <Retrieved value [org.mybatis.spring.SqlSessionHolder@35beb15e] for key [org.apache.ibatis.session.defaults.DefaultSqlSessionFactory@5d465e4b] bound to thread [main]>
+2017-11-10 17:50:47,128 DEBUG [org.springframework.transaction.support.TransactionSynchronizationManager] - <Retrieved value [org.mybatis.spring.SqlSessionHolder@35beb15e] for key [org.apache.ibatis.session.defaults.DefaultSqlSessionFactory@5d465e4b] bound to thread [main]>
+2017-11-10 17:50:47,130 DEBUG [org.mybatis.spring.SqlSessionUtils] - <Releasing transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@3e2943ab]>
+2017-11-10 17:50:47,130 DEBUG [org.springframework.jdbc.datasource.DataSourceTransactionManager] - <Triggering beforeCommit synchronization>
+2017-11-10 17:50:47,131 DEBUG [org.mybatis.spring.SqlSessionUtils] - <Transaction synchronization committing SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@3e2943ab]>
+2017-11-10 17:50:47,131 DEBUG [org.springframework.jdbc.datasource.DataSourceTransactionManager] - <Triggering beforeCompletion synchronization>
+2017-11-10 17:50:47,131 DEBUG [org.mybatis.spring.SqlSessionUtils] - <Transaction synchronization deregistering SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@3e2943ab]>
+2017-11-10 17:50:47,131 DEBUG [org.springframework.transaction.support.TransactionSynchronizationManager] - <Removed value [org.mybatis.spring.SqlSessionHolder@35beb15e] for key [org.apache.ibatis.session.defaults.DefaultSqlSessionFactory@5d465e4b] from thread [main]>
+2017-11-10 17:50:47,131 DEBUG [org.mybatis.spring.SqlSessionUtils] - <Transaction synchronization closing SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@3e2943ab]>
+2017-11-10 17:50:47,132 DEBUG [org.springframework.transaction.support.TransactionSynchronizationManager] - <Retrieved value [org.springframework.jdbc.datasource.ConnectionHolder@475835b1] for key [org.apache.commons.dbcp.BasicDataSource@4fad94a7] bound to thread [main]>
+2017-11-10 17:50:47,132 DEBUG [org.springframework.jdbc.datasource.DataSourceTransactionManager] - <Initiating transaction commit>
+2017-11-10 17:50:47,134 DEBUG [org.springframework.jdbc.datasource.DataSourceTransactionManager] - <Committing JDBC transaction on Connection [jdbc:mysql://192.168.17.62:3306/couponcode?autoReconnect=true, UserName=yyj@192.168.17.64, MySQL Connector Java]>
+2017-11-10 17:50:47,138 DEBUG [org.springframework.jdbc.datasource.DataSourceTransactionManager] - <Triggering afterCommit synchronization>
+2017-11-10 17:50:47,139 DEBUG [org.springframework.jdbc.datasource.DataSourceTransactionManager] - <Triggering afterCompletion synchronization>
+2017-11-10 17:50:47,139 DEBUG [org.springframework.transaction.support.TransactionSynchronizationManager] - <Clearing transaction synchronization>
+2017-11-10 17:50:47,139 DEBUG [org.springframework.transaction.support.TransactionSynchronizationManager] - <Removed value [org.springframework.jdbc.datasource.ConnectionHolder@475835b1] for key [org.apache.commons.dbcp.BasicDataSource@4fad94a7] from thread [main]>
+2017-11-10 17:50:47,145 DEBUG [org.springframework.jdbc.datasource.DataSourceTransactionManager] - <Releasing JDBC Connection [jdbc:mysql://192.168.17.62:3306/couponcode?autoReconnect=true, UserName=yyj@192.168.17.64, MySQL Connector Java] after transaction>
+2017-11-10 17:50:47,145 DEBUG [org.springframework.jdbc.datasource.DataSourceUtils] - <Returning JDBC Connection to DataSource>
+2017-11-10 17:50:47,165 DEBUG [org.springframework.jdbc.datasource.DataSourceUtils] - <Fetching JDBC Connection from DataSource>
+2017-11-10 17:50:47,170 DEBUG [org.mybatis.spring.transaction.SpringManagedTransaction] - <JDBC Connection [jdbc:mysql://192.168.17.62:3306/couponcode?autoReconnect=true, UserName=yyj@192.168.17.64, MySQL Connector Java] will not be managed by Spring>
+2017-11-10 17:50:47,173 DEBUG [com.lanxi.couponcode.impl.dao.OperateRecordDao.insert] - <==>  Preparing: INSERT INTO operate_record ( record_id, target_type, description, operate_time, operate_result, target_info ) VALUES ( ?, ?, ?, ?, ?, ? ) >
+2017-11-10 17:50:47,175 DEBUG [com.lanxi.couponcode.impl.dao.OperateRecordDao.insert] - <==> Parameters: 928922875204640768(Long), 6(String), 修改商户状态(String), 20171110175046(String), 成功(String), {"merchantId":1}(String)>
+2017-11-10 17:50:47,180 DEBUG [com.lanxi.couponcode.impl.dao.OperateRecordDao.insert] - <<==    Updates: 1>
+2017-11-10 17:50:47,180 DEBUG [org.springframework.jdbc.datasource.DataSourceUtils] - <Returning JDBC Connection to DataSource>
+2017-11-10 17:54:31,285 DEBUG [org.springframework.beans.factory.support.DefaultListableBeanFactory] - <Returning cached instance of singleton bean 'merchantService'>
+2017-11-10 17:54:31,566 DEBUG [org.springframework.jdbc.datasource.DataSourceTransactionManager] - <Creating new transaction with name [null]: PROPAGATION_REQUIRED,ISOLATION_DEFAULT>
+2017-11-10 17:54:31,569 DEBUG [org.springframework.jdbc.datasource.DataSourceTransactionManager] - <Acquired Connection [jdbc:mysql://192.168.17.62:3306/couponcode?autoReconnect=true, UserName=yyj@192.168.17.64, MySQL Connector Java] for JDBC transaction>
+2017-11-10 17:54:31,591 DEBUG [org.springframework.jdbc.datasource.DataSourceTransactionManager] - <Switching JDBC Connection [jdbc:mysql://192.168.17.62:3306/couponcode?autoReconnect=true, UserName=yyj@192.168.17.64, MySQL Connector Java] to manual commit>
+2017-11-10 17:54:31,593 DEBUG [org.springframework.transaction.support.TransactionSynchronizationManager] - <Bound value [org.springframework.jdbc.datasource.ConnectionHolder@2f058b8a] for key [org.apache.commons.dbcp.BasicDataSource@6175619b] to thread [main]>
+2017-11-10 17:54:31,593 DEBUG [org.springframework.transaction.support.TransactionSynchronizationManager] - <Initializing transaction synchronization>
+2017-11-10 17:54:31,610 DEBUG [org.mybatis.spring.SqlSessionUtils] - <Creating a new SqlSession>
+2017-11-10 17:54:31,621 DEBUG [org.mybatis.spring.SqlSessionUtils] - <Registering transaction synchronization for SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@60d8c0dc]>
+2017-11-10 17:54:31,621 DEBUG [org.springframework.transaction.support.TransactionSynchronizationManager] - <Bound value [org.mybatis.spring.SqlSessionHolder@4602c2a9] for key [org.apache.ibatis.session.defaults.DefaultSqlSessionFactory@4a9f80d3] to thread [main]>
+2017-11-10 17:54:31,775 DEBUG [org.springframework.transaction.support.TransactionSynchronizationManager] - <Retrieved value [org.springframework.jdbc.datasource.ConnectionHolder@2f058b8a] for key [org.apache.commons.dbcp.BasicDataSource@6175619b] bound to thread [main]>
+2017-11-10 17:54:31,775 DEBUG [org.springframework.transaction.support.TransactionSynchronizationManager] - <Retrieved value [org.springframework.jdbc.datasource.ConnectionHolder@2f058b8a] for key [org.apache.commons.dbcp.BasicDataSource@6175619b] bound to thread [main]>
+2017-11-10 17:54:31,778 DEBUG [org.mybatis.spring.transaction.SpringManagedTransaction] - <JDBC Connection [jdbc:mysql://192.168.17.62:3306/couponcode?autoReconnect=true, UserName=yyj@192.168.17.64, MySQL Connector Java] will be managed by Spring>
+2017-11-10 17:54:31,787 DEBUG [org.springframework.transaction.support.TransactionSynchronizationManager] - <Retrieved value [org.springframework.jdbc.datasource.ConnectionHolder@2f058b8a] for key [org.apache.commons.dbcp.BasicDataSource@6175619b] bound to thread [main]>
+2017-11-10 17:54:31,796 DEBUG [com.lanxi.couponcode.impl.dao.ShopDao.update] - <==>  Preparing: UPDATE shop SET shop_status=? WHERE (merchant_id = ?) >
+2017-11-10 17:54:31,845 DEBUG [com.lanxi.couponcode.impl.dao.ShopDao.update] - <==> Parameters: 2(String), 1(Long)>
+2017-11-10 17:54:31,851 DEBUG [com.lanxi.couponcode.impl.dao.ShopDao.update] - <<==    Updates: 2>
+2017-11-10 17:54:31,851 DEBUG [org.springframework.transaction.support.TransactionSynchronizationManager] - <Retrieved value [org.mybatis.spring.SqlSessionHolder@4602c2a9] for key [org.apache.ibatis.session.defaults.DefaultSqlSessionFactory@4a9f80d3] bound to thread [main]>
+2017-11-10 17:54:31,852 DEBUG [org.springframework.transaction.support.TransactionSynchronizationManager] - <Retrieved value [org.mybatis.spring.SqlSessionHolder@4602c2a9] for key [org.apache.ibatis.session.defaults.DefaultSqlSessionFactory@4a9f80d3] bound to thread [main]>
+2017-11-10 17:54:31,852 DEBUG [org.mybatis.spring.SqlSessionUtils] - <Releasing transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@60d8c0dc]>
+2017-11-10 17:54:31,852 DEBUG [org.springframework.transaction.support.TransactionSynchronizationManager] - <Retrieved value [org.mybatis.spring.SqlSessionHolder@4602c2a9] for key [org.apache.ibatis.session.defaults.DefaultSqlSessionFactory@4a9f80d3] bound to thread [main]>
+2017-11-10 17:54:31,852 DEBUG [org.mybatis.spring.SqlSessionUtils] - <Fetched SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@60d8c0dc] from current transaction>
+2017-11-10 17:54:31,858 DEBUG [org.springframework.transaction.support.TransactionSynchronizationManager] - <Retrieved value [org.springframework.jdbc.datasource.ConnectionHolder@2f058b8a] for key [org.apache.commons.dbcp.BasicDataSource@6175619b] bound to thread [main]>
+2017-11-10 17:54:31,858 DEBUG [com.lanxi.couponcode.impl.dao.MerchantDao.updateById] - <==>  Preparing: UPDATE merchants SET merchant_status=? WHERE merchant_id=? >
+2017-11-10 17:54:31,859 DEBUG [com.lanxi.couponcode.impl.dao.MerchantDao.updateById] - <==> Parameters: 2(String), 1(Long)>
+2017-11-10 17:54:31,863 DEBUG [com.lanxi.couponcode.impl.dao.MerchantDao.updateById] - <<==    Updates: 1>
+2017-11-10 17:54:31,863 DEBUG [org.springframework.transaction.support.TransactionSynchronizationManager] - <Retrieved value [org.mybatis.spring.SqlSessionHolder@4602c2a9] for key [org.apache.ibatis.session.defaults.DefaultSqlSessionFactory@4a9f80d3] bound to thread [main]>
+2017-11-10 17:54:31,863 DEBUG [org.springframework.transaction.support.TransactionSynchronizationManager] - <Retrieved value [org.mybatis.spring.SqlSessionHolder@4602c2a9] for key [org.apache.ibatis.session.defaults.DefaultSqlSessionFactory@4a9f80d3] bound to thread [main]>
+2017-11-10 17:54:31,864 DEBUG [org.mybatis.spring.SqlSessionUtils] - <Releasing transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@60d8c0dc]>
+2017-11-10 17:54:31,864 DEBUG [org.springframework.jdbc.datasource.DataSourceTransactionManager] - <Triggering beforeCommit synchronization>
+2017-11-10 17:54:31,864 DEBUG [org.mybatis.spring.SqlSessionUtils] - <Transaction synchronization committing SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@60d8c0dc]>
+2017-11-10 17:54:31,864 DEBUG [org.springframework.jdbc.datasource.DataSourceTransactionManager] - <Triggering beforeCompletion synchronization>
+2017-11-10 17:54:31,864 DEBUG [org.mybatis.spring.SqlSessionUtils] - <Transaction synchronization deregistering SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@60d8c0dc]>
+2017-11-10 17:54:31,864 DEBUG [org.springframework.transaction.support.TransactionSynchronizationManager] - <Removed value [org.mybatis.spring.SqlSessionHolder@4602c2a9] for key [org.apache.ibatis.session.defaults.DefaultSqlSessionFactory@4a9f80d3] from thread [main]>
+2017-11-10 17:54:31,864 DEBUG [org.mybatis.spring.SqlSessionUtils] - <Transaction synchronization closing SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@60d8c0dc]>
+2017-11-10 17:54:31,865 DEBUG [org.springframework.transaction.support.TransactionSynchronizationManager] - <Retrieved value [org.springframework.jdbc.datasource.ConnectionHolder@2f058b8a] for key [org.apache.commons.dbcp.BasicDataSource@6175619b] bound to thread [main]>
+2017-11-10 17:54:31,865 DEBUG [org.springframework.jdbc.datasource.DataSourceTransactionManager] - <Initiating transaction commit>
+2017-11-10 17:54:31,867 DEBUG [org.springframework.jdbc.datasource.DataSourceTransactionManager] - <Committing JDBC transaction on Connection [jdbc:mysql://192.168.17.62:3306/couponcode?autoReconnect=true, UserName=yyj@192.168.17.64, MySQL Connector Java]>
+2017-11-10 17:54:31,872 DEBUG [org.springframework.jdbc.datasource.DataSourceTransactionManager] - <Triggering afterCommit synchronization>
+2017-11-10 17:54:31,872 DEBUG [org.springframework.jdbc.datasource.DataSourceTransactionManager] - <Triggering afterCompletion synchronization>
+2017-11-10 17:54:31,872 DEBUG [org.springframework.transaction.support.TransactionSynchronizationManager] - <Clearing transaction synchronization>
+2017-11-10 17:54:31,872 DEBUG [org.springframework.transaction.support.TransactionSynchronizationManager] - <Removed value [org.springframework.jdbc.datasource.ConnectionHolder@2f058b8a] for key [org.apache.commons.dbcp.BasicDataSource@6175619b] from thread [main]>
+2017-11-10 17:54:31,878 DEBUG [org.springframework.jdbc.datasource.DataSourceTransactionManager] - <Releasing JDBC Connection [jdbc:mysql://192.168.17.62:3306/couponcode?autoReconnect=true, UserName=yyj@192.168.17.64, MySQL Connector Java] after transaction>
+2017-11-10 17:54:31,879 DEBUG [org.springframework.jdbc.datasource.DataSourceUtils] - <Returning JDBC Connection to DataSource>
+2017-11-10 17:54:31,892 DEBUG [org.springframework.jdbc.datasource.DataSourceUtils] - <Fetching JDBC Connection from DataSource>
+2017-11-10 17:54:31,896 DEBUG [org.mybatis.spring.transaction.SpringManagedTransaction] - <JDBC Connection [jdbc:mysql://192.168.17.62:3306/couponcode?autoReconnect=true, UserName=yyj@192.168.17.64, MySQL Connector Java] will not be managed by Spring>
+2017-11-10 17:54:31,897 DEBUG [com.lanxi.couponcode.impl.dao.OperateRecordDao.insert] - <==>  Preparing: INSERT INTO operate_record ( record_id, target_type, description, operate_time, operate_result, target_info ) VALUES ( ?, ?, ?, ?, ?, ? ) >
+2017-11-10 17:54:31,898 DEBUG [com.lanxi.couponcode.impl.dao.OperateRecordDao.insert] - <==> Parameters: 928923817715113984(Long), 6(String), 修改商户状态(String), 20171110175431(String), 成功(String), {"merchantId":1}(String)>
+2017-11-10 17:54:31,904 DEBUG [com.lanxi.couponcode.impl.dao.OperateRecordDao.insert] - <<==    Updates: 1>
+2017-11-10 17:54:31,904 DEBUG [org.springframework.jdbc.datasource.DataSourceUtils] - <Returning JDBC Connection to DataSource>

@@ -29,9 +29,11 @@ public interface Gettype{
 						(e)->e.toString().equals(value)
 					).findAny();
 			return opt.equals(Optional.empty())?null:opt.get();
-		}catch (NoSuchFieldException e) {
+		}
+		catch (NoSuchFieldException e) {
 			throw new IllegalArgumentException("枚举类:"+clazz.getName()+"中不包含value字段!");
-		}catch (Exception e) {
+		}
+		catch (Exception e) {
 			e.printStackTrace();
 			return null;
 		}	

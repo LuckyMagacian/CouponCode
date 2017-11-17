@@ -4,8 +4,12 @@ import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.toolkit.IdWorker;
 import com.lanxi.couponcode.impl.aop.AddLog;
 import com.lanxi.couponcode.impl.entity.CodeAlgorithm;
+<<<<<<< HEAD
 import com.lanxi.couponcode.impl.entity.CouponCode;
 import com.lanxi.couponcode.impl.newservice.DaoService;
+=======
+import com.lanxi.couponcode.impl.entity.Merchant;
+>>>>>>> 3c441174f60e273d953f4f9ec9389353e9dfc74a
 import com.lanxi.couponcode.impl.service.CodeOperateRecordService;
 import com.lanxi.couponcode.impl.ztest.TestAop;
 import com.lanxi.util.entity.MyClassLoader;
@@ -94,4 +98,15 @@ public class TestMybatis {
 		TestAop test=ac.getBean(TestAop.class);
 		test.sayHello();
 	}
+    @Test
+    public void test5() {
+    	Merchant merchant=new Merchant();
+    	merchant.setMerchantId(1L);
+    	System.err.println(merchant);
+    	merchant=(Merchant) merchant.selectById();
+    	System.err.println(merchant);
+    	merchant.setMerchantName("123456");
+    	merchant.updateById();
+    	System.err.println(merchant);
+    }	
 }
