@@ -11,7 +11,7 @@ import java.io.Serializable;
  * @author yangyuanjian
  *
  */
-public enum CouponCodeStatus  implements Serializable {
+public enum CouponCodeStatus  implements Serializable,Gettype {
 	destroyed(1),undestroyed(2),overtime(3),test(4),cancellation(9);
 	private String value;
 	private CouponCodeStatus(int value) {

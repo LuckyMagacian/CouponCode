@@ -141,7 +141,7 @@ public class AddLog {
     private LoggerUtil.LogLevel getLogLevel(Class clazz){
         Annotation level=clazz.getAnnotation(EasyLog.class);
         if(level==null)
-            return LoggerUtil.LogLevel.INFO;
+            return LoggerUtil.LogLevel.DEBUG;
         else
             return ((EasyLog)level).value();
     }

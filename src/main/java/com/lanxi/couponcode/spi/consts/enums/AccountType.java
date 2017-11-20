@@ -11,7 +11,7 @@ import java.io.Serializable;
  * @author yangyuanjian
  *
  */
-public enum AccountType implements Serializable{
+public enum AccountType implements Serializable,Gettype{
 	admin(1),merchantManager(2),shopManager(2),shopEmployee(4),cancellation(9);
 	
 	private String value;

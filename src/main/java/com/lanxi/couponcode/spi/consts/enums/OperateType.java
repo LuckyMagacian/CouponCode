@@ -6,7 +6,7 @@ import java.io.Serializable;
  * 操作类型枚举
  * Created by yangyuanjian on 2017/11/9.
  */
-public enum OperateType implements Serializable{
+public enum OperateType implements Serializable,Gettype{
 
     createShop(11),				unfreezeShop(12),				freezeShop(13),				deleteShop(14),
     modifyShop(15),				queryShop(16),				    cancelShop(19),

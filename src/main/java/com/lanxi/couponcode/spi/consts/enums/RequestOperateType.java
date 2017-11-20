@@ -53,7 +53,7 @@ import java.io.Serializable;
  * @author yangyuanjian
  *
  */
-@Deprecated
+
 public enum RequestOperateType implements Serializable {
 
 	createShop(11),				unfreezeShop(12),				freezeShop(13),				deleteShop(14),				modifyShop(15),				queryShop(16),				cancelShop(19),

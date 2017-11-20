@@ -11,7 +11,7 @@ import java.io.Serializable;
  * @author yangyuanjian
  *
  */
-public enum RequestStatus  implements Serializable {
+public enum RequestStatus  implements Serializable ,Gettype{
 	submit(1),pass(2),reject(3),test(4),cancellation(9);
 	private String value;
 	private RequestStatus(int value) {

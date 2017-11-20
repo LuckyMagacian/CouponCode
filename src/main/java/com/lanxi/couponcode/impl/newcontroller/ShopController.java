@@ -14,7 +14,7 @@ import javax.annotation.Resource;
 import java.io.File;
 import java.util.List;
 
-public class ShopServiceController implements com.lanxi.couponcode.spi.service.ShopService{
+public class ShopController implements com.lanxi.couponcode.spi.service.ShopService{
 	@Resource
 	private ShopService shopService;
 	@Override

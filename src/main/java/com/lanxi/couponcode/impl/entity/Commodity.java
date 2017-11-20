@@ -71,28 +71,28 @@ public class Commodity extends AbstractCommodity{
     private String addName;
 
 
-    /**请求编号*/
-    @TableField("request_id")
-    private Long requestId;
-    /**请求时间*/
-    @TableField("request_time")
-    private String requestTime;
-    /**请求添加者编号*/
-    @TableField("requester_id")
-    private Long requesterId;
-    /**请求者添加者姓名*/
-    @TableField("requester_name")
-    private String requesterName;
-
-    /**审核者编号*/
-    @TableField("check_id")
-    private Long checkId;
-    /**审核时间*/
-    @TableField("check_time")
-    private String checkTime;
-    /**审核者姓名*/
-    @TableField("check_name")
-    private String checkName;
+//    /**请求编号*/
+//    @TableField("request_id")
+//    private Long requestId;
+//    /**请求时间*/
+//    @TableField("request_time")
+//    private String requestTime;
+//    /**请求添加者编号*/
+//    @TableField("requester_id")
+//    private Long requesterId;
+//    /**请求者添加者姓名*/
+//    @TableField("requester_name")
+//    private String requesterName;
+//
+//    /**审核者编号*/
+//    @TableField("check_id")
+//    private Long checkId;
+//    /**审核时间*/
+//    @TableField("check_time")
+//    private String checkTime;
+//    /**审核者姓名*/
+//    @TableField("check_name")
+//    private String checkName;
 
     /**备注*/
     @TableField("remark")
@@ -118,13 +118,13 @@ public class Commodity extends AbstractCommodity{
                 ", addId=" + addId +
                 ", addTime='" + addTime + '\'' +
                 ", addName='" + addName + '\'' +
-                ", requestId=" + requestId +
-                ", requestTime='" + requestTime + '\'' +
-                ", requesterId=" + requesterId +
-                ", requesterName='" + requesterName + '\'' +
-                ", checkId=" + checkId +
-                ", checkTime='" + checkTime + '\'' +
-                ", checkName='" + checkName + '\'' +
+//                ", requestId=" + requestId +
+//                ", requestTime='" + requestTime + '\'' +
+//                ", requesterId=" + requesterId +
+//                ", requesterName='" + requesterName + '\'' +
+//                ", checkId=" + checkId +
+//                ", checkTime='" + checkTime + '\'' +
+//                ", checkName='" + checkName + '\'' +
                 ", remark='" + remark + '\'' +
                 '}';
     }
@@ -250,45 +250,47 @@ public class Commodity extends AbstractCommodity{
         this.addName = addName;
     }
 
-    public Long getRequestId() {
-        return requestId;
-    }
+//    public Long getRequestId() {
+//        return requestId;
+//    }
+//
+//    public void setRequestId(Long requestId) {
+//        this.requestId = requestId;
+//    }
+//
+//    public String getRequestTime() {
+//        return requestTime;
+//    }
+//
+//    public void setRequestTime(String requestTime) {
+//        this.requestTime = requestTime;
+//    }
+//
+//    public Long getCheckId() {
+//        return checkId;
+//    }
+//
+//    public void setCheckId(Long checkId) {
+//        this.checkId = checkId;
+//    }
+//
+//    public String getCheckTime() {
+//        return checkTime;
+//    }
+//
+//    public void setCheckTime(String checkTime) {
+//        this.checkTime = checkTime;
+//    }
+//
+//    public String getCheckName() {
+//        return checkName;
+//    }
+//
+//    public void setCheckName(String checkName) {
+//        this.checkName = checkName;
+//    }
 
-    public void setRequestId(Long requestId) {
-        this.requestId = requestId;
-    }
 
-    public String getRequestTime() {
-        return requestTime;
-    }
-
-    public void setRequestTime(String requestTime) {
-        this.requestTime = requestTime;
-    }
-
-    public Long getCheckId() {
-        return checkId;
-    }
-
-    public void setCheckId(Long checkId) {
-        this.checkId = checkId;
-    }
-
-    public String getCheckTime() {
-        return checkTime;
-    }
-
-    public void setCheckTime(String checkTime) {
-        this.checkTime = checkTime;
-    }
-
-    public String getCheckName() {
-        return checkName;
-    }
-
-    public void setCheckName(String checkName) {
-        this.checkName = checkName;
-    }
 
     public String getRemark() {
         return remark;
@@ -309,21 +311,21 @@ public class Commodity extends AbstractCommodity{
         this.status = CommodityStatus.getType(status);
     }
 
-    public String getRequesterName() {
-        return requesterName;
-    }
-
-    public void setRequesterName(String requesterName) {
-        this.requesterName = requesterName;
-    }
-
-    public Long getRequesterId() {
-        return requesterId;
-    }
-
-    public void setRequesterId(Long requesterId) {
-        this.requesterId = requesterId;
-    }
+//    public String getRequesterName() {
+//        return requesterName;
+//    }
+//
+//    public void setRequesterName(String requesterName) {
+//        this.requesterName = requesterName;
+//    }
+//
+//    public Long getRequesterId() {
+//        return requesterId;
+//    }
+//
+//    public void setRequesterId(Long requesterId) {
+//        this.requesterId = requesterId;
+//    }
 
     public Integer getLessNum() {
         return lessNum;

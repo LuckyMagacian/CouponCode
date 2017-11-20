@@ -5,7 +5,7 @@ import java.io.Serializable;
 /**
  * Created by yangyuanjian on 2017/11/2.
  */
-public enum VerificationType  implements Serializable {
+public enum VerificationType  implements Serializable,Gettype {
     input(1),scan(2),unknown(3);
     private String value;
     private VerificationType(int value) {

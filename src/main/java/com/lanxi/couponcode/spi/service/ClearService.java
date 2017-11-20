@@ -12,9 +12,9 @@ import java.io.File;
 public interface ClearService {
 
     RetMessage<File> merchantClearExport(String timeStart,
-                                   String timeStop,
-                                   ClearStatus status,
-                                   @HiddenArg Long operaterId);
+                                         String timeStop,
+                                         ClearStatus status,
+                                         @HiddenArg Long operaterId);
 
 
 }

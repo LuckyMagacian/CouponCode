@@ -19,7 +19,7 @@ import java.util.List;
  * @author wuxiaobo
  *
  */
-public class AccountServiceController implements com.lanxi.couponcode.spi.service.AccountService{
+public class AccountController implements com.lanxi.couponcode.spi.service.AccountService{
 	@Resource
 	private AccountService accountService;
 	@Override

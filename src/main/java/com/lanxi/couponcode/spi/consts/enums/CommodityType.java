@@ -8,7 +8,7 @@ import java.io.Serializable;
  * @author yangyuanjian
  *
  */
-public enum CommodityType  implements Serializable {
+public enum CommodityType  implements Serializable,Gettype {
 	eleCoupon(1),voucher(2);
 	private String value;
 	private CommodityType(int value) {

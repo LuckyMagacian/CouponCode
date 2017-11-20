@@ -5,7 +5,7 @@ import java.io.Serializable;
 /**
  * Created by yangyuanjian on 2017/10/31.
  */
-public enum LockStatus  implements Serializable {
+public enum LockStatus  implements Serializable ,Gettype{
     lock(10),unlock(-10);
     private String value;
     private LockStatus(int value) {

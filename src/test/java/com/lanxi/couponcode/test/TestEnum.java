@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.io.Serializable;
 import java.lang.reflect.InvocationTargetException;
 
+import com.lanxi.couponcode.spi.consts.enums.AccountLevel;
 import org.junit.Test;
 import org.objenesis.strategy.StdInstantiatorStrategy;
 
@@ -94,5 +95,12 @@ public class TestEnum {
 			return "Temp [name=" + name + "]";
 		}
 		
+	}
+
+	@Test
+	public void test4(){
+		AccountLevel level=AccountLevel.highest;
+		System.out.println(level.equals(AccountLevel.highest));
+		System.out.println(level.equals(AccountLevel.highest.getValue()));
 	}
 }

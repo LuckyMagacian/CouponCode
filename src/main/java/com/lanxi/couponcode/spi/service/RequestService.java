@@ -16,18 +16,34 @@ import java.math.BigDecimal;
 public interface RequestService {
     @RealReturnType("List<")
     RetMessage<String> queryRequests(String timeStart,
-                                      String timeStop,
-                                      String commodityName,
-                                      String merchantName,
-                                      RequestOperateType type,
-                                      RequestStatus status,
-                                      @HiddenArg Long merchantId,
-                                      @HiddenArg Integer pageNum,
-                                      @HiddenArg Integer pageSize);
+                                     String timeStop,
+                                     String commodityName,
+                                     String merchantName,
+                                     RequestOperateType type,
+                                     RequestStatus status,
+                                     CommodityType commodityType,
+                                     @HiddenArg Long merchantId,
+                                     @HiddenArg Integer pageNum,
+                                     @HiddenArg Integer pageSize,
+                                     @HiddenArg Long operaterId);
+
     RetMessage<Boolean> agreeRequest(@HiddenArg Long requestId,
-                        @HiddenArg Long operaterId);
+                                     @HiddenArg Long operaterId);
+
     RetMessage<Boolean> disagreeRequest(@HiddenArg Long requestId,
-                            @HiddenArg Long operaterId);
+                                        @HiddenArg Long operaterId);
+    @RealReturnType("List<OperateRequest>")
+    RetMessage<String> queryCommodityRequest(String commodityName,
+                                             CommodityType type,
+                                             RequestOperateType operateType,
+                                             RequestStatus status,
+                                             String timeStart,
+                                             String timeEnd,
+                                             @HiddenArg Integer pageNum,
+                                             @HiddenArg Integer pageSize,
+                                             @HiddenArg Long operaterId);
+
+
     RetMessage<Boolean> requestAddCommodity(String commodityName,
                                 CommodityType commodityType,
                                 BigDecimal facePrice,
@@ -37,15 +53,20 @@ public interface RequestService {
                                 String useDistription,
                                 @HiddenArg Long operaterId,
                                 @HiddenArg Long merchantId);
-    @RealReturnType("List<OperateRequest>")
-    RetMessage<String> queryCommodityRequest(String commodityName,
-                                 CommodityType type,
-                                 OperateType operateType,
-                                 RequestStatus status,
-                                 String timeStart,
-                                 String timeEnd,
-                                 @HiddenArg Integer pageNum,
-                                 @HiddenArg Integer pageSize,
-                                 @HiddenArg Long operaterId);
+
+    RetMessage<Boolean> requestModifyCommodity(BigDecimal costPrice,
+                                               BigDecimal facePrice,
+                                               BigDecimal sellPrice,
+                                               Integer lifeTime,
+                                               Long commodityId,
+                                               Long operaterId);
+
+    RetMessage<Boolean> requestShelveCommodity(Long commodityId,
+                                               Long operaterId);
+
+    RetMessage<Boolean> requestUnshelveCommodity(Long commodityId,
+                                                 Long operaterId);
+
+
 
 }

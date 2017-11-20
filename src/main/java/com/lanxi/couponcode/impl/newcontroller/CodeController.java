@@ -3,14 +3,11 @@ package com.lanxi.couponcode.impl.newcontroller;
 import com.alibaba.fastjson.JSON;
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.plugins.Page;
+import com.lanxi.couponcode.impl.newservice.*;
 import com.lanxi.couponcode.spi.assist.RetMessage;
 import com.lanxi.couponcode.impl.entity.Account;
 import com.lanxi.couponcode.impl.entity.CouponCode;
 import com.lanxi.couponcode.impl.entity.Merchant;
-import com.lanxi.couponcode.impl.newservice.CodeService;
-import com.lanxi.couponcode.impl.newservice.DaoService;
-import com.lanxi.couponcode.impl.newservice.RedisCodeService;
-import com.lanxi.couponcode.impl.newservice.RedisEnhancedService;
 import com.lanxi.couponcode.spi.consts.annotations.EasyLog;
 import com.lanxi.couponcode.spi.consts.annotations.Trim;
 import com.lanxi.couponcode.spi.consts.enums.CouponCodeStatus;
@@ -38,8 +35,24 @@ public class CodeController implements com.lanxi.couponcode.spi.service.CouponSe
     private RedisCodeService redisCodeService;
     @Resource
     private RedisEnhancedService redisEnhancedService;
+    @Resource
+    private OperateRecordService operateRecordService;
+    @Resource
+    private VerificationRecordService verificationRecordService;
+    @Resource
+    private MerchantService merchantService;
+    @Resource
+    private AccountService accountService;
+    @Resource
+    private ShopService shopService;
 
-    private List<CouponCode> queryCodesHidden(String timeStart, String timeEnd, String merchantName, String commodityName, Long code, Long codeId, Page page, Long operaterId) {
+    private List<CouponCode> queryCodesHidden(String timeStart,
+                                              String timeEnd,
+                                              String merchantName,
+                                              String commodityName,
+                                              Long code,
+                                              Long codeId,
+                                              Page<CouponCode> page) {
         //装配查询条件
         EntityWrapper<CouponCode> wrapper = new EntityWrapper<>();
         if (timeStart != null && !timeStart.isEmpty()) {
@@ -71,7 +84,7 @@ public class CodeController implements com.lanxi.couponcode.spi.service.CouponSe
         //TODO 参数校验
 
         Page<CouponCode> page=new Page<>(pageNum,pageSize);
-        List<CouponCode> list=queryCodesHidden(timeStart,timeEnd,merchantName,commodityName,code,codeId,page,operaterId);
+        List<CouponCode> list=queryCodesHidden(timeStart,timeEnd,merchantName,commodityName,code,codeId,page);
         //需要分页信息
         Map<String,Object> map=new HashMap<>();
         map.put("page",page);
@@ -85,7 +98,7 @@ public class CodeController implements com.lanxi.couponcode.spi.service.CouponSe
     public RetMessage<File> queryCodesExport(String timeStart, String timeEnd, String merchantName, String commodityName, Long code, Long codeId, Long operaterId) {
         //需要展示的内容
         Map<String,String> show=new HashMap<>();
-        List<CouponCode> list=queryCodesHidden(timeStart,timeEnd,merchantName,commodityName,code,codeId,null,operaterId);
+        List<CouponCode> list=queryCodesHidden(timeStart,timeEnd,merchantName,commodityName,code,codeId,null);
         File file;
         if(list!=null) {
             file = ExcelUtil.exportExcelFile(list, show);
@@ -135,7 +148,8 @@ public class CodeController implements com.lanxi.couponcode.spi.service.CouponSe
             return new RetMessage<>(RetCodeEnum.fail,"不存在!",null);
         CouponCode codeObj=opt.get();
         Boolean result=false;
-        result=codeService.delCode(codeObj);
+        if(CouponCodeStatus.undestroyed.equals(codeObj.getCodeStatus()))
+            result=codeService.delCode(codeObj);
         //返回null,发生异常
         if(result==null)
             return new RetMessage<>(RetCodeEnum.fail,"注销时异常!",null);
@@ -165,7 +179,8 @@ public class CodeController implements com.lanxi.couponcode.spi.service.CouponSe
         if(CouponCodeStatus.undestroyed.equals(code.getCodeStatus()))
             return new RetMessage<>(RetCodeEnum.fail,"已被使用,已被注销!!",null);
         //执行核销
-        result=codeService.verificateCode(code);
+        if(CouponCodeStatus.undestroyed.equals(code.getCodeStatus()))
+            result=codeService.verificateCode(code);
         //返回null,发生异常
         if(result==null)
             return new RetMessage<>(RetCodeEnum.fail,"核销时异常!",null);
@@ -192,7 +207,8 @@ public class CodeController implements com.lanxi.couponcode.spi.service.CouponSe
             return new RetMessage<>(RetCodeEnum.fail,"不存在!",null);
         CouponCode codeObj=opt.get();
         Boolean result=false;
-        result=codeService.verificateCode(codeObj);
+        if(CouponCodeStatus.undestroyed.equals(codeObj.getCodeStatus()))
+            result=codeService.verificateCode(codeObj);
         //返回null,发生异常
         if(result==null)
             return new RetMessage<>(RetCodeEnum.fail,"核销时异常!",null);
@@ -222,7 +238,8 @@ public class CodeController implements com.lanxi.couponcode.spi.service.CouponSe
         if(CouponCodeStatus.undestroyed.equals(code.getCodeStatus()))
             return new RetMessage<>(RetCodeEnum.fail,"已被使用,已被注销!!",null);
         //执行延期(默认延长时间为设定的有效期)
-        result=codeService.postoneCode(code);
+        if(CouponCodeStatus.undestroyed.equals(code.getCodeStatus()))
+            result=codeService.postoneCode(code);
         //返回null,发生异常
         if(result==null)
             return new RetMessage<>(RetCodeEnum.fail,"延期时异常!",null);

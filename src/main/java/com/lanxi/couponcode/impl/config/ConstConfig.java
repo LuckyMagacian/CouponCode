@@ -1,5 +1,7 @@
 package com.lanxi.couponcode.impl.config;
 
+import com.lanxi.couponcode.impl.entity.Account;
+
 public interface ConstConfig {
 	//-------------------------------about project---------------------------------
 	/**公司名称*/
@@ -47,5 +49,7 @@ public interface ConstConfig {
 	Integer DEFAULT_PAGE=1;
 	Integer DEFAULT_PAGE_SIZE=10;
 	Long INVALID_LONG=-1L;
+
+	Long SYSTEM=100000000L;
 }
 

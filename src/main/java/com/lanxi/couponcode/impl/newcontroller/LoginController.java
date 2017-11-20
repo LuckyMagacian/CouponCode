@@ -10,7 +10,7 @@ import com.lanxi.util.entity.LogFactory;
 
 import javax.annotation.Resource;
 
-public class LoginServiceController implements com.lanxi.couponcode.spi.service.LoginService{
+public class LoginController implements com.lanxi.couponcode.spi.service.LoginService{
 	@Resource
 	private LoginService loginService;
 	@Override

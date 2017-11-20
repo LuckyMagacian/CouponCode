@@ -3,9 +3,11 @@ package com.lanxi.couponcode.impl.newservice;
 import com.baomidou.mybatisplus.mapper.Wrapper;
 import com.baomidou.mybatisplus.plugins.Page;
 import com.lanxi.couponcode.impl.entity.Commodity;
+import com.lanxi.couponcode.spi.consts.enums.CommodityStatus;
 
 import javax.annotation.Resource;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Created by yangyuanjian on 2017/11/17.
@@ -25,41 +27,45 @@ public class CommodityServiceImpl implements CommodityService{
 
     @Override
     public Commodity queryCommodity(Long commodityId) {
-        return null;
+        return daoService.getCommodityDao().selectById(commodityId);
     }
 
     @Override
     public List<Commodity> queryCommodities(Wrapper<Commodity> wrapper, Page<Commodity> page) {
-        return null;
+        if(page==null)
+            return daoService.getCommodityDao().selectList(wrapper);
+        else
+            return daoService.getCommodityDao().selectPage(page,wrapper);
     }
 
     @Override
     public Boolean delCommodity(Commodity commodity) {
-        return null;
+        synchronized (commodity){
+            commodity.setStatus(CommodityStatus.deleted);
+            return commodity.updateById();
+        }
     }
 
     @Override
     public Boolean shelveCommodity(Commodity commodity) {
-        return null;
+        synchronized (commodity){
+            commodity.setStatus(CommodityStatus.shelved);
+            return  commodity.updateById();
+        }
     }
 
     @Override
     public Boolean unshelveCommodity(Commodity commodity) {
-        return null;
-    }
-
-    @Override
-    public Boolean freezeCommodity(Commodity commodity) {
-        return null;
-    }
-
-    @Override
-    public Boolean unfreezeCommodity(Commodity commodity) {
-        return null;
+        synchronized (commodity){
+            commodity.setStatus(CommodityStatus.unshelved);
+            return  commodity.updateById();
+        }
     }
 
     @Override
     public Boolean modifyCommodity(Commodity commodity) {
-        return null;
+        synchronized (commodity){
+            return commodity.updateById();
+        }
     }
 }

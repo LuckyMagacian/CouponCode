@@ -5,7 +5,7 @@ import java.io.Serializable;
 /**
  * Created by yangyuanjian on 2017/11/7.
  */
-public enum ClearStatus  implements Serializable {
+public enum ClearStatus  implements Serializable,Gettype {
     cleard(1),uncleared(2);
     private String value;
     private ClearStatus(int value) {

@@ -17,7 +17,7 @@ import java.util.List;
 /**
  * Created by yangyuanjian on 2017/11/13.
  */
-public class MerchantServiceController implements com.lanxi.couponcode.spi.service.MerchantService{
+public class MerchantController implements com.lanxi.couponcode.spi.service.MerchantService{
 	@Resource
 	private MerchantService merchantService;
     @Override

@@ -11,7 +11,7 @@ import java.io.Serializable;
  * @author yangyuanjian
  *
  */
-public enum ShopStatus  implements Serializable {
+public enum ShopStatus  implements Serializable,Gettype {
 	normal(1),freeze(2),deleted(3),test(4),cancellation(9);
 	private String value;
 	private ShopStatus(int value) {

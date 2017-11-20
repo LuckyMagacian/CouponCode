@@ -17,7 +17,5 @@ public interface CommodityService {
     Boolean delCommodity(Commodity commodity);
     Boolean shelveCommodity(Commodity commodity);
     Boolean unshelveCommodity(Commodity commodity);
-    Boolean freezeCommodity(Commodity commodity);
-    Boolean unfreezeCommodity(Commodity commodity);
     Boolean modifyCommodity(Commodity commodity);
 }
