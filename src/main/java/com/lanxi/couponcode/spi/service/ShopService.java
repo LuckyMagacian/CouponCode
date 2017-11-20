@@ -55,6 +55,8 @@ public interface ShopService {
     RetMessage<File> queryShopsExport(String shopName,
     				String shopAddress,
     				ShopStatus status,
+    				@HiddenArg Integer pageNum,
+    				@HiddenArg Integer pageSize,
     				@HiddenArg Long merchantId,
     				@HiddenArg Long operaterId);
 }

@@ -1,10 +1,13 @@
 package com.lanxi.couponcode.impl.newcontroller;
 
 import com.alibaba.fastjson.JSON;
+import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.plugins.Page;
+import com.baomidou.mybatisplus.toolkit.IdWorker;
 import com.lanxi.couponcode.spi.assist.RetMessage;
 import com.lanxi.couponcode.impl.config.ConstConfig;
 import com.lanxi.couponcode.impl.entity.Shop;
+import com.lanxi.couponcode.impl.newservice.MerchantService;
 import com.lanxi.couponcode.impl.newservice.ShopService;
 import com.lanxi.couponcode.spi.consts.enums.RetCodeEnum;
 import com.lanxi.couponcode.spi.consts.enums.ShopStatus;
@@ -12,9 +15,17 @@ import com.lanxi.util.entity.LogFactory;
 
 import javax.annotation.Resource;
 import java.io.File;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
-
+/**
+ * 
+ * @author wuxiaobo
+ *
+ */
 public class ShopServiceController implements com.lanxi.couponcode.spi.service.ShopService{
+	@Resource
+	private MerchantService merchantService;
 	@Resource
 	private ShopService shopService;
 	@Override
@@ -22,13 +33,28 @@ public class ShopServiceController implements com.lanxi.couponcode.spi.service.S
 			Long merchantId, Long operaterId) {
 		RetMessage<Boolean> retMessage=new RetMessage<Boolean>();
 		Boolean result=false;
+		Shop shop=null;
+		//TODO 校验权限
 		try {
 			if (merchantId!=null) {
 				if (shopName!=null&&!shopName.isEmpty()&&shopAddress!=null&&!shopAddress.isEmpty()) {
-					result=shopService.addShop(shopName, shopAddress, minuteShopAddress, serviceTel, merchantId, operaterId);
+					shop=new Shop();
+					shop.setShopName(shopName);
+					shop.setShopAddress(shopAddress);
+					shop.setMinuteShopAddress(minuteShopAddress);
+					shop.setMerchantId(merchantId);
+					shop.setServicetel(serviceTel);
+				//if(shop.getShopId()==null) {
+					shop.setShopId(IdWorker.getId());
+				//}
+				shop.setShopStatus(ShopStatus.normal);
+				shop.setMerchantStatus(merchantService.queryMerchantStatusByid(shop.getMerchantId(), operaterId));
+				shop.setCreateTime(LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMddHHmmss")));
+				result=shopService.addShop(shop);
 					if (result) {
 						retMessage.setRetCode(RetCodeEnum.success.getValue());
 						retMessage.setRetMessage("添加门店成功");
+						//TODO 添加操作记录
 					}else {
 						retMessage.setRetMessage("添加门店失败");
 						retMessage.setRetCode(RetCodeEnum.exception.getValue());
@@ -48,13 +74,11 @@ public class ShopServiceController implements com.lanxi.couponcode.spi.service.S
 			}
 			
 		} catch (Exception e) {
-			// TODO: handle exception
 			LogFactory.error(this,"添加门店时发生异常\n",e);
 			retMessage.setDetail(result);
 			retMessage.setRetCode(RetCodeEnum.error.getValue());
 			retMessage.setRetMessage("添加门店时发生异常");
 		}
-		// TODO Auto-generated method stub
 		return retMessage;
 	}
 
@@ -63,11 +87,13 @@ public class ShopServiceController implements com.lanxi.couponcode.spi.service.S
 		RetMessage<Boolean> retMessage=new RetMessage<Boolean>();
 		Boolean result=false;
 		List<String>list=null;
+		//TODO 校验
 		try {
 			if(merchantId!=null) {
 				if (file!=null) {
 					if (file.getName().endsWith(".xlsx")||file.getName().endsWith(".xls")) {
-						list=shopService.importShops(file, merchantId, operaterId);
+						String merchantStatus=merchantService.queryMerchantStatusByid(merchantId, operaterId);
+						list=shopService.importShops(file, merchantId, operaterId,merchantStatus);
 						if (list!=null&&list.size()==0) {
 							result=true;
 							retMessage.setDetail(result);
@@ -98,13 +124,13 @@ public class ShopServiceController implements com.lanxi.couponcode.spi.service.S
 				retMessage.setRetMessage("没有获取到所属商户的id无法导入");
 			}
 		} catch (Exception e) {
-			// TODO: handle exception
+			
 			LogFactory.error(this,"导入文件时发生异常");
 			retMessage.setDetail(result);
 			retMessage.setRetCode(RetCodeEnum.error.getValue());
 			retMessage.setRetMessage("导入文件时发生异常");
 		}
-		// TODO Auto-generated method stub
+		
 		return retMessage;
 	}
 
@@ -112,12 +138,17 @@ public class ShopServiceController implements com.lanxi.couponcode.spi.service.S
 	public RetMessage<Boolean> freezeShop(Long shopId, Long operaterId) {
 		RetMessage<Boolean>retMessage=new RetMessage<Boolean>();
 		Boolean result=false;
+		//TODO 校验
 		try {
 			if (shopId!=null) {
-				result=shopService.freezeShop(shopId, operaterId);
+				Shop shop=new Shop();
+				shop.setShopId(shopId);
+				shop.setShopStatus(ShopStatus.freeze);
+				result=shopService.freezeShop(shop);
 				if (result) {
 					retMessage.setRetCode(RetCodeEnum.success.getValue());
 					retMessage.setRetMessage("冻结门店成功");
+					//TODO 添加操作记录
 				}else {
 					retMessage.setRetMessage("冻结门店失败");
 					retMessage.setRetCode(RetCodeEnum.exception.getValue());
@@ -130,13 +161,12 @@ public class ShopServiceController implements com.lanxi.couponcode.spi.service.S
 				retMessage.setRetMessage("没有获取到门店id无法冻结门店");
 			}
 		} catch (Exception e) {
-			// TODO: handle exception
 			LogFactory.error(this,"冻结门店时发生异常\n",e);
 			retMessage.setDetail(result);
 			retMessage.setRetCode(RetCodeEnum.error.getValue());
 			retMessage.setRetMessage("冻结门店时发生异常");
 		}
-		// TODO Auto-generated method stub
+		
 		return retMessage;
 	}
 
@@ -144,12 +174,17 @@ public class ShopServiceController implements com.lanxi.couponcode.spi.service.S
 	public RetMessage<Boolean> unfreezeShop(Long shopId, Long operaterId) {
 		RetMessage<Boolean>retMessage=new RetMessage<Boolean>();
 		Boolean result=false;
+		//TODO 校验
 		try {
 			if (shopId!=null) {
-				result=shopService.unfreezeShop(shopId, operaterId);
+				Shop shop=new Shop();
+				shop.setShopId(shopId);
+				shop.setShopStatus(ShopStatus.normal);
+				result=shopService.unfreezeShop(shop);
 				if (result) {
 					retMessage.setRetCode(RetCodeEnum.success.getValue());
 					retMessage.setRetMessage("开启门店成功");
+					//TODO 添加操作记录
 				}else {
 					retMessage.setRetMessage("开启门店失败");
 					retMessage.setRetCode(RetCodeEnum.exception.getValue());
@@ -162,13 +197,11 @@ public class ShopServiceController implements com.lanxi.couponcode.spi.service.S
 				retMessage.setRetMessage("没有获取到门店id无法开启门店");
 			}
 		} catch (Exception e) {
-			// TODO: handle exception
 			LogFactory.error(this,"开启门店时发生异常\n",e);
 			retMessage.setDetail(result);
 			retMessage.setRetCode(RetCodeEnum.error.getValue());
 			retMessage.setRetMessage("开启门店时发生异常");
 		}
-		// TODO Auto-generated method stub
 		return retMessage;
 	}
 
@@ -177,12 +210,29 @@ public class ShopServiceController implements com.lanxi.couponcode.spi.service.S
 			Integer pageNum, Integer pageSize, Long merchantId, Long operaterId) {
 		RetMessage<String> retMessage=new RetMessage<String>();
 		List<Shop> shops=null;
+		//TODO 校验
 		try {
 			if(pageNum!=null) {
 				pageSize=pageSize==null?ConstConfig.DEFAULT_PAGE_SIZE:pageSize;
 			}
 			Page<Shop> pageObj=new Page<>(pageNum, pageSize);
-			shops=shopService.queryShop(shopName, status, shopAddress, pageObj, merchantId, operaterId);
+			EntityWrapper<Shop> wrapper=new EntityWrapper<Shop>();
+			if (pageObj!=null) {
+				if (shopName!=null&&!shopName.isEmpty()) {
+					wrapper.eq("shop_name",shopName);
+				}
+				if (status!=null) {
+					wrapper.eq("shop_status", status);
+				}
+				if(shopAddress!=null&&!shopAddress.isEmpty()) {
+					wrapper.eq("shop_address",shopAddress);
+				}
+				if(merchantId!=null) {
+					wrapper.eq("merchant_id",merchantId);
+				}
+			}
+			LogFactory.info(this, "条件装饰结果["+wrapper+"]\n");
+			shops=shopService.queryShop(wrapper,pageObj);
 			if(shops!=null&&shops.size()>0) {
 				retMessage.setRetCode(RetCodeEnum.success.getValue());
 				retMessage.setRetMessage("查询完毕");
@@ -193,13 +243,12 @@ public class ShopServiceController implements com.lanxi.couponcode.spi.service.S
 			String result=JSON.toJSONString(shops);
 			retMessage.setDetail(result);
 		} catch (Exception e) {
-			// TODO: handle exception
 			LogFactory.error(this, "查询数据时出现异常",e);
     		retMessage.setRetCode(RetCodeEnum.error.getValue());
 			retMessage.setRetMessage("查询数据时发生异常");
 			retMessage.setDetail(null);
 		}
-		// TODO Auto-generated method stub
+		
 		return retMessage;
 	}
 
@@ -208,8 +257,25 @@ public class ShopServiceController implements com.lanxi.couponcode.spi.service.S
 			Long merchantId, Long operaterId) {
 		RetMessage<String> retMessage=new RetMessage<String>();
 		List<Shop> shops=null;
+		//TODO 校验
 		try {
-			shops=shopService.queryShop(shopName, status, shopAddress, merchantId, operaterId);
+			EntityWrapper<Shop> wrapper=new EntityWrapper<Shop>();
+			
+				if (shopName!=null&&!shopName.isEmpty()) {
+					wrapper.eq("shop_name",shopName);
+				}
+				if (status!=null) {
+					wrapper.eq("shop_status", status);
+				}
+				if(shopAddress!=null&&!shopAddress.isEmpty()) {
+					wrapper.eq("shop_address",shopAddress);
+				}
+				if(merchantId!=null) {
+					wrapper.eq("merchant_id",merchantId);
+				}
+			
+			LogFactory.info(this, "条件装饰结果["+wrapper+"]\n");
+			shops=shopService.queryShop(wrapper);
 			if(shops!=null&&shops.size()>0) {
 				retMessage.setRetCode(RetCodeEnum.success.getValue());
 				retMessage.setRetMessage("查询完毕");
@@ -220,13 +286,13 @@ public class ShopServiceController implements com.lanxi.couponcode.spi.service.S
 			String result=JSON.toJSONString(shops);
 			retMessage.setDetail(result);
 		} catch (Exception e) {
-			// TODO: handle exception
+			
 			LogFactory.error(this, "查询数据时出现异常",e);
     		retMessage.setRetCode(RetCodeEnum.error.getValue());
 			retMessage.setRetMessage("查询数据时发生异常");
 			retMessage.setDetail(null);
 		}
-		// TODO Auto-generated method stub
+		
 		return retMessage;
 	}
 
@@ -235,13 +301,25 @@ public class ShopServiceController implements com.lanxi.couponcode.spi.service.S
 			String serviceTel, Long shopId, Long operaterId) {
 		RetMessage<Boolean> retMessage=new RetMessage<Boolean>();
 		Boolean result=false;
+		//TODO 校验
 		try {
 			if (shopId!=null) {
 				if (shopName!=null&&!shopName.isEmpty()&&shopAddress!=null&&!shopAddress.isEmpty()) {
-					result=shopService.modifyShop(shopName, shopAddress, minuteShopAddress, serviceTel, shopId, operaterId);
+					Shop shop=new Shop();
+					shop.setShopId(shopId);
+					shop.setShopName(shopName);
+					shop.setShopAddress(shopAddress);
+					if (minuteShopAddress!=null&&!minuteShopAddress.isEmpty()) {
+						shop.setMinuteShopAddress(minuteShopAddress);
+					}
+					if (serviceTel!=null&&!serviceTel.isEmpty()) {
+						shop.setServicetel(serviceTel);
+					}
+					result=shopService.modifyShop(shop);
 					if (result) {
 						retMessage.setRetCode(RetCodeEnum.success.getValue());
 						retMessage.setRetMessage("修改门店成功");
+						//TODO 添加操作记录
 					}else {
 						retMessage.setRetMessage("修改门店失败");
 						retMessage.setRetCode(RetCodeEnum.exception.getValue());
@@ -260,24 +338,40 @@ public class ShopServiceController implements com.lanxi.couponcode.spi.service.S
 				retMessage.setRetMessage("没有获取到门店id无法修改门店信息");
 			}
 		} catch (Exception e) {
-			// TODO: handle exception
+			
 			LogFactory.error(this, "修改门店信息时出现异常",e);
     		retMessage.setRetCode(RetCodeEnum.error.getValue());
 			retMessage.setRetMessage("修改门店信息时发生异常");
 			retMessage.setDetail(result);
 		}
-		// TODO Auto-generated method stub
+		
 		return retMessage;
 	}
 
 	@Override
-	public RetMessage<File> queryShopsExport(String shopName, String shopAddress, ShopStatus status, Long merchantId,
+	public RetMessage<File> queryShopsExport(String shopName, String shopAddress, ShopStatus status,Integer pageNum,Integer pageSize, Long merchantId,
 			Long operaterId) {
 		RetMessage<File> retMessage=new RetMessage<File>();
-		
+		//TODO 校验
 		try {
+			if(pageNum!=null) {
+				pageSize=pageSize==null?ConstConfig.DEFAULT_PAGE_SIZE:pageSize;
+			}
+			Page<Shop> pageObj=new Page<>(pageNum, pageSize);
 			if (merchantId!=null) {
-				File file=shopService.queryShopsExport(shopName, shopAddress, status, merchantId, operaterId);
+				EntityWrapper<Shop> wrapper=new EntityWrapper<Shop>();
+				if (shopName!=null&&!shopName.isEmpty()) {
+					wrapper.eq("shop_name",shopName);
+				}
+				if (status!=null) {
+					wrapper.eq("shop_status", status);
+				}
+				if(shopAddress!=null&&!shopAddress.isEmpty()) {
+					wrapper.eq("shop_address",shopAddress);
+				}
+					wrapper.eq("merchant_id",merchantId);
+			LogFactory.info(this, "条件装饰结果["+wrapper+"]\n");
+				File file=shopService.queryShopsExport(wrapper, pageObj);
 				if (file!=null) {
 					retMessage.setDetail(file);
 					retMessage.setRetCode(RetCodeEnum.success.getValue());
@@ -293,13 +387,13 @@ public class ShopServiceController implements com.lanxi.couponcode.spi.service.S
 				retMessage.setRetMessage("没有获取到门店所对应的商户id无法导出");
 			}
 		} catch (Exception e) {
-			// TODO: handle exception
+			
 			LogFactory.error(this,"导出文件时放生异常");
 			retMessage.setDetail(null);
 			retMessage.setRetCode(RetCodeEnum.error.getValue());
 			retMessage.setRetMessage("导出文件时发生异常");
 		}
-		// TODO Auto-generated method stub
+		
 		return retMessage;
 	}
 
