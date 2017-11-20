@@ -1,16 +1,20 @@
 package com.lanxi.couponcode.impl.newcontroller;
 
 import com.alibaba.fastjson.JSON;
-import com.lanxi.couponcode.spi.assist.RetMessage;
 import com.lanxi.couponcode.impl.entity.Account;
-
 import com.lanxi.couponcode.impl.newservice.LoginService;
+import com.lanxi.couponcode.spi.assist.RetMessage;
 import com.lanxi.couponcode.spi.consts.enums.RetCodeEnum;
 import com.lanxi.util.entity.LogFactory;
 
 import javax.annotation.Resource;
 
 public class LoginController implements com.lanxi.couponcode.spi.service.LoginService{
+/**
+ * 
+ * @author wuxiaobo
+ *
+ */
 	@Resource
 	private LoginService loginService;
 	@Override
@@ -28,13 +32,13 @@ public class LoginController implements com.lanxi.couponcode.spi.service.LoginSe
 				}
 			}
 		} catch (Exception e) {
-			// TODO: handle exception
+			
 			LogFactory.error(this, "登录时出现异常",e);
     		retMessage.setRetCode(RetCodeEnum.error.getValue());
 			retMessage.setRetMessage("登录时发生异常");
 			retMessage.setDetail(null);
 		}
-		// TODO Auto-generated method stub
+		
 		return retMessage;
 	}
 
@@ -58,9 +62,9 @@ public class LoginController implements com.lanxi.couponcode.spi.service.LoginSe
 			retMessage.setRetCode(RetCodeEnum.error.getValue());
 			retMessage.setRetMessage("退出登录时发生异常");
 			retMessage.setDetail(result);
-			// TODO: handle exception
+			
 		}
-		// TODO Auto-generated method stub
+		
 		return retMessage;
 	}
 
@@ -79,13 +83,13 @@ public class LoginController implements com.lanxi.couponcode.spi.service.LoginSe
 			}
 			
 		} catch (Exception e) {
-			// TODO: handle exception
+			
 			LogFactory.error(this, "重置密码时出现异常",e);
     		retMessage.setRetCode(RetCodeEnum.error.getValue());
 			retMessage.setRetMessage("重置密码时发生异常");
 			retMessage.setDetail(null);
 		}
-		// TODO Auto-generated method stub
+		
 		return retMessage;
 	}
 
@@ -103,13 +107,13 @@ public class LoginController implements com.lanxi.couponcode.spi.service.LoginSe
 			}
 			
 		} catch (Exception e) {
-			// TODO: handle exception
+			
 			LogFactory.error(this, "修改密码时出现异常",e);
     		retMessage.setRetCode(RetCodeEnum.error.getValue());
 			retMessage.setRetMessage("修改密码时发生异常");
 			retMessage.setDetail(null);
 		}
-		// TODO Auto-generated method stub
+		
 		return retMessage;
 	}
 

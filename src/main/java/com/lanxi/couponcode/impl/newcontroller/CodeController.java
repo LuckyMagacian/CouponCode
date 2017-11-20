@@ -82,7 +82,6 @@ public class CodeController implements com.lanxi.couponcode.spi.service.CouponSe
     @Override
     public RetMessage<String> queryCodes(String timeStart, String timeEnd, String merchantName, String commodityName, Long code, Long codeId, Integer pageNum, Integer pageSize, Long operaterId) {
         //TODO 参数校验
-
         Page<CouponCode> page=new Page<>(pageNum,pageSize);
         List<CouponCode> list=queryCodesHidden(timeStart,timeEnd,merchantName,commodityName,code,codeId,page);
         //需要分页信息
@@ -106,7 +105,6 @@ public class CodeController implements com.lanxi.couponcode.spi.service.CouponSe
         }else
             return new RetMessage<>(RetCodeEnum.fail,"导出失败!",null);
     }
-
     @Override
     public RetMessage<Boolean> destroyCode(Long codeId, Long operaterId) {
         //TODO 锁定串码

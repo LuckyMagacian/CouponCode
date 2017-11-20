@@ -68,6 +68,8 @@ public interface AccountService {
 
     @RealReturnType("List<Account>")
     RetMessage<String> queryShopAccounts(@HiddenArg Long shopId,
-                             @HiddenArg Long operaterId);
+                             @HiddenArg Long operaterId,
+                             @HiddenArg Integer pageNum,
+                             @HiddenArg Integer pageSize);
 
 }

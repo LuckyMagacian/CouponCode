@@ -17,7 +17,11 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
-
+/**
+ * 登录接口实现类
+ * @author Administrator
+ *
+ */
 @Service("loginService")
 public class LoginServiceImpl implements LoginService{
 	@Resource
@@ -152,20 +156,20 @@ public class LoginServiceImpl implements LoginService{
 			}
 			
 		} catch (Exception e) {
-			// TODO: handle exception
+			
 			LogFactory.error(this,"登录账户时发生异常\n"+locker,e);
 			retMessage.setDetail(null);
 			retMessage.setRetCode(RetCodeEnum.error.getValue());
 			retMessage.setRetMessage("登录账户时发生异常");
 		}
-		// TODO Auto-generated method stub
+		
 		return retMessage;
 	}
 
 	@Override
 	public Boolean logout(Long accountId) {
 		
-		// TODO Auto-generated method stub
+		
 		return null;
 	}
 
@@ -225,9 +229,9 @@ public class LoginServiceImpl implements LoginService{
 			retMessage.setDetail(null);
 			retMessage.setRetCode(RetCodeEnum.error.getValue());
 			retMessage.setRetMessage("重置密码时发生异常");
-			// TODO: handle exception
+			
 		}
-		// TODO Auto-generated method stub
+		
 		return retMessage;
 	}
 
@@ -302,12 +306,12 @@ public class LoginServiceImpl implements LoginService{
 			retMessage.setDetail(null);
 			retMessage.setRetCode(RetCodeEnum.error.getValue());
 			retMessage.setRetMessage("重置密码时发生异常");
-			// TODO: handle exception
+			
 		}
-		// TODO Auto-generated method stub
+		
 		return retMessage;
 	}
-//判断给定时间跟当前时间的时间查是否大于15分钟
+//判断给定时间跟当前时间的时间差是否大于15分钟
 	public boolean localdateLtDate(String date) throws Exception{
         SimpleDateFormat sdf=new SimpleDateFormat("yyyyMMddHHmmss");
         Date date1=sdf.parse(date);

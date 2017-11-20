@@ -10,9 +10,8 @@ import java.io.OutputStream;
 
 public class FileUpLoadUtil {
 	public static void fileUpLoad(File file,String path) throws Exception{
-		InputStream is=null;
-		OutputStream os=null;
-	
+			InputStream is=null;
+			OutputStream os=null;
 			is=new FileInputStream(file);
 			File file2=new File(path);
 			file2.createNewFile();
