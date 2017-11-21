@@ -194,42 +194,46 @@ public class ShopServiceImpl implements ShopService{
 	
 	@Override
 	public Boolean freezeShop(Shop shop) {
-		String locker="Shop["+shop+"]\n";
-		LogFactory.info(this,"尝试冻结门店\n"+locker);
-		Boolean result=false;
-		try {
-			Integer var=dao.getShopDao().updateById(shop);
-				if(var>0) {
-					LogFactory.debug(this,"冻结门店成功\n"+locker);
-					result=true;
-				}else {
-					LogFactory.debug(this,"冻结门店失败,\n"+locker);
-					result=false;
+		synchronized (shop) {
+			String locker = "Shop[" + shop + "]\n";
+			LogFactory.info(this, "尝试冻结门店\n" + locker);
+			Boolean result = false;
+			try {
+				Integer var = dao.getShopDao().updateById(shop);
+				if (var > 0) {
+					LogFactory.debug(this, "冻结门店成功\n" + locker);
+					result = true;
+				} else {
+					LogFactory.debug(this, "冻结门店失败,\n" + locker);
+					result = false;
 				}
-		} catch (Exception e) {
-			LogFactory.error(this,"冻结门店时发生异常,\n"+locker);
+			} catch (Exception e) {
+				LogFactory.error(this, "冻结门店时发生异常,\n" + locker);
+			}
+			return result;
 		}
-		return result;
 	}
 
 	@Override
 	public Boolean unfreezeShop(Shop shop) {
-		String locker="shop["+shop+"]\n";
-		LogFactory.info(this,"尝试开启门店\n"+locker);
-		Boolean result=false;
-		try {
-				Integer var=dao.getShopDao().updateById(shop);
-				if(var>0) {
-					LogFactory.debug(this,"开启门店成功\n"+locker);
-					result=true;
-				}else {
-					LogFactory.debug(this,"开启门店失败,\n"+locker);
-					result=false;
+		synchronized (shop) {
+			String locker = "shop[" + shop + "]\n";
+			LogFactory.info(this, "尝试开启门店\n" + locker);
+			Boolean result = false;
+			try {
+				Integer var = dao.getShopDao().updateById(shop);
+				if (var > 0) {
+					LogFactory.debug(this, "开启门店成功\n" + locker);
+					result = true;
+				} else {
+					LogFactory.debug(this, "开启门店失败,\n" + locker);
+					result = false;
 				}
-		} catch (Exception e) {
-			LogFactory.error(this,"开启门店时发生异常,\n"+locker);
+			} catch (Exception e) {
+				LogFactory.error(this, "开启门店时发生异常,\n" + locker);
+			}
+			return result;
 		}
-		return result;
 	}
 
 	@Override
@@ -270,28 +274,29 @@ public class ShopServiceImpl implements ShopService{
 
 	@Override
 	public Boolean modifyShop(Shop shop) {
-		String locker="shop["+shop+"]\n";
-		LogFactory.info(this,"尝试开始修改门店信息\n"+locker);
-		Boolean result=false;
-		try {
-				
-				Integer var=dao.getShopDao().updateById(shop);
-				if (var>0) {
-					result=true;
-					LogFactory.debug(this,"修改门店信息成功\n"+locker);
-					LogFactory.info(this,"开始尝试添加修改门店信息操作记录\n"+locker);
-					
-				}else {
-					result=false;
-					LogFactory.debug(this,"修改门店信息失败\n"+locker);
+		synchronized (shop) {
+			String locker = "shop[" + shop + "]\n";
+			LogFactory.info(this, "尝试开始修改门店信息\n" + locker);
+			Boolean result = false;
+			try {
+
+				Integer var = dao.getShopDao().updateById(shop);
+				if (var > 0) {
+					result = true;
+					LogFactory.debug(this, "修改门店信息成功\n" + locker);
+					LogFactory.info(this, "开始尝试添加修改门店信息操作记录\n" + locker);
+
+				} else {
+					result = false;
+					LogFactory.debug(this, "修改门店信息失败\n" + locker);
 				}
-			
-		} catch (Exception e) {
-			LogFactory.error(this,"修改门店信息发生异常\n"+locker);
-			
+
+			} catch (Exception e) {
+				LogFactory.error(this, "修改门店信息发生异常\n" + locker);
+
+			}
+			return result;
 		}
-		
-		return result;
 	}
 	@Override
 	public File queryShopsExport(EntityWrapper<Shop> wrapper,Page<Shop> pageObj) {
@@ -325,7 +330,21 @@ public class ShopServiceImpl implements ShopService{
 	        String dou_str = nf.format(dou_obj);
 	        return dou_str;
 	}
-	
+
+	@Override
+	public Shop queryShopInfo(Long shopId) {
+		Shop shop=null;
+		try {
+			if (shopId!=null) {
+				shop=dao.getShopDao().selectById(shopId);
+			}
+		} catch (Exception e) {
+			
+			LogFactory.error(this,"查询门店详情的时候发生异常",e);
+		}
+		return shop;
+	}
+
 
 //	@Override
 //	public List<Shop> queryPossessShopByMerchantId(Integer page, Integer size, Long merchantId, Long operaterId,

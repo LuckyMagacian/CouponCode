@@ -22,8 +22,6 @@ import java.util.List;
  * @author wuxiaobo
  *
  */
-
-
 public interface MerchantService {
 	/*添加商户*/
 	public Boolean addMerchant(Merchant merchant);

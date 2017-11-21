@@ -58,23 +58,25 @@ public class MerchantServiceImpl implements MerchantService {
 	}
 	@Override
 	public Boolean updateMerchantById(Merchant merchant) {
-		LogFactory.info(this, "尝试修改商户,\n");
-		boolean result=false;
-		try {
-			int var=dao.getMerchantDao().updateById(merchant);
-			if(var<0) {
-				LogFactory.info(this,"修改商户失败\n");
-				result=false;
-			}else if (var>0) {
-				LogFactory.info(this,"修改商户成功\n");
-				result=true;
+		synchronized (merchant) {
+			LogFactory.info(this, "尝试修改商户,\n");
+			boolean result = false;
+			try {
+				int var = dao.getMerchantDao().updateById(merchant);
+				if (var < 0) {
+					LogFactory.info(this, "修改商户失败\n");
+					result = false;
+				} else if (var > 0) {
+					LogFactory.info(this, "修改商户成功\n");
+					result = true;
+				}
+			} catch (Exception e) {
+				LogFactory.error(this, "修改商户时发生异常,\n", e);
+				//throw new RuntimeException("修改商户时发生异常",e);
+				return result;
 			}
-		} catch (Exception e) {
-			LogFactory.error(this,"修改商户时发生异常,\n",e);
-			//throw new RuntimeException("修改商户时发生异常",e);
 			return result;
 		}
-		return result;
 	}
 	
 	@Override
@@ -403,8 +405,13 @@ public class MerchantServiceImpl implements MerchantService {
 		try {
 			if(merchantId!=null) {
 				Merchant merchant=dao.getMerchantDao().selectById(merchantId);
-				merchantStatus=merchant.getMerchantStatus();
-				LogFactory.info(this,"获取到的商户状态["+merchantStatus+"]"+locker);
+				if (merchant!=null) {
+					merchantStatus=merchant.getMerchantStatus();
+					LogFactory.info(this,"获取到的商户状态["+merchantStatus+"]"+locker);
+				}else {
+					LogFactory.info(this,"此商户不存在");
+				}
+			
 			}
 		} catch (Exception e) {
 			LogFactory.error(this,"获取商户状态时发生异常",e);
@@ -426,7 +433,7 @@ public class MerchantServiceImpl implements MerchantService {
 				LogFactory.debug(this,"冻结商户失败");
 			}
 		} catch (Exception e) {
-			// TODO: handle exception
+			
 			result=false;
 			LogFactory.debug(this,"冻结商户时发生异常");
 		}
@@ -446,7 +453,7 @@ public class MerchantServiceImpl implements MerchantService {
 				LogFactory.debug(this,"开启商户失败");
 			}
 		} catch (Exception e) {
-			// TODO: handle exception
+			
 			result=false;
 			LogFactory.debug(this,"开启商户时发生异常");
 		}
