@@ -49,5 +49,6 @@ public interface ShopService {
 	/*导出*/
 	public File queryShopsExport(EntityWrapper<Shop> wrapper,
 			Page<Shop> pageObj);
-	
+	/*通过shopId查询门店详情*/
+	public Shop queryShopInfo(Long shopId);
 }

@@ -36,7 +36,7 @@ public interface LoginService {
      * @return 操作结果 成功或者 对应的错误信息
      */
     @RealReturnType("RetMessage")
-    RetMessage<String> forgetPassword(String phone,
+    RetMessage<Boolean> forgetPassword(String phone,
                           String validateCode,
                           String newPassword,
                           String newRepeat,
@@ -51,7 +51,7 @@ public interface LoginService {
      * @return 操作结果 成功或 对应的错误信息<br>
      */
     @RealReturnType("RetMessage")
-    RetMessage<String> changePassword(
+    RetMessage<Boolean> changePassword(
                            String oldPasswd,
                            String newPasswd,
                            String newRepeat,
