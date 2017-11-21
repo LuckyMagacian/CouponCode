@@ -1,5 +1,6 @@
 package com.lanxi.couponcode.spi.aop;
 
+import com.lanxi.couponcode.spi.consts.annotations.SetUtf8;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;

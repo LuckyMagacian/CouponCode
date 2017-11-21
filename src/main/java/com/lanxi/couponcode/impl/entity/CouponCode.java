@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.annotations.TableId;
 import com.baomidou.mybatisplus.annotations.TableName;
 import com.baomidou.mybatisplus.enums.IdType;
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
+import com.lanxi.couponcode.spi.consts.enums.ClearStatus;
 import com.lanxi.couponcode.spi.consts.enums.CouponCodeStatus;
 import com.lanxi.couponcode.spi.abstractentity.AbstractCouponCode;
 
@@ -50,6 +51,9 @@ public class CouponCode extends AbstractCouponCode{
 	/**串码所属商户名称*/
 	@TableField("merchant_name")
 	private String merchantName;
+	/**清算状态*/
+	@TableField("clear_status")
+	private ClearStatus clearStatus;
 	@Override
 	public Serializable pkVal(){
 		return this.codeId;
@@ -81,6 +85,7 @@ public class CouponCode extends AbstractCouponCode{
 				", codeStatus=" + codeStatus +
 				", merchantId=" + merchantId +
 				", merchantName='" + merchantName + '\'' +
+				", clearStatus=" + clearStatus +
 				'}';
 	}
 
@@ -168,5 +173,13 @@ public class CouponCode extends AbstractCouponCode{
 
 	public void setMerchantName(String merchantName) {
 		this.merchantName = merchantName;
+	}
+
+	public ClearStatus getClearStatus() {
+		return clearStatus;
+	}
+
+	public void setClearStatus(ClearStatus clearStatus) {
+		this.clearStatus = clearStatus;
 	}
 }

@@ -3,12 +3,12 @@ package com.lanxi.couponcode.spi.consts.enums;
 import java.io.Serializable;
 
 /**
- * Created by yangyuanjian on 2017/11/7.
+ * Created by yangyuanjian on 2017/11/20.
  */
-public enum ClearStatus  implements Serializable,Gettype {
-    cleard(1),uncleared(2),all(3);
+public enum  InvoiceStatus implements Gettype,Serializable{
+    unposted(1),posted(2);
     private String value;
-    private ClearStatus(int value) {
+    private InvoiceStatus(int value) {
         this.value=value+"";
     }
     @Override
@@ -16,12 +16,11 @@ public enum ClearStatus  implements Serializable,Gettype {
         return value;
     }
 
-    public static ClearStatus getType(int value) {
+    public static InvoiceStatus getType(int value) {
         return getType(value+"");
     }
 
-
-    public static ClearStatus getType(String value) {
+    public static InvoiceStatus getType(String value) {
         return Gettype.getType(value);
     }
 

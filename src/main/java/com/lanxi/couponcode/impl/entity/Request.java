@@ -73,7 +73,9 @@ public class Request extends AbstractRequest{
     /**请求处理后商品信息*/
     @TableField("commodity_info_after")
     private String commodityInfoAfter;
-
+    /**原因*/
+    @TableField("remark")
+    private String reason;
 
 
     @Override
@@ -103,7 +105,16 @@ public class Request extends AbstractRequest{
                 ", merchantName='" + merchantName + '\'' +
                 ", commodityInfoBefore='" + commodityInfoBefore + '\'' +
                 ", commodityInfoAfter='" + commodityInfoAfter + '\'' +
+                ", reason='" + reason + '\'' +
                 '}';
+    }
+
+    public String getReason() {
+        return reason;
+    }
+
+    public void setReason(String reason) {
+        this.reason = reason;
     }
 
     public Long getRquestId() {

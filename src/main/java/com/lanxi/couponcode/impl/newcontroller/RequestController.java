@@ -121,7 +121,8 @@ public class RequestController implements com.lanxi.couponcode.spi.service.Reque
 
     @Override
     public RetMessage<Boolean> agreeRequest(Long requestId,
-                                            Long operaterId) {
+                                            Long operaterId,
+                                            String reason) {
         //TODO 查询
         Account account=null;
         Request request=requestService.queryRequestInfo(requestId);
@@ -134,6 +135,7 @@ public class RequestController implements com.lanxi.couponcode.spi.service.Reque
         request.setCheckerName(account.getUserName());
         request.setCheckerPhone(account.getPhone());
         request.setCheckTime(TimeUtil.getDateTime());
+        request.setReason(reason);
 
         Boolean result=requestService.passRequest(request);
         if(result==null)
@@ -174,7 +176,8 @@ public class RequestController implements com.lanxi.couponcode.spi.service.Reque
 
     @Override
     public RetMessage<Boolean> disagreeRequest(Long requestId,
-                                               Long operaterId) {
+                                               Long operaterId,
+                                               String reason) {
         //TODO 查询
         Account account=null;
         Request request=requestService.queryRequestInfo(requestId);
@@ -187,7 +190,7 @@ public class RequestController implements com.lanxi.couponcode.spi.service.Reque
         request.setCheckerName(account.getUserName());
         request.setCheckerPhone(account.getPhone());
         request.setCheckTime(TimeUtil.getDateTime());
-
+        request.setReason(reason);
         Boolean result=requestService.rejectRequest(request);
         if(result==null)
             return new RetMessage<>(RetCodeEnum.fail,"拒绝时异常!",null);

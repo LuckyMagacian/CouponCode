@@ -28,10 +28,12 @@ public interface RequestService {
                                      @HiddenArg Long operaterId);
 
     RetMessage<Boolean> agreeRequest(@HiddenArg Long requestId,
-                                     @HiddenArg Long operaterId);
+                                     @HiddenArg Long operaterId,
+                                     String reason);
 
     RetMessage<Boolean> disagreeRequest(@HiddenArg Long requestId,
-                                        @HiddenArg Long operaterId);
+                                        @HiddenArg Long operaterId,
+                                        String reason);
     @RealReturnType("List<OperateRequest>")
     RetMessage<String> queryCommodityRequest(String commodityName,
                                              CommodityType type,
