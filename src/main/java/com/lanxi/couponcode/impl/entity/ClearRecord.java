@@ -1,5 +1,7 @@
 package com.lanxi.couponcode.impl.entity;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
 import com.baomidou.mybatisplus.activerecord.Model;
 import com.baomidou.mybatisplus.annotations.TableField;
 import com.baomidou.mybatisplus.annotations.TableId;
@@ -15,58 +17,87 @@ import java.util.Map;
  * 清算记录类
  * Created by yangyuanjian on 2017/11/20.
  */
-@TableName("clear_record")
-public class ClearRecord extends Model<ClearRecord>{
-    /**记录编号*/
-    @TableId("record_id")
+@TableName ("clear_record")
+public class ClearRecord extends Model<ClearRecord> {
+    /**
+     * 记录编号
+     */
+    @TableId ("record_id")
     private Long recordId;
-    /**商户编号*/
-    @TableField("merchant_id")
+    /**
+     * 商户编号
+     */
+    @TableField ("merchant_id")
     private Long merchantId;
-    /**商户名称*/
-    @TableField("merchant_name")
+    /**
+     * 商户名称
+     */
+    @TableField ("merchant_name")
     private String merchantName;
-    /**核销记录列表*/
-    @TableField("verification_recordIds")
-    private List<Long> verificationRecordIds;
-    /**清算时间起*/
-    @TableField("time_start")
+    /**
+     * 核销记录列表
+     */
+    @TableField ("daily_record_ids")
+    private List<Long> dailyRecordIds;
+    /**
+     * 清算时间起
+     */
+    @TableField ("time_start")
     private String timeStart;
-    /**清算时间止*/
-    @TableField("time_stop")
+    /**
+     * 清算时间止
+     */
+    @TableField ("time_stop")
     private String timeStop;
-    /**应结算金额*/
-    @TableField("show_total")
+    /**
+     * 应结算金额
+     */
+    @TableField ("show_total")
     private BigDecimal showTotal;
-    /**实际结算金额*/
-    @TableField("fact_total")
+    /**
+     * 实际结算金额
+     */
+    @TableField ("fact_total")
     private BigDecimal factTotal;
-    /**清算时间*/
-    @TableField("clear_time")
+    /**
+     * 清算时间
+     */
+    @TableField ("clear_time")
     private String clearTime;
-    /**操作者编号*/
-    @TableField("operater_id")
+    /**
+     * 操作者编号
+     */
+    @TableField ("operater_id")
     private Long operaterId;
-    /**操作者姓名*/
-    @TableField("operater_name")
+    /**
+     * 操作者姓名
+     */
+    @TableField ("operater_name")
     private Long operaterName;
-    /**清算参数*/
-    @TableField("args")
-    private Map<String,Object> args;
-    /**税号*/
-    @TableField("tax_num")
+    /**
+     * 税号
+     */
+    @TableField ("tax_num")
     private String taxNum;
-    /**物流公司*/
-    @TableField("logistics_company")
+    /**
+     * 物流公司
+     */
+    @TableField ("logistics_company")
     private String logisticsCompany;
-    /**运单号*/
-    @TableField("order_num")
+    /**
+     * 运单号
+     */
+    @TableField ("order_num")
     private String orderNum;
-    /**寄出时间*/
-    @TableField("post_time")
+    /**
+     * 寄出时间
+     */
+    @TableField ("post_time")
     private String postTime;
-    /**发票状态{@link InvoiceStatus}*/
-    @TableField("invoice_status")
+    /**
+     * 发票状态{@link InvoiceStatus}
+     */
+    @TableField ("invoice_status")
     private InvoiceStatus invoiceStatus;
 
     @Override
@@ -75,7 +106,7 @@ public class ClearRecord extends Model<ClearRecord>{
                 "recordId=" + recordId +
                 ", merchantId=" + merchantId +
                 ", merchantName='" + merchantName + '\'' +
-                ", verificationRecordIds=" + verificationRecordIds +
+                ", dailyRecordIds=" + dailyRecordIds +
                 ", timeStart='" + timeStart + '\'' +
                 ", timeStop='" + timeStop + '\'' +
                 ", showTotal=" + showTotal +
@@ -83,7 +114,6 @@ public class ClearRecord extends Model<ClearRecord>{
                 ", clearTime='" + clearTime + '\'' +
                 ", operaterId=" + operaterId +
                 ", operaterName=" + operaterName +
-                ", args=" + args +
                 ", taxNum='" + taxNum + '\'' +
                 ", logisticsCompany='" + logisticsCompany + '\'' +
                 ", orderNum='" + orderNum + '\'' +
@@ -116,12 +146,20 @@ public class ClearRecord extends Model<ClearRecord>{
         this.merchantName = merchantName;
     }
 
-    public List<Long> getVerificationRecordIds() {
-        return verificationRecordIds;
+    public String getDailyRecordIds() {
+        return JSON.toJSONString(dailyRecordIds);
     }
 
-    public void setVerificationRecordIds(List<Long> verificationRecordIds) {
-        this.verificationRecordIds = verificationRecordIds;
+    public List<Long> getDailyRecordIdsList() {
+        return dailyRecordIds;
+    }
+
+    public void setDailyRecordIds(List<Long> dailyRecordIds) {
+        this.dailyRecordIds = dailyRecordIds;
+    }
+
+    public void setDailyRecordIds(String dailyRecordIds) {
+        this.dailyRecordIds = JSONArray.parseArray(dailyRecordIds, Long.class);
     }
 
     public String getTimeStart() {
@@ -180,14 +218,6 @@ public class ClearRecord extends Model<ClearRecord>{
         this.operaterName = operaterName;
     }
 
-    public Map<String, Object> getArgs() {
-        return args;
-    }
-
-    public void setArgs(Map<String, Object> args) {
-        this.args = args;
-    }
-
     public String getTaxNum() {
         return taxNum;
     }
@@ -220,12 +250,16 @@ public class ClearRecord extends Model<ClearRecord>{
         this.postTime = postTime;
     }
 
-    public InvoiceStatus getInvoiceStatus() {
-        return invoiceStatus;
+    public String getInvoiceStatus() {
+        return invoiceStatus.getValue();
     }
 
     public void setInvoiceStatus(InvoiceStatus invoiceStatus) {
         this.invoiceStatus = invoiceStatus;
+    }
+
+    public void setInvoiceStatus(String invoiceStatus) {
+        this.invoiceStatus = InvoiceStatus.getType(invoiceStatus);
     }
 
     @Override

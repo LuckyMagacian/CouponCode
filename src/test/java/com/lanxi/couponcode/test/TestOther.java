@@ -1,8 +1,9 @@
 package com.lanxi.couponcode.test;
 
 import org.junit.Test;
+import org.springframework.mock.web.MockHttpServletRequest;
 
-import java.io.Serializable;
+import java.io.*;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 
@@ -18,5 +19,19 @@ public class TestOther {
         System.out.println(i instanceof Serializable);
         System.out.println(Array.class.isAssignableFrom(i.getClass()));
         System.out.println(Serializable.class.isAssignableFrom(ArrayList.class));
+    }
+
+    @Test
+    public void test2() throws IOException {
+        MockHttpServletRequest request=new MockHttpServletRequest();
+        InputStream is= request.getInputStream();
+        int temp=-1;
+        File file=new File("file.name");
+        file.createNewFile();
+        FileOutputStream fout=new FileOutputStream(file);
+        while((temp=is.read())!=-1){
+            fout.write(temp);
+        }
+
     }
 }

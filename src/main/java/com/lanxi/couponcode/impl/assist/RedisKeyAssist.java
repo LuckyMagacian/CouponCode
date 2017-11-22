@@ -64,6 +64,12 @@ public class RedisKeyAssist {
         return key;
     }
 
+    public static String getCodeKey(Long merchantId){
+        String funName="COUPONCOUDE"+merchantId;
+        String key=ARTIFCAT+funName;
+        return key;
+    }
+
 //    public static String getCodeKey(Long codeId){
 //        return getCodeKey()+codeId;
 //    }

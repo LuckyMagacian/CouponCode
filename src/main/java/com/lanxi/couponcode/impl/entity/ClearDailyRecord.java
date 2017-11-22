@@ -1,49 +1,71 @@
-package com.lanxi.couponcode.impl.assist;
+package com.lanxi.couponcode.impl.entity;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.activerecord.Model;
+import com.baomidou.mybatisplus.annotations.TableField;
+import com.baomidou.mybatisplus.annotations.TableId;
+import com.baomidou.mybatisplus.annotations.TableName;
+import com.lanxi.couponcode.impl.assist.CommodityClearRecord;
 import com.lanxi.couponcode.spi.consts.enums.ClearStatus;
-import com.lanxi.couponcode.spi.consts.enums.CommodityType;
 import com.lanxi.couponcode.spi.defaultInterfaces.CommonDefaultMethodOfEntity;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
- * Created by yangyuanjian on 2017/11/20.
+ * Created by yangyuanjian on 2017/11/22.
  */
-public class CommodityClearRecord implements CommonDefaultMethodOfEntity {
+@TableName("clearDailyRecord")
+public class ClearDailyRecord extends Model<ClearDailyRecord> implements CommonDefaultMethodOfEntity{
     /**记录编号*/
+    @TableId("record_id")
     private Long recordId;
     /**记录时间*/
+    @TableField("record_time")
     private String recordTime;
-    /**商品编号*/
-    private Long commodityId;
+//    private List<Long> commodityIds;
+//    private List<String> commodityNames;
+    /**应结算总额*/
+    @TableField("show_total")
+    private BigDecimal showTotal;
     /**商户编号*/
+    @TableField("merchant_id")
     private Long merchantId;
-    /**商品名称*/
-    private String commodityName;
     /**商户名称*/
+    @TableField("merchant_name")
     private String merchantName;
-    /**商品类型*/
-    private CommodityType commodityType;
-//    /**兑换数量*/
-//    private Integer exchangedNum;
     /**核销数量*/
+    @TableField("verificate_um")
     private Integer verificateNum;
     /**销毁数量*/
+    @TableField("cancelation_num")
     private Integer cancelationNum;
     /**过期数量*/
+    @TableField("overtime_num")
     private Integer overtimeNum;
-//    /**兑换成本*/
-//    private BigDecimal exchangedCost;
     /**核销成本*/
+    @TableField("verificate_cost")
     private BigDecimal verificateCost;
     /**销毁成本*/
+    @TableField("cancelation_cost")
     private BigDecimal cancelationCost;
     /**过期成本*/
+    @TableField("overtime_cost")
     private BigDecimal overtimeCost;
-    /**清算状态{@link ClearStatus}*/
+    /**结算状态*/
+    @TableField("clear_status")
     private ClearStatus clearStatus;
+    /**清算时间*/
+    @TableField("clear_time")
+    private String clearTime;
+    /**商品清算记录列表*/
+    @TableField("commodity_clear_records")
+    private List<CommodityClearRecord> commodityClearRecords;
+
 
 
     public Long getRecordId() {
@@ -62,12 +84,12 @@ public class CommodityClearRecord implements CommonDefaultMethodOfEntity {
         this.recordTime = recordTime;
     }
 
-    public Long getCommodityId() {
-        return commodityId;
+    public BigDecimal getShowTotal() {
+        return showTotal;
     }
 
-    public void setCommodityId(Long commodityId) {
-        this.commodityId = commodityId;
+    public void setShowTotal(BigDecimal showTotal) {
+        this.showTotal = showTotal;
     }
 
     public Long getMerchantId() {
@@ -78,28 +100,12 @@ public class CommodityClearRecord implements CommonDefaultMethodOfEntity {
         this.merchantId = merchantId;
     }
 
-    public String getCommodityName() {
-        return commodityName;
-    }
-
-    public void setCommodityName(String commodityName) {
-        this.commodityName = commodityName;
-    }
-
     public String getMerchantName() {
         return merchantName;
     }
 
     public void setMerchantName(String merchantName) {
         this.merchantName = merchantName;
-    }
-
-    public CommodityType getCommodityType() {
-        return commodityType;
-    }
-
-    public void setCommodityType(CommodityType commodityType) {
-        this.commodityType = commodityType;
     }
 
     public Integer getVerificateNum() {
@@ -150,11 +156,46 @@ public class CommodityClearRecord implements CommonDefaultMethodOfEntity {
         this.overtimeCost = overtimeCost;
     }
 
-    public ClearStatus getClearStatus() {
-        return clearStatus;
+    public String getClearStatus() {
+        return clearStatus.getValue();
     }
+
 
     public void setClearStatus(ClearStatus clearStatus) {
         this.clearStatus = clearStatus;
     }
+
+    public void setClearStatus(String clearStatus) {
+        this.clearStatus = ClearStatus.getType(clearStatus);
+    }
+
+    public String getClearTime() {
+        return clearTime;
+    }
+
+    public void setClearTime(String clearTime) {
+        this.clearTime = clearTime;
+    }
+
+    public List<CommodityClearRecord> getCommodityClearRecordsList() {
+        return commodityClearRecords;
+    }
+
+    public String getCommodityClearRecords() {
+        return JSON.toJSONString(commodityClearRecords);
+    }
+
+    public void setCommodityClearRecords(List<CommodityClearRecord> cmommodityClearRecords) {
+        this.commodityClearRecords = cmommodityClearRecords;
+    }
+    public void setCommodityClearRecords(String commodityClearRecords) {
+        this.commodityClearRecords = JSONArray.parseArray(commodityClearRecords,CommodityClearRecord.class);
+    }
+
+
+    @Override
+    protected Serializable pkVal() {
+        return recordId;
+    }
+
 }

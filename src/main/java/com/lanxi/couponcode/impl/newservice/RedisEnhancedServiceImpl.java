@@ -1,239 +1,256 @@
 package com.lanxi.couponcode.impl.newservice;
 
+import com.lanxi.couponcode.spi.assist.RetMessage;
+import com.lanxi.couponcode.spi.consts.enums.LockResult;
+import com.lanxi.couponcode.spi.consts.enums.RetCodeEnum;
+import com.lanxi.util.utils.TimeUtil;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import static com.lanxi.couponcode.impl.assist.TimeAssist.*;
+import static com.lanxi.couponcode.spi.consts.enums.LockResult.*;
+import java.io.Serializable;
 
 /**
- * Created by yangyuanjian on 2017/11/14.
+ * Created by yangyuanjian on 2017/11/21.
  */
 @Service("redisEnhancedService")
 public class RedisEnhancedServiceImpl implements RedisEnhancedService{
-
     @Resource
-    private RedisService redis;
+    private RedisService redisService;
 
-    public interface LockJob{
-        Boolean job();
+    private LockResult doLockCommon(LockJob<Serializable> job,String key){
+        return doLockCommon(job,null,key);
     }
-    @Override
-    public Boolean workLockJob(LockJob job,String key,String locker){
-        Boolean lock=lock(key,locker);
+
+    private LockResult doLockCommon(LockJob<Serializable> job,String mapName,String key){
+        Boolean check;
+        //获取存在状况
+        if(mapName==null)
+            check=redisService.exists(key);
+        else
+            check=redisService.hexists(mapName,key);
+        //判断存在性
+        if(check==null)
+            return exception;
+        if(!check)
+            return none;
+        //执行lambda表达式
+        Serializable jobResult=job.job();
+        //若返回的是LockResult类型,直接返回任务结果,否则根据返回的内容来返回对应的加锁状态
+        if(jobResult instanceof LockResult)
+            return (LockResult) jobResult;
+        else{
+            if (jobResult == null) {
+                return exception;
+            }
+            Boolean lockResult= (Boolean) jobResult;
+            if (lockResult)
+                return success;
+            else
+                return fail;
+        }
+    }
+
+    public interface LockJob<T extends Serializable>{
+        T job();
+    }
+
+
+    /**
+     * 执行分布式锁redis操作
+     * @param job 操作内容
+     * @param key 需要锁定的Key
+     * @param locker 锁定者,该参数可以为Null,若为null,则采用计时锁定的方式
+     * @param <T> 返回的内容,仅仅当锁定成功后会有返回
+     * @return {@link RetMessage}{@link LockResult},success==success,faill==fail,warning==occupy,exception==none,error==exception
+     */
+    public <T extends Serializable> RetMessage<T> workLockJob(LockJob<T> job, String key, String locker){
+        return workLockJob(job,null,key,locker);
+    }
+    /**
+     * 执行分布式锁redis操作
+     * @param job 操作内容
+     * @param mapName 需要锁定的map名称
+     * @param key 需要锁定的Key
+     * @param locker 锁定者,该参数可以为Null,若为null,则采用计时锁定的方式
+     * @param <T> 返回的内容,仅仅当锁定成功后会有返回
+     * @return {@link RetMessage}{@link LockResult},success==success,faill==fail,warning==occupy,exception==none,error==exception
+     */
+    public <T extends Serializable> RetMessage<T> workLockJob(LockJob<T> job, String mapName, String key, String locker){
+        LockResult result=null;
+        RetMessage<T> retMessage=new RetMessage<>();
         try {
-            if(lock==null)
-                return null;
-            if(lock)
-                return job.job();
-            return false;
+            //判断是否是map操作
+            if(mapName==null) {
+                    result = lock(key, locker);
+            }else{
+                //判断是否是延时锁
+                if (locker == null)
+                    result = hlock(mapName,key);
+                else
+                    result = hlock(mapName,key,locker);
+            }
+            if(success.equals(result)){
+                T t=job.job();
+                retMessage.setAll(RetCodeEnum.success,null,t);
+            }
+            if(fail.equals(result))
+                retMessage.setAll(RetCodeEnum.fail,null,null);
+            if(occupy.equals(result))
+                retMessage.setAll(RetCodeEnum.warning,null,null);
+            if(none.equals(result))
+                retMessage.setAll(RetCodeEnum.exception,null,null);
+            if(exception.equals(result))
+                retMessage.setAll(RetCodeEnum.error,null,null);
         } catch (Exception e) {
-            return null;
+            retMessage.setAll(RetCodeEnum.error,null,null);
         }finally {
-            if(lock!=null&&lock)
-                unlock(key,locker);
-        }
-    }
-    @Override
-    public Boolean workLockJob(LockJob job,String mapName,String key,String locker){
-        Boolean lock=lock(mapName,key,locker);
-        try {
-            if(lock==null)
-                return null;
-            if(lock)
-                return job.job();
-            return false;
-        } catch (Exception e) {
-            return null;
-        }finally {
-            if(lock!=null&&lock)
-                unlock(mapName,key,locker);
+            //若锁成功,释放锁
+            if(success.equals(result))
+                if(mapName==null)
+                    unlock(key,locker);
+                else
+                    hunlock(mapName,key);
+            return retMessage;
         }
     }
 
-    /**
-     *
-     * @param key
-     * @param locker
-     * @return true 锁定成功
-     *         false 锁定失败
-     *         null 对象不存在或发生异常
-     */
+
     @Override
-    public Boolean lock(String key, String locker) {
-        if(!redis.exists(key))
-            return null;
-
-        String  value=redis.get(key);
-        Boolean result;
-        if(value==null){
-            result=redis.set(key,locker,null);
-        }else if(value.equals(locker)){
-            result=true;
-        }else{
-            result=false;
-        }
-        return result;
-    }
-
-    /**
-     *
-     * @param mapName
-     * @param key
-     * @param locker
-     * @return true 锁定成功
-     *         false 锁定失败
-     *         null 对象不存在或发生异常
-     */
-    @Override
-    public Boolean lock(String mapName, String key, String locker) {
-        if(!redis.hexists(mapName,key))
-            return null;
-
-        Boolean result;
-        String  value=redis.hget(mapName,key);
-        if(value==null){
-            result=redis.hset(mapName,key,locker);
-        }else if(value.equals(locker)){
-            result=true;
-        }else{
-            result=false;
-        }
-        return result;
-    }
-
-    /**
-     *
-     * @param key
-     * @param locker
-     * @return true 锁定成功
-     *         false 锁定失败
-     *         null 对象不存在或发生异常
-     */
-    @Override
-    public Boolean lockForce(String key, String locker) {
-        if(!redis.exists(key))
-            return null;
-
-        Boolean result;
-        result=redis.set(key,locker,null);
-        return result;
-    }
-
-    /**
-     *
-     * @param mapName
-     * @param key
-     * @param locker
-     * @return true 锁定成功
-     *         false 锁定失败
-     *         null 对象不存在或发生异常
-     */
-    @Override
-    public Boolean lockForce(String mapName, String key, String locker) {
-        if(!redis.hexists(mapName,key))
-            return null;
-
-        Boolean result;
-        result=redis.hset(mapName,key,locker);
-        return result;
-    }
-
-    /**
-     *
-     * @param key
-     * @param unlocker
-     * @return true 解锁成功
-     *         false 解锁失败
-     *         null 对象不存在或发生异常
-     */
-    @Override
-    public Boolean unlock(String key, String unlocker) {
-        if(!redis.exists(key))
-            return null;
-
-        String  value=redis.get(key);
-        Boolean result;
-        if(value==null){
-            result=true;
-        }else if(value.equals(unlocker)){
-            result=redis.set(key,null,null);
-        }else{
-            result=false;
-        }
-        return result;
-    }
-
-    /**
-     *
-     * @param mapName
-     * @param key
-     * @param unlocker
-     * @return true 解锁成功
-     *         false 解锁失败
-     *         null 对象不存在或发生异常
-     */
-    @Override
-    public Boolean unlock(String mapName, String key, String unlocker) {
-        if(!redis.hexists(mapName,key))
-            return null;
-
-        String  value=redis.hget(mapName,key);
-        Boolean result;
-        if(value==null){
-            result=true;
-        }else if(value.equals(unlocker)){
-            result=redis.hset(mapName,key,null);
-        }else{
-            result=false;
-        }
-        return result;
-    }
-
-    /**
-     *
-     * @param key
-     * @param unlocker
-     * @return true 解锁成功
-     *         false 解锁失败
-     *         null 对象不存在或发生异常
-     */
-    @Override
-    public Boolean unlockForce(String key, String unlocker) {
-        if(!redis.exists(key))
-            return null;
-
-        Boolean result;
-        result=redis.set(key,null,null);
-        return result;
-    }
-
-    /**
-     *
-     * @param mapName
-     * @param key
-     * @param unlocker
-     * @return true 解锁成功
-     *         false 解锁失败
-     *         null 对象不存在或发生异常
-     */
-    @Override
-    public Boolean unlockForce(String mapName, String key, String unlocker) {
-        if(!redis.hexists(mapName,key))
-            return null;
-
-        Boolean result;
-        result=redis.hset(mapName,key,null);
-        return result;
+    public LockResult lock(String key, String locker) {
+        LockJob<Serializable> job=()->{
+            //获取旧锁
+            String oldLocker= redisService.get(key);
+            if(oldLocker==null||oldLocker.equals(locker))
+                return redisService.set(key,locker,null);
+            else
+                return occupy;
+        };
+        return doLockCommon(job,key);
     }
 
     @Override
-    public Long generateId(String key) {
-        Long reuslt=redis.incr(key);
-        return reuslt;
+    public LockResult hlock(String mapName, String key, String locker) {
+        LockJob<Serializable> job=()->{
+            //获取旧锁
+            String oldLocker= redisService.hget(mapName,key);
+            if(oldLocker==null)
+                return redisService.hset(mapName,key,locker);
+            else if(oldLocker.equals(locker))
+                return true;
+            else {
+                //判断旧锁是否是延时锁,且判断有效期
+                if(isFormer(oldLocker)){
+                    return redisService.hset(mapName,key,locker);
+                }else{
+                    return occupy;
+                }
+            }
+        };
+        return doLockCommon(job,mapName,key);
     }
 
     @Override
-    public Long generatedId(String mapName, String key) {
-        Long reuslt=redis.hincr(mapName,key);
-        return reuslt;
+    public LockResult hlock(String mapName, String key) {
+        LockJob<Serializable> job=()->{
+            String oldLocker= redisService.hget(mapName,key);
+            if(oldLocker==null){
+                return redisService.hset(mapName,key,getTenSecondLater());
+            }else{
+                //判断旧锁是否是延时锁,且判断有效期
+                if(isFormer(oldLocker)){
+                    return redisService.hset(mapName,key,getTenSecondLater());
+                }else{
+                    return occupy;
+                }
+            }
+        };
+        return doLockCommon(job,key);
+    }
+
+    @Override
+    public LockResult lockForce(String key, String locker) {
+        LockJob<Serializable> job=()->redisService.set(key,locker,null);
+        return doLockCommon(job,key);
+    }
+
+    @Override
+    public LockResult hlockForce(String mapName, String key, String locker) {
+        LockJob<Serializable> job=()->redisService.hset(mapName,key,locker);
+        return doLockCommon(job,key);
+    }
+
+    @Override
+    public LockResult hlockForce(String mapName, String key) {
+        LockJob<Serializable> job=()->redisService.hset(mapName,key,getTenSecondLater());
+        return doLockCommon(job,key);
+    }
+
+    @Override
+    public LockResult unlock(String key, String unlocker) {
+        LockJob<Serializable> job=()->{
+            //获取旧锁
+            String oldLocker= redisService.get(key);
+            if(oldLocker==null)
+                return true;
+            if(oldLocker.equals(unlocker))
+                return redisService.set(key,null,null);
+            else
+                return occupy;
+        };
+        return doLockCommon(job,key);
+    }
+
+    @Override
+    public LockResult hunlock(String mapName, String key, String unlocker) {
+        LockJob<Serializable> job=()->{
+            //获取旧锁
+            String oldLocker= redisService.hget(mapName,key);
+            if(oldLocker==null)
+                return true;
+            else if(oldLocker.equals(unlocker))
+                return redisService.hset(mapName,key,null);
+            else {
+                //判断旧锁是否是延时锁,且判断有效期
+                if(isFormer(oldLocker)){
+                    return redisService.hset(mapName,key,null);
+                }else{
+                    return occupy;
+                }
+            }
+        };
+        return doLockCommon(job,mapName,key);
+    }
+
+    @Override
+    public LockResult hunlock(String mapName, String key) {
+        LockJob<Serializable> job=()->{
+            //获取旧锁
+            String oldLocker= redisService.hget(mapName,key);
+            if(oldLocker==null)
+                return true;
+            else {
+                //判断旧锁是否是延时锁,且判断有效期
+                if(isFormer(oldLocker)){
+                    return redisService.hset(mapName,key,null);
+                }else{
+                    return occupy;
+                }
+            }
+        };
+        return doLockCommon(job,mapName,key);
+    }
+
+    @Override
+    public LockResult unlockForce(String key) {
+        LockJob<Serializable> job=()->redisService.set(key,null,null);
+        return doLockCommon(job,key);
+    }
+
+    @Override
+    public LockResult hunlockForce(String mapName, String key) {
+        LockJob<Serializable> job=()->redisService.hset(mapName,key,null);
+        return doLockCommon(job,key);
     }
 }
