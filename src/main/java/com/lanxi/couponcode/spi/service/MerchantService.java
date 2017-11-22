@@ -1,13 +1,12 @@
 package com.lanxi.couponcode.spi.service;
 
 import com.lanxi.couponcode.spi.assist.RetMessage;
-import com.lanxi.couponcode.spi.abstractentity.AbstractMerchant;
+
 import com.lanxi.couponcode.spi.consts.annotations.HiddenArg;
 import com.lanxi.couponcode.spi.consts.annotations.RealReturnType;
 import com.lanxi.couponcode.spi.consts.enums.MerchantStatus;
 
 import java.io.File;
-import java.util.List;
 
 /**
  * Created by yangyuanjian on 2017/11/7.
@@ -46,38 +45,62 @@ public interface MerchantService {
                             @HiddenArg Long operaterId);
 
     RetMessage<Boolean> inputMerchantInfo(String merchantName,
-                              String serviceDistription,
-                              String workAddress,
-                              String minuteWorkAddress,
-                              String businessLicenseNum,
-                              String organizingInstitutionBarCode,
-                              String enterpriseLegalRepresentativeName,
-                              String contactsName,
-                              String contactPhone,
-                              String serviceTel,
-                              String contactEmail,
-                              File organizingInstitutionBarCodePic,
-                              File businessLicensePic,
-                              File otherFile,
-                              @HiddenArg Long operaterId,
-                              @HiddenArg Long merchantId);
+					    		String serveExplain,
+								String workAddress,
+								String minuteWorkAddress,
+								String charterCode,
+								String oraganizingCode,
+								String principal,
+								String linkMan,
+								String linkManPhone,
+								String serviceTel,
+								String email,
+								@HiddenArg Long operaterId,
+								@HiddenArg Long merchantId);
 
     RetMessage<Boolean> modifyMerchantInfo(String merchantName,
-                               String serviceDistription,
-                               String workAddress,
-                               String minuteWorkAddress,
-                               String businessLicenseNum,
-                               String organizingInstitutionBarCode,
-                               String enterpriseLegalRepresentativeName,
-                               String contactsName,
-                               String contactPhone,
-                               String serviceTel,
-                               String contactEmail,
-                               File organizingInstitutionBarCodePic,
-                               File businessLicensePic,
-                               File otherFile,
-                               @HiddenArg Long operaterId,
-                               @HiddenArg Long merchantId);
+					    		String serveExplain,
+								String workAddress,
+								String minuteWorkAddress,
+								String charterCode,
+								String oraganizingCode,
+								String principal,
+								String linkMan,
+								String linkManPhone,
+								String serviceTel,
+								String email,
+								@HiddenArg Long operaterId,
+								@HiddenArg Long merchantId);
+    
+    RetMessage<Boolean> organizingInstitutionBarCodePicUpLoad(
+            File organizingInstitutionBarCodePicFile,
+            @HiddenArg Long operaterId,
+            @HiddenArg Long merchantId);
+    
+    RetMessage<Boolean> businessLicensePicUpLoad(
+            File businessLicensePicFile,
+            @HiddenArg Long operaterId,
+            @HiddenArg Long merchantId);
+    
+    RetMessage<Boolean> otherPicUpLoad(
+            File otherPicFile,
+            @HiddenArg Long operaterId,
+            @HiddenArg Long merchantId);
+    
+    RetMessage<Boolean> modifyOrganizingInstitutionBarCodePic(
+            File organizingInstitutionBarCodePicFile,
+            @HiddenArg Long operaterId,
+            @HiddenArg Long merchantId);
+    
+    RetMessage<Boolean> modifyBusinessLicensePic(
+            File businessLicensePicFile,
+            @HiddenArg Long operaterId,
+            @HiddenArg Long merchantId);
+    
+    RetMessage<Boolean> modifyOtherPic(
+            File otherPicFile,
+            @HiddenArg Long operaterId,
+            @HiddenArg Long merchantId);
 
 }
 

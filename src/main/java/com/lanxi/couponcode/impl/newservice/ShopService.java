@@ -4,9 +4,9 @@ import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.plugins.Page;
 import com.lanxi.couponcode.impl.entity.Shop;
 
-import com.lanxi.couponcode.spi.consts.enums.ShopStatus;
 
 import java.io.File;
+import java.io.OutputStream;
 import java.util.List;
 
 /**
@@ -51,4 +51,6 @@ public interface ShopService {
 			Page<Shop> pageObj);
 	/*通过shopId查询门店详情*/
 	public Shop queryShopInfo(Long shopId);
+	/*下载批量导入门店模板*/
+	public File downloadExcelTemplate(); 
 }

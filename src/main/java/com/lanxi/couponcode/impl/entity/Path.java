@@ -11,4 +11,6 @@ public class Path {
 	public static final String businessLicensePicPath="F:/businessLicensePic/";
 	/*其他证明材料地址*/
 	public static final String otherPicPath="F:/otherPic/";
+	/*批量导入门店模板地址*/
+	public static final String excelTemplatePath="";
 }

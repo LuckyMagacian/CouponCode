@@ -3,8 +3,6 @@ package com.lanxi.couponcode.impl.newservice;
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.plugins.Page;
 import com.lanxi.couponcode.impl.entity.Merchant;
-import com.lanxi.couponcode.impl.entity.Shop;
-import com.lanxi.couponcode.spi.consts.enums.MerchantStatus;
 
 import java.io.File;
 import java.util.List;
@@ -44,10 +42,7 @@ public interface MerchantService {
 	/*开启商户*/
 	public Boolean unFreezeMerchant(Merchant merchant);
 	/*商户信息填写*/
-	public Boolean fillInInformation(Merchant merchant, 
-			File organizingInstitutionBarCodePicFile, 
-			File businessLicensePicFile,
-			File otherPicFile);
+	public Boolean fillInInformation(Merchant merchant);
 	/*商户组织机构代码证上传*/
 	public Boolean organizingInstitutionBarCodePicUpLoad(Merchant merchant, 
 			File file);

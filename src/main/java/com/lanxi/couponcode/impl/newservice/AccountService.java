@@ -3,6 +3,7 @@ package com.lanxi.couponcode.impl.newservice;
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.plugins.Page;
 import com.lanxi.couponcode.impl.entity.Account;
+
 import java.util.List;
 
 /**
@@ -34,6 +35,10 @@ public interface AccountService {
 	public Boolean phoneVerify(String phone);
 	/*修改账户仅在用户登录时用来修改登录失败次数和登录失败时间*/
 	public Boolean modifyAccount(Account account);
+	/*修改账户的商户名称*/
+	public Boolean modifyAccountMerchantName(Long merchantId,String merchantName);
+	/*修改账户的门店名称*/
+	public Boolean modifyAccountShopName(Long shopId,String shopName);
 	/*登录*/
 	public Account login(Account account,
 			String validateCode);

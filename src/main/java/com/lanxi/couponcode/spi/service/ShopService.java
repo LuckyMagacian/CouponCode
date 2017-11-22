@@ -59,4 +59,5 @@ public interface ShopService {
     				@HiddenArg Integer pageSize,
     				@HiddenArg Long merchantId,
     				@HiddenArg Long operaterId);
+    RetMessage<File> downloadExcelTemplate(@HiddenArg Long operaterId);
 }

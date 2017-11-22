@@ -53,53 +53,60 @@ public class ShopController implements com.lanxi.couponcode.spi.service.ShopServ
 		Shop shop = null;
 		// TODO 校验权限
 		try {
-			if (merchantId != null) {
-				// 校验当前账号状态
-				if (AccountStatus.normal.equals(accountService.queryAccountStatusById(operaterId))) {
-					// 校验所属商户状态
-					if (MerchantStatus.normal.equals(merchantService.queryMerchantStatusByid(merchantId, operaterId))) {
-						if (shopName != null && !shopName.isEmpty() && shopAddress != null && !shopAddress.isEmpty()) {
-							shop = new Shop();
-							shop.setShopName(shopName);
-							shop.setShopAddress(shopAddress);
-							shop.setMinuteShopAddress(minuteShopAddress);
-							shop.setMerchantId(merchantId);
-							shop.setServicetel(serviceTel);
-							// if(shop.getShopId()==null) {
-							shop.setShopId(IdWorker.getId());
-							// }
-							shop.setShopStatus(ShopStatus.normal);
-							shop.setMerchantStatus(
-									merchantService.queryMerchantStatusByid(shop.getMerchantId(), operaterId));
-							shop.setCreateTime(
-									LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMddHHmmss")));
-							result = shopService.addShop(shop);
-							if (result) {
-								retMessage.setRetCode(RetCodeEnum.success.getValue());
-								retMessage.setRetMessage("添加门店成功");
-								// TODO 添加操作记录
+			if (operaterId != null) {
+				if (merchantId != null) {
+					// 校验当前账号状态
+					if (AccountStatus.normal.equals(accountService.queryAccountStatusById(operaterId))) {
+						// 校验所属商户状态
+						if (MerchantStatus.normal
+								.equals(merchantService.queryMerchantStatusByid(merchantId, operaterId))) {
+							if (shopName != null && !shopName.isEmpty() && shopAddress != null
+									&& !shopAddress.isEmpty()) {
+								shop = new Shop();
+								shop.setShopName(shopName);
+								shop.setShopAddress(shopAddress);
+								shop.setMinuteShopAddress(minuteShopAddress);
+								shop.setMerchantId(merchantId);
+								shop.setServicetel(serviceTel);
+								// if(shop.getShopId()==null) {
+								shop.setShopId(IdWorker.getId());
+								// }
+								shop.setShopStatus(ShopStatus.normal);
+								shop.setMerchantStatus(
+										merchantService.queryMerchantStatusByid(shop.getMerchantId(), operaterId));
+								shop.setCreateTime(
+										LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMddHHmmss")));
+								result = shopService.addShop(shop);
+								if (result) {
+									retMessage.setRetCode(RetCodeEnum.success.getValue());
+									retMessage.setRetMessage("添加门店成功");
+									// TODO 添加操作记录
+								} else {
+									retMessage.setRetMessage("添加门店失败");
+									retMessage.setRetCode(RetCodeEnum.exception.getValue());
+								}
+								retMessage.setDetail(result);
 							} else {
-								retMessage.setRetMessage("添加门店失败");
-								retMessage.setRetCode(RetCodeEnum.exception.getValue());
+								result = false;
+								retMessage.setDetail(result);
+								retMessage.setRetCode(RetCodeEnum.fail.getValue());
+								retMessage.setRetMessage("门店名称和经营地址都不能为空");
 							}
-							retMessage.setDetail(result);
 						} else {
-							result = false;
-							retMessage.setDetail(result);
-							retMessage.setRetCode(RetCodeEnum.fail.getValue());
-							retMessage.setRetMessage("门店名称和经营地址都不能为空");
+							retMessage.setAll(RetCodeEnum.warning, "当前所属商户状态不正常", false);
 						}
 					} else {
-						retMessage.setAll(RetCodeEnum.warning, "当前所属商户状态不正常", false);
+						retMessage.setAll(RetCodeEnum.warning, "您的账户状态不正常", false);
 					}
 				} else {
-					retMessage.setAll(RetCodeEnum.warning, "您的账户状态不正常", false);
+					result = false;
+					retMessage.setDetail(result);
+					retMessage.setRetCode(RetCodeEnum.fail.getValue());
+					retMessage.setRetMessage("必须提供门店所属商户的id");
 				}
 			} else {
 				result = false;
-				retMessage.setDetail(result);
-				retMessage.setRetCode(RetCodeEnum.fail.getValue());
-				retMessage.setRetMessage("必须提供门店所属商户的id");
+				retMessage.setAll(RetCodeEnum.fail, "账户id为空", result);
 			}
 
 		} catch (Exception e) {
@@ -118,51 +125,59 @@ public class ShopController implements com.lanxi.couponcode.spi.service.ShopServ
 		List<String> list = null;
 		// TODO 校验
 		try {
-			if (merchantId != null) {
-				// 校验当前账号状态
-				if (AccountStatus.normal.equals(accountService.queryAccountStatusById(operaterId))) {
-					// 校验所属商户状态
-					if (MerchantStatus.normal.equals(merchantService.queryMerchantStatusByid(merchantId, operaterId))) {
-						if (file != null) {
-							if (file.getName().endsWith(".xlsx") || file.getName().endsWith(".xls")) {
-								String merchantStatus = merchantService.queryMerchantStatusByid(merchantId, operaterId);
-								list = shopService.importShops(file, merchantId, operaterId, merchantStatus);
-								if (list != null && list.size() == 0) {
-									result = true;
-									retMessage.setDetail(result);
-									retMessage.setRetCode(RetCodeEnum.success.getValue());
-									retMessage.setRetMessage("导入成功");
+			if (operaterId != null) {
+				if (merchantId != null) {
+					// 校验当前账号状态
+					if (AccountStatus.normal.equals(accountService.queryAccountStatusById(operaterId))) {
+						// 校验所属商户状态
+						if (MerchantStatus.normal
+								.equals(merchantService.queryMerchantStatusByid(merchantId, operaterId))) {
+							if (file != null) {
+								if (file.getName().endsWith(".xlsx") || file.getName().endsWith(".xls")) {
+									String merchantStatus = merchantService.queryMerchantStatusByid(merchantId,
+											operaterId);
+									list = shopService.importShops(file, merchantId, operaterId, merchantStatus);
+									if (list != null && list.size() == 0) {
+										result = true;
+										retMessage.setDetail(result);
+										retMessage.setRetCode(RetCodeEnum.success.getValue());
+										retMessage.setRetMessage("导入成功");
+									} else {
+										result = false;
+										retMessage.setDetail(result);
+										retMessage.setRetCode(RetCodeEnum.exception.getValue());
+										retMessage.setRetMessage(list.toString());
+									}
 								} else {
 									result = false;
 									retMessage.setDetail(result);
-									retMessage.setRetCode(RetCodeEnum.exception.getValue());
-									retMessage.setRetMessage(list.toString());
+									retMessage.setRetCode(RetCodeEnum.fail.getValue());
+									retMessage.setRetMessage("请导入Excel文件");
 								}
 							} else {
 								result = false;
 								retMessage.setDetail(result);
 								retMessage.setRetCode(RetCodeEnum.fail.getValue());
-								retMessage.setRetMessage("请导入Excel文件");
+								retMessage.setRetMessage("没有获取到导入的文件");
 							}
 						} else {
-							result = false;
-							retMessage.setDetail(result);
-							retMessage.setRetCode(RetCodeEnum.fail.getValue());
-							retMessage.setRetMessage("没有获取到导入的文件");
+							retMessage.setAll(RetCodeEnum.warning, "当前所属商户状态不正常", false);
 						}
 					} else {
-						retMessage.setAll(RetCodeEnum.warning, "当前所属商户状态不正常", false);
+						retMessage.setAll(RetCodeEnum.warning, "您的账户状态不正常", false);
 					}
-				} else {
-					retMessage.setAll(RetCodeEnum.warning, "您的账户状态不正常", false);
-				}
 
+				} else {
+					result = false;
+					retMessage.setDetail(result);
+					retMessage.setRetCode(RetCodeEnum.fail.getValue());
+					retMessage.setRetMessage("没有获取到所属商户的id无法导入");
+				}
 			} else {
 				result = false;
-				retMessage.setDetail(result);
-				retMessage.setRetCode(RetCodeEnum.fail.getValue());
-				retMessage.setRetMessage("没有获取到所属商户的id无法导入");
+				retMessage.setAll(RetCodeEnum.fail, "账户id为空", result);
 			}
+
 		} catch (Exception e) {
 
 			LogFactory.error(this, "导入文件时发生异常");
@@ -180,32 +195,38 @@ public class ShopController implements com.lanxi.couponcode.spi.service.ShopServ
 		Boolean result = false;
 		// TODO 校验
 		try {
-			if (shopId != null) {
-				// 先校验操作者账户状态
-				if (AccountStatus.normal.equals(accountService.queryAccountStatusById(operaterId))) {
-					Shop shop = new Shop();
-					shop.setShopId(shopId);
-					shop.setShopStatus(ShopStatus.freeze);
-					result = shopService.freezeShop(shop);
-					if (result) {
-						retMessage.setRetCode(RetCodeEnum.success.getValue());
-						retMessage.setRetMessage("冻结门店成功");
-						// TODO 添加操作记录
+			if (operaterId != null) {
+				if (shopId != null) {
+					// 先校验操作者账户状态
+					if (AccountStatus.normal.equals(accountService.queryAccountStatusById(operaterId))) {
+						Shop shop = new Shop();
+						shop.setShopId(shopId);
+						shop.setShopStatus(ShopStatus.freeze);
+						result = shopService.freezeShop(shop);
+						if (result) {
+							retMessage.setRetCode(RetCodeEnum.success.getValue());
+							retMessage.setRetMessage("冻结门店成功");
+							// TODO 添加操作记录
+						} else {
+							retMessage.setRetMessage("冻结门店失败");
+							retMessage.setRetCode(RetCodeEnum.exception.getValue());
+						}
+						retMessage.setDetail(result);
 					} else {
-						retMessage.setRetMessage("冻结门店失败");
-						retMessage.setRetCode(RetCodeEnum.exception.getValue());
+						retMessage.setAll(RetCodeEnum.warning, "您的账户状态不正常", false);
 					}
-					retMessage.setDetail(result);
-				} else {
-					retMessage.setAll(RetCodeEnum.warning, "您的账户状态不正常", false);
-				}
 
+				} else {
+					result = false;
+					retMessage.setDetail(result);
+					retMessage.setRetCode(RetCodeEnum.fail.getValue());
+					retMessage.setRetMessage("没有获取到门店id无法冻结门店");
+				}
 			} else {
 				result = false;
-				retMessage.setDetail(result);
-				retMessage.setRetCode(RetCodeEnum.fail.getValue());
-				retMessage.setRetMessage("没有获取到门店id无法冻结门店");
+				retMessage.setAll(RetCodeEnum.fail, "账户id为空", result);
 			}
+
 		} catch (Exception e) {
 			LogFactory.error(this, "冻结门店时发生异常\n", e);
 			retMessage.setDetail(result);
@@ -222,32 +243,38 @@ public class ShopController implements com.lanxi.couponcode.spi.service.ShopServ
 		Boolean result = false;
 		// TODO 校验
 		try {
-			if (shopId != null) {
-				// 先校验操作者账户状态
-				if (AccountStatus.normal.equals(accountService.queryAccountStatusById(operaterId))) {
-					Shop shop = new Shop();
-					shop.setShopId(shopId);
-					shop.setShopStatus(ShopStatus.normal);
-					result = shopService.unfreezeShop(shop);
-					if (result) {
-						retMessage.setRetCode(RetCodeEnum.success.getValue());
-						retMessage.setRetMessage("开启门店成功");
-						// TODO 添加操作记录
+			if (operaterId != null) {
+				if (shopId != null) {
+					// 先校验操作者账户状态
+					if (AccountStatus.normal.equals(accountService.queryAccountStatusById(operaterId))) {
+						Shop shop = new Shop();
+						shop.setShopId(shopId);
+						shop.setShopStatus(ShopStatus.normal);
+						result = shopService.unfreezeShop(shop);
+						if (result) {
+							retMessage.setRetCode(RetCodeEnum.success.getValue());
+							retMessage.setRetMessage("开启门店成功");
+							// TODO 添加操作记录
+						} else {
+							retMessage.setRetMessage("开启门店失败");
+							retMessage.setRetCode(RetCodeEnum.exception.getValue());
+						}
+						retMessage.setDetail(result);
 					} else {
-						retMessage.setRetMessage("开启门店失败");
-						retMessage.setRetCode(RetCodeEnum.exception.getValue());
+						retMessage.setAll(RetCodeEnum.warning, "您的账户状态不正常", false);
 					}
-					retMessage.setDetail(result);
-				} else {
-					retMessage.setAll(RetCodeEnum.warning, "您的账户状态不正常", false);
-				}
 
+				} else {
+					result = false;
+					retMessage.setDetail(result);
+					retMessage.setRetCode(RetCodeEnum.fail.getValue());
+					retMessage.setRetMessage("没有获取到门店id无法开启门店");
+				}
 			} else {
 				result = false;
-				retMessage.setDetail(result);
-				retMessage.setRetCode(RetCodeEnum.fail.getValue());
-				retMessage.setRetMessage("没有获取到门店id无法开启门店");
+				retMessage.setAll(RetCodeEnum.fail, "账户id为空", result);
 			}
+
 		} catch (Exception e) {
 			LogFactory.error(this, "开启门店时发生异常\n", e);
 			retMessage.setDetail(result);
@@ -264,45 +291,56 @@ public class ShopController implements com.lanxi.couponcode.spi.service.ShopServ
 		List<Shop> shops = null;
 		// TODO 校验
 		try {
-			// 先校验操作者账户状态
-			if (AccountStatus.normal.equals(accountService.queryAccountStatusById(operaterId))) {
-				// 校验当前商户状态
-				if (MerchantStatus.normal.equals(merchantService.queryMerchantStatusByid(merchantId, operaterId))) {
-					if (pageNum != null) {
-						pageSize = pageSize == null ? ConstConfig.DEFAULT_PAGE_SIZE : pageSize;
-					}
-					Page<Shop> pageObj = new Page<>(pageNum, pageSize);
-					EntityWrapper<Shop> wrapper = new EntityWrapper<Shop>();
-					if (pageObj != null) {
-						if (shopName != null && !shopName.isEmpty()) {
-							wrapper.eq("shop_name", shopName);
+			if (operaterId != null) {
+				if (merchantId != null) {
+					// 先校验操作者账户状态
+					if (AccountStatus.normal.equals(accountService.queryAccountStatusById(operaterId))) {
+						// 校验当前商户状态
+						if (MerchantStatus.normal
+								.equals(merchantService.queryMerchantStatusByid(merchantId, operaterId))) {
+							if (pageNum != null) {
+								pageSize = pageSize == null ? ConstConfig.DEFAULT_PAGE_SIZE : pageSize;
+							}
+							Page<Shop> pageObj = new Page<>(pageNum, pageSize);
+							EntityWrapper<Shop> wrapper = new EntityWrapper<Shop>();
+							if (pageObj != null) {
+								if (shopName != null && !shopName.isEmpty()) {
+									wrapper.eq("shop_name", shopName);
+								}
+								if (status != null) {
+									wrapper.eq("shop_status", status);
+								}
+								if (shopAddress != null && !shopAddress.isEmpty()) {
+									wrapper.eq("shop_address", shopAddress);
+								}
+
+								wrapper.eq("merchant_id", merchantId);
+
+							}
+							LogFactory.info(this, "条件装饰结果[" + wrapper + "]\n");
+							shops = shopService.queryShop(wrapper, pageObj);
+							if (shops != null && shops.size() > 0) {
+								retMessage.setRetCode(RetCodeEnum.success.getValue());
+								retMessage.setRetMessage("查询完毕");
+							} else {
+								retMessage.setRetCode(RetCodeEnum.exception.getValue());
+								retMessage.setRetMessage("没有查询到任何数据");
+							}
+							String result = JSON.toJSONString(shops);
+							retMessage.setDetail(result);
+						} else {
+							retMessage.setAll(RetCodeEnum.warning, "当前所属商户状态不正常", null);
 						}
-						if (status != null) {
-							wrapper.eq("shop_status", status);
-						}
-						if (shopAddress != null && !shopAddress.isEmpty()) {
-							wrapper.eq("shop_address", shopAddress);
-						}
-						if (merchantId != null) {
-							wrapper.eq("merchant_id", merchantId);
-						}
-					}
-					LogFactory.info(this, "条件装饰结果[" + wrapper + "]\n");
-					shops = shopService.queryShop(wrapper, pageObj);
-					if (shops != null && shops.size() > 0) {
-						retMessage.setRetCode(RetCodeEnum.success.getValue());
-						retMessage.setRetMessage("查询完毕");
 					} else {
-						retMessage.setRetCode(RetCodeEnum.exception.getValue());
-						retMessage.setRetMessage("没有查询到任何数据");
+						retMessage.setAll(RetCodeEnum.warning, "您的账户状态不正常", null);
 					}
-					String result = JSON.toJSONString(shops);
-					retMessage.setDetail(result);
 				} else {
-					retMessage.setAll(RetCodeEnum.warning, "当前所属商户状态不正常", null);
+
+					retMessage.setAll(RetCodeEnum.fail, "商户id为空", null);
 				}
 			} else {
-				retMessage.setAll(RetCodeEnum.warning, "您的账户状态不正常", null);
+
+				retMessage.setAll(RetCodeEnum.fail, "账户id为空", null);
 			}
 
 		} catch (Exception e) {
@@ -322,36 +360,45 @@ public class ShopController implements com.lanxi.couponcode.spi.service.ShopServ
 		List<Shop> shops = null;
 		// TODO 校验
 		try {
-			// 先校验操作者账户状态
-			if (AccountStatus.normal.equals(accountService.queryAccountStatusById(operaterId))) {
-				EntityWrapper<Shop> wrapper = new EntityWrapper<Shop>();
-
-				if (shopName != null && !shopName.isEmpty()) {
-					wrapper.eq("shop_name", shopName);
-				}
-				if (status != null) {
-					wrapper.eq("shop_status", status);
-				}
-				if (shopAddress != null && !shopAddress.isEmpty()) {
-					wrapper.eq("shop_address", shopAddress);
-				}
+			if (operaterId != null) {
 				if (merchantId != null) {
-					wrapper.eq("merchant_id", merchantId);
-				}
+					// 先校验操作者账户状态
+					if (AccountStatus.normal.equals(accountService.queryAccountStatusById(operaterId))) {
+						EntityWrapper<Shop> wrapper = new EntityWrapper<Shop>();
 
-				LogFactory.info(this, "条件装饰结果[" + wrapper + "]\n");
-				shops = shopService.queryShop(wrapper);
-				if (shops != null && shops.size() > 0) {
-					retMessage.setRetCode(RetCodeEnum.success.getValue());
-					retMessage.setRetMessage("查询完毕");
+						if (shopName != null && !shopName.isEmpty()) {
+							wrapper.eq("shop_name", shopName);
+						}
+						if (status != null) {
+							wrapper.eq("shop_status", status);
+						}
+						if (shopAddress != null && !shopAddress.isEmpty()) {
+							wrapper.eq("shop_address", shopAddress);
+						}
+
+						wrapper.eq("merchant_id", merchantId);
+
+						LogFactory.info(this, "条件装饰结果[" + wrapper + "]\n");
+						shops = shopService.queryShop(wrapper);
+						if (shops != null && shops.size() > 0) {
+							retMessage.setRetCode(RetCodeEnum.success.getValue());
+							retMessage.setRetMessage("查询完毕");
+						} else {
+							retMessage.setRetCode(RetCodeEnum.exception.getValue());
+							retMessage.setRetMessage("没有查询到任何数据");
+						}
+						String result = JSON.toJSONString(shops);
+						retMessage.setDetail(result);
+					} else {
+						retMessage.setAll(RetCodeEnum.warning, "您的账户状态不正常", null);
+					}
 				} else {
-					retMessage.setRetCode(RetCodeEnum.exception.getValue());
-					retMessage.setRetMessage("没有查询到任何数据");
+
+					retMessage.setAll(RetCodeEnum.fail, "商户id为空", null);
 				}
-				String result = JSON.toJSONString(shops);
-				retMessage.setDetail(result);
 			} else {
-				retMessage.setAll(RetCodeEnum.warning, "您的账户状态不正常", null);
+
+				retMessage.setAll(RetCodeEnum.fail, "账户id为空", null);
 			}
 
 		} catch (Exception e) {
@@ -372,57 +419,64 @@ public class ShopController implements com.lanxi.couponcode.spi.service.ShopServ
 		Boolean result = false;
 		// TODO 校验
 		try {
-			if (shopId != null) {
-				// 先校验操作者账户状态
-				if (AccountStatus.normal.equals(accountService.queryAccountStatusById(operaterId))) {
-					// 校验当前商户状态
-					if (MerchantStatus.normal.equals(merchantService
-							.queryMerchantStatusByid(shopService.queryShopInfo(shopId).getMerchantId(), operaterId))) {
-						if (ShopStatus.normal.equals(shopService.queryShopInfo(shopId).getShopStatus())) {
-							if (shopName != null && !shopName.isEmpty() && shopAddress != null
-									&& !shopAddress.isEmpty()) {
-								Shop shop = new Shop();
-								shop.setShopId(shopId);
-								shop.setShopName(shopName);
-								shop.setShopAddress(shopAddress);
-								if (minuteShopAddress != null && !minuteShopAddress.isEmpty()) {
-									shop.setMinuteShopAddress(minuteShopAddress);
-								}
-								if (serviceTel != null && !serviceTel.isEmpty()) {
-									shop.setServicetel(serviceTel);
-								}
-								result = shopService.modifyShop(shop);
-								if (result) {
-									retMessage.setRetCode(RetCodeEnum.success.getValue());
-									retMessage.setRetMessage("修改门店成功");
-									// TODO 添加操作记录
+			if (operaterId != null) {
+				if (shopId != null) {
+					// 先校验操作者账户状态
+					if (AccountStatus.normal.equals(accountService.queryAccountStatusById(operaterId))) {
+						// 校验当前商户状态
+						if (MerchantStatus.normal.equals(merchantService.queryMerchantStatusByid(
+								shopService.queryShopInfo(shopId).getMerchantId(), operaterId))) {
+							if (ShopStatus.normal.equals(shopService.queryShopInfo(shopId).getShopStatus())) {
+								if (shopName != null && !shopName.isEmpty() && shopAddress != null
+										&& !shopAddress.isEmpty()) {
+									Shop shop = new Shop();
+									shop.setShopId(shopId);
+									shop.setShopName(shopName);
+									shop.setShopAddress(shopAddress);
+									if (minuteShopAddress != null && !minuteShopAddress.isEmpty()) {
+										shop.setMinuteShopAddress(minuteShopAddress);
+									}
+									if (serviceTel != null && !serviceTel.isEmpty()) {
+										shop.setServicetel(serviceTel);
+									}
+									result = shopService.modifyShop(shop);
+									if (result) {
+										retMessage.setRetCode(RetCodeEnum.success.getValue());
+										retMessage.setRetMessage("修改门店成功");
+										accountService.modifyAccountShopName(shopId, shopName);
+										// TODO 添加操作记录
+									} else {
+										retMessage.setRetMessage("修改门店失败");
+										retMessage.setRetCode(RetCodeEnum.exception.getValue());
+									}
+									retMessage.setDetail(result);
 								} else {
-									retMessage.setRetMessage("修改门店失败");
-									retMessage.setRetCode(RetCodeEnum.exception.getValue());
+									result = false;
+									retMessage.setDetail(result);
+									retMessage.setRetCode(RetCodeEnum.fail.getValue());
+									retMessage.setRetMessage("门店名称和经营地址都不能为空");
 								}
-								retMessage.setDetail(result);
 							} else {
-								result = false;
-								retMessage.setDetail(result);
-								retMessage.setRetCode(RetCodeEnum.fail.getValue());
-								retMessage.setRetMessage("门店名称和经营地址都不能为空");
+								retMessage.setAll(RetCodeEnum.warning, "当前门店状态不正常", false);
 							}
 						} else {
-							retMessage.setAll(RetCodeEnum.warning, "当前门店状态不正常", false);
+							retMessage.setAll(RetCodeEnum.warning, "所属商户状态不正常", false);
 						}
 					} else {
-						retMessage.setAll(RetCodeEnum.warning, "所属商户状态不正常", false);
+						retMessage.setAll(RetCodeEnum.warning, "您的账户状态不正常", false);
 					}
-				} else {
-					retMessage.setAll(RetCodeEnum.warning, "您的账户状态不正常", false);
-				}
 
+				} else {
+					result = false;
+					retMessage.setDetail(result);
+					retMessage.setRetCode(RetCodeEnum.fail.getValue());
+					retMessage.setRetMessage("没有获取到门店id无法修改门店信息");
+				}
 			} else {
-				result = false;
-				retMessage.setDetail(result);
-				retMessage.setRetCode(RetCodeEnum.fail.getValue());
-				retMessage.setRetMessage("没有获取到门店id无法修改门店信息");
+
+				retMessage.setAll(RetCodeEnum.fail, "账户id为空", false);
 			}
+
 		} catch (Exception e) {
 
 			LogFactory.error(this, "修改门店信息时出现异常", e);
@@ -440,47 +494,54 @@ public class ShopController implements com.lanxi.couponcode.spi.service.ShopServ
 		RetMessage<File> retMessage = new RetMessage<File>();
 		// TODO 校验
 		try {
-			// 先校验操作者账户状态
-			if (AccountStatus.normal.equals(accountService.queryAccountStatusById(operaterId))) {
-				// 校验当前商户状态
-				if (MerchantStatus.normal.equals(merchantService.queryMerchantStatusByid(merchantId, operaterId))) {
-					if (pageNum != null) {
-						pageSize = pageSize == null ? ConstConfig.DEFAULT_PAGE_SIZE : pageSize;
-					}
-					Page<Shop> pageObj = new Page<>(pageNum, pageSize);
-					if (merchantId != null) {
-						EntityWrapper<Shop> wrapper = new EntityWrapper<Shop>();
-						if (shopName != null && !shopName.isEmpty()) {
-							wrapper.eq("shop_name", shopName);
-						}
-						if (status != null) {
-							wrapper.eq("shop_status", status);
-						}
-						if (shopAddress != null && !shopAddress.isEmpty()) {
-							wrapper.eq("shop_address", shopAddress);
-						}
-						wrapper.eq("merchant_id", merchantId);
-						LogFactory.info(this, "条件装饰结果[" + wrapper + "]\n");
-						File file = shopService.queryShopsExport(wrapper, pageObj);
-						if (file != null) {
-							retMessage.setDetail(file);
-							retMessage.setRetCode(RetCodeEnum.success.getValue());
-							retMessage.setRetMessage("导出成功");
+			if (operaterId != null) {
+				if (merchantId != null) {
+					// 先校验操作者账户状态
+					if (AccountStatus.normal.equals(accountService.queryAccountStatusById(operaterId))) {
+						// 校验当前商户状态
+						if (MerchantStatus.normal
+								.equals(merchantService.queryMerchantStatusByid(merchantId, operaterId))) {
+							if (pageNum != null) {
+								pageSize = pageSize == null ? ConstConfig.DEFAULT_PAGE_SIZE : pageSize;
+							}
+							Page<Shop> pageObj = new Page<>(pageNum, pageSize);
+							if (merchantId != null) {
+								EntityWrapper<Shop> wrapper = new EntityWrapper<Shop>();
+								if (shopName != null && !shopName.isEmpty()) {
+									wrapper.eq("shop_name", shopName);
+								}
+								if (status != null) {
+									wrapper.eq("shop_status", status);
+								}
+								if (shopAddress != null && !shopAddress.isEmpty()) {
+									wrapper.eq("shop_address", shopAddress);
+								}
+								wrapper.eq("merchant_id", merchantId);
+								LogFactory.info(this, "条件装饰结果[" + wrapper + "]\n");
+								File file = shopService.queryShopsExport(wrapper, pageObj);
+								if (file != null) {
+									retMessage.setDetail(file);
+									retMessage.setRetCode(RetCodeEnum.success.getValue());
+									retMessage.setRetMessage("导出成功");
+								} else {
+									retMessage.setDetail(null);
+									retMessage.setRetCode(RetCodeEnum.exception.getValue());
+									retMessage.setRetMessage("导出失败");
+								}
+							} 
 						} else {
-							retMessage.setDetail(null);
-							retMessage.setRetCode(RetCodeEnum.exception.getValue());
-							retMessage.setRetMessage("导出失败");
+							retMessage.setAll(RetCodeEnum.warning, "当前所属商户状态不正常", null);
 						}
 					} else {
-						retMessage.setDetail(null);
-						retMessage.setRetCode(RetCodeEnum.fail.getValue());
-						retMessage.setRetMessage("没有获取到门店所对应的商户id无法导出");
+						retMessage.setAll(RetCodeEnum.warning, "您的账户状态不正常", null);
 					}
 				} else {
-					retMessage.setAll(RetCodeEnum.warning, "当前所属商户状态不正常", null);
+
+					retMessage.setAll(RetCodeEnum.fail, "商户id为空", null);
 				}
 			} else {
-				retMessage.setAll(RetCodeEnum.warning, "您的账户状态不正常", null);
+
+				retMessage.setAll(RetCodeEnum.fail, "账户id为空", null);
 			}
 
 		} catch (Exception e) {
@@ -491,6 +552,32 @@ public class ShopController implements com.lanxi.couponcode.spi.service.ShopServ
 			retMessage.setRetMessage("导出文件时发生异常");
 		}
 
+		return retMessage;
+	}
+
+	@Override
+	public RetMessage<File> downloadExcelTemplate(Long operaterId) {
+		RetMessage<File> retMessage=new RetMessage<File>();
+		try {
+			if (operaterId!=null) {
+				// 先校验操作者账户状态
+				if (AccountStatus.normal.equals(accountService.queryAccountStatusById(operaterId))) {
+					File file=shopService.downloadExcelTemplate();
+					if (file!=null) {
+						retMessage.setAll(RetCodeEnum.success,"下载Excel模板成功",file);
+					}else {
+						retMessage.setAll(RetCodeEnum.exception,"下载Excel模板失败",null);
+					}
+				}else {
+
+					retMessage.setAll(RetCodeEnum.fail, "账户id为空", null);
+				}
+			}else {
+				retMessage.setAll(RetCodeEnum.fail,"账户id为空",null);
+			}
+		} catch (Exception e) {
+			retMessage.setAll(RetCodeEnum.error,"下载Excel模板时发生异常",null);
+		}
 		return retMessage;
 	}
 
