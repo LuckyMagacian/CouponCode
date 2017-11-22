@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.plugins.Page;
 import com.baomidou.mybatisplus.toolkit.IdWorker;
 import com.lanxi.couponcode.impl.entity.OperateRecord;
+import com.lanxi.couponcode.impl.entity.Path;
 import com.lanxi.couponcode.impl.entity.Shop;
 
 import com.lanxi.couponcode.spi.consts.enums.OperateTargetType;
@@ -21,7 +22,11 @@ import org.springframework.stereotype.Service;
 import javax.annotation.Resource;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.text.NumberFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -343,6 +348,32 @@ public class ShopServiceImpl implements ShopService{
 			LogFactory.error(this,"查询门店详情的时候发生异常",e);
 		}
 		return shop;
+	}
+
+	@Override
+	public File downloadExcelTemplate() {
+		File file2=null;
+		InputStream is=null;
+		OutputStream os=null;
+		try {
+			File file=new File(Path.excelTemplatePath);
+			is=new FileInputStream(file);
+			file2=new File("file");
+			os=new FileOutputStream(file2);
+			byte temp[]=new byte[1024];
+			int size=-1;
+			while((size=is.read(temp))!=-1) {
+				os.write(temp, 0,size);
+			}
+			is.close();
+			os.close();
+			return file2;
+		} catch (Exception e) {
+			LogFactory.info(this,"下载Excel模板时发生异常",e);
+			return file2;
+		}
+		
+		
 	}
 
 

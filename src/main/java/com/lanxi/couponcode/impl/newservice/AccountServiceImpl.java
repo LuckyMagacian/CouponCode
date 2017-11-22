@@ -345,10 +345,60 @@ public class AccountServiceImpl implements AccountService{
 				LogFactory.info(this,"此账户不存在");
 			}
 		} catch (Exception e) {
-			// TODO: handle exception
+			
 			LogFactory.error(this,"通过账户id获取账户状态时发生异常",e);
 		}
 		return accountStatus;
+	}
+	@Override
+	public Boolean modifyAccountMerchantName(Long merchantId, String merchantName) {
+		LogFactory.info(this,"开始尝试修改账户所属商户名称");
+		Boolean result=false;
+		try {
+			Account account=new Account();
+			account.setMerchantName(merchantName);
+			EntityWrapper<Account> wrapper=new EntityWrapper<Account>();
+			if (merchantName!=null) {
+				wrapper.eq("merchant_name",merchantName);
+				Integer var=dao.getAccountDao().update(account, wrapper);
+				if (var>0) {
+					result=true;
+					LogFactory.info(this,"修改账户所属商户名称成功");
+				}else {
+					result=false;
+					LogFactory.info(this,"修改账户所属商户名称失败");
+				}
+			}
+			
+		} catch (Exception e) {
+			LogFactory.info(this,"修改账户所属商户名称时发生异常",e);
+		}
+		return result;
+	}
+	@Override
+	public Boolean modifyAccountShopName(Long shopId, String shopName) {
+		LogFactory.info(this,"开始尝试修改账户所属门店名称");
+		Boolean result=false;
+		try {
+			Account account=new Account();
+			account.setMerchantName(shopName);
+			EntityWrapper<Account> wrapper=new EntityWrapper<Account>();
+			if (shopName!=null) {
+				wrapper.eq("shop_name",shopName);
+				Integer var=dao.getAccountDao().update(account, wrapper);
+				if (var>0) {
+					result=true;
+					LogFactory.info(this,"修改账户所属门店名称成功");
+				}else {
+					result=false;
+					LogFactory.info(this,"修改账户所属门店名称失败");
+				}
+			}
+			
+		} catch (Exception e) {
+			LogFactory.info(this,"修改账户所属门店名称时发生异常",e);
+		}
+		return result;
 	}
 
 }

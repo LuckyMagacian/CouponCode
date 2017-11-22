@@ -39,7 +39,5 @@ public interface DaoService {
 
     public StatisticDao getStatisticDao();
 
-    public SubOrderDao getSubOrderDao();
-
     public VerificationRecordDao getVerificationRecordDao();
 }

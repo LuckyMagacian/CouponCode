@@ -36,7 +36,6 @@ public class DaoServiceImpl implements DaoService {
     @Resource
     private ShopDao shopDao;
     private StatisticDao statisticDao;
-    private SubOrderDao subOrderDao;
     private VerificationRecordDao verificationRecordDao;
 
     public AccountDao getAccountDao() {
@@ -101,10 +100,6 @@ public class DaoServiceImpl implements DaoService {
 
     public StatisticDao getStatisticDao() {
         return statisticDao;
-    }
-
-    public SubOrderDao getSubOrderDao() {
-        return subOrderDao;
     }
 
     public VerificationRecordDao getVerificationRecordDao() {
@@ -173,10 +168,6 @@ public class DaoServiceImpl implements DaoService {
 
     public void setStatisticDao(StatisticDao statisticDao) {
         this.statisticDao = statisticDao;
-    }
-
-    public void setSubOrderDao(SubOrderDao subOrderDao) {
-        this.subOrderDao = subOrderDao;
     }
 
     public void setVerificationRecordDao(VerificationRecordDao verificationRecordDao) {

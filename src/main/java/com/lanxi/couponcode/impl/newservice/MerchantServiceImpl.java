@@ -14,6 +14,10 @@ import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.TransactionDefinition;
 import javax.annotation.Resource;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
@@ -81,7 +85,6 @@ public class MerchantServiceImpl implements MerchantService {
 	
 	@Override
 	public List<Merchant> getAllMerchant(Page<Merchant> pageObj) {
-		
 		LogFactory.info(this, "尝试获取商户信息,\n");
 		List<Merchant> list=null;
 		try {
@@ -226,175 +229,181 @@ public class MerchantServiceImpl implements MerchantService {
 //	}
 	@Override
 	public Boolean organizingInstitutionBarCodePicUpLoad(Merchant merchant, File file) {
-		LogFactory.info(this, "尝试添加商户组织机构代码证,\n");
-		boolean result=false;
-		try {
-			if(file!=null) {
-				 //获取文件类型，即后缀名
-                String str = file.getName();
-                String suffix = str.substring(str.lastIndexOf("."));
-                if(!ImageUtil.isImage(suffix)) {
-                	LogFactory.error(this,"上传的不是图片文件");
-                	result=false;
-                	return result;
-                }
-                //为避免文件重复用日期+商户id+证件类型做文件名
-                String time=LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMddHHmmss"));
-                String path=Path.organizingInstitutionBarCodePicPath+time+merchant.getMerchantId()+"organizingInstitutionBarCodePic"+suffix;
-                LogFactory.info(this, "尝试保存商户组织机构代码证");
-                FileUpLoadUtil.fileUpLoad(file, path);
-                merchant.setOrganizingInstitutionBarCodePic(path);
-                Integer var=dao.getMerchantDao().updateById(merchant);
-                if(var<0) {
-					LogFactory.info(this,"保存商户组织机构代码证失败\n");
-					result=false;
-				}else if (var>0) {
-					LogFactory.info(this,"保存商户组织机构代码证成功\n");
-					result=true;
+		synchronized (merchant) {
+			LogFactory.info(this, "尝试添加商户组织机构代码证,\n");
+			boolean result = false;
+			try {
+				if (file != null) {
+					//获取文件类型，即后缀名
+					String str = file.getName();
+					String suffix = str.substring(str.lastIndexOf("."));
+					if (!ImageUtil.isImage(suffix)) {
+						LogFactory.error(this, "上传的不是图片文件");
+						result = false;
+						return result;
+					}
+					//为避免文件重复用日期+商户id+证件类型做文件名
+					String time = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMddHHmmss"));
+					String path = Path.organizingInstitutionBarCodePicPath + time + merchant.getMerchantId()
+							+ "organizingInstitutionBarCodePic" + suffix;
+					LogFactory.info(this, "尝试保存商户组织机构代码证");
+					InputStream is = null;
+					OutputStream os = null;
+					is = new FileInputStream(file);
+					File file2 = new File(path);
+					file2.createNewFile();
+					os = new FileOutputStream(file2);
+					byte temp[] = new byte[1024];
+					int size = -1;
+					while ((size = is.read(temp)) != -1) { // 每次读取1KB，直至读完  
+						os.write(temp, 0, size);
+					}
+					is.close();
+					os.close();
+					merchant.setOrganizingInstitutionBarCodePic(path);
+					Integer var = dao.getMerchantDao().updateById(merchant);
+					if (var < 0) {
+						LogFactory.info(this, "保存商户组织机构代码证失败\n");
+						result = false;
+					} else if (var > 0) {
+						LogFactory.info(this, "保存商户组织机构代码证成功\n");
+						result = true;
+					}
 				}
+			} catch (Exception e) {
+				LogFactory.error(this, "保存商户组织机构代码证时发生异常", e);
+				return result;
 			}
-		} catch (Exception e) {
-			LogFactory.error(this,"保存商户组织机构代码失败",e);
 			return result;
 		}
-		
-		return result;
 	}
 	@Override
 	public Boolean businessLicensePicUpLoad(Merchant merchant, File file) {
-		LogFactory.info(this, "尝试添加商户工商营业执照,\n");
-		boolean result=false;
-		try {
-			if(file!=null) {
-				 //获取文件类型，即后缀名
-				 String str = file.getName();
-                String suffix = str.substring(str.lastIndexOf("."));
-                if(!ImageUtil.isImage(suffix)) {
-                	LogFactory.error(this,"上传的不是图片文件");
-                	result=false;
-                	return result;
-                }
-                //为避免文件重复用日期+商户id+证件类型做文件名
-                String time=LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMddHHmmss"));
-                String path=Path.businessLicensePicPath+time+merchant.getMerchantId()+"businessLicensePic"+suffix;
-                LogFactory.info(this, "尝试保存商户工商营业执照");
-                FileUpLoadUtil.fileUpLoad(file, path);
-                merchant.setBusinessLicensePic(path);
-                Integer var=dao.getMerchantDao().updateById(merchant);
-                if(var<0) {
-					LogFactory.info(this,"保存商户工商营业执照失败\n");
-					result=false;
-				}else if (var>0) {
-					LogFactory.info(this,"保存商户工商营业执照成功\n");
-					result=true;
+		synchronized (merchant) {
+			LogFactory.info(this, "尝试添加商户工商营业执照,\n");
+			boolean result = false;
+			try {
+				if (file != null) {
+					//获取文件类型，即后缀名
+					String str = file.getName();
+					String suffix = str.substring(str.lastIndexOf("."));
+					if (!ImageUtil.isImage(suffix)) {
+						LogFactory.error(this, "上传的不是图片文件");
+						result = false;
+						return result;
+					}
+					//为避免文件重复用日期+商户id+证件类型做文件名
+					String time = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMddHHmmss"));
+					String path = Path.businessLicensePicPath + time + merchant.getMerchantId() + "businessLicensePic"
+							+ suffix;
+					LogFactory.info(this, "尝试保存商户工商营业执照");
+					InputStream is = null;
+					OutputStream os = null;
+					is = new FileInputStream(file);
+					File file2 = new File(path);
+					file2.createNewFile();
+					os = new FileOutputStream(file2);
+					byte temp[] = new byte[1024];
+					int size = -1;
+					while ((size = is.read(temp)) != -1) { // 每次读取1KB，直至读完  
+						os.write(temp, 0, size);
+					}
+					is.close();
+					os.close();
+					merchant.setBusinessLicensePic(path);
+					Integer var = dao.getMerchantDao().updateById(merchant);
+					if (var < 0) {
+						LogFactory.info(this, "保存商户工商营业执照失败\n");
+						result = false;
+					} else if (var > 0) {
+						LogFactory.info(this, "保存商户工商营业执照成功\n");
+						result = true;
+					}
 				}
+			} catch (Exception e) {
+				LogFactory.error(this, "保存商户工商营业执照失败", e);
+				return result;
 			}
-		} catch (Exception e) {
-			LogFactory.error(this,"保存商户工商营业执照失败",e);
 			return result;
 		}
-		return result;
 		
 	}
 	@Override
 	public Boolean otherPicUpLoad(Merchant merchant, File file) {
-		LogFactory.info(this, "尝试添加商户其他证明资料,\n");
-		boolean result=false;
-		try {
-			
-			if(file!=null) {
-				 //获取文件类型，即后缀名
-                String str = file.getName();
-                String suffix = str.substring(str.lastIndexOf("."));
-                if(!ImageUtil.isImage(suffix)) {
-                	LogFactory.error(this,"上传的不是图片文件");
-                	result=false;
-                	return result;
-                }
-                //为避免文件重复用日期+商户id+证件类型做文件名
-                String time=LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMddHHmmss"));
-                String path=Path.otherPicPath+time+merchant.getMerchantId()+"otherPic"+suffix;
-                LogFactory.info(this, "尝试保存商户其他证明资料");
-                FileUpLoadUtil.fileUpLoad(file, path);
-                merchant.setOtherPic(path);
-                Integer var=dao.getMerchantDao().updateById(merchant);
-                if(var<0) {
-					LogFactory.info(this,"保存商户其他证明资料\n");
-					result=false;
-				}else if (var>0) {
-					LogFactory.info(this,"保存商户其他证明资料\n");
-					result=true;
+		synchronized (merchant) {
+			LogFactory.info(this, "尝试添加商户其他证明资料,\n");
+			boolean result = false;
+			try {
+				if (file != null) {
+					//获取文件类型，即后缀名
+					String str = file.getName();
+					String suffix = str.substring(str.lastIndexOf("."));
+					if (!ImageUtil.isImage(suffix)) {
+						LogFactory.error(this, "上传的不是图片文件");
+						result = false;
+						return result;
+					}
+					//为避免文件重复用日期+商户id+证件类型做文件名
+					String time = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMddHHmmss"));
+					String path = Path.otherPicPath + time + merchant.getMerchantId() + "otherPic" + suffix;
+					LogFactory.info(this, "尝试保存商户其他证明资料");
+					InputStream is = null;
+					OutputStream os = null;
+					is = new FileInputStream(file);
+					File file2 = new File(path);
+					file2.createNewFile();
+					os = new FileOutputStream(file2);
+					byte temp[] = new byte[1024];
+					int size = -1;
+					while ((size = is.read(temp)) != -1) { // 每次读取1KB，直至读完  
+						os.write(temp, 0, size);
+					}
+					is.close();
+					os.close();
+					merchant.setOtherPic(path);
+					Integer var = dao.getMerchantDao().updateById(merchant);
+					if (var < 0) {
+						LogFactory.info(this, "保存商户其他证明资料\n");
+						result = false;
+					} else if (var > 0) {
+						LogFactory.info(this, "保存商户其他证明资料\n");
+						result = true;
+					}
 				}
+			} catch (Exception e) {
+				LogFactory.error(this, "保存商户其他证明资料失败", e);
+				return result;
 			}
-		} catch (Exception e) {
-			LogFactory.error(this,"保存商户其他证明资料失败",e);
 			return result;
 		}
-		return result;
 	}
 	@Override
-	public Boolean fillInInformation(Merchant merchant, File organizingInstitutionBarCodePicFile,
-			File businessLicensePicFile, File otherPicFile) {
-		//TransactionStatus txStatus = txManager.getTransaction(txDefinition);
-		LogFactory.info(this, "尝试添加商户详细信息,\n");
-		boolean result=false;
-		try {
-            if(merchant!=null) {
-            	LogFactory.info(this,"尝试添加商户资料");
-            	int var=dao.getMerchantDao().updateById(merchant);
-            	if(var<0) {
-            		LogFactory.debug(this,"添加商户资料失败\n");
-					result=false;
-					return result;
-            	}else if (var>0) {
-            		LogFactory.info(this,"添加商户资料成功\n");
-            		result=true;
+	public Boolean fillInInformation(Merchant merchant) {
+		synchronized (merchant) {
+			//TransactionStatus txStatus = txManager.getTransaction(txDefinition);
+			LogFactory.info(this, "尝试添加商户详细信息,\n");
+			boolean result = false;
+			try {
+				if (merchant != null) {
+					LogFactory.info(this, "尝试添加商户资料");
+					int var = dao.getMerchantDao().updateById(merchant);
+					if (var < 0) {
+						LogFactory.debug(this, "添加商户资料失败\n");
+						result = false;
+						return result;
+					} else if (var > 0) {
+						LogFactory.info(this, "添加商户资料成功\n");
+						result = true;
+					}
 				}
-            }
-            if(organizingInstitutionBarCodePicFile!=null) {
-            	Boolean b=organizingInstitutionBarCodePicUpLoad(merchant, organizingInstitutionBarCodePicFile);
-            	if(b) {
-            		result=b;
-            	}else {
-					result=false;
-//					String s=null;
-//					s.length();
-//					txManager.commit(txStatus);
-					return result;
-				}
-            }
-            if(businessLicensePicFile!=null) {
-        	Boolean b=businessLicensePicUpLoad(merchant, businessLicensePicFile);
-        		if(b) {
-        		result=b;
-        		}else {
-				result=false;
-//				String s=null;
-//				s.length();
-//				txManager.commit(txStatus);
-				return result;
-        		}
-            }
-            if(otherPicFile!=null) {
-            	Boolean b=otherPicUpLoad(merchant, otherPicFile);
-            	if(b) {
-            		result=b;
-            	}else {
-					result=false;
-//					String s=null;
-//					s.length();
-//					txManager.commit(txStatus);
-					return result;
-				}
-            }
+			} catch (Exception e) {
 
-		} catch (Exception e) {
-			
-			LogFactory.error(this,"添加商户详细信息失败",e);
-			result=false;
-			//txManager.rollback(txStatus);
+				LogFactory.error(this, "添加商户详细信息失败", e);
+				result = false;
+				//txManager.rollback(txStatus);
+			}
+			return result;
 		}
-		return result;
 	}
 	@Override
 	public String queryMerchantStatusByid(Long merchantId, Long operaterId) {
@@ -411,54 +420,52 @@ public class MerchantServiceImpl implements MerchantService {
 				}else {
 					LogFactory.info(this,"此商户不存在");
 				}
-			
 			}
 		} catch (Exception e) {
 			LogFactory.error(this,"获取商户状态时发生异常",e);
-			
 		}
-		
 		return merchantStatus;
 	}
 	@Override
 	public Boolean freezeMerchant(Merchant merchant) {
-		Boolean result=false;
-		try {
-			Integer var=dao.getMerchantDao().updateById(merchant);
-			if (var>0) {
-			result=true;
-			LogFactory.debug(this,"冻结商户成功");
-			}else {
-				result=false;
-				LogFactory.debug(this,"冻结商户失败");
+		synchronized (merchant) {
+			Boolean result = false;
+			try {
+				Integer var = dao.getMerchantDao().updateById(merchant);
+				if (var > 0) {
+					result = true;
+					LogFactory.debug(this, "冻结商户成功");
+				} else {
+					result = false;
+					LogFactory.debug(this, "冻结商户失败");
+				}
+			} catch (Exception e) {
+
+				result = false;
+				LogFactory.debug(this, "冻结商户时发生异常");
 			}
-		} catch (Exception e) {
-			
-			result=false;
-			LogFactory.debug(this,"冻结商户时发生异常");
+			return result;
 		}
-		
-		return result;
 	}
 	@Override
 	public Boolean unFreezeMerchant(Merchant merchant) {
-		Boolean result=false;
-		try {
-			Integer var=dao.getMerchantDao().updateById(merchant);
-			if (var>0) {
-			result=true;
-			LogFactory.debug(this,"开启商户成功");
-			}else {
-				result=false;
-				LogFactory.debug(this,"开启商户失败");
+		synchronized (merchant) {
+			Boolean result = false;
+			try {
+				Integer var = dao.getMerchantDao().updateById(merchant);
+				if (var > 0) {
+					result = true;
+					LogFactory.debug(this, "开启商户成功");
+				} else {
+					result = false;
+					LogFactory.debug(this, "开启商户失败");
+				}
+			} catch (Exception e) {
+				result = false;
+				LogFactory.debug(this, "开启商户时发生异常");
 			}
-		} catch (Exception e) {
-			
-			result=false;
-			LogFactory.debug(this,"开启商户时发生异常");
+			return result;
 		}
-		
-		return result;
 	}
 	
 }

@@ -7,6 +7,7 @@ import com.baomidou.mybatisplus.toolkit.IdWorker;
 import com.lanxi.couponcode.spi.assist.RetMessage;
 import com.lanxi.couponcode.impl.config.ConstConfig;
 import com.lanxi.couponcode.impl.entity.Account;
+import com.lanxi.couponcode.impl.entity.Shop;
 import com.lanxi.couponcode.impl.newservice.AccountService;
 import com.lanxi.couponcode.impl.newservice.MerchantService;
 import com.lanxi.couponcode.impl.newservice.RedisEnhancedService;
@@ -43,7 +44,6 @@ public class AccountController implements com.lanxi.couponcode.spi.service.Accou
 	private RedisService redisService;
 	@Resource
 	private RedisEnhancedService redisEnhancedService;
-
 	@Override
 	public RetMessage<Boolean> addAccount(AccountType type, String name, String phone, String merchantName,
 			Long merchantId, Long operaterId) {
@@ -51,45 +51,60 @@ public class AccountController implements com.lanxi.couponcode.spi.service.Accou
 		Boolean result = false;
 		// TODO 校验
 		try {
-			// 先校验操作者账户状态
-			if (AccountStatus.normal.equals(accountService.queryAccountStatusById(operaterId))) {
-				// 校验商户状态
-				if (MerchantStatus.normal.equals(merchantService.queryMerchantStatusByid(merchantId, operaterId))) {
-					if (type != null && name != null && !name.isEmpty() && phone != null && !phone.isEmpty()
-							&& merchantName != null) {
-						Account account = new Account();
-						account = new Account();
-						account.setAccountId(IdWorker.getId());
-						account.setAccountType(type);
-						account.setLoginFailureNum(0);
-						account.setLoginFailureTime("20171114033028");
-						account.setUserName(name);
-						account.setPhone(phone);
-						account.setStatus(AccountStatus.normal);
-						account.setMerchantName(merchantName);
-						account.setMerchantId(merchantId);
-						account.setAddTime(LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMddHHmmss")));
-						account.setRequesterId(operaterId);
-						result = accountService.addAccount(account);
-						if (result) {
-							retMessage.setRetCode(RetCodeEnum.success.getValue());
-							retMessage.setRetMessage("添加账户成功");
-							// TODO 添加操作记录
+			if (operaterId != null) {
+				if (merchantId != null) {
+					// 先校验操作者账户状态
+					if (AccountStatus.normal.equals(accountService.queryAccountStatusById(operaterId))) {
+						// 校验商户状态
+						if (MerchantStatus.normal
+								.equals(merchantService.queryMerchantStatusByid(merchantId, operaterId))) {
+							if (type != null && name != null && !name.isEmpty() && phone != null && !phone.isEmpty()
+									&& merchantName != null) {
+								Account account2=new Account();
+								account2.setAccountId(operaterId);
+								Account account = new Account();
+								account = new Account();
+								account.setAccountId(IdWorker.getId());
+								account.setAccountType(type);
+								account.setLoginFailureNum(0);
+								account.setLoginFailureTime("20171114033028");
+								account.setUserName(name);
+								account.setPhone(phone);
+								account.setStatus(AccountStatus.normal);
+								account.setMerchantName(merchantName);
+								account.setMerchantId(merchantId);
+								account.setAddTime(
+										LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMddHHmmss")));
+								account.setAddById(operaterId);
+								account.setAddByName(accountService.queryAccountInfo(account2).getUserName());
+								result = accountService.addAccount(account);
+								if (result) {
+									retMessage.setRetCode(RetCodeEnum.success.getValue());
+									retMessage.setRetMessage("添加账户成功");
+									// TODO 添加操作记录
+								}
+								if (!result) {
+									retMessage.setRetCode(RetCodeEnum.exception.getValue());
+									retMessage.setRetMessage("添加账户失败");
+								}
+								retMessage.setDetail(result);
+							} else {
+								result = false;
+								retMessage.setAll(RetCodeEnum.fail, "信息填写不完整", result);
+							}
+						} else {
+							retMessage.setAll(RetCodeEnum.warning, "当前商户状态不正常", false);
 						}
-						if (!result) {
-							retMessage.setRetCode(RetCodeEnum.exception.getValue());
-							retMessage.setRetMessage("添加账户失败");
-						}
-						retMessage.setDetail(result);
 					} else {
-						result = false;
-						retMessage.setAll(RetCodeEnum.fail, "信息填写不完整", result);
+						retMessage.setAll(RetCodeEnum.warning, "您的账户状态不正常", false);
 					}
 				} else {
-					retMessage.setAll(RetCodeEnum.warning, "当前商户状态不正常", false);
+					result = false;
+					retMessage.setAll(RetCodeEnum.fail, "商户id不能为空", result);
 				}
 			} else {
-				retMessage.setAll(RetCodeEnum.warning, "您的账户状态不正常", false);
+				result = false;
+				retMessage.setAll(RetCodeEnum.fail, "账户id为空", result);
 			}
 
 		} catch (Exception e) {
@@ -109,51 +124,68 @@ public class AccountController implements com.lanxi.couponcode.spi.service.Accou
 		Boolean result = false;
 		// TODO 权限校验
 		try {
-			// 先校验操作者账户状态
-			if (AccountStatus.normal.equals(accountService.queryAccountStatusById(operaterId))) {
-				// 校验当前商户状态
-				if (MerchantStatus.normal.equals(merchantService
-						.queryMerchantStatusByid(shopService.queryShopInfo(shopId).getMerchantId(), operaterId))) {
-					if (ShopStatus.normal.equals(shopService.queryShopInfo(shopId).getShopStatus())) {
-						if (type != null && name != null && !name.isEmpty() && phone != null && !phone.isEmpty()
-								&& shopName != null) {
-							Account account = new Account();
-							account.setAccountId(IdWorker.getId());
-							account.setAccountType(type);
-							account.setUserName(name);
-							account.setLoginFailureNum(0);
-							account.setLoginFailureTime("20171114033028");
-							account.setPhone(phone);
-							account.setStatus(AccountStatus.normal);
-							account.setShopName(shopName);
-							account.setShopId(shopId);
-							account.setAddTime(
-									LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMddHHmmss")));
-							account.setRequesterId(operaterId);
-							result = accountService.merchantAccount(account);
-							if (result) {
-								retMessage.setRetCode(RetCodeEnum.success.getValue());
-								retMessage.setRetMessage("添加账户成功");
-								// TODO 添加操作记录
+			if (operaterId != null) {
+				if (shopId != null) {
+					// 先校验操作者账户状态
+					if (AccountStatus.normal.equals(accountService.queryAccountStatusById(operaterId))) {
+						// 校验当前商户状态
+						if (MerchantStatus.normal.equals(merchantService.queryMerchantStatusByid(
+								shopService.queryShopInfo(shopId).getMerchantId(), operaterId))) {
+							if (ShopStatus.normal.equals(shopService.queryShopInfo(shopId).getShopStatus())) {
+								if (type != null && name != null && !name.isEmpty() && phone != null && !phone.isEmpty()
+										&& shopName != null) {
+									Shop shop=shopService.queryShopInfo(shopId);
+									Account account2=new Account();
+									account2.setAccountId(operaterId);
+									Account account = new Account();
+									account.setAccountId(IdWorker.getId());
+									account.setAccountType(type);
+									account.setUserName(name);
+									account.setLoginFailureNum(0);
+									account.setLoginFailureTime("20171114033028");
+									account.setPhone(phone);
+									account.setStatus(AccountStatus.normal);
+									account.setShopName(shopName);
+									account.setShopId(shopId);
+									account.setMerchantId(shop.getMerchantId());
+									account.setMerchantName(merchantService.queryMerchantParticularsById(shop.getMerchantId()).getMerchantName());
+									account.setAddTime(
+											LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMddHHmmss")));
+									account.setAddById(operaterId);
+									account.setAddByName(accountService.queryAccountInfo(account2).getUserName());
+									result = accountService.merchantAccount(account);
+									if (result) {
+										retMessage.setRetCode(RetCodeEnum.success.getValue());
+										retMessage.setRetMessage("添加账户成功");
+										// TODO 添加操作记录
+									}
+									if (!result) {
+										retMessage.setRetCode(RetCodeEnum.exception.getValue());
+										retMessage.setRetMessage("添加账户失败");
+									}
+									retMessage.setDetail(result);
+								} else {
+									result = false;
+									retMessage.setAll(RetCodeEnum.fail, "信息填写不完整", result);
+								}
+							} else {
+								retMessage.setAll(RetCodeEnum.warning, "当前门店状态不正常", false);
 							}
-							if (!result) {
-								retMessage.setRetCode(RetCodeEnum.exception.getValue());
-								retMessage.setRetMessage("添加账户失败");
-							}
-							retMessage.setDetail(result);
 						} else {
-							result = false;
-							retMessage.setAll(RetCodeEnum.fail, "信息填写不完整", result);
+							retMessage.setAll(RetCodeEnum.warning, "当前商户状态不正常", false);
 						}
 					} else {
-						retMessage.setAll(RetCodeEnum.warning, "当前门店状态不正常", false);
+						retMessage.setAll(RetCodeEnum.warning, "您的账户状态不正常", false);
 					}
 				} else {
-					retMessage.setAll(RetCodeEnum.warning, "当前商户状态不正常", false);
+					result = false;
+					retMessage.setAll(RetCodeEnum.fail, "门店id不能为空", result);
 				}
 			} else {
-				retMessage.setAll(RetCodeEnum.warning, "您的账户状态不正常", false);
+				result = false;
+				retMessage.setAll(RetCodeEnum.fail, "账户id为空", result);
 			}
+
 		} catch (Exception e) {
 			LogFactory.error(this, "添加账户时发生异常", e);
 			retMessage.setRetCode(RetCodeEnum.error.getValue());
@@ -170,30 +202,35 @@ public class AccountController implements com.lanxi.couponcode.spi.service.Accou
 		Boolean result = false;
 		// TODO 权限校验
 		try {
-			if (accountId != null) {
-				// 先校验操作者账户状态
-				if (AccountStatus.normal.equals(accountService.queryAccountStatusById(operaterId))) {
-					Account account = new Account();
-					account.setAccountId(accountId);
-					account.setStatus(AccountStatus.freeze);
-					result = accountService.freezeAccount(account);
-					if (result) {
-						retMessage.setRetCode(RetCodeEnum.success.getValue());
-						retMessage.setRetMessage("冻结账户成功");
-						// TODO 添加操作记录
+			if (operaterId != null) {
+				if (accountId != null) {
+					// 先校验操作者账户状态
+					if (AccountStatus.normal.equals(accountService.queryAccountStatusById(operaterId))) {
+						Account account = new Account();
+						account.setAccountId(accountId);
+						account.setStatus(AccountStatus.freeze);
+						result = accountService.freezeAccount(account);
+						if (result) {
+							retMessage.setRetCode(RetCodeEnum.success.getValue());
+							retMessage.setRetMessage("冻结账户成功");
+							// TODO 添加操作记录
+						}
+						if (!result) {
+							retMessage.setRetCode(RetCodeEnum.exception.getValue());
+							retMessage.setRetMessage("冻结账户失败");
+						}
+						retMessage.setDetail(result);
+					} else {
+						retMessage.setAll(RetCodeEnum.warning, "您的账户状态不正常", false);
 					}
-					if (!result) {
-						retMessage.setRetCode(RetCodeEnum.exception.getValue());
-						retMessage.setRetMessage("冻结账户失败");
-					}
-					retMessage.setDetail(result);
-				} else {
-					retMessage.setAll(RetCodeEnum.warning, "您的账户状态不正常", false);
-				}
 
+				} else {
+					result = false;
+					retMessage.setAll(RetCodeEnum.fail, "账户id不能为空", result);
+				}
 			} else {
 				result = false;
-				retMessage.setAll(RetCodeEnum.fail, "账户id不能为空", result);
+				retMessage.setAll(RetCodeEnum.fail, "账户id为空", result);
 			}
 
 		} catch (Exception e) {
@@ -212,31 +249,37 @@ public class AccountController implements com.lanxi.couponcode.spi.service.Accou
 		Boolean result = false;
 		// TODO 权限校验
 		try {
-			if (accountId != null) {
-				// 先校验操作者账户状态
-				if (AccountStatus.normal.equals(accountService.queryAccountStatusById(operaterId))) {
-					Account account = new Account();
-					account.setAccountId(accountId);
-					account.setStatus(AccountStatus.normal);
-					result = accountService.unfreezeAccount(account);
-					if (result) {
-						retMessage.setRetCode(RetCodeEnum.success.getValue());
-						retMessage.setRetMessage("开启账户成功");
-						// TODO 添加操作记录
+			if (operaterId != null) {
+				if (accountId != null) {
+					// 先校验操作者账户状态
+					if (AccountStatus.normal.equals(accountService.queryAccountStatusById(operaterId))) {
+						Account account = new Account();
+						account.setAccountId(accountId);
+						account.setStatus(AccountStatus.normal);
+						result = accountService.unfreezeAccount(account);
+						if (result) {
+							retMessage.setRetCode(RetCodeEnum.success.getValue());
+							retMessage.setRetMessage("开启账户成功");
+							// TODO 添加操作记录
+						}
+						if (!result) {
+							retMessage.setRetCode(RetCodeEnum.exception.getValue());
+							retMessage.setRetMessage("开启账户失败");
+						}
+						retMessage.setDetail(result);
+					} else {
+						retMessage.setAll(RetCodeEnum.warning, "您的账户状态不正常", false);
 					}
-					if (!result) {
-						retMessage.setRetCode(RetCodeEnum.exception.getValue());
-						retMessage.setRetMessage("开启账户失败");
-					}
-					retMessage.setDetail(result);
-				} else {
-					retMessage.setAll(RetCodeEnum.warning, "您的账户状态不正常", false);
-				}
 
+				} else {
+					result = false;
+					retMessage.setAll(RetCodeEnum.fail, "账户id不能为空", result);
+				}
 			} else {
 				result = false;
-				retMessage.setAll(RetCodeEnum.fail, "账户id不能为空", result);
+				retMessage.setAll(RetCodeEnum.fail, "账户id为空", result);
 			}
+
 		} catch (Exception e) {
 			LogFactory.error(this, "开启账户时发生异常", e);
 			retMessage.setRetCode(RetCodeEnum.error.getValue());
@@ -253,30 +296,35 @@ public class AccountController implements com.lanxi.couponcode.spi.service.Accou
 		Boolean result = false;
 		// TODO 校验权限
 		try {
-			if (accountId != null) {
-				// 先校验操作者账户状态
-				if (AccountStatus.normal.equals(accountService.queryAccountStatusById(operaterId))) {
-					Account account = new Account();
-					account.setAccountId(accountId);
-					account.setStatus(AccountStatus.deleted);
-					result = accountService.delAccount(account);
-					if (result) {
-						retMessage.setRetCode(RetCodeEnum.success.getValue());
-						retMessage.setRetMessage("删除账户成功");
-						// TODO 添加操作记录
+			if (operaterId != null) {
+				if (accountId != null) {
+					// 先校验操作者账户状态
+					if (AccountStatus.normal.equals(accountService.queryAccountStatusById(operaterId))) {
+						Account account = new Account();
+						account.setAccountId(accountId);
+						account.setStatus(AccountStatus.deleted);
+						result = accountService.delAccount(account);
+						if (result) {
+							retMessage.setRetCode(RetCodeEnum.success.getValue());
+							retMessage.setRetMessage("删除账户成功");
+							// TODO 添加操作记录
+						}
+						if (!result) {
+							retMessage.setRetCode(RetCodeEnum.exception.getValue());
+							retMessage.setRetMessage("删除账户失败");
+						}
+						retMessage.setDetail(result);
+					} else {
+						retMessage.setAll(RetCodeEnum.warning, "您的账户状态不正常", false);
 					}
-					if (!result) {
-						retMessage.setRetCode(RetCodeEnum.exception.getValue());
-						retMessage.setRetMessage("删除账户失败");
-					}
-					retMessage.setDetail(result);
-				} else {
-					retMessage.setAll(RetCodeEnum.warning, "您的账户状态不正常", false);
-				}
 
+				} else {
+					result = false;
+					retMessage.setAll(RetCodeEnum.fail, "账户id不能为空", result);
+				}
 			} else {
 				result = false;
-				retMessage.setAll(RetCodeEnum.fail, "账户id不能为空", result);
+				retMessage.setAll(RetCodeEnum.fail, "账户id为空", result);
 			}
 
 		} catch (Exception e) {
@@ -295,38 +343,43 @@ public class AccountController implements com.lanxi.couponcode.spi.service.Accou
 		List<Account> accounts = null;
 		// TODO 校验
 		try {
-			// 先校验操作者账户状态
-			if (AccountStatus.normal.equals(accountService.queryAccountStatusById(operaterId))) {
-				if (pageNum != null) {
-					pageSize = pageSize == null ? ConstConfig.DEFAULT_PAGE_SIZE : pageSize;
-				}
-				Page<Account> pageObj = new Page<Account>(pageNum, pageSize);
-				EntityWrapper<Account> wrapper = new EntityWrapper<Account>();
-				if (phone != null && !phone.isEmpty()) {
-					wrapper.eq("phone", phone);
-				}
-				if (merchantName != null && !merchantName.isEmpty()) {
-					wrapper.eq("merchant_name", merchantName);
-				}
-				if (type != null) {
-					wrapper.eq("account_type", type);
-				}
-				if (status != null) {
-					wrapper.eq("status", status);
-				}
-				LogFactory.info(this, "条件装饰结果[" + wrapper + "]\n");
-				accounts = accountService.queryAccounts(wrapper, pageObj);
-				if (accounts != null && accounts.size() > 0) {
-					retMessage.setRetCode(RetCodeEnum.success.getValue());
-					retMessage.setRetMessage("查询完毕");
+			if (operaterId != null) {
+				// 先校验操作者账户状态
+				if (AccountStatus.normal.equals(accountService.queryAccountStatusById(operaterId))) {
+					if (pageNum != null) {
+						pageSize = pageSize == null ? ConstConfig.DEFAULT_PAGE_SIZE : pageSize;
+					}
+					Page<Account> pageObj = new Page<Account>(pageNum, pageSize);
+					EntityWrapper<Account> wrapper = new EntityWrapper<Account>();
+					if (phone != null && !phone.isEmpty()) {
+						wrapper.eq("phone", phone);
+					}
+					if (merchantName != null && !merchantName.isEmpty()) {
+						wrapper.eq("merchant_name", merchantName);
+					}
+					if (type != null) {
+						wrapper.eq("account_type", type);
+					}
+					if (status != null) {
+						wrapper.eq("status", status);
+					}
+					LogFactory.info(this, "条件装饰结果[" + wrapper + "]\n");
+					accounts = accountService.queryAccounts(wrapper, pageObj);
+					if (accounts != null && accounts.size() > 0) {
+						retMessage.setRetCode(RetCodeEnum.success.getValue());
+						retMessage.setRetMessage("查询完毕");
+					} else {
+						retMessage.setRetCode(RetCodeEnum.exception.getValue());
+						retMessage.setRetMessage("没有查询到任何数据");
+					}
+					String result = JSON.toJSONString(accounts);
+					retMessage.setDetail(result);
 				} else {
-					retMessage.setRetCode(RetCodeEnum.exception.getValue());
-					retMessage.setRetMessage("没有查询到任何数据");
+					retMessage.setAll(RetCodeEnum.warning, "您的账户状态不正常", null);
 				}
-				String result = JSON.toJSONString(accounts);
-				retMessage.setDetail(result);
 			} else {
-				retMessage.setAll(RetCodeEnum.warning, "您的账户状态不正常", null);
+
+				retMessage.setAll(RetCodeEnum.fail, "账户id为空", null);
 			}
 
 		} catch (Exception e) {
@@ -347,38 +400,43 @@ public class AccountController implements com.lanxi.couponcode.spi.service.Accou
 		List<Account> accounts = null;
 		// TODO 校验
 		try {
-			// 先校验操作者账户状态
-			if (AccountStatus.normal.equals(accountService.queryAccountStatusById(operaterId))) {
-				if (pageNum != null) {
-					pageSize = pageSize == null ? ConstConfig.DEFAULT_PAGE_SIZE : pageSize;
-				}
-				Page<Account> pageObj = new Page<>(pageNum, pageSize);
-				EntityWrapper<Account> wrapper = new EntityWrapper<Account>();
-				if (phone != null && !phone.isEmpty()) {
-					wrapper.eq("phone", phone);
-				}
-				if (shopName != null && !shopName.isEmpty()) {
-					wrapper.eq("shop_name", shopName);
-				}
-				if (type != null) {
-					wrapper.eq("account_type", type);
-				}
-				if (status != null) {
-					wrapper.eq("status", status);
-				}
-				LogFactory.info(this, "条件装饰结果[" + wrapper + "]\n");
-				accounts = accountService.merchantQueryAccounts(wrapper, pageObj);
-				if (accounts != null && accounts.size() > 0) {
-					retMessage.setRetCode(RetCodeEnum.success.getValue());
-					retMessage.setRetMessage("查询完毕");
+			if (operaterId != null) {
+				// 先校验操作者账户状态
+				if (AccountStatus.normal.equals(accountService.queryAccountStatusById(operaterId))) {
+					if (pageNum != null) {
+						pageSize = pageSize == null ? ConstConfig.DEFAULT_PAGE_SIZE : pageSize;
+					}
+					Page<Account> pageObj = new Page<>(pageNum, pageSize);
+					EntityWrapper<Account> wrapper = new EntityWrapper<Account>();
+					if (phone != null && !phone.isEmpty()) {
+						wrapper.eq("phone", phone);
+					}
+					if (shopName != null && !shopName.isEmpty()) {
+						wrapper.eq("shop_name", shopName);
+					}
+					if (type != null) {
+						wrapper.eq("account_type", type);
+					}
+					if (status != null) {
+						wrapper.eq("status", status);
+					}
+					LogFactory.info(this, "条件装饰结果[" + wrapper + "]\n");
+					accounts = accountService.merchantQueryAccounts(wrapper, pageObj);
+					if (accounts != null && accounts.size() > 0) {
+						retMessage.setRetCode(RetCodeEnum.success.getValue());
+						retMessage.setRetMessage("查询完毕");
+					} else {
+						retMessage.setRetCode(RetCodeEnum.exception.getValue());
+						retMessage.setRetMessage("没有查询到任何数据");
+					}
+					String result = JSON.toJSONString(accounts);
+					retMessage.setDetail(result);
 				} else {
-					retMessage.setRetCode(RetCodeEnum.exception.getValue());
-					retMessage.setRetMessage("没有查询到任何数据");
+					retMessage.setAll(RetCodeEnum.warning, "您的账户状态不正常", null);
 				}
-				String result = JSON.toJSONString(accounts);
-				retMessage.setDetail(result);
 			} else {
-				retMessage.setAll(RetCodeEnum.warning, "您的账户状态不正常", null);
+
+				retMessage.setAll(RetCodeEnum.fail, "账户id为空", null);
 			}
 
 		} catch (Exception e) {
@@ -396,27 +454,33 @@ public class AccountController implements com.lanxi.couponcode.spi.service.Accou
 		Account account2 = null;
 		// TODO 校验
 		try {
-			if (accountId != null) {
-				// 先校验操作者账户状态
-				if (AccountStatus.normal.equals(accountService.queryAccountStatusById(operaterId))) {
-					Account account = new Account();
-					account2 = accountService.queryAccountInfo(account);
-					if (account2 != null) {
-						retMessage.setRetCode(RetCodeEnum.success.getValue());
-						retMessage.setRetMessage("查询账户信息完毕");
+			if (operaterId != null) {
+				if (accountId != null) {
+					// 先校验操作者账户状态
+					if (AccountStatus.normal.equals(accountService.queryAccountStatusById(operaterId))) {
+						Account account = new Account();
+						account2 = accountService.queryAccountInfo(account);
+						if (account2 != null) {
+							retMessage.setRetCode(RetCodeEnum.success.getValue());
+							retMessage.setRetMessage("查询账户信息完毕");
+						} else {
+							retMessage.setRetCode(RetCodeEnum.exception.getValue());
+							retMessage.setRetMessage("没有查询到任何数据");
+						}
+						String result = JSON.toJSONString(account2);
+						retMessage.setDetail(result);
 					} else {
-						retMessage.setRetCode(RetCodeEnum.exception.getValue());
-						retMessage.setRetMessage("没有查询到任何数据");
+						retMessage.setAll(RetCodeEnum.warning, "您的账户状态不正常", null);
 					}
-					String result = JSON.toJSONString(account2);
-					retMessage.setDetail(result);
-				} else {
-					retMessage.setAll(RetCodeEnum.warning, "您的账户状态不正常", null);
-				}
 
+				} else {
+					retMessage.setAll(RetCodeEnum.fail, "账户id为空", null);
+				}
 			} else {
+
 				retMessage.setAll(RetCodeEnum.fail, "账户id为空", null);
 			}
+
 		} catch (Exception e) {
 			LogFactory.error(this, "查询账户信息时出现异常", e);
 			retMessage.setRetCode(RetCodeEnum.error.getValue());
@@ -432,46 +496,51 @@ public class AccountController implements com.lanxi.couponcode.spi.service.Accou
 		List<Account> accounts = null;
 		// TODO 校验
 		try {
-
-			if (shopId != null) {
-				// 先校验操作者账户状态
-				if (AccountStatus.normal.equals(accountService.queryAccountStatusById(operaterId))) {
-					// 校验当前商户状态
-					if (MerchantStatus.normal.equals(merchantService
-							.queryMerchantStatusByid(shopService.queryShopInfo(shopId).getMerchantId(), operaterId))) {
-						if (ShopStatus.normal.equals(shopService.queryShopInfo(shopId).getShopStatus())) {
-							if (pageNum != null) {
-								pageSize = pageSize == null ? ConstConfig.DEFAULT_PAGE_SIZE : pageSize;
-							}
-							Page<Account> pageObj = new Page<>(pageNum, pageSize);
-							EntityWrapper<Account> wrapper = new EntityWrapper<Account>();
-							if (shopId != null) {
-								wrapper.eq("shop_id", shopId);
-							}
-							LogFactory.info(this, "条件装饰结果[" + wrapper + "]\n");
-							accounts = accountService.queryShopAccounts(wrapper, pageObj);
-							if (accounts != null && accounts.size() > 0) {
-								retMessage.setRetCode(RetCodeEnum.success.getValue());
-								retMessage.setRetMessage("查询完毕");
+			if (operaterId != null) {
+				if (shopId != null) {
+					// 先校验操作者账户状态
+					if (AccountStatus.normal.equals(accountService.queryAccountStatusById(operaterId))) {
+						// 校验当前商户状态
+						if (MerchantStatus.normal.equals(merchantService.queryMerchantStatusByid(
+								shopService.queryShopInfo(shopId).getMerchantId(), operaterId))) {
+							if (ShopStatus.normal.equals(shopService.queryShopInfo(shopId).getShopStatus())) {
+								if (pageNum != null) {
+									pageSize = pageSize == null ? ConstConfig.DEFAULT_PAGE_SIZE : pageSize;
+								}
+								Page<Account> pageObj = new Page<>(pageNum, pageSize);
+								EntityWrapper<Account> wrapper = new EntityWrapper<Account>();
+								if (shopId != null) {
+									wrapper.eq("shop_id", shopId);
+								}
+								LogFactory.info(this, "条件装饰结果[" + wrapper + "]\n");
+								accounts = accountService.queryShopAccounts(wrapper, pageObj);
+								if (accounts != null && accounts.size() > 0) {
+									retMessage.setRetCode(RetCodeEnum.success.getValue());
+									retMessage.setRetMessage("查询完毕");
+								} else {
+									retMessage.setRetCode(RetCodeEnum.exception.getValue());
+									retMessage.setRetMessage("没有查询到任何数据");
+								}
+								String result = JSON.toJSONString(accounts);
+								retMessage.setDetail(result);
 							} else {
-								retMessage.setRetCode(RetCodeEnum.exception.getValue());
-								retMessage.setRetMessage("没有查询到任何数据");
+								retMessage.setAll(RetCodeEnum.warning, "当前门店状态不正常", null);
 							}
-							String result = JSON.toJSONString(accounts);
-							retMessage.setDetail(result);
 						} else {
-							retMessage.setAll(RetCodeEnum.warning, "当前门店状态不正常", null);
+							retMessage.setAll(RetCodeEnum.warning, "当前所属商户状态不正常", null);
 						}
 					} else {
-						retMessage.setAll(RetCodeEnum.warning, "当前所属商户状态不正常", null);
+						retMessage.setAll(RetCodeEnum.warning, "您的账户状态不正常", null);
 					}
-				} else {
-					retMessage.setAll(RetCodeEnum.warning, "您的账户状态不正常", null);
-				}
 
+				} else {
+					retMessage.setAll(RetCodeEnum.fail, "门店id为空", null);
+				}
 			} else {
-				retMessage.setAll(RetCodeEnum.fail, "门店id为空", null);
+
+				retMessage.setAll(RetCodeEnum.fail, "账户id为空", null);
 			}
+
 		} catch (Exception e) {
 			LogFactory.error(this, "查询数据时出现异常", e);
 			retMessage.setRetCode(RetCodeEnum.error.getValue());
