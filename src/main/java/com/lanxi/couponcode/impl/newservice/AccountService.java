@@ -54,4 +54,6 @@ public interface AccountService {
 	public Boolean localdateLtDate(String date);
 	/*根据账户id查询账户状态*/
 	public String queryAccountStatusById(Long accountId);
+	/*根据账户id获取账户详情*/
+	public Account queryAccountById(Long accountId);
 }
