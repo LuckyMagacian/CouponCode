@@ -3,7 +3,7 @@ package com.lanxi.couponcode.impl.entity;
 
 
 /**
- * 
+ * 购买电子券请求实体类
  * @author wuxiaobo
  *
  */

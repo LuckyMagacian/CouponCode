@@ -3,7 +3,9 @@ package com.lanxi.couponcode.impl.newcontroller;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 
@@ -90,6 +92,11 @@ public class OrderController implements com.lanxi.couponcode.spi.service.OrderSe
 			Order order=orderService.queryOrderInfo(createTime, transactionNum, phone, remark);
 			if (order!=null) {
 				String result=order.toJson();
+				Map<String,Object>map=new HashMap<String,Object>();
+				map.put("Type", order.getCommodityType());
+				map.put("SkuCode", order.getCommodityId());
+				
+				
 				retMessage.setAll(RetCodeEnum.success,"订单查询成功",result);
 			}else {
 				retMessage.setAll(RetCodeEnum.exception,"没有查询到订单相关信息",null);
