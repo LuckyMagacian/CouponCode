@@ -1,22 +1,17 @@
 package com.lanxi.couponcode.test;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.Serializable;
-import java.lang.reflect.InvocationTargetException;
-
-import com.lanxi.couponcode.spi.consts.enums.AccountLevel;
-import org.junit.Test;
-import org.objenesis.strategy.StdInstantiatorStrategy;
-
 import com.esotericsoftware.kryo.Kryo;
 import com.esotericsoftware.kryo.Registration;
 import com.esotericsoftware.kryo.io.Input;
 import com.esotericsoftware.kryo.io.Output;
+import com.lanxi.couponcode.spi.consts.enums.AccountLevel;
 import com.lanxi.couponcode.spi.consts.enums.AccountStatus;
 import com.lanxi.couponcode.spi.consts.enums.RequestOperateType;
+import org.junit.Test;
+import org.objenesis.strategy.StdInstantiatorStrategy;
+
+import java.io.*;
+import java.lang.reflect.InvocationTargetException;
 
 public class TestEnum {
 	@Test

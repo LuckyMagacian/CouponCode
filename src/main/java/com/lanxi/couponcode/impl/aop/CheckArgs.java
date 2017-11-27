@@ -1,7 +1,10 @@
 package com.lanxi.couponcode.impl.aop;
 
+import com.lanxi.couponcode.impl.assist.CheckAssist;
+import com.lanxi.couponcode.impl.assist.PredicateAssist;
 import com.lanxi.couponcode.spi.assist.RetMessage;
 import com.lanxi.couponcode.impl.newservice.DaoService;
+import com.lanxi.couponcode.spi.consts.enums.RetCodeEnum;
 import com.lanxi.util.entity.LogFactory;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Aspect;
@@ -17,64 +20,113 @@ import java.lang.reflect.Parameter;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.function.Predicate;
 
 /**
  * Created by yangyuanjian on 2017/11/10.
  */
-@Aspect
-@Component
+@Deprecated
 public class CheckArgs {
-    @Resource
-    private DaoService dao;
+//    @Resource
+//    private DaoService dao;
+    @Pointcut("within(com.lanxi.couponcode.spi.consts.annotations.CheckArg)")
+    private void checkArg(){}
 
-    public  RetMessage checkParams(ProceedingJoinPoint joinPoint){
-        Serializable t=null;
-        //获取代理方法参数值
-        Object[] args=joinPoint.getArgs();
-        //获取代理目标类
-        Class clazz= joinPoint.getTarget().getClass();
-        RetMessage<Serializable> message=new RetMessage();
-        Method method=null;
-        try {
-            //获取代理方法对象
-            method = ((MethodSignature) joinPoint.getSignature()).getMethod();
-//            Field methodInvocation=((MethodInvocationProceedingJoinPoint)joinPoint).getClass().getDeclaredField("methodInvocation");
-//            methodInvocation.setAccessible(true);
-//            method=((ReflectiveMethodInvocation)methodInvocation.get(joinPoint)).getMethod();
-            //记录参数
-            LogFactory.info(clazz, "校验:\n[" + clazz.getName() + "]\n的\n[" + method + "]\n方法\n的参数,参数:\n[" + Arrays.asList(args) + "]");
-            Map<String,Object> map=new HashMap<>();
-            Parameter[]  parameters=method.getParameters();
-            for(int i=0;i<parameters.length;i++){
-                String paraName=parameters[i].getName();
-                Object value=args[i];
-                switch (paraName){
-                    case "accountId":{};
-                    case "operaterId":{};break;
-                    case "merchantId":{};break;
-                    case "commodityId":{};break;
-                    case "shopId":{};break;
-                    case "requestId":{};break;
-                    case "couponCodeId":{};break;
-                    case "operateRecordId":{};break;
-                    case "orderId":{};break;
-                    case "verificationRecordId":{};break;
+    public <T>  RetMessage checkParams(ProceedingJoinPoint joinPoint) {
+
+        AopJob<RetMessage> job = (clazz, method, args, point) -> {
+            T t = null;
+            RetMessage message = new RetMessage();
+            try {
+                //记录参数
+                Parameter[] parameters = method.getParameters();
+                for (int i = 0; i < parameters.length; i++) {
+
+                    if(parameters[i].getName().contains("time")||parameters[i].getName().contains("Time")) {
+                        if(args[i]==null)
+                            continue;
+                        if (args[i] instanceof String) {
+                            if (PredicateAssist.notTime.test((String) args[i])) {
+                                message.setRetCode(RetCodeEnum.fail);
+                                message.setRetMessage("参数[" + parameters[i].getName() + "]校验不通过!");
+                                return message;
+                            }
+                        }
+                    }
+                    if(parameters[i].getName().contains("name")||parameters[i].getName().contains("Name")){
+                        if(args[i]==null)
+                            continue;
+                        if(args[i] instanceof String){
+                            if(PredicateAssist.notAddressOrName.test((String) args[i])){
+                                message.setRetCode(RetCodeEnum.fail);
+                                message.setRetMessage("参数[" + parameters[i].getName() + "]校验不通过!");
+                                return message;
+                            }
+                        }
+                    }
+
+                    if(parameters[i].getName().contains("page")||parameters[i].getName().contains("Page")){
+                        if(args[i]==null){
+                            message.setRetCode(RetCodeEnum.fail);
+                            message.setRetMessage("分页参数["+parameters[i].getName()+"]校验不通过!");
+                            return message;
+                        }
+                        String arg=null;
+                        if(args[i] instanceof String){
+                            args= (Object[]) args[i];
+                        }else if(args[i].getClass().equals(int.class)||args[i].getClass().equals(Integer.class)){
+                            arg=args[i]+"";
+                        }
+                        if(PredicateAssist.notPage.test(arg)){
+                            message.setRetCode(RetCodeEnum.fail);
+                            message.setRetMessage("分页参数[" + parameters[i].getName() + "]校验不通过!");
+                            return message;
+                        }
+                    }
+
+                    if(parameters[i].getName().equals("code")||parameters[i].getName().equals("couponCode")){
+                        if(args[i]==null)
+                            continue;
+                        String arg=null;
+                        if(args[i] instanceof String){
+                            arg= (String) args[i];
+                        }else if(args[i] instanceof Long || args[i].getClass().equals(long.class))
+                            arg=args[i]+"";
+                        if(PredicateAssist.notCode.test(arg)){
+                            message.setRetCode(RetCodeEnum.fail);
+                            message.setRetMessage("参数[" + parameters[i].getName() + "]校验不通过!");
+                            return message;
+                        }
+                    }
+
+                    if(parameters[i].getName().contains("id")||parameters[i].getName().contains("Id")){
+                        if(parameters.equals("operaterId")&&args[i]==null){
+                            message.setRetCode(RetCodeEnum.fail);
+                            message.setRetMessage("分页参数["+parameters[i].getName()+"]校验不通过!");
+                            return message;
+                        }
+                        if(args[i]==null)
+                            continue;
+                        String arg=null;
+                        if(args[i] instanceof String){
+                            arg= (String) args[i];
+                        }else if(args[i] instanceof Long || args[i].getClass().equals(long.class))
+                            arg=args[i]+"";
+                        if(PredicateAssist.notId.test(arg)){
+                            message.setRetCode(RetCodeEnum.fail);
+                            message.setRetMessage("参数[" + parameters[i].getName() + "]校验不通过!");
+                            return message;
+                        }
+                    }
+
                 }
-
+                //调用方法
+                t = (T) joinPoint.proceed(args);
+                return (RetMessage) t;
+            } catch (Throwable e) {
+                return message;
             }
-
-
-
-
-
-
-
-            //调用方法
-            t = (Serializable) joinPoint.proceed(args);
-            message.setDetail(t);
-            return message;
-        }catch (Throwable e){
-            return message;
-        }
+        };
+        return AopJob.workJob(job,joinPoint);
     }
 }

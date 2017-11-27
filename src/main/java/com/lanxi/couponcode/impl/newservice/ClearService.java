@@ -11,12 +11,14 @@ import java.util.List;
  * Created by yangyuanjian on 2017/11/22.
  */
 public interface ClearService {
-    void createClearDailyRecord();
+    Boolean addClearDailyRecord(ClearDailyRecord record);
+    Boolean addClearRecord(ClearRecord record);
+
     ClearDailyRecord queryDailyRecordInfo(Long recordId);
     ClearRecord queryClearRecordInfo(Long recordId);
 
     List<ClearDailyRecord> queryDailyRecords(Wrapper<ClearDailyRecord> wrapper, Page<ClearDailyRecord> page);
-    List<ClearRecord> queryClearRecords(Wrapper<ClearRecord> wrapper,Page<ClearDailyRecord> page);
-
+    List<ClearDailyRecord> queryDailyRecords(Long[] recordIds);
+    List<ClearRecord> queryClearRecords(Wrapper<ClearRecord> wrapper,Page<ClearRecord> page);
 
 }

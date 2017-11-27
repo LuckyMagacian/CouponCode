@@ -17,7 +17,7 @@ import java.util.concurrent.atomic.AtomicLong;
 @TableName ("code_algorithm")
 public class CodeAlgorithm extends AbstractCodeAlgorithm {
     /**
-     * 默认的串码计数起始值
+     * 数据库中的的串码计数起始值
      */
     private transient static final long DEFAULT_VAR = 500000000L;
 

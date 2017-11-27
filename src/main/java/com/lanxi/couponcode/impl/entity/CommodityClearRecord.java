@@ -1,4 +1,4 @@
-package com.lanxi.couponcode.impl.assist;
+package com.lanxi.couponcode.impl.entity;
 
 import com.baomidou.mybatisplus.activerecord.Model;
 import com.lanxi.couponcode.spi.consts.enums.ClearStatus;
@@ -100,6 +100,10 @@ public class CommodityClearRecord implements CommonDefaultMethodOfEntity {
 
     public void setCommodityType(CommodityType commodityType) {
         this.commodityType = commodityType;
+    }
+
+    public void setCommodityType(String commodityType) {
+        this.commodityType = CommodityType.getType(commodityType);
     }
 
     public Integer getVerificateNum() {

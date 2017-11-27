@@ -146,7 +146,7 @@ public class RedisEnhancedServiceImplOld{
         if(value==null){
             result=true;
         }else if(value.equals(unlocker)){
-            result=redis.set(key,null,null);
+            result=redis.set(key,(String)null,null);
         }else{
             result=false;
         }
@@ -171,7 +171,7 @@ public class RedisEnhancedServiceImplOld{
         if(value==null){
             result=true;
         }else if(value.equals(unlocker)){
-            result=redis.hset(mapName,key,null);
+            result=redis.hset(mapName,key,(String)null);
         }else{
             result=false;
         }
@@ -191,7 +191,7 @@ public class RedisEnhancedServiceImplOld{
             return null;
 
         Boolean result;
-        result=redis.set(key,null,null);
+        result=redis.set(key,(String)null,null);
         return result;
     }
 
@@ -209,7 +209,7 @@ public class RedisEnhancedServiceImplOld{
             return null;
 
         Boolean result;
-        result=redis.hset(mapName,key,null);
+        result=redis.hset(mapName,key,(String)null);
         return result;
     }
 

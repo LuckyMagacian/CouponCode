@@ -63,26 +63,26 @@ public class RedisCodeServiceImpl implements RedisCodeService{
     }
 
     @Override
-    public Boolean lockCode(Long merchantId, Long code, String locker) {
+    public Boolean lockCode(Long merchantId, Long code,@Deprecated String locker) {
         String key = getCodeKey(merchantId);
-        LockResult result=enhancedRedis.hlock(key,code.toString(),locker);
+        LockResult result=enhancedRedis.hlock(key,code.toString());
         return success.equals(result);
     }
 
     @Override
-    public Boolean lockCode(CouponCode code, String locker) {
+    public Boolean lockCode(CouponCode code,@Deprecated String locker) {
         return lockCode(code.getMerchantId(),code.getCode(),locker);
     }
 
     @Override
-    public Boolean lockCodeForce(Long merchantId, Long code, String locker) {
+    public Boolean lockCodeForce(Long merchantId, Long code,@Deprecated String locker) {
         String key = getCodeKey(merchantId);
-        LockResult result=enhancedRedis.hlockForce(key,code.toString(),locker);
+        LockResult result=enhancedRedis.hlockForce(key,code.toString());
         return success.equals(result);
     }
 
     @Override
-    public Boolean lockCodeForce(CouponCode code, String locker) {
+    public Boolean lockCodeForce(CouponCode code,@Deprecated String locker) {
         return lockCodeForce(code.getMerchantId(),code.getCode(),locker);
     }
 
@@ -99,14 +99,14 @@ public class RedisCodeServiceImpl implements RedisCodeService{
     }
 
     @Override
-    public Boolean unlockCodeForce(Long merchantId, Long code, String unlocker) {
+    public Boolean unlockCodeForce(Long merchantId, Long code, @Deprecated String unlocker) {
         String key = getCodeKey(merchantId);
         LockResult result=  enhancedRedis.hunlockForce(key,code.toString());
         return success.equals(result);
     }
 
     @Override
-    public Boolean unlockCodeForce(CouponCode code, String unlocker) {
+    public Boolean unlockCodeForce(CouponCode code, @Deprecated String unlocker) {
         return unlockCodeForce(code.getMerchantId(),code.getCode(),unlocker);
     }
 

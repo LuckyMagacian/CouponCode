@@ -69,6 +69,10 @@
           <element id="library" level="project" name="Maven: stax:stax-api:1.0.1" />
           <element id="library" level="project" name="Maven: org.apache.poi:poi:3.8" />
           <element id="library" level="project" name="Maven: commons-codec:commons-codec:1.5" />
+          <element id="library" level="project" name="Maven: com.esotericsoftware:kryo:4.0.0" />
+          <element id="library" level="project" name="Maven: com.esotericsoftware:reflectasm:1.11.3" />
+          <element id="library" level="project" name="Maven: org.ow2.asm:asm:5.0.4" />
+          <element id="library" level="project" name="Maven: com.esotericsoftware:minlog:1.3.0" />
         </element>
       </element>
       <element id="directory" name="META-INF">

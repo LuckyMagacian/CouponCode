@@ -5,6 +5,7 @@ import java.io.Serializable;
 /**
  * Created by yangyuanjian on 2017/10/31.
  */
+@Deprecated
 public enum IdType  implements Serializable,Gettype {
     MERCHANT("MERCHANT-ID-"),COMMODITY("MERCHANT-COMMODITY-ID-"),
     SHOP("MERCHANT-SHOP-ID-"),USER("MERCHANT-USER-ID-"),

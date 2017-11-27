@@ -6,38 +6,37 @@ import com.lanxi.couponcode.impl.dao.*;
  * dao接口
  * Created by yangyuanjian on 2017/11/1.
  */
-public interface DaoService {
-    public AccountDao getAccountDao();
+  public interface DaoService {
+      AccountDao getAccountDao();
 
-    public BankApiDao getBankApiDao();
+      BankApiDao getBankApiDao();
 
-    public CodeAlgorithmDao getCodeAlgorithmDao();
+      CodeAlgorithmDao getCodeAlgorithmDao();
 
-    public CommodityDao getCommodityDao();
+      CommodityDao getCommodityDao();
 
-    public CouponCodeDao getCouponCodeDao();
+      CouponCodeDao getCouponCodeDao();
 
-    public EnterpriseDao getEnterpriseDao();
+      EnterpriseDao getEnterpriseDao();
 
-    public MerchantClearDao getMerchantClearDao();
+      MerchantClearDao getMerchantClearDao();
 
-    public MerchantDao getMerchantDao();
+      MerchantDao getMerchantDao();
 
-    public MessageDao getMessageDao();
+      OperateRecordDao getOperateRecordDao();
 
-    public MessageObserverDao getMessageObserverDao();
+      OrderDao getOrderDao();
 
-    public OperateRecordDao getOperateRecordDao();
+      RequestDao getRequestDao();
 
-    public OrderDao getOrderDao();
+      ShopDao getShopDao();
 
-    public RecordDao getRecordDao();
+      StatisticDao getStatisticDao();
 
-    public RequestDao getRequestDao();
+      VerificationRecordDao getVerificationRecordDao();
 
-    public ShopDao getShopDao();
+      ClearDailyRecordDao getClearDailyRecordDao();
 
-    public StatisticDao getStatisticDao();
-
-    public VerificationRecordDao getVerificationRecordDao();
+      ClearRecordDao getClearRecordDao();
+    
 }

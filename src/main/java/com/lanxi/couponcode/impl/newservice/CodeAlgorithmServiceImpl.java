@@ -20,13 +20,7 @@ import java.util.stream.IntStream;
 @Order(20000)
 public class CodeAlgorithmServiceImpl implements CodeAlgorithmService{
     @Resource
-    DaoService daoService;
-    @Resource
-    RedisService redis;
-    @Resource
-    RedisEnhancedService enhancedRedis;
-    @Resource
-    ConfigService config;
+   private DaoService daoService;
     /**
      * 串码算法结构map
      */
@@ -56,11 +50,6 @@ public class CodeAlgorithmServiceImpl implements CodeAlgorithmService{
      */
     private static final long LOCAL_DEFAULT_CODE_VAR = 500000000L;
 
-
-    public CodeAlgorithmServiceImpl(){
-
-    }
-
     /***
      * 判断一个数是否是素数
      * @param num
@@ -77,16 +66,12 @@ public class CodeAlgorithmServiceImpl implements CodeAlgorithmService{
         return true;
     }
 
-    private void initConfig(){
-
-    }
-
     /**
      * 初始化质数相关的变量
      */
     private void initPrimes(){
         primes=new ArrayList<>();
-        int now=-10;
+        int now;
         List<Integer> nums= IntStream.range(PRIMES_START,PRIMES_END).parallel().mapToObj(e->Integer.valueOf(e)).collect(Collectors.toList());
         now =nums.parallelStream().filter(this::isPrime).findAny().orElse(-1);
         if(now==-1)
@@ -116,28 +101,22 @@ public class CodeAlgorithmServiceImpl implements CodeAlgorithmService{
             codeAlgorithm=daoService.getCodeAlgorithmDao().selectById(merchantId);
         }
         if(codeAlgorithm==null) {
-            addCodeAlgorithm(merchantId);
-            codeAlgorithm=daoService.getCodeAlgorithmDao().selectById(merchantId);
+
+            codeAlgorithm=addCodeAlgorithm(merchantId);
         }
         return codeAlgorithm;
     }
     /**添加算法实体*/
-    private void addCodeAlgorithm(Long merchantId){
+    private CodeAlgorithm addCodeAlgorithm(Long merchantId){
         CodeAlgorithm codeAlgorithm;
-        int hash=(merchantId+"").hashCode()>0?(merchantId+"").hashCode():(-(merchantId+"").hashCode());
+        int hash=(merchantId+"").hashCode();
+        hash=hash>0?hash:-hash;
         int middleSize=middle.size();
         int bigSize=big.size();
         codeAlgorithm=new CodeAlgorithm(merchantId,middle.get(hash%middleSize),big.get(hash%big.size()),big.get(((hash/2)%bigSize)),LOCAL_DEFAULT_CODE_VAR);
-        daoService.getCodeAlgorithmDao().insert(codeAlgorithm);
-    }
-
-    public void setConfig(ConfigService config) {
-        this.config = config;
-        initConfig();
-    }
-
-    public void setRedis(RedisService redis) {
-        this.redis = redis;
-        initPrimes();
+        boolean result=codeAlgorithm.insert();
+        if(result)
+            return codeAlgorithm;
+        return null;
     }
 }

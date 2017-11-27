@@ -5,12 +5,11 @@ import com.baomidou.mybatisplus.annotations.TableId;
 import com.baomidou.mybatisplus.annotations.TableName;
 import com.baomidou.mybatisplus.enums.IdType;
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
+import com.lanxi.couponcode.spi.abstractentity.AbstractCouponCode;
 import com.lanxi.couponcode.spi.consts.enums.ClearStatus;
 import com.lanxi.couponcode.spi.consts.enums.CouponCodeStatus;
-import com.lanxi.couponcode.spi.abstractentity.AbstractCouponCode;
 
 import java.io.Serializable;
-import java.sql.JDBCType;
 import java.util.List;
 
 @TableName("coupon_code")
@@ -43,7 +42,7 @@ public class CouponCode extends AbstractCouponCode{
 	@TableField("destroyed_record_id")
 	private Long destroyRecordId;
 	/**串码状态*/
-	@TableField(value = "coupon_code_status")
+	@TableField(value = "code_status")
 	private CouponCodeStatus codeStatus;
 	/**串码所属商户编号*/
 	@TableField("merchant_id")
@@ -54,6 +53,12 @@ public class CouponCode extends AbstractCouponCode{
 	/**清算状态*/
 	@TableField("clear_status")
 	private ClearStatus clearStatus;
+	/**结算时间*/
+	@TableField("clear_time")
+	private String clearTime;
+	/**串码终止时间,即串码 核销|过期|销毁 的时间*/
+	@TableField("final_time")
+	private String finalTime;
 	@Override
 	public Serializable pkVal(){
 		return this.codeId;
@@ -86,6 +91,8 @@ public class CouponCode extends AbstractCouponCode{
 				", merchantId=" + merchantId +
 				", merchantName='" + merchantName + '\'' +
 				", clearStatus=" + clearStatus +
+				", clearTime='" + clearTime + '\'' +
+				", finalTime='" + finalTime + '\'' +
 				'}';
 	}
 
@@ -175,11 +182,34 @@ public class CouponCode extends AbstractCouponCode{
 		this.merchantName = merchantName;
 	}
 
-	public ClearStatus getClearStatus() {
+	public String getClearStatus() {
+		return clearStatus.getValue();
+	}
+	public ClearStatus getClearStatusEnum() {
 		return clearStatus;
 	}
 
 	public void setClearStatus(ClearStatus clearStatus) {
 		this.clearStatus = clearStatus;
+	}
+	public void setClearStatus(String clearStatus) {
+		this.clearStatus = ClearStatus.getType(clearStatus);
+	}
+
+	public String getClearTime() {
+		return clearTime;
+	}
+
+	public void setClearTime(String clearTime) {
+		this.clearTime = clearTime;
+	}
+
+
+	public String getFinalTime() {
+		return finalTime;
+	}
+
+	public void setFinalTime(String finalTime) {
+		this.finalTime = finalTime;
 	}
 }

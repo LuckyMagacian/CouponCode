@@ -8,12 +8,12 @@ import java.util.List;
 import java.util.Optional;
 
 /**
- * Created by yangyuanjian on 2017/11/14.
+ * Created by yangyuanjian on 2017/11/23.
  */
 public interface CodeService {
+    Boolean addCode(CouponCode code);
     Boolean checkCodeExists(Long codeId);
     Boolean checkCodeExists(Long merchantId,Long code);
-    CouponCode generateCode(CouponCode code);
     Boolean delCode(CouponCode code);
     Boolean verificateCode(CouponCode code);
     Boolean overTimeCode(CouponCode code);

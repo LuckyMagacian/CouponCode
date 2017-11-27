@@ -1,46 +1,72 @@
 package com.lanxi.couponcode.spi.service;
 
 import com.lanxi.couponcode.spi.assist.RetMessage;
-import com.lanxi.couponcode.spi.consts.annotations.HiddenArg;
 import com.lanxi.couponcode.spi.consts.enums.ClearStatus;
+import com.lanxi.couponcode.spi.consts.enums.InvoiceStatus;
 
 import java.io.File;
-import java.math.BigDecimal;
 
 /**
  * Created by yangyuanjian on 2017/11/9.
  */
 public interface ClearService {
-
-    RetMessage<File> merchantClearExport(String timeStart,
+    /**管理员专用*/
+    RetMessage<String> queryDailyRecords(String merchantName,
+                                         String timeStart,
                                          String timeStop,
-                                         ClearStatus status,
-                                         @HiddenArg Long operaterId);
-    RetMessage<String> clearQuery(String timeStart,
-                                  String timeEnd,
-                                  String merchantName,
-                                  ClearStatus status,
+                                         ClearStatus clearStatus,
+                                         Integer pageNum,
+                                         Integer pageSize,
+                                         Long operaterId);
+    /**商户用*/
+    RetMessage<String> queryDailyRecords(String timeStart,
+                                         String timeStop,
+                                         ClearStatus clearStatus,
+                                         Integer pageNum,
+                                         Integer pageSize,
+                                         Long operaterId);
+
+    RetMessage<String> queryDailyRecordInfo(Long recordId,Long operaterId);
+
+
+    /**管理员用*/
+    RetMessage<String> queryClearRecords(String merchantName,
+                                         String timeStart,
+                                         String timeStop,
+                                         ClearStatus clearStatus,
+                                         InvoiceStatus invoiceStatus,
+                                         Integer pageNum,
+                                         Integer pageSize,
+                                         Long operaterId);
+
+    RetMessage<File> exportClearRecords(String merchantName,
+                                        String timeStart,
+                                        String timeStop,
+                                        ClearStatus clearStatus,
+                                        InvoiceStatus invoiceStatus,
+                                        Long operaterId);
+
+    /**商户用*/
+    RetMessage<String> queryClearRecords(String timeStart,
+                                         String timeStop,
+                                         ClearStatus clearStatus,
+                                         InvoiceStatus invoiceStatus,
+                                         Integer pageNum,
+                                         Integer pageSize,
+                                         Long operaterId);
+
+    RetMessage<File> exportClearRecords(String timeStart,
+                                        String timeStop,
+                                        ClearStatus clearStatus,
+                                        InvoiceStatus invoiceStatus,
+                                        Long operaterId);
+
+    RetMessage<String> queryRecordInfo(Long recordId,Long operaterId);
+
+    /**管理员用*/
+    RetMessage<String> clear(Long[] dailyRecordIds,
                                   Long operaterId);
 
-    RetMessage<String> clearQuery(String timeStart,
-                                  String timeEnd,
-                                  ClearStatus status,
-                                  Long merchantId,
-                                  Long operaterId);
 
-    RetMessage<String> clear(String clearTime,
-                             BigDecimal clearCost,
-                             Long[] recordIds,
-                             Long operaterId);
-
-    RetMessage<String> clear(String timeStart,
-                             String timeEnd,
-                             Long merchantId,
-                             Long operaterId);
-
-    RetMessage<String> clear(String timeStart,
-                             String timeEnd,
-                             Long[] merchantIds,
-                             Long operaterId);
 
 }

@@ -195,7 +195,7 @@ public class RedisEnhancedServiceImpl implements RedisEnhancedService{
             if(oldLocker==null)
                 return true;
             if(oldLocker.equals(unlocker))
-                return redisService.set(key,null,null);
+                return redisService.set(key,(String)null,null);
             else
                 return occupy;
         };
@@ -210,11 +210,11 @@ public class RedisEnhancedServiceImpl implements RedisEnhancedService{
             if(oldLocker==null)
                 return true;
             else if(oldLocker.equals(unlocker))
-                return redisService.hset(mapName,key,null);
+                return redisService.hset(mapName,key,(String)null);
             else {
                 //判断旧锁是否是延时锁,且判断有效期
                 if(isFormer(oldLocker)){
-                    return redisService.hset(mapName,key,null);
+                    return redisService.hset(mapName,key,(String)null);
                 }else{
                     return occupy;
                 }
@@ -233,7 +233,7 @@ public class RedisEnhancedServiceImpl implements RedisEnhancedService{
             else {
                 //判断旧锁是否是延时锁,且判断有效期
                 if(isFormer(oldLocker)){
-                    return redisService.hset(mapName,key,null);
+                    return redisService.hset(mapName,key,(String)null);
                 }else{
                     return occupy;
                 }
@@ -244,13 +244,13 @@ public class RedisEnhancedServiceImpl implements RedisEnhancedService{
 
     @Override
     public LockResult unlockForce(String key) {
-        LockJob<Serializable> job=()->redisService.set(key,null,null);
+        LockJob<Serializable> job=()->redisService.set(key,(String)null,null);
         return doLockCommon(job,key);
     }
 
     @Override
     public LockResult hunlockForce(String mapName, String key) {
-        LockJob<Serializable> job=()->redisService.hset(mapName,key,null);
+        LockJob<Serializable> job=()->redisService.hset(mapName,key,(String)null);
         return doLockCommon(job,key);
     }
 }

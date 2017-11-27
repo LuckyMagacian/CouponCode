@@ -14,20 +14,29 @@ import java.util.Set;
  * Created by yangyuanjian on 2017/11/14.<br>
  */
 public interface RedisService {
-    /**获取连接*/
+    /**
+     * 获取连接
+     */
     Jedis generateConn();
-    /**销毁连接*/
+
+    /**
+     * 销毁连接
+     */
     Boolean destroyConn(Jedis jedis);
 
-    Boolean set(String key,String value,Long life);
+    Boolean set(String key, String value, Long life);
+
+    Boolean set(String key,byte[] value ,Long life);
+
+    Boolean set(byte[] key,byte[] value,Long life);
 
 //    Boolean set(byte[] key,byte[] value,Long life);
 
-    Boolean setEx(String key,String value,Long life);
+    Boolean setEx(String key, String value, Long life);
 
 //    Boolean setEx(byte[] key,byte[] value,Long life);
 
-    Boolean setNx(String key,String value,Long life);
+    Boolean setNx(String key, String value, Long life);
 
 //    Boolean setNx(byte[] key,byte[] value,Long life);
 
@@ -35,7 +44,16 @@ public interface RedisService {
 
     Boolean exists(String... keys);
 
+    Set<String> keys(String pattern);
+
+    Boolean delKeyByPattern(String pattern);
+
     String get(String key);
+
+    byte[] getBytes(String key);
+
+    byte[] get(byte[] key);
+
 
 //    byte[] get(byte[] key);
 
@@ -51,33 +69,46 @@ public interface RedisService {
 
 //    Boolean del(byte[]... keys);
 
-    Boolean expire(String key,Long life);
+    Boolean expire(String key, Long life);
 
     Long incr(String key);
 
-    Long incrBy(String key,long step);
+    Long incrBy(String key, long step);
 
     Long decr(String key);
 
-    Long decrBy(String key,long step);
+    Long decrBy(String key, long step);
 
     //------------------------------------------------------------------------------------------------------------------
 
-    Boolean hset(String mapName,String key,String value);
+    Boolean hset(String mapName, String key, String value);
 
-    Boolean hset(String mapName,Map<String,String> value);
+    Boolean hset(String mapName, Map<String, String> value);
 
-    String hget(String mapName,String key);
+    Boolean hset(byte[] mapName,byte[] key,byte[] value);
 
-    Map<String,String> hget(String mapName);
+    Boolean hset(String mapName,byte[] key,byte[] value);
 
-    Collection<String> hget(String mapName,String... keys);
+    Boolean hset(String mapName,String key,byte[] value);
 
-    Boolean hsetNx(String mapName,String key,String value);
 
-    Boolean hsetEx(String mapName,String key,String value);
 
-    Boolean hexists(String mapName,String key);
+    String hget(String mapName, String key);
+
+    byte[] hgetBytes(String mapName,String key);
+
+    byte[] hget(byte[] mapName,byte[] key);
+
+
+    Map<String, String> hget(String mapName);
+
+    Collection<String> hget(String mapName, String... keys);
+
+    Boolean hsetNx(String mapName, String key, String value);
+
+    Boolean hsetEx(String mapName, String key, String value);
+
+    Boolean hexists(String mapName, String key);
 
     Long hlength(String mapName);
 
@@ -85,22 +116,22 @@ public interface RedisService {
 
     Collection<String> hvals(String mapName);
 
-    Long hincr(String mapName,String key);
+    Long hincr(String mapName, String key);
 
-    Long hincrBy(String mapName,String key,Long step);
+    Long hincrBy(String mapName, String key, Long step);
 
-    Long hdecr(String mapName,String key);
+    Long hdecr(String mapName, String key);
 
-    Long hdecrBy(String mapName,String key,Long step);
+    Long hdecrBy(String mapName, String key, Long step);
 
-    Boolean hdel(String mapName,String key);
+    Boolean hdel(String mapName, String key);
 
-    Boolean hdel(String mapName,String... keys);
+    Boolean hdel(String mapName, String... keys);
     //------------------------------------------------------------------------------------------------------------------
 
-    Boolean lpush(String listName,String value);
+    Boolean lpush(String listName, String value);
 
-    Boolean rpush(String listName,String value);
+    Boolean rpush(String listName, String value);
 
     String lpop(String listName);
 
@@ -110,15 +141,15 @@ public interface RedisService {
 
     //------------------------------------------------------------------------------------------------------------------
 
-    Boolean sadd(String setName,String... values);
+    Boolean sadd(String setName, String... values);
 
     Collection<String> smembers(String setName);
 
-    Boolean sremove(String setName,String... members);
+    Boolean sremove(String setName, String... members);
 
 //    Long ssize(String setName);
 
-    Boolean sismember(String setName,String member);
+    Boolean sismember(String setName, String member);
 
     //------------------------------------------------------------------------------------------------------------------
 

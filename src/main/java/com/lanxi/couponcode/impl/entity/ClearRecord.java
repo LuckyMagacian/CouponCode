@@ -7,6 +7,7 @@ import com.baomidou.mybatisplus.annotations.TableField;
 import com.baomidou.mybatisplus.annotations.TableId;
 import com.baomidou.mybatisplus.annotations.TableName;
 import com.lanxi.couponcode.spi.consts.enums.InvoiceStatus;
+import com.lanxi.couponcode.spi.defaultInterfaces.CommonDefaultMethodOfEntity;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
@@ -18,7 +19,7 @@ import java.util.Map;
  * Created by yangyuanjian on 2017/11/20.
  */
 @TableName ("clear_record")
-public class ClearRecord extends Model<ClearRecord> {
+public class ClearRecord extends Model<ClearRecord> implements CommonDefaultMethodOfEntity {
     /**
      * 记录编号
      */

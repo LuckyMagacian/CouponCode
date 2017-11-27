@@ -19,6 +19,7 @@ public class DaoServiceImpl implements DaoService {
     private BankApiDao bankApiDao;
     @Resource
     private CodeAlgorithmDao codeAlgorithmDao;
+    @Resource
     private CommodityDao commodityDao;
     @Resource
     private CouponCodeDao couponCodeDao;
@@ -26,17 +27,21 @@ public class DaoServiceImpl implements DaoService {
     private MerchantClearDao merchantClearDao;
     @Resource
     private MerchantDao merchantDao;
-    private MessageDao messageDao;
-    private MessageObserverDao messageObserverDao;
     @Resource
     private OperateRecordDao operateRecordDao;
+
     private OrderDao orderDao;
-    private RecordDao recordDao;
+    @Resource
     private RequestDao requestDao;
     @Resource
     private ShopDao shopDao;
     private StatisticDao statisticDao;
+    @Resource
     private VerificationRecordDao verificationRecordDao;
+    @Resource
+    private ClearRecordDao clearRecordDao;
+    @Resource
+    private ClearDailyRecordDao clearDailyRecordDao;
 
     public AccountDao getAccountDao() {
         return accountDao;
@@ -70,24 +75,12 @@ public class DaoServiceImpl implements DaoService {
         return merchantDao;
     }
 
-    public MessageDao getMessageDao() {
-        return messageDao;
-    }
-
-    public MessageObserverDao getMessageObserverDao() {
-        return messageObserverDao;
-    }
-
     public OperateRecordDao getOperateRecordDao() {
         return operateRecordDao;
     }
 
     public OrderDao getOrderDao() {
         return orderDao;
-    }
-
-    public RecordDao getRecordDao() {
-        return recordDao;
     }
 
     public RequestDao getRequestDao() {
@@ -104,6 +97,16 @@ public class DaoServiceImpl implements DaoService {
 
     public VerificationRecordDao getVerificationRecordDao() {
         return verificationRecordDao;
+    }
+
+    @Override
+    public ClearDailyRecordDao getClearDailyRecordDao() {
+        return null;
+    }
+
+    @Override
+    public ClearRecordDao getClearRecordDao() {
+        return null;
     }
 
     public void setAccountDao(AccountDao accountDao) {
@@ -138,24 +141,12 @@ public class DaoServiceImpl implements DaoService {
         this.merchantDao = merchantDao;
     }
 
-    public void setMessageDao(MessageDao messageDao) {
-        this.messageDao = messageDao;
-    }
-
-    public void setMessageObserverDao(MessageObserverDao messageObserverDao) {
-        this.messageObserverDao = messageObserverDao;
-    }
-
     public void setOperateRecordDao(OperateRecordDao operateRecordDao) {
         this.operateRecordDao = operateRecordDao;
     }
 
     public void setOrderDao(OrderDao orderDao) {
         this.orderDao = orderDao;
-    }
-
-    public void setRecordDao(RecordDao recordDao) {
-        this.recordDao = recordDao;
     }
 
     public void setRequestDao(RequestDao requestDao) {
@@ -172,5 +163,13 @@ public class DaoServiceImpl implements DaoService {
 
     public void setVerificationRecordDao(VerificationRecordDao verificationRecordDao) {
         this.verificationRecordDao = verificationRecordDao;
+    }
+
+    public void setClearRecordDao(ClearRecordDao clearRecordDao) {
+        this.clearRecordDao = clearRecordDao;
+    }
+
+    public void setClearDailyRecordDao(ClearDailyRecordDao clearDailyRecordDao) {
+        this.clearDailyRecordDao = clearDailyRecordDao;
     }
 }
