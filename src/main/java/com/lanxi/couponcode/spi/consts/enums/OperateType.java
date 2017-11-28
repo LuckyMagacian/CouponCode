@@ -23,8 +23,8 @@ public enum OperateType implements Serializable,Gettype{
     createCommodity(51),		unshelveCommodity(52),			shelveCommodity(53),		deleteCommodity(54),
     modifyCommodity(55),		queryCommodity(56),			    cancelCommodity(59),
 
-    destroyCouponCode(61),		createCouponCode(62),			queryCouponCode(66),
-    cancelCouponCode(69),
+    destroyCouponCode(61),		createCouponCode(62),			queryCouponCode(66),        postoneCouponCode(67),
+    cancelCouponCode(69),       queryCouponCodeList(68),
 
     createAccount(71),			unfreezeAccount(72),			freezeAccount(73),
     deleteAccount(74),			modifyAccount(75),			    queryAccount(76),			cancelAccount(79),
@@ -36,7 +36,20 @@ public enum OperateType implements Serializable,Gettype{
     statscitcCommodity(95),     statscitcCouponCode(96),        statscitcAccount(97),       statsticMerchant(98),
 
     exportShop(101),            exportMerchantManager(102),     exportShopManager(103),     exportEmployee(104),
-    exportCommodity(105),       exportCouponCode(106),          exportAccount(107),         exportMerchant(108);
+    exportCommodity(105),       exportCouponCode(106),          exportAccount(107),         exportMerchant(108),
+
+    queryDailyRecord(111),      exportDailyRecord(112),         clearDailyRecord(113),
+
+    queryClearRecord(121),      exportClearRecord(122),         createClearRecord(123),
+
+    queryVerifyRecord(131),     exportVerifyRecord(132),        createVerifyRecord(133),
+
+    requestAddCommodity(141),   requestModifyCommodity(142),    requestUnshelveCommodity(143),  requestShelveCommodity(144),
+    rquestDelCommodity(145),    queryRequest(146),              passRequest(147),               rejectRequest(148),
+
+    queryOperateRecord(151),    queryOperateRecordList(152);
+
+
     private String value;
 
     OperateType(int value) {

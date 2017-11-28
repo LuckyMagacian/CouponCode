@@ -2,7 +2,6 @@ package com.lanxi.couponcode.view;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -25,7 +24,6 @@ import com.lanxi.util.entity.LogFactory;
 public class ShopController {
 	@Resource
 	private ShopService shopService;
-	
 	@SetUtf8
 	@ResponseBody
 	@RequestMapping(value = "", produces = "application/json;charset=utf-8")

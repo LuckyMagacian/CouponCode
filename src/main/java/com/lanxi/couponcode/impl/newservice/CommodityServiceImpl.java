@@ -1,5 +1,6 @@
 package com.lanxi.couponcode.impl.newservice;
 
+import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.mapper.Wrapper;
 import com.baomidou.mybatisplus.plugins.Page;
 import com.lanxi.couponcode.impl.entity.Commodity;
@@ -28,6 +29,19 @@ public class CommodityServiceImpl implements CommodityService{
     @Override
     public Commodity queryCommodity(Long commodityId) {
         return daoService.getCommodityDao().selectById(commodityId);
+    }
+
+    @Override
+    public Commodity queryCommodity(Long commodityId, Long merchantId) {
+        EntityWrapper<Commodity> wrapper=new EntityWrapper<>();
+        wrapper.eq("commodity_id",commodityId);
+        wrapper.eq("merchant_id",merchantId);
+        List<Commodity> list=queryCommodities(wrapper,null);
+        if(list==null||list.isEmpty())
+            return null;
+        if(list.size()>1)
+            return null;
+        return list.get(0);
     }
 
     @Override

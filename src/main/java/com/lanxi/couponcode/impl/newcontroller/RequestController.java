@@ -11,7 +11,7 @@ import com.lanxi.couponcode.spi.consts.enums.*;
 import com.lanxi.util.utils.TimeUtil;
 import com.sun.org.apache.regexp.internal.RE;
 import org.springframework.stereotype.Controller;
-
+import static com.lanxi.couponcode.impl.assist.PredicateAssist.*;
 import javax.activation.CommandInfo;
 import javax.annotation.Resource;
 import java.math.BigDecimal;
@@ -105,9 +105,10 @@ public class RequestController implements com.lanxi.couponcode.spi.service.Reque
                                             Integer pageNum,
                                             Integer pageSize,
                                             Long operaterId) {
-        //TODO 查询
-        Account account=null;
-        //TODO 校验
+        Account account=accountService.queryAccountById(operaterId);
+        RetMessage message=checkAccount.apply(account,OperateType.queryRequest);
+        if(message!=null)
+            return message;
         Page<Request> page=new Page<>(pageNum,pageSize);
         List<Request> list=queryRequestsHidden(timeStart,timeStop,commodityName,merchantName,type,status,commodityType,merchantId,page);
         Map<String,Object> map=new HashMap<>();
@@ -123,11 +124,27 @@ public class RequestController implements com.lanxi.couponcode.spi.service.Reque
     public RetMessage<Boolean> agreeRequest(Long requestId,
                                             Long operaterId,
                                             String reason) {
-        //TODO 查询
-        Account account=null;
+        Account account=accountService.queryAccountById(operaterId);
+        RetMessage message=checkAccount.apply(account,OperateType.passRequest);
+        if(message!=null)
+            return message;
         Request request=requestService.queryRequestInfo(requestId);
-        if(request==null){
-            return new RetMessage<>(RetCodeEnum.fail,"不存在!",null);
+        message=checkRequest.apply(request,OperateType.passRequest);
+        if(message!=null)
+            return message;
+        Merchant merchant=merchantService.queryMerchantParticularsById(account.getMerchantId());
+        message=checkMerchant.apply(merchant,OperateType.passRequest);
+        if(message!=null)
+            return message;
+        String commodityJson=request.getCommodityInfo();
+        Commodity commodity=JSON.parseObject(commodityJson,Commodity.class);
+        if(!RequestOperateType.createCommodity.equals(request.getType())){
+            Long commodityId=commodity.getCommodityId();
+            if(commodityId==null)
+                return new RetMessage<>(RetCodeEnum.fail,"非添加操作,商品编号不能为空!",null);
+            message=checkCommodity.apply(commodityService.queryCommodity(commodityId),OperateType.getType(request.getType()));
+            if(message!=null)
+                return message;
         }
         //配置请求
         request.setStatus(RequestStatus.pass);
@@ -144,23 +161,15 @@ public class RequestController implements com.lanxi.couponcode.spi.service.Reque
             boolean flag=false;
             switch (RequestOperateType.getType(request.getType())){
                 case createCommodity:{
-                    String commodityJson=request.getCommodityInfo();
-                    Commodity commodity=JSON.parseObject(commodityJson,Commodity.class);
                     flag=commodityService.addCommodity(commodity);
                 };break;
                 case modifyCommodity:{
-                    String commodityJson=request.getCommodityInfo();
-                    Commodity commodity=JSON.parseObject(commodityJson,Commodity.class);
                     flag=commodityService.modifyCommodity(commodity);
                 };break;
                 case unshelveCommodity:{
-                    String commodityJson=request.getCommodityInfo();
-                    Commodity commodity=JSON.parseObject(commodityJson,Commodity.class);
                     flag=commodityService.shelveCommodity(commodity);
                 };break;
                 case shelveCommodity:{
-                    String commodityJson=request.getCommodityInfo();
-                    Commodity commodity=JSON.parseObject(commodityJson,Commodity.class);
                     flag=commodityService.unshelveCommodity(commodity);
                 };break;
                 case cancelCommodity:throw new UnsupportedOperationException("不支持注销商品");
@@ -178,12 +187,18 @@ public class RequestController implements com.lanxi.couponcode.spi.service.Reque
     public RetMessage<Boolean> disagreeRequest(Long requestId,
                                                Long operaterId,
                                                String reason) {
-        //TODO 查询
-        Account account=null;
+        Account account=accountService.queryAccountById(operaterId);
+        RetMessage message=checkAccount.apply(account,OperateType.rejectRequest);
+        if(message!=null)
+            return message;
         Request request=requestService.queryRequestInfo(requestId);
-        if(request==null){
-            return new RetMessage<>(RetCodeEnum.fail,"不存在!",null);
-        }
+        message=checkRequest.apply(request,OperateType.rejectRequest);
+        if(message!=null)
+            return message;
+        Merchant merchant=merchantService.queryMerchantParticularsById(account.getMerchantId());
+        message=checkMerchant.apply(merchant,OperateType.rejectRequest);
+        if(message!=null)
+            return message;
         //配置请求
         request.setStatus(RequestStatus.reject);
         request.setCheckerId(account.getAccountId());
@@ -212,9 +227,14 @@ public class RequestController implements com.lanxi.couponcode.spi.service.Reque
                                                    Long operaterId,
                                                    Long merchantId) {
 
-        //TODO 查询
-        Account account=null;
-        Merchant merchant=null;
+        Account account=accountService.queryAccountById(operaterId);
+        RetMessage message=checkAccount.apply(account,OperateType.requestAddCommodity);
+        if(message!=null)
+            return message;
+        Merchant merchant=merchantService.queryMerchantParticularsById(account.getMerchantId());
+        message=checkMerchant.apply(merchant,OperateType.requestAddCommodity);
+        if(message!=null)
+            return message;
         //组装商品
         Commodity commodity=new Commodity();
         commodity.setAddId(IdWorker.getId());
@@ -254,11 +274,19 @@ public class RequestController implements com.lanxi.couponcode.spi.service.Reque
                                                       Integer lifeTime,
                                                       Long commodityId,
                                                       Long operaterId) {
-        //TODO 查询
-        Account account=null;
-        Merchant merchant=null;
+        Account account=accountService.queryAccountById(operaterId);
+        RetMessage message=checkAccount.apply(account,OperateType.requestModifyCommodity);
+        if(message!=null)
+            return message;
+        Merchant merchant=merchantService.queryMerchantParticularsById(account.getMerchantId());
+        message=checkMerchant.apply(merchant,OperateType.requestModifyCommodity);
+        if(message!=null)
+            return message;
         //修改商品
         Commodity commodity=commodityService.queryCommodity(commodityId);
+        message=checkCommodity.apply(commodityService.queryCommodity(commodityId),OperateType.requestModifyCommodity);
+        if(message!=null)
+            return message;
         commodity.setCostPrice(costPrice);
         commodity.setFacePrice(facePrice);
         commodity.setSellPrice(sellPrice);
@@ -278,11 +306,19 @@ public class RequestController implements com.lanxi.couponcode.spi.service.Reque
     @Override
     public RetMessage<Boolean> requestShelveCommodity(Long commodityId,
                                                       Long operaterId) {
-        //TODO 查询
-        Account account=null;
-        Merchant merchant=null;
+        Account account=accountService.queryAccountById(operaterId);
+        RetMessage message=checkAccount.apply(account,OperateType.requestShelveCommodity);
+        if(message!=null)
+            return message;
+        Merchant merchant=merchantService.queryMerchantParticularsById(account.getMerchantId());
+        message=checkMerchant.apply(merchant,OperateType.requestShelveCommodity);
+        if(message!=null)
+            return message;
         //修改商品
         Commodity commodity=commodityService.queryCommodity(commodityId);
+        message=checkCommodity.apply(commodityService.queryCommodity(commodityId),OperateType.requestShelveCommodity);
+        if(message!=null)
+            return message;
         commodity.setStatus(CommodityStatus.shelved);
         //组装请求
         Request request=makeRequest(account,merchant,commodity);
@@ -299,13 +335,19 @@ public class RequestController implements com.lanxi.couponcode.spi.service.Reque
     @Override
     public RetMessage<Boolean> requestUnshelveCommodity(Long commodityId,
                                                         Long operaterId) {
-        //TODO 查询
-        Account account=null;
-        Merchant merchant=null;
+        Account account=accountService.queryAccountById(operaterId);
+        RetMessage message=checkAccount.apply(account,OperateType.requestUnshelveCommodity);
+        if(message!=null)
+            return message;
+        Merchant merchant=merchantService.queryMerchantParticularsById(account.getMerchantId());
+        message=checkMerchant.apply(merchant,OperateType.requestUnshelveCommodity);
+        if(message!=null)
+            return message;
         //修改商品
         Commodity commodity=commodityService.queryCommodity(commodityId);
-        commodity.setStatus(CommodityStatus.shelved);
-        //组装请求
+        message=checkCommodity.apply(commodityService.queryCommodity(commodityId),OperateType.requestUnshelveCommodity);
+        if(message!=null)
+            return message;
         Request request=makeRequest(account,merchant,commodity);
         request.setType(RequestOperateType.unshelveCommodity);
         Boolean result=requestService.addRequest(request);
@@ -327,10 +369,14 @@ public class RequestController implements com.lanxi.couponcode.spi.service.Reque
                                                     Integer pageNum,
                                                     Integer pageSize,
                                                     Long operaterId) {
-        //TODO 查询
-        Account account=null;
-        Merchant merchant=null;
-        //TODO 校验
+        Account account=accountService.queryAccountById(operaterId);
+        RetMessage message=checkAccount.apply(account,OperateType.requestUnshelveCommodity);
+        if(message!=null)
+            return message;
+        Merchant merchant=merchantService.queryMerchantParticularsById(account.getMerchantId());
+        message=checkMerchant.apply(merchant,OperateType.requestUnshelveCommodity);
+        if(message!=null)
+            return message;
         Page<Request> page=new Page<>(pageNum,pageSize);
         List<Request> list=queryRequestsHidden(timeStart,timeEnd,commodityName,merchant.getMerchantName(),operateType,status,type,merchant.getMerchantId(),page);
         Map<String,Object> map=new HashMap<>();

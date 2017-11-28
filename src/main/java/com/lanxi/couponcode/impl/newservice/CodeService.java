@@ -20,5 +20,6 @@ public interface CodeService {
     Boolean postoneCode(CouponCode code);
     Optional<CouponCode> queryCode(Long merchantId , Long code);
     CouponCode queryCode(Long codeId);
+    CouponCode queryCodeInfo(Long codeId,Long merchantId);
     List<CouponCode> queryCodes(Wrapper<CouponCode> wrapper, Page<CouponCode> page);
 }

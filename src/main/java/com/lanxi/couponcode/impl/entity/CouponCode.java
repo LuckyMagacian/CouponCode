@@ -59,6 +59,12 @@ public class CouponCode extends AbstractCouponCode{
 	/**串码终止时间,即串码 核销|过期|销毁 的时间*/
 	@TableField("final_time")
 	private String finalTime;
+	/**生成原因*/
+	@TableField("reason")
+	private String reason;
+	/**渠道*/
+	@TableField("channel")
+	private Integer channel;
 	@Override
 	public Serializable pkVal(){
 		return this.codeId;
@@ -66,13 +72,6 @@ public class CouponCode extends AbstractCouponCode{
 
 	public boolean isExisted(){
 		return isExisted(this.merchantId,this.code);
-	}
-
-	public boolean isExisted(long merchantId,long code){
-		List<AbstractCouponCode> codes=this.selectList(new EntityWrapper<CouponCode>().eq("merchant_id",merchantId).eq("code",code));
-		if(codes==null||codes.isEmpty())
-			return false;
-		return true;
 	}
 
 	@Override
@@ -93,7 +92,32 @@ public class CouponCode extends AbstractCouponCode{
 				", clearStatus=" + clearStatus +
 				", clearTime='" + clearTime + '\'' +
 				", finalTime='" + finalTime + '\'' +
+				", reason='" + reason + '\'' +
+				", channel=" + channel +
 				'}';
+	}
+
+	public boolean isExisted(long merchantId, long code){
+		List<AbstractCouponCode> codes=this.selectList(new EntityWrapper<CouponCode>().eq("merchant_id",merchantId).eq("code",code));
+		if(codes==null||codes.isEmpty())
+			return false;
+		return true;
+	}
+
+	public Integer getChannel() {
+		return channel;
+	}
+
+	public void setChannel(Integer channel) {
+		this.channel = channel;
+	}
+
+	public String getReason() {
+		return reason;
+	}
+
+	public void setReason(String reason) {
+		this.reason = reason;
 	}
 
 	public Long getCodeId() {

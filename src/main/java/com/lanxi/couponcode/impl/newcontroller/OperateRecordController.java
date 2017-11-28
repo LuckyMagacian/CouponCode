@@ -3,6 +3,7 @@ package com.lanxi.couponcode.impl.newcontroller;
 import com.alibaba.fastjson.JSON;
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.plugins.Page;
+import com.lanxi.couponcode.impl.newservice.AccountService;
 import com.lanxi.couponcode.spi.assist.RetMessage;
 import com.lanxi.couponcode.impl.entity.Account;
 import com.lanxi.couponcode.impl.entity.OperateRecord;
@@ -22,7 +23,7 @@ import javax.annotation.Resource;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
+import static com.lanxi.couponcode.impl.assist.PredicateAssist.*;
 /**
  * Created by yangyuanjian on 2017/11/16.
  */
@@ -35,7 +36,8 @@ public class OperateRecordController implements com.lanxi.couponcode.spi.service
     private RedisService redisService;
     @Resource
     private RedisEnhancedService redisEnhancedService;
-
+    @Resource
+    private AccountService accountService;
     @Override
     public RetMessage<String> queryOperateRecord(OperateType type,
                                                  OperateTargetType targetType,
@@ -49,7 +51,12 @@ public class OperateRecordController implements com.lanxi.couponcode.spi.service
                                                  Integer pageNum,
                                                  Integer pageSize,
                                                  Long operaterId) {
-        //TODO 校验
+        //-----------------------------------------------------------------校验--------------------------------------------------------------
+        Account account=accountService.queryAccountById(operaterId);
+        RetMessage message=checkAccount.apply(account,OperateType.queryOperateRecordList);
+        if(message!=null)
+            return message;
+        //-----------------------------------------------------------------执行--------------------------------------------------------------
         Page<OperateRecord> page = new Page<>(pageNum, pageSize);
         EntityWrapper<OperateRecord> wrapper = new EntityWrapper<>();
         if (type != null)
@@ -77,6 +84,7 @@ public class OperateRecordController implements com.lanxi.couponcode.spi.service
         if (phone != null)
             wrapper.like("phone", phone);
         List<OperateRecord> list = recordService.queryRecords(wrapper, page);
+        //-----------------------------------------------------------------返回--------------------------------------------------------------
         //需要分页信息
         Map<String,Object> map=new HashMap<>();
         map.put("page",page);
@@ -99,10 +107,12 @@ public class OperateRecordController implements com.lanxi.couponcode.spi.service
                                                          Integer pageNum,
                                                          Integer pageSize,
                                                          Long operaterId) {
-        //TODO 校验
-        //TODO 查询
-        Account account = null;
-
+        //-----------------------------------------------------------------校验--------------------------------------------------------------
+        Account account=accountService.queryAccountById(operaterId);
+        RetMessage message=checkAccount.apply(account,OperateType.queryOperateRecordList);
+        if(message!=null)
+            return message;
+        //-----------------------------------------------------------------执行--------------------------------------------------------------
         Page<OperateRecord> page = new Page<>(pageNum, pageSize);
         EntityWrapper<OperateRecord> wrapper = new EntityWrapper<>();
         if (type != null)
@@ -129,6 +139,7 @@ public class OperateRecordController implements com.lanxi.couponcode.spi.service
             wrapper.like("phone", phone);
         wrapper.eq("merchant_id", account.getMerchantId());
         List<OperateRecord> list = recordService.queryRecords(wrapper, page);
+        //-----------------------------------------------------------------返回--------------------------------------------------------------
         //需要分页信息
         Map<String,Object> map=new HashMap<>();
         map.put("page",page);
@@ -150,10 +161,10 @@ public class OperateRecordController implements com.lanxi.couponcode.spi.service
                                                              Integer pageNum,
                                                              Integer pageSize,
                                                              Long operaterId) {
-        //TODO 校验
-        //TODO 查询
-        Account account = null;
-
+        Account account=accountService.queryAccountById(operaterId);
+        RetMessage message=checkAccount.apply(account,OperateType.queryOperateRecord);
+        if(message!=null)
+            return message;
         Page<OperateRecord> page = new Page<>(pageNum, pageSize);
         EntityWrapper<OperateRecord> wrapper = new EntityWrapper<>();
         if (type != null)
@@ -191,7 +202,10 @@ public class OperateRecordController implements com.lanxi.couponcode.spi.service
 
     @Override
     public RetMessage<String> queryOperateRecordInfo(Long recordId, Long operaterId) {
-        //TODO 校验
+        Account account=accountService.queryAccountById(operaterId);
+        RetMessage message=checkAccount.apply(account,OperateType.queryOperateRecord);
+        if(message!=null)
+            return message;
         OperateRecord record=recordService.queryRecordInfo(recordId);
         if(record==null)
             return new RetMessage<>(RetCodeEnum.fail, "查询失败!", null);

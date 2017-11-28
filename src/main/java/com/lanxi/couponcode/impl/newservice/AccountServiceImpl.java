@@ -400,5 +400,9 @@ public class AccountServiceImpl implements AccountService{
 		}
 		return result;
 	}
+	@Override
+	public Account queryAccountById(Long accountId) {
+		return dao.getAccountDao().selectById(accountId);
+	}
 
 }

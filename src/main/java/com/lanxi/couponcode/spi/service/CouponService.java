@@ -49,7 +49,7 @@ public interface CouponService {
     RetMessage<Boolean> postoneCode(@HiddenArg Long codeId,
                                     @HiddenArg Long operaterId);
 
-    RetMessage<Boolean> generateCode(Long merchantId,
+    RetMessage<String> generateCode(Long merchantId,
                                      Long commodityId,
                                      String reason,
                                      @HiddenArg Integer channel);

@@ -114,6 +114,20 @@ public class CodeServiceImpl implements CodeService {
     }
 
     @Override
+    public CouponCode queryCodeInfo(Long codeId, Long merchantId) {
+        EntityWrapper<CouponCode> wrapper=new EntityWrapper<>();
+        wrapper .eq("merchant_id",merchantId)
+                .eq("merchant_id",merchantId);
+        List<CouponCode> list=queryCodes(wrapper,null);
+        if(list==null||list.isEmpty())
+            return null;
+        else if(list.size()>1)
+            return null;
+        else
+            return list.get(0);
+    }
+
+    @Override
     public List<CouponCode> queryCodes(Wrapper<CouponCode> wrapper, Page<CouponCode> page) {
         if(page==null)
             return daoService.getCouponCodeDao().selectList(wrapper);

@@ -4,9 +4,7 @@ import com.lanxi.couponcode.impl.dao.*;
 import com.lanxi.couponcode.spi.consts.annotations.EasyLog;
 import com.lanxi.util.utils.LoggerUtil;
 import org.springframework.stereotype.Service;
-
 import javax.annotation.Resource;
-
 /**
  * dao接口实现类
  * Created by yangyuanjian on 2017/11/1.
@@ -29,7 +27,6 @@ public class DaoServiceImpl implements DaoService {
     private MerchantDao merchantDao;
     @Resource
     private OperateRecordDao operateRecordDao;
-
     private OrderDao orderDao;
     @Resource
     private RequestDao requestDao;

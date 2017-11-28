@@ -13,11 +13,13 @@ import com.lanxi.couponcode.impl.newservice.*;
 import com.lanxi.couponcode.spi.assist.RetMessage;
 import com.lanxi.couponcode.spi.consts.enums.CommodityStatus;
 import com.lanxi.couponcode.spi.consts.enums.CommodityType;
+import com.lanxi.couponcode.spi.consts.enums.OperateType;
 import com.lanxi.couponcode.spi.consts.enums.RetCodeEnum;
 import com.lanxi.util.utils.ExcelUtil;
 import com.lanxi.util.utils.TimeUtil;
 import org.springframework.stereotype.Controller;
 
+import static com.lanxi.couponcode.impl.assist.PredicateAssist.*;
 import static com.lanxi.couponcode.impl.config.ConstConfig.*;
 
 import javax.annotation.Resource;
@@ -30,6 +32,7 @@ import java.util.Map;
 /**
  * Created by yangyuanjian on 2017/11/20.
  */
+//商品不允许直接操作,只能通过request间接操作
 @Deprecated
 public class CommodityController implements com.lanxi.couponcode.spi.service.CommodityService{
     @Resource
@@ -44,6 +47,9 @@ public class CommodityController implements com.lanxi.couponcode.spi.service.Com
     private CommodityService commodityService;
     @Resource
     private OperateRecordService operateRecordService;
+    @Resource
+    private MerchantService merchantService;
+
     @Override
     public RetMessage<Boolean> addCommodity(String commodityName,
                                             CommodityType commodityType,
@@ -56,8 +62,14 @@ public class CommodityController implements com.lanxi.couponcode.spi.service.Com
                                             Long operaterId) {
         //TODO 校验
         //TODO 查询
-        Account account=null;
-        Merchant merchant=null;
+        Account account=accountService.queryAccountById(operaterId);
+        RetMessage message=checkAccount.apply(account, OperateType.createCommodity);
+        if(notNull.test(message))
+            return message;
+        Merchant merchant=merchantService.queryMerchantParticularsById(account.getMerchantId());
+        message=checkMerchant.apply(merchant,OperateType.createCommodity);
+        if(notNull.test(merchant))
+            return message;
         Commodity commodity=new Commodity();
         commodity.setAddId(IdWorker.getId());
         commodity.setCommodityName(commodityName);
