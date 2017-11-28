@@ -20,45 +20,62 @@ public class OrderServiceImpl implements OrderService{
 	}
 	
 	@Override
-	public Order queryOrderInfo(String createTime, String transactionNum, String phone,String remark) {
-		EntityWrapper<Order> wrapper=new EntityWrapper<Order>();
-		if (transactionNum!=null) {
-			wrapper.eq("transaction_num",transactionNum);
-		}
-		if (phone!=null&&!phone.isEmpty()) {
-			wrapper.eq("phone",phone);
-		}
-		if (remark!=null&&!remark.isEmpty()) {
-			wrapper.eq("remark", remark);
-		}
-		if (createTime!=null&&!createTime.isEmpty()) {
-			String timeStop=createTime;
-				while (createTime.length() < 14) {
-					createTime += "0";
+	public Order queryOrderInfo(EntityWrapper<Order> wrapper) {
+		
+		List<Order> orders=dao.getOrderDao().selectList(wrapper);
+		if (orders.size()>1) {
+			for(int i=0;i<orders.size();i++) {
+				if (orders.get(i).getOrderStatus().equals("1")) {
+					return orders.get(i);
 				}
-				wrapper.ge("create_time", createTime);
-				while (timeStop.length() < 14) {
-					timeStop += "9";
-				}	
-				wrapper.le("create_time", timeStop);
+			}
+		}else if (orders.size()==0) {
+			return null;
 		}
-		return dao.getOrderDao().selectList(wrapper).get(0);
+			return orders.get(0);
+		
+			
+		
+		
 	}
 
 	@Override
-	public List<Order> queryOrders(EntityWrapper<Order> wrapper,Page<Order> pageObj) {
+	public List<Order> queryOrders(EntityWrapper<Order> wrapper) {
 		
-		if (pageObj!=null) {
-			return dao.getOrderDao().selectPage(pageObj, wrapper);
-		}else {
+		
 			return dao.getOrderDao().selectList(wrapper);
-		}
+		
 		
 	}
 
 	@Override
 	public Order queryOrderInfoById(Long orderId) {
 		return dao.getOrderDao().selectById(orderId);
+	}
+
+	@Override
+	public Boolean changeOrderStatus(Order order) {
+		
+		return order.updateById();
+	}
+
+	@Override
+	public Boolean isRepetition(String MsgID, String WorkDate) {
+		
+		if (MsgID!=null&&!MsgID.isEmpty()&&WorkDate!=null&&!WorkDate.isEmpty()) {
+			Order order=new Order();
+			order.setMsgID(MsgID);
+			order.setWorkDate(WorkDate);
+			Order order2=dao.getOrderDao().selectOne(order);
+			if (order2.getOrderId()==null||order2.getOrderId()==0L) {
+				return false;
+			}else {
+				return true;
+			}
+		}else {
+			return true;
+		}
+		
 	}
 
 	
