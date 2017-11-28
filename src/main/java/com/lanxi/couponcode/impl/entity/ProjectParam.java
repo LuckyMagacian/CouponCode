@@ -31,4 +31,6 @@ public class ProjectParam {
     public static String RESCODE_FAIL = "9001";
     /** 响应信息码(返给机构)：处理错误 */
     public static String RESCODE_ERR = "9999";
+    /**响应信息码(返给机构)：验签错误*/
+    public static String RESCODE_SIGN_ERR="5001";
 }

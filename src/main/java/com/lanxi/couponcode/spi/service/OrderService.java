@@ -9,25 +9,26 @@ import com.lanxi.couponcode.spi.consts.enums.CommodityType;
  */
 public interface OrderService {
 	
-	RetMessage<Boolean> addOrder(String phone,
-			CommodityType commodityType,
-			Long commodityId,
-			Integer commodityNum,
-			String remark,
-			String initiator,
+	RetMessage<String> addOrder(String Phone,
+			CommodityType Type,
+			Long SkuCode,
+			Integer Count,
+			String Remark,
+			String SRC,
 			String requestType,
-			String transactionNum,
-			String NeedSend);
+			String MsgID,
+			String NeedSend,
+			String WorkDate,
+			String WorkTime,
+			String CHKDate);
 	
-	RetMessage<String> queryOrderInfo(String createTime,
-			String transactionNum,
-			String phone,
-			String remark);
+	RetMessage<String> queryOrderInfo(String OrgWorkDate,
+			String OrgMsgID,
+			String Phone,
+			String Remark);
 	@RealReturnType("List<Order>")
-	RetMessage<String> queryOrders(String timeStart,
-			String timeStop,
-			String phone,
-			Integer pageNum,
-            Integer pageSize,
-            String remark);
+	RetMessage<String> queryOrders(String StartDate,
+			String EndDate,
+			String Phone,
+            String Remark);
 }

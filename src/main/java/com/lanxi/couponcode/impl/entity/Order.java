@@ -29,17 +29,30 @@ public class Order extends AbstractOrder{
 	/*订单编号*/
 	@TableId("order_id")
 	private Long orderId;
-	/*订单发起方*/
-	@TableField("initiator")
-	private String initiator;
-	/*是否需要下发"0"需要"1"不需要*/
-	private String NeedSend;
-	/*绑定手机号码*/
+	/*订单发起机构*/
+	@TableField("src")
+	private String SRC;
+	/*绑定手机号*/
 	@TableField("phone")
-	private String phone;
+	private String Phone;
+	/*清算日期*/
+	@TableField("chk_date")
+	private String CHKDate;
+	/*是否需要下发"0"需要"1"不需要*/
+	@TableField("need_send")
+	private String NeedSend;
+	/*订单状态"0"表示未完成  "1"表示已完成*/
+	@TableField("order_status")
+	private String orderStatus;
+	/*串码过期时间*/
+	@TableField("end_time")
+	private String EndTime;
+	/*串码*/
+	@TableField("code")
+	private String Code;
 	/*交易序号*/
-	@TableField("transaction_num")
-	private String transactionNum;
+	@TableField("msg_id")
+	private String MsgID;
 	/*请求类型*/
 	@TableField("request_type")
 	private String requestType;
@@ -48,64 +61,82 @@ public class Order extends AbstractOrder{
 	private Long merchantId;
 	/*商品类型*/
 	@TableField("commodity_type")
-	private CommodityType commodityType;
+	private CommodityType Type;
 	/*商品id*/
 	@TableField("commodity_id")
-	private Long commodityId;
+	private Long SkuCode;
 	/*商品数量*/
-	@TableField("commodity_num")
-	private Integer commodityNum;
-	/*订单发生时间*/
+	@TableField("count")
+	private Integer Count;
+	/*交易日期*/
+	@TableField("work_date")
+	private String WorkDate;
+	/*订单创建时间*/
 	@TableField("create_time")
 	private String createTime;
+	/*交易时间*/
+	@TableField("work_time")
+	private String WorkTime;
 	/*商品单价*/
-	@TableField("sell_price")
-	private BigDecimal sellPrice;
+	@TableField("amt")
+	private BigDecimal Amt;
 	/*交易总额*/
-	@TableField("total_transaction")
-	private BigDecimal totalTransaction;
+	@TableField("total_amt")
+	private BigDecimal TotalAmt;
 	/*备注*/
 	@TableField("remark")
-	private String remark;
+	private String Remark;
+	@Override
+	protected Serializable pkVal() {
+		
+		return this.orderId;
+	}
 	
-	public String getNeedSend() {
-		return NeedSend;
+	public String getCHKDate() {
+		return CHKDate;
 	}
-	public void setNeedSend(String needSend) {
-		NeedSend = needSend;
+
+	public void setCHKDate(String cHKDate) {
+		CHKDate = cHKDate;
 	}
-	public String getCommodityType() {
-		return commodityType==null?null:commodityType.getValue();
+
+	public String getCreateTime() {
+		return createTime;
 	}
-	public void setCommodityType(CommodityType commodityType) {
-		this.commodityType = commodityType;
+
+	public void setCreateTime(String createTime) {
+		this.createTime = createTime;
 	}
-	public void setCommodityType(String commodityType) {
-		this.commodityType = CommodityType.getType(commodityType);
-	}
+
 	public Long getOrderId() {
 		return orderId;
 	}
 	public void setOrderId(Long orderId) {
 		this.orderId = orderId;
 	}
-	public String getInitiator() {
-		return initiator;
+	public String getSRC() {
+		return SRC;
 	}
-	public void setInitiator(String initiator) {
-		this.initiator = initiator;
+	public void setSRC(String sRC) {
+		SRC = sRC;
 	}
 	public String getPhone() {
-		return phone;
+		return Phone;
 	}
 	public void setPhone(String phone) {
-		this.phone = phone;
+		Phone = phone;
 	}
-	public String getTransactionNum() {
-		return transactionNum;
+	public String getNeedSend() {
+		return NeedSend;
 	}
-	public void setTransactionNum(String transactionNum) {
-		this.transactionNum = transactionNum;
+	public void setNeedSend(String needSend) {
+		NeedSend = needSend;
+	}
+	public String getMsgID() {
+		return MsgID;
+	}
+	public void setMsgID(String msgID) {
+		MsgID = msgID;
 	}
 	public String getRequestType() {
 		return requestType;
@@ -119,56 +150,88 @@ public class Order extends AbstractOrder{
 	public void setMerchantId(Long merchantId) {
 		this.merchantId = merchantId;
 	}
-	public Long getCommodityId() {
-		return commodityId;
+	public CommodityType getType() {
+		return Type;
 	}
-	public void setCommodityId(Long commodityId) {
-		this.commodityId = commodityId;
+	public void setType(CommodityType type) {
+		Type = type;
 	}
-	public Integer getCommodityNum() {
-		return commodityNum;
+	public Long getSkuCode() {
+		return SkuCode;
 	}
-	public void setCommodityNum(Integer commodityNum) {
-		this.commodityNum = commodityNum;
+	public void setSkuCode(Long skuCode) {
+		SkuCode = skuCode;
 	}
-	public String getCreateTime() {
-		return createTime;
+	public Integer getCount() {
+		return Count;
 	}
-	public void setCreateTime(String createTime) {
-		this.createTime = createTime;
+	public void setCount(Integer count) {
+		Count = count;
 	}
-	public BigDecimal getSellPrice() {
-		return sellPrice;
+	public String getWorkDate() {
+		return WorkDate;
 	}
-	public void setSellPrice(BigDecimal sellPrice) {
-		this.sellPrice = sellPrice;
+	public void setWorkDate(String workDate) {
+		WorkDate = workDate;
 	}
-	public BigDecimal getTotalTransaction() {
-		return totalTransaction;
+	public String getWorkTime() {
+		return WorkTime;
 	}
-	public void setTotalTransaction(BigDecimal totalTransaction) {
-		this.totalTransaction = totalTransaction;
+	public void setWorkTime(String workTime) {
+		WorkTime = workTime;
 	}
-	
+	public BigDecimal getAmt() {
+		return Amt;
+	}
+	public void setAmt(BigDecimal amt) {
+		Amt = amt;
+	}
+	public BigDecimal getTotalAmt() {
+		return TotalAmt;
+	}
+	public void setTotalAmt(BigDecimal totalAmt) {
+		TotalAmt = totalAmt;
+	}
 	public String getRemark() {
-		return remark;
+		return Remark;
 	}
 	public void setRemark(String remark) {
-		this.remark = remark;
+		Remark = remark;
 	}
-	@Override
-	protected Serializable pkVal() {
-		
-		return this.orderId;
+
+	public String getOrderStatus() {
+		return orderStatus;
 	}
+
+	public void setOrderStatus(String orderStatus) {
+		this.orderStatus = orderStatus;
+	}
+
+	public String getCode() {
+		return Code;
+	}
+
+	public void setCode(String code) {
+		Code = code;
+	}
+
+	public String getEndTime() {
+		return EndTime;
+	}
+
+	public void setEndTime(String endTime) {
+		EndTime = endTime;
+	}
+
 	@Override
 	public String toString() {
-		return "Order [orderId=" + orderId + ", initiator=" + initiator + ", NeedSend=" + NeedSend + ", phone=" + phone
-				+ ", transactionNum=" + transactionNum + ", requestType=" + requestType + ", merchantId=" + merchantId
-				+ ", commodityType=" + commodityType + ", commodityId=" + commodityId + ", commodityNum=" + commodityNum
-				+ ", createTime=" + createTime + ", sellPrice=" + sellPrice + ", totalTransaction=" + totalTransaction
-				+ ", remark=" + remark + "]";
+		return "Order [orderId=" + orderId + ", SRC=" + SRC + ", Phone=" + Phone + ", CHKDate=" + CHKDate
+				+ ", NeedSend=" + NeedSend + ", orderStatus=" + orderStatus + ", EndTime=" + EndTime + ", Code=" + Code
+				+ ", MsgID=" + MsgID + ", requestType=" + requestType + ", merchantId=" + merchantId + ", Type=" + Type
+				+ ", SkuCode=" + SkuCode + ", Count=" + Count + ", WorkDate=" + WorkDate + ", createTime=" + createTime
+				+ ", WorkTime=" + WorkTime + ", Amt=" + Amt + ", TotalAmt=" + TotalAmt + ", Remark=" + Remark + "]";
 	}
-	
+
 	
 }
+
