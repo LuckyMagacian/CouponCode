@@ -123,7 +123,6 @@ public class CodeController implements com.lanxi.couponcode.spi.service.CouponSe
             return new RetMessage<String>(RetCodeEnum.fail,"查询失败",null);
     }
     @Override
-    @Cache(exclusionArgs = {"operaterId"})
     public RetMessage<File> queryCodesExport(String timeStart,
                                              String timeEnd,
                                              String merchantName,
@@ -155,21 +154,10 @@ public class CodeController implements com.lanxi.couponcode.spi.service.CouponSe
         RetMessage message=checkAccount.apply(account,OperateType.cancelCouponCode);
         if(message!=null)
             return message;
-//        if(isNull.test(account))
-//            return new RetMessage<>(RetCodeEnum.fail,"帐号不存在!",null);
-//        if(cantDestroyCode.test(account))
-//            return new RetMessage<>(RetCodeEnum.fail,"账户不具有销毁权限!",null);
-        //查询
         CouponCode code=codeService.queryCodeInfo(codeId,account.getMerchantId());
         message=checkCode.apply(code,OperateType.cancelCouponCode);
         if(message!=null)
             return message;
-//        if(isNull.test(code))
-//            return new RetMessage<>(RetCodeEnum.fail,"串码不存在!",null);
-//        if(diffMerchantCodeAccount.test(code,account))
-//            return new RetMessage<>(RetCodeEnum.fail,"非本商户串码!",null);
-//        if(cantCancle.test(code))
-//            return new RetMessage<>(RetCodeEnum.fail,"已被使用,已被注销!!",null);
         //----------------------------------------------------------执行--------------------------------------------------------
         //执行注销
         boolean lock=false;
@@ -181,7 +169,6 @@ public class CodeController implements com.lanxi.couponcode.spi.service.CouponSe
         } catch (Exception e) {
 
         }finally {
-            //解锁
             if(lock)
                 redisCodeService.unlockCodeForce(code,null);
         }
@@ -215,11 +202,12 @@ public class CodeController implements com.lanxi.couponcode.spi.service.CouponSe
 
     @Override
     public RetMessage<Boolean> destroyCode(Long code,
-                                           Long merchantId,
+                                           @Deprecated Long merchantId,
                                            Long operaterId) {
 
         //-----------------------------------------------------------------校验--------------------------------------------------------------
-        Optional<CouponCode> opt=codeService.queryCode(merchantId,code);
+        Account account=accountService.queryAccountById(operaterId);
+        Optional<CouponCode> opt=codeService.queryCode(account.getMerchantId(),code);
         if(isNull.test(opt))
             return new RetMessage<>(RetCodeEnum.fail,"多个!",null);
         if(!opt.isPresent())
@@ -302,7 +290,8 @@ public class CodeController implements com.lanxi.couponcode.spi.service.CouponSe
                                               Long merchantId,
                                               Long operaterId) {
         //-----------------------------------------------------------------校验--------------------------------------------------------------
-        Optional<CouponCode> opt=codeService.queryCode(merchantId,code);
+        Account account=accountService.queryAccountById(operaterId);
+        Optional<CouponCode> opt=codeService.queryCode(account.getMerchantId(),code);
         if(isNull.test(opt))
             return new RetMessage<>(RetCodeEnum.fail,"多个!",null);
         if(!opt.isPresent())
@@ -315,8 +304,6 @@ public class CodeController implements com.lanxi.couponcode.spi.service.CouponSe
     @Override
     public RetMessage<Boolean> postoneCode(Long codeId,
                                            Long operaterId) {
-        //TODO 锁定串码
-        //TODO 校验权限
         //-----------------------------------------------------------------校验--------------------------------------------------------------
         Account account=accountService.queryAccountById(operaterId);
         RetMessage message=checkAccount.apply(account,OperateType.postoneCouponCode);
@@ -464,7 +451,8 @@ public class CodeController implements com.lanxi.couponcode.spi.service.CouponSe
     public RetMessage<String> couponCodeInfo(Long merchantId,
                                              Long code,
                                              Long operaterId) {
-        Optional<CouponCode> opt=codeService.queryCode(merchantId,code);
+        Account account=accountService.queryAccountById(operaterId);
+        Optional<CouponCode> opt=codeService.queryCode(account.getMerchantId(),code);
         if(opt==null)
             return new RetMessage<>(RetCodeEnum.fail,"多个!",null);
         if(!opt.isPresent())

@@ -40,16 +40,14 @@ public enum OperateType implements Serializable,Gettype{
 
     queryDailyRecord(111),      exportDailyRecord(112),         clearDailyRecord(113),
 
-    queryClearRecord(121),      exportClearRecord(122),         createClearRecord(123),
+    queryClearRecord(121),      exportClearRecord(122),         createClearRecord(123),     queryClearRecordList(124),
 
-    queryVerifyRecord(131),     exportVerifyRecord(132),        createVerifyRecord(133),
+    queryVerifyRecord(131),     exportVerifyRecord(132),        createVerifyRecord(133),    queryVerifyRecordList(134),queryVerifyRecordAll(135),
 
     requestAddCommodity(141),   requestModifyCommodity(142),    requestUnshelveCommodity(143),  requestShelveCommodity(144),
     rquestDelCommodity(145),    queryRequest(146),              passRequest(147),               rejectRequest(148),
 
     queryOperateRecord(151),    queryOperateRecordList(152);
-
-
     private String value;
 
     OperateType(int value) {

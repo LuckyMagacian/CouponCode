@@ -7,7 +7,7 @@ import java.io.Serializable;
  * Created by yangyuanjian on 2017/11/2.
  */
 public enum OperateTargetType  implements Serializable,Gettype {
-    shop(1),merchantManager(2),shopManager(3),employee(4),commodity(5),code(6),account(7),merchant(8),statstic(9);
+    shop(1),merchantManager(2),shopManager(3),employee(4),commodity(5),code(6),account(7),merchant(8),statstic(9),request(10),dailyRecord(11),clearRecord(12);
     private String value;
     private OperateTargetType(int value) {
         this.value=value+"";

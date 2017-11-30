@@ -94,7 +94,7 @@ public class Commodity extends AbstractCommodity{
 //    @TableField("check_name")
 //    private String checkName;
 
-    /**备注*/
+    /**备注--用作存储请求id*/
     @TableField("remark")
     private String remark;
 

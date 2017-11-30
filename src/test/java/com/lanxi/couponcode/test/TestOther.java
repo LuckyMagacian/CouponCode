@@ -3,9 +3,15 @@ package com.lanxi.couponcode.test;
 import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.toolkit.IdWorker;
 import com.lanxi.couponcode.impl.assist.CheckAssist;
+import com.lanxi.couponcode.impl.assist.PredicateAssist;
 import com.lanxi.couponcode.impl.assist.SerializeAssist;
+import com.lanxi.couponcode.impl.entity.Account;
+import com.lanxi.couponcode.impl.entity.Commodity;
+import com.lanxi.couponcode.impl.entity.Merchant;
+import com.lanxi.couponcode.impl.entity.Shop;
 import com.lanxi.couponcode.spi.assist.RetMessage;
 import com.lanxi.couponcode.spi.consts.enums.RetCodeEnum;
+import com.lanxi.util.utils.SignUtil;
 import com.sun.org.apache.xpath.internal.operations.Bool;
 import org.junit.Test;
 import org.springframework.mock.web.MockHttpServletRequest;
@@ -93,5 +99,36 @@ public class TestOther {
 
         System.out.println((List)SerializeAssist.unserialize(SerializeAssist.serialize((Serializable) list)));
 
+    }
+
+    @Test
+    public void test7(){
+        Merchant merchant=new Merchant();
+        merchant.setMerchantId(1L);
+        Commodity commodity=new Commodity();
+        commodity.setMerchantId(1L);
+        Account account=new Account();
+        account.setMerchantId(1L);
+        Shop shop=new Shop();
+        System.out.println(PredicateAssist.diffMerchant.test(merchant,commodity));
+        System.out.println(PredicateAssist.diffMerchant.test(account,commodity));
+        System.out.println(PredicateAssist.diffMerchant.test(merchant,shop));
+        System.out.println(PredicateAssist.diffMerchant.test(shop,merchant));
+
+    }
+    @Test
+    public void test8(){
+        Account account=new Account();
+        account.setAccountId(1234L);
+        Shop shop=new Shop();
+        shop.setShopId(1234L);
+        System.out.println(shop.equals(account));
+    }
+    @Test
+    public void test9(){
+        RetMessage message=new RetMessage();
+        message.setAll(RetCodeEnum.success,"嘿嘿嘿",new RetMessage<>(RetCodeEnum.fail,"啦啦啦啦","oooo").toJson());
+        System.out.println(message.toJson());
+        System.out.println(SignUtil.md5LowerCase(message.toJson(),"utf-8"));
     }
 }

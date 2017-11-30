@@ -12,6 +12,7 @@ import com.lanxi.couponcode.spi.consts.enums.AccountType;
 
 @TableName("account")
 public class Account extends AbstractAccount{
+
 	/**账户编号*/
 	@TableId("account_id")
 	private Long accountId;

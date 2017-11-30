@@ -2,6 +2,7 @@ package com.lanxi.couponcode.impl.newservice;
 
 import com.lanxi.couponcode.impl.newservice.ConfigService;
 import redis.clients.jedis.Jedis;
+import redis.clients.jedis.Pipeline;
 
 import javax.annotation.Resource;
 import java.util.Collection;
@@ -163,5 +164,6 @@ public interface RedisService {
 //
 //    Long zgetorder(String zetName,String member);
 
-
+    //------------------------------------------------------------------------------------------------------------------
+    Pipeline pipeline();
 }

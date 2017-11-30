@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.plugins.Page;
 import com.lanxi.couponcode.impl.entity.ClearDailyRecord;
 import com.lanxi.couponcode.impl.entity.ClearRecord;
 import com.lanxi.couponcode.impl.entity.CouponCode;
+import com.lanxi.couponcode.spi.consts.enums.ClearStatus;
 
 import javax.annotation.Resource;
 import java.util.Arrays;
@@ -58,5 +59,11 @@ public class ClearServiceImpl implements ClearService{
             return daoService.getClearRecordDao().selectList(wrapper);
         else
             return daoService.getClearRecordDao().selectPage(page,wrapper);
+    }
+
+    @Override
+    public Boolean clearDailyRecord(ClearDailyRecord record) {
+        record.setClearStatus(ClearStatus.cleard);
+        return record.updateById();
     }
 }

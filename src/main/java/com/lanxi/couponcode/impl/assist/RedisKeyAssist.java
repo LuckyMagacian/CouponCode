@@ -105,6 +105,33 @@ public interface RedisKeyAssist {
         String key=ARTIFCAT+funName+phone;
         return key;
     }
+
+    static String getDailyRecordKey(){
+        String funName="DailyCode";
+        String key=ARTIFCAT+funName;
+        return key;
+    }
+
+    static String getClearRecordKey(){
+        String funName="ClearRecord";
+        String key=ARTIFCAT+funName;
+        return key;
+    }
+
+    static String getEnterpriseKey(){
+        String funName="Enterprise";
+        String key=ARTIFCAT+funName;
+        return key;
+    }
+
+    static String getOrderKey(){
+        String funName="Order";
+        String key=ARTIFCAT+funName;
+        return key;
+    }
+
+
+
     static String getMethodCacheKey(String className,String methodName,String args){
         return className+methodName+args;
     }

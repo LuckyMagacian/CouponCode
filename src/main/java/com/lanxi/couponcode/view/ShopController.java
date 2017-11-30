@@ -21,6 +21,7 @@ import com.lanxi.util.entity.LogFactory;
  * Created by yangyuanjian on 2017/11/20.
  */
 @Controller
+@RequestMapping("shop")
 public class ShopController {
 	@Resource
 	private ShopService shopService;

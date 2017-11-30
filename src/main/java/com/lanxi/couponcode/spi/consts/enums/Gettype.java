@@ -18,6 +18,8 @@ public interface Gettype{
 	 */
 	@SuppressWarnings("unchecked")
 	public static <T extends Enum<?>> T getType(String value) {
+		if(value==null)
+			return null;
 		Class<?> clazz=null;
 		try {
 			String className=Thread.currentThread().getStackTrace()[2].getClassName();

@@ -103,7 +103,8 @@ public class OperateRecordController implements com.lanxi.couponcode.spi.service
                                                          String timeStart,
                                                          String timeEnd,
                                                          AccountType accountType,
-                                                         String name, String phone,
+                                                         String name,
+                                                         String phone,
                                                          Integer pageNum,
                                                          Integer pageSize,
                                                          Long operaterId) {

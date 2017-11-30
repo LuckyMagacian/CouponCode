@@ -74,7 +74,7 @@ public class ClearRecord extends Model<ClearRecord> implements CommonDefaultMeth
      * 操作者姓名
      */
     @TableField ("operater_name")
-    private Long operaterName;
+    private String operaterName;
     /**
      * 税号
      */
@@ -100,6 +100,9 @@ public class ClearRecord extends Model<ClearRecord> implements CommonDefaultMeth
      */
     @TableField ("invoice_status")
     private InvoiceStatus invoiceStatus;
+    /**创建时间*/
+    @TableField("create_time")
+    private String createTime;
 
     @Override
     public String toString() {
@@ -120,7 +123,16 @@ public class ClearRecord extends Model<ClearRecord> implements CommonDefaultMeth
                 ", orderNum='" + orderNum + '\'' +
                 ", postTime='" + postTime + '\'' +
                 ", invoiceStatus=" + invoiceStatus +
+                ", createTime='" + createTime + '\'' +
                 '}';
+    }
+
+    public String getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(String createTime) {
+        this.createTime = createTime;
     }
 
     public Long getRecordId() {
@@ -211,11 +223,11 @@ public class ClearRecord extends Model<ClearRecord> implements CommonDefaultMeth
         this.operaterId = operaterId;
     }
 
-    public Long getOperaterName() {
+    public String getOperaterName() {
         return operaterName;
     }
 
-    public void setOperaterName(Long operaterName) {
+    public void setOperaterName(String operaterName) {
         this.operaterName = operaterName;
     }
 

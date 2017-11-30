@@ -43,7 +43,7 @@ public interface CouponService {
                                        @HiddenArg Long operaterId);
 
     RetMessage<Boolean> verificateCode(Long code,
-                                       @HiddenArg Long accountId,
+                                       @HiddenArg Long merchantId,
                                        @HiddenArg Long operaterId);
 
     RetMessage<Boolean> postoneCode(@HiddenArg Long codeId,

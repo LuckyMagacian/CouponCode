@@ -429,4 +429,8 @@ public class RedisServiceImpl implements RedisService {
         this.config = config;
         redisInit();
     }
+
+    public Pipeline pipeline(){
+         return generateConn().pipelined();
+    }
 }

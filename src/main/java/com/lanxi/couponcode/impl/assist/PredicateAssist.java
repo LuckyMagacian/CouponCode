@@ -3,6 +3,7 @@ package com.lanxi.couponcode.impl.assist;
 import com.lanxi.couponcode.impl.entity.*;
 import com.lanxi.couponcode.spi.assist.RetMessage;
 import com.lanxi.couponcode.spi.consts.enums.*;
+import com.lanxi.util.utils.BeanUtil;
 
 import static com.lanxi.couponcode.spi.consts.enums.AccountType.*;
 
@@ -10,6 +11,7 @@ import java.util.function.BiFunction;
 import java.util.function.BiPredicate;
 import java.util.function.Function;
 import java.util.function.Predicate;
+import java.util.stream.Stream;
 
 /**
  * Created by yangyuanjian on 2017/11/25.
@@ -17,6 +19,21 @@ import java.util.function.Predicate;
 public interface PredicateAssist {
     //--------------------------------------------------------基础-------------------------------------------------
 
+    Predicate<Object> hasMerchantId=e-> Stream.of(e.getClass().getDeclaredFields()).parallel().filter(f->f.getName().equals("merchantId")&&f.getType().equals(Long.class)).findAny().isPresent();
+
+    BiPredicate<Object,Object> sameMerchant=(o1,o2)->{
+        if(o1==null||o2==null)
+            return false;
+        if(hasMerchantId.negate().test(o1)||hasMerchantId.negate().test(o2))
+            return false;
+        if(BeanUtil.get(o1,"merchantId")==null||BeanUtil.get(o2,"merchantId")==null)
+            return false;
+        if(!BeanUtil.get(o1,"merchantId").equals(BeanUtil.get(o2,"merchantId")))
+            return false;
+        return true;
+    };
+
+    BiPredicate<Object,Object> diffMerchant=sameMerchant.negate();
     /**是否是null*/
     Predicate<Object> isNull=CheckAssist::isNull;
     /**是否不是null*/
@@ -106,9 +123,37 @@ public interface PredicateAssist {
     Predicate<CouponCode> cantPostone=canPostone.negate();
     //------------------------------------------------------复合--------------------------------------------------------
     BiFunction<Account,OperateType,RetMessage> checkAccount=(a,o)->{
+
         if(isNull.test(a))
             return new RetMessage(RetCodeEnum.fail,"账户不存在!",null);
+        if(isNull.test(o))
+            return new RetMessage(RetCodeEnum.fail,"操作类型为空!",null);
+        switch (AccountStatus.getType(a.getStatus())){
+            case normal:break;
+            default:
+                return new RetMessage(RetCodeEnum.fail,"账户状态异常!",null);
+        }
         switch (o){
+            case queryClearRecord:
+            case queryClearRecordList:
+            case queryDailyRecord:
+                if(notAdmin.test(a)||isMerchantManager.negate().test(a))
+                    return new RetMessage(RetCodeEnum.fail,"非管理员及商户管理员无权操作!",null);
+            case createClearRecord:
+                if(notAdmin.test(a))
+                    return new RetMessage(RetCodeEnum.fail,"非管理员无权操作!",null);
+
+            case queryVerifyRecordAll:
+                if(notAdmin.test(a))
+                    return new RetMessage(RetCodeEnum.fail,"非管理员无权操作!",null);
+            case queryVerifyRecord:
+                return null;
+            case exportVerifyRecord:
+            case queryVerifyRecordList:
+                if(notAdmin.test(a)||isMerchantManager.negate().test(a))
+                    return new RetMessage(RetCodeEnum.fail,"非管理员及商户管理员无权操作!",null);
+
+
             case requestAddCommodity:
             case requestModifyCommodity:
             case requestUnshelveCommodity:
@@ -133,7 +178,7 @@ public interface PredicateAssist {
                     return new RetMessage(RetCodeEnum.fail,"非管理员及商户管理员无权操作!",null);
             case queryOperateRecord:
                 if(notAdmin.test(a)||isMerchantManager.negate().test(a)||isShopManager.negate().test(a))
-                    return new RetMessage(RetCodeEnum.fail,"非管理员及商户管理员无权操作!",null);
+                    return new RetMessage(RetCodeEnum.fail,"非管理员及商户管理员及门店管理员无权操作!",null);
 
             case createShop:
             case unfreezeShop:
@@ -237,6 +282,7 @@ public interface PredicateAssist {
             case statscitcMerchantManager:
                 if(notAdmin.test(a))
                     return new RetMessage(RetCodeEnum.fail,"非管理员无权操作!",null);
+
             case statscitcShopManager:
             case statscitcEmployee:
             case statscitcCommodity:
@@ -268,6 +314,8 @@ public interface PredicateAssist {
     BiFunction<Commodity,OperateType,RetMessage> checkCommodity=(c, o)->{
         if(isNull.test(c))
             return new RetMessage(RetCodeEnum.fail,"商品不存在!",null);
+        if(isNull.test(o))
+            return new RetMessage(RetCodeEnum.fail,"操作类型为空!",null);
         switch (o){
             case createCouponCode:
             case requestModifyCommodity:
@@ -314,7 +362,8 @@ public interface PredicateAssist {
     BiFunction<Merchant,OperateType,RetMessage> checkMerchant=(m,o)->{
         if(isNull.test(m))
             return new RetMessage(RetCodeEnum.fail,"商户不存在!",null);
-
+        if(isNull.test(o))
+            return new RetMessage(RetCodeEnum.fail,"操作类型为空!",null);
         switch (o){
             case queryMerchantManager:
             case queryShopManager:
@@ -340,6 +389,8 @@ public interface PredicateAssist {
     BiFunction<CouponCode,OperateType,RetMessage> checkCode=(c,o)->{
         if(isNull.test(c))
             return new RetMessage(RetCodeEnum.fail,"串码不存在!",null);
+        if(isNull.test(o))
+            return new RetMessage(RetCodeEnum.fail,"操作类型为空!",null);
       switch (o){
           case destroyCouponCode:
           case postoneCouponCode:
@@ -352,6 +403,10 @@ public interface PredicateAssist {
     };
 
     BiFunction<Request,OperateType,RetMessage> checkRequest=(r,o)->{
+        if(isNull.test(r))
+            return new RetMessage(RetCodeEnum.fail,"请求为空!",null);
+        if(isNull.test(o))
+            return new RetMessage(RetCodeEnum.fail,"操作类型为空!",null);
         switch (o){
             case passRequest:
             case rejectRequest:
@@ -360,4 +415,6 @@ public interface PredicateAssist {
         }
         return null;
     };
+
+
 }

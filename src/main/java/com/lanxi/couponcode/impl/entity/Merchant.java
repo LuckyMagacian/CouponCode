@@ -15,7 +15,15 @@ import com.lanxi.couponcode.spi.consts.enums.MerchantStatus;
  */
 @TableName("merchants")
 public class Merchant extends AbstractMerchant{
-	
+	public static Merchant SYSTEM=new Merchant();
+	static {
+		SYSTEM.setMerchantId(100000000L);
+		SYSTEM.setMerchantName("SYSTEM");
+		SYSTEM.setMerchantStatus(MerchantStatus.normal);
+	}
+
+
+
 	/*商户id*/
 	@TableId("merchant_id")
 	private Long merchantId;

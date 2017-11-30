@@ -21,4 +21,6 @@ public interface ClearService {
     List<ClearDailyRecord> queryDailyRecords(Long[] recordIds);
     List<ClearRecord> queryClearRecords(Wrapper<ClearRecord> wrapper,Page<ClearRecord> page);
 
+    Boolean clearDailyRecord(ClearDailyRecord record);
+
 }

@@ -3,15 +3,19 @@ package com.lanxi.couponcode.impl.newcontroller;
 import com.alibaba.fastjson.JSON;
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.plugins.Page;
+import com.lanxi.couponcode.impl.newservice.AccountService;
+import com.lanxi.couponcode.impl.newservice.CommodityService;
+import com.lanxi.couponcode.impl.newservice.MerchantService;
 import com.lanxi.couponcode.spi.assist.RetMessage;
 import com.lanxi.couponcode.impl.entity.Account;
 import com.lanxi.couponcode.impl.entity.VerificationRecord;
 import com.lanxi.couponcode.impl.newservice.VerificationRecordService;
 import com.lanxi.couponcode.spi.consts.annotations.HiddenArg;
+import com.lanxi.couponcode.spi.consts.enums.OperateType;
 import com.lanxi.couponcode.spi.consts.enums.RetCodeEnum;
 import com.lanxi.couponcode.spi.consts.enums.VerificationType;
 
-
+import static com.lanxi.couponcode.impl.assist.PredicateAssist.*;
 import javax.annotation.Resource;
 import java.util.HashMap;
 import java.util.List;
@@ -23,6 +27,12 @@ import java.util.Map;
 public class VerificationRecordController implements com.lanxi.couponcode.spi.service.VerificationRecordService{
     @Resource
     private VerificationRecordService verificationRecordService;
+    @Resource
+    private AccountService accountService;
+    @Resource
+    private MerchantService merchantService;
+    @Resource
+    private CommodityService commodityService;
     @Override
     public RetMessage<String> queryVerificationRecords(Long code,
                                                        String timeStart,
@@ -35,7 +45,11 @@ public class VerificationRecordController implements com.lanxi.couponcode.spi.se
                                                        Integer pageNum,
                                                        Integer pageSize,
                                                        Long operaterId) {
-        //TODO 校验
+        Account account=accountService.queryAccountById(operaterId);
+        RetMessage message=checkAccount.apply(account, OperateType.queryVerifyRecordAll);
+        if(message!=null)
+            return message;
+
         Page<VerificationRecord> page=new Page<>(pageNum,pageSize);
         EntityWrapper<VerificationRecord> wrapper=new EntityWrapper<>();
         if(code!=null)
@@ -81,9 +95,10 @@ public class VerificationRecordController implements com.lanxi.couponcode.spi.se
                                                            @HiddenArg Integer pageNum,
                                                            @HiddenArg Integer pageSize,
                                                            @HiddenArg Long operaterId) {
-        //TODO 校验
-        //TODO 查询
-        Account account=null;
+        Account account=accountService.queryAccountById(operaterId);
+        RetMessage message=checkAccount.apply(account,OperateType.queryVerifyRecordList);
+        if(message!=null)
+            return message;
         Page<VerificationRecord> page=new Page<>(pageNum,pageSize);
         EntityWrapper<VerificationRecord> wrapper=new EntityWrapper<>();
         if(code!=null)
@@ -119,8 +134,10 @@ public class VerificationRecordController implements com.lanxi.couponcode.spi.se
 
     @Override
     public RetMessage<String> queryVerificationRecordInfo(Long recordId, Long operaterId) {
-        //TODO 校验
+        Account account=accountService.queryAccountById(operaterId);
         VerificationRecord record=verificationRecordService.queryVerificationRecordInfo(recordId);
+        if(notAdmin.test(account)&&diffMerchant.test(account,record))
+            return new RetMessage<>(RetCodeEnum.fail,"记录不存在!!",null);
         if(record==null)
             return new RetMessage<>(RetCodeEnum.fail,"不存在!",null);
         else

@@ -27,6 +27,17 @@ public interface RequestService {
                                      @HiddenArg Integer pageSize,
                                      @HiddenArg Long operaterId);
 
+    public RetMessage<String> queryRequests(String timeStart,
+                                            String timeStop,
+                                            String commodityName,
+                                            RequestOperateType type,
+                                            RequestStatus status,
+                                            CommodityType commodityType,
+                                            Long merchantId,
+                                            Integer pageNum,
+                                            Integer pageSize,
+                                            Long operaterId);
+
     RetMessage<Boolean> agreeRequest(@HiddenArg Long requestId,
                                      @HiddenArg Long operaterId,
                                      String reason);
@@ -68,6 +79,7 @@ public interface RequestService {
 
     RetMessage<Boolean> requestUnshelveCommodity(Long commodityId,
                                                  Long operaterId);
+    RetMessage<String> queryRequest(Long requestId,Long operatorId);
 
 
 
