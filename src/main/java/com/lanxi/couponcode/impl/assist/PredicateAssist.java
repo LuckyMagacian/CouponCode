@@ -136,6 +136,8 @@ public interface PredicateAssist {
                     return new RetMessage(RetCodeEnum.fail,"非管理员及商户管理员无权操作!",null);
 
             case createShop:
+            case importShops:
+            case downloadShopExcelTemplate:
             case unfreezeShop:
             case freezeShop:
             case deleteShop:
@@ -220,14 +222,18 @@ public interface PredicateAssist {
             case queryAccount:
                 if(isMerchantManager.negate().test(a)||notAdmin.test(a))
                     return new RetMessage(RetCodeEnum.fail,"非管理员,商户管理员无权操作!",null);
-
+            case queryAccountInfo:
+            	if (isMerchantManager.negate().test(a)||notAdmin.test(a)||notShopManager.test(a)) 
+            		return new RetMessage(RetCodeEnum.fail,"非管理员,商户管理员,门店管理员无权操作!",null);
             case createMerchant:
             case unfreezeMerchant:
             case freezeMerchant:
             case deleteMerchant:
             case modifyMerchant:
             case queryMerchant:
+            case queryMerchantInfo:
             case cancelMerchant:
+            case inputMerchantInfo:
                 if(notAdmin.test(a))
                     return new RetMessage(RetCodeEnum.fail,"非管理员无权操作!",null);
 

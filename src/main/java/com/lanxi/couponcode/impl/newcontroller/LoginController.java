@@ -41,14 +41,10 @@ public class LoginController implements com.lanxi.couponcode.spi.service.LoginSe
 						if(password.equals(account.getPassword())) {
 							if(AccountStatus.freeze.getValue().equals(account.getStatus())) {
 								LogFactory.debug(this,"账户已被冻结\n");
-								retMessage.setDetail(null);
-								retMessage.setRetCode(RetCodeEnum.exception.getValue());
-								retMessage.setRetMessage("您的账户已被冻结");
+								retMessage.setAll(RetCodeEnum.exception,"您的账户已被冻结", null);
 							}else if (AccountStatus.deleted.getValue().equals(account.getStatus())) {
 								LogFactory.debug(this,"已被删除的账户\n");
-								retMessage.setDetail(null);
-								retMessage.setRetCode(RetCodeEnum.exception.getValue());
-								retMessage.setRetMessage("您的账户不存在");
+								retMessage.setAll(RetCodeEnum.exception,"您的账户不存在", null);
 							}else {
 								LogFactory.debug(this,"登录成功\n");
 								account.setLoginFailureNum(0);
@@ -56,10 +52,7 @@ public class LoginController implements com.lanxi.couponcode.spi.service.LoginSe
 								LogFactory.info(this,"登录成功把失败登录次数和失败登录时间清零,/n");
 								accountService.modifyAccount(account);
 								String result=JSON.toJSONString(account);
-								retMessage.setDetail(result);
-								retMessage.setRetCode(RetCodeEnum.success.getValue());
-								retMessage.setRetMessage("登录成功");
-								//TODO 插入操作记录
+								retMessage.setAll(RetCodeEnum.success,"登录成功", result);
 							}
 						}else {
 							LogFactory.debug(this,"登录失败把失败登录次数+1和失败登录时间更新");
@@ -67,41 +60,30 @@ public class LoginController implements com.lanxi.couponcode.spi.service.LoginSe
 							account.setLoginFailureTime(LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMddHHmmss")));
 							accountService.modifyAccount(account);
 							LogFactory.debug(this,"账号或密码错误\n");
-							retMessage.setDetail(null);
-							retMessage.setRetCode(RetCodeEnum.fail.getValue());
-							retMessage.setRetMessage("账号或者密码错误");
+							retMessage.setAll(RetCodeEnum.fail,"账号或者密码错误", null);
 						}
 					}else {
 						//距离上次登录失败小于15分钟
 						if(account.getLoginFailureNum()>2) {
-							retMessage.setDetail(null);
-							retMessage.setRetCode(RetCodeEnum.fail.getValue());
-							retMessage.setRetMessage("密码输入错误次数三次15分钟内不能重新登录");
+							retMessage.setAll(RetCodeEnum.fail,"密码输入错误次数三次15分钟内不能重新登录", null);
 						}else {
 							if(password.equals(account.getPassword())) {
 								if(account.getStatus().equals(AccountStatus.freeze.getValue())) {
 									LogFactory.debug(this,"账户已被冻结\n");
-									retMessage.setDetail(null);
-									retMessage.setRetCode(RetCodeEnum.exception.getValue());
-									retMessage.setRetMessage("您的账户已被冻结");
+									retMessage.setAll(RetCodeEnum.exception,"您的账户已被冻结", null);
 								}else if (account.getStatus().equals(AccountStatus.deleted.getValue())) {
 									LogFactory.debug(this,"已被删除的账户\n");
-									retMessage.setDetail(null);
-									retMessage.setRetCode(RetCodeEnum.exception.getValue());
-									retMessage.setRetMessage("您的账户不存在");
+									retMessage.setAll(RetCodeEnum.exception,"账户不存在", null);
 								}else {
 									LogFactory.debug(this,"登录成功\n");
 									String result=JSON.toJSONString(account);
-									retMessage.setDetail(result);
-									retMessage.setRetCode(RetCodeEnum.success.getValue());
-									retMessage.setRetMessage("登录成功");
+									retMessage.setAll(RetCodeEnum.success,"登录成功", result);
 									account.setLoginFailureNum(0);
 									account.setLoginFailureTime("20171114033028");
 									account.setAccountId(account.getAccountId());
 									LogFactory.info(this,"把失败登录次数和失败登录时间清零,/n");
 									accountService.modifyAccount(account);
 								}
-								
 							}else {
 								LogFactory.debug(this,"登录失败把失败登录次数+1和失败登录时间更新");
 								account.setLoginFailureNum(account.getLoginFailureNum()+1);
@@ -110,29 +92,20 @@ public class LoginController implements com.lanxi.couponcode.spi.service.LoginSe
 								//TODO 插入操作记录
 								accountService.modifyAccount(account);
 								LogFactory.debug(this,"账号或密码错误\n");
-								retMessage.setDetail(null);
-								retMessage.setRetCode(RetCodeEnum.fail.getValue());
-								retMessage.setRetMessage("账号或者密码错误");
+								retMessage.setAll(RetCodeEnum.fail,"账号或者密码错误", null);
 							}
 						}
 					}
 				}else {
-					retMessage.setDetail(null);
-					retMessage.setRetMessage("此账户不存在");
-					retMessage.setRetCode(RetCodeEnum.warning.getValue());
+					retMessage.setAll(RetCodeEnum.exception, "此账户不存在", null);
 				}
 			}else {
-				retMessage.setDetail(null);
-				retMessage.setRetMessage("账户和密码不能为空");
-				retMessage.setRetCode(RetCodeEnum.fail.getValue());
+				retMessage.setAll(RetCodeEnum.fail, "账户和密码不能为空", null);
 			}
 		} catch (Exception e) {
 			LogFactory.error(this, "登录时出现异常",e);
-    		retMessage.setRetCode(RetCodeEnum.error.getValue());
-			retMessage.setRetMessage("登录时发生异常");
-			retMessage.setDetail(null);
+			retMessage.setAll(RetCodeEnum.error, "登录时发生异常", null);
 		}
-		
 		return retMessage;
 	}
 
@@ -153,12 +126,8 @@ public class LoginController implements com.lanxi.couponcode.spi.service.LoginSe
 			retMessage.setDetail(result);
 		} catch (Exception e) {
 			LogFactory.error(this,"退出登录时发生异常",e);
-			retMessage.setRetCode(RetCodeEnum.error.getValue());
-			retMessage.setRetMessage("退出登录时发生异常");
-			retMessage.setDetail(result);
-			
+			retMessage.setAll(RetCodeEnum.error,"退出登录时发生异常", result);
 		}
-		
 		return retMessage;
 	}
 
@@ -171,35 +140,25 @@ public class LoginController implements com.lanxi.couponcode.spi.service.LoginSe
 		try {
 			if (!newPassword.equals(newRepeat)) {
 				result=false;
-				retMessage.setDetail(result);
-				retMessage.setRetCode(RetCodeEnum.fail.getValue());
 				LogFactory.debug(this,"两次密码不一致\n");
-				retMessage.setRetMessage("两次密码不一致");
+				retMessage.setAll(RetCodeEnum.fail,"两次密码不一致", false);
 			}else {
 				Account account=new Account();
 				account.setPhone(phone);
 				account.setPassword(newPassword);
 				result=accountService.forgetPassword(validateCode, account, accountId);
 				if (result) {
-					retMessage.setRetCode(RetCodeEnum.success);
-					retMessage.setRetMessage("重置密码成功");
-					retMessage.setDetail(result);
+					retMessage.setAll(RetCodeEnum.success,"重置密码成功", result);
 					//TODO 插入操作记录
 				}else {
-					retMessage.setRetCode(RetCodeEnum.exception);
-					retMessage.setRetMessage("重置密码失败");
-					retMessage.setDetail(result);
+					retMessage.setAll(RetCodeEnum.exception,"重置密码失败", result);
 				}
 			}
 			
 		} catch (Exception e) {
-			
 			LogFactory.error(this, "重置密码时出现异常",e);
-    		retMessage.setRetCode(RetCodeEnum.error.getValue());
-			retMessage.setRetMessage("重置密码时发生异常");
-			retMessage.setDetail(result);
+			retMessage.setAll(RetCodeEnum.error,"重置密码时发生异常" , result);
 		}
-		
 		return retMessage;
 	}
 
@@ -214,10 +173,8 @@ public class LoginController implements com.lanxi.couponcode.spi.service.LoginSe
 				//判断两次密码是否一致
 				if (!newPasswd.equals(newRepeat)) {
 					result=false;
-					retMessage.setDetail(result);
-					retMessage.setRetCode(RetCodeEnum.fail.getValue());
 					LogFactory.debug(this,"两次密码不一致\n");
-					retMessage.setRetMessage("两次密码不一致");
+					retMessage.setAll(RetCodeEnum.fail,"两次密码不一致", false);
 				}else {
 					Account account=new Account();
 					account.setAccountId(accountId);
@@ -243,9 +200,7 @@ public class LoginController implements com.lanxi.couponcode.spi.service.LoginSe
 			
 		} catch (Exception e) {
 			LogFactory.error(this, "修改密码时出现异常",e);
-    		retMessage.setRetCode(RetCodeEnum.error.getValue());
-			retMessage.setRetMessage("修改密码时发生异常");
-			retMessage.setDetail(result);
+			retMessage.setAll(RetCodeEnum.error,"修改密码时发生异常", result);
 		}
 		return retMessage;
 	}

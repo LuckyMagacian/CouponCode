@@ -4,12 +4,15 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import com.baomidou.mybatisplus.annotations.TableField;
 import com.baomidou.mybatisplus.annotations.TableId;
+import com.baomidou.mybatisplus.annotations.TableName;
 import com.lanxi.couponcode.spi.abstractentity.AbstractOrder;
 import com.lanxi.couponcode.spi.consts.enums.CommodityType;
+import com.lanxi.couponcode.spi.consts.enums.OrderStatus;
 
 /**
  * Created by yangyuanjian on 2017/11/22.
  */
+@TableName("order")
 public class Order extends AbstractOrder{
     /**
      * 1 设计报文
@@ -26,64 +29,67 @@ public class Order extends AbstractOrder{
      *  3.1 查询详情
      *  3.2 批量查询
      */
-	/*订单编号*/
+	/**订单编号*/
 	@TableId("order_id")
 	private Long orderId;
-	/*订单发起机构*/
+	/**订单发起机构*/
 	@TableField("src")
 	private String SRC;
-	/*绑定手机号*/
+	/**绑定手机号*/
 	@TableField("phone")
 	private String Phone;
-	/*清算日期*/
+	/**清算日期*/
 	@TableField("chk_date")
 	private String CHKDate;
-	/*是否需要下发"0"需要"1"不需要*/
+	/**是否需要下发"0"需要"1"不需要*/
 	@TableField("need_send")
 	private String NeedSend;
-	/*订单状态"0"表示未完成  "1"表示已完成*/
+	/**订单状态"0"表示未完成  "1"表示已完成  "2"表示部分成功*/
 	@TableField("order_status")
-	private String orderStatus;
-	/*串码过期时间*/
+	private OrderStatus orderStatus;
+	/**串码过期时间*/
 	@TableField("end_time")
 	private String EndTime;
-	/*串码*/
+	/**串码*/
 	@TableField("code")
 	private String Code;
-	/*交易序号*/
+	/**交易序号*/
 	@TableField("msg_id")
 	private String MsgID;
-	/*请求类型*/
+	/**请求类型*/
 	@TableField("request_type")
 	private String requestType;
-	/*商品所属商户id*/
+	/**商品所属商户id*/
 	@TableField("merchant_id")
 	private Long merchantId;
-	/*商品类型*/
+	/**商品类型*/
 	@TableField("commodity_type")
 	private CommodityType Type;
-	/*商品id*/
+	/**商品id*/
 	@TableField("commodity_id")
 	private Long SkuCode;
-	/*商品数量*/
+	/**商品数量*/
 	@TableField("count")
 	private Integer Count;
-	/*交易日期*/
+	/**交易日期*/
 	@TableField("work_date")
 	private String WorkDate;
-	/*订单创建时间*/
+	/**订单创建时间*/
 	@TableField("create_time")
 	private String createTime;
-	/*交易时间*/
+	/**交易时间*/
 	@TableField("work_time")
 	private String WorkTime;
-	/*商品单价*/
+	/**商品单价*/
 	@TableField("amt")
 	private BigDecimal Amt;
-	/*交易总额*/
+	/**交易总额*/
 	@TableField("total_amt")
 	private BigDecimal TotalAmt;
-	/*备注*/
+	/**交易成功笔数*/
+	@TableField("success_num")
+	private Integer successNum;
+	/**备注*/
 	@TableField("remark")
 	private String Remark;
 	@Override
@@ -199,14 +205,7 @@ public class Order extends AbstractOrder{
 		Remark = remark;
 	}
 
-	public String getOrderStatus() {
-		return orderStatus;
-	}
-
-	public void setOrderStatus(String orderStatus) {
-		this.orderStatus = orderStatus;
-	}
-
+	
 	public String getCode() {
 		return Code;
 	}
@@ -223,14 +222,38 @@ public class Order extends AbstractOrder{
 		EndTime = endTime;
 	}
 
+	public String getOrderStatus() {
+		return orderStatus==null?null:orderStatus.getValue();
+	}
+
+	public void setOrderStatus(OrderStatus orderStatus) {
+		this.orderStatus = orderStatus;
+	}
+	public void setOrderStatus(String orderStatus) {
+		this.orderStatus = OrderStatus.getType(orderStatus);
+	}
+	
+	public Integer getSuccessNum() {
+		return successNum;
+	}
+
+	public void setSuccessNum(Integer successNum) {
+		this.successNum = successNum;
+	}
+
 	@Override
 	public String toString() {
 		return "Order [orderId=" + orderId + ", SRC=" + SRC + ", Phone=" + Phone + ", CHKDate=" + CHKDate
 				+ ", NeedSend=" + NeedSend + ", orderStatus=" + orderStatus + ", EndTime=" + EndTime + ", Code=" + Code
 				+ ", MsgID=" + MsgID + ", requestType=" + requestType + ", merchantId=" + merchantId + ", Type=" + Type
 				+ ", SkuCode=" + SkuCode + ", Count=" + Count + ", WorkDate=" + WorkDate + ", createTime=" + createTime
-				+ ", WorkTime=" + WorkTime + ", Amt=" + Amt + ", TotalAmt=" + TotalAmt + ", Remark=" + Remark + "]";
+				+ ", WorkTime=" + WorkTime + ", Amt=" + Amt + ", TotalAmt=" + TotalAmt + ", successNum=" + successNum
+				+ ", Remark=" + Remark + "]";
 	}
+
+	
+
+	
 
 	
 }

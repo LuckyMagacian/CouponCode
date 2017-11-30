@@ -15,31 +15,37 @@ import com.lanxi.couponcode.spi.consts.enums.ShopStatus;
  */
 @TableName("shop")
 public class Shop extends AbstractShop{
-	/*门店编号*/
+	/**门店编号*/
 	@TableId("shop_id")
 	private Long shopId;
-	/*所属商户id*/
+	/**所属商户id*/
 	@TableField("merchant_id")
 	private Long merchantId;
-	/*门店名称*/
+	/**门店名称*/
 	@TableField("shop_name")
 	private String shopName;
-	/*创建时间*/
+	/**创建时间*/
 	@TableField("create_time")
 	private String createTime;
-	/*所对应商户的状态*/
+	/**所对应商户的状态*/
 	@TableField("merchant_status")
 	private MerchantStatus merchantStatus;
-	/*门店地址*/
+	/**门店地址*/
 	@TableField("shop_address")
 	private String shopAddress;
-	/*门店详细地址*/
+	/**门店详细地址*/
 	@TableField("minute_shop_address")
 	private String minuteShopAddress;
-	/*门店状态*/
+	/**门店状态*/
 	@TableField("shop_status")
 	private ShopStatus shopStatus;
-	/*客服电话*/
+	/**添加者编号*/
+	@TableField("add_id")
+	private Long addId;
+	/**添加者姓名*/
+	@TableField("add_name")
+	private String addName;
+	/**客服电话*/
 	@TableField("servicetel")
 	private String servicetel;
 	@Override
@@ -109,13 +115,29 @@ public class Shop extends AbstractShop{
 	public void setServicetel(String servicetel) {
 		this.servicetel = servicetel;
 	}
+	
+	public Long getAddId() {
+		return addId;
+	}
+	public void setAddId(Long addId) {
+		this.addId = addId;
+	}
+	
+	public String getAddName() {
+		return addName;
+	}
+	public void setAddName(String addName) {
+		this.addName = addName;
+	}
 	@Override
 	public String toString() {
 		return "Shop [shopId=" + shopId + ", merchantId=" + merchantId + ", shopName=" + shopName + ", createTime="
 				+ createTime + ", merchantStatus=" + merchantStatus + ", shopAddress=" + shopAddress
-				+ ", minuteShopAddress=" + minuteShopAddress + ", shorStatus=" + shopStatus + ", servicetel="
-				+ servicetel + "]";
+				+ ", minuteShopAddress=" + minuteShopAddress + ", shopStatus=" + shopStatus + ", addId=" + addId
+				+ ", addName=" + addName + ", servicetel=" + servicetel + "]";
 	}
+	
+	
 	
 	
 }

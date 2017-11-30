@@ -12,10 +12,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.lanxi.couponcode.impl.config.ProjectParam;
 import com.lanxi.couponcode.impl.entity.MsgOrderInfoHeadBean;
 import com.lanxi.couponcode.impl.entity.MsgRechargeBean;
 import com.lanxi.couponcode.impl.entity.Order;
-import com.lanxi.couponcode.impl.entity.ProjectParam;
 import com.lanxi.couponcode.impl.util.HttpUtil;
 import com.lanxi.couponcode.impl.util.RegularUtil;
 import com.lanxi.couponcode.impl.util.ValidateUtil;
@@ -102,7 +102,7 @@ public class XmlApiController {
 					msgRechargeBean.getCHKDate());
 			if (retMessage.getDetail()!=null) {
 				Order order=JSON.parseObject((String)retMessage.getDetail(), Order.class);
-				if (order.getCount()>0) {
+				if (order.getCount()==order.getSuccessNum()) {
 					Map<String, String>statusMap=new HashMap<String,String>();
 					statusMap.put("ResCode", ProjectParam.RESCODE_SUCC);
 					statusMap.put("ResMsg", "交易成功");
@@ -114,6 +114,21 @@ public class XmlApiController {
 					}
 					statusMap.put("Amt", order.getAmt().toString());
 					statusMap.put("EndTime", order.getEndTime());
+					return XmlUtil.getPrepaidRechargeRespXmlStr(msgRechargeBean, statusMap);
+					
+				}else if (order.getSuccessNum()<order.getCount()) {
+					Map<String, String>statusMap=new HashMap<String,String>();
+					statusMap.put("ResCode", ProjectParam.RESCODE_ERR);
+					statusMap.put("ResMsg", "交易部分成功-成功笔数:"+order.getSuccessNum());
+					statusMap.put("TotalAmt", order.getTotalAmt().toString());
+					if (order.getCode().lastIndexOf("|")<0) {
+						statusMap.put("Code1", order.getCode());
+					}else {
+						statusMap=XmlUtil.split(order.getCode().substring(0,order.getCode().lastIndexOf("|")), 1, statusMap, "Code");
+					}
+					statusMap.put("Amt", order.getAmt().toString());
+					statusMap.put("EndTime", order.getEndTime());
+					return XmlUtil.getPrepaidRechargeRespXmlStr(msgRechargeBean, statusMap);
 				}else {
 					Map<String, String>statusMap=new HashMap<String,String>();
 					statusMap.put("ResCode", ProjectParam.RESCODE_ERR);
@@ -134,7 +149,7 @@ public class XmlApiController {
 			statusMap.put("ResMsg", "操作失败");
 			return XmlUtil.getPrepaidRechargeRespXmlStr(new MsgRechargeBean(), statusMap);
 		}
-		return null;
+		
 	}
 
 	/**

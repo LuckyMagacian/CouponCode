@@ -3,6 +3,7 @@ package com.lanxi.couponcode.impl.newservice;
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.plugins.Page;
 import com.lanxi.couponcode.impl.entity.Merchant;
+import com.lanxi.couponcode.spi.consts.enums.MerchantStatus;
 
 import java.io.File;
 import java.util.List;
@@ -56,8 +57,8 @@ public interface MerchantService {
 	public String queryMerchantStatusByid(Long merchantId,
 			Long operaterId);
 	/*导出*/
-	
-	
+	public File merchantExport(String merchantName,MerchantStatus merchantStatus,String timeStart,
+            String  timeStop,Long operaterId);
 	
 
 	

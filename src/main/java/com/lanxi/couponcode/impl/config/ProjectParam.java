@@ -1,4 +1,4 @@
-package com.lanxi.couponcode.impl.entity;
+package com.lanxi.couponcode.impl.config;
 /**
  * 
  * @author wuxiaobo
