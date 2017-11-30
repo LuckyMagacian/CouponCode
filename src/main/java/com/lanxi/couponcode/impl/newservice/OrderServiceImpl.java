@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.plugins.Page;
 import com.lanxi.couponcode.impl.entity.Order;
+import com.lanxi.couponcode.spi.consts.enums.OrderStatus;
 @Service("orderService")
 public class OrderServiceImpl implements OrderService{
 	@Resource
@@ -24,28 +25,21 @@ public class OrderServiceImpl implements OrderService{
 		
 		List<Order> orders=dao.getOrderDao().selectList(wrapper);
 		if (orders.size()>1) {
-			for(int i=0;i<orders.size();i++) {
-				if (orders.get(i).getOrderStatus().equals("1")) {
-					return orders.get(i);
-				}
-			}
+//			for(int i=0;i<orders.size();i++) {
+//				if (orders.get(i).getOrderStatus().equals(OrderStatus.finish.getValue())) {
+//					return orders.get(i);
+//				}
+//			}
+			return null;
 		}else if (orders.size()==0) {
 			return null;
-		}
+		}else 
 			return orders.get(0);
-		
-			
-		
-		
 	}
 
 	@Override
 	public List<Order> queryOrders(EntityWrapper<Order> wrapper) {
-		
-		
 			return dao.getOrderDao().selectList(wrapper);
-		
-		
 	}
 
 	@Override
@@ -55,13 +49,11 @@ public class OrderServiceImpl implements OrderService{
 
 	@Override
 	public Boolean changeOrderStatus(Order order) {
-		
 		return order.updateById();
 	}
 
 	@Override
 	public Boolean isRepetition(String MsgID, String WorkDate) {
-		
 		if (MsgID!=null&&!MsgID.isEmpty()&&WorkDate!=null&&!WorkDate.isEmpty()) {
 			Order order=new Order();
 			order.setMsgID(MsgID);

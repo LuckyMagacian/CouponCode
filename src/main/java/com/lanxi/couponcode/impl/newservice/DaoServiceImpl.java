@@ -27,6 +27,7 @@ public class DaoServiceImpl implements DaoService {
     private MerchantDao merchantDao;
     @Resource
     private OperateRecordDao operateRecordDao;
+    @Resource
     private OrderDao orderDao;
     @Resource
     private RequestDao requestDao;

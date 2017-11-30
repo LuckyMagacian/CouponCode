@@ -101,6 +101,8 @@ public interface MerchantService {
             File otherPicFile,
             @HiddenArg Long operaterId,
             @HiddenArg Long merchantId);
+    RetMessage<String> queryMerchantInfo( @HiddenArg Long operaterId,
+            @HiddenArg Long merchantId);
 
 }
 

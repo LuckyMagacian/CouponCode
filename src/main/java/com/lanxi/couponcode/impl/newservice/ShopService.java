@@ -53,4 +53,6 @@ public interface ShopService {
 	public Shop queryShopInfo(Long shopId);
 	/*下载批量导入门店模板*/
 	public File downloadExcelTemplate(); 
+	/*通过merchantId查询商户下属所有门店*/
+	public List<Shop> queryShops(Long merchantId,Page<Shop> pageObj);
 }

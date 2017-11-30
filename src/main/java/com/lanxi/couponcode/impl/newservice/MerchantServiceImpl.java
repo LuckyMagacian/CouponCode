@@ -2,9 +2,9 @@ package com.lanxi.couponcode.impl.newservice;
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.plugins.Page;
 import com.baomidou.mybatisplus.toolkit.IdWorker;
+import com.lanxi.couponcode.impl.config.Path;
 import com.lanxi.couponcode.impl.entity.Merchant;
 import com.lanxi.couponcode.impl.entity.OperateRecord;
-import com.lanxi.couponcode.impl.entity.Path;
 import com.lanxi.couponcode.impl.util.FileUpLoadUtil;
 import com.lanxi.couponcode.impl.util.ImageUtil;
 import com.lanxi.couponcode.spi.consts.enums.MerchantStatus;
@@ -38,48 +38,24 @@ public class MerchantServiceImpl implements MerchantService {
 	private ShopService shopService;
 	@Override
 	public Boolean addMerchant(Merchant merchant) {
-		LogFactory.info(this, "尝试添加商户\n");
-		boolean result=false;
 		try {
-			merchant.setMerchantStatus(MerchantStatus.normal);
-			merchant.setMerchantId(IdWorker.getId());
-			//System.out.println(merchant.getMerchantId());
-			merchant.setCreateTime(LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMddHHmmss")));
-			int var=dao.getMerchantDao().insert(merchant);
-			if(var<0) {
-				LogFactory.info(this,"添加商户失败\n");
-				result=false;
-			}else if (var>0) {
-				LogFactory.info(this,"添加商户成功\n");
-				result=true;
-			}
+			LogFactory.info(this, "尝试添加商户\n");
+			return merchant.insert();
 		} catch (Exception e) {
 			LogFactory.error(this,"添加商户时发生异常,\n",e);
-			return result;
-			//throw new RuntimeException("添加商户时发生异常",e);
+			return false;
 		}
-		return result;
+		
 	}
 	@Override
 	public Boolean updateMerchantById(Merchant merchant) {
 		synchronized (merchant) {
-			LogFactory.info(this, "尝试修改商户,\n");
-			boolean result = false;
 			try {
-				int var = dao.getMerchantDao().updateById(merchant);
-				if (var < 0) {
-					LogFactory.info(this, "修改商户失败\n");
-					result = false;
-				} else if (var > 0) {
-					LogFactory.info(this, "修改商户成功\n");
-					result = true;
-				}
+				return merchant.updateById();
 			} catch (Exception e) {
 				LogFactory.error(this, "修改商户时发生异常,\n", e);
-				//throw new RuntimeException("修改商户时发生异常",e);
-				return result;
+				return false;
 			}
-			return result;
 		}
 	}
 	
@@ -104,7 +80,6 @@ public class MerchantServiceImpl implements MerchantService {
 	}
 	@Override
 	public List<Merchant> getMerchantByCondition(Page<Merchant> pageObj,EntityWrapper<Merchant> wrapper) {
-		
 		LogFactory.info(this, "尝试按条件获取商户信息\n,");
 		List<Merchant> list=null;
 		try {
@@ -123,17 +98,17 @@ public class MerchantServiceImpl implements MerchantService {
 	}
 	@Override
 	public Merchant queryMerchantParticularsById(Long merchantId) {
-		String locker="merchantId["+merchantId+"]\n";
-		LogFactory.info(this,"尝试获取商户详情"+locker);
+		
+		LogFactory.info(this,"尝试获取商户详情");
 		Merchant merchant=null;
 		try {
 			if(merchantId!=null) {
 				merchant=dao.getMerchantDao().selectById(merchantId);
-				LogFactory.debug(this,"查询结果["+merchant+"]"+locker);
+				LogFactory.debug(this,"查询结果["+merchant+"]");
 			}
 			return merchant;
 		} catch (Exception e) {
-			LogFactory.error(this, "查询商户详情是发生异常"+locker,e);
+			LogFactory.error(this, "查询商户详情是发生异常",e);
 			return merchant;
 		}
 		
@@ -466,6 +441,13 @@ public class MerchantServiceImpl implements MerchantService {
 			}
 			return result;
 		}
+	}
+	@Override
+	public File merchantExport(String merchantName, MerchantStatus merchantStatus, String timeStart, String timeStop,
+			Long operaterId) {
+		// TODO Auto-generated method stub
+		
+		return null;
 	}
 	
 }

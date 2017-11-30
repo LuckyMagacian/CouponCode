@@ -105,4 +105,6 @@ public class TestMybatis {
     	merchant.updateById();
     	System.err.println(merchant);
     }	
+   
+    
 }

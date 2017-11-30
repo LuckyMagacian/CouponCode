@@ -60,4 +60,8 @@ public interface ShopService {
     				@HiddenArg Long merchantId,
     				@HiddenArg Long operaterId);
     RetMessage<File> downloadExcelTemplate(@HiddenArg Long operaterId);
+    RetMessage<String> queryShops(@HiddenArg Long merchantId,
+    		@HiddenArg Long operaterId,
+			@HiddenArg Integer pageNum,
+			@HiddenArg Integer pageSize);
 }

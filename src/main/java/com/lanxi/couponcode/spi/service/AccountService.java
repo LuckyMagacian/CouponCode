@@ -25,6 +25,8 @@ public interface AccountService {
                           String phone,
                           String merchantName,
                           @HiddenArg Long merchantId,
+                          @HiddenArg Long shopId,
+                          String shopName,
                           @HiddenArg Long operaterId);
 
     RetMessage<Boolean> merchantAddAccount(AccountType type,
@@ -44,13 +46,15 @@ public interface AccountService {
                        @HiddenArg Long operaterId);
 
     @RealReturnType("List<Account>")
-    RetMessage<String> queryAccounts(String phone,
-                         String merchantName,
-                         AccountType type,
-                         AccountStatus status,
-                         @HiddenArg Integer pageNum,
-                         @HiddenArg Integer pageSize,
-                         @HiddenArg Long operaterId);
+    RetMessage<String> queryAccounts(Long merchantId,Long shopId,
+    		String shopName,
+    		String phone, 
+    		String merchantName,
+    		AccountType type, 
+    		AccountStatus status,
+    		@HiddenArg Integer pageNum,
+    		@HiddenArg Integer pageSize,
+    		@HiddenArg Long operaterId);
 
 
     @RealReturnType("List<Account>")

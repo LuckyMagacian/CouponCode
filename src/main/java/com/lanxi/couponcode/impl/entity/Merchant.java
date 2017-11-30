@@ -24,64 +24,70 @@ public class Merchant extends AbstractMerchant{
 
 
 
-	/*商户id*/
+	/**商户id*/
 	@TableId("merchant_id")
 	private Long merchantId;
 	
-	/*商户名称*/
+	/**商户名称*/
 	@TableField("merchant_name")
 	private String merchantName;
-	/*商户状态*/
+	/**商户状态*/
 	@TableField("merchant_status")
 	private MerchantStatus merchantStatus;
-	/*信息提交时间*/
+	/**信息提交时间*/
 	@TableField("create_time")
 	private String createTime;
-	/*办公地址*/
+	/**办公地址*/
 	@TableField("workaddress")
 	private String workAddress;
-	/*办公详细地址*/
+	/**办公详细地址*/
 	@TableField("minute_workaddress")
 	private String minuteWorkAddress;
-	/*服务或商品说明*/
+	/**服务或商品说明*/
 	@TableField("serve_explain")
 	private String serveExplain;
-	/*注册地址*/
+	/**注册地址*/
 	@TableField("registeraddress")
 	private String registerAddress;
-	/*注册详细地址*/
+	/**注册详细地址*/
 	@TableField("minute_registeraddress")
 	private String minuteRegisterAddress;
-	/*组织机构代码*/
+	/**组织机构代码*/
 	@TableField("oraganizingcode")
 	private String oraganizingCode;
-	/*营业执照编号*/
+	/**营业执照编号*/
 	@TableField("chartercode")
 	private String charterCode;
-	/*法定代表人/商户负责人姓名*/
+	/**法定代表人/商户负责人姓名*/
 	@TableField("principal")
 	private String principal;
-	/*联系人姓名*/
+	/**联系人姓名*/
 	@TableField("linkman")
 	private String linkMan;
-	/*联系人手机号码*/
+	/**联系人手机号码*/
 	@TableField("linkman_phone")
 	private String linkManPhone;
-	/*客服电话*/
+	/**客服电话*/
 	@TableField("servicetel")
 	private String serviceTel;
-	/*常用邮箱*/
+	/**常用邮箱*/
 	@TableField("email")
 	private String email;
-	/*组织机构代码证*/
+	/**组织机构代码证*/
 	@TableField("organizing_institution_bar_code_pic")
 	private String organizingInstitutionBarCodePic;
-	/*工商营业执照*/
+	/**工商营业执照*/
 	@TableField("business_license_pic")
 	private String businessLicensePic;
-	/*其他证明材料*/
+	/**其他证明材料*/
 	@TableField("other_pic")
 	private String otherPic;
+	/**添加者编号*/
+	@TableField("add_id")
+	private Long addId;
+	/**添加者姓名*/
+	@TableField("add_name")
+	private String addName;
 	@Override
 	protected Serializable pkVal() {
 		// TODO Auto-generated method stub
@@ -244,17 +250,38 @@ public class Merchant extends AbstractMerchant{
 	public void setOtherPic(String otherPic) {
 		this.otherPic = otherPic;
 	}
+	
+	public Long getAddId() {
+		return addId;
+	}
+
+	public void setAddId(Long addId) {
+		this.addId = addId;
+	}
+
+	
+
+	public String getAddName() {
+		return addName;
+	}
+
+	public void setAddName(String addName) {
+		this.addName = addName;
+	}
 
 	@Override
 	public String toString() {
 		return "Merchant [merchantId=" + merchantId + ", merchantName=" + merchantName + ", merchantStatus="
-				+ merchantStatus +  ", createTime=" + createTime + ", workAddress="
-				+ workAddress + ", minuteWorkAddress=" + minuteWorkAddress + ", serveExplain=" + serveExplain
-				+ ", registerAddress=" + registerAddress + ", minuteRegisterAddress=" + minuteRegisterAddress
-				+ ", oraganizingCode=" + oraganizingCode + ", charterCode=" + charterCode + ", principal=" + principal
-				+ ", linkMan=" + linkMan + ", linkManPhone=" + linkManPhone + ", serviceTel=" + serviceTel + ", email="
-				+ email + ", organizingInstitutionBarCodePic=" + organizingInstitutionBarCodePic
-				+ ", businessLicensePic=" + businessLicensePic + ", otherPic=" + otherPic + "]";
+				+ merchantStatus + ", createTime=" + createTime + ", workAddress=" + workAddress
+				+ ", minuteWorkAddress=" + minuteWorkAddress + ", serveExplain=" + serveExplain + ", registerAddress="
+				+ registerAddress + ", minuteRegisterAddress=" + minuteRegisterAddress + ", oraganizingCode="
+				+ oraganizingCode + ", charterCode=" + charterCode + ", principal=" + principal + ", linkMan=" + linkMan
+				+ ", linkManPhone=" + linkManPhone + ", serviceTel=" + serviceTel + ", email=" + email
+				+ ", organizingInstitutionBarCodePic=" + organizingInstitutionBarCodePic + ", businessLicensePic="
+				+ businessLicensePic + ", otherPic=" + otherPic + ", addId=" + addId + ", addName=" + addName + "]";
 	}
+
+	
+	
 	
 }

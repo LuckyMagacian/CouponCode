@@ -9,7 +9,8 @@ import java.io.Serializable;
 public enum OperateType implements Serializable,Gettype{
 
     createShop(11),				unfreezeShop(12),				freezeShop(13),				deleteShop(14),
-    modifyShop(15),				queryShop(16),				    cancelShop(19),
+    modifyShop(15),				queryShop(16),				    cancelShop(19),  			importShops(17),
+    downloadShopExcelTemplate(18),
 
     createMerchantManager(21),	unfreezeMerchantManager(22),	freezeMerchantManager(23),	deleteMerchantManager(24),
     modifyMerchantManager(25),	queryMerchantManager(26),	    cancelMerchantManager(29),
@@ -26,12 +27,13 @@ public enum OperateType implements Serializable,Gettype{
     destroyCouponCode(61),		createCouponCode(62),			queryCouponCode(66),        postoneCouponCode(67),
     cancelCouponCode(69),       queryCouponCodeList(68),
 
-    createAccount(71),			unfreezeAccount(72),			freezeAccount(73),
+    createAccount(71),			unfreezeAccount(72),			freezeAccount(73),			queryAccountInfo(78),
     deleteAccount(74),			modifyAccount(75),			    queryAccount(76),			cancelAccount(79),
 
     createMerchant(81),			unfreezeMerchant(82),			freezeMerchant(83),			deleteMerchant(84),
-    modifyMerchant(85),			queryMerchant(86),			    cancelMerchant(89),
-
+    modifyMerchant(85),			queryMerchant(86),			    cancelMerchant(89),			inputMerchantInfo(87),
+    queryMerchantInfo(88),
+    
     statscitcShop(91),          statscitcMerchantManager(92),   statscitcShopManager(93),   statscitcEmployee(94),
     statscitcCommodity(95),     statscitcCouponCode(96),        statscitcAccount(97),       statsticMerchant(98),
 
