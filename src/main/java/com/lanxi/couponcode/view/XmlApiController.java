@@ -42,9 +42,9 @@ public class XmlApiController {
      * @param res
      * @return
      */
-    @RequestMapping (value = "", method = RequestMethod.POST, produces = {"application/xml;charset=GBK"})
+    @RequestMapping (value = "purchaseOfElectronicGoods", method = RequestMethod.POST, produces = {"application/xml;charset=GBK"})
     @ResponseBody
-    public String PurchaseOfElectronicGoods(HttpServletRequest req, HttpServletResponse res) {
+    public String purchaseOfElectronicGoods(HttpServletRequest req, HttpServletResponse res) {
         try {
             /** 获取请求体 */
             String reqXmlStr = HttpUtil.getBodyFromPostReq(req, "GBK");
@@ -158,7 +158,7 @@ public class XmlApiController {
      * @param res
      * @return
      */
-    @RequestMapping (value = "", method = RequestMethod.POST, produces = {"application/xml;charset=GBK"})
+    @RequestMapping (value = "enquiryOfOrderDetail", method = RequestMethod.POST, produces = {"application/xml;charset=GBK"})
     @ResponseBody
     public String enquiryOfOrderDetail(HttpServletRequest req, HttpServletResponse res) {
         try {
@@ -257,7 +257,7 @@ public class XmlApiController {
      * @param res
      * @return
      */
-    @RequestMapping (value = "", method = RequestMethod.POST, produces = {"application/xml;charset=GBK"})
+    @RequestMapping (value = "queryHistoryOrder", method = RequestMethod.POST, produces = {"application/xml;charset=GBK"})
     @ResponseBody
     public String queryHistoryOrder(HttpServletRequest req, HttpServletResponse res) {
         try {

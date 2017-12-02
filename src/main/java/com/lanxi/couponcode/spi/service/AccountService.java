@@ -10,6 +10,15 @@ import com.lanxi.couponcode.spi.consts.enums.AccountType;
  * Created by yangyuanjian on 2017/11/9.
  */
 public interface AccountService {
+  /**不能用*/
+    RetMessage<Boolean> addAccount(AccountType type,
+                                   String name,
+                                   String phone,
+                                   String merchantName,
+                                   @HiddenArg Long merchantId,
+                                   @HiddenArg Long shopId,
+                                   String shopName,
+                                   @HiddenArg Long operaterId);
     /**
      * 添加账户
      *
@@ -22,15 +31,6 @@ public interface AccountService {
      * @param operaterId
      * @return
      */
-    RetMessage<Boolean> addAccount(AccountType type,
-                                   String name,
-                                   String phone,
-                                   String merchantName,
-                                   @HiddenArg Long merchantId,
-                                   @HiddenArg Long shopId,
-                                   String shopName,
-                                   @HiddenArg Long operaterId);
-
     RetMessage<Boolean> adminAddAccount(AccountType type,
     		String merchantName,
     		String name,
