@@ -130,7 +130,7 @@ public class OrderController implements com.lanxi.couponcode.spi.service.OrderSe
 									order.setOrderStatus("2");
 									order.setSuccessNum(m);
 									order.setTotalAmt(commodity.getSellPrice().multiply(
-											new BigDecimal(Double.valueOf(Integer.valueOf(m).toString()).toString())));
+											new BigDecimal(m)));
 									Boolean result = orderService.changeOrderStatus(order);
 									if (result) {
 										String s = JSON.toJSONString(order);
@@ -146,7 +146,7 @@ public class OrderController implements com.lanxi.couponcode.spi.service.OrderSe
 									order.setOrderStatus("2");
 									order.setSuccessNum(m);
 									order.setTotalAmt(commodity.getSellPrice().multiply(
-											new BigDecimal(Double.valueOf(Integer.valueOf(m).toString()).toString())));
+											new BigDecimal(m)));
 									Boolean result = orderService.changeOrderStatus(order);
 									if (result) {
 										String s = JSON.toJSONString(order);

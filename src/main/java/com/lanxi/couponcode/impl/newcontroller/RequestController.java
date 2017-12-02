@@ -247,9 +247,8 @@ public class RequestController implements com.lanxi.couponcode.spi.service.Reque
                     return new RetMessage<>(RetCodeEnum.success,"通过成功!操作失败",null);
                 }
             }
-            if(!result)
                 return new RetMessage<>(RetCodeEnum.fail,"通过失败!",null);
-            return new RetMessage<>(RetCodeEnum.exception,"no thing to do!",null);
+//            return new RetMessage<>(RetCodeEnum.exception,"no thing to do!",null);
         } catch (Exception e) {
             LogFactory.info(this,"通过请求异常!",e);
             return new RetMessage<>(RetCodeEnum.error,"系统异常!",null);
@@ -305,9 +304,8 @@ public class RequestController implements com.lanxi.couponcode.spi.service.Reque
                 operateRecordService.addRecord(record);
                 return new RetMessage<>(RetCodeEnum.success,"拒绝成功!",null);
             }
-            if(!result)
                 return new RetMessage<>(RetCodeEnum.fail,"拒绝失败!",null);
-            return new RetMessage<>(RetCodeEnum.exception,"no thing to do!",null);
+//            return new RetMessage<>(RetCodeEnum.exception,"no thing to do!",null);
         } catch (Exception e) {
             LogFactory.info(this,"驳回请求异常!",e);
             return new RetMessage<>(RetCodeEnum.error,"系统异常!",null);

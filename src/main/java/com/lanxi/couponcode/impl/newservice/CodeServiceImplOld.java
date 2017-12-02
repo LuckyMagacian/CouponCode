@@ -15,6 +15,7 @@ import java.util.*;
 /**
  * Created by yangyuanjian on 2017/11/15.
  */
+
 @Deprecated
 public class CodeServiceImplOld implements CodeServiceOld {
     @Resource
@@ -107,7 +108,7 @@ public class CodeServiceImplOld implements CodeServiceOld {
     @Override
     public Boolean delCode(CouponCode code){
         synchronized (code){
-            Boolean redisDel=redisCodeService.delCode(code);
+            redisCodeService.delCode(code);
             code.setCodeStatus(CouponCodeStatus.cancellation);
             return code.updateById();
         }
@@ -115,14 +116,14 @@ public class CodeServiceImplOld implements CodeServiceOld {
     @Override
     public Boolean verificateCode(CouponCode code){
         synchronized (code){
-            Boolean redisDel=redisCodeService.delCode(code);
+            redisCodeService.delCode(code);
             code.setCodeStatus(CouponCodeStatus.destroyed);
             return code.updateById();
         }
     }
     @Override
     public Boolean overTimeCode(CouponCode code){
-        Boolean redisDel=redisCodeService.delCode(code);
+        redisCodeService.delCode(code);
         code.setCodeStatus(CouponCodeStatus.overtime);
         return code.updateById();
     }

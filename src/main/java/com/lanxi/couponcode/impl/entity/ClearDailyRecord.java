@@ -16,7 +16,7 @@ import java.util.List;
 /**
  * Created by yangyuanjian on 2017/11/22.
  */
-@TableName("clearDailyRecord")
+@TableName("clear_daily_record")
 public class ClearDailyRecord extends Model<ClearDailyRecord> implements CommonDefaultMethodOfEntity{
     /**记录编号*/
     @TableId("record_id")
@@ -36,7 +36,7 @@ public class ClearDailyRecord extends Model<ClearDailyRecord> implements CommonD
     @TableField("merchant_name")
     private String merchantName;
     /**核销数量*/
-    @TableField("verificate_um")
+    @TableField("verificate_num")
     private Integer verificateNum;
     /**销毁数量*/
     @TableField("cancelation_num")

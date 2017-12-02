@@ -7,10 +7,10 @@ import java.io.Serializable;
 
 /**
  * 抽象子订单
- * @author yangyuanjian
  *
+ * @author yangyuanjian
  */
 @Deprecated
-public abstract class AbstractSubOrder extends Model<AbstractSubOrder> implements Serializable,CommonDefaultMethodOfEntity {
+public abstract class AbstractSubOrder extends Model<AbstractSubOrder> implements Serializable, CommonDefaultMethodOfEntity {
 
 }

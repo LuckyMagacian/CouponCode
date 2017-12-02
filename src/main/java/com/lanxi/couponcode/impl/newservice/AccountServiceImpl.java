@@ -266,7 +266,7 @@ public class AccountServiceImpl implements AccountService {
 		try {
 			Date date1 = sdf.parse(date);
 			Date now = sdf.parse(sdf.format(new Date()));
-			if (now.getTime() - date1.getTime() > 15 * 60 * 1000) {
+			if (now.getTime() - date1.getTime() > 900000) {
 				return true;
 			} else {
 				return false;

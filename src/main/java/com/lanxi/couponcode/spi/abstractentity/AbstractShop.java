@@ -4,11 +4,12 @@ import java.io.Serializable;
 
 import com.baomidou.mybatisplus.activerecord.Model;
 import com.lanxi.couponcode.spi.defaultInterfaces.CommonDefaultMethodOfEntity;
+
 /**
  * 抽象门店
- * @author yangyuanjian
  *
+ * @author yangyuanjian
  */
-public abstract class  AbstractShop extends Model<AbstractShop> implements Serializable,CommonDefaultMethodOfEntity {
+public abstract class AbstractShop extends Model<AbstractShop> implements Serializable, CommonDefaultMethodOfEntity {
 
 }

@@ -249,7 +249,7 @@ public class ClearController implements com.lanxi.couponcode.spi.service.ClearSe
                 record.setCreateTime(TimeAssist.getNow());
                 record.insert();
             });
-            OperateRecord operateRecord=new OperateRecord();
+//            OperateRecord operateRecord=new OperateRecord();
             OperateRecord record=new OperateRecord();
             record.setRecordId(IdWorker.getId());
             record.setOperaterId(account.getAccountId());

@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import redis.clients.jedis.*;
 
 import javax.annotation.Resource;
+import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Parameter;
 import java.util.*;
 import java.util.function.Function;
@@ -154,7 +155,11 @@ public class RedisServiceImpl implements RedisService {
 
     @Override
     public Boolean set(String key, byte[] value, Long life) {
-        return set(key.getBytes(),value,life);
+        try {
+            return set(key.getBytes("utf-8"),value,life);
+        } catch (UnsupportedEncodingException e) {
+            return null;
+        }
     }
 
     @Override
@@ -196,7 +201,11 @@ public class RedisServiceImpl implements RedisService {
 
     @Override
     public byte[] getBytes(String key) {
-        return get(key.getBytes());
+        try {
+            return get(key.getBytes("utf-8"));
+        } catch (UnsupportedEncodingException e) {
+            return null;
+        }
     }
 
     @Override
@@ -273,12 +282,20 @@ public class RedisServiceImpl implements RedisService {
 
     @Override
     public Boolean hset(String mapName, byte[] key, byte[] value) {
-        return hset(mapName.getBytes(),key,value);
+        try {
+            return hset(mapName.getBytes("utf-8"),key,value);
+        } catch (UnsupportedEncodingException e) {
+            return null;
+        }
     }
 
     @Override
     public Boolean hset(String mapName, String key, byte[] value) {
-        return hset(mapName.getBytes(),key.getBytes(),value);
+        try {
+            return hset(mapName.getBytes("utf-8"),key.getBytes("utf-8"),value);
+        } catch (UnsupportedEncodingException e) {
+            return null;
+        }
     }
 
     @Override
@@ -288,7 +305,11 @@ public class RedisServiceImpl implements RedisService {
 
     @Override
     public byte[] hgetBytes(String mapName, String key) {
-        return hget(mapName.getBytes(),key.getBytes());
+        try {
+            return hget(mapName.getBytes("utf-8"),key.getBytes("utf-8"));
+        } catch (UnsupportedEncodingException e) {
+            return null;
+        }
     }
 
     @Override
@@ -313,7 +334,6 @@ public class RedisServiceImpl implements RedisService {
 
     @Override
     public Boolean hsetEx(String mapName, String key, String value) {
-        String now = work(e -> e.hget(mapName, key));
         if (hexists(mapName, key)) {
             return work(e -> e.hsetnx(mapName, key, value)) > 0;
         } else {

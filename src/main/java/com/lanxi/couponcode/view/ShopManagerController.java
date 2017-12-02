@@ -4,6 +4,7 @@ import com.lanxi.couponcode.spi.consts.annotations.SetUtf8;
 import com.lanxi.couponcode.spi.consts.enums.AccountType;
 import com.lanxi.couponcode.spi.consts.enums.OperateTargetType;
 import com.lanxi.couponcode.spi.consts.enums.OperateType;
+import com.lanxi.couponcode.spi.consts.enums.VerificationType;
 import com.lanxi.couponcode.spi.service.CouponService;
 import com.lanxi.couponcode.spi.service.OperateRecordService;
 import com.lanxi.couponcode.spi.service.ShopService;
@@ -18,6 +19,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import static com.lanxi.couponcode.spi.assist.ArgAssist.getArg;
 import static com.lanxi.couponcode.spi.assist.ArgAssist.parseArg;
+import static com.lanxi.couponcode.spi.assist.ArgAssist.toVerificationType;
 
 /**
  * Created by yangyuanjian on 11/30/2017.
@@ -37,16 +39,16 @@ public class ShopManagerController {
         String codIdStr=getArg.apply(req,"codeId");
         String operaterIdStr=getArg.apply(req,"operaterId");
         String codeStr=getArg.apply(req,"code");
-
+        String verifyTypeStr=getArg.apply(req,"verificationType");
 
         Long codeId=parseArg(codIdStr,Long.class);
         Long operaterId=parseArg(operaterIdStr,Long.class);
         Long code=parseArg(codeStr,Long.class);
-
+        VerificationType verifyType=toVerificationType.apply(verifyTypeStr);
         if(codeId==null)
-            return codeService.verificateCode(code,null,operaterId).toJson();
+            return codeService.verificateCode(code,null,operaterId,verifyType).toJson();
         else
-            return codeService.verificateCode(codeId,operaterId).toJson();
+            return codeService.verificateCode(codeId,operaterId,verifyType).toJson();
     }
     @SetUtf8
     @ResponseBody

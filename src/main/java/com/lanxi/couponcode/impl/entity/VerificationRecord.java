@@ -60,6 +60,7 @@ public class VerificationRecord extends AbstractVerificationRecord{
 //    /**商品详情*/
 //    @TableField("commodity_info")
 //    private String commodityInfo;
+    /**门店详情*/
     @TableField("shop_info")
     private String shopInfo;
     @Override

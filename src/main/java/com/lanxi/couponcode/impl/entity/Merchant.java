@@ -15,7 +15,7 @@ import com.lanxi.couponcode.spi.consts.enums.MerchantStatus;
  */
 @TableName("merchants")
 public class Merchant extends AbstractMerchant{
-	public static Merchant SYSTEM=new Merchant();
+	public static final Merchant SYSTEM=new Merchant();
 	static {
 		SYSTEM.setMerchantId(100000000L);
 		SYSTEM.setMerchantName("SYSTEM");
@@ -90,7 +90,6 @@ public class Merchant extends AbstractMerchant{
 	private String addName;
 	@Override
 	protected Serializable pkVal() {
-		// TODO Auto-generated method stub
 		return this.merchantId;
 	}
 

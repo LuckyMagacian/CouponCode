@@ -24,7 +24,7 @@ public class CodeAlgorithmServiceImpl implements CodeAlgorithmService{
     /**
      * 串码算法结构map
      */
-    private Map<String,CodeAlgorithm> codeAlgorithmMap=new HashMap<>();
+    private Map<Long,CodeAlgorithm> codeAlgorithmMap=new HashMap<>();
     /**
      * 质数list
      */
@@ -57,7 +57,6 @@ public class CodeAlgorithmServiceImpl implements CodeAlgorithmService{
      */
     private boolean isPrime(int num){
         double factor=Math.sqrt(num);
-        int times=(int)(factor+1);
         for(int i=2;i<factor;i++){
             if(num%i==0) {
                 return false;
@@ -99,6 +98,7 @@ public class CodeAlgorithmServiceImpl implements CodeAlgorithmService{
         CodeAlgorithm codeAlgorithm=codeAlgorithmMap.get(merchantId);
         if(codeAlgorithm==null){
             codeAlgorithm=daoService.getCodeAlgorithmDao().selectById(merchantId);
+            codeAlgorithmMap.put(merchantId,codeAlgorithm);
         }
         if(codeAlgorithm==null) {
 

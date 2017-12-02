@@ -221,6 +221,8 @@ public class ShopController implements com.lanxi.couponcode.spi.service.ShopServ
 				return message;
 			Shop s = shopService.queryShopInfo(shopId);
 			message = checkShop.apply(s, OperateType.unfreezeShop);
+			if(message!=null)
+				return message;
 			Shop shop = new Shop();
 			shop.setShopId(shopId);
 			shop.setShopStatus(ShopStatus.normal);

@@ -45,6 +45,8 @@ public interface Gettype{
 	default boolean equals(String value){
 		Class<?> clazz=null;
 		try {
+			if(value==null)
+				return false;
 			clazz=this.getClass();
 			if(!Enum.class.isAssignableFrom(clazz))
 				throw new IllegalStateException("method : \"getType\" can only be invoked in class which extends enum !");
@@ -53,9 +55,7 @@ public interface Gettype{
 			Object obj=field.get(this);
 			if(obj!=null)
 				return obj.equals(value);
-			if(value!=null)
 				return value.equals(obj);
-			return true;
 		}
 		catch (NoSuchFieldException e) {
 			throw new IllegalArgumentException("枚举类:"+clazz.getName()+"中不包含value字段!");

@@ -7,9 +7,9 @@ import java.io.Serializable;
 
 /**
  * 抽象操作记录
- * @author yangyuanjian
  *
+ * @author yangyuanjian
  */
-public abstract class AbstractOperateRecord extends Model<AbstractOperateRecord> implements Serializable,CommonDefaultMethodOfEntity{
-	
+public abstract class AbstractOperateRecord extends Model<AbstractOperateRecord> implements Serializable, CommonDefaultMethodOfEntity {
+
 }

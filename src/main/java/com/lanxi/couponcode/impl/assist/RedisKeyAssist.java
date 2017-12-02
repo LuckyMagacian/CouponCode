@@ -141,7 +141,6 @@ public interface RedisKeyAssist {
     }
     static String getMethodCacheKey(final Method method,final List<Object> args){
         Class clazz=method.getDeclaringClass();
-        String argStr= JSONObject.toJSONString(args);
         return getMethodCacheKey(clazz.getName(),method.getName(),args);
     }
     static String getMethodCacheKey(final Method method,final String args){

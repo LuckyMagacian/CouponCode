@@ -7,9 +7,10 @@ import java.io.Serializable;
 
 /**
  * 抽象核销记录
- * @author yangyuanjian
  *
+ * @author yangyuanjian
  */
-public abstract class AbstractVerificationRecord extends Model<AbstractVerificationRecord> implements Serializable,CommonDefaultMethodOfEntity {
+public abstract class AbstractVerificationRecord extends Model<AbstractVerificationRecord> implements Serializable,
+        CommonDefaultMethodOfEntity {
 
 }

@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.toolkit.IdWorker;
 import com.lanxi.couponcode.impl.assist.CheckAssist;
 import com.lanxi.couponcode.impl.assist.PredicateAssist;
 import com.lanxi.couponcode.impl.assist.SerializeAssist;
+import com.lanxi.couponcode.impl.assist.TimeAssist;
 import com.lanxi.couponcode.impl.entity.Account;
 import com.lanxi.couponcode.impl.entity.Commodity;
 import com.lanxi.couponcode.impl.entity.Merchant;
@@ -130,5 +131,6 @@ public class TestOther {
         message.setAll(RetCodeEnum.success,"嘿嘿嘿",new RetMessage<>(RetCodeEnum.fail,"啦啦啦啦","oooo").toJson());
         System.out.println(message.toJson());
         System.out.println(SignUtil.md5LowerCase(message.toJson(),"utf-8"));
+        System.out.println(SignUtil.md5En(SerializeAssist.serialize(message.toJson())));
     }
 }

@@ -1,5 +1,6 @@
 package com.lanxi.couponcode.spi.aop;
 
+import com.lanxi.couponcode.impl.assist.ReflectAssist;
 import com.lanxi.couponcode.spi.consts.annotations.SetUtf8;
 import com.lanxi.util.entity.LogFactory;
 import org.aspectj.lang.ProceedingJoinPoint;
@@ -24,7 +25,7 @@ public class SetHttpSession {
         //获取代理方法参数值
         Object[] args=joinPoint.getArgs();
         Class clazz= joinPoint.getTarget().getClass();
-        Method method=null;
+        Method method= ReflectAssist.getTargetMethod(joinPoint);
         try {
             for(Object each:args){
                 if(each instanceof HttpServletRequest){
@@ -35,9 +36,9 @@ public class SetHttpSession {
                     response.setCharacterEncoding("utf-8");
                 }
             }
-            LogFactory.info(clazz,"set  class:["+clazz.getName()+"]\nmethod:["+method.getName()+"] charset utf-8 !");
+            LogFactory.info(clazz,"set  class:["+clazz.getName()+"]method:["+method.getName()+"] charset utf-8 !");
         }catch (Throwable throwable){
-            throw new RuntimeException("occured exception when set charset class:["+clazz.getName()+"]\nmethod:["+method.getName()+"]",throwable);
+            throw new RuntimeException("occured exception when set charset class:["+clazz==null?null:clazz.getName()+"]\nmethod:["+method==null?null:method.getName()+"]",throwable);
         }
     }
 }

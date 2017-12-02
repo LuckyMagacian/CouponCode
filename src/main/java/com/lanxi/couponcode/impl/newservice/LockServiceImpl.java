@@ -42,9 +42,9 @@ public class LockServiceImpl implements LockService{
         if(o instanceof ClearDailyRecord){
             return RedisKeyAssist.getDailyRecordKey()+((ClearDailyRecord) o).getMerchantId()+((ClearDailyRecord) o).getRecordId();
         }
-        if(o instanceof Enterprise){
-            return RedisKeyAssist.getEnterpriseKey()+((Enterprise) o).getMerchantId();
-        }
+//        if(o instanceof Enterprise){
+//            return RedisKeyAssist.getEnterpriseKey()+((Enterprise) o).getMerchantId();
+//        }
         if(o instanceof Order){
             return RedisKeyAssist.getOrderKey()+((Order) o).getMerchantId()+((Order) o).getOrderId();
         }

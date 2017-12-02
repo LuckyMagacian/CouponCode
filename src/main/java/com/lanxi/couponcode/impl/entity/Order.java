@@ -12,7 +12,7 @@ import com.lanxi.couponcode.spi.consts.enums.OrderStatus;
 /**
  * Created by yangyuanjian on 2017/11/22.
  */
-@TableName("order")
+@TableName("code_order")
 public class Order extends AbstractOrder{
     /**
      * 1 设计报文

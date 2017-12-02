@@ -12,6 +12,7 @@ import com.lanxi.couponcode.spi.consts.enums.AccountType;
 public interface AccountService {
     /**
      * 添加账户
+     *
      * @param type
      * @param name
      * @param phone
@@ -21,59 +22,59 @@ public interface AccountService {
      * @return
      */
     RetMessage<Boolean> addAccount(AccountType type,
-                          String name,
-                          String phone,
-                          String merchantName,
-                          @HiddenArg Long merchantId,
-                          @HiddenArg Long shopId,
-                          String shopName,
-                          @HiddenArg Long operaterId);
+                                   String name,
+                                   String phone,
+                                   String merchantName,
+                                   @HiddenArg Long merchantId,
+                                   @HiddenArg Long shopId,
+                                   String shopName,
+                                   @HiddenArg Long operaterId);
 
     RetMessage<Boolean> merchantAddAccount(AccountType type,
-                       String name,
-                       String phone,
-                       String shopName,
-                       @HiddenArg Long shopId,
-                       @HiddenArg Long operaterId);
+                                           String name,
+                                           String phone,
+                                           String shopName,
+                                           @HiddenArg Long shopId,
+                                           @HiddenArg Long operaterId);
 
     RetMessage<Boolean> freezeAccount(Long accountId,
-                          @HiddenArg Long operaterId);
+                                      @HiddenArg Long operaterId);
 
     RetMessage<Boolean> unfreezeAccount(Long accountId,
-                            @HiddenArg Long operaterId);
+                                        @HiddenArg Long operaterId);
 
     RetMessage<Boolean> delAccount(Long accountId,
-                       @HiddenArg Long operaterId);
+                                   @HiddenArg Long operaterId);
 
-    @RealReturnType("List<Account>")
-    RetMessage<String> queryAccounts(Long merchantId,Long shopId,
-    		String shopName,
-    		String phone, 
-    		String merchantName,
-    		AccountType type, 
-    		AccountStatus status,
-    		@HiddenArg Integer pageNum,
-    		@HiddenArg Integer pageSize,
-    		@HiddenArg Long operaterId);
+    @RealReturnType ("List<Account>")
+    RetMessage<String> queryAccounts(Long merchantId, Long shopId,
+                                     String shopName,
+                                     String phone,
+                                     String merchantName,
+                                     AccountType type,
+                                     AccountStatus status,
+                                     @HiddenArg Integer pageNum,
+                                     @HiddenArg Integer pageSize,
+                                     @HiddenArg Long operaterId);
 
 
-    @RealReturnType("List<Account>")
+    @RealReturnType ("List<Account>")
     RetMessage<String> merchantQueryAccounts(String phone,
-                         String shopName,
-                         AccountType type,
-                         AccountStatus status,
-                         @HiddenArg Integer pageNum,
-                         @HiddenArg Integer pageSize,
-                         @HiddenArg Long operaterId);
+                                             String shopName,
+                                             AccountType type,
+                                             AccountStatus status,
+                                             @HiddenArg Integer pageNum,
+                                             @HiddenArg Integer pageSize,
+                                             @HiddenArg Long operaterId);
 
 
     RetMessage<String> queryAccountInfo(Long accountId,
-                            @HiddenArg Long operaterId);
+                                        @HiddenArg Long operaterId);
 
-    @RealReturnType("List<Account>")
+    @RealReturnType ("List<Account>")
     RetMessage<String> queryShopAccounts(@HiddenArg Long shopId,
-                             @HiddenArg Long operaterId,
-                             @HiddenArg Integer pageNum,
-                             @HiddenArg Integer pageSize);
+                                         @HiddenArg Long operaterId,
+                                         @HiddenArg Integer pageNum,
+                                         @HiddenArg Integer pageSize);
 
 }

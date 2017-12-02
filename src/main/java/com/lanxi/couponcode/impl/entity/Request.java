@@ -74,7 +74,7 @@ public class Request extends AbstractRequest{
     @TableField("commodity_info_after")
     private String commodityInfoAfter;
     /**原因*/
-    @TableField("remark")
+    @TableField("reason")
     private String reason;
 
 

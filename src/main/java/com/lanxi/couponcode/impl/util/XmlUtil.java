@@ -113,8 +113,8 @@ public class XmlUtil {
 			Element msgElEment = jfdh.addElement("MSG");
 			msgElEment.addElement("TotalAmt").setText(statusMap.get("TotalAmt") == null ? "0" : statusMap.get("TotalAmt"));
 			Element skuList = msgElEment.addElement("SkuList");
-			if (msg.getCount() != null && Integer.valueOf(msg.getCount()) > 0) {
-				for (int i = 0; i < Integer.valueOf(msg.getCount()); i++) {
+			if (msg.getCount() != null && Integer.parseInt(msg.getCount()) > 0) {
+				for (int i = 0; i < Integer.parseInt(msg.getCount()); i++) {
 					skuList.addElement("Amt").setText(statusMap.get("Amt") == null ? "0" : statusMap.get("Amt"));
 					skuList.addElement("Code")
 							.setText(statusMap.get("Code" + i + 1) == null ? "" : statusMap.get("Code" + i + 1));
@@ -206,8 +206,8 @@ public class XmlUtil {
 					.setText(statusMap.get("TotalAmt") == null ? "0" : statusMap.get("TotalAmt"));
 			msgElEment.addElement("Status").setText(statusMap.get("Status") == null ? "" : statusMap.get("Status"));
 			Element skuList = msgElEment.addElement("SkuList");
-			if (Integer.valueOf(statusMap.get("Count")) > 0) {
-				for (int i = 0; i < Integer.valueOf(statusMap.get("Count")); i++) {
+			if (Integer.parseInt(statusMap.get("Count")) > 0) {
+				for (int i = 0; i < Integer.parseInt(statusMap.get("Count")); i++) {
 					skuList.addElement("Amt").setText(statusMap.get("Amt") == null ? "0" : statusMap.get("Amt"));
 					skuList.addElement("Code")
 							.setText(statusMap.get("Code" + i + 1) == null ? "" : statusMap.get("Code" + i + 1));
@@ -262,8 +262,8 @@ public class XmlUtil {
 			msgElEment.addElement("Phone").setText(msg.getPhone());
 			msgElEment.addElement("Count").setText(statusMap.get("Count") == null ? "0" : statusMap.get("Count"));
 			Element orderList = msgElEment.addElement("OrderList");
-			if (Integer.valueOf(statusMap.get("Count")) > 0) {
-				for (int i = 0; i < Integer.valueOf(statusMap.get("Count")); i++) {
+			if (Integer.parseInt(statusMap.get("Count")) > 0) {
+				for (int i = 0; i < Integer.parseInt(statusMap.get("Count")); i++) {
 					orderList.addElement("OrgWorkDate").setText(
 							statusMap.get("OrgWorkDate" + i + 1) == null ? "0" : statusMap.get("OrgWorkDate" + i + 1));
 					orderList.addElement("OrgMsgID").setText(

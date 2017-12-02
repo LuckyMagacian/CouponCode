@@ -34,6 +34,6 @@ public class TestEntity {
 		BiMap<Long,Long> map= HashBiMap.create();
 		long i=0;
 		while(i<100000000)
-			map.put(i, IdWorker.getId());
+			map.put(i++, IdWorker.getId());
 	}
 }

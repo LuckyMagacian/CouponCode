@@ -228,8 +228,8 @@ public class CommodityController implements com.lanxi.couponcode.spi.service.Com
                                                        Long merchantId,
                                                        Long operaterId) {
         //TODO 查询
-        Account account=null;
-        Merchant merchant=null;
+        Account account=accountService.queryAccountById(operaterId);
+        Merchant merchant=merchantService.queryMerchantParticularsById(merchantId);
         //TODO 校验
         Page<Commodity> page=new Page<>(pageNum,pageSize);
         List<Commodity> list=queryCommoditiesHidden(merchant.getMerchantName(),commodityName,type,status,null,null,page);
@@ -250,8 +250,8 @@ public class CommodityController implements com.lanxi.couponcode.spi.service.Com
                                                            Long merchantId,
                                                            Long operaterId) {
         //TODO 查询
-        Account account=null;
-        Merchant merchant=null;
+        Account account=accountService.queryAccountById(operaterId);
+        Merchant merchant=merchantService.queryMerchantParticularsById(account.getMerchantId());
         //TODO 校验
         List<Commodity> list=queryCommoditiesHidden(merchant.getMerchantName(),commodityName,type,status,null,null,null);
         // TODO 配置要显示的内容

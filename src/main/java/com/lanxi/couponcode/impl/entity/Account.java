@@ -1,8 +1,5 @@
 package com.lanxi.couponcode.impl.entity;
 
-import java.io.Serializable;
-
-import com.baomidou.mybatisplus.activerecord.Model;
 import com.baomidou.mybatisplus.annotations.TableField;
 import com.baomidou.mybatisplus.annotations.TableId;
 import com.baomidou.mybatisplus.annotations.TableName;
@@ -10,306 +7,363 @@ import com.lanxi.couponcode.spi.abstractentity.AbstractAccount;
 import com.lanxi.couponcode.spi.consts.enums.AccountStatus;
 import com.lanxi.couponcode.spi.consts.enums.AccountType;
 
-@TableName("account")
-public class Account extends AbstractAccount{
+import java.io.Serializable;
 
-	/**账户编号*/
-	@TableId("account_id")
-	private Long accountId;
-	/**账户登录失败次数*/
-	@TableField("login_failure_num")
-	private Integer loginFailureNum;
-	/**账户上次登录失败时间*/
-	@TableField("login_failure_time")
-	private String loginFailureTime;
-	/**用户手机号码*/
-	@TableField("phone")
-	private String phone;
-	/**登录密码*/
-	@TableField("password")
-	private String password;
-	/**用户姓名*/
-	@TableField("user_name")
-	private String userName;
-	/**账户状态*/
-	@TableField("status")
-	private AccountStatus status;
-	/**账户类型*/
-	@TableField("type")
-	private AccountType type;
+@TableName ("account")
+public class Account extends AbstractAccount {
 
-	/**所属商户编号*/
-	@TableField("merchant_id")
-	private Long merchantId;
-	/**所属商户名称*/
-	@TableField("merchant_name")
-	private String merchantName;
+    /**
+     * 账户编号
+     */
+    @TableId ("account_id")
+    private Long accountId;
+    /**
+     * 账户登录失败次数
+     */
+    @TableField ("login_failure_num")
+    private Integer loginFailureNum;
+    /**
+     * 账户上次登录失败时间
+     */
+    @TableField ("login_failure_time")
+    private String loginFailureTime;
+    /**
+     * 用户手机号码
+     */
+    @TableField ("phone")
+    private String phone;
+    /**
+     * 登录密码
+     */
+    @TableField ("password")
+    private String password;
+    /**
+     * 用户姓名
+     */
+    @TableField ("user_name")
+    private String userName;
+    /**
+     * 账户状态
+     */
+    @TableField ("status")
+    private AccountStatus status;
+    /**
+     * 账户类型
+     */
+    @TableField ("type")
+    private AccountType type;
 
-	/**门店编号*/
-	@TableField("shop_id")
-	private Long shopId;
-	/**门店名称*/
-	@TableField("shop_name")
-	private String shopName;
+    /**
+     * 所属商户编号
+     */
+    @TableField ("merchant_id")
+    private Long merchantId;
+    /**
+     * 所属商户名称
+     */
+    @TableField ("merchant_name")
+    private String merchantName;
 
-	/**添加者编号*/
-	@TableField("add_by_id")
-	private Long addById;
-	/**添加者姓名*/
-	@TableField("add_by_name")
-	private String addByName;
-	/**添加时间*/
-	@TableField("add_time")
-	private String addTime;
+    /**
+     * 门店编号
+     */
+    @TableField ("shop_id")
+    private Long shopId;
+    /**
+     * 门店名称
+     */
+    @TableField ("shop_name")
+    private String shopName;
 
-	/**请求者编号*/
-	@TableField("requester_id")
-	private Long requesterId;
-	/**请求者姓名*/
-	@TableField("requester_name")
-	private String requesterName;
-	/**请求编号*/
-	@TableField("request_id")
-	private Long requestId;
-	/**请求时间*/
-	@TableField("request_time")
-	private String requestTime;
-	/**账户类型*/
-	@TableField("account_type")
-	private AccountType accountType;
+    /**
+     * 添加者编号
+     */
+    @TableField ("add_by_id")
+    private Long addById;
+    /**
+     * 添加者姓名
+     */
+    @TableField ("add_by_name")
+    private String addByName;
+    /**
+     * 添加时间
+     */
+    @TableField ("add_time")
+    private String addTime;
+
+    /**
+     * 请求者编号
+     */
+    @TableField ("requester_id")
+    private Long requesterId;
+    /**
+     * 请求者姓名
+     */
+    @TableField ("requester_name")
+    private String requesterName;
+    /**
+     * 请求编号
+     */
+    @TableField ("request_id")
+    private Long requestId;
+    /**
+     * 请求时间
+     */
+    @TableField ("request_time")
+    private String requestTime;
+    /**
+     * 账户类型
+     */
+    @TableField ("account_type")
+    private AccountType accountType;
 
 
-	/**审核者编号*/
-	@TableField("check_by_id")
-	private Long checkById;
-	/**审核者姓名*/
-	@TableField("check_name")
-	private String checkName;
-	/**审核时间*/
-	@TableField("check_time")
-	private String checkTime;
-	/**备注*/
-	@TableField("remark")
-	private String remark;
+    /**
+     * 审核者编号
+     */
+    @TableField ("check_by_id")
+    private Long checkById;
+    /**
+     * 审核者姓名
+     */
+    @TableField ("check_name")
+    private String checkName;
+    /**
+     * 审核时间
+     */
+    @TableField ("check_time")
+    private String checkTime;
+    /**
+     * 备注
+     */
+    @TableField ("remark")
+    private String remark;
 
-	/**该方法用于指定主键*/
-	@Override
-	protected Serializable pkVal() {
-		return this.accountId;
-	}
+    /**
+     * 该方法用于指定主键
+     */
+    @Override
+    protected Serializable pkVal() {
+        return this.accountId;
+    }
 
-	public Integer getLoginFailureNum() {
-		return loginFailureNum;
-	}
+    public Integer getLoginFailureNum() {
+        return loginFailureNum;
+    }
 
-	public void setLoginFailureNum(Integer loginFailureNum) {
-		this.loginFailureNum = loginFailureNum;
-	}
+    public void setLoginFailureNum(Integer loginFailureNum) {
+        this.loginFailureNum = loginFailureNum;
+    }
 
-	public String getLoginFailureTime() {
-		return loginFailureTime;
-	}
+    public String getLoginFailureTime() {
+        return loginFailureTime;
+    }
 
-	public void setLoginFailureTime(String loginFailureTime) {
-		this.loginFailureTime = loginFailureTime;
-	}
+    public void setLoginFailureTime(String loginFailureTime) {
+        this.loginFailureTime = loginFailureTime;
+    }
 
-	@Override
-	public String toString() {
-		return "Account [accountId=" + accountId + ", loginFailureNum=" + loginFailureNum + ", loginFailureTime="
-				+ loginFailureTime + ", phone=" + phone + ", password=" + password + ", userName=" + userName
-				+ ", status=" + status + ", merchantId=" + merchantId + ", merchantName=" + merchantName + ", shopId="
-				+ shopId + ", shopName=" + shopName + ", addById=" + addById + ", addByName=" + addByName + ", addTime="
-				+ addTime + ", requesterId=" + requesterId + ", requesterName=" + requesterName + ", requestId="
-				+ requestId + ", requestTime=" + requestTime + ", accountType=" + accountType + ", checkById="
-				+ checkById + ", checkName=" + checkName + ", checkTime=" + checkTime + ", remark=" + remark + "]";
-	}
-	public Long getAccountId() {
-		return accountId;
-	}
+    @Override
+    public String toString() {
+        return "Account [accountId=" + accountId + ", loginFailureNum=" + loginFailureNum + ", loginFailureTime="
+                + loginFailureTime + ", phone=" + phone + ", password=" + password + ", userName=" + userName
+                + ", status=" + status + ", merchantId=" + merchantId + ", merchantName=" + merchantName + ", shopId="
+                + shopId + ", shopName=" + shopName + ", addById=" + addById + ", addByName=" + addByName + ", addTime="
+                + addTime + ", requesterId=" + requesterId + ", requesterName=" + requesterName + ", requestId="
+                + requestId + ", requestTime=" + requestTime + ", accountType=" + accountType + ", checkById="
+                + checkById + ", checkName=" + checkName + ", checkTime=" + checkTime + ", remark=" + remark + "]";
+    }
 
-	public void setAccountId(Long accountId) {
-		this.accountId = accountId;
-	}
+    public Long getAccountId() {
+        return accountId;
+    }
 
-	public String getPhone() {
-		return phone;
-	}
+    public void setAccountId(Long accountId) {
+        this.accountId = accountId;
+    }
 
-	public void setPhone(String phone) {
-		this.phone = phone;
-	}
+    public String getPhone() {
+        return phone;
+    }
 
-	public String getPassword() {
-		return password;
-	}
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
 
-	public void setPassword(String password) {
-		this.password = password;
-	}
+    public String getPassword() {
+        return password;
+    }
 
-	public String getUserName() {
-		return userName;
-	}
+    public void setPassword(String password) {
+        this.password = password;
+    }
 
-	public void setUserName(String userName) {
-		this.userName = userName;
-	}
+    public String getUserName() {
+        return userName;
+    }
 
-	public String getStatus() {
-		return status==null?null:status.getValue();
-	}
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
 
-	public void setStatus(AccountStatus status) {
-		this.status = status;
-	}
-	public void setStatus(String status) {
-		this.status=AccountStatus.getType(status);
-	}
-	
-	public String getAccountType() {
+    public String getStatus() {
+        return status == null ? null : status.getValue();
+    }
 
-		return accountType==null?null:accountType.getValue();
-	}
+    public void setStatus(AccountStatus status) {
+        this.status = status;
+    }
 
-	public void setAccountType(AccountType accountType) {
-		this.accountType = accountType;
-		setType(accountType);
-	}
-	public void setAccountType(String accountType) {
-		this.accountType=AccountType.getType(accountType);
-		setType(accountType);
-	}
+    public void setStatus(String status) {
+        this.status = AccountStatus.getType(status);
+    }
 
-	public String getType() {
-		return type.getValue();
-	}
+    public String getAccountType() {
 
-	public void setType(AccountType type) {
-		this.type = type;
-		setAccountType(type);
-	}
-	public void setType(String type) {
-		this.type = AccountType.getType(type);
-		setAccountType(type);
-	}
-	public Long getMerchantId() {
-		return merchantId;
-	}
+        return accountType == null ? null : accountType.getValue();
+    }
 
-	public void setMerchantId(Long merchantId) {
-		this.merchantId = merchantId;
-	}
+    public void setAccountType(AccountType accountType) {
+        this.accountType = accountType;
+        setType(accountType);
+    }
 
-	public String getMerchantName() {
-		return merchantName;
-	}
+    public void setAccountType(String accountType) {
+        this.accountType = AccountType.getType(accountType);
+        setType(accountType);
+    }
 
-	public void setMerchantName(String merchantName) {
-		this.merchantName = merchantName;
-	}
+    public String getType() {
+        return type.getValue();
+    }
 
-	public Long getShopId() {
-		return shopId;
-	}
+    public void setType(AccountType type) {
+        this.type = type;
+        setAccountType(type);
+    }
 
-	public void setShopId(Long shopId) {
-		this.shopId = shopId;
-	}
+    public void setType(String type) {
+        this.type = AccountType.getType(type);
+        setAccountType(type);
+    }
 
-	public String getShopName() {
-		return shopName;
-	}
+    public Long getMerchantId() {
+        return merchantId;
+    }
 
-	public void setShopName(String shopName) {
-		this.shopName = shopName;
-	}
+    public void setMerchantId(Long merchantId) {
+        this.merchantId = merchantId;
+    }
 
-	public Long getAddById() {
-		return addById;
-	}
+    public String getMerchantName() {
+        return merchantName;
+    }
 
-	public void setAddById(Long addById) {
-		this.addById = addById;
-	}
+    public void setMerchantName(String merchantName) {
+        this.merchantName = merchantName;
+    }
 
-	public String getAddByName() {
-		return addByName;
-	}
+    public Long getShopId() {
+        return shopId;
+    }
 
-	public void setAddByName(String addByName) {
-		this.addByName = addByName;
-	}
+    public void setShopId(Long shopId) {
+        this.shopId = shopId;
+    }
 
-	public String getAddTime() {
-		return addTime;
-	}
+    public String getShopName() {
+        return shopName;
+    }
 
-	public void setAddTime(String addTime) {
-		this.addTime = addTime;
-	}
+    public void setShopName(String shopName) {
+        this.shopName = shopName;
+    }
 
-	public Long getRequesterId() {
-		return requesterId;
-	}
+    public Long getAddById() {
+        return addById;
+    }
 
-	public void setRequesterId(Long requesterId) {
-		this.requesterId = requesterId;
-	}
+    public void setAddById(Long addById) {
+        this.addById = addById;
+    }
 
-	public String getRequesterName() {
-		return requesterName;
-	}
+    public String getAddByName() {
+        return addByName;
+    }
 
-	public void setRequesterName(String requesterName) {
-		this.requesterName = requesterName;
-	}
+    public void setAddByName(String addByName) {
+        this.addByName = addByName;
+    }
 
-	public Long getRequestId() {
-		return requestId;
-	}
+    public String getAddTime() {
+        return addTime;
+    }
 
-	public void setRequestId(Long requestId) {
-		this.requestId = requestId;
-	}
+    public void setAddTime(String addTime) {
+        this.addTime = addTime;
+    }
 
-	public String getRequestTime() {
-		return requestTime;
-	}
+    public Long getRequesterId() {
+        return requesterId;
+    }
 
-	public void setRequestTime(String requestTime) {
-		this.requestTime = requestTime;
-	}
+    public void setRequesterId(Long requesterId) {
+        this.requesterId = requesterId;
+    }
 
-	public Long getCheckById() {
-		return checkById;
-	}
+    public String getRequesterName() {
+        return requesterName;
+    }
 
-	public void setCheckById(Long checkById) {
-		this.checkById = checkById;
-	}
+    public void setRequesterName(String requesterName) {
+        this.requesterName = requesterName;
+    }
 
-	public String getCheckName() {
-		return checkName;
-	}
+    public Long getRequestId() {
+        return requestId;
+    }
 
-	public void setCheckName(String checkName) {
-		this.checkName = checkName;
-	}
+    public void setRequestId(Long requestId) {
+        this.requestId = requestId;
+    }
 
-	public String getCheckTime() {
-		return checkTime;
-	}
+    public String getRequestTime() {
+        return requestTime;
+    }
 
-	public void setCheckTime(String checkTime) {
-		this.checkTime = checkTime;
-	}
+    public void setRequestTime(String requestTime) {
+        this.requestTime = requestTime;
+    }
 
-	public String getRemark() {
-		return remark;
-	}
+    public Long getCheckById() {
+        return checkById;
+    }
 
-	public void setRemark(String remark) {
-		this.remark = remark;
-	}
+    public void setCheckById(Long checkById) {
+        this.checkById = checkById;
+    }
+
+    public String getCheckName() {
+        return checkName;
+    }
+
+    public void setCheckName(String checkName) {
+        this.checkName = checkName;
+    }
+
+    public String getCheckTime() {
+        return checkTime;
+    }
+
+    public void setCheckTime(String checkTime) {
+        this.checkTime = checkTime;
+    }
+
+    public String getRemark() {
+        return remark;
+    }
+
+    public void setRemark(String remark) {
+        this.remark = remark;
+    }
 }

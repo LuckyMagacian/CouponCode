@@ -38,6 +38,8 @@ public class MerchantManageController {
 	private OperateRecordService operateRecordService;
 	@Resource
 	private RequestService requestService;
+	@Resource
+	private VerificationRecordService verificationRecordService;
 	@SetUtf8
 	@RequestMapping(value = "", produces = "application/json;charset=utf-8")
 	@ResponseBody
@@ -392,7 +394,7 @@ public class MerchantManageController {
 		String typeStr=getArg.apply(req,"operateType");
 		String statusStr=getArg.apply(req,"status");
 		String commodityTypeStr=getArg.apply(req,"commodityType");
-		String shopName=getArg.apply(req,"shopName");
+//		String shopName=getArg.apply(req,"shopName");
 		String timeStart=getArg.apply(req,"timeStart");
 		String timeEnd=getArg.apply(req,"timeStop");
 		String commodityName=getArg.apply(req,"commodityName");
@@ -485,6 +487,37 @@ public class MerchantManageController {
 		Long requestId=toLongArg.apply(requestIdStr);
 		return requestService.queryRequest(requestId,operaterId).toJson();
 	}
+	@SetUtf8
+	@ResponseBody
+	@RequestMapping(value = "queryVerifyRecords", produces = "application/json;charset=utf-8")
+	public String queryVerifyRecords(final HttpServletRequest req, final HttpServletResponse res){
+		String codeStr = getArg.apply(req, "code");
+		String timeStart = getArg.apply(req, "timeStart");
+		String timeEnd = getArg.apply(req, "timeStop");
+		String shopName = getArg.apply(req, "shopName");
+		String phone = getArg.apply(req, "phone");
+		String verificationTypeString = getArg.apply(req, "verificationType");
+		String pageNumStr = getArg.apply(req, "pageNum");
+		String pageSizeStr = getArg.apply(req, "pageSize");
+		String operaterIdStr = getArg.apply(req, "operaterId");
+        String commodityName=getArg.apply(req,"commodityName");
 
+		Long code = toLongArg.apply(codeStr);
+		VerificationType type = toVerificationType.apply(verificationTypeString);
+		Integer pageNum = toIntArg.apply(pageNumStr);
+		Integer pageSize = toIntArg.apply(pageSizeStr);
+        Long operaterId = toLongArg.apply(operaterIdStr);
+		return verificationRecordService.queryShopVerificationRecords(timeStart,timeEnd,shopName,code,commodityName,phone,type,pageNum,pageSize,operaterId).toJson();
+	}
 
+    @SetUtf8
+    @ResponseBody
+    @RequestMapping(value = "queryVerifyRecord", produces = "application/json;charset=utf-8")
+    public String queryVerifyRecord(final HttpServletRequest req, final HttpServletResponse res){
+        String recordIdStr=getArg.apply(req,"recordId");
+        String operaterIdStr=getArg.apply(req,"operaterId");
+        Long recordId=parseArg(recordIdStr,Long.class);
+        Long operaterId=parseArg(operaterIdStr,Long.class);
+        return verificationRecordService.queryVerificationRecordInfo(recordId,operaterId).toJson();
+    }
 }

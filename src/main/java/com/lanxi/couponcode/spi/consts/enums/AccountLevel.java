@@ -6,19 +6,21 @@ import java.io.Serializable;
  * 账户权限等级枚举<br>
  * Created by yangyuanjian on 2017/11/9.
  */
-public enum AccountLevel implements Serializable,Gettype{
-    lowes(0),low(3),medium(5),high(7),highest(9);
+public enum AccountLevel implements Serializable, Gettype {
+    lowes(0), low(3), medium(5), high(7), highest(9);
     private String value;
+
     private AccountLevel(int value) {
-        this.value=value+"";
+        this.value = value + "";
     }
+
     @Override
     public String toString() {
         return value;
     }
 
     public static AccountLevel getType(int value) {
-        return getType(value+"");
+        return getType(value + "");
     }
 
 

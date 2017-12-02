@@ -9,27 +9,39 @@ import java.io.Serializable;
 
 /**
  * 抽象企业类
- * @author yangyuanjian
  *
+ * @author yangyuanjian
  */
 public abstract class AbstractEnterprise extends Model<AbstractEnterprise> implements Serializable, CommonDefaultMethodOfEntity {
-    /**商户编号*/
-    @TableId("merchant_id")
+    /**
+     * 商户编号
+     */
+    @TableId ("merchant_id")
     protected Long merchantId;
-    /**企业全称*/
-    @TableField("enterprise_full_name")
+    /**
+     * 企业全称
+     */
+    @TableField ("enterprise_full_name")
     protected String enterpriseFullName;
-    /**证件号码*/
-    @TableField("identification_number")
+    /**
+     * 证件号码
+     */
+    @TableField ("identification_number")
     protected String identificationNumber;
-    /**记录日期*/
-    @TableField("log_time")
+    /**
+     * 记录日期
+     */
+    @TableField ("log_time")
     private String logTime;
-    /**创建者编号*/
-    @TableField("logger_id")
+    /**
+     * 创建者编号
+     */
+    @TableField ("logger_id")
     private Long loggerId;
-    /**备注*/
-    @TableField("remark")
+    /**
+     * 备注
+     */
+    @TableField ("remark")
     private String remark;
 
     public Long getMerchantId() {

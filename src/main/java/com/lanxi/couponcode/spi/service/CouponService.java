@@ -4,6 +4,7 @@ import com.lanxi.couponcode.spi.assist.RetMessage;
 import com.lanxi.couponcode.impl.entity.CouponCode;
 import com.lanxi.couponcode.spi.consts.annotations.HiddenArg;
 import com.lanxi.couponcode.spi.consts.annotations.RealReturnType;
+import com.lanxi.couponcode.spi.consts.enums.VerificationType;
 
 import java.io.File;
 import java.util.List;
@@ -40,11 +41,13 @@ public interface CouponService {
                                     @HiddenArg Long operaterId);
 
     RetMessage<Boolean> verificateCode(@HiddenArg Long codeId,
-                                       @HiddenArg Long operaterId);
+                                       @HiddenArg Long operaterId,
+                                       VerificationType verificationType);
 
     RetMessage<Boolean> verificateCode(Long code,
                                        @HiddenArg Long merchantId,
-                                       @HiddenArg Long operaterId);
+                                       @HiddenArg Long operaterId,
+                                       VerificationType verificationType);
 
     RetMessage<Boolean> postoneCode(@HiddenArg Long codeId,
                                     @HiddenArg Long operaterId);

@@ -1,5 +1,7 @@
 package com.lanxi.couponcode.spi.consts.enums;
 
+import com.lanxi.couponcode.spi.defaultInterfaces.ReEquals;
+
 import java.io.Serializable;
 
 /**
@@ -54,7 +56,7 @@ import java.io.Serializable;
  *
  */
 
-public enum RequestOperateType implements Serializable {
+public enum RequestOperateType implements Serializable,Gettype {
 
 	createShop(11),				unfreezeShop(12),				freezeShop(13),				deleteShop(14),				modifyShop(15),				queryShop(16),				cancelShop(19),
 	createMerchantManager(21),	unfreezeMerchantManager(22),	freezeMerchantManager(23),	deleteMerchantManager(24),	modifyMerchantManager(25),	queryMerchantManager(26),	cancelMerchantManager(29),

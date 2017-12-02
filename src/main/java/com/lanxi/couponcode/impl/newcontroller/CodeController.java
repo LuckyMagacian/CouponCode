@@ -167,7 +167,7 @@ public class CodeController implements com.lanxi.couponcode.spi.service.CouponSe
             if(lock)
                 result=codeService.delCode(code);
         } catch (Exception e) {
-
+                result=null;
         }finally {
             if(lock)
                 redisCodeService.unlockCodeForce(code,null);
@@ -194,10 +194,9 @@ public class CodeController implements com.lanxi.couponcode.spi.service.CouponSe
             return new RetMessage<>(RetCodeEnum.success,"注销成功!",null);
         }
         //失败
-        if(!result)
             return new RetMessage<>(RetCodeEnum.fail,"注销失败,有其他用户正在操作该串码!",null);
         //不可能到达的代码
-        return new RetMessage<>(RetCodeEnum.exception,"no thing to do!",null);
+//        return new RetMessage<>(RetCodeEnum.exception,"no thing to do!",null);
     }
 
     @Override
@@ -219,7 +218,8 @@ public class CodeController implements com.lanxi.couponcode.spi.service.CouponSe
 
     @Override
     public RetMessage<Boolean> verificateCode(Long codeId,
-                                              Long operaterId) {
+                                              Long operaterId,
+                                              VerificationType verificationType) {
         //TODO 锁定串码
         //TODO 校验权限
         Boolean result=false;
@@ -243,14 +243,19 @@ public class CodeController implements com.lanxi.couponcode.spi.service.CouponSe
 //        if(cantVerify.test(code))
 //            return new RetMessage<>(RetCodeEnum.fail,"已被使用,已被注销!!",null);
         //-----------------------------------------------------------------执行--------------------------------------------------------------
+        VerificationRecord verificationRecord=new VerificationRecord();
+        verificationRecord.setRecordId(IdWorker.getId());
         boolean lock=false;
         try {
             //加锁
             lock=redisCodeService.lockCode(code,null);
-            if(lock)
+            if(lock){
+                code.setVerificationType(verificationType);
+                code.setDestroyRecordId(verificationRecord.getRecordId());
                 result=codeService.verificateCode(code);
+            }
         } catch (Exception e) {
-
+            result=null;
         }finally {
             //解锁
             if(lock)
@@ -276,19 +281,35 @@ public class CodeController implements com.lanxi.couponcode.spi.service.CouponSe
             record.setOperateResult("success");
             record.setDescription("核销串码["+codeId+"]");
             operateRecordService.addRecord(record);
+
+
+            verificationRecord.setCode(code.getCode());
+            verificationRecord.setOperaterId(account.getAccountId());
+            verificationRecord.setOperaterPhone(account.getPhone());
+            verificationRecord.setCommodityId(code.getCommodityId());
+            verificationRecord.setCommodityName(code.getCommodityName());
+            verificationRecord.setVerficateTime(TimeAssist.getNow());
+            verificationRecord.setMerchantId(code.getMerchantId());
+            verificationRecord.setMerchantName(code.getMerchantName());
+            verificationRecord.setShopId(account.getShopId());
+            verificationRecord.setShopName(account.getShopName());
+            verificationRecord.setVerificationType(verificationType);
+            verificationRecord.setClearStatus(ClearStatus.uncleared);
+            verificationRecordService.addVerificationRecord(verificationRecord);
             return new RetMessage<>(RetCodeEnum.success,"核销成功!",null);
         }
         //失败
-        if(!result)
             return new RetMessage<>(RetCodeEnum.fail,"核销失败!",null);
         //不可能到达的代码
-        return new RetMessage<>(RetCodeEnum.exception,"no thing to do!",null);
+
+//        return new RetMessage<>(RetCodeEnum.exception,"no thing to do!",null);
     }
 
     @Override
     public RetMessage<Boolean> verificateCode(Long code,
                                               Long merchantId,
-                                              Long operaterId) {
+                                              Long operaterId,
+                                              VerificationType verificationType) {
         //-----------------------------------------------------------------校验--------------------------------------------------------------
         Account account=accountService.queryAccountById(operaterId);
         Optional<CouponCode> opt=codeService.queryCode(account.getMerchantId(),code);
@@ -298,7 +319,7 @@ public class CodeController implements com.lanxi.couponcode.spi.service.CouponSe
             return new RetMessage<>(RetCodeEnum.fail,"不存在!",null);
         CouponCode codeObj=opt.get();
         //-----------------------------------------------------------------调用--------------------------------------------------------------
-        return verificateCode(codeObj.getCodeId(),operaterId);
+        return verificateCode(codeObj.getCodeId(),operaterId,verificationType);
     }
 
     @Override
@@ -335,7 +356,7 @@ public class CodeController implements com.lanxi.couponcode.spi.service.CouponSe
             if(lock)
                 result=codeService.postoneCode(code);
         } catch (Exception e) {
-
+            result=null;
         }finally {
             //解锁
             if(lock)
@@ -362,10 +383,9 @@ public class CodeController implements com.lanxi.couponcode.spi.service.CouponSe
             return new RetMessage<>(RetCodeEnum.success,"延期成功!",null);
         }
         //失败
-        if(!result)
             return new RetMessage<>(RetCodeEnum.fail,"延期失败!",null);
         //不可能到达的代码
-        return new RetMessage<>(RetCodeEnum.exception,"no thing to do!",null);
+//        return new RetMessage<>(RetCodeEnum.exception,"no thing to do!",null);
         //TODO 解锁串码
     }
 

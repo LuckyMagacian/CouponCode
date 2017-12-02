@@ -8,6 +8,7 @@ import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.lanxi.couponcode.spi.abstractentity.AbstractCouponCode;
 import com.lanxi.couponcode.spi.consts.enums.ClearStatus;
 import com.lanxi.couponcode.spi.consts.enums.CouponCodeStatus;
+import com.lanxi.couponcode.spi.consts.enums.VerificationType;
 
 import java.io.Serializable;
 import java.util.List;
@@ -65,6 +66,9 @@ public class CouponCode extends AbstractCouponCode{
 	/**渠道*/
 	@TableField("channel")
 	private Integer channel;
+	/**核销方式*/
+	@TableField("verification_type")
+	private VerificationType verificationType;
 	@Override
 	public Serializable pkVal(){
 		return this.codeId;
@@ -72,29 +76,6 @@ public class CouponCode extends AbstractCouponCode{
 
 	public boolean isExisted(){
 		return isExisted(this.merchantId,this.code);
-	}
-
-	@Override
-	public String toString() {
-		return "CouponCode{" +
-				"codeId=" + codeId +
-				", code=" + code +
-				", createTime='" + createTime + '\'' +
-				", overTime='" + overTime + '\'' +
-				", lifeTime=" + lifeTime +
-				", commodityId=" + commodityId +
-				", commodityName='" + commodityName + '\'' +
-				", commodityInfo='" + commodityInfo + '\'' +
-				", destroyRecordId=" + destroyRecordId +
-				", codeStatus=" + codeStatus +
-				", merchantId=" + merchantId +
-				", merchantName='" + merchantName + '\'' +
-				", clearStatus=" + clearStatus +
-				", clearTime='" + clearTime + '\'' +
-				", finalTime='" + finalTime + '\'' +
-				", reason='" + reason + '\'' +
-				", channel=" + channel +
-				'}';
 	}
 
 	public boolean isExisted(long merchantId, long code){
@@ -172,7 +153,40 @@ public class CouponCode extends AbstractCouponCode{
 		return commodityId;
 	}
 
+	public String getVerificationType() {
+		return verificationType.getValue();
+	}
 
+	public void setVerificationType(VerificationType verificationType) {
+		this.verificationType = verificationType;
+	}
+	public void setVerificationType(String verificationType) {
+		this.verificationType = VerificationType.getType(verificationType);
+	}
+
+	@Override
+	public String toString() {
+		return "CouponCode{" +
+				"codeId=" + codeId +
+				", code=" + code +
+				", createTime='" + createTime + '\'' +
+				", overTime='" + overTime + '\'' +
+				", lifeTime=" + lifeTime +
+				", commodityId=" + commodityId +
+				", commodityName='" + commodityName + '\'' +
+				", commodityInfo='" + commodityInfo + '\'' +
+				", destroyRecordId=" + destroyRecordId +
+				", codeStatus=" + codeStatus +
+				", merchantId=" + merchantId +
+				", merchantName='" + merchantName + '\'' +
+				", clearStatus=" + clearStatus +
+				", clearTime='" + clearTime + '\'' +
+				", finalTime='" + finalTime + '\'' +
+				", reason='" + reason + '\'' +
+				", channel=" + channel +
+				", verificationType=" + verificationType +
+				'}';
+	}
 
 	public Long getMerchantId() {
 		return merchantId;

@@ -48,7 +48,6 @@ public class TestEnum {
 //		kryo.register(Temp.class);
 		kryo.register(Temp2.class);
 		
-		File file=new File("testKryo.txt");
 //		if(!file.exists())
 //			file.createNewFile();
 		Input input=new Input(new FileInputStream(new File("testKryo.txt")));

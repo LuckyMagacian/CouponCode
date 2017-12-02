@@ -68,7 +68,7 @@ public class CodeUtil {
         now=nums.get(0);
         for(int i=0;;){
             if(now<2)
-                continue;
+                now++;
             else{
                 final int temp=now;
                 list.add(now);
