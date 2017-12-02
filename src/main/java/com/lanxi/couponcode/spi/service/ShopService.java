@@ -35,7 +35,6 @@ public interface ShopService {
                      String shopAddress,
                      @HiddenArg Integer pageNum,
                      @HiddenArg Integer pageSize,
-                     @HiddenArg Long merchantId,
                      @HiddenArg Long operaterId);
 
     RetMessage<String> queryShop(String merchantName,

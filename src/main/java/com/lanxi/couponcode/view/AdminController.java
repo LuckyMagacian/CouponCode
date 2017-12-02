@@ -19,8 +19,7 @@ import java.util.stream.Stream;
 import static com.lanxi.couponcode.spi.assist.ArgAssist.*;
 
 /**
- * 管理员端
- * Created by yangyuanjian on 2017/11/20.
+ * 管理员端 Created by yangyuanjian on 2017/11/20.
  */
 @Controller
 @RequestMapping ("admin")
@@ -45,232 +44,6 @@ public class AdminController {
     @Resource
     private ShopService shopService;
 
-    /*添加账户*/
-    @SetUtf8
-    @ResponseBody
-    @RequestMapping (value = "", produces = "application/json;charset=utf-8")
-    public String addAccount(final HttpServletRequest req, final HttpServletResponse res) {
-        String userName = req.getParameter("userName");
-        String merchantName = req.getParameter("merchantName");
-        String phone = req.getParameter("phone");
-        String operaterIdStr = req.getParameter("operaterId");
-        String merchantIdStr = req.getParameter("merchantId");
-        String typeStr = req.getParameter("type");
-        String shopIdStr = req.getParameter("shopId");
-        String shopName = req.getParameter("shopName");
-        Long shopId = Long.valueOf(shopIdStr);
-        Long operaterId = Long.valueOf(operaterIdStr);
-        Long merchantId = Long.valueOf(merchantIdStr);
-        AccountType type = AccountType.getType(typeStr);
-        return accountService.addAccount(type, userName, phone, merchantName, merchantId, shopId, shopName, operaterId).toJson();
-    }
-
-    /*账户查询*/
-    @SetUtf8
-    @ResponseBody
-    @RequestMapping (value = "", produces = "application/json;charset=utf-8")
-    public String queryAccounts(HttpServletRequest req, HttpServletResponse res) {
-        String phone = req.getParameter("phone");
-        String merchantName = req.getParameter("merchantName");
-        String typeStr = req.getParameter("type");
-        AccountType type = AccountType.getType(typeStr);
-        String operaterIdStr = req.getParameter("operaterId");
-        Long operaterId = Long.valueOf(operaterIdStr);
-        String statusStr = req.getParameter("status");
-        AccountStatus status = AccountStatus.getType(statusStr);
-        String pageNumStr = req.getParameter("pageNum");
-        String pageSizeStr = req.getParameter("pageSize");
-        Integer pageNum = Integer.valueOf(pageNumStr);
-        Integer pageSize = Integer.valueOf(pageSizeStr);
-        String merchantIdStr = req.getParameter("merchantId");
-        Long merchantId = Long.valueOf(merchantIdStr);
-        String shopIdStr = req.getParameter("shopId");
-        String shopName = req.getParameter("shopName");
-        Long shopId = Long.valueOf(shopIdStr);
-        return accountService.queryAccounts(merchantId, shopId, shopName, phone, merchantName, type,
-                                            status, pageNum, pageSize, operaterId).toJson();
-    }
-
-    /*冻结账户*/
-    @SetUtf8
-    @ResponseBody
-    @RequestMapping (value = "", produces = "application/json;charset=utf-8")
-    public String freezeAccount(HttpServletRequest req, HttpServletResponse res) {
-        String operaterIdStr = req.getParameter("operaterId");
-        Long operaterId = Long.valueOf(operaterIdStr);
-        String accountIdStr = req.getParameter("accountId");
-        Long accountId = Long.valueOf(accountIdStr);
-        return accountService.freezeAccount(accountId, operaterId).toJson();
-    }
-
-    /*开启账户*/
-    @SetUtf8
-    @ResponseBody
-    @RequestMapping (value = "", produces = "application/json;charset=utf-8")
-    public String unFreezeAccount(HttpServletRequest req, HttpServletResponse res) {
-        String operaterIdStr = req.getParameter("operaterId");
-        Long operaterId = Long.valueOf(operaterIdStr);
-        String accountIdStr = req.getParameter("accountId");
-        Long accountId = Long.valueOf(accountIdStr);
-        return accountService.unfreezeAccount(accountId, operaterId).toJson();
-    }
-
-    /*删除账户*/
-    @SetUtf8
-    @ResponseBody
-    @RequestMapping (value = "", produces = "application/json;charset=utf-8")
-    public String delAccount(HttpServletRequest req, HttpServletResponse res) {
-        String operaterIdStr = req.getParameter("operaterId");
-        Long operaterId = Long.valueOf(operaterIdStr);
-        String accountIdStr = req.getParameter("accountId");
-        Long accountId = Long.valueOf(accountIdStr);
-        return accountService.delAccount(accountId, operaterId).toJson();
-    }
-
-    /*查询商户详情*/
-    @SetUtf8
-    @ResponseBody
-    @RequestMapping (value = "", produces = "application/json;charset=utf-8")
-    public String queryMerchantInfo(HttpServletRequest req, HttpServletResponse res) {
-        String operaterIdStr = req.getParameter("operaterId");
-        String merchantIdStr = req.getParameter("merchantId");
-        Long operaterId = Long.valueOf(operaterIdStr);
-        Long merchantId = Long.valueOf(merchantIdStr);
-        return merchantService.queryMerchantInfo(operaterId, merchantId).toJson();
-    }
-
-    /*查询商户下的所有门店*/
-    @SetUtf8
-    @ResponseBody
-    @RequestMapping (value = "", produces = "application/json;charset=utf-8")
-    public String querySubordinateShops(HttpServletRequest req, HttpServletResponse res) {
-        String operaterIdStr = req.getParameter("operaterId");
-        String merchantIdStr = req.getParameter("merchantId");
-        Long operaterId = Long.valueOf(operaterIdStr);
-        Long merchantId = Long.valueOf(merchantIdStr);
-        String pageNumStr = req.getParameter("pageNum");
-        String pageSizeStr = req.getParameter("pageSize");
-        Integer pageNum = Integer.valueOf(pageNumStr);
-        Integer pageSize = Integer.valueOf(pageSizeStr);
-        return shopService.queryShops(merchantId, operaterId, pageNum, pageSize).toJson();
-    }
-
-    /*添加商户*/
-    @SetUtf8
-    @ResponseBody
-    @RequestMapping (value = "", produces = "application/json;charset=utf-8")
-    public String addMerchant(HttpServletRequest req, HttpServletResponse res) {
-        String merchantName = req.getParameter("merchantName");
-        String workAddress = req.getParameter("workAddress");
-        String detailAddress = req.getParameter("minuteWorkAddress");
-        String operaterIdStr = req.getParameter("operaterId");
-        Long operaterId = Long.valueOf(operaterIdStr);
-        return merchantService.addMerchant(merchantName, workAddress, detailAddress, operaterId).toJson();
-    }
-
-    /*修改商户*/
-    @SetUtf8
-    @ResponseBody
-    @RequestMapping (value = "", produces = "application/json;charset=utf-8")
-    public String modifyMerchant(HttpServletRequest req, HttpServletResponse res) {
-        String merchantName = req.getParameter("merchantName");
-        String workAddress = req.getParameter("workAddress");
-        String detailAddress = req.getParameter("minuteWorkAddress");
-        String operaterIdStr = req.getParameter("operaterId");
-        String merchantIdStr = req.getParameter("merchantId");
-        Long operaterId = Long.valueOf(operaterIdStr);
-        Long merchantId = Long.valueOf(merchantIdStr);
-        return merchantService.modifyMerchant(merchantName, workAddress, detailAddress, operaterId, merchantId)
-                .toJson();
-    }
-
-    /*商户查询*/
-    @SetUtf8
-    @ResponseBody
-    @RequestMapping (value = "", produces = "application/json;charset=utf-8")
-    public String queryMerchant(HttpServletRequest req, HttpServletResponse res) {
-        String merchantName = req.getParameter("merchantName");
-        String merchantStatusStr = req.getParameter("merchantStatus");
-        String timeStop = req.getParameter("timeStop");
-        String timeStart = req.getParameter("timeStart");
-        String pageNumStr = req.getParameter("pageNum");
-        String pageSizeStr = req.getParameter("pageSize");
-        String operaterIdStr = req.getParameter("operaterId");
-        Integer pageNum = Integer.valueOf(pageNumStr);
-        Integer pageSize = Integer.valueOf(pageSizeStr);
-        Long operaterId = Long.valueOf(operaterIdStr);
-        MerchantStatus merchantStatus = MerchantStatus.getType(merchantStatusStr);
-        return merchantService
-                .queryMerchants(merchantName, merchantStatus, timeStart, timeStop, pageNum, pageSize, operaterId)
-                .toJson();
-
-    }
-
-    /*冻结商户*/
-    @SetUtf8
-    @ResponseBody
-    @RequestMapping (value = "", produces = "application/json;charset=utf-8")
-    public String freezeMerchant(HttpServletRequest req, HttpServletResponse res) {
-        String operaterIdStr = req.getParameter("operaterId");
-        String merchantIdStr = req.getParameter("merchantId");
-        Long operaterId = Long.valueOf(operaterIdStr);
-        Long merchantId = Long.valueOf(merchantIdStr);
-        return merchantService.disableMerchant(merchantId, operaterId).toJson();
-    }
-
-    /*开启商户*/
-    @SetUtf8
-    @ResponseBody
-    @RequestMapping (value = "", produces = "application/json;charset=utf-8")
-    public String unfreezeMerchant(HttpServletRequest req, HttpServletResponse res) {
-        String operaterIdStr = req.getParameter("operaterId");
-        String merchantIdStr = req.getParameter("merchantId");
-        Long operaterId = Long.valueOf(operaterIdStr);
-        Long merchantId = Long.valueOf(merchantIdStr);
-        return merchantService.enableMerchant(merchantId, operaterId).toJson();
-    }
-
-    /*导出商户*/
-    @RequestMapping (value = "")
-    public void queryMerchantsExport(HttpServletRequest req, HttpServletResponse res) {
-        String merchantName = req.getParameter("merchantName");
-        String timeStart = req.getParameter("timeStart");
-        String timeStop = req.getParameter("timeStop");
-        String operaterIdStr = req.getParameter("operaterId");
-        String merchantStatusStr = req.getParameter("merchantStatus");
-        Long operaterId = Long.valueOf(operaterIdStr);
-        MerchantStatus merchantStatus = MerchantStatus.getType(merchantStatusStr);
-        File file = (File) merchantService
-                .queryMerchantsExport(merchantName, merchantStatus, timeStart, timeStop, operaterId).getDetail();
-        InputStream is = null;
-        OutputStream os = null;
-        try {
-            if (file != null) {
-                is = new FileInputStream(file);
-                os = res.getOutputStream();
-                byte[] temp = new byte[1025];
-                int size = -1;
-                while ((size = is.read(temp)) != -1) {
-                    os.write(temp, 0, size);
-                }
-                is.close();
-                os.close();
-            }
-
-        } catch (Exception e) {
-            LogFactory.error(this, "导出Excel文件时发生异常", e);
-        }finally {
-                try {
-                    if(is!=null)
-                        is.close();
-                    if(os!=null)
-                        os.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-
-        }
-    }
 
     @SetUtf8
     @ResponseBody
@@ -504,4 +277,213 @@ public class AdminController {
         Long operaterId=parseArg(operaterIdStr,Long.class);
         return verificationRecordService.queryVerificationRecordInfo(recordId,operaterId).toJson();
     }
+
+	/* admin添加账户 */
+	@SetUtf8
+	@ResponseBody
+	@RequestMapping(value = "addAccount", produces = "application/json;charset=utf-8")
+	public String addAccount(HttpServletRequest req, HttpServletResponse res) {
+		String userName = getArg.apply(req, "userName");
+		String merchantName = getArg.apply(req, "merchantName");
+		String phone = getArg.apply(req, "phone");
+		String operaterIdStr = getArg.apply(req, "operaterId");
+		String merchantIdStr = getArg.apply(req, "merchantId");
+		String typeStr = getArg.apply(req, "type");
+		Long operaterId = parseArg(operaterIdStr, Long.class);
+		Long merchantId = parseArg(merchantIdStr, Long.class);
+		AccountType type = AccountType.getType(typeStr);
+		return accountService.adminAddAccount(type, merchantName, userName, phone, operaterId, merchantId).toJson();
+	}
+
+	/* admin账户查询 */
+	@SetUtf8
+	@ResponseBody
+	@RequestMapping(value = "queryAccounts", produces = "application/json;charset=utf-8")
+	public String queryAccounts(HttpServletRequest req, HttpServletResponse res) {
+		String phone = getArg.apply(req, "phone");
+		String merchantName = getArg.apply(req, "merchantName");
+		String typeStr = getArg.apply(req, "type");
+		AccountType type = AccountType.getType(typeStr);
+		String operaterIdStr = getArg.apply(req, "operaterId");
+		Long operaterId = parseArg(operaterIdStr, Long.class);
+		String statusStr = getArg.apply(req, "status");
+		AccountStatus status = AccountStatus.getType(statusStr);
+		String pageNumStr = getArg.apply(req, "pageNum");
+		String pageSizeStr = getArg.apply(req, "pageSize");
+		Integer pageNum = parseArg(pageNumStr, Integer.class);
+		Integer pageSize = parseArg(pageSizeStr, Integer.class);
+		String shopName = getArg.apply(req, "shopName");
+		return accountService.queryAccounts(shopName, phone, merchantName, type, status, pageNum, pageSize, operaterId)
+				.toJson();
+	}
+
+	/* 冻结账户 */
+	@SetUtf8
+	@ResponseBody
+	@RequestMapping(value = "freezeAccount", produces = "application/json;charset=utf-8")
+	public String freezeAccount(HttpServletRequest req, HttpServletResponse res) {
+		String operaterIdStr = getArg.apply(req, "operaterId");
+		Long operaterId = parseArg(operaterIdStr, Long.class);
+		String accountIdStr = getArg.apply(req, "accountId");
+		Long accountId = parseArg(accountIdStr, Long.class);
+		return accountService.freezeAccount(accountId, operaterId).toJson();
+	}
+
+	/* 开启账户 */
+	@SetUtf8
+	@ResponseBody
+	@RequestMapping(value = "unfreezeAccount", produces = "application/json;charset=utf-8")
+	public String unfreezeAccount(HttpServletRequest req, HttpServletResponse res) {
+		String operaterIdStr = getArg.apply(req, "operaterId");
+		Long operaterId = parseArg(operaterIdStr, Long.class);
+		String accountIdStr = getArg.apply(req, "accountId");
+		Long accountId = parseArg(accountIdStr, Long.class);
+		return accountService.unfreezeAccount(accountId, operaterId).toJson();
+	}
+
+	/* 删除账户 */
+	@SetUtf8
+	@ResponseBody
+	@RequestMapping(value = "delAccount", produces = "application/json;charset=utf-8")
+	public String delAccount(HttpServletRequest req, HttpServletResponse res) {
+		String operaterIdStr = getArg.apply(req, "operaterId");
+		Long operaterId = parseArg(operaterIdStr, Long.class);
+		String accountIdStr = getArg.apply(req, "accountId");
+		Long accountId = parseArg(accountIdStr, Long.class);
+		return accountService.delAccount(accountId, operaterId).toJson();
+	}
+
+	/* 查询商户详情 */
+	@SetUtf8
+	@ResponseBody
+	@RequestMapping(value = "queryMerchantInfo", produces = "application/json;charset=utf-8")
+	public String queryMerchantInfo(HttpServletRequest req, HttpServletResponse res) {
+		String operaterIdStr = getArg.apply(req, "operaterId");
+		String merchantIdStr = getArg.apply(req, "merchantId");
+		Long operaterId = parseArg(operaterIdStr, Long.class);
+		Long merchantId = parseArg(merchantIdStr, Long.class);
+		return merchantService.queryMerchantInfo(operaterId, merchantId).toJson();
+	}
+
+	/* 查询商户下的所有门店 */
+	@SetUtf8
+	@ResponseBody
+	@RequestMapping(value = "querySubordinateShops", produces = "application/json;charset=utf-8")
+	public String querySubordinateShops(HttpServletRequest req, HttpServletResponse res) {
+		String operaterIdStr = getArg.apply(req, "operaterId");
+		String merchantIdStr = getArg.apply(req, "merchantId");
+		Long operaterId = parseArg(operaterIdStr, Long.class);
+		Long merchantId = parseArg(merchantIdStr, Long.class);
+		String pageNumStr = getArg.apply(req, "pageNum");
+		String pageSizeStr = getArg.apply(req, "pageSize");
+		Integer pageNum = parseArg(pageNumStr, Integer.class);
+		Integer pageSize = parseArg(pageSizeStr, Integer.class);
+		return shopService.queryShops(merchantId, operaterId, pageNum, pageSize).toJson();
+	}
+
+	/* 添加商户 */
+	@SetUtf8
+	@ResponseBody
+	@RequestMapping(value = "addMerchant", produces = "application/json;charset=utf-8")
+	public String addMerchant(HttpServletRequest req, HttpServletResponse res) {
+		String merchantName = getArg.apply(req, "merchantName");
+		String workAddress = getArg.apply(req, "workAddress");
+		String minuteWorkAddress = getArg.apply(req, "minuteWorkAddress");
+		String operaterIdStr = getArg.apply(req, "operaterId");
+		Long operaterId = parseArg(operaterIdStr, Long.class);
+		return merchantService.addMerchant(merchantName, workAddress, minuteWorkAddress, operaterId).toJson();
+	}
+
+	/* 修改商户 */
+	@SetUtf8
+	@ResponseBody
+	@RequestMapping(value = "modifyMerchant", produces = "application/json;charset=utf-8")
+	public String modifyMerchant(HttpServletRequest req, HttpServletResponse res) {
+		String merchantName = getArg.apply(req, "merchantName");
+		String workAddress = getArg.apply(req, "workAddress");
+		String minuteWorkAddress = getArg.apply(req, "minuteWorkAddress");
+		String operaterIdStr = getArg.apply(req, "operaterId");
+		String merchantIdStr = getArg.apply(req, "merchantId");
+		Long operaterId = parseArg(operaterIdStr, Long.class);
+		Long merchantId = parseArg(merchantIdStr, Long.class);
+		return merchantService.modifyMerchant(merchantName, workAddress, minuteWorkAddress, operaterId, merchantId)
+				.toJson();
+	}
+
+	/* 商户查询 */
+	@SetUtf8
+	@ResponseBody
+	@RequestMapping(value = "queryMerchant", produces = "application/json;charset=utf-8")
+	public String queryMerchant(HttpServletRequest req, HttpServletResponse res) {
+		String merchantName = getArg.apply(req, "merchantName");
+		String merchantStatusStr = getArg.apply(req, "merchantStatus");
+		String timeStop = getArg.apply(req, "timeStop");
+		String timeStart = getArg.apply(req, "timeStart");
+		String pageNumStr = getArg.apply(req, "pageNum");
+		String pageSizeStr = getArg.apply(req, "pageSize");
+		String operaterIdStr = getArg.apply(req, "operaterId");
+		Integer pageNum = parseArg(pageNumStr, Integer.class);
+		Integer pageSize = parseArg(pageSizeStr, Integer.class);
+		Long operaterId = parseArg(operaterIdStr, Long.class);
+		MerchantStatus merchantStatus = MerchantStatus.getType(merchantStatusStr);
+		return merchantService
+				.queryMerchants(merchantName, merchantStatus, timeStart, timeStop, pageNum, pageSize, operaterId)
+				.toJson();
+
+	}
+
+	/* 冻结商户 */
+	@SetUtf8
+	@ResponseBody
+	@RequestMapping(value = "freezeMerchant", produces = "application/json;charset=utf-8")
+	public String freezeMerchant(HttpServletRequest req, HttpServletResponse res) {
+		String operaterIdStr = getArg.apply(req, "operaterId");
+		String merchantIdStr = getArg.apply(req, "merchantId");
+		Long operaterId = parseArg(operaterIdStr, Long.class);
+		Long merchantId = parseArg(merchantIdStr, Long.class);
+		return merchantService.disableMerchant(merchantId, operaterId).toJson();
+	}
+
+	/* 开启商户 */
+	@SetUtf8
+	@ResponseBody
+	@RequestMapping(value = "unfreezeMerchant", produces = "application/json;charset=utf-8")
+	public String unfreezeMerchant(HttpServletRequest req, HttpServletResponse res) {
+		String operaterIdStr = getArg.apply(req, "operaterId");
+		String merchantIdStr = getArg.apply(req, "merchantId");
+		Long operaterId = parseArg(operaterIdStr, Long.class);
+		Long merchantId = parseArg(merchantIdStr, Long.class);
+		return merchantService.enableMerchant(merchantId, operaterId).toJson();
+	}
+
+	/* 导出商户 */
+	@RequestMapping(value = "queryMerchantsExport")
+	public void queryMerchantsExport(HttpServletRequest req, HttpServletResponse res) {
+		String merchantName = getArg.apply(req, "merchantName");
+		String timeStart = getArg.apply(req, "timeStart");
+		String timeStop = getArg.apply(req, "timeStop");
+		String operaterIdStr = getArg.apply(req, "operaterId");
+		String merchantStatusStr = getArg.apply(req, "merchantStatus");
+		Long operaterId = parseArg(operaterIdStr, Long.class);
+		MerchantStatus merchantStatus = MerchantStatus.getType(merchantStatusStr);
+		File file = (File) merchantService
+				.queryMerchantsExport(merchantName, merchantStatus, timeStart, timeStop, operaterId).getDetail();
+		try {
+			if (file != null) {
+				InputStream is = new FileInputStream(file);
+				OutputStream os = res.getOutputStream();
+				byte temp[] = new byte[1024];
+				int size = -1;
+				while ((size = is.read(temp)) != -1) {
+					os.write(temp, 0, size);
+				}
+				is.close();
+				os.close();
+			}
+
+		} catch (Exception e) {
+			LogFactory.error(this, "导出Excel文件时发生异常", e);
+		}
+	}
+
 }

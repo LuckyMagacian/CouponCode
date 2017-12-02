@@ -28,117 +28,7 @@
     <favorites_list name="CouponCode" />
   </component>
   <component name="FileEditorManager">
-    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="CouponCodeStatus.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/com/lanxi/couponcode/spi/consts/enums/CouponCodeStatus.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="210">
-              <caret line="13" column="62" lean-forward="false" selection-start-line="13" selection-start-column="62" selection-end-line="13" selection-end-column="62" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="XmlApiController.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/com/lanxi/couponcode/view/XmlApiController.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="201">
-              <caret line="228" column="36" lean-forward="false" selection-start-line="228" selection-start-column="36" selection-end-line="228" selection-end-column="36" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="XmlUtil.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/com/lanxi/couponcode/impl/util/XmlUtil.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="220">
-              <caret line="265" column="52" lean-forward="false" selection-start-line="265" selection-start-column="52" selection-end-line="265" selection-end-column="52" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="CodeController.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/com/lanxi/couponcode/impl/newcontroller/CodeController.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="343">
-              <caret line="215" column="26" lean-forward="false" selection-start-line="215" selection-start-column="15" selection-end-line="215" selection-end-column="26" />
-              <folding>
-                <element signature="method#queryCodesHidden#0;class#CodeController#0" expanded="false" />
-                <element signature="e#4041#4094#0" expanded="false" />
-                <element signature="method#queryCodesExport#0;class#CodeController#0" expanded="false" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="CommodityType.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/com/lanxi/couponcode/spi/consts/enums/CommodityType.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="190">
-              <caret line="10" column="59" lean-forward="false" selection-start-line="10" selection-start-column="59" selection-end-line="10" selection-end-column="59" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="RequestController.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/com/lanxi/couponcode/impl/newcontroller/RequestController.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="315">
-              <caret line="173" column="35" lean-forward="false" selection-start-line="173" selection-start-column="35" selection-end-line="173" selection-end-column="35" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="SetHttpSession.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/com/lanxi/couponcode/spi/aop/SetHttpSession.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="223">
-              <caret line="27" column="64" lean-forward="false" selection-start-line="27" selection-start-column="64" selection-end-line="27" selection-end-column="64" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="CodeServiceImpl.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/com/lanxi/couponcode/impl/newservice/CodeServiceImpl.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="49">
-              <caret line="97" column="37" lean-forward="false" selection-start-line="97" selection-start-column="37" selection-end-line="97" selection-end-column="37" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="RedisServiceImpl.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/com/lanxi/couponcode/impl/newservice/RedisServiceImpl.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="239">
-              <caret line="310" column="24" lean-forward="false" selection-start-line="310" selection-start-column="24" selection-end-line="310" selection-end-column="24" />
-              <folding>
-                <element signature="e#5605#5606#0" expanded="true" />
-                <element signature="e#5649#5650#0" expanded="true" />
-                <element signature="e#7611#7612#0" expanded="true" />
-                <element signature="e#7676#7677#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="TestMybatis.java" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/test/java/com/lanxi/couponcode/test/TestMybatis.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="593">
-              <caret line="101" column="50" lean-forward="true" selection-start-line="101" selection-start-column="50" selection-end-line="101" selection-end-column="50" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-    </leaf>
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300" />
   </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
@@ -158,7 +48,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>sum</find>
       <find>clearStatus</find>
       <find>g</find>
       <find>redis</find>
@@ -186,8 +75,9 @@
       <find>result</find>
       <find>==||\!=</find>
       <find>toLIst</find>
-      <find>Array</find>
       <find>==|!=</find>
+      <find>Array</find>
+      <find>&gt;&gt;&gt;&gt;&gt;&gt;&gt;</find>
     </findStrings>
     <replaceStrings>
       <replace>getCodeKey(merchantId)</replace>
@@ -205,11 +95,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/src/main/java/com/lanxi/couponcode/impl/newcontroller/AccountController.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/lanxi/couponcode/impl/newservice/CodeAlgorithmServiceImpl.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/lanxi/couponcode/view/MerchantManageController.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/lanxi/couponcode/spi/service/CouponService.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/lanxi/couponcode/impl/entity/CouponCode.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/lanxi/couponcode/view/ShopManagerController.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/lanxi/couponcode/view/EmployeeController.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/lanxi/couponcode/impl/entity/ClearDailyRecord.java" />
@@ -230,7 +115,6 @@
         <option value="$PROJECT_DIR$/src/main/java/com/lanxi/couponcode/impl/newcontroller/OrderController.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/lanxi/couponcode/impl/util/CodeUtil.java" />
         <option value="$PROJECT_DIR$/src/test/java/com/lanxi/couponcode/test/TestEntity.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/lanxi/couponcode/view/AdminController.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/lanxi/couponcode/spi/consts/enums/VerificationType.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/lanxi/couponcode/spi/consts/enums/ShopStatus.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/lanxi/couponcode/spi/consts/enums/RetCodeEnum.java" />
@@ -253,9 +137,15 @@
         <option value="$PROJECT_DIR$/src/main/java/com/lanxi/couponcode/spi/consts/enums/EnumReEquals.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/lanxi/couponcode/spi/consts/enums/RequestOperateType.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/lanxi/couponcode/impl/util/XmlUtil.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/lanxi/couponcode/view/XmlApiController.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/lanxi/couponcode/spi/aop/SetHttpSession.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/lanxi/couponcode/impl/newservice/RedisServiceImpl.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/lanxi/couponcode/view/XmlApiController.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/lanxi/couponcode/view/AdminController.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/lanxi/couponcode/view/MerchantManageController.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/lanxi/couponcode/impl/newcontroller/AccountController.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/lanxi/couponcode/spi/service/AccountService.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/lanxi/couponcode/impl/newservice/AccountServiceImpl.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/lanxi/couponcode/impl/newservice/AccountService.java" />
       </list>
     </option>
   </component>
@@ -1746,7 +1636,7 @@
       <workItem from="1511769993583" duration="66987000" />
       <workItem from="1512091236461" duration="1671000" />
       <workItem from="1512092954550" duration="4200000" />
-      <workItem from="1512097219509" duration="24739000" />
+      <workItem from="1512097219509" duration="27085000" />
     </task>
     <servers />
   </component>
@@ -1783,7 +1673,7 @@
     </history-entry>
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="379222000" />
+    <option name="totallyTimeSpent" value="381568000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -1795,10 +1685,10 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="-4" y="-4" width="1928" height="1058" extended-state="7" />
+    <frame x="-4" y="-4" width="1928" height="1058" extended-state="6" />
     <layout>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="FindBugs-IDEA" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.29443255" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="FindBugs-IDEA" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.29443255" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32976446" sideWeight="0.5" order="6" side_tool="true" content_ui="tabs" />
       <window_info id="JRebel Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3290461" sideWeight="0.5" order="8" side_tool="true" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.24733475" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
@@ -1819,8 +1709,8 @@
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.26688102" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Spring" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="false" weight="0.32939914" sideWeight="0.5" order="13" side_tool="false" content_ui="tabs" />
       <window_info id="CheckStyle" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.35501066" sideWeight="0.509636" order="2" side_tool="true" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="14" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.2595949" sideWeight="0.49036402" order="9" side_tool="false" content_ui="combo" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32976446" sideWeight="0.5" order="14" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.2595949" sideWeight="0.49036402" order="9" side_tool="false" content_ui="combo" />
       <window_info id="Bean Validation" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.26226014" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Web" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25746268" sideWeight="0.50589496" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="JRebel" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25746268" sideWeight="0.50589496" order="4" side_tool="true" content_ui="tabs" />
@@ -1894,60 +1784,6 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/lanxi/couponcode/impl/aop/AddLog.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="323">
-          <caret line="52" column="29" lean-forward="false" selection-start-line="52" selection-start-column="29" selection-end-line="52" selection-end-column="29" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/lanxi/couponcode/impl/entity/Merchant.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="140">
-          <caret line="17" column="24" lean-forward="false" selection-start-line="17" selection-start-column="24" selection-end-line="17" selection-end-column="24" />
-          <folding>
-            <element signature="e#2250#2251#0" expanded="false" />
-            <element signature="e#2279#2280#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/lanxi/couponcode/impl/newservice/LockServiceImpl.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="380">
-          <caret line="45" column="36" lean-forward="false" selection-start-line="45" selection-start-column="36" selection-end-line="45" selection-end-column="36" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/lanxi/couponcode/impl/config/ProjectParam.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="424">
-          <caret line="34" column="16" lean-forward="false" selection-start-line="34" selection-start-column="16" selection-end-line="34" selection-end-column="16" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/lanxi/couponcode/impl/newcontroller/CommodityController.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="201">
-          <caret line="255" column="0" lean-forward="false" selection-start-line="255" selection-start-column="0" selection-end-line="255" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/pom.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="536">
-          <caret line="232" column="0" lean-forward="false" selection-start-line="232" selection-start-column="0" selection-end-line="232" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-      <provider editor-type-id="MavenHelperPluginDependencyAnalyzer">
-        <state />
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/lanxi/couponcode/impl/newservice/DaoService.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="209">
@@ -2024,14 +1860,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="403">
           <caret line="66" column="23" lean-forward="false" selection-start-line="66" selection-start-column="23" selection-end-line="66" selection-end-column="23" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/lanxi/couponcode/view/AdminController.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="315">
-          <caret line="380" column="0" lean-forward="false" selection-start-line="380" selection-start-column="0" selection-end-line="380" selection-end-column="0" />
           <folding />
         </state>
       </provider>
@@ -2193,8 +2021,8 @@
         <state relative-caret-position="1749">
           <caret line="141" column="25" lean-forward="false" selection-start-line="141" selection-start-column="25" selection-end-line="141" selection-end-column="25" />
           <folding>
-            <element signature="e#4357#4358#0" expanded="true" />
-            <element signature="e#4391#4392#0" expanded="true" />
+            <element signature="e#4357#4358#0" expanded="false" />
+            <element signature="e#4391#4392#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -2257,14 +2085,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/lanxi/couponcode/view/XmlApiController.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="201">
-          <caret line="228" column="36" lean-forward="false" selection-start-line="228" selection-start-column="36" selection-end-line="228" selection-end-column="36" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="jar://$MAVEN_REPOSITORY$/com/lanxi/common-utils/1.0/common-utils-1.0.jar!/com/lanxi/util/entity/LogFactory.class">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="308">
@@ -2320,8 +2140,85 @@
     <entry file="file://$PROJECT_DIR$/src/test/java/com/lanxi/couponcode/test/TestMybatis.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="593">
-          <caret line="101" column="50" lean-forward="true" selection-start-line="101" selection-start-column="50" selection-end-line="101" selection-end-column="50" />
+          <caret line="101" column="50" lean-forward="false" selection-start-line="101" selection-start-column="50" selection-end-line="101" selection-end-column="50" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/lanxi/couponcode/view/AdminController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="479">
+          <caret line="465" column="71" lean-forward="false" selection-start-line="465" selection-start-column="71" selection-end-line="465" selection-end-column="71" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/lanxi/couponcode/view/MerchantManageController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="12179">
+          <caret line="662" column="7" lean-forward="false" selection-start-line="662" selection-start-column="7" selection-end-line="662" selection-end-column="7" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/lanxi/couponcode/impl/newcontroller/AccountController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="356">
+          <caret line="762" column="85" lean-forward="false" selection-start-line="762" selection-start-column="85" selection-end-line="762" selection-end-column="85" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#24742#24750#0" expanded="true" />
+            <element signature="e#26681#26690#0" expanded="true" />
+            <element signature="e#26773#26782#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/lanxi/couponcode/impl/newservice/MerchantService.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-260">
+          <caret line="25" column="30" lean-forward="false" selection-start-line="25" selection-start-column="19" selection-end-line="25" selection-end-column="30" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/lanxi/couponcode/spi/service/AccountService.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="380">
+          <caret line="24" column="12" lean-forward="false" selection-start-line="24" selection-start-column="12" selection-end-line="24" selection-end-column="12" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/lanxi/couponcode/impl/newservice/AccountService.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="304">
+          <caret line="20" column="0" lean-forward="false" selection-start-line="15" selection-start-column="5" selection-end-line="20" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/lanxi/couponcode/impl/newservice/AccountServiceImpl.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-703">
+          <caret line="23" column="36" lean-forward="true" selection-start-line="23" selection-start-column="36" selection-end-line="23" selection-end-column="36" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/lanxi/couponcode/view/XmlApiController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="147">
+          <caret line="252" column="7" lean-forward="false" selection-start-line="252" selection-start-column="7" selection-end-line="252" selection-end-column="7" />
+          <folding>
+            <element signature="e#13286#13302#0" expanded="true" />
+            <marker date="1512202474765" expanded="false" signature="14081:14097" ph="&lt;~&gt;" />
+            <marker date="1512202474765" expanded="false" signature="14725:14741" ph="&lt;~&gt;" />
+            <marker date="1512202474765" expanded="false" signature="15119:15135" ph="&lt;~&gt;" />
+            <marker date="1512202474765" expanded="false" signature="15517:15533" ph="&lt;~&gt;" />
+            <marker date="1512202474765" expanded="false" signature="16218:16234" ph="&lt;~&gt;" />
+            <marker date="1512202474765" expanded="false" signature="16597:16613" ph="&lt;~&gt;" />
+          </folding>
         </state>
       </provider>
     </entry>

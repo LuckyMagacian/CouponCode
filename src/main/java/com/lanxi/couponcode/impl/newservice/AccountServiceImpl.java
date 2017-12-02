@@ -28,19 +28,6 @@ public class AccountServiceImpl implements AccountService {
 		}
 
 	}
-
-	@Override
-	public Boolean merchantAccount(Account account) {
-		try {
-			LogFactory.info(this, "尝试添加门店账户,\n");
-			return account.insert();
-		} catch (Exception e) {
-			LogFactory.error(this, "添加门店账户时发生异常\n", e);
-			return false;
-		}
-
-	}
-
 	@Override
 	public Boolean freezeAccount(Account account) {
 		synchronized (account) {
@@ -72,7 +59,6 @@ public class AccountServiceImpl implements AccountService {
 
 	@Override
 	public Boolean delAccount(Account account) {
-
 		synchronized (account) {
 			try {
 				LogFactory.info(this, "尝试删除账号\n");
@@ -94,39 +80,9 @@ public class AccountServiceImpl implements AccountService {
 				list = dao.getAccountDao().selectPage(pageObj, wrapper);
 				LogFactory.debug(this, "查询到的结果[" + list + "]\n");
 				LogFactory.info(this, "查询到的总记录数[" + list.size() + "]\n");
+			}else {
+				list=dao.getAccountDao().selectList(wrapper);
 			}
-			return list;
-		} catch (Exception e) {
-			LogFactory.error(this, "获取账户信息时发生异常\n", e);
-			return list;
-		}
-	}
-
-	@Override
-	public List<Account> merchantQueryAccounts(EntityWrapper<Account> wrapper, Page<Account> pageObj) {
-		LogFactory.info(this, "尝试获取账户信息\n");
-		List<Account> list = null;
-		try {
-			if (pageObj != null) {
-				list = dao.getAccountDao().selectPage(pageObj, wrapper);
-				LogFactory.debug(this, "查询到的结果[" + list + "]\n");
-				LogFactory.info(this, "查询到的总记录数[" + list.size() + "]\n");
-			}
-			return list;
-		} catch (Exception e) {
-			LogFactory.error(this, "获取账户信息时发生异常\n", e);
-			return list;
-		}
-	}
-
-	@Override
-	public List<Account> queryShopAccounts(EntityWrapper<Account> wrapper, Page<Account> pageObj) {
-		LogFactory.info(this, "尝试获取账户信息\n");
-		List<Account> list = null;
-		try {
-			list = dao.getAccountDao().selectList(wrapper);
-			LogFactory.debug(this, "查询到的结果[" + list + "]\n");
-			LogFactory.info(this, "查询到的总记录数[" + list.size() + "]\n");
 			return list;
 		} catch (Exception e) {
 			LogFactory.error(this, "获取账户信息时发生异常\n", e);
@@ -151,8 +107,7 @@ public class AccountServiceImpl implements AccountService {
 
 	@Override
 	public Boolean phoneVerify(String phone) {
-		String locker = "phone[" + phone + "]\n";
-		LogFactory.info(this, "查询手机号码是否已注册\n" + locker);
+		LogFactory.info(this, "查询手机号码是否已注册\n");
 		Boolean result = false;
 		List<Account> list = null;
 		try {
@@ -162,14 +117,14 @@ public class AccountServiceImpl implements AccountService {
 			}
 			list = dao.getAccountDao().selectList(wrapper);
 			if (list.size() > 0) {
-				LogFactory.debug(this, "此手机号码已经被注册过\n" + locker);
+				LogFactory.debug(this, "此手机号码已经被注册过\n");
 				result = false;
 			} else if (list.size() == 0) {
-				LogFactory.debug(this, "此手机号码可用\n" + locker);
+				LogFactory.debug(this, "此手机号码可用\n");
 				result = true;
 			}
 		} catch (Exception e) {
-			LogFactory.error(this, "查询手机号码是否已注册时发生异常\n" + locker, e);
+			LogFactory.error(this, "查询手机号码是否已注册时发生异常\n", e);
 
 		}
 
@@ -203,7 +158,7 @@ public class AccountServiceImpl implements AccountService {
 
 	@Override
 	public Boolean logout(Long accountId) {
-
+		
 		return null;
 	}
 

@@ -29,6 +29,7 @@ public enum OperateType implements Serializable,Gettype{
 
     createAccount(71),			unfreezeAccount(72),			freezeAccount(73),			queryAccountInfo(78),
     deleteAccount(74),			modifyAccount(75),			    queryAccount(76),			cancelAccount(79),
+    changePassword(77),
 
     createMerchant(81),			unfreezeMerchant(82),			freezeMerchant(83),			deleteMerchant(84),
     modifyMerchant(85),			queryMerchant(86),			    cancelMerchant(89),			inputMerchantInfo(87),

@@ -248,7 +248,6 @@ public class XmlApiController {
             statusMap.put("ResMsg", "操作失败");
             return XmlUtil.getMsgOrderInfoResXmlStr(new MsgOrderInfoHeadBean(), statusMap);
         }
-
     }
 
     /**
