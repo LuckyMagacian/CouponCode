@@ -32,7 +32,8 @@
     <!-- 启用aop切入 -->
     <aop:aspectj-autoproxy expose-proxy="true"  proxy-target-class="true"/>
     <!-- 扫描包 -->
-    <context:component-scan base-package="com.lanxi.*" />
-    <import resource="dubbo.xml"></import>
+    <context:component-scan base-package="com.lanxi.couponcode.*" />
     <import resource="mybatis.xml"></import>
+    <import resource="dubbo.xml"></import>
+    <import resource="quartz.xml"></import>
 </beans>

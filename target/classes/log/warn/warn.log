@@ -1,8 +1,1 @@
-2017-11-17 15:01:53,204 WARN [com.lanxi.couponcode.impl.service.ShopServiceImpl] - <shopId,shopName,shopAddress不能为空
-shopName[杭州蓝喜]
-,serviceTel[null]
-,shopAddress[null]
-,minuteShopAddress[null]
-,shopId[931412883098533888]
-,operaterId[null]
->
+2017-12-02 17:23:45,714 WARN [org.springframework.context.support.ClassPathXmlApplicationContext] - <Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping': Invocation of init method failed; nested exception is java.lang.IncompatibleClassChangeError: Implementing class>

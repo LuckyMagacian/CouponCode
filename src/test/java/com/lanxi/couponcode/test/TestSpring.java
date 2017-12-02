@@ -1,19 +1,20 @@
 package com.lanxi.couponcode.test;
 
+import com.lanxi.couponcode.impl.newservice.MerchantServiceImpl;
+import com.lanxi.util.utils.LoggerUtil;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
-
-import com.lanxi.couponcode.impl.entity.Merchant;
-import com.lanxi.couponcode.impl.newservice.MerchantServiceImpl;
 
 public class TestSpring {
 
 	    ApplicationContext ac;
 	    @Before
 	    public void init(){
-	        ac=new ClassPathXmlApplicationContext("xml/spring- mvc.xml");
+	    	LoggerUtil.setLogLevel(LoggerUtil.LogLevel.DEBUG);
+	    	LoggerUtil.init();
+	        ac=new ClassPathXmlApplicationContext("xml/spring-mvc.xml");
 	        
 	    }
 //	    @Test

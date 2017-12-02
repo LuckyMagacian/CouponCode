@@ -25,7 +25,7 @@ import com.lanxi.util.entity.LogFactory;
 /**
  * 门店管理端 Created by yangyuanjian on 2017/11/20.
  */
-@Controller
+@Controller("shopView")
 @RequestMapping("shop")
 public class ShopController {
 	@Resource

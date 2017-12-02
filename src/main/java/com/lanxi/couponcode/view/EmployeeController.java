@@ -26,16 +26,6 @@ public class EmployeeController {
     @Resource
     private CouponService codeService;
 
-    @RequestMapping
-    public void pic1(){
-
-    }
-    @RequestMapping
-    public void pic2(){
-
-    }
-
-
     @SetUtf8
     @ResponseBody
     @RequestMapping(value = "verifyCode",produces = "application/json;charset=utf-8")

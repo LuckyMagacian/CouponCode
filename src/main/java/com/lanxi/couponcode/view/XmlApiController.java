@@ -30,7 +30,6 @@ import com.lanxi.util.entity.LogFactory;
 /**
  * @author wuxiaobo
  */
-@Controller
 public class XmlApiController {
     @Resource
     private OrderService orderService;

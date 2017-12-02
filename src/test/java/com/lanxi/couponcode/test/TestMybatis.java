@@ -41,7 +41,6 @@ public class TestMybatis {
 	public void init() {
 		LoggerUtil.setLogLevel(LogLevel.INFO);
 		LoggerUtil.init();
-		SpringUtil.setAc(ac);
 	}
 	@Test
 	public void test2(){
