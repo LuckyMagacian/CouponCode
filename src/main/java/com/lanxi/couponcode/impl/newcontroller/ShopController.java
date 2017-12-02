@@ -254,19 +254,17 @@ public class ShopController implements com.lanxi.couponcode.spi.service.ShopServ
 
 	@Override
 	public RetMessage<String> queryShop(String merchantName, String shopName, ShopStatus status, String shopAddress,
-			Integer pageNum, Integer pageSize, Long merchantId, Long operaterId) {
+			Integer pageNum, Integer pageSize, Long operaterId) {
 		RetMessage<String> retMessage = new RetMessage<String>();
 		List<Shop> shops = null;
 		// TODO 校验
 		try {
 			Account a = accountService.queryAccountById(operaterId);
 			RetMessage message = checkAccount.apply(a, OperateType.queryShop);
-			if (merchantId != null) {
-				Merchant m = merchantService.queryMerchantParticularsById(merchantId);
-				message = checkMerchant.apply(m, OperateType.queryShop);
-				if (notNull.test(message))
-					return message;
-			}
+			Merchant m = merchantService.queryMerchantParticularsById(a.getMerchantId());
+			message = checkMerchant.apply(m, OperateType.queryShop);
+			if (notNull.test(message))
+				return message;
 			if (pageNum != null) {
 				pageSize = pageSize == null ? ConstConfig.DEFAULT_PAGE_SIZE : pageSize;
 			}
@@ -282,7 +280,7 @@ public class ShopController implements com.lanxi.couponcode.spi.service.ShopServ
 				if (shopAddress != null && !shopAddress.isEmpty()) {
 					wrapper.like("shop_address", shopAddress);
 				}
-				wrapper.eq("merchant_id", merchantId);
+				wrapper.eq("merchant_id", a.getMerchantId());
 			}
 			LogFactory.info(this, "条件装饰结果[" + wrapper + "]\n");
 			shops = shopService.queryShop(wrapper, pageObj);
@@ -459,17 +457,17 @@ public class ShopController implements com.lanxi.couponcode.spi.service.ShopServ
 	public RetMessage<File> downloadExcelTemplate(Long operaterId) {
 		RetMessage<File> retMessage = new RetMessage<File>();
 		try {
-			Account a=accountService.queryAccountById(operaterId);
-			RetMessage message=checkAccount.apply(a, OperateType.downloadShopExcelTemplate);
+			Account a = accountService.queryAccountById(operaterId);
+			RetMessage message = checkAccount.apply(a, OperateType.downloadShopExcelTemplate);
 			if (notNull.test(message))
 				return message;
-			
-					File file = shopService.downloadExcelTemplate();
-					if (file != null) {
-						retMessage.setAll(RetCodeEnum.success, "下载Excel模板成功", file);
-					} else {
-						retMessage.setAll(RetCodeEnum.exception, "下载Excel模板失败", null);
-					}
+
+			File file = shopService.downloadExcelTemplate();
+			if (file != null) {
+				retMessage.setAll(RetCodeEnum.success, "下载Excel模板成功", file);
+			} else {
+				retMessage.setAll(RetCodeEnum.exception, "下载Excel模板失败", null);
+			}
 		} catch (Exception e) {
 			retMessage.setAll(RetCodeEnum.error, "下载Excel模板时发生异常", null);
 		}
@@ -477,31 +475,30 @@ public class ShopController implements com.lanxi.couponcode.spi.service.ShopServ
 	}
 
 	@Override
-	public RetMessage<String> queryShops(Long merchantId, Long operaterId,Integer pageNum,
-			Integer pageSize) {
+	public RetMessage<String> queryShops(Long merchantId, Long operaterId, Integer pageNum, Integer pageSize) {
 		try {
-			Account a=accountService.queryAccountById(operaterId);
-			RetMessage message=checkAccount.apply(a, OperateType.queryMerchantInfo);
+			Account a = accountService.queryAccountById(operaterId);
+			RetMessage message = checkAccount.apply(a, OperateType.queryMerchantInfo);
 			if (notNull.test(message))
 				return message;
-			List<Shop> shops=null;
+			List<Shop> shops = null;
 			if (pageNum != null) {
 				pageSize = pageSize == null ? ConstConfig.DEFAULT_PAGE_SIZE : pageSize;
 				Page<Shop> pageObj = new Page<>(pageNum, pageSize);
-				shops= shopService.queryShops(merchantId, pageObj);
-			}else {
-				shops=shopService.queryShops(merchantId, null);
+				shops = shopService.queryShops(merchantId, pageObj);
+			} else {
+				shops = shopService.queryShops(merchantId, null);
 			}
-			if (shops!=null&&shops.size()>0) {
-				String result=JSON.toJSONString(shops);
-				return new RetMessage<String>(RetCodeEnum.success,"查询成功",result);
-			}else
-			return new RetMessage<String>(RetCodeEnum.exception,"没有查询到任何信息",null);
+			if (shops != null && shops.size() > 0) {
+				String result = JSON.toJSONString(shops);
+				return new RetMessage<String>(RetCodeEnum.success, "查询成功", result);
+			} else
+				return new RetMessage<String>(RetCodeEnum.exception, "没有查询到任何信息", null);
 		} catch (Exception e) {
-			LogFactory.error(this,"查询时发生异常",e);
-			return new RetMessage<>(RetCodeEnum.error,"查询时发生异常",null);
+			LogFactory.error(this, "查询时发生异常", e);
+			return new RetMessage<>(RetCodeEnum.error, "查询时发生异常", null);
 		}
-		
+
 	}
 
 }

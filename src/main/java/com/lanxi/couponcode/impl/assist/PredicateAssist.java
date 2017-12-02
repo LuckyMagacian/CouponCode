@@ -247,6 +247,7 @@ public interface PredicateAssist {
                 return new RetMessage(RetCodeEnum.fail,"只有系统有权创建!",null);
             case postoneCouponCode:
             case cancelCouponCode:
+            case inputMerchantInfo:
                 if(isMerchantManager.negate().test(a))
                     return new RetMessage(RetCodeEnum.fail,"非商户管理员无权操作!",null);
             case queryCouponCodeList:
@@ -278,7 +279,7 @@ public interface PredicateAssist {
             case queryMerchant:
             case queryMerchantInfo:
             case cancelMerchant:
-            case inputMerchantInfo:
+            
                 if(notAdmin.test(a))
                     return new RetMessage(RetCodeEnum.fail,"非管理员无权操作!",null);
 

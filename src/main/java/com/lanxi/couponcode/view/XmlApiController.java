@@ -222,7 +222,7 @@ public class XmlApiController {
 					statusMap.put("TotalAmt", jsonObject.getString("totalAmt"));
 					statusMap.put("SkuCode", jsonObject.getString("skuCode"));
 					statusMap.put("Status", jsonObject.getString("status"));
-					if (jsonObject.getString("count")==null||jsonObject.getString("count")=="") {
+					if (jsonObject.getString("count")==null||jsonObject.getString("count").equals("")) {
 						statusMap.put("Count", jsonObject.getString("0"));
 					}else {
 						statusMap.put("Count", jsonObject.getString("count"));

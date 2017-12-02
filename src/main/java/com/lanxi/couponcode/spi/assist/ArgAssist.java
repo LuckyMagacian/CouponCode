@@ -1,6 +1,7 @@
 package com.lanxi.couponcode.spi.assist;
 
 import com.lanxi.couponcode.spi.consts.enums.CommodityType;
+import com.lanxi.couponcode.spi.consts.enums.MerchantStatus;
 import com.lanxi.couponcode.spi.consts.enums.VerificationType;
 
 import javax.servlet.http.HttpServletRequest;
@@ -34,4 +35,5 @@ public interface ArgAssist {
     Function<String,BigDecimal> toDecimalArg=s->parseArg(s,BigDecimal.class);
     Function<String,CommodityType> toCommodityTypeArg=s->s==null?null:CommodityType.getType(s.trim());
     Function<String,VerificationType> toVerificationType=s->s==null?null:VerificationType.getType(s);
+   
 }

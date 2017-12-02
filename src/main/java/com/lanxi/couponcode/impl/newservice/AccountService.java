@@ -14,8 +14,6 @@ import java.util.List;
 public interface AccountService {
 	/*添加账户*/
 	public Boolean addAccount(Account account);
-	/*商户添加账户*/
-	public Boolean merchantAccount(Account account);
 	/*冻结账户*/
 	public Boolean freezeAccount(Account account);
 	/*开启账户*/
@@ -25,13 +23,9 @@ public interface AccountService {
 	/*账户查询*/
 	public List<Account> queryAccounts(EntityWrapper<Account> wrapper,
 			Page<Account> pageObj);
-	public List<Account> merchantQueryAccounts(EntityWrapper<Account> wrapper,
-			Page<Account> pageObj);
-	public List<Account> queryShopAccounts(EntityWrapper<Account> wrapper,
-			Page<Account> pageObj);
 	/*账户详情查询*/
 	public Account queryAccountInfo(Account account);
-	/*手机号码验证*/
+	/*手机号码验证true可使用 false不可使用*/
 	public Boolean phoneVerify(String phone);
 	/*修改账户仅在用户登录时用来修改登录失败次数和登录失败时间*/
 	public Boolean modifyAccount(Account account);

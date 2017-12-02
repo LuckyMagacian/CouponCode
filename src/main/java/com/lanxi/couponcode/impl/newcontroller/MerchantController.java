@@ -54,6 +54,8 @@ public class MerchantController implements com.lanxi.couponcode.spi.service.Merc
 		try {
 			Account a = accountService.queryAccountById(operaterId);
 			RetMessage message = checkAccount.apply(a, OperateType.createMerchant);
+			if (notNull.test(message)) 
+				return message;
 			Merchant merchant = new Merchant();
 			merchant.setMerchantName(merchantName);
 			merchant.setWorkAddress(workAddress);
@@ -383,11 +385,11 @@ public class MerchantController implements com.lanxi.couponcode.spi.service.Merc
 		// TODO 权限校验
 		try {
 			Account a = accountService.queryAccountById(operaterId);
-			RetMessage message = checkAccount.apply(a, OperateType.modifyMerchant);
+			RetMessage message = checkAccount.apply(a, OperateType.inputMerchantInfo);
 			if (notNull.test(message))
 				return message;
 			Merchant m = merchantService.queryMerchantParticularsById(merchantId);
-			message = checkMerchant.apply(m, OperateType.modifyMerchant);
+			message = checkMerchant.apply(m, OperateType.inputMerchantInfo);
 			if (notNull.test(message))
 				return message;
 			Merchant merchant = new Merchant();
@@ -567,11 +569,11 @@ public class MerchantController implements com.lanxi.couponcode.spi.service.Merc
 		Merchant merchant = null;
 		try {
 			Account a = accountService.queryAccountById(operaterId);
-			RetMessage message = checkAccount.apply(a, OperateType.modifyMerchant);
+			RetMessage message = checkAccount.apply(a, OperateType.inputMerchantInfo);
 			if (notNull.test(message))
 				return message;
 			Merchant m = merchantService.queryMerchantParticularsById(merchantId);
-			message = checkMerchant.apply(m, OperateType.modifyMerchant);
+			message = checkMerchant.apply(m, OperateType.inputMerchantInfo);
 			if (notNull.test(message))
 				return message;
 
@@ -588,7 +590,7 @@ public class MerchantController implements com.lanxi.couponcode.spi.service.Merc
 				record.setPhone(a.getPhone());
 				record.setName(a.getUserName());
 				record.setTargetType(OperateTargetType.merchant);
-				record.setType(OperateType.modifyMerchant);
+				record.setType(OperateType.inputMerchantInfo);
 				record.setOperateTime(TimeAssist.getNow());
 				record.setOperateResult("success");
 				record.setDescription("修改商户组织机构代码证[" + merchantId + "]");
@@ -610,11 +612,11 @@ public class MerchantController implements com.lanxi.couponcode.spi.service.Merc
 		Merchant merchant = null;
 		try {
 			Account a = accountService.queryAccountById(operaterId);
-			RetMessage message = checkAccount.apply(a, OperateType.modifyMerchant);
+			RetMessage message = checkAccount.apply(a, OperateType.inputMerchantInfo);
 			if (notNull.test(message))
 				return message;
 			Merchant m = merchantService.queryMerchantParticularsById(merchantId);
-			message = checkMerchant.apply(m, OperateType.modifyMerchant);
+			message = checkMerchant.apply(m, OperateType.inputMerchantInfo);
 			if (notNull.test(message))
 				return message;
 
@@ -630,7 +632,7 @@ public class MerchantController implements com.lanxi.couponcode.spi.service.Merc
 				record.setPhone(a.getPhone());
 				record.setName(a.getUserName());
 				record.setTargetType(OperateTargetType.merchant);
-				record.setType(OperateType.modifyMerchant);
+				record.setType(OperateType.inputMerchantInfo);
 				record.setOperateTime(TimeAssist.getNow());
 				record.setOperateResult("success");
 				record.setDescription("修改商户营业执照[" + merchantId + "]");
@@ -651,11 +653,11 @@ public class MerchantController implements com.lanxi.couponcode.spi.service.Merc
 		Merchant merchant = null;
 		try {
 			Account a = accountService.queryAccountById(operaterId);
-			RetMessage message = checkAccount.apply(a, OperateType.modifyMerchant);
+			RetMessage message = checkAccount.apply(a, OperateType.inputMerchantInfo);
 			if (notNull.test(message))
 				return message;
 			Merchant m = merchantService.queryMerchantParticularsById(merchantId);
-			message = checkMerchant.apply(m, OperateType.modifyMerchant);
+			message = checkMerchant.apply(m, OperateType.inputMerchantInfo);
 			if (notNull.test(message))
 				return message;
 			merchant = new Merchant();
@@ -670,7 +672,7 @@ public class MerchantController implements com.lanxi.couponcode.spi.service.Merc
 				record.setPhone(a.getPhone());
 				record.setName(a.getUserName());
 				record.setTargetType(OperateTargetType.merchant);
-				record.setType(OperateType.modifyMerchant);
+				record.setType(OperateType.inputMerchantInfo);
 				record.setOperateTime(TimeAssist.getNow());
 				record.setOperateResult("success");
 				record.setDescription("修改其他证明资料[" + merchantId + "]");
