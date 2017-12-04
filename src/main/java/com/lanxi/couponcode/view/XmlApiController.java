@@ -1,7 +1,6 @@
 package com.lanxi.couponcode.view;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -12,11 +11,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.lanxi.couponcode.spi.config.ProjectParam;
 import com.lanxi.couponcode.spi.util.MsgOrderInfoHeadBean;
 import com.lanxi.couponcode.spi.util.MsgRechargeBean;
-import com.lanxi.couponcode.impl.entity.Order;
 import com.lanxi.couponcode.spi.util.HttpUtil;
 import com.lanxi.couponcode.spi.util.RegularUtil;
 import com.lanxi.couponcode.spi.util.ValidateUtil;
@@ -31,6 +30,7 @@ import com.lanxi.util.entity.LogFactory;
  * @author wuxiaobo
  */
 @Controller
+@RequestMapping("xmlApi")
 public class XmlApiController {
     @Resource(name = "orderControllerService")
     private OrderService orderService;
@@ -100,33 +100,33 @@ public class XmlApiController {
                     "POST", msgRechargeBean.getMsgID(), msgRechargeBean.getNeedSend(), msgRechargeBean.getWorkDate(), msgRechargeBean.getWorkTime(),
                     msgRechargeBean.getCHKDate());
             if (null!=retMessage.getDetail() ) {
-                Order order = JSON.parseObject((String) retMessage.getDetail(), Order.class);
-                if (order.getCount().equals( order.getSuccessNum())) {
+                JSONObject jsonObject = JSON.parseObject((String) retMessage.getDetail());
+                if (jsonObject.getString("count").equals( jsonObject.getString("successNum"))) {
                     Map<String, String> statusMap = new HashMap<String, String>();
                     statusMap.put("ResCode", ProjectParam.RESCODE_SUCC);
                     statusMap.put("ResMsg", "交易成功");
-                    statusMap.put("TotalAmt", order.getTotalAmt().toString());
-                    if (order.getCode().lastIndexOf("|") < 0) {
-                        statusMap.put("Code1", order.getCode());
+                    statusMap.put("TotalAmt", jsonObject.getString("totalAmt"));
+                    if (jsonObject.getString("code").lastIndexOf("|") < 0) {
+                        statusMap.put("Code1", jsonObject.getString("code"));
                     } else {
-                        statusMap = XmlUtil.split(order.getCode().substring(0, order.getCode().lastIndexOf("|")), 1, statusMap, "Code");
+                        statusMap = XmlUtil.split(jsonObject.getString("code").substring(0, jsonObject.getString("code").lastIndexOf("|")), 1, statusMap, "Code");
                     }
-                    statusMap.put("Amt", order.getAmt().toString());
-                    statusMap.put("EndTime", order.getEndTime());
+                    statusMap.put("Amt", jsonObject.getString("amt"));
+                    statusMap.put("EndTime", jsonObject.getString("endTime"));
                     return XmlUtil.getPrepaidRechargeRespXmlStr(msgRechargeBean, statusMap);
 
-                } else if (order.getSuccessNum() < order.getCount()) {
+                } else if (Integer.valueOf(jsonObject.getString("successNum")) < Integer.valueOf(jsonObject.getString("count"))) {
                     Map<String, String> statusMap = new HashMap<String, String>();
                     statusMap.put("ResCode", ProjectParam.RESCODE_ERR);
-                    statusMap.put("ResMsg", "交易部分成功-成功笔数:" + order.getSuccessNum());
-                    statusMap.put("TotalAmt", order.getTotalAmt().toString());
-                    if (order.getCode().lastIndexOf("|") < 0) {
-                        statusMap.put("Code1", order.getCode());
+                    statusMap.put("ResMsg", "交易部分成功-成功笔数:" + jsonObject.getString("successNum"));
+                    statusMap.put("TotalAmt", jsonObject.getString("totalAmt"));
+                    if (jsonObject.getString("code").lastIndexOf("|") < 0) {
+                        statusMap.put("Code1",jsonObject.getString("code"));
                     } else {
-                        statusMap = XmlUtil.split(order.getCode().substring(0, order.getCode().lastIndexOf("|")), 1, statusMap, "Code");
+                        statusMap = XmlUtil.split(jsonObject.getString("code").substring(0, jsonObject.getString("code").lastIndexOf("|")), 1, statusMap, "Code");
                     }
-                    statusMap.put("Amt", order.getAmt().toString());
-                    statusMap.put("EndTime", order.getEndTime());
+                    statusMap.put("Amt", jsonObject.getString("amt"));
+                    statusMap.put("EndTime", jsonObject.getString("endTime"));
                     return XmlUtil.getPrepaidRechargeRespXmlStr(msgRechargeBean, statusMap);
                 } else {
                     Map<String, String> statusMap = new HashMap<String, String>();
@@ -316,17 +316,17 @@ public class XmlApiController {
                     return XmlUtil.getMsgOrderResXml(msgOrderInfoHeadBean, statusMap);
                 }
             } else {
-                List<Order> list = JSON.parseArray((String) retMessage.getDetail(), Order.class);
-                if (list.size() > 0) {
+              JSONArray jsonArray=JSON.parseArray((String) retMessage.getDetail());
+                if (jsonArray.size() > 0) {
                     Map<String, String> statusMap = new HashMap<String, String>();
                     statusMap.put("ResCode", ProjectParam.RESCODE_SUCC);
                     statusMap.put("ResMsg", "查询成功");
-                    statusMap.put("Count", String.valueOf(list.size()));
-                    for (int i = 0; i < list.size(); i++) {
-                        statusMap.put("OrgWorkDate" + i + 1, list.get(i).getWorkDate());
-                        statusMap.put("OrgMsgID" + i + 1, list.get(i).getMsgID());
-                        statusMap.put("Type" + i + 1, list.get(i).getTypeEnum().getValue());
-                        statusMap.put("SkuCode" + i + 1, String.valueOf(list.get(i).getSkuCode()));
+                    statusMap.put("Count", String.valueOf(jsonArray.size()));
+                    for (int i = 0; i < jsonArray.size(); i++) {
+                        statusMap.put("OrgWorkDate" + i + 1, jsonArray.getJSONObject(i).getString("orgWorkDate"));
+                        statusMap.put("OrgMsgID" + i + 1,  jsonArray.getJSONObject(i).getString("orgMsgID"));
+                        statusMap.put("Type" + i + 1,jsonArray.getJSONObject(i).getString("type"));
+                        statusMap.put("SkuCode" + i + 1,jsonArray.getJSONObject(i).getString("skuCode"));
                     }
                     return XmlUtil.getMsgOrderResXml(msgOrderInfoHeadBean, statusMap);
                 } else {
@@ -347,3 +347,4 @@ public class XmlApiController {
 
     }
 }
+

@@ -14,6 +14,7 @@ import com.lanxi.couponcode.spi.consts.annotations.SetUtf8;
 import com.lanxi.couponcode.spi.service.LoginService;
 
 @Controller ("loginView")
+@RequestMapping("loginCon")
 public class LoginController {
     @Resource (name = "loginControllerService")
     private LoginService loginService;
