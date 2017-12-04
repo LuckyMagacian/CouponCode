@@ -24,24 +24,21 @@ import static com.lanxi.couponcode.spi.assist.ArgAssist.*;
 @Controller
 @RequestMapping ("admin")
 public class AdminController {
-    @Resource
+    @Resource(name="accountControllerService")
     private AccountService accountService;
-    @Resource
+    @Resource(name="codeControllerService")
     private CouponService codeService;
-    @Resource
+    @Resource(name = "clearControllerService")
     private ClearService clearService;
-    @Resource
+    @Resource(name = "operateRecordControllerService")
     private OperateRecordService operateRecordService;
-    @Resource
+    @Resource(name = "requestControllerService")
     private RequestService requestService;
-
-    @Resource
+    @Resource(name = "verificationRecordControllerService")
     private VerificationRecordService verificationRecordService;
-//    private BiFunction<HttpServletRequest,String,String> getArg=(r,n)->r.getParameter(n);
-
-    @Resource
+    @Resource(name = "merchantControllerService")
     private MerchantService merchantService;
-    @Resource
+    @Resource(name = "shopControllerService")
     private ShopService shopService;
 
 

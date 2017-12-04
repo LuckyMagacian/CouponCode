@@ -29,7 +29,7 @@ import org.springframework.stereotype.Controller;
  * @author wuxiaobo
  *
  */
-@Controller
+@Controller("loginControllerService")
 public class LoginController implements com.lanxi.couponcode.spi.service.LoginService {
 	@Resource
 	private AccountService accountService;

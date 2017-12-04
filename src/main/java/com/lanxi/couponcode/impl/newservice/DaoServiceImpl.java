@@ -4,6 +4,7 @@ import com.lanxi.couponcode.impl.dao.*;
 import com.lanxi.couponcode.spi.consts.annotations.EasyLog;
 import com.lanxi.util.utils.LoggerUtil;
 import org.springframework.stereotype.Service;
+
 import javax.annotation.Resource;
 /**
  * dao接口实现类
@@ -21,8 +22,6 @@ public class DaoServiceImpl implements DaoService {
     private CommodityDao commodityDao;
     @Resource
     private CouponCodeDao couponCodeDao;
-    private EnterpriseDao enterpriseDao;
-    private MerchantClearDao merchantClearDao;
     @Resource
     private MerchantDao merchantDao;
     @Resource
@@ -33,7 +32,6 @@ public class DaoServiceImpl implements DaoService {
     private RequestDao requestDao;
     @Resource
     private ShopDao shopDao;
-    private StatisticDao statisticDao;
     @Resource
     private VerificationRecordDao verificationRecordDao;
     @Resource
@@ -61,14 +59,6 @@ public class DaoServiceImpl implements DaoService {
         return couponCodeDao;
     }
 
-    public EnterpriseDao getEnterpriseDao() {
-        return enterpriseDao;
-    }
-
-    public MerchantClearDao getMerchantClearDao() {
-        return merchantClearDao;
-    }
-
     public MerchantDao getMerchantDao() {
         return merchantDao;
     }
@@ -87,10 +77,6 @@ public class DaoServiceImpl implements DaoService {
 
     public ShopDao getShopDao() {
         return shopDao;
-    }
-
-    public StatisticDao getStatisticDao() {
-        return statisticDao;
     }
 
     public VerificationRecordDao getVerificationRecordDao() {
@@ -127,14 +113,6 @@ public class DaoServiceImpl implements DaoService {
         this.couponCodeDao = couponCodeDao;
     }
 
-    public void setEnterpriseDao(EnterpriseDao enterpriseDao) {
-        this.enterpriseDao = enterpriseDao;
-    }
-
-    public void setMerchantClearDao(MerchantClearDao merchantClearDao) {
-        this.merchantClearDao = merchantClearDao;
-    }
-
     public void setMerchantDao(MerchantDao merchantDao) {
         this.merchantDao = merchantDao;
     }
@@ -153,10 +131,6 @@ public class DaoServiceImpl implements DaoService {
 
     public void setShopDao(ShopDao shopDao) {
         this.shopDao = shopDao;
-    }
-
-    public void setStatisticDao(StatisticDao statisticDao) {
-        this.statisticDao = statisticDao;
     }
 
     public void setVerificationRecordDao(VerificationRecordDao verificationRecordDao) {

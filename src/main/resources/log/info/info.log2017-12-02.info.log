@@ -1,0 +1,69 @@
+2017-12-02 17:16:10,223 INFO [com.lanxi.util.utils.LoggerUtil] - <log4j初始化完成!>
+2017-12-02 17:16:10,373 INFO [org.springframework.context.support.ClassPathXmlApplicationContext] - <Refreshing org.springframework.context.support.ClassPathXmlApplicationContext@22f71333: startup date [Sat Dec 02 17:16:10 CST 2017]; root of context hierarchy>
+2017-12-02 17:16:10,501 INFO [org.springframework.beans.factory.xml.XmlBeanDefinitionReader] - <Loading XML bean definitions from class path resource [xml/spring- mvc.xml]>
+2017-12-02 17:17:09,402 INFO [com.lanxi.util.utils.LoggerUtil] - <log4j初始化完成!>
+2017-12-02 17:17:09,515 INFO [org.springframework.context.support.ClassPathXmlApplicationContext] - <Refreshing org.springframework.context.support.ClassPathXmlApplicationContext@22f71333: startup date [Sat Dec 02 17:17:09 CST 2017]; root of context hierarchy>
+2017-12-02 17:17:09,584 INFO [org.springframework.beans.factory.xml.XmlBeanDefinitionReader] - <Loading XML bean definitions from class path resource [xml/spring-mvc.xml]>
+2017-12-02 17:17:11,351 INFO [org.springframework.beans.factory.xml.XmlBeanDefinitionReader] - <Loading XML bean definitions from class path resource [xml/mybatis.xml]>
+2017-12-02 17:17:11,769 INFO [org.springframework.beans.factory.xml.XmlBeanDefinitionReader] - <Loading XML bean definitions from class path resource [xml/dubbo.xml]>
+2017-12-02 17:17:11,920 INFO [com.alibaba.dubbo.common.logger.LoggerFactory] - <using logger: com.alibaba.dubbo.common.logger.log4j.Log4jLoggerAdapter>
+2017-12-02 17:17:11,974 INFO [org.springframework.beans.factory.xml.XmlBeanDefinitionReader] - <Loading XML bean definitions from class path resource [xml/quartz.xml]>
+2017-12-02 17:23:13,454 INFO [com.lanxi.util.utils.LoggerUtil] - <log4j初始化完成!>
+2017-12-02 17:23:13,617 INFO [org.springframework.context.support.ClassPathXmlApplicationContext] - <Refreshing org.springframework.context.support.ClassPathXmlApplicationContext@22f71333: startup date [Sat Dec 02 17:23:13 CST 2017]; root of context hierarchy>
+2017-12-02 17:23:13,701 INFO [org.springframework.beans.factory.xml.XmlBeanDefinitionReader] - <Loading XML bean definitions from class path resource [xml/spring-mvc.xml]>
+2017-12-02 17:23:15,571 INFO [org.springframework.beans.factory.xml.XmlBeanDefinitionReader] - <Loading XML bean definitions from class path resource [xml/mybatis.xml]>
+2017-12-02 17:23:15,930 INFO [org.springframework.beans.factory.xml.XmlBeanDefinitionReader] - <Loading XML bean definitions from class path resource [xml/dubbo.xml]>
+2017-12-02 17:23:16,036 INFO [com.alibaba.dubbo.common.logger.LoggerFactory] - <using logger: com.alibaba.dubbo.common.logger.log4j.Log4jLoggerAdapter>
+2017-12-02 17:23:16,078 INFO [org.springframework.beans.factory.xml.XmlBeanDefinitionReader] - <Loading XML bean definitions from class path resource [xml/quartz.xml]>
+2017-12-02 17:23:41,562 INFO [com.lanxi.util.utils.LoggerUtil] - <log4j初始化完成!>
+2017-12-02 17:23:41,695 INFO [org.springframework.context.support.ClassPathXmlApplicationContext] - <Refreshing org.springframework.context.support.ClassPathXmlApplicationContext@22f71333: startup date [Sat Dec 02 17:23:41 CST 2017]; root of context hierarchy>
+2017-12-02 17:23:41,781 INFO [org.springframework.beans.factory.xml.XmlBeanDefinitionReader] - <Loading XML bean definitions from class path resource [xml/spring-mvc.xml]>
+2017-12-02 17:23:43,481 INFO [org.springframework.beans.factory.xml.XmlBeanDefinitionReader] - <Loading XML bean definitions from class path resource [xml/mybatis.xml]>
+2017-12-02 17:23:43,866 INFO [org.springframework.beans.factory.xml.XmlBeanDefinitionReader] - <Loading XML bean definitions from class path resource [xml/dubbo.xml]>
+2017-12-02 17:23:43,978 INFO [com.alibaba.dubbo.common.logger.LoggerFactory] - <using logger: com.alibaba.dubbo.common.logger.log4j.Log4jLoggerAdapter>
+2017-12-02 17:23:44,021 INFO [org.springframework.beans.factory.xml.XmlBeanDefinitionReader] - <Loading XML bean definitions from class path resource [xml/quartz.xml]>
+2017-12-02 17:23:45,756 INFO [com.alibaba.dubbo.config.AbstractConfig] - < [DUBBO] Run shutdown hook now., dubbo version: 2.5.3, current host: 127.0.0.1>
+2017-12-02 17:23:45,760 INFO [com.alibaba.dubbo.registry.support.AbstractRegistryFactory] - < [DUBBO] Close all registries [], dubbo version: 2.5.3, current host: 127.0.0.1>
+2017-12-02 17:28:10,156 INFO [com.lanxi.util.utils.LoggerUtil] - <log4j初始化完成!>
+2017-12-02 17:28:10,268 INFO [org.springframework.context.support.ClassPathXmlApplicationContext] - <Refreshing org.springframework.context.support.ClassPathXmlApplicationContext@22f71333: startup date [Sat Dec 02 17:28:10 CST 2017]; root of context hierarchy>
+2017-12-02 17:28:10,342 INFO [org.springframework.beans.factory.xml.XmlBeanDefinitionReader] - <Loading XML bean definitions from class path resource [xml/spring-mvc.xml]>
+2017-12-02 17:28:11,745 INFO [org.springframework.beans.factory.xml.XmlBeanDefinitionReader] - <Loading XML bean definitions from class path resource [xml/mybatis.xml]>
+2017-12-02 17:28:12,666 INFO [org.springframework.beans.factory.xml.XmlBeanDefinitionReader] - <Loading XML bean definitions from class path resource [xml/dubbo.xml]>
+2017-12-02 17:28:12,863 INFO [com.alibaba.dubbo.common.logger.LoggerFactory] - <using logger: com.alibaba.dubbo.common.logger.log4j.Log4jLoggerAdapter>
+2017-12-02 17:28:12,911 INFO [org.springframework.beans.factory.xml.XmlBeanDefinitionReader] - <Loading XML bean definitions from class path resource [xml/quartz.xml]>
+2017-12-02 17:39:23,474 INFO [com.lanxi.util.utils.LoggerUtil] - <log4j初始化完成!>
+2017-12-02 17:39:23,615 INFO [org.springframework.context.support.ClassPathXmlApplicationContext] - <Refreshing org.springframework.context.support.ClassPathXmlApplicationContext@22f71333: startup date [Sat Dec 02 17:39:23 CST 2017]; root of context hierarchy>
+2017-12-02 17:39:23,660 INFO [org.springframework.beans.factory.xml.XmlBeanDefinitionReader] - <Loading XML bean definitions from class path resource [xml/spring-mvc.xml]>
+2017-12-02 17:39:25,438 INFO [org.springframework.beans.factory.xml.XmlBeanDefinitionReader] - <Loading XML bean definitions from class path resource [xml/mybatis.xml]>
+2017-12-02 17:39:25,800 INFO [org.springframework.beans.factory.xml.XmlBeanDefinitionReader] - <Loading XML bean definitions from class path resource [xml/dubbo.xml]>
+2017-12-02 17:39:25,916 INFO [com.alibaba.dubbo.common.logger.LoggerFactory] - <using logger: com.alibaba.dubbo.common.logger.log4j.Log4jLoggerAdapter>
+2017-12-02 17:39:25,957 INFO [org.springframework.beans.factory.xml.XmlBeanDefinitionReader] - <Loading XML bean definitions from class path resource [xml/quartz.xml]>
+2017-12-02 17:39:27,775 INFO [com.alibaba.dubbo.config.AbstractConfig] - < [DUBBO] Run shutdown hook now., dubbo version: 2.5.3, current host: 127.0.0.1>
+2017-12-02 17:39:27,778 INFO [com.alibaba.dubbo.registry.support.AbstractRegistryFactory] - < [DUBBO] Close all registries [], dubbo version: 2.5.3, current host: 127.0.0.1>
+2017-12-02 17:42:49,709 INFO [com.lanxi.util.utils.LoggerUtil] - <log4j初始化完成!>
+2017-12-02 17:42:49,931 INFO [org.springframework.context.support.ClassPathXmlApplicationContext] - <Refreshing org.springframework.context.support.ClassPathXmlApplicationContext@22f71333: startup date [Sat Dec 02 17:42:49 CST 2017]; root of context hierarchy>
+2017-12-02 17:42:50,000 INFO [org.springframework.beans.factory.xml.XmlBeanDefinitionReader] - <Loading XML bean definitions from class path resource [xml/spring-mvc.xml]>
+2017-12-02 17:42:51,675 INFO [org.springframework.beans.factory.xml.XmlBeanDefinitionReader] - <Loading XML bean definitions from class path resource [xml/mybatis.xml]>
+2017-12-02 17:42:51,990 INFO [org.springframework.beans.factory.xml.XmlBeanDefinitionReader] - <Loading XML bean definitions from class path resource [xml/dubbo.xml]>
+2017-12-02 17:42:52,142 INFO [com.alibaba.dubbo.common.logger.LoggerFactory] - <using logger: com.alibaba.dubbo.common.logger.log4j.Log4jLoggerAdapter>
+2017-12-02 17:42:52,195 INFO [org.springframework.beans.factory.xml.XmlBeanDefinitionReader] - <Loading XML bean definitions from class path resource [xml/quartz.xml]>
+2017-12-02 17:42:54,185 INFO [com.alibaba.dubbo.config.AbstractConfig] - < [DUBBO] Run shutdown hook now., dubbo version: 2.5.3, current host: 127.0.0.1>
+2017-12-02 17:42:54,189 INFO [com.alibaba.dubbo.registry.support.AbstractRegistryFactory] - < [DUBBO] Close all registries [], dubbo version: 2.5.3, current host: 127.0.0.1>
+2017-12-02 17:47:00,309 INFO [com.lanxi.util.utils.LoggerUtil] - <log4j初始化完成!>
+2017-12-02 17:47:00,429 INFO [org.springframework.context.support.ClassPathXmlApplicationContext] - <Refreshing org.springframework.context.support.ClassPathXmlApplicationContext@22f71333: startup date [Sat Dec 02 17:47:00 CST 2017]; root of context hierarchy>
+2017-12-02 17:47:00,482 INFO [org.springframework.beans.factory.xml.XmlBeanDefinitionReader] - <Loading XML bean definitions from class path resource [xml/spring-mvc.xml]>
+2017-12-02 17:47:01,926 INFO [org.springframework.beans.factory.xml.XmlBeanDefinitionReader] - <Loading XML bean definitions from class path resource [xml/mybatis.xml]>
+2017-12-02 17:47:02,283 INFO [org.springframework.beans.factory.xml.XmlBeanDefinitionReader] - <Loading XML bean definitions from class path resource [xml/dubbo.xml]>
+2017-12-02 17:47:02,388 INFO [com.alibaba.dubbo.common.logger.LoggerFactory] - <using logger: com.alibaba.dubbo.common.logger.log4j.Log4jLoggerAdapter>
+2017-12-02 17:47:02,432 INFO [org.springframework.beans.factory.xml.XmlBeanDefinitionReader] - <Loading XML bean definitions from class path resource [xml/quartz.xml]>
+2017-12-02 17:47:04,402 INFO [com.alibaba.dubbo.config.AbstractConfig] - < [DUBBO] Run shutdown hook now., dubbo version: 2.5.3, current host: 127.0.0.1>
+2017-12-02 17:47:04,409 INFO [com.alibaba.dubbo.registry.support.AbstractRegistryFactory] - < [DUBBO] Close all registries [], dubbo version: 2.5.3, current host: 127.0.0.1>
+2017-12-02 17:47:26,457 INFO [com.lanxi.util.utils.LoggerUtil] - <log4j初始化完成!>
+2017-12-02 17:47:26,590 INFO [org.springframework.context.support.ClassPathXmlApplicationContext] - <Refreshing org.springframework.context.support.ClassPathXmlApplicationContext@22f71333: startup date [Sat Dec 02 17:47:26 CST 2017]; root of context hierarchy>
+2017-12-02 17:47:26,675 INFO [org.springframework.beans.factory.xml.XmlBeanDefinitionReader] - <Loading XML bean definitions from class path resource [xml/spring-mvc.xml]>
+2017-12-02 17:47:28,197 INFO [org.springframework.beans.factory.xml.XmlBeanDefinitionReader] - <Loading XML bean definitions from class path resource [xml/mybatis.xml]>
+2017-12-02 17:47:28,598 INFO [org.springframework.beans.factory.xml.XmlBeanDefinitionReader] - <Loading XML bean definitions from class path resource [xml/dubbo.xml]>
+2017-12-02 17:47:28,701 INFO [com.alibaba.dubbo.common.logger.LoggerFactory] - <using logger: com.alibaba.dubbo.common.logger.log4j.Log4jLoggerAdapter>
+2017-12-02 17:47:28,741 INFO [org.springframework.beans.factory.xml.XmlBeanDefinitionReader] - <Loading XML bean definitions from class path resource [xml/quartz.xml]>
+2017-12-02 17:47:30,396 INFO [com.alibaba.dubbo.config.AbstractConfig] - < [DUBBO] Run shutdown hook now., dubbo version: 2.5.3, current host: 127.0.0.1>
+2017-12-02 17:47:30,399 INFO [com.alibaba.dubbo.registry.support.AbstractRegistryFactory] - < [DUBBO] Close all registries [], dubbo version: 2.5.3, current host: 127.0.0.1>

@@ -1,26 +1,18 @@
 package com.lanxi.couponcode.view;
 
-import static com.lanxi.couponcode.spi.assist.ArgAssist.getArg;
-import static com.lanxi.couponcode.spi.assist.ArgAssist.parseArg;
-
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.InputStream;
-import java.io.OutputStream;
-import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import com.lanxi.couponcode.spi.consts.annotations.SetUtf8;
+import com.lanxi.couponcode.spi.consts.enums.AccountType;
+import com.lanxi.couponcode.spi.service.AccountService;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-import com.lanxi.couponcode.spi.consts.annotations.SetUtf8;
-import com.lanxi.couponcode.spi.consts.enums.AccountStatus;
-import com.lanxi.couponcode.spi.consts.enums.AccountType;
-import com.lanxi.couponcode.spi.consts.enums.ShopStatus;
-import com.lanxi.couponcode.spi.service.AccountService;
-import com.lanxi.couponcode.spi.service.ShopService;
-import com.lanxi.util.entity.LogFactory;
+
+import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import static com.lanxi.couponcode.spi.assist.ArgAssist.getArg;
+import static com.lanxi.couponcode.spi.assist.ArgAssist.parseArg;
 
 /**
  * 门店管理端 Created by yangyuanjian on 2017/11/20.
@@ -28,9 +20,7 @@ import com.lanxi.util.entity.LogFactory;
 @Controller("shopView")
 @RequestMapping("shop")
 public class ShopController {
-	@Resource
-	private ShopService shopService;
-	@Resource
+	@Resource(name="accountControllerService")
 	private AccountService accountService;
 
 	/* 门店管理员添加账户 */

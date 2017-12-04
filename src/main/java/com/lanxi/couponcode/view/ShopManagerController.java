@@ -27,9 +27,9 @@ import static com.lanxi.couponcode.spi.assist.ArgAssist.toVerificationType;
 @Controller
 @RequestMapping("shopManager")
 public class ShopManagerController {
-    @Resource
+    @Resource(name="codeControllerService")
     private CouponService codeService;
-    @Resource
+    @Resource(name = "operateRecordControllerService")
     private OperateRecordService operateRecordService;
 
     @SetUtf8

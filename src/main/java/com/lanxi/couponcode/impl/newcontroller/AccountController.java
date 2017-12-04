@@ -38,7 +38,7 @@ import java.util.List;
 /**
  * @author wuxiaobo
  */
-@Controller
+@Controller("accountControllerService")
 public class AccountController implements com.lanxi.couponcode.spi.service.AccountService {
     @Resource
     private MerchantService merchantService;

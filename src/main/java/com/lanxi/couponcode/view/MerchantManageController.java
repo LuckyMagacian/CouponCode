@@ -29,22 +29,22 @@ import static com.lanxi.couponcode.spi.assist.ArgAssist.*;
 @Controller
 @RequestMapping("merchantManager")
 public class MerchantManageController {
-	@Resource
-	private MerchantService merchantService;
-	@Resource
-	private CouponService codeService;
-	@Resource
-	private ClearService clearService;
-	@Resource
-	private ShopService shopService;
-	@Resource
-	private OperateRecordService operateRecordService;
-	@Resource
-	private RequestService requestService;
-	@Resource
-	private VerificationRecordService verificationRecordService;
-	@Resource
-	private AccountService accountService;
+    @Resource(name="accountControllerService")
+    private AccountService accountService;
+    @Resource(name="codeControllerService")
+    private CouponService codeService;
+    @Resource(name = "clearControllerService")
+    private ClearService clearService;
+    @Resource(name = "operateRecordControllerService")
+    private OperateRecordService operateRecordService;
+    @Resource(name = "requestControllerService")
+    private RequestService requestService;
+    @Resource(name = "verificationRecordControllerService")
+    private VerificationRecordService verificationRecordService;
+    @Resource(name = "merchantControllerService")
+    private MerchantService merchantService;
+    @Resource(name = "shopControllerService")
+    private ShopService shopService;
 
 	/* 完善商户详细信息 */
 	@SetUtf8

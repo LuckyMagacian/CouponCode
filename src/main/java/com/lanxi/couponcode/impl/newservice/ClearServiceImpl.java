@@ -6,6 +6,7 @@ import com.lanxi.couponcode.impl.entity.ClearDailyRecord;
 import com.lanxi.couponcode.impl.entity.ClearRecord;
 import com.lanxi.couponcode.impl.entity.CouponCode;
 import com.lanxi.couponcode.spi.consts.enums.ClearStatus;
+import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.Arrays;
@@ -14,6 +15,7 @@ import java.util.List;
 /**
  * Created by yangyuanjian on 2017/11/22.
  */
+@Service("clearService")
 public class ClearServiceImpl implements ClearService{
 
     @Resource

@@ -23,7 +23,7 @@ import static com.lanxi.couponcode.spi.assist.ArgAssist.toVerificationType;
 @RequestMapping("employee")
 public class EmployeeController {
 
-    @Resource
+    @Resource(name="codeControllerService")
     private CouponService codeService;
 
     @SetUtf8

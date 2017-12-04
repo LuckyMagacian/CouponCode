@@ -35,7 +35,7 @@ import static com.lanxi.couponcode.impl.assist.PredicateAssist.*;
  *
  */
 @EasyLog(LoggerUtil.LogLevel.INFO)
-@Controller
+@Controller("orderControllerService")
 public class OrderController implements com.lanxi.couponcode.spi.service.OrderService {
 	@Resource
 	private OrderService orderService;

@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.mapper.Wrapper;
 import com.baomidou.mybatisplus.plugins.Page;
 import com.lanxi.couponcode.impl.entity.Request;
 import com.lanxi.couponcode.spi.consts.enums.RequestStatus;
+import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.List;
@@ -11,6 +12,7 @@ import java.util.List;
 /**
  * Created by yangyuanjian on 2017/11/20.
  */
+@Service("cequestService")
 public class RequestServiceImpl implements RequestService {
     @Resource
     private DaoService daoService;

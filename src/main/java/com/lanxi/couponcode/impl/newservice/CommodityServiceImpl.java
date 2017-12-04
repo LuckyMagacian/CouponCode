@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.mapper.Wrapper;
 import com.baomidou.mybatisplus.plugins.Page;
 import com.lanxi.couponcode.impl.entity.Commodity;
 import com.lanxi.couponcode.spi.consts.enums.CommodityStatus;
+import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.List;
@@ -13,6 +14,7 @@ import java.util.Optional;
 /**
  * Created by yangyuanjian on 2017/11/17.
  */
+@Service("commodityService")
 public class CommodityServiceImpl implements CommodityService{
     @Resource
     private DaoService daoService;

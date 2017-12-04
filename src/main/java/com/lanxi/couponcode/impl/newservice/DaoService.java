@@ -17,10 +17,6 @@ import com.lanxi.couponcode.impl.dao.*;
 
       CouponCodeDao getCouponCodeDao();
 
-      EnterpriseDao getEnterpriseDao();
-
-      MerchantClearDao getMerchantClearDao();
-
       MerchantDao getMerchantDao();
 
       OperateRecordDao getOperateRecordDao();
@@ -30,8 +26,6 @@ import com.lanxi.couponcode.impl.dao.*;
       RequestDao getRequestDao();
 
       ShopDao getShopDao();
-
-      StatisticDao getStatisticDao();
 
       VerificationRecordDao getVerificationRecordDao();
 

@@ -28,7 +28,7 @@ import static com.lanxi.couponcode.impl.assist.PredicateAssist.*;
  * Created by yangyuanjian on 2017/11/16.
  */
 @EasyLog(LoggerUtil.LogLevel.INFO)
-@Controller
+@Controller("operateRecordControllerService")
 public class OperateRecordController implements com.lanxi.couponcode.spi.service.OperateRecordService {
     @Resource
     private OperateRecordService recordService;

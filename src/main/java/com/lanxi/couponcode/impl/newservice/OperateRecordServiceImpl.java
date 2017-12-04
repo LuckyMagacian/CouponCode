@@ -6,6 +6,7 @@ import com.lanxi.couponcode.impl.entity.OperateRecord;
 import com.lanxi.couponcode.spi.consts.annotations.EasyLog;
 import com.lanxi.util.utils.LoggerUtil;
 import com.sun.org.apache.regexp.internal.RE;
+import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.List;
@@ -14,6 +15,7 @@ import java.util.List;
  * Created by yangyuanjian on 2017/11/16.
  */
 @EasyLog(LoggerUtil.LogLevel.INFO)
+@Service("operateRecordService")
 public class OperateRecordServiceImpl implements OperateRecordService{
     @Resource
     private DaoService daoService;

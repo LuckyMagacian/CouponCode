@@ -26,7 +26,7 @@ import java.util.Map;
 /**
  * Created by yangyuanjian on 2017/11/20.
  */
-@Controller
+@Controller("requestControllerService")
 public class RequestController implements com.lanxi.couponcode.spi.service.RequestService{
     @Resource
     private RequestService requestService;

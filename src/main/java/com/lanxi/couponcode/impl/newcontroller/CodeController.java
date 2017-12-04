@@ -28,7 +28,7 @@ import static com.lanxi.couponcode.impl.assist.PredicateAssist.*;
  * Created by yangyuanjian on 2017/11/15.
  */
 @EasyLog(LoggerUtil.LogLevel.INFO)
-@Controller
+@Controller("codeControllerService")
 public class CodeController implements com.lanxi.couponcode.spi.service.CouponService{
     @Resource
     private CodeService codeService;

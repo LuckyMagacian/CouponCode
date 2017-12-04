@@ -32,7 +32,7 @@ import java.util.List;
 /**
  * Created by yangyuanjian on 2017/11/13.
  */
-@Controller
+@Controller("merchantControllerService")
 public class MerchantController implements com.lanxi.couponcode.spi.service.MerchantService {
 	@Resource
 	private AccountService accountService;

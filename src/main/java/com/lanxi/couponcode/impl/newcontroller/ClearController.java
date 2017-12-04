@@ -11,6 +11,7 @@ import com.lanxi.couponcode.impl.newservice.*;
 import com.lanxi.couponcode.spi.assist.RetMessage;
 import com.lanxi.couponcode.spi.consts.enums.*;
 import com.lanxi.util.entity.LogFactory;
+import org.springframework.stereotype.Controller;
 import redis.clients.jedis.Pipeline;
 
 import static com.lanxi.couponcode.impl.assist.CheckAssist.*;
@@ -32,6 +33,7 @@ import java.util.stream.Collectors;
 /**
  * Created by yangyuanjian on 2017/11/23.
  */
+@Controller("clearControllerService")
 public class ClearController implements com.lanxi.couponcode.spi.service.ClearService{
     @Resource
     private RedisService redisService;

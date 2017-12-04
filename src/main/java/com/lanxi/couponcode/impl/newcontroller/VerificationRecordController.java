@@ -14,6 +14,7 @@ import com.lanxi.couponcode.spi.consts.annotations.HiddenArg;
 import com.lanxi.couponcode.spi.consts.enums.OperateType;
 import com.lanxi.couponcode.spi.consts.enums.RetCodeEnum;
 import com.lanxi.couponcode.spi.consts.enums.VerificationType;
+import org.springframework.stereotype.Controller;
 
 import static com.lanxi.couponcode.impl.assist.PredicateAssist.*;
 import javax.annotation.Resource;
@@ -24,6 +25,7 @@ import java.util.Map;
 /**
  * Created by yangyuanjian on 2017/11/16.
  */
+@Controller("verificationRecordControllerService")
 public class VerificationRecordController implements com.lanxi.couponcode.spi.service.VerificationRecordService{
     @Resource
     private VerificationRecordService verificationRecordService;

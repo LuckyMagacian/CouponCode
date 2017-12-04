@@ -40,7 +40,7 @@ import java.util.List;
  * @author wuxiaobo
  *
  */
-@Controller
+@Controller("shopControllerService")
 public class ShopController implements com.lanxi.couponcode.spi.service.ShopService {
 	@Resource
 	private AccountService accountService;

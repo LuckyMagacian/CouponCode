@@ -30,8 +30,8 @@
     <bean id="tasks"   lazy-init="false" autowire="no" class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
         <property name="triggers">
             <list>
-                <ref local="codeOverTime"></ref>
-                <ref local="addClearDailyRecord"></ref>
+                <ref bean="codeOverTime"></ref>
+                <ref bean="addClearDailyRecord"></ref>
             </list>
         </property>
     </bean>
