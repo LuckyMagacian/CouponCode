@@ -17,13 +17,12 @@ import com.lanxi.couponcode.spi.consts.enums.OperateType;
 import com.lanxi.couponcode.spi.consts.enums.RetCodeEnum;
 import com.lanxi.util.utils.LoggerUtil;
 import org.springframework.stereotype.Controller;
-import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import static com.lanxi.couponcode.impl.assist.PredicateAssist.*;
+import static com.lanxi.couponcode.spi.assist.PredicateAssist.*;
 /**
  * Created by yangyuanjian on 2017/11/16.
  */

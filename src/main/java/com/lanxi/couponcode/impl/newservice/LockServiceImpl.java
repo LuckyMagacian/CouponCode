@@ -1,6 +1,6 @@
 package com.lanxi.couponcode.impl.newservice;
 
-import com.lanxi.couponcode.impl.assist.RedisKeyAssist;
+import com.lanxi.couponcode.spi.assist.RedisKeyAssist;
 import com.lanxi.couponcode.impl.entity.*;
 import org.springframework.stereotype.Service;
 import redis.clients.jedis.Pipeline;

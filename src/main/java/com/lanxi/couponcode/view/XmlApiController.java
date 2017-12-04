@@ -13,14 +13,14 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
-import com.lanxi.couponcode.impl.config.ProjectParam;
-import com.lanxi.couponcode.impl.entity.MsgOrderInfoHeadBean;
-import com.lanxi.couponcode.impl.entity.MsgRechargeBean;
+import com.lanxi.couponcode.spi.config.ProjectParam;
+import com.lanxi.couponcode.spi.util.MsgOrderInfoHeadBean;
+import com.lanxi.couponcode.spi.util.MsgRechargeBean;
 import com.lanxi.couponcode.impl.entity.Order;
-import com.lanxi.couponcode.impl.util.HttpUtil;
-import com.lanxi.couponcode.impl.util.RegularUtil;
-import com.lanxi.couponcode.impl.util.ValidateUtil;
-import com.lanxi.couponcode.impl.util.XmlUtil;
+import com.lanxi.couponcode.spi.util.HttpUtil;
+import com.lanxi.couponcode.spi.util.RegularUtil;
+import com.lanxi.couponcode.spi.util.ValidateUtil;
+import com.lanxi.couponcode.spi.util.XmlUtil;
 import com.lanxi.couponcode.spi.assist.RetMessage;
 import com.lanxi.couponcode.spi.consts.enums.CommodityType;
 import com.lanxi.couponcode.spi.consts.enums.RetCodeEnum;
@@ -325,7 +325,7 @@ public class XmlApiController {
                     for (int i = 0; i < list.size(); i++) {
                         statusMap.put("OrgWorkDate" + i + 1, list.get(i).getWorkDate());
                         statusMap.put("OrgMsgID" + i + 1, list.get(i).getMsgID());
-                        statusMap.put("Type" + i + 1, list.get(i).getType().getValue());
+                        statusMap.put("Type" + i + 1, list.get(i).getTypeEnum().getValue());
                         statusMap.put("SkuCode" + i + 1, String.valueOf(list.get(i).getSkuCode()));
                     }
                     return XmlUtil.getMsgOrderResXml(msgOrderInfoHeadBean, statusMap);

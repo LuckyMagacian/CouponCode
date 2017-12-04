@@ -2,10 +2,9 @@ package com.lanxi.couponcode.test;
 
 import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.toolkit.IdWorker;
-import com.lanxi.couponcode.impl.assist.CheckAssist;
-import com.lanxi.couponcode.impl.assist.PredicateAssist;
-import com.lanxi.couponcode.impl.assist.SerializeAssist;
-import com.lanxi.couponcode.impl.assist.TimeAssist;
+import com.lanxi.couponcode.spi.assist.CheckAssist;
+import com.lanxi.couponcode.spi.assist.PredicateAssist;
+import com.lanxi.couponcode.spi.assist.SerializeAssist;
 import com.lanxi.couponcode.impl.entity.Account;
 import com.lanxi.couponcode.impl.entity.Commodity;
 import com.lanxi.couponcode.impl.entity.Merchant;
@@ -13,7 +12,6 @@ import com.lanxi.couponcode.impl.entity.Shop;
 import com.lanxi.couponcode.spi.assist.RetMessage;
 import com.lanxi.couponcode.spi.consts.enums.RetCodeEnum;
 import com.lanxi.util.utils.SignUtil;
-import com.sun.org.apache.xpath.internal.operations.Bool;
 import org.junit.Test;
 import org.springframework.mock.web.MockHttpServletRequest;
 
@@ -132,5 +130,11 @@ public class TestOther {
         System.out.println(message.toJson());
         System.out.println(SignUtil.md5LowerCase(message.toJson(),"utf-8"));
         System.out.println(SignUtil.md5En(SerializeAssist.serialize(message.toJson())));
+    }
+
+    @Test
+    public void test10(){
+        Account account= (Account) TestSpring.fillEntity.apply(new Account());
+        System.out.println(account.insert());
     }
 }

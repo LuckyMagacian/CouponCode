@@ -14,67 +14,107 @@ import java.io.Serializable;
 /**
  * Created by yangyuanjian on 2017/11/20.
  */
-@TableName("commodity_request")
-public class Request extends AbstractRequest{
-    /**请求编号*/
-    @TableId("request_id")
+@TableName ("commodity_request")
+public class Request extends AbstractRequest {
+    /**
+     * 请求编号
+     */
+    @TableId ("request_id")
     private Long rquestId;
-    /**请求时间*/
-    @TableField("request_time")
+    /**
+     * 请求时间
+     */
+    @TableField ("request_time")
     private String requestTime;
-    /**请求者发起者编号*/
-    @TableField("requester_id")
+    /**
+     * 请求者发起者编号
+     */
+    @TableField ("requester_id")
     private Long requesterId;
-    /**请求发起者姓名*/
-    @TableField("requester_name")
+    /**
+     * 请求发起者姓名
+     */
+    @TableField ("requester_name")
     private String requesterName;
-    /**请求发起者手机号码*/
-    @TableField("requester_phone")
+    /**
+     * 请求发起者手机号码
+     */
+    @TableField ("requester_phone")
     private String requesterPhone;
-    /**请求类型*/
-    @TableField("type")
+    /**
+     * 请求类型
+     */
+    @TableField ("type")
     private RequestOperateType type;
-    /**请求参数-商品信息,仅在添加商品时使用*/
-    @TableField("commodity_info")
+    /**
+     * 请求参数-商品信息,仅在添加商品时使用
+     */
+    @TableField ("commodity_info")
     private String commodityInfo;
-    /**请求状态*/
-    @TableField("status")
+    /**
+     * 请求状态
+     */
+    @TableField ("status")
     private RequestStatus status;
-    /**审核者编号*/
-    @TableField("checker_id")
+    /**
+     * 审核者编号
+     */
+    @TableField ("checker_id")
     private Long checkerId;
-    /**审核者姓名*/
-    @TableField("checker_name")
+    /**
+     * 审核者姓名
+     */
+    @TableField ("checker_name")
     private String checkerName;
-    /**审核者手机号码*/
-    @TableField("checker_phone")
+    /**
+     * 审核者手机号码
+     */
+    @TableField ("checker_phone")
     private String checkerPhone;
-    /**审核时间*/
-    @TableField("check_time")
+    /**
+     * 审核时间
+     */
+    @TableField ("check_time")
     private String checkTime;
-    /**关联商品编号*/
-    @TableField("commodity_id")
+    /**
+     * 关联商品编号
+     */
+    @TableField ("commodity_id")
     private Long commodityId;
-    /**关联商品名称*/
-    @TableField("commodity_name")
+    /**
+     * 关联商品名称
+     */
+    @TableField ("commodity_name")
     private String commodityName;
-    /**关联商品类型*/
-    @TableField("commodity_type")
+    /**
+     * 关联商品类型
+     */
+    @TableField ("commodity_type")
     private CommodityType commodityType;
-    /**关联商户编号*/
-    @TableField("merchant_id")
+    /**
+     * 关联商户编号
+     */
+    @TableField ("merchant_id")
     private Long merchantId;
-    /**关联商户名称*/
-    @TableField("merchant_name")
+    /**
+     * 关联商户名称
+     */
+    @TableField ("merchant_name")
     private String merchantName;
-    /**请求发起时商品信息*/
-    @TableField("commodity_info_before")
+    /**
+     * 请求发起时商品信息
+     */
+    @TableField ("commodity_info_before")
     private String commodityInfoBefore;
-    /**请求处理后商品信息*/
-    @TableField("commodity_info_after")
+    /**
+     * 请求处理后商品信息
+     */
+    @TableField ("commodity_info_after")
     private String commodityInfoAfter;
-    /**原因*/
-    @TableField("reason")
+    /**
+     * 原因
+     */
+    @TableField ("reason")
     private String reason;
 
 
@@ -169,6 +209,10 @@ public class Request extends AbstractRequest{
         return type.getValue();
     }
 
+    public RequestOperateType getTypeEnum() {
+        return type;
+    }
+
     public void setType(RequestOperateType type) {
         this.type = type;
     }
@@ -179,6 +223,10 @@ public class Request extends AbstractRequest{
 
     public String getStatus() {
         return status.getValue();
+    }
+
+    public RequestStatus getStatusEnum() {
+        return status;
     }
 
     public void setStatus(RequestStatus status) {
@@ -269,7 +317,11 @@ public class Request extends AbstractRequest{
         this.commodityInfoAfter = commodityInfoAfter;
     }
 
-    public CommodityType getCommodityType() {
+    public String getCommodityType() {
+        return commodityType.getValue();
+    }
+
+    public CommodityType getCommodityTypeEnum() {
         return commodityType;
     }
 

@@ -1,7 +1,6 @@
 package com.lanxi.couponcode.spi.aop;
 
-import com.lanxi.couponcode.impl.assist.ReflectAssist;
-import com.lanxi.couponcode.spi.consts.annotations.SetUtf8;
+import com.lanxi.couponcode.spi.assist.ReflectAssist;
 import com.lanxi.util.entity.LogFactory;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
@@ -31,9 +30,14 @@ public class SetHttpSession {
                 if(each instanceof HttpServletRequest){
                     HttpServletRequest request= (HttpServletRequest) each;
                     request.setCharacterEncoding("utf-8");
+
                 }else if(each instanceof HttpServletResponse){
                     HttpServletResponse response= (HttpServletResponse) each;
                     response.setCharacterEncoding("utf-8");
+                    response.setHeader("Access-Control-Allow-Methods", "POST, PUT, GET, OPTIONS, DELETE");
+                    response.setHeader("Access-Control-Max-Age", "3600"); //设置过期时间
+                    response.setHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, client_id, uuid, Authorization");
+                    response.setHeader("Access-Control-Allow-Origin", "*");
                 }
             }
             LogFactory.info(clazz,"set  class:["+clazz.getName()+"]method:["+method.getName()+"] charset utf-8 !");

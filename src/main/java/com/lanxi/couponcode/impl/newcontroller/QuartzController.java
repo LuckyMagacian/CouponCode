@@ -3,7 +3,7 @@ package com.lanxi.couponcode.impl.newcontroller;
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.toolkit.IdWorker;
 import com.lanxi.couponcode.impl.entity.CommodityClearRecord;
-import com.lanxi.couponcode.impl.assist.TimeAssist;
+import com.lanxi.couponcode.spi.assist.TimeAssist;
 import com.lanxi.couponcode.impl.entity.ClearDailyRecord;
 import com.lanxi.couponcode.impl.entity.Commodity;
 import com.lanxi.couponcode.impl.entity.CouponCode;

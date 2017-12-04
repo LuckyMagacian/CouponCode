@@ -3,11 +3,10 @@ package com.lanxi.couponcode.impl.newservice;
 import com.lanxi.couponcode.spi.assist.RetMessage;
 import com.lanxi.couponcode.spi.consts.enums.LockResult;
 import com.lanxi.couponcode.spi.consts.enums.RetCodeEnum;
-import com.lanxi.util.utils.TimeUtil;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-import static com.lanxi.couponcode.impl.assist.TimeAssist.*;
+import static com.lanxi.couponcode.spi.assist.TimeAssist.*;
 import static com.lanxi.couponcode.spi.consts.enums.LockResult.*;
 import java.io.Serializable;
 

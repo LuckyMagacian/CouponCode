@@ -1,14 +1,11 @@
 package com.lanxi.couponcode.impl.newservice;
 
-import com.lanxi.couponcode.impl.assist.RedisKeyAssist;
-import com.lanxi.couponcode.impl.assist.ReflectAssist;
-import org.junit.Test;
+import com.lanxi.couponcode.spi.assist.RedisKeyAssist;
 import org.springframework.stereotype.Service;
-import static com.lanxi.couponcode.impl.assist.SerializeAssist.*;
+import static com.lanxi.couponcode.spi.assist.SerializeAssist.*;
 import javax.annotation.Resource;
 import java.io.Serializable;
 import java.util.List;
-import java.util.function.Supplier;
 
 /**
  * Created by yangyuanjian on 2017/11/23.

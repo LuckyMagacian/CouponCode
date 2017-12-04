@@ -13,7 +13,7 @@ import com.lanxi.couponcode.spi.consts.enums.MerchantStatus;
  * @author wuxiaobo
  *
  */
-@TableName("merchants")
+@TableName("merchant")
 public class Merchant extends AbstractMerchant{
 	public static final Merchant SYSTEM=new Merchant();
 	static {

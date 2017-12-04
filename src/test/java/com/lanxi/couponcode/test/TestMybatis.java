@@ -2,7 +2,7 @@ package com.lanxi.couponcode.test;
 
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.toolkit.IdWorker;
-import com.lanxi.couponcode.impl.aop.AddLog;
+import com.lanxi.couponcode.impl.entity.Account;
 import com.lanxi.couponcode.impl.entity.CodeAlgorithm;
 import com.lanxi.couponcode.impl.entity.CouponCode;
 import com.lanxi.couponcode.impl.newservice.DaoService;
@@ -104,6 +104,11 @@ public class TestMybatis {
     	merchant.updateById();
     	System.err.println(merchant);
     }	
-   
+
+    @Test
+	public void test6(){
+		Account account=new Account();
+
+	}
     
 }

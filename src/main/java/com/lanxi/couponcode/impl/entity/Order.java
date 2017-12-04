@@ -156,9 +156,10 @@ public class Order extends AbstractOrder{
 	public void setMerchantId(Long merchantId) {
 		this.merchantId = merchantId;
 	}
-	public CommodityType getType() {
+	public CommodityType getTypeEnum() {
 		return Type;
 	}
+	public String getType(){return Type.getValue();}
 	public void setType(CommodityType type) {
 		Type = type;
 	}
@@ -221,6 +222,8 @@ public class Order extends AbstractOrder{
 	public void setEndTime(String endTime) {
 		EndTime = endTime;
 	}
+
+	public OrderStatus getOrderStatusEnum(){return orderStatus;}
 
 	public String getOrderStatus() {
 		return orderStatus==null?null:orderStatus.getValue();

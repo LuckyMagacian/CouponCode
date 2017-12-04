@@ -8,8 +8,8 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import static com.lanxi.couponcode.spi.consts.enums.LockResult.*;
-import static com.lanxi.couponcode.impl.assist.RedisKeyAssist.getCodeKey;
-import static com.lanxi.couponcode.impl.assist.RedisKeyAssist.getVarKey;
+import static com.lanxi.couponcode.spi.assist.RedisKeyAssist.getCodeKey;
+import static com.lanxi.couponcode.spi.assist.RedisKeyAssist.getVarKey;
 
 /**
  * Created by yangyuanjian on 2017/11/15.

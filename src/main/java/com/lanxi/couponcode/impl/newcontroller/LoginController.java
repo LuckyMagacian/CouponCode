@@ -2,8 +2,8 @@ package com.lanxi.couponcode.impl.newcontroller;
 
 import com.alibaba.fastjson.JSON;
 import com.baomidou.mybatisplus.toolkit.IdWorker;
-import com.lanxi.couponcode.impl.assist.RedisKeyAssist;
-import com.lanxi.couponcode.impl.assist.TimeAssist;
+import com.lanxi.couponcode.spi.assist.RedisKeyAssist;
+import com.lanxi.couponcode.spi.assist.TimeAssist;
 import com.lanxi.couponcode.impl.entity.Account;
 import com.lanxi.couponcode.impl.entity.OperateRecord;
 import com.lanxi.couponcode.impl.newservice.AccountService;
@@ -18,7 +18,7 @@ import com.lanxi.couponcode.spi.consts.enums.OperateType;
 import com.lanxi.couponcode.spi.consts.enums.RetCodeEnum;
 import com.lanxi.util.entity.LogFactory;
 import com.lanxi.util.utils.SignUtil;
-import static com.lanxi.couponcode.impl.assist.PredicateAssist.*;
+import static com.lanxi.couponcode.spi.assist.PredicateAssist.*;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import javax.annotation.Resource;
@@ -149,7 +149,7 @@ public class LoginController implements com.lanxi.couponcode.spi.service.LoginSe
 		try {
 			String loginKey = redisService.get(RedisKeyAssist.getLoginKey(accountId));
 			if (loginKey != null) {
-				result = redisService.del(loginKey);
+				result = redisService.del(RedisKeyAssist.getLoginKey(accountId));
 			} else {
 				result = true;
 			}
