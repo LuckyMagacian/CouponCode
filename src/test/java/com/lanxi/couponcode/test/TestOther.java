@@ -3,7 +3,7 @@ package com.lanxi.couponcode.test;
 import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.toolkit.IdWorker;
 import com.lanxi.couponcode.spi.assist.CheckAssist;
-import com.lanxi.couponcode.spi.assist.PredicateAssist;
+import com.lanxi.couponcode.impl.assist.PredicateAssist;
 import com.lanxi.couponcode.spi.assist.SerializeAssist;
 import com.lanxi.couponcode.impl.entity.Account;
 import com.lanxi.couponcode.impl.entity.Commodity;

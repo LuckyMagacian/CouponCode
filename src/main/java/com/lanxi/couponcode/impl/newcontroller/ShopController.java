@@ -6,7 +6,7 @@ import com.baomidou.mybatisplus.plugins.Page;
 import com.baomidou.mybatisplus.toolkit.IdWorker;
 import com.lanxi.couponcode.spi.assist.RetMessage;
 import com.lanxi.couponcode.spi.assist.TimeAssist;
-import com.lanxi.couponcode.impl.config.ConstConfig;
+import com.lanxi.couponcode.spi.config.ConstConfig;
 import com.lanxi.couponcode.impl.entity.Account;
 import com.lanxi.couponcode.impl.entity.Merchant;
 import com.lanxi.couponcode.impl.entity.OperateRecord;
@@ -22,7 +22,7 @@ import com.lanxi.couponcode.spi.consts.enums.OperateType;
 import com.lanxi.couponcode.spi.consts.enums.RetCodeEnum;
 import com.lanxi.couponcode.spi.consts.enums.ShopStatus;
 import com.lanxi.util.entity.LogFactory;
-import static com.lanxi.couponcode.spi.assist.PredicateAssist.*;
+import static com.lanxi.couponcode.impl.assist.PredicateAssist.*;
 import javax.annotation.Resource;
 
 import org.springframework.stereotype.Controller;

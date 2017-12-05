@@ -1,6 +1,6 @@
 package com.lanxi.couponcode.spi.aop;
 
-import com.lanxi.couponcode.spi.assist.PredicateAssist;
+import com.lanxi.couponcode.impl.assist.PredicateAssist;
 import com.lanxi.couponcode.spi.assist.RetMessage;
 import com.lanxi.couponcode.spi.consts.enums.RetCodeEnum;
 import org.aspectj.lang.ProceedingJoinPoint;

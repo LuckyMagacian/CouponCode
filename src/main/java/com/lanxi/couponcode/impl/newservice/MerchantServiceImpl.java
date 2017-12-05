@@ -1,7 +1,7 @@
 package com.lanxi.couponcode.impl.newservice;
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.plugins.Page;
-import com.lanxi.couponcode.impl.config.Path;
+import com.lanxi.couponcode.spi.config.Path;
 import com.lanxi.couponcode.impl.entity.Merchant;
 import com.lanxi.couponcode.spi.util.ImageUtil;
 import com.lanxi.couponcode.spi.consts.enums.MerchantStatus;

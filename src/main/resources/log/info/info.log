@@ -1325,3 +1325,33 @@
 2017-12-04 13:44:39,436 INFO [org.quartz.core.QuartzScheduler] - <Scheduler tasks_$_NON_CLUSTERED started.>
 2017-12-04 13:44:40,058 INFO [com.alibaba.dubbo.config.AbstractConfig] - < [DUBBO] Run shutdown hook now., dubbo version: 2.5.3, current host: 127.0.0.1>
 2017-12-04 13:44:40,062 INFO [com.alibaba.dubbo.registry.support.AbstractRegistryFactory] - < [DUBBO] Close all registries [], dubbo version: 2.5.3, current host: 127.0.0.1>
+2017-12-04 19:52:55,619 INFO [com.lanxi.util.utils.LoggerUtil] - <log4j初始化完成!>
+2017-12-04 19:52:55,623 INFO [com.alibaba.dubbo.config.AbstractConfig] - < [DUBBO] Run shutdown hook now., dubbo version: 2.5.3, current host: 127.0.0.1>
+2017-12-04 19:52:55,623 INFO [org.springframework.context.support.GenericApplicationContext] - <Closing org.springframework.context.support.GenericApplicationContext@6e1567f1: startup date [Mon Dec 04 19:52:50 CST 2017]; root of context hierarchy>
+2017-12-04 19:52:55,627 INFO [org.springframework.context.support.DefaultLifecycleProcessor] - <Stopping beans in phase 2147483647>
+2017-12-04 19:52:55,629 INFO [org.quartz.core.QuartzScheduler] - <Scheduler tasks_$_NON_CLUSTERED paused.>
+2017-12-04 19:52:55,633 INFO [com.alibaba.dubbo.registry.support.AbstractRegistryFactory] - < [DUBBO] Close all registries [], dubbo version: 2.5.3, current host: 127.0.0.1>
+2017-12-04 19:52:55,638 INFO [org.springframework.scheduling.quartz.SchedulerFactoryBean] - <Shutting down Quartz Scheduler>
+2017-12-04 19:52:55,642 INFO [org.quartz.core.QuartzScheduler] - <Scheduler tasks_$_NON_CLUSTERED shutting down.>
+2017-12-04 19:52:55,642 INFO [org.quartz.core.QuartzScheduler] - <Scheduler tasks_$_NON_CLUSTERED paused.>
+2017-12-04 19:52:55,643 INFO [org.quartz.core.QuartzScheduler] - <Scheduler tasks_$_NON_CLUSTERED shutdown complete.>
+2017-12-04 19:54:46,875 INFO [com.lanxi.util.utils.LoggerUtil] - <log4j初始化完成!>
+2017-12-04 19:54:46,878 INFO [com.alibaba.dubbo.config.AbstractConfig] - < [DUBBO] Run shutdown hook now., dubbo version: 2.5.3, current host: 127.0.0.1>
+2017-12-04 19:54:46,878 INFO [org.springframework.context.support.GenericApplicationContext] - <Closing org.springframework.context.support.GenericApplicationContext@4b952a2d: startup date [Mon Dec 04 19:54:41 CST 2017]; root of context hierarchy>
+2017-12-04 19:54:46,881 INFO [org.springframework.context.support.DefaultLifecycleProcessor] - <Stopping beans in phase 2147483647>
+2017-12-04 19:54:46,883 INFO [org.quartz.core.QuartzScheduler] - <Scheduler tasks_$_NON_CLUSTERED paused.>
+2017-12-04 19:54:46,885 INFO [com.alibaba.dubbo.registry.support.AbstractRegistryFactory] - < [DUBBO] Close all registries [], dubbo version: 2.5.3, current host: 127.0.0.1>
+2017-12-04 19:54:46,891 INFO [org.springframework.scheduling.quartz.SchedulerFactoryBean] - <Shutting down Quartz Scheduler>
+2017-12-04 19:54:46,893 INFO [org.quartz.core.QuartzScheduler] - <Scheduler tasks_$_NON_CLUSTERED shutting down.>
+2017-12-04 19:54:46,893 INFO [org.quartz.core.QuartzScheduler] - <Scheduler tasks_$_NON_CLUSTERED paused.>
+2017-12-04 19:54:46,894 INFO [org.quartz.core.QuartzScheduler] - <Scheduler tasks_$_NON_CLUSTERED shutdown complete.>
+2017-12-04 19:56:04,061 INFO [com.lanxi.util.utils.LoggerUtil] - <log4j初始化完成!>
+2017-12-04 19:56:04,071 INFO [com.alibaba.dubbo.config.AbstractConfig] - < [DUBBO] Run shutdown hook now., dubbo version: 2.5.3, current host: 127.0.0.1>
+2017-12-04 19:56:04,072 INFO [org.springframework.context.support.GenericApplicationContext] - <Closing org.springframework.context.support.GenericApplicationContext@6e1567f1: startup date [Mon Dec 04 19:55:59 CST 2017]; root of context hierarchy>
+2017-12-04 19:56:04,074 INFO [org.springframework.context.support.DefaultLifecycleProcessor] - <Stopping beans in phase 2147483647>
+2017-12-04 19:56:04,075 INFO [org.quartz.core.QuartzScheduler] - <Scheduler tasks_$_NON_CLUSTERED paused.>
+2017-12-04 19:56:04,076 INFO [com.alibaba.dubbo.registry.support.AbstractRegistryFactory] - < [DUBBO] Close all registries [], dubbo version: 2.5.3, current host: 127.0.0.1>
+2017-12-04 19:56:04,079 INFO [org.springframework.scheduling.quartz.SchedulerFactoryBean] - <Shutting down Quartz Scheduler>
+2017-12-04 19:56:04,079 INFO [org.quartz.core.QuartzScheduler] - <Scheduler tasks_$_NON_CLUSTERED shutting down.>
+2017-12-04 19:56:04,080 INFO [org.quartz.core.QuartzScheduler] - <Scheduler tasks_$_NON_CLUSTERED paused.>
+2017-12-04 19:56:04,080 INFO [org.quartz.core.QuartzScheduler] - <Scheduler tasks_$_NON_CLUSTERED shutdown complete.>

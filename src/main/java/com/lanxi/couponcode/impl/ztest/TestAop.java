@@ -1,5 +1,7 @@
 package com.lanxi.couponcode.impl.ztest;
 
+import com.lanxi.couponcode.spi.consts.annotations.EasyLog;
+import com.lanxi.util.utils.LoggerUtil;
 import org.springframework.stereotype.Service;
 
 /**
@@ -14,5 +16,8 @@ public class TestAop {
     public String sayHello(String name){
         return "hello,"+name;
     }
-
+    @EasyLog (LoggerUtil.LogLevel.INFO)
+    public String say(String name){
+        return name+" !";
+    }
 }

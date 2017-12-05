@@ -14,7 +14,7 @@ import org.springframework.stereotype.Controller;
 
 import static com.lanxi.couponcode.spi.assist.CheckAssist.*;
 import static com.lanxi.couponcode.spi.assist.TimeAssist.*;
-import static com.lanxi.couponcode.spi.assist.PredicateAssist.*;
+import static com.lanxi.couponcode.impl.assist.PredicateAssist.*;
 import javax.annotation.Resource;
 import java.io.File;
 import java.math.BigDecimal;

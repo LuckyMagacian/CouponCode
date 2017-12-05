@@ -18,7 +18,7 @@ import com.lanxi.couponcode.spi.consts.enums.OperateType;
 import com.lanxi.couponcode.spi.consts.enums.RetCodeEnum;
 import com.lanxi.util.entity.LogFactory;
 import com.lanxi.util.utils.SignUtil;
-import static com.lanxi.couponcode.spi.assist.PredicateAssist.*;
+import static com.lanxi.couponcode.impl.assist.PredicateAssist.*;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import javax.annotation.Resource;

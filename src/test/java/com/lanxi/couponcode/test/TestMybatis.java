@@ -8,6 +8,8 @@ import com.lanxi.couponcode.impl.entity.CouponCode;
 import com.lanxi.couponcode.impl.newservice.DaoService;
 import com.lanxi.couponcode.impl.entity.Merchant;
 import com.lanxi.couponcode.impl.ztest.TestAop;
+import com.lanxi.couponcode.spi.aop.AddLog;
+import com.lanxi.couponcode.spi.consts.annotations.EasyLog;
 import com.lanxi.util.entity.MyClassLoader;
 import com.lanxi.util.utils.LoggerUtil;
 import com.lanxi.util.utils.LoggerUtil.LogLevel;
@@ -105,10 +107,11 @@ public class TestMybatis {
     	System.err.println(merchant);
     }	
 
+
+
     @Test
 	public void test6(){
-		Account account=new Account();
-
+		System.out.println(ac.getBean(TestAop.class).say("老司机"));
 	}
     
 }

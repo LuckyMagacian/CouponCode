@@ -22,7 +22,7 @@ import javax.annotation.Resource;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import static com.lanxi.couponcode.spi.assist.PredicateAssist.*;
+import static com.lanxi.couponcode.impl.assist.PredicateAssist.*;
 /**
  * Created by yangyuanjian on 2017/11/16.
  */

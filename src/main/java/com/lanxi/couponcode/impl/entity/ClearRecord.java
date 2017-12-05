@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.activerecord.Model;
 import com.baomidou.mybatisplus.annotations.TableField;
 import com.baomidou.mybatisplus.annotations.TableId;
 import com.baomidou.mybatisplus.annotations.TableName;
+import com.lanxi.couponcode.spi.consts.enums.ClearStatus;
 import com.lanxi.couponcode.spi.consts.enums.InvoiceStatus;
 import com.lanxi.couponcode.spi.defaultInterfaces.CommonDefaultMethodOfEntity;
 
@@ -103,6 +104,9 @@ public class ClearRecord extends Model<ClearRecord> implements CommonDefaultMeth
     /**创建时间*/
     @TableField("create_time")
     private String createTime;
+    /**结算状态*/
+    @TableField("clear_status")
+    private ClearStatus clearStatus;
 
     @Override
     public String toString() {
@@ -117,13 +121,14 @@ public class ClearRecord extends Model<ClearRecord> implements CommonDefaultMeth
                 ", factTotal=" + factTotal +
                 ", clearTime='" + clearTime + '\'' +
                 ", operaterId=" + operaterId +
-                ", operaterName=" + operaterName +
+                ", operaterName='" + operaterName + '\'' +
                 ", taxNum='" + taxNum + '\'' +
                 ", logisticsCompany='" + logisticsCompany + '\'' +
                 ", orderNum='" + orderNum + '\'' +
                 ", postTime='" + postTime + '\'' +
                 ", invoiceStatus=" + invoiceStatus +
                 ", createTime='" + createTime + '\'' +
+                ", clearStatus=" + clearStatus +
                 '}';
     }
 
@@ -275,6 +280,19 @@ public class ClearRecord extends Model<ClearRecord> implements CommonDefaultMeth
         this.invoiceStatus = InvoiceStatus.getType(invoiceStatus);
     }
 
+    public ClearStatus getClearStatusEnum() {
+        return clearStatus;
+    }
+    public String getClearStatus() {
+        return clearStatus.getValue();
+    }
+
+    public void setClearStatus(ClearStatus clearStatus) {
+        this.clearStatus = clearStatus;
+    }
+    public void setClearStatus(String clearStatus) {
+        this.clearStatus = ClearStatus.getType(clearStatus);
+    }
     @Override
     protected Serializable pkVal() {
         return this.recordId;

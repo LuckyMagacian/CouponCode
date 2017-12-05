@@ -12,7 +12,7 @@ import com.lanxi.couponcode.spi.consts.enums.*;
 import com.lanxi.util.entity.LogFactory;
 import com.lanxi.util.utils.TimeUtil;
 import org.springframework.stereotype.Controller;
-import static com.lanxi.couponcode.spi.assist.PredicateAssist.*;
+import static com.lanxi.couponcode.impl.assist.PredicateAssist.*;
 
 import javax.annotation.Resource;
 import java.math.BigDecimal;

@@ -1,4 +1,4 @@
-package com.lanxi.couponcode.impl.config;
+package com.lanxi.couponcode.spi.config;
 
 import com.lanxi.couponcode.spi.defaultInterfaces.GetFieldValue;
 /**

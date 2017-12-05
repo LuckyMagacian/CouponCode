@@ -6,7 +6,7 @@ import java.lang.reflect.Method;
 import java.util.List;
 import java.util.function.Function;
 
-import static com.lanxi.couponcode.impl.config.ConstConfig.*;
+import static com.lanxi.couponcode.spi.config.ConstConfig.*;
 /**
  * codeVar->hmap(key,merchantId,codeVar)
  * merchants->hmap(key,merchantId,Locker)

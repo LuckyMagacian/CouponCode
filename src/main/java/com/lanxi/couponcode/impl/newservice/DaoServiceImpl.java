@@ -85,12 +85,12 @@ public class DaoServiceImpl implements DaoService {
 
     @Override
     public ClearDailyRecordDao getClearDailyRecordDao() {
-        return null;
+        return clearDailyRecordDao;
     }
 
     @Override
     public ClearRecordDao getClearRecordDao() {
-        return null;
+        return clearRecordDao;
     }
 
     public void setAccountDao(AccountDao accountDao) {

@@ -1,4 +1,4 @@
-package com.lanxi.couponcode.impl.config;
+package com.lanxi.couponcode.spi.config;
 /**
  * 定义图片上传保存地址
  * @author wuxiaobo

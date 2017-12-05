@@ -64,7 +64,7 @@ public class ShopManagerController {
         Long code=parseArg(codeStr,Long.class);
 
         if(codeId==null)
-            return codeService.couponCodeInfo(code,null,operaterId).toJson();
+            return codeService.couponCodeInfo(null,code,operaterId).toJson();
         else
             return codeService.couponCodeInfo(codeId,operaterId).toJson();
     }

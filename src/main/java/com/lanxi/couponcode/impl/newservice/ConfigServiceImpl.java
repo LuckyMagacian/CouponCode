@@ -1,7 +1,7 @@
 package com.lanxi.couponcode.impl.newservice;
 
-import com.lanxi.couponcode.impl.config.ConstConfig;
-import com.lanxi.couponcode.impl.config.StaticConfig;
+import com.lanxi.couponcode.spi.config.ConstConfig;
+import com.lanxi.couponcode.spi.config.StaticConfig;
 import com.lanxi.util.entity.LogFactory;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;

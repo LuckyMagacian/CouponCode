@@ -16,7 +16,7 @@ import com.lanxi.couponcode.spi.consts.enums.RetCodeEnum;
 import com.lanxi.util.utils.ExcelUtil;
 import com.lanxi.util.utils.TimeUtil;
 
-import static com.lanxi.couponcode.spi.assist.PredicateAssist.*;
+import static com.lanxi.couponcode.impl.assist.PredicateAssist.*;
 
 import javax.annotation.Resource;
 import java.io.File;
