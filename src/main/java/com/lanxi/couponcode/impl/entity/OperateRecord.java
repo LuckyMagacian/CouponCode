@@ -45,7 +45,7 @@ public class OperateRecord extends AbstractOperateRecord{
     private OperateTargetType targetType;
     /**操作类型{@link OperateType}*/
     @NotNull
-    @TableField("type")
+    @TableField("operate_type")
     private OperateType type;
     /**操作时间*/
     @NotNull
