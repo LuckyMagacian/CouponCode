@@ -2,6 +2,8 @@ package com.lanxi.couponcode.impl.newservice;
 
 import com.lanxi.couponcode.impl.entity.CodeAlgorithm;
 import com.lanxi.couponcode.impl.newservice.ConfigService;
+import com.lanxi.couponcode.spi.consts.annotations.EasyLog;
+import com.lanxi.util.utils.LoggerUtil;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Service;
 
@@ -18,6 +20,7 @@ import java.util.stream.IntStream;
  */
 @Service("codeAlgorithmService")
 @Order(20000)
+@EasyLog (LoggerUtil.LogLevel.INFO)
 public class CodeAlgorithmServiceImpl implements CodeAlgorithmService{
     @Resource
    private DaoService daoService;

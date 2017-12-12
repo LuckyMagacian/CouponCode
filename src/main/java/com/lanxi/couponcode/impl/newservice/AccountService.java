@@ -36,7 +36,7 @@ public interface AccountService {
 	public Boolean delAccount(Account account);
 	/*账户查询*/
 	public List<Account> queryAccounts(EntityWrapper<Account> wrapper,
-			Page<Account> pageObj);
+                                       Page<Account> pageObj);
 	/*账户详情查询*/
 	public Account queryAccountInfo(Account account);
 	/*手机号码验证true可使用 false不可使用*/
@@ -44,16 +44,16 @@ public interface AccountService {
 	/*修改账户仅在用户登录时用来修改登录失败次数和登录失败时间*/
 	public Boolean modifyAccount(Account account);
 	/*修改账户的门店名称*/
-	public Boolean modifyAccountShopName(Long shopId,String shopName);
+	public Boolean modifyAccountShopName(Long shopId, String shopName);
 	/*登录*/
 	public Account login(Account account,
-			String validateCode);
+                         String validateCode);
 	/*登出*/
 	public Boolean logout(Long accountId);
 	/*忘记密码*/
 	public Boolean forgetPassword(String validateCode,
-			Account account,
-			Long accountId);
+                                  Account account,
+                                  Long accountId);
 	/*修改密码*/
 	public Boolean changePassword(Account account);
 	/*判断时间两个时间差值是否大于15分钟*/

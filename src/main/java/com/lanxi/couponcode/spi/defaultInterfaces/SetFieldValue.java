@@ -7,7 +7,7 @@ import java.util.Map.Entry;
 
 public interface SetFieldValue {
 	@SuppressWarnings({ "unchecked", "rawtypes" })
-	default <T> void setFieldValue(String fieldName,T value) {
+	default <T> void setFieldValue(String fieldName, T value) {
 		 try {
 			 if(this instanceof Map) {
 				 ((Map) this).put(fieldName, value);

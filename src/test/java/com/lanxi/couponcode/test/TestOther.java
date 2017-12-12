@@ -1,9 +1,14 @@
 package com.lanxi.couponcode.test;
 
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.toolkit.IdWorker;
+import com.lanxi.couponcode.spi.aop.AddLog;
+import com.lanxi.couponcode.spi.aop.AopJob;
+import com.lanxi.couponcode.spi.aop.AopOrder;
 import com.lanxi.couponcode.spi.assist.CheckAssist;
 import com.lanxi.couponcode.impl.assist.PredicateAssist;
+import com.lanxi.couponcode.spi.assist.RedisKeyAssist;
 import com.lanxi.couponcode.spi.assist.SerializeAssist;
 import com.lanxi.couponcode.impl.entity.Account;
 import com.lanxi.couponcode.impl.entity.Commodity;
@@ -11,14 +16,20 @@ import com.lanxi.couponcode.impl.entity.Merchant;
 import com.lanxi.couponcode.impl.entity.Shop;
 import com.lanxi.couponcode.spi.assist.RetMessage;
 import com.lanxi.couponcode.spi.consts.enums.RetCodeEnum;
+import com.lanxi.couponcode.spi.defaultInterfaces.ToJson;
+import com.lanxi.couponcode.test.entity.Cc;
 import com.lanxi.util.utils.SignUtil;
 import org.junit.Test;
 import org.springframework.mock.web.MockHttpServletRequest;
+import sun.security.jgss.spi.MechanismFactory;
 
 import java.io.*;
 import java.lang.reflect.Array;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by yangyuanjian on 2017/11/9.
@@ -136,5 +147,58 @@ public class TestOther {
     public void test10(){
         Account account= (Account) TestSpring.fillEntity.apply(new Account());
         System.out.println(account.insert());
+    }
+
+    @Test
+    public void test11(){
+        System.out.println(RetCodeEnum.success);
+        System.out.println(new RetMessage<>(RetCodeEnum.success,"aaa").toJson());
+        System.out.println(JSONObject.toJSON(new com.lanxi.util.entity.RetMessage(com.lanxi.util.consts.RetCodeEnum.SUCCESS,"123456",new Object())));
+    }
+    @Test
+    public void test12() throws Exception {
+        AopOrder.setEnvSizeLimit(1);
+        AopOrder.addAop(AddLog.class);
+        System.out.println(AopOrder.getEnvs());
+    }
+    @Test
+    public void test13(){
+        System.out.println(IdWorker.getId());
+    }
+    @Test
+    public void test14(){
+        Merchant merchant=new Merchant();
+        TestSpring.fillEntity.apply(merchant);
+        merchant.setMerchantId(IdWorker.getId());
+        System.out.println(merchant.toJson());
+    }
+    @Test
+    public void test15(){
+        final String idRegex="(id)||([a-zA-Z0-9]+Id)";
+        System.out.println("validateCode".matches(idRegex));
+        System.out.println("merchatnId".matches(idRegex));
+        System.out.println("id".matches(idRegex));
+    }
+    @Test
+    public void test16(){
+        System.out.println(RedisKeyAssist.getLoginKey(938694848231235585L));
+    }
+    @Test
+    public void test17(){
+        Map<String,Object> map=new HashMap<>();
+        Merchant merchant=new Merchant();
+        TestSpring.fillEntity.apply(merchant);
+        merchant.setMerchantId(IdWorker.getId());
+        map.put("token","12346");
+        map.put("merchant",merchant);
+
+        Map<String,Object> map1=new HashMap<>();
+        map1.put("detail",map);
+        System.out.println(JSON.toJSONString(map));
+        System.out.println(ToJson.toJson(map));
+    }
+    @Test
+    public void test18(){
+        System.out.println(SignUtil.md5LowerCase("12345","utf-8"));
     }
 }

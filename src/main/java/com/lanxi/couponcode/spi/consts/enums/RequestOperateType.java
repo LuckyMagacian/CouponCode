@@ -1,7 +1,5 @@
 package com.lanxi.couponcode.spi.consts.enums;
 
-import com.lanxi.couponcode.spi.defaultInterfaces.ReEquals;
-
 import java.io.Serializable;
 
 /**

@@ -37,5 +37,5 @@ public interface VerificationRecordService {
                                                     @HiddenArg Integer pageSize,
                                                     @HiddenArg Long operaterId);
 
-    RetMessage<String> queryVerificationRecordInfo(Long recordId,Long operaterId);
+    RetMessage<String> queryVerificationRecordInfo(Long recordId, Long operaterId);
 }

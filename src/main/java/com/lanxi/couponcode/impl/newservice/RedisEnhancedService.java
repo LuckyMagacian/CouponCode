@@ -29,15 +29,15 @@ public interface RedisEnhancedService {
      *         false 锁定失败
      *         null 对象不存在或发生异常
      */
-    LockResult hlock(String mapName,String key,String locker);
-    LockResult hlock(String mapName,String key);
+    LockResult hlock(String mapName, String key, String locker);
+    LockResult hlock(String mapName, String key);
     /**
      *
      * @param key
      * @param locker
      * @return {@link LockResult}
      */
-    LockResult lockForce(String key,String locker);
+    LockResult lockForce(String key, String locker);
 //    LockResult lockForce(String key);
     /**
      *
@@ -46,15 +46,15 @@ public interface RedisEnhancedService {
      * @param locker
      * @return {@link LockResult}
      */
-    LockResult hlockForce(String mapName,String key,String locker);
-    LockResult hlockForce(String mapName,String key);
+    LockResult hlockForce(String mapName, String key, String locker);
+    LockResult hlockForce(String mapName, String key);
     /**
      *
      * @param key
      * @param unlocker
      * @return {@link LockResult}
      */
-    LockResult unlock(String key,String unlocker);
+    LockResult unlock(String key, String unlocker);
 //    LockResult unlock(String key);
     /**
      *
@@ -65,8 +65,8 @@ public interface RedisEnhancedService {
      *         false 解锁失败
      *         null 对象不存在或发生异常
      */
-    LockResult hunlock(String mapName,String key,String unlocker);
-    LockResult hunlock(String mapName,String key);
+    LockResult hunlock(String mapName, String key, String unlocker);
+    LockResult hunlock(String mapName, String key);
     /**
      *
      * @param key
@@ -80,7 +80,7 @@ public interface RedisEnhancedService {
      * @param key
      * @return {@link LockResult}
      */
-    LockResult hunlockForce(String mapName,String key);
+    LockResult hunlockForce(String mapName, String key);
     /**本方法返回的错误代码等级仅仅用于区分 锁定资源的操作结果*/
     <T extends Serializable> RetMessage<T> workLockJob(RedisEnhancedServiceImpl.LockJob<T> job, String key, String locker);
     /**本方法返回的错误代码等级仅仅用于区分 锁定资源的操作结果*/

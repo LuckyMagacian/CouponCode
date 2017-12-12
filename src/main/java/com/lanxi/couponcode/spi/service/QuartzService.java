@@ -7,4 +7,5 @@ package com.lanxi.couponcode.spi.service;
 public interface QuartzService {
     void codeOverTime();
     void addClearDailyRecord();
+    void addClearRecords();
 }

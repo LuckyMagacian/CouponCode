@@ -1,6 +1,5 @@
 package com.lanxi.couponcode.spi.assist;
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONObject;
+import com.lanxi.couponcode.spi.defaultInterfaces.ToJson;
 
 import java.lang.reflect.Method;
 import java.util.List;
@@ -19,7 +18,7 @@ import static com.lanxi.couponcode.spi.config.ConstConfig.*;
  */
 public interface RedisKeyAssist {
     @SuppressWarnings("sure be called at where you really want !")
-    Function<List<Object>,String> methodCacheKeyGenerator=(args)-> ReflectAssist.getEnvironmentClassName()+ReflectAssist.getEnvironmentMethodName()+ JSON.toJSONString(args);
+    Function<List<Object>,String> methodCacheKeyGenerator=(args)-> ReflectAssist.getEnvironmentClassName()+ ReflectAssist.getEnvironmentMethodName()+ ToJson.toJson(args);
 
     static String getVarKey(Long merchantId){
         String funName="CODE_VAR";
@@ -131,18 +130,18 @@ public interface RedisKeyAssist {
 
 
 
-    static String getMethodCacheKey(String className,String methodName,String args){
+    static String getMethodCacheKey(String className, String methodName, String args){
         return className+methodName+args;
     }
-    static String getMethodCacheKey(String className,String methodName,List<Object> args){
-        String argStr= JSONObject.toJSONString(args);
+    static String getMethodCacheKey(String className, String methodName, List<Object> args){
+        String argStr= ToJson.toJson(args);
         return className+methodName+argStr;
     }
-    static String getMethodCacheKey(final Method method,final List<Object> args){
+    static String getMethodCacheKey(final Method method, final List<Object> args){
         Class clazz=method.getDeclaringClass();
         return getMethodCacheKey(clazz.getName(),method.getName(),args);
     }
-    static String getMethodCacheKey(final Method method,final String args){
+    static String getMethodCacheKey(final Method method, final String args){
         Class clazz=method.getDeclaringClass();
         return getMethodCacheKey(clazz.getName(),method.getName(),args);
     }

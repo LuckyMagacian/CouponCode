@@ -1,9 +1,10 @@
-package com.lanxi.couponcode.spi.aop;
+package com.lanxi.couponcode.impl.aop;
 
-import com.lanxi.couponcode.spi.assist.RedisKeyAssist;
 import com.lanxi.couponcode.impl.newservice.CacheService;
 import com.lanxi.couponcode.impl.newservice.RedisEnhancedService;
 import com.lanxi.couponcode.impl.newservice.RedisService;
+import com.lanxi.couponcode.spi.aop.AopJob;
+import com.lanxi.couponcode.spi.assist.RedisKeyAssist;
 import com.lanxi.couponcode.spi.consts.annotations.Cache;
 import com.lanxi.couponcode.spi.consts.annotations.DelCache;
 import com.lanxi.util.entity.LogFactory;
@@ -35,14 +36,15 @@ public class DealCache {
     private RedisEnhancedService redisEnhancedService;
     /**默认缓存时间 1小时*/
     private static final Long defaultCacheTime=1L*60*60*1000;
-    @Pointcut("within(com.lanxi.couponcode.spi.consts.annotations.Cache)")
+    @Pointcut("@annotation(com.lanxi.couponcode.spi.consts.annotations.Cache)")
     private void cache(){}
 
-    @Pointcut("within(com.lanxi.couponcode.spi.consts.annotations.DelCache)")
+    @Pointcut("@annotation(com.lanxi.couponcode.spi.consts.annotations.DelCache)")
     private void delCache(){}
 
     @Around("cache()")
     public <T> T fromCache(ProceedingJoinPoint joinPoint){
+        LogFactory.debug(this,"---------------------------aop fromcache is working---------------------------");
         AopJob<T> job=(clazz, method, args, point)->{
             //获取方法参数
             Parameter[] parameters=method.getParameters();
@@ -58,12 +60,23 @@ public class DealCache {
             T t= (T) cacheService.getCache(key);
             try {
                 if(t==null){
+                    LogFactory.debug(this,"result from database ! class:["+clazz.getName()+"],method:["+method.getName()+"],args:["+(args==null?null:Arrays.asList(args))+"]");
                     t= (T)point.proceed(args);
                     cacheService.addCache(key, (Serializable) t,defaultCacheTime);
                 }
                 return t;
             }catch (Throwable throwable) {
-                LogFactory.error(this, "exception occurred in ["+DealCache.class.getName()+"] [fromCache] when invoke class:["+clazz.getName()+"],method:["+method.getName()+"],args:["+args==null?null:Arrays.asList(args)+"]");
+
+                LogFactory.error(this, "exception occurred in ["+DealCache.class.getName()+"] [fromCache] when invoke class:["+clazz.getName()+"],method:["+method.getName()+"],args:["+(args==null?null:Arrays.asList(args))+"]");
+                if(t==null){
+                    LogFactory.debug(this,"result from database ! class:["+clazz.getName()+"],method:["+method.getName()+"],args:["+(args==null?null:Arrays.asList(args))+"]");
+                    try {
+                        t= (T)point.proceed(args);
+                    } catch (Throwable throwable1) {
+                        throwable1.printStackTrace();
+                    }
+                    cacheService.addCache(key, (Serializable) t,defaultCacheTime);
+                }
                 return t;
             }
         };
@@ -72,6 +85,7 @@ public class DealCache {
 
     @Around("delCache()")
     public <T> T removeCache(ProceedingJoinPoint joinPoint){
+        LogFactory.debug(this,"---------------------------aop delcache is working---------------------------");
         AopJob<T> job=(clazz, method, args, point)->{
             T t=null;
             try {

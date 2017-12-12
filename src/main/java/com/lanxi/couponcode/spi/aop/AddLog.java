@@ -1,10 +1,16 @@
 package com.lanxi.couponcode.spi.aop;
 
+import com.lanxi.couponcode.spi.assist.RetMessage;
 import com.lanxi.couponcode.spi.consts.annotations.EasyLog;
+import com.lanxi.couponcode.spi.consts.enums.RetCodeEnum;
 import com.lanxi.util.entity.LogFactory;
 import com.lanxi.util.utils.LoggerUtil;
 import org.aspectj.lang.ProceedingJoinPoint;
-import org.aspectj.lang.annotation.*;
+import org.aspectj.lang.annotation.Around;
+import org.aspectj.lang.annotation.Aspect;
+import org.aspectj.lang.annotation.Pointcut;
+import org.springframework.core.Ordered;
+import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
 import java.lang.annotation.Annotation;
@@ -18,39 +24,45 @@ import java.util.Map;
  */
 @Aspect
 @Component
+@Order(Ordered.HIGHEST_PRECEDENCE+10)
 public class AddLog {
 
     @Pointcut ("@within(com.lanxi.couponcode.spi.consts.annotations.EasyLog)")
-    public void easyLog() {
-    }
+    public void easyLogClass() {}
+    @Pointcut ("@annotation(com.lanxi.couponcode.spi.consts.annotations.EasyLog)")
+    public void easyLogMethod(){}
 
-    @Around ("easyLog()")
+    @Around ("easyLogClass()||easyLogMethod()")
     public <T> T logDefault(ProceedingJoinPoint joinPoint) {
+        LogFactory.debug(this,"---------------------------aop addlog is working---------------------------");
         AopJob<T> job = (clazz, method, args, point) -> {
             T t = null;
             try {
                 LoggerUtil.LogLevel level = getLogLevel(method);
-                log(clazz, "try invoke \nclass:[" + clazz.getName() + "]\nmethod:[" + method + "]\narg:[" + Arrays.asList(args) + "]", level);
+                LogFactory.debug(this.getClass(), "try invoke  class:[" + clazz.getName() + "] method:[" + method + "] arg:[" + Arrays.asList(args) + "]");
                 t = (T) joinPoint.proceed(args);
                 //若是集合类型则记录返回的数量,否则记录返回结果
                 if (t instanceof Collection) {
                     Collection collection = (Collection) t;
-                    log(clazz, "class:[" + clazz.getName() + "]\nmethod:[" + method.getName() + "]\nresultSize:[" + collection.size() + "]\narg:[" + Arrays.asList(args) + "]", level);
-                    LogFactory.debug(clazz, "class:[" + clazz.getName() + "]\nmethod:[" + method.getName() + "]\nresult:[" + collection + "]\narg:[" + Arrays.asList(args) + "]");
+                    log(clazz, "class:[" + clazz.getName() + "] method:[" + method.getName() + "] resultSize:[" + collection.size() + "] arg:[" + Arrays.asList(args) + "]", level);
+                    LogFactory.debug(clazz, "class:[" + clazz.getName() + "] method:[" + method.getName() + "] result:[" + collection + "] arg:[" + Arrays.asList(args) + "]");
                     return t;
                 } else if (t instanceof Map) {
                     Map map = (Map) t;
-                    log(clazz, "class:[" + clazz.getName() + "]\nmethod:[" + method.getName() + "]\nresultSize:[" + map.size() + "]\narg:[" + Arrays.asList(args) + "]", level);
-                    LogFactory.debug(clazz, "class:[" + clazz.getName() + "]\nmethod:[" + method.getName() + "]\nresult:[" + map + "]\narg:[" + Arrays.asList(args) + "]");
+                    log(clazz, "class:[" + clazz.getName() + "] method:[" + method.getName() + "] resultSize:[" + map.size() + "] arg:[" + Arrays.asList(args) + "]", level);
+                    LogFactory.debug(clazz, "class:[" + clazz.getName() + "] method:[" + method.getName() + "] result:[" + map + "] arg:[" + Arrays.asList(args) + "]");
                     return t;
                 } else {
-                    log(clazz, "class:[" + clazz.getName() + "]\nmethod:[" + method.getName() + "]\nresult:[" + t + "]\narg:[" + Arrays.asList(args) + "]", level);
+                    log(clazz, "invoke  class:[" + clazz.getName() + "] method:[" + method.getName() + "] arg:[" + Arrays.asList(args) + "] result:[" + t + "]", level);
                     return t;
                 }
             } catch (Throwable throwable) {
                 //记录异常
-                LogFactory.error(clazz, "class:[" + clazz.getName() + "]\nmethod[" + method + "] occured exception !\narg:[" + Arrays.asList(args) + "]", throwable);
-                return t;
+                LogFactory.error(clazz, "occured exception ["+throwable+"]!class:[" + clazz.getName() + "] method[" + method + "]  arg:[" + Arrays.asList(args) + "]", throwable);
+                if(t!=null)
+                    return t;
+                else
+                    return (T)new RetMessage(RetCodeEnum.error,"添加日志时发生异常!",null);
             }
         };
         return AopJob.workJob(job, joinPoint);

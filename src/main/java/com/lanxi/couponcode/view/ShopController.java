@@ -1,8 +1,11 @@
 package com.lanxi.couponcode.view;
 
+import com.lanxi.couponcode.spi.consts.annotations.EasyLog;
+import com.lanxi.couponcode.spi.consts.annotations.LoginCheck;
 import com.lanxi.couponcode.spi.consts.annotations.SetUtf8;
 import com.lanxi.couponcode.spi.consts.enums.AccountType;
 import com.lanxi.couponcode.spi.service.AccountService;
+import com.lanxi.util.utils.LoggerUtil;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -19,12 +22,14 @@ import static com.lanxi.couponcode.spi.assist.ArgAssist.parseArg;
  */
 @Controller("shopView")
 @RequestMapping("shop")
+@EasyLog (LoggerUtil.LogLevel.INFO)
 public class ShopController {
 	@Resource(name="accountControllerService")
 	private AccountService accountService;
 
 	/* 门店管理员添加账户 */
 	@SetUtf8
+	@LoginCheck
 	@ResponseBody
 	@RequestMapping(value = "addAccount", produces = "application/json;charset=utf-8")
 	public String addAccount(HttpServletRequest req, HttpServletResponse res) {
@@ -39,6 +44,7 @@ public class ShopController {
 
 	/* 门店管理员查询账户 */
 	@SetUtf8
+	@LoginCheck
 	@ResponseBody
 	@RequestMapping(value = "queryAccounts", produces = "application/json;charset=utf-8")
 	public String queryAccounts(HttpServletRequest req, HttpServletResponse res) {
@@ -55,6 +61,7 @@ public class ShopController {
 
 	/* 冻结账户 */
 	@SetUtf8
+	@LoginCheck
 	@ResponseBody
 	@RequestMapping(value = "freezeAccount", produces = "application/json;charset=utf-8")
 	public String freezeAccount(HttpServletRequest req, HttpServletResponse res) {
@@ -67,6 +74,7 @@ public class ShopController {
 
 	/* 开启账户 */
 	@SetUtf8
+	@LoginCheck
 	@ResponseBody
 	@RequestMapping(value = "unfreezeAccount", produces = "application/json;charset=utf-8")
 	public String unfreezeAccount(HttpServletRequest req, HttpServletResponse res) {
@@ -79,6 +87,7 @@ public class ShopController {
 
 	/* 删除账户 */
 	@SetUtf8
+	@LoginCheck
 	@ResponseBody
 	@RequestMapping(value = "delAccount", produces = "application/json;charset=utf-8")
 	public String deleteAccount(HttpServletRequest req, HttpServletResponse res) {

@@ -1,7 +1,6 @@
 package com.lanxi.couponcode.spi.assist;
 
 import com.lanxi.couponcode.spi.consts.enums.CommodityType;
-import com.lanxi.couponcode.spi.consts.enums.MerchantStatus;
 import com.lanxi.couponcode.spi.consts.enums.VerificationType;
 
 import javax.servlet.http.HttpServletRequest;
@@ -13,7 +12,7 @@ import java.util.function.Function;
  * Created by yangyuanjian on 11/30/2017.
  */
 public interface ArgAssist {
-    static <T extends Number> T parseArg(String str,Class<T> clazz){
+    static <T extends Number> T parseArg(String str, Class<T> clazz){
         try {
             if(str==null)
                 return null;

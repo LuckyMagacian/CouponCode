@@ -1,6 +1,5 @@
 package com.lanxi.couponcode.impl.entity;
 
-import com.baomidou.mybatisplus.activerecord.Model;
 import com.baomidou.mybatisplus.annotations.TableField;
 import com.baomidou.mybatisplus.annotations.TableId;
 import com.baomidou.mybatisplus.annotations.TableName;
@@ -206,7 +205,7 @@ public class Request extends AbstractRequest {
     }
 
     public String getType() {
-        return type.getValue();
+        return type==null?null:type.getValue();
     }
 
     public RequestOperateType getTypeEnum() {
@@ -222,7 +221,7 @@ public class Request extends AbstractRequest {
     }
 
     public String getStatus() {
-        return status.getValue();
+        return status==null?null:status.getValue();
     }
 
     public RequestStatus getStatusEnum() {
@@ -318,7 +317,7 @@ public class Request extends AbstractRequest {
     }
 
     public String getCommodityType() {
-        return commodityType.getValue();
+        return commodityType==null?null:commodityType.getValue();
     }
 
     public CommodityType getCommodityTypeEnum() {
@@ -327,5 +326,8 @@ public class Request extends AbstractRequest {
 
     public void setCommodityType(CommodityType commodityType) {
         this.commodityType = commodityType;
+    }
+    public void setCommodityType(String commodityType) {
+        this.commodityType = CommodityType.getType(commodityType);
     }
 }

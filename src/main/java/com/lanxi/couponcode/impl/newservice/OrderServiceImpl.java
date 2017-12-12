@@ -1,16 +1,27 @@
 package com.lanxi.couponcode.impl.newservice;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.OutputStream;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 
+import com.lanxi.couponcode.spi.consts.annotations.EasyLog;
+import com.lanxi.util.entity.LogFactory;
+import com.lanxi.util.utils.ExcelUtil;
+import com.lanxi.util.utils.LoggerUtil;
 import org.springframework.stereotype.Service;
 
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.plugins.Page;
+import com.baomidou.mybatisplus.toolkit.IdWorker;
 import com.lanxi.couponcode.impl.entity.Order;
 import com.lanxi.couponcode.spi.consts.enums.OrderStatus;
 @Service("orderService")
+@EasyLog (LoggerUtil.LogLevel.INFO)
 public class OrderServiceImpl implements OrderService{
 	@Resource
 	private DaoService dao;
@@ -66,6 +77,53 @@ public class OrderServiceImpl implements OrderService{
 			}
 		}else {
 			return true;
+		}
+		
+	}
+
+	@Override
+	public List<Order> queryOrders(EntityWrapper<Order> wrapper, Page<Order> pageObj) {
+		try {
+			return dao.getOrderDao().selectPage(pageObj, wrapper);
+			
+		} catch (Exception e) {
+			LogFactory.error(this,"批量查询门店时发生异常",e);
+			return null;
+		}
+	}
+
+	@Override
+	public File orderExport(EntityWrapper<Order> wrapper) {
+		try {
+			List<Order> list=dao.getOrderDao().selectList(wrapper);
+			if (list!=null&&list.size()>0) {
+				Map<String, String> map=new HashMap<>();
+				map.put("","");
+				map.put("","");
+				map.put("","");
+				map.put("","");
+				map.put("","");
+				map.put("","");
+				map.put("","");
+				map.put("","");
+				map.put("","");
+				map.put("","");
+				map.put("","");
+				File file=new File(OrderServiceImpl.class.getClassLoader().getResource("").getPath()+IdWorker.getId()+".xls");
+				OutputStream os=new FileOutputStream(file);
+				ExcelUtil.exportExcelFile(list, map,os);
+				os.flush();
+				if (file.exists()) {
+					return file;
+				}else {
+					return null;
+				}
+				
+			}else 
+				return null;
+		} catch (Exception e) {
+			LogFactory.error(this,"导出订单时发生异常",e);
+			return null;
 		}
 		
 	}

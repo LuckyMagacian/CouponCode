@@ -7,6 +7,7 @@ import com.lanxi.couponcode.spi.consts.annotations.RealReturnType;
 import com.lanxi.couponcode.spi.consts.enums.MerchantStatus;
 
 import java.io.File;
+import java.io.Serializable;
 
 /**
  * Created by yangyuanjian on 2017/11/7.
@@ -18,59 +19,59 @@ public interface MerchantService {
                                     @HiddenArg Long operaterId);
 
     RetMessage<Boolean> modifyMerchant(String merchantName,
-                           String workAddress,
-                           String minuteWorkAddress,
-                           Long operaterId,
-                           @HiddenArg Long merchantId);
+                                       String workAddress,
+                                       String minuteWorkAddress,
+                                       Long operaterId,
+                                       @HiddenArg Long merchantId);
 
     @RealReturnType("List<Merchant>")
     RetMessage<String> queryMerchants(String merchantName,
-                          MerchantStatus merchantStatus,
-                          String timeStart,
-                          String timeStop,
-                          @HiddenArg Integer pageNum,
-                          @HiddenArg Integer pageSize,
-                          @HiddenArg Long operaterId);
+                                      MerchantStatus merchantStatus,
+                                      String timeStart,
+                                      String timeStop,
+                                      @HiddenArg Integer pageNum,
+                                      @HiddenArg Integer pageSize,
+                                      @HiddenArg Long operaterId);
 
     RetMessage<File> queryMerchantsExport(String merchantName,
-                              MerchantStatus merchantStatus,
-                              String timeStart,
-                              String  timeStop,
-                              @HiddenArg Long operaterId);
+                                          MerchantStatus merchantStatus,
+                                          String timeStart,
+                                          String timeStop,
+                                          @HiddenArg Long operaterId);
 
     RetMessage<Boolean> enableMerchant(@HiddenArg Long merchantId,
-                           @HiddenArg Long operaterId);
+                                       @HiddenArg Long operaterId);
 
     RetMessage<Boolean> disableMerchant(@HiddenArg Long merchantId,
-                            @HiddenArg Long operaterId);
+                                        @HiddenArg Long operaterId);
 
     RetMessage<Boolean> inputMerchantInfo(String merchantName,
-					    		String serveExplain,
-								String workAddress,
-								String minuteWorkAddress,
-								String charterCode,
-								String oraganizingCode,
-								String principal,
-								String linkMan,
-								String linkManPhone,
-								String serviceTel,
-								String email,
-								@HiddenArg Long operaterId,
-								@HiddenArg Long merchantId);
+                                          String serveExplain,
+                                          String workAddress,
+                                          String minuteWorkAddress,
+                                          String charterCode,
+                                          String oraganizingCode,
+                                          String principal,
+                                          String linkMan,
+                                          String linkManPhone,
+                                          String serviceTel,
+                                          String email,
+                                          @HiddenArg Long operaterId,
+                                          @HiddenArg Long merchantId);
 
     RetMessage<Boolean> modifyMerchantInfo(String merchantName,
-					    		String serveExplain,
-								String workAddress,
-								String minuteWorkAddress,
-								String charterCode,
-								String oraganizingCode,
-								String principal,
-								String linkMan,
-								String linkManPhone,
-								String serviceTel,
-								String email,
-								@HiddenArg Long operaterId,
-								@HiddenArg Long merchantId);
+                                           String serveExplain,
+                                           String workAddress,
+                                           String minuteWorkAddress,
+                                           String charterCode,
+                                           String oraganizingCode,
+                                           String principal,
+                                           String linkMan,
+                                           String linkManPhone,
+                                           String serviceTel,
+                                           String email,
+                                           @HiddenArg Long operaterId,
+                                           @HiddenArg Long merchantId);
     
     RetMessage<Boolean> organizingInstitutionBarCodePicUpLoad(
             File organizingInstitutionBarCodePicFile,
@@ -101,8 +102,8 @@ public interface MerchantService {
             File otherPicFile,
             @HiddenArg Long operaterId,
             @HiddenArg Long merchantId);
-    RetMessage<String> queryMerchantInfo( @HiddenArg Long operaterId,
-            @HiddenArg Long merchantId);
-
+    RetMessage<String> queryMerchantInfo(@HiddenArg Long operaterId,
+                                         @HiddenArg Long merchantId);
+    RetMessage<Serializable> queryAllMerchant(@HiddenArg Long operaterId);
 }
 

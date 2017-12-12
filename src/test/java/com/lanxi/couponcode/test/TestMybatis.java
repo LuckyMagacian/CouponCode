@@ -2,14 +2,15 @@ package com.lanxi.couponcode.test;
 
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.toolkit.IdWorker;
-import com.lanxi.couponcode.impl.entity.Account;
-import com.lanxi.couponcode.impl.entity.CodeAlgorithm;
-import com.lanxi.couponcode.impl.entity.CouponCode;
+import com.lanxi.couponcode.impl.entity.*;
+import com.lanxi.couponcode.impl.newcontroller.LoginController;
+import com.lanxi.couponcode.impl.newservice.CommodityService;
 import com.lanxi.couponcode.impl.newservice.DaoService;
-import com.lanxi.couponcode.impl.entity.Merchant;
 import com.lanxi.couponcode.impl.ztest.TestAop;
 import com.lanxi.couponcode.spi.aop.AddLog;
 import com.lanxi.couponcode.spi.consts.annotations.EasyLog;
+import com.lanxi.couponcode.spi.service.LoginService;
+import com.lanxi.couponcode.spi.service.MerchantService;
 import com.lanxi.util.entity.MyClassLoader;
 import com.lanxi.util.utils.LoggerUtil;
 import com.lanxi.util.utils.LoggerUtil.LogLevel;
@@ -26,6 +27,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import javax.annotation.Resource;
 import java.lang.reflect.Field;
+import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.Stream;
@@ -87,7 +89,7 @@ public class TestMybatis {
 //				1,10,null,null,null,null,null,null,
 //				null,null,null,null,null,true
 //		).getClass());
-		System.out.println(daoService.getCouponCodeDao().selectList(new EntityWrapper<CouponCode>().eq("code",123456L)).getClass());
+		System.out.println(daoService.getCouponCodeDao().selectList(new EntityWrapper<CouponCode>().eq("code",123456L)));
 	}
 
 	@Test
@@ -111,7 +113,19 @@ public class TestMybatis {
 
     @Test
 	public void test6(){
-		System.out.println(ac.getBean(TestAop.class).say("老司机"));
+		System.out.println(daoService.getMerchantDao().insert((Merchant)TestSpring.fillEntity.apply(new Merchant())));
 	}
-    
+    @Test
+	public void test7(){
+		System.out.println(ac.getBean(LoginService.class).logout(938692005297397761L));
+	}
+	@Test
+	public void test8() {
+		Commodity commodity=ac.getBean(CommodityService.class).queryCommodity(940127998683226112L);
+		commodity.setCostPrice(new BigDecimal(5.2));
+		System.out.println(commodity.updateById());
+		System.out.println(ac.getBean(com.lanxi.couponcode.spi.service.CommodityService.class).modifyCommodity(
+				new BigDecimal(1.2),null,null,null,940127998683226112L,938694848231235589L
+		));
+	}
 }

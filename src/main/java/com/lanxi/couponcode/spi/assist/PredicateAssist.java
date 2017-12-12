@@ -1,6 +1,7 @@
 package com.lanxi.couponcode.spi.assist;
 
 import com.lanxi.util.utils.BeanUtil;
+import com.lanxi.util.utils.OtherUtil;
 
 import java.util.function.BiPredicate;
 import java.util.function.Predicate;
@@ -11,7 +12,11 @@ import java.util.stream.Stream;
  */
 public interface PredicateAssist {
     //--------------------------------------------------------基础-------------------------------------------------
-
+    Predicate<String> isPhone=e->{
+        if(e==null)
+            return false;
+        return OtherUtil.getServiceProvider(e)!=null;
+    };
     Predicate<Object> hasMerchantId=e-> Stream.of(e.getClass().getDeclaredFields()).parallel().filter(f->f.getName().equals("merchantId")&&f.getType().equals(Long.class)).findAny().isPresent();
 
     BiPredicate<Object,Object> sameMerchant=(o1,o2)->{
@@ -32,7 +37,7 @@ public interface PredicateAssist {
     /**是否不是null*/
     Predicate<Object> notNull= isNull.negate();
     //-------------------------------------------------------参数校验----------------------------------------------
-    Predicate<String> isPage=e-> notNull.test(e)&&e.matches("[1-9]+[0-9]{1,6}");
+    Predicate<String> isPage=e-> notNull.test(e)&&e.matches("[1-9]+[0-9]{0,6}");
     Predicate<String> notPage= isPage.negate();
 
     BiPredicate<String,String> isPageArg= CheckAssist::checkPage;

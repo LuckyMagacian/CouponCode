@@ -6,7 +6,7 @@ import java.io.Serializable;
  * 操作类型枚举
  * Created by yangyuanjian on 2017/11/9.
  */
-public enum OperateType implements Serializable,Gettype{
+public enum OperateType implements Serializable,Gettype {
 
     createShop(11),				unfreezeShop(12),				freezeShop(13),				deleteShop(14),
     modifyShop(15),				queryShop(16),				    cancelShop(19),  			importShops(17),
@@ -43,12 +43,12 @@ public enum OperateType implements Serializable,Gettype{
 
     queryDailyRecord(111),      exportDailyRecord(112),         clearDailyRecord(113),
 
-    queryClearRecord(121),      exportClearRecord(122),         createClearRecord(123),     queryClearRecordList(124),
+    queryClearRecord(121),      exportClearRecord(122),         createClearRecord(123),     queryClearRecordList(124),  modifyClearRecord(125),
 
     queryVerifyRecord(131),     exportVerifyRecord(132),        createVerifyRecord(133),    queryVerifyRecordList(134),queryVerifyRecordAll(135),
 
     requestAddCommodity(141),   requestModifyCommodity(142),    requestUnshelveCommodity(143),  requestShelveCommodity(144),
-    rquestDelCommodity(145),    queryRequest(146),              passRequest(147),               rejectRequest(148),
+    requestDelCommodity(145),    queryRequest(146),              passRequest(147),               rejectRequest(148),
 
     queryOperateRecord(151),    queryOperateRecordList(152);
     private String value;

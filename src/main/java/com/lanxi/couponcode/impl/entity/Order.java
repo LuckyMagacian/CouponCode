@@ -159,7 +159,7 @@ public class Order extends AbstractOrder{
 	public CommodityType getTypeEnum() {
 		return Type;
 	}
-	public String getType(){return Type.getValue();}
+	public String getType(){return Type==null?null:Type.getValue();}
 	public void setType(CommodityType type) {
 		Type = type;
 	}

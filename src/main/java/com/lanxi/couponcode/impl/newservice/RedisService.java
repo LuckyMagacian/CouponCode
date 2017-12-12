@@ -27,9 +27,9 @@ public interface RedisService {
 
     Boolean set(String key, String value, Long life);
 
-    Boolean set(String key,byte[] value ,Long life);
+    Boolean set(String key, byte[] value, Long life);
 
-    Boolean set(byte[] key,byte[] value,Long life);
+    Boolean set(byte[] key, byte[] value, Long life);
 
 //    Boolean set(byte[] key,byte[] value,Long life);
 
@@ -86,19 +86,19 @@ public interface RedisService {
 
     Boolean hset(String mapName, Map<String, String> value);
 
-    Boolean hset(byte[] mapName,byte[] key,byte[] value);
+    Boolean hset(byte[] mapName, byte[] key, byte[] value);
 
-    Boolean hset(String mapName,byte[] key,byte[] value);
+    Boolean hset(String mapName, byte[] key, byte[] value);
 
-    Boolean hset(String mapName,String key,byte[] value);
+    Boolean hset(String mapName, String key, byte[] value);
 
 
 
     String hget(String mapName, String key);
 
-    byte[] hgetBytes(String mapName,String key);
+    byte[] hgetBytes(String mapName, String key);
 
-    byte[] hget(byte[] mapName,byte[] key);
+    byte[] hget(byte[] mapName, byte[] key);
 
 
     Map<String, String> hget(String mapName);

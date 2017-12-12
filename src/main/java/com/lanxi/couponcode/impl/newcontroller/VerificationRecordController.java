@@ -3,6 +3,8 @@ package com.lanxi.couponcode.impl.newcontroller;
 import com.alibaba.fastjson.JSON;
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.plugins.Page;
+import com.lanxi.couponcode.impl.entity.Account;
+import com.lanxi.couponcode.impl.entity.VerificationRecord;
 import com.lanxi.couponcode.impl.newservice.AccountService;
 import com.lanxi.couponcode.impl.newservice.CommodityService;
 import com.lanxi.couponcode.impl.newservice.MerchantService;
@@ -10,10 +12,14 @@ import com.lanxi.couponcode.spi.assist.RetMessage;
 import com.lanxi.couponcode.impl.entity.Account;
 import com.lanxi.couponcode.impl.entity.VerificationRecord;
 import com.lanxi.couponcode.impl.newservice.VerificationRecordService;
+import com.lanxi.couponcode.spi.consts.annotations.CheckArg;
+import com.lanxi.couponcode.spi.consts.annotations.EasyLog;
 import com.lanxi.couponcode.spi.consts.annotations.HiddenArg;
 import com.lanxi.couponcode.spi.consts.enums.OperateType;
 import com.lanxi.couponcode.spi.consts.enums.RetCodeEnum;
 import com.lanxi.couponcode.spi.consts.enums.VerificationType;
+import com.lanxi.couponcode.spi.defaultInterfaces.ToJson;
+import com.lanxi.util.utils.LoggerUtil;
 import org.springframework.stereotype.Controller;
 
 import static com.lanxi.couponcode.impl.assist.PredicateAssist.*;
@@ -22,10 +28,14 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static com.lanxi.couponcode.impl.assist.PredicateAssist.*;
+
 /**
  * Created by yangyuanjian on 2017/11/16.
  */
+@CheckArg
 @Controller("verificationRecordControllerService")
+@EasyLog (LoggerUtil.LogLevel.INFO)
 public class VerificationRecordController implements com.lanxi.couponcode.spi.service.VerificationRecordService{
     @Resource
     private VerificationRecordService verificationRecordService;
@@ -83,7 +93,7 @@ public class VerificationRecordController implements com.lanxi.couponcode.spi.se
         Map<String,Object> map=new HashMap<>();
         map.put("page",page);
         map.put("list",list);
-        return new RetMessage<>(RetCodeEnum.success,"查询成功", JSON.toJSONString(map));
+        return new RetMessage<>(RetCodeEnum.success,"查询成功",  ToJson.toJson(map));
     }
 
     @Override
@@ -131,7 +141,7 @@ public class VerificationRecordController implements com.lanxi.couponcode.spi.se
         Map<String,Object> map=new HashMap<>();
         map.put("page",page);
         map.put("list",list);
-        return new RetMessage<>(RetCodeEnum.success,"查询成功", JSON.toJSONString(map));
+        return new RetMessage<>(RetCodeEnum.success,"查询成功",  ToJson.toJson(map));
     }
 
     @Override

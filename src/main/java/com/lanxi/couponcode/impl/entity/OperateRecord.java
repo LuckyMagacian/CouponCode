@@ -222,7 +222,7 @@ public class OperateRecord extends AbstractOperateRecord{
     }
 
     public String getType() {
-        return type.toString();
+        return type==null?null:type.toString();
     }
 
     public void setType(OperateType type) {
@@ -264,7 +264,7 @@ public class OperateRecord extends AbstractOperateRecord{
     }
 
     public String getAccountType() {
-        return accountType.getValue();
+        return accountType==null?null:accountType.getValue();
     }
 
     public void setAccountType(AccountType accountType) {

@@ -1,7 +1,6 @@
 package com.lanxi.couponcode.spi.service;
 
 import com.lanxi.couponcode.spi.assist.RetMessage;
-import com.lanxi.couponcode.impl.entity.CouponCode;
 import com.lanxi.couponcode.spi.consts.annotations.HiddenArg;
 import com.lanxi.couponcode.spi.consts.annotations.RealReturnType;
 import com.lanxi.couponcode.spi.consts.enums.VerificationType;
@@ -53,10 +52,13 @@ public interface CouponService {
                                     @HiddenArg Long operaterId);
 
     RetMessage<String> generateCode(Long merchantId,
-                                     Long commodityId,
-                                     String reason,
-                                     @HiddenArg Integer channel);
-
+                                    Long commodityId,
+                                    String reason,
+                                    @HiddenArg Integer channel);
+    RetMessage<String> generateCode(Long merchantId,
+                                    Long commodityId,
+                                    String reason,
+                                    @HiddenArg Long operaterId);
 
     @RealReturnType ("CouponCode")
     RetMessage<String> couponCodeInfo(Long codeId,

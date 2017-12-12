@@ -1,38 +1,43 @@
 package com.lanxi.couponcode.view;
 
+import com.lanxi.couponcode.spi.consts.annotations.EasyLog;
+import com.lanxi.couponcode.spi.consts.annotations.LoginCheck;
 import com.lanxi.couponcode.spi.consts.annotations.SetUtf8;
 import com.lanxi.couponcode.spi.consts.enums.AccountType;
 import com.lanxi.couponcode.spi.consts.enums.OperateTargetType;
 import com.lanxi.couponcode.spi.consts.enums.OperateType;
 import com.lanxi.couponcode.spi.consts.enums.VerificationType;
+import com.lanxi.couponcode.spi.service.CommodityService;
 import com.lanxi.couponcode.spi.service.CouponService;
 import com.lanxi.couponcode.spi.service.OperateRecordService;
-import com.lanxi.couponcode.spi.service.ShopService;
+import com.lanxi.util.utils.LoggerUtil;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import static com.lanxi.couponcode.spi.assist.ArgAssist.getArg;
-import static com.lanxi.couponcode.spi.assist.ArgAssist.parseArg;
-import static com.lanxi.couponcode.spi.assist.ArgAssist.toVerificationType;
+import static com.lanxi.couponcode.spi.assist.ArgAssist.*;
 
 /**
  * Created by yangyuanjian on 11/30/2017.
  */
 @Controller
 @RequestMapping("shopManager")
+@EasyLog (LoggerUtil.LogLevel.INFO)
 public class ShopManagerController {
     @Resource(name="codeControllerService")
     private CouponService codeService;
     @Resource(name = "operateRecordControllerService")
     private OperateRecordService operateRecordService;
+    @Resource(name="commodityControllerService")
+    private CommodityService commodityService;
+
 
     @SetUtf8
+    @LoginCheck
     @ResponseBody
     @RequestMapping(value = "verifyCode",produces = "application/json;charset=utf-8")
     public String verifyCode(HttpServletRequest req,HttpServletResponse res){
@@ -51,6 +56,7 @@ public class ShopManagerController {
             return codeService.verificateCode(codeId,operaterId,verifyType).toJson();
     }
     @SetUtf8
+    @LoginCheck
     @ResponseBody
     @RequestMapping(value = "queryCode",produces = "application/json;charset=utf-8")
     public String queryCode(HttpServletRequest req,HttpServletResponse res){
@@ -71,6 +77,7 @@ public class ShopManagerController {
 
 
     @SetUtf8
+    @LoginCheck
     @ResponseBody
     @RequestMapping(value = "queryOperateRecords", produces = "application/json;charset=utf-8")
     public String queryOperateRecords(HttpServletRequest req,HttpServletResponse res){
@@ -85,8 +92,8 @@ public class ShopManagerController {
         String pageSizeStr=getArg.apply(req,"pageSize");
         String operaterIdStr=getArg.apply(req,"operaterId");
 
-        OperateType type=OperateType.getType(typeStr);
-        OperateTargetType targetType=OperateTargetType.getType(targetTypeStr);
+        OperateType type= OperateType.getType(typeStr);
+        OperateTargetType targetType= OperateTargetType.getType(targetTypeStr);
         AccountType accountType= AccountType.getType(accountTypeStr);
         Long operaterId=parseArg(operaterIdStr,Long.class);
         Integer pageNum=parseArg(pageNumStr,Integer.class);
@@ -94,6 +101,7 @@ public class ShopManagerController {
         return operateRecordService.queryShopMerchantOperateRecord(type,targetType,timeStart,timeEnd,accountType,name,phone,pageNum,pageSize,operaterId).toJson();
     }
     @SetUtf8
+    @LoginCheck
     @ResponseBody
     @RequestMapping(value = "queryOperateRecord", produces = "application/json;charset=utf-8")
     public String queryOperateRecord(HttpServletRequest req,HttpServletResponse res){
@@ -103,6 +111,16 @@ public class ShopManagerController {
         Long operaterId=parseArg(operaterIdStr,Long.class);
         return operateRecordService.queryOperateRecordInfo(recordId,operaterId).toJson();
     }
-
+    @SetUtf8
+    @LoginCheck
+    @ResponseBody
+    @RequestMapping(value = "queryCommodity", produces = "application/json;charset=utf-8")
+    public String queryCommodity(HttpServletRequest req,HttpServletResponse res){
+        String commodityIdStr=getArg.apply(req,"commodityId");
+        String operaterIdStr=getArg.apply(req,"operaterId");
+        Long operaterId = toLongArg.apply(operaterIdStr);
+        Long commodityId=toLongArg.apply(commodityIdStr);
+        return commodityService.queryCommodity(commodityId,operaterId).toJson();
+    }
 
 }

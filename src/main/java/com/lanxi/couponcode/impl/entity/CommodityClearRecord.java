@@ -94,9 +94,12 @@ public class CommodityClearRecord implements CommonDefaultMethodOfEntity {
         this.merchantName = merchantName;
     }
 
-    public CommodityType getCommodityType() {
+    public CommodityType getCommodityTypeEnum() {
         return commodityType;
     }
+
+    public String getCommodityType(){return commodityType==null?null: commodityType.getValue();}
+
 
     public void setCommodityType(CommodityType commodityType) {
         this.commodityType = commodityType;

@@ -1,6 +1,8 @@
 package com.lanxi.couponcode.impl.newservice;
 
 import com.lanxi.couponcode.spi.assist.RedisKeyAssist;
+import com.lanxi.couponcode.spi.consts.annotations.EasyLog;
+import com.lanxi.util.utils.LoggerUtil;
 import org.springframework.stereotype.Service;
 import static com.lanxi.couponcode.spi.assist.SerializeAssist.*;
 import javax.annotation.Resource;
@@ -11,6 +13,7 @@ import java.util.List;
  * Created by yangyuanjian on 2017/11/23.
  */
 @Service("cacheService")
+@EasyLog (LoggerUtil.LogLevel.INFO)
 public class CacheServiceImpl implements CacheService{
 
     @Resource

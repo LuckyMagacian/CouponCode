@@ -14,7 +14,7 @@ import java.math.BigDecimal;
  * Created by yangyuanjian on 2017/11/9.
  */
 public interface RequestService {
-    @RealReturnType("List<")
+    @RealReturnType ("List<")
     RetMessage<String> queryRequests(String timeStart,
                                      String timeStop,
                                      String commodityName,
@@ -45,7 +45,7 @@ public interface RequestService {
     RetMessage<Boolean> disagreeRequest(@HiddenArg Long requestId,
                                         @HiddenArg Long operaterId,
                                         String reason);
-    @RealReturnType("List<OperateRequest>")
+    @RealReturnType ("List<OperateRequest>")
     RetMessage<String> queryCommodityRequest(String commodityName,
                                              CommodityType type,
                                              RequestOperateType operateType,
@@ -58,14 +58,14 @@ public interface RequestService {
 
 
     RetMessage<Boolean> requestAddCommodity(String commodityName,
-                                CommodityType commodityType,
-                                BigDecimal facePrice,
-                                BigDecimal costPrice,
-                                BigDecimal sellPrice,
-                                Integer lifeTime,
-                                String useDistription,
-                                @HiddenArg Long operaterId,
-                                @HiddenArg Long merchantId);
+                                            CommodityType commodityType,
+                                            BigDecimal facePrice,
+                                            BigDecimal costPrice,
+                                            BigDecimal sellPrice,
+                                            Integer lifeTime,
+                                            String useDistription,
+                                            @HiddenArg Long operaterId,
+                                            @HiddenArg Long merchantId);
 
     RetMessage<Boolean> requestModifyCommodity(BigDecimal costPrice,
                                                BigDecimal facePrice,
@@ -79,7 +79,11 @@ public interface RequestService {
 
     RetMessage<Boolean> requestUnshelveCommodity(Long commodityId,
                                                  Long operaterId);
-    RetMessage<String> queryRequest(Long requestId,Long operatorId);
+
+    RetMessage<Boolean> requestDelCommodity(Long commodityId,
+                                            Long operaterId);
+
+    RetMessage<String> queryRequest(Long requestId, Long operatorId);
 
 
 

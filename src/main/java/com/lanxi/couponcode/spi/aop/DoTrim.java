@@ -11,11 +11,13 @@ import java.util.Arrays;
 /**
  * Created by yangyuanjian on 2017/11/24.
  */
+
 public class DoTrim {
-    @Pointcut("within(com.lanxi.couponcode.spi.consts.annotations.Trim)")
+    @Pointcut("@args(com.lanxi.couponcode.spi.consts.annotations.Trim)")
     private void trim(){}
 
     private <T> T doTrim(ProceedingJoinPoint joinPoint){
+        LogFactory.debug(this,"---------------------------aop dotrim is working---------------------------");
         AopJob<T> job=(clazz, method, args, point)->{
             T t=null;
             try {

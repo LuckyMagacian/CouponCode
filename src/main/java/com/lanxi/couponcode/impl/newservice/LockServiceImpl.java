@@ -2,6 +2,8 @@ package com.lanxi.couponcode.impl.newservice;
 
 import com.lanxi.couponcode.spi.assist.RedisKeyAssist;
 import com.lanxi.couponcode.impl.entity.*;
+import com.lanxi.couponcode.spi.consts.annotations.EasyLog;
+import com.lanxi.util.utils.LoggerUtil;
 import org.springframework.stereotype.Service;
 import redis.clients.jedis.Pipeline;
 import redis.clients.jedis.Response;
@@ -16,6 +18,7 @@ import java.util.stream.Collectors;
  * Created by yangyuanjian on 11/28/2017.
  */
 @Service
+@EasyLog (LoggerUtil.LogLevel.INFO)
 public class LockServiceImpl implements LockService{
     @Resource
     private RedisService redisService;

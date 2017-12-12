@@ -19,48 +19,54 @@ public interface ShopService {
                                 @HiddenArg Long operaterId);
 
     RetMessage<Boolean> importShops(File file,
-                        @HiddenArg Long merchantId,
-                        @HiddenArg Long operaterId);
+                                    @HiddenArg Long merchantId,
+                                    @HiddenArg Long operaterId);
 
     RetMessage<Boolean> freezeShop(@HiddenArg Long shopId,
-                       @HiddenArg Long operaterId);
+                                   @HiddenArg Long operaterId);
 
     RetMessage<Boolean> unfreezeShop(@HiddenArg Long shopId,
-                         @HiddenArg Long operaterId);
+                                     @HiddenArg Long operaterId);
 
     @RealReturnType("List<Shop>")
     RetMessage<String> queryShop(String merchantName,
-                     String shopName,
-                     ShopStatus status,
-                     String shopAddress,
-                     @HiddenArg Integer pageNum,
-                     @HiddenArg Integer pageSize,
-                     @HiddenArg Long operaterId);
+                                 String shopName,
+                                 ShopStatus status,
+                                 String shopAddress,
+                                 @HiddenArg Integer pageNum,
+                                 @HiddenArg Integer pageSize,
+                                 @HiddenArg Long operaterId);
 
     RetMessage<String> queryShop(String merchantName,
-                     String shopName,
-                     ShopStatus status,
-                     String shopAddress,
-                     @HiddenArg Long merchantId,
-                     @HiddenArg Long operaterId);
+                                 String shopName,
+                                 ShopStatus status,
+                                 String shopAddress,
+                                 @HiddenArg Long merchantId,
+                                 @HiddenArg Long operaterId);
 
     RetMessage<Boolean> modifyShop(String shopName,
-    					String shopAddress,
-    					String minuteShopAddress,
-    					String serviceTel,
-    					@HiddenArg Long shopId,
-    					@HiddenArg Long operaterId);
+                                   String shopAddress,
+                                   String minuteShopAddress,
+                                   String serviceTel,
+                                   @HiddenArg Long shopId,
+                                   @HiddenArg Long operaterId);
   
     RetMessage<File> queryShopsExport(String shopName,
-    				String shopAddress,
-    				ShopStatus status,
-    				@HiddenArg Integer pageNum,
-    				@HiddenArg Integer pageSize,
-    				@HiddenArg Long merchantId,
-    				@HiddenArg Long operaterId);
+                                      String shopAddress,
+                                      ShopStatus status,
+                                      @HiddenArg Integer pageNum,
+                                      @HiddenArg Integer pageSize,
+                                      @HiddenArg Long merchantId,
+                                      @HiddenArg Long operaterId);
     RetMessage<File> downloadExcelTemplate(@HiddenArg Long operaterId);
     RetMessage<String> queryShops(@HiddenArg Long merchantId,
-    		@HiddenArg Long operaterId,
-			@HiddenArg Integer pageNum,
-			@HiddenArg Integer pageSize);
+                                  @HiddenArg Long operaterId,
+                                  @HiddenArg Integer pageNum,
+                                  @HiddenArg Integer pageSize);
+    RetMessage<String> adminQueryShop(String merchantName,
+    		String shopName,
+    		ShopStatus shopStatus,
+    		@HiddenArg Long operaterId, 
+    		@HiddenArg Integer pageNum,
+    		@HiddenArg Integer pageSize);
 }

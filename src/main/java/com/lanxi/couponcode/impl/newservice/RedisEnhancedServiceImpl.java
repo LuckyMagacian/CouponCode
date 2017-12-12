@@ -1,8 +1,10 @@
 package com.lanxi.couponcode.impl.newservice;
 
 import com.lanxi.couponcode.spi.assist.RetMessage;
+import com.lanxi.couponcode.spi.consts.annotations.EasyLog;
 import com.lanxi.couponcode.spi.consts.enums.LockResult;
 import com.lanxi.couponcode.spi.consts.enums.RetCodeEnum;
+import com.lanxi.util.utils.LoggerUtil;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -14,6 +16,7 @@ import java.io.Serializable;
  * Created by yangyuanjian on 2017/11/21.
  */
 @Service("redisEnhancedService")
+@EasyLog (LoggerUtil.LogLevel.INFO)
 public class RedisEnhancedServiceImpl implements RedisEnhancedService{
     @Resource
     private RedisService redisService;

@@ -63,7 +63,7 @@ public class ValidateUtil {
 		 .append(msgOrderInfoHeadBean.getPhone()).append(msgOrderInfoHeadBean.getRemark());
 		 String sign=null;
 		 try {
-			sign=MD5Util.md5LowerCase(signParamSB.toString());
+			sign= MD5Util.md5LowerCase(signParamSB.toString());
 		} catch (Exception e) {
 			log.error("验证签名生成失败,",e);
 			return false;
@@ -94,7 +94,7 @@ public class ValidateUtil {
 		 .append(msgOrderInfoHeadBean.getPhone()).append(msgOrderInfoHeadBean.getRemark());
 		 String sign=null;
 		 try {
-			sign=MD5Util.md5LowerCase(signParamSB.toString());
+			sign= MD5Util.md5LowerCase(signParamSB.toString());
 		} catch (Exception e) {
 			log.error("验证签名生成失败,",e);
 			return false;

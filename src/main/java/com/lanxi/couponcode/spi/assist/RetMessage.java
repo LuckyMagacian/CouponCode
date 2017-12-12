@@ -1,10 +1,8 @@
 package com.lanxi.couponcode.spi.assist;
 
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.lanxi.couponcode.spi.consts.enums.RetCodeEnum;
-import com.lanxi.util.interfaces.ToJson;
+import com.lanxi.couponcode.spi.defaultInterfaces.ToJson;
 import com.lanxi.util.interfaces.ToMap;
 
 import java.io.Serializable;
@@ -36,12 +34,12 @@ public class RetMessage<T extends  Serializable> implements ToJson,ToMap,Seriali
         this.detail = detail;
     }
 
-    public void setCodeAndMessage(RetCodeEnum code,String message){
+    public void setCodeAndMessage(RetCodeEnum code, String message){
         setRetCode(code);
         setRetMessage(message);
     }
 
-    public void setAll(RetCodeEnum code,String message,T deatil){
+    public void setAll(RetCodeEnum code, String message, T deatil){
         setCodeAndMessage(code,message);
         setDetail(deatil);
     }

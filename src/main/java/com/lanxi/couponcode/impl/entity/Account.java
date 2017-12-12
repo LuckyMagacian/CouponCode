@@ -225,26 +225,30 @@ public class Account extends AbstractAccount {
 
     public void setAccountType(AccountType accountType) {
         this.accountType = accountType;
-        setType(accountType);
+        if( this.accountType!=type)
+            setType(this.accountType);
     }
 
     public void setAccountType(String accountType) {
         this.accountType = AccountType.getType(accountType);
-        setType(accountType);
+        if( this.accountType!=type)
+            setType(this.accountType);
     }
 
     public String getType() {
-        return type.getValue();
+        return type==null?null:type.getValue();
     }
 
     public void setType(AccountType type) {
         this.type = type;
-        setAccountType(type);
+        if(this.type==accountType)
+            setAccountType(this.type);
     }
 
     public void setType(String type) {
         this.type = AccountType.getType(type);
-        setAccountType(type);
+        if(this.type==accountType)
+            setAccountType(this.type);
     }
 
     public Long getMerchantId() {

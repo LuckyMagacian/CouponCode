@@ -1,10 +1,9 @@
 package com.lanxi.couponcode.spi.util;
 
-import java.io.BufferedReader;
+import org.apache.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
-
-import org.apache.log4j.Logger;
+import java.io.BufferedReader;
 
 
 /**

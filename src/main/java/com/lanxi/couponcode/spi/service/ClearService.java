@@ -5,6 +5,7 @@ import com.lanxi.couponcode.spi.consts.enums.ClearStatus;
 import com.lanxi.couponcode.spi.consts.enums.InvoiceStatus;
 
 import java.io.File;
+import java.math.BigDecimal;
 
 /**
  * Created by yangyuanjian on 2017/11/9.
@@ -26,7 +27,7 @@ public interface ClearService {
                                          Integer pageSize,
                                          Long operaterId);
 
-    RetMessage<String> queryDailyRecordInfo(Long recordId,Long operaterId);
+    RetMessage<String> queryDailyRecordInfo(Long recordId, Long operaterId);
 
 
     /**管理员用*/
@@ -61,12 +62,12 @@ public interface ClearService {
                                         InvoiceStatus invoiceStatus,
                                         Long operaterId);
 
-    RetMessage<String> queryRecordInfo(Long recordId,Long operaterId);
+    RetMessage<String> queryRecordInfo(Long recordId, Long operaterId);
 
     /**管理员用*/
     RetMessage<String> clear(Long[] dailyRecordIds,
-                                  Long operaterId);
+                             Long operaterId);
 
-
+    RetMessage<String> clear(String clearTime, BigDecimal factTotal, String remark, Long recordId, Long operaterId);
 
 }

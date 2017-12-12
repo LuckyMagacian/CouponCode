@@ -7,6 +7,7 @@ import com.lanxi.couponcode.spi.consts.enums.CommodityStatus;
 import com.lanxi.couponcode.spi.consts.enums.CommodityType;
 
 import java.io.File;
+import java.io.Serializable;
 import java.math.BigDecimal;
 
 /**
@@ -20,56 +21,58 @@ public interface CommodityService {
                                      BigDecimal sellPrice,
                                      Integer lifeTime,
                                      String merchantName,
+                                     String useDestription,
                                      @HiddenArg Long merchantId,
                                      @HiddenArg Long operaterId);
 
     RetMessage<Boolean> modifyCommodity(BigDecimal costPrice,
-                            BigDecimal facePrice,
-                            BigDecimal sellPrice,
-                            Integer lifeTime,
-                            @HiddenArg Long commodityId,
-                            @HiddenArg Long operaterId);
+                                        BigDecimal facePrice,
+                                        BigDecimal sellPrice,
+                                        Integer lifeTime,
+                                        @HiddenArg Long commodityId,
+                                        @HiddenArg Long operaterId);
 
     RetMessage<Boolean> shelveCommodity(@HiddenArg Long commodityId,
-                            @HiddenArg Long operaterId);
+                                        @HiddenArg Long operaterId);
     RetMessage<Boolean> unshelveCommodity(@HiddenArg Long commodityId,
-                              @HiddenArg Long operaterId);
+                                          @HiddenArg Long operaterId);
     RetMessage<Boolean> delCommodity(@HiddenArg Long commodity,
-                         @HiddenArg Long operaterId);
-    @RealReturnType("List<Commodity>")
+                                     @HiddenArg Long operaterId);
+    @RealReturnType ("List<Commodity>")
     RetMessage<String> queryCommodities(String merchantName,
-                            String commodityName,
-                            CommodityType commodityType,
-                            CommodityStatus commodityStatus,
-                            String timeStart,
-                            String timeEnd,
-                            @HiddenArg Integer pageNum,
-                            @HiddenArg Integer pageSize,
-                            @HiddenArg Long operaterId);
+                                        String commodityName,
+                                        CommodityType commodityType,
+                                        CommodityStatus commodityStatus,
+                                        String timeStart,
+                                        String timeEnd,
+                                        @HiddenArg Integer pageNum,
+                                        @HiddenArg Integer pageSize,
+                                        @HiddenArg Long operaterId);
 
     RetMessage<File> queryCommoditiesExport(String merchantName,
-                                String commodityName,
-                                CommodityType commodityType,
-                                CommodityStatus commodityStatus,
-                                String timeStart,
-                                String timeEnd,
-                                @HiddenArg Long operaterId);
-    @RealReturnType("List<Commodity>")
+                                            String commodityName,
+                                            CommodityType commodityType,
+                                            CommodityStatus commodityStatus,
+                                            String timeStart,
+                                            String timeEnd,
+                                            @HiddenArg Long operaterId);
+    @RealReturnType ("List<Commodity>")
     RetMessage<String> merchantQueryCommodities(String commodityName,
-                                    CommodityType type,
-                                    CommodityStatus status,
-                                    @HiddenArg Integer pageNum,
-                                    @HiddenArg Integer pageSize,
-                                    @HiddenArg Long merchantId,
-                                    @HiddenArg Long operaterId);
+                                                CommodityType type,
+                                                CommodityStatus status,
+                                                @HiddenArg Integer pageNum,
+                                                @HiddenArg Integer pageSize,
+                                                @HiddenArg Long merchantId,
+                                                @HiddenArg Long operaterId);
 
 
     RetMessage<File> merchantQueryCommoditiesExport(String commodityName,
-                                    CommodityType type,
-                                    CommodityStatus status,
-                                    @HiddenArg Long merchantId,
-                                    @HiddenArg Long operaterId);
+                                                    CommodityType type,
+                                                    CommodityStatus status,
+                                                    @HiddenArg Long merchantId,
+                                                    @HiddenArg Long operaterId);
 
-    
+    RetMessage<Serializable> queryAllCommodityIds(Long operaterId);
 
+    RetMessage<String> queryCommodity(Long commodityId, Long operaterId);
 }

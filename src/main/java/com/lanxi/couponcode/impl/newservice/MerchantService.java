@@ -45,21 +45,31 @@ public interface MerchantService {
 	/*商户信息填写*/
 	public Boolean fillInInformation(Merchant merchant);
 	/*商户组织机构代码证上传*/
-	public Boolean organizingInstitutionBarCodePicUpLoad(Merchant merchant, 
-			File file);
+	public Boolean organizingInstitutionBarCodePicUpLoad(Merchant merchant,
+                                                         File file);
 	/*商户工商营业执照上传*/
-	public Boolean businessLicensePicUpLoad(Merchant merchant, 
-			File file);
+	public Boolean businessLicensePicUpLoad(Merchant merchant,
+                                            File file);
 	/*商户其他证明材料上传*/
 	public Boolean otherPicUpLoad(Merchant merchant,
-			File file);
+                                  File file);
 	/*根据商户id查询商户的状态*/
 	public String queryMerchantStatusByid(Long merchantId,
-			Long operaterId);
+                                          Long operaterId);
 	/*导出*/
-	public File merchantExport(String merchantName,MerchantStatus merchantStatus,String timeStart,
-            String  timeStop,Long operaterId);
-	
-
-	
+	public File merchantExport(String merchantName, MerchantStatus merchantStatus, String timeStart,
+                               String timeStop, Long operaterId);
+	/**判断商户名称是否可用
+	 * true可用 
+	 * false 不可用*/
+	public Boolean isRepeat(String merchantName);
+	/**
+	 * 判断商户名称是否可用
+	 * @param merchantName
+	 * @param merchantId
+	 * @return true可用 false 不可用
+	 * 
+	 */
+	public Boolean isRepeat(String merchantName,Long merchantId);
+	public List<Merchant> queryAll();
 }

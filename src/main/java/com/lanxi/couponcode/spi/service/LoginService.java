@@ -16,8 +16,8 @@ public interface LoginService {
      * @return 登录结果 成功或者 错误及对应的错误信息<br>
      */
     RetMessage<String> login(String phone,
-                              String password,
-                              String validateCode);
+                             String password,
+                             String validateCode);
     	
     /**
      * 登出<br>
@@ -37,10 +37,10 @@ public interface LoginService {
      */
     @RealReturnType("RetMessage")
     RetMessage<Boolean> forgetPassword(String phone,
-                          String validateCode,
-                          String newPassword,
-                          String newRepeat,
-                          @HiddenArg Long accountId);
+                                       String validateCode,
+                                       String newPassword,
+                                       String newRepeat,
+                                       @HiddenArg Long accountId);
 
     /**
      * 修改密码<br>
@@ -52,8 +52,14 @@ public interface LoginService {
      */
     @RealReturnType("RetMessage")
     RetMessage<Boolean> changePassword(
-                           String oldPasswd,
-                           String newPasswd,
-                           String newRepeat,
-                           @HiddenArg Long accountId);
+            String oldPasswd,
+            String newPasswd,
+            String newRepeat,
+            @HiddenArg Long accountId);
+    /**
+     * 发送手机验证码
+     * @param phone  手机号码
+     * @return
+     */
+    RetMessage<String> sendValidateCode(String phone);
 }

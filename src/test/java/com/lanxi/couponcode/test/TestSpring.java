@@ -24,9 +24,7 @@ import java.util.function.Function;
 import java.util.stream.Stream;
 
 public class TestSpring {
-
 	    ApplicationContext ac;
-
 	    public final static Function<Object,Object> fillEntity=e->{
 	        Field[] fields=e.getClass().getDeclaredFields();
             Stream.of(fields).parallel().filter(f->!Modifier.isStatic(f.getModifiers())).forEach(f->{
@@ -68,7 +66,7 @@ public class TestSpring {
 
 	    @Before
 	    public void init(){
-	    	LoggerUtil.setLogLevel(LoggerUtil.LogLevel.INFO);
+	    	LoggerUtil.setLogLevel(LoggerUtil.LogLevel.DEBUG);
 	    	LoggerUtil.init();
 	        ac=new ClassPathXmlApplicationContext("xml/spring-mvc.xml");
 	        
@@ -97,18 +95,10 @@ public class TestSpring {
 	    @Test
         public void test3(){
             System.out.println(((Model)fillEntity.apply(new Account())).insert());
-            System.out.println(((Model)fillEntity.apply(new ClearDailyRecord())).insert());
-            System.out.println(((Model)fillEntity.apply(new ClearRecord())).insert());
-            System.out.println(((Model)fillEntity.apply(new CodeAlgorithm())).insert());
-            System.out.println(((Model)fillEntity.apply(new Commodity())).insert());
-            System.out.println(((Model)fillEntity.apply(new CouponCode())).insert());
-            System.out.println(((Model)fillEntity.apply(new Merchant())).insert());
-            System.out.println(((Model)fillEntity.apply(new OperateRecord())).insert());
-            System.out.println(((Model)fillEntity.apply(new Order())).insert());
-            System.out.println(((Model)fillEntity.apply(new Request())).insert());
-            System.out.println(((Model)fillEntity.apply(new Shop())).insert());
-            System.out.println(((Model)fillEntity.apply(new VerificationRecord())).insert());
         }
-	    
+    @Test
+    public void test6(){
+        System.out.println(ac.getBean(DaoService.class).getMerchantDao().insert((Merchant)TestSpring.fillEntity.apply(new Merchant())));
+    }
 }
 

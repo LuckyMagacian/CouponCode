@@ -1,12 +1,10 @@
 package com.lanxi.couponcode.spi.assist;
 
-import org.junit.Test;
-
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.time.*;
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
+import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
-import java.util.Date;
 import java.util.regex.Pattern;
 
 /**
@@ -96,6 +94,10 @@ public interface TimeAssist {
 
     static String getTodayBegin() {
         return getNow().substring(0, 8) + "000000";
+    }
+
+    static String getLastMonth(){
+        return LocalDateTime.now().minusMonths(1).format(formatter).substring(0,6);
     }
 
     static String getToodayEnd() {

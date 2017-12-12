@@ -4,7 +4,9 @@ import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.mapper.Wrapper;
 import com.baomidou.mybatisplus.plugins.Page;
 import com.lanxi.couponcode.impl.entity.Commodity;
+import com.lanxi.couponcode.spi.consts.annotations.EasyLog;
 import com.lanxi.couponcode.spi.consts.enums.CommodityStatus;
+import com.lanxi.util.utils.LoggerUtil;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -15,7 +17,8 @@ import java.util.Optional;
  * Created by yangyuanjian on 2017/11/17.
  */
 @Service("commodityService")
-public class CommodityServiceImpl implements CommodityService{
+@EasyLog (LoggerUtil.LogLevel.INFO)
+public class CommodityServiceImpl implements CommodityService {
     @Resource
     private DaoService daoService;
     @Resource
@@ -83,5 +86,10 @@ public class CommodityServiceImpl implements CommodityService{
         synchronized (commodity){
             return commodity.updateById();
         }
+    }
+
+    @Override
+    public List<Commodity> queryAll() {
+        return daoService.getCommodityDao().selectList(new EntityWrapper<>());
     }
 }

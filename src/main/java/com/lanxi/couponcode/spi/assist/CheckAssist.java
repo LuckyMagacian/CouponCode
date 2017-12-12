@@ -1,11 +1,7 @@
 package com.lanxi.couponcode.spi.assist;
 
-import com.alibaba.fastjson.JSONObject;
-import com.lanxi.couponcode.spi.assist.RetMessage;
 import com.lanxi.util.interfaces.ToJson;
 
-import java.io.Serializable;
-import java.util.Map;
 import java.util.Optional;
 
 /**
@@ -30,11 +26,11 @@ public interface CheckAssist {
             return null;
         if (obj instanceof ToJson)
             return ((ToJson) obj).toJson();
-        return JSONObject.toJSONString(obj);
+        return com.lanxi.couponcode.spi.defaultInterfaces.ToJson.toJson(obj);
     }
 
 
-    static boolean  checkPage(String pageNum,String pageSize){
+    static boolean  checkPage(String pageNum, String pageSize){
         if(pageNum==null||pageSize==null)
             return false;
         final String regex="[1-9]+[0-9]{1,6}";

@@ -4,6 +4,8 @@ import com.alibaba.fastjson.JSON;
 import com.baomidou.mybatisplus.toolkit.IdWorker;
 import com.lanxi.couponcode.spi.assist.RedisKeyAssist;
 import com.lanxi.couponcode.spi.assist.TimeAssist;
+import com.lanxi.common.adaptors.SmsSendServiceInterfaceAdaptor;
+import com.lanxi.common.interfaces.SmsSendServiceInterface;
 import com.lanxi.couponcode.impl.entity.Account;
 import com.lanxi.couponcode.impl.entity.OperateRecord;
 import com.lanxi.couponcode.impl.newservice.AccountService;
@@ -12,24 +14,37 @@ import com.lanxi.couponcode.impl.newservice.OperateRecordService;
 import com.lanxi.couponcode.impl.newservice.RedisEnhancedService;
 import com.lanxi.couponcode.impl.newservice.RedisService;
 import com.lanxi.couponcode.spi.assist.RetMessage;
+import com.lanxi.couponcode.spi.consts.annotations.CheckArg;
+import com.lanxi.couponcode.spi.consts.annotations.EasyLog;
 import com.lanxi.couponcode.spi.consts.enums.AccountStatus;
 import com.lanxi.couponcode.spi.consts.enums.OperateTargetType;
 import com.lanxi.couponcode.spi.consts.enums.OperateType;
 import com.lanxi.couponcode.spi.consts.enums.RetCodeEnum;
+import com.lanxi.couponcode.spi.defaultInterfaces.ToJson;
 import com.lanxi.util.entity.LogFactory;
+import com.lanxi.util.utils.LoggerUtil;
 import com.lanxi.util.utils.SignUtil;
-import static com.lanxi.couponcode.impl.assist.PredicateAssist.*;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import javax.annotation.Resource;
+import com.lanxi.util.utils.SmsUtil;
+
 import org.springframework.stereotype.Controller;
 
+import javax.annotation.Resource;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.HashMap;
+import java.util.Map;
+
+import static com.lanxi.couponcode.impl.assist.PredicateAssist.checkAccount;
+import static com.lanxi.couponcode.impl.assist.PredicateAssist.notNull;
+
 /**
- * 
+ *
  * @author wuxiaobo
  *
  */
+@CheckArg
 @Controller("loginControllerService")
+@EasyLog (LoggerUtil.LogLevel.INFO)
 public class LoginController implements com.lanxi.couponcode.spi.service.LoginService {
 	@Resource
 	private AccountService accountService;
@@ -41,13 +56,14 @@ public class LoginController implements com.lanxi.couponcode.spi.service.LoginSe
 	private ConfigService configService;
 	@Resource
 	private OperateRecordService operateRecordService;
-
+	@Resource
+	private SmsSendServiceInterface sms;
 	@Override
 	public RetMessage<String> login(String phone, String password, String validateCode) {
 		Account account = null;
 		// TODO 验证码
 		try {
-			if (phone != null && phone.isEmpty() && password != null && password.isEmpty()) {
+			if (phone != null && !phone.isEmpty() && password != null && !password.isEmpty()) {
 				Account account2 = new Account();
 				account2.setPhone(phone);
 				account = accountService.login(account2, validateCode);
@@ -57,23 +73,27 @@ public class LoginController implements com.lanxi.couponcode.spi.service.LoginSe
 						//account.setPassword(SignUtil.md5LowerCase("123456","utf-8"));
 						if (SignUtil.md5LowerCase(password,"utf-8").equals(account.getPassword())) {
 							if (AccountStatus.freeze.getValue().equals(account.getStatus())) {
-								LogFactory.debug(this, "账户已被冻结\n");
+								LogFactory.debug(this, "账户已被冻结 ");
 								return new RetMessage<>(RetCodeEnum.fail, "您的账户已被冻结", null);
 							} else if (AccountStatus.deleted.getValue().equals(account.getStatus())) {
-								LogFactory.debug(this, "已被删除的账户\n");
+								LogFactory.debug(this, "已被删除的账户 ");
 								return new RetMessage<>(RetCodeEnum.fail, "您的账户不存在", null);
 							} else {
-								LogFactory.debug(this, "登录成功\n");
+								LogFactory.debug(this, "登录成功 ");
 								account.setLoginFailureNum(0);
 								account.setLoginFailureTime("20171114033028");
 								LogFactory.info(this, "登录成功把失败登录次数和失败登录时间清零,/n");
 								accountService.modifyAccount(account);
-								String result = JSON.toJSONString(account);
+								String token=SignUtil.md5LowerCase(TimeAssist.getNow() + account.getAccountId(), "utf-8");
 								Boolean boolean1 = redisService.set(RedisKeyAssist.getLoginKey(account.getAccountId()),
-										SignUtil.md5LowerCase(TimeAssist.getNow() + account.getAccountId(), "utf-8"),
+										token,
 										Long.valueOf(configService.getValue("parameter", "accountLifeDefaultValue")));
 								if (boolean1) {
-									return new RetMessage<>(RetCodeEnum.success, "登录成功", result);
+
+									Map<String, Object> map=new HashMap<>();
+									map.put("token",token);
+									map.put("account", account);
+									return new RetMessage<>(RetCodeEnum.success, "登录成功", ToJson.toJson(map));
 								} else {
 									return new RetMessage<>(RetCodeEnum.error, "登录异常", null);
 								}
@@ -84,7 +104,7 @@ public class LoginController implements com.lanxi.couponcode.spi.service.LoginSe
 							account.setLoginFailureTime(
 									LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMddHHmmss")));
 							accountService.modifyAccount(account);
-							LogFactory.debug(this, "账号或密码错误\n");
+							LogFactory.debug(this, "账号或密码错误 ");
 							return new RetMessage<>(RetCodeEnum.fail, "账号或者密码错误", null);
 						}
 					} else {
@@ -94,27 +114,31 @@ public class LoginController implements com.lanxi.couponcode.spi.service.LoginSe
 						} else {
 							if (SignUtil.md5LowerCase(password,"utf-8").equals(account.getPassword())) {
 								if (account.getStatus().equals(AccountStatus.freeze.getValue())) {
-									LogFactory.debug(this, "账户已被冻结\n");
+									LogFactory.debug(this, "账户已被冻结 ");
 									return new RetMessage<>(RetCodeEnum.fail, "您的账户已被冻结", null);
 								} else if (account.getStatus().equals(AccountStatus.deleted.getValue())) {
-									LogFactory.debug(this, "已被删除的账户\n");
+									LogFactory.debug(this, "已被删除的账户 ");
 									return new RetMessage<>(RetCodeEnum.fail, "账户不存在", null);
 								} else {
-									LogFactory.debug(this, "登录成功\n");
-									String result = JSON.toJSONString(account);
+									LogFactory.debug(this, "登录成功 ");
 									account.setLoginFailureNum(0);
 									account.setLoginFailureTime("20171114033028");
 									account.setAccountId(account.getAccountId());
 									LogFactory.info(this, "把失败登录次数和失败登录时间清零,/n");
 									accountService.modifyAccount(account);
+									String token=SignUtil.md5LowerCase(TimeAssist.getNow() + account.getAccountId(),
+											"utf-8");
 									Boolean boolean1 = redisService.set(
 											RedisKeyAssist.getLoginKey(account.getAccountId()),
-											SignUtil.md5LowerCase(TimeAssist.getNow() + account.getAccountId(),
-													"utf-8"),
+											token,
 											Long.valueOf(
 													configService.getValue("parameter", "accountLifeDefaultValue")));
 									if (boolean1) {
-										return new RetMessage<>(RetCodeEnum.success, "登录成功", result);
+
+										Map<String, Object> map=new HashMap<>();
+										map.put("token",token);
+										map.put("account", account);
+										return new RetMessage<>(RetCodeEnum.success, "登录成功", ToJson.toJson(map));
 									} else {
 										return new RetMessage<>(RetCodeEnum.error, "登录异常", null);
 									}
@@ -126,7 +150,7 @@ public class LoginController implements com.lanxi.couponcode.spi.service.LoginSe
 										LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMddHHmmss")));
 								account.setAccountId(account.getAccountId());
 								accountService.modifyAccount(account);
-								LogFactory.debug(this, "账号或密码错误\n");
+								LogFactory.debug(this, "账号或密码错误 ");
 								return new RetMessage<>(RetCodeEnum.fail, "账号或者密码错误", null);
 							}
 						}
@@ -147,7 +171,7 @@ public class LoginController implements com.lanxi.couponcode.spi.service.LoginSe
 	public RetMessage<Boolean> logout(Long accountId) {
 		Boolean result = false;
 		try {
-			String loginKey = redisService.get(RedisKeyAssist.getLoginKey(accountId));
+			String loginKey = RedisKeyAssist.getLoginKey(accountId);
 			if (loginKey != null) {
 				result = redisService.del(RedisKeyAssist.getLoginKey(accountId));
 			} else {
@@ -166,42 +190,51 @@ public class LoginController implements com.lanxi.couponcode.spi.service.LoginSe
 
 	@Override
 	public RetMessage<Boolean> forgetPassword(String phone, String validateCode, String newPassword, String newRepeat,
-			Long accountId) {
+											  Long accountId) {
 		RetMessage<Boolean> retMessage = new RetMessage<Boolean>();
 		Boolean result = false;
 		// TODO 手机验证码校验
 		try {
-			if (!newPassword.equals(newRepeat)) {
-				result = false;
-				LogFactory.debug(this, "两次密码不一致\n");
-				retMessage.setAll(RetCodeEnum.fail, "两次密码不一致", false);
-			} else {
-				Account account = new Account();
-				account.setPhone(phone);
-				Account a = accountService.queryAccountInfo(account);
-				RetMessage message = checkAccount.apply(a, OperateType.changePassword);
-				if (notNull.test(message))
-					return message;
-				account.setPassword(SignUtil.md5LowerCase(newPassword,"utf-8"));
-				result = accountService.forgetPassword(validateCode, account, accountId);
-				if (result) {
-					retMessage.setAll(RetCodeEnum.success, "重置密码成功", result);
-					OperateRecord record = new OperateRecord();
-					record.setRecordId(IdWorker.getId());
-					record.setOperaterId(a.getAccountId());
-					record.setAccountType(a.getAccountType());
-					record.setPhone(a.getPhone());
-					record.setName(a.getUserName());
-					record.setTargetType(OperateTargetType.account);
-					record.setType(OperateType.changePassword);
-					record.setOperateTime(TimeAssist.getNow());
-					record.setOperateResult("success");
-					record.setDescription("修改密码[" + a.getAccountId() + "]");
-					operateRecordService.addRecord(record);
-				} else {
-					retMessage.setAll(RetCodeEnum.exception, "重置密码失败", result);
+			String code=redisService.get(RedisKeyAssist.getVerificateCodeKey(phone));
+			if (code!=null&&!code.isEmpty()) {
+				if(SignUtil.md5LowerCase(code, "utf-8").equals(validateCode)) {
+					if (!newPassword.equals(newRepeat)) {
+						result = false;
+						LogFactory.debug(this, "两次密码不一致 ");
+						retMessage.setAll(RetCodeEnum.fail, "两次密码不一致", false);
+					} else {
+						Account account = new Account();
+						account.setPhone(phone);
+						Account a = accountService.queryAccountInfo(account);
+						RetMessage message = checkAccount.apply(a, OperateType.changePassword);
+						if (notNull.test(message))
+							return message;
+						a.setPassword(SignUtil.md5LowerCase(newPassword,"utf-8"));
+						result = accountService.forgetPassword(validateCode, a, accountId);
+						if (result) {
+							retMessage.setAll(RetCodeEnum.success, "重置密码成功", result);
+							OperateRecord record = new OperateRecord();
+							record.setRecordId(IdWorker.getId());
+							record.setOperaterId(a.getAccountId());
+							record.setAccountType(a.getAccountType());
+							record.setPhone(a.getPhone());
+							record.setName(a.getUserName());
+							record.setTargetType(OperateTargetType.account);
+							record.setType(OperateType.changePassword);
+							record.setOperateTime(TimeAssist.getNow());
+							record.setOperateResult("success");
+							record.setDescription("修改密码[" + a.getAccountId() + "]");
+							operateRecordService.addRecord(record);
+						} else {
+							retMessage.setAll(RetCodeEnum.exception, "重置密码失败", result);
+						}
+					}
 				}
-			}
+				else
+					return new RetMessage<>(RetCodeEnum.fail,"验证码错误",null);
+			}else
+				return new RetMessage<>(RetCodeEnum.fail,"验证码已过期",null);
+
 
 		} catch (Exception e) {
 			LogFactory.error(this, "重置密码时出现异常", e);
@@ -221,7 +254,7 @@ public class LoginController implements com.lanxi.couponcode.spi.service.LoginSe
 				// 判断两次密码是否一致
 				if (!newPasswd.equals(newRepeat)) {
 					result = false;
-					LogFactory.debug(this, "两次密码不一致\n");
+					LogFactory.debug(this, "两次密码不一致 ");
 					retMessage.setAll(RetCodeEnum.fail, "两次密码不一致", false);
 				} else {
 					Account account = accountService.queryAccountById(accountId);
@@ -256,7 +289,7 @@ public class LoginController implements com.lanxi.couponcode.spi.service.LoginSe
 				}
 			} else {
 				result = false;
-				retMessage.setAll(RetCodeEnum.fail, "两次密码输入不一致", result);
+				retMessage.setAll(RetCodeEnum.fail, "旧密码与新密码重复请重试!", result);
 			}
 
 		} catch (Exception e) {
@@ -265,5 +298,31 @@ public class LoginController implements com.lanxi.couponcode.spi.service.LoginSe
 		}
 		return retMessage;
 	}
+	@Override
+	public RetMessage<String> sendValidateCode(String phone){
+		try {
+			if (!accountService.phoneVerify(phone)) {
+				String s=sms.sendVerifySms(configService.getValue("parameter",
+						"smsTemplate"),
+						"[code]",Integer.valueOf(configService.getValue("parameter", "smsLength")),
+						phone);
+				if (s!=null&&!s.isEmpty()) {
+					Boolean result=redisService.set(RedisKeyAssist.getVerificateCodeKey(phone),SignUtil.md5LowerCase(s,"utf-8"),
+							Long.valueOf(
+									configService.getValue("parameter", "smsLifeDefaultValue")));
+					if (result) {
+						return new RetMessage<>(RetCodeEnum.success,"验证码发送成功",s);
+					}else
+						return new RetMessage<>(RetCodeEnum.fail,"验证码发送失败",null);
+				}else
+					return new RetMessage<>(RetCodeEnum.fail,"验证码发送失败",null);
 
+			}else {
+				return new RetMessage<>(RetCodeEnum.fail,"账号不存在",null);
+			}
+		} catch (Exception e) {
+			LogFactory.error(this,"发送验证码时发生异常",e);
+			return new RetMessage<>(RetCodeEnum.error,"获取验证码时发生异常",null);
+		}
+	}
 }

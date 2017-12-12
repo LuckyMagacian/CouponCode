@@ -13,10 +13,11 @@ import java.util.Optional;
 public interface CommodityService {
     Boolean addCommodity(Commodity commodity);
     Commodity queryCommodity(Long commodityId);
-    Commodity queryCommodity(Long commodityId,Long merchantId);
+    Commodity queryCommodity(Long commodityId, Long merchantId);
     List<Commodity> queryCommodities(Wrapper<Commodity> wrapper, Page<Commodity> page);
     Boolean delCommodity(Commodity commodity);
     Boolean shelveCommodity(Commodity commodity);
     Boolean unshelveCommodity(Commodity commodity);
     Boolean modifyCommodity(Commodity commodity);
+    List<Commodity> queryAll();
 }

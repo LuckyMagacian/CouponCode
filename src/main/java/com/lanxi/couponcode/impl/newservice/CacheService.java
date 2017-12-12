@@ -26,15 +26,15 @@ public interface CacheService {
 
     //1缓存方法结果,Key为类名,方法名,参数,
     boolean addCache(String key, Serializable value, Long lifecycle);
-    boolean addCache(String className, String methodName,List<Object> args, Serializable value, Long lifecycle);
+    boolean addCache(String className, String methodName, List<Object> args, Serializable value, Long lifecycle);
     //获取缓存,key为类名,方法名,参数
-    Serializable getCache(String className,String methodName,List<Object> args);
+    Serializable getCache(String className, String methodName, List<Object> args);
     //获取缓存,key
     Serializable getCache(String key);
     //删除缓存,key为类名,方法名,参数名
-    boolean delCache(String className,String methodName,List<Object> args);
+    boolean delCache(String className, String methodName, List<Object> args);
     //删除缓存,key为类名,方法名
-    boolean delCache(String className,String methodName);
+    boolean delCache(String className, String methodName);
     //删除缓存,key为类名,
     boolean delCache(String className);
     //删除所有缓存

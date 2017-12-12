@@ -131,7 +131,7 @@ public class Commodity extends AbstractCommodity{
 
     @Override
     protected Serializable pkVal() {
-        return null;
+        return commodityId;
     }
 
     public Long getCommodityId() {

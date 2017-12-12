@@ -1,6 +1,5 @@
 package com.lanxi.couponcode.impl.entity;
 
-import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.baomidou.mybatisplus.activerecord.Model;
 import com.baomidou.mybatisplus.annotations.TableField;
@@ -8,6 +7,7 @@ import com.baomidou.mybatisplus.annotations.TableId;
 import com.baomidou.mybatisplus.annotations.TableName;
 import com.lanxi.couponcode.spi.consts.enums.ClearStatus;
 import com.lanxi.couponcode.spi.defaultInterfaces.CommonDefaultMethodOfEntity;
+import com.lanxi.couponcode.spi.defaultInterfaces.ToJson;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
@@ -154,7 +154,7 @@ public class ClearDailyRecord extends Model<ClearDailyRecord> implements CommonD
     }
 
     public String getClearStatus() {
-        return clearStatus.getValue();
+        return clearStatus==null?null:clearStatus.getValue();
     }
 
 
@@ -179,7 +179,7 @@ public class ClearDailyRecord extends Model<ClearDailyRecord> implements CommonD
     }
 
     public String getCommodityClearRecords() {
-        return JSON.toJSONString(commodityClearRecords);
+        return commodityClearRecords==null?null:ToJson.toJson(commodityClearRecords);
     }
 
     public void setCommodityClearRecords(List<CommodityClearRecord> cmommodityClearRecords) {

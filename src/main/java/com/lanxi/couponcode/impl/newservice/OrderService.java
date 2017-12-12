@@ -1,5 +1,6 @@
 package com.lanxi.couponcode.impl.newservice;
 
+import java.io.File;
 import java.util.List;
 
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
@@ -28,5 +29,7 @@ public interface OrderService {
 	 * @param WorkDate 交易日期
 	 * @return true重复        false不重复
 	 */
-	public Boolean isRepetition(String MsgID,String WorkDate);
+	public Boolean isRepetition(String MsgID, String WorkDate);
+	public List<Order> queryOrders(EntityWrapper<Order> wrapper,Page<Order> pageObj);
+	public File orderExport(EntityWrapper<Order> wrapper);
 }

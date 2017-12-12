@@ -8,6 +8,7 @@ import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.lanxi.couponcode.spi.abstractentity.AbstractCouponCode;
 import com.lanxi.couponcode.spi.consts.enums.ClearStatus;
 import com.lanxi.couponcode.spi.consts.enums.CouponCodeStatus;
+import com.lanxi.couponcode.spi.consts.enums.GenerateType;
 import com.lanxi.couponcode.spi.consts.enums.VerificationType;
 
 import java.io.Serializable;
@@ -69,6 +70,12 @@ public class CouponCode extends AbstractCouponCode{
 	/**核销方式*/
 	@TableField("verification_type")
 	private VerificationType verificationType;
+	/**生成方式*/
+	@TableField("generate_type")
+	private GenerateType generateType;
+	/**核销时间*/
+	@TableField("verify_time")
+	private String verifyTime;
 	@Override
 	public Serializable pkVal(){
 		return this.codeId;
@@ -154,7 +161,7 @@ public class CouponCode extends AbstractCouponCode{
 	}
 
 	public String getVerificationType() {
-		return verificationType.getValue();
+		return verificationType==null?null:verificationType.getValue();
 	}
 
 	public void setVerificationType(VerificationType verificationType) {
@@ -185,6 +192,8 @@ public class CouponCode extends AbstractCouponCode{
 				", reason='" + reason + '\'' +
 				", channel=" + channel +
 				", verificationType=" + verificationType +
+				", generateType=" + generateType +
+				", verifyTime='" + verifyTime + '\'' +
 				'}';
 	}
 
@@ -221,7 +230,7 @@ public class CouponCode extends AbstractCouponCode{
 	}
 
 	public String getClearStatus() {
-		return clearStatus.getValue();
+		return clearStatus==null?null:clearStatus.getValue();
 	}
 	public ClearStatus getClearStatusEnum() {
 		return clearStatus;
@@ -249,5 +258,23 @@ public class CouponCode extends AbstractCouponCode{
 
 	public void setFinalTime(String finalTime) {
 		this.finalTime = finalTime;
+	}
+
+	public String getGenerateType() {
+		return generateType==null?null:generateType.getValue();
+	}
+
+	public void setGenerateType(GenerateType generateType) {
+		this.generateType = generateType;
+	}
+	public void setGenerateType(String generateType) {
+		this.generateType = GenerateType.getType(generateType);
+	}
+	public String getVerifyTime() {
+		return verifyTime;
+	}
+
+	public void setVerifyTime(String verifyTime) {
+		this.verifyTime = verifyTime;
 	}
 }

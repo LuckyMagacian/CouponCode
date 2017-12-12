@@ -1,11 +1,16 @@
 package com.lanxi.couponcode.impl.newservice;
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.plugins.Page;
+import com.baomidou.mybatisplus.toolkit.IdWorker;
 import com.lanxi.couponcode.spi.config.Path;
 import com.lanxi.couponcode.impl.entity.Merchant;
+import com.lanxi.couponcode.impl.entity.Shop;
+import com.lanxi.couponcode.spi.consts.annotations.EasyLog;
 import com.lanxi.couponcode.spi.util.ImageUtil;
 import com.lanxi.couponcode.spi.consts.enums.MerchantStatus;
 import com.lanxi.util.entity.LogFactory;
+import com.lanxi.util.utils.ExcelUtil;
+import com.lanxi.util.utils.LoggerUtil;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.TransactionDefinition;
@@ -17,13 +22,16 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 /**
  * 商户操作实现类
  * @author wuxiaobo
  *
  */
 @Service("merchantService")
+@EasyLog (LoggerUtil.LogLevel.INFO)
 public class MerchantServiceImpl implements MerchantService {
 	
 	private TransactionDefinition txDefinition;
@@ -214,10 +222,17 @@ public class MerchantServiceImpl implements MerchantService {
 						result = false;
 						return result;
 					}
+					
 					//为避免文件重复用日期+商户id+证件类型做文件名
 					String time = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMddHHmmss"));
-					String path = Path.organizingInstitutionBarCodePicPath + time + merchant.getMerchantId()
+					String realPath=MerchantServiceImpl.class.getClassLoader().getResource("").
+							getPath()+Path.organizingInstitutionBarCodePicPath.replace("classpath:","");
+					String path =realPath+ time + merchant.getMerchantId()
 							+ "organizingInstitutionBarCodePic" + suffix;
+					File file3=new File(realPath.substring(0,realPath.lastIndexOf("/")));
+					if (!file3.exists()) {
+						file3.mkdir();
+					}
 					LogFactory.info(this, "尝试保存商户组织机构代码证");
 					InputStream is = null;
 					OutputStream os = null;
@@ -266,8 +281,14 @@ public class MerchantServiceImpl implements MerchantService {
 					}
 					//为避免文件重复用日期+商户id+证件类型做文件名
 					String time = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMddHHmmss"));
-					String path = Path.businessLicensePicPath + time + merchant.getMerchantId() + "businessLicensePic"
+					String realPath=MerchantServiceImpl.class.getClassLoader().getResource("").
+							getPath()+Path.businessLicensePicPath.replace("classpath:","");
+					String path = realPath+ time + merchant.getMerchantId() + "businessLicensePic"
 							+ suffix;
+					File file3=new File(realPath.substring(0,realPath.lastIndexOf("/")));
+					if (!file3.exists()) {
+						file3.mkdir();
+					}
 					LogFactory.info(this, "尝试保存商户工商营业执照");
 					InputStream is = null;
 					OutputStream os = null;
@@ -317,7 +338,13 @@ public class MerchantServiceImpl implements MerchantService {
 					}
 					//为避免文件重复用日期+商户id+证件类型做文件名
 					String time = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMddHHmmss"));
-					String path = Path.otherPicPath + time + merchant.getMerchantId() + "otherPic" + suffix;
+					String realPath=MerchantServiceImpl.class.getClassLoader().getResource("").
+							getPath()+Path.otherPicPath.replace("classpath:","");
+					String path =realPath+ time + merchant.getMerchantId() + "otherPic" + suffix;
+					File file3=new File(realPath.substring(0,realPath.lastIndexOf("/")));
+					if (!file3.exists()) {
+						file3.mkdir();
+					}
 					LogFactory.info(this, "尝试保存商户其他证明资料");
 					InputStream is = null;
 					OutputStream os = null;
@@ -414,7 +441,7 @@ public class MerchantServiceImpl implements MerchantService {
 			} catch (Exception e) {
 
 				result = false;
-				LogFactory.debug(this, "冻结商户时发生异常");
+				LogFactory.error(this, "冻结商户时发生异常");
 			}
 			return result;
 		}
@@ -434,7 +461,7 @@ public class MerchantServiceImpl implements MerchantService {
 				}
 			} catch (Exception e) {
 				result = false;
-				LogFactory.debug(this, "开启商户时发生异常");
+				LogFactory.error(this, "开启商户时发生异常");
 			}
 			return result;
 		}
@@ -442,9 +469,97 @@ public class MerchantServiceImpl implements MerchantService {
 	@Override
 	public File merchantExport(String merchantName, MerchantStatus merchantStatus, String timeStart, String timeStop,
 			Long operaterId) {
-		// TODO Auto-generated method stub
+		try {
+			EntityWrapper<Merchant>wrapper=new EntityWrapper<>();
+			if (merchantName!=null&&!merchantName.isEmpty()) {
+				wrapper.eq("merchant_name",merchantName);
+			}
+			if (merchantStatus!=null) {
+				wrapper.eq("merchant_status",merchantStatus);
+			}else {
+				wrapper.ne("merchant_status", MerchantStatus.cancellation);
+				wrapper.ne("merchant_status",MerchantStatus.deleted);
+				wrapper.ne("merchant_status",MerchantStatus.test);
+			}
+			if (timeStart != null && !timeStart.isEmpty()) {
+				while (timeStart.length() < 14)
+					timeStart += "0";
+				wrapper.ge("create_time", timeStart);
+			}
+			if (timeStop != null && !timeStop.isEmpty()) {
+				while (timeStop.length() < 14)
+					timeStop += "9";
+				wrapper.le("create_time", timeStop);
+			}
+			List<Merchant> list=dao.getMerchantDao().selectList(wrapper);
+			Map<String,String> map=new HashMap<>();
+			map.put("merchantName", "商户名称");
+			map.put("workAddress","商户办公地址");
+			map.put("serviceTel","客服电话");
+			map.put("merchantStatus","商户状态");
+			File file=new File(MerchantServiceImpl.class.getClassLoader().getResource("").getPath()+IdWorker.getId()+".xls");
+			OutputStream os=new FileOutputStream(file);
+			ExcelUtil.exportExcelFile(list, map,os);
+			os.flush();
+			if (file.exists()) {
+				return file;
+			}else {
+				return null;
+			}
+		} catch (Exception e) {
+			LogFactory.error(this,"导出商户时发生异常",e);
+			return null;
+		}
+	}
+	@Override
+	public Boolean isRepeat(String merchantName) {
 		
-		return null;
+		try {
+			EntityWrapper<Merchant> wrapper=new EntityWrapper<>();
+			wrapper.eq("merchant_name", merchantName);
+			wrapper.ne("merchant_status", MerchantStatus.deleted);
+			wrapper.ne("merchant_status", MerchantStatus.test);
+			wrapper.ne("merchant_status",MerchantStatus.cancellation);
+			List<Merchant> list=dao.getMerchantDao().selectList(wrapper);
+			if (list==null||list.size()==0) {
+				return true;
+			}else {
+				return false;
+			}
+		} catch (Exception e) {
+			LogFactory.error(this,"判断商户名称是否重复时发生异常",e);
+			return false;
+		}
+	}
+	@Override
+	public Boolean isRepeat(String merchantName, Long merchantId) {
+		try {
+			EntityWrapper<Merchant> wrapper=new EntityWrapper<>();
+			wrapper.eq("merchant_name", merchantName);
+			wrapper.ne("merchant_status", MerchantStatus.deleted);
+			wrapper.ne("merchant_status", MerchantStatus.test);
+			wrapper.ne("merchant_status",MerchantStatus.cancellation);
+			List<Merchant> list=dao.getMerchantDao().selectList(wrapper);
+			if (list==null||list.size()==0) {
+				return true;
+			}else {
+				if (list.get(0).getMerchantId().equals(merchantId)) {
+					return true;
+				}else
+				return false;
+			}
+		} catch (Exception e) {
+			LogFactory.error(this,"判断商户名称是否重复时发生异常",e);
+			return false;
+		}
+	}
+	@Override
+	public List<Merchant> queryAll() {
+		EntityWrapper<Merchant> wrapper=new EntityWrapper<>();
+		wrapper.ne("merchant_status", MerchantStatus.deleted);
+		wrapper.ne("merchant_status", MerchantStatus.test);
+		wrapper.ne("merchant_status",MerchantStatus.cancellation);
+		return dao.getMerchantDao().selectList(wrapper);
 	}
 	
 }

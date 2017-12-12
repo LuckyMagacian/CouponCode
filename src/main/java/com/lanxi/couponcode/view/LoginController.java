@@ -1,20 +1,25 @@
 package com.lanxi.couponcode.view;
 
+import com.lanxi.couponcode.spi.assist.RetMessage;
+import com.lanxi.couponcode.spi.consts.annotations.EasyLog;
+import com.lanxi.couponcode.spi.consts.annotations.LoginCheck;
+import com.lanxi.couponcode.spi.consts.annotations.SetUtf8;
+import com.lanxi.couponcode.spi.service.LoginService;
+import com.lanxi.util.utils.LoggerUtil;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import static com.lanxi.couponcode.spi.assist.ArgAssist.*;
-
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
-import com.lanxi.couponcode.spi.assist.RetMessage;
-import com.lanxi.couponcode.spi.consts.annotations.SetUtf8;
-import com.lanxi.couponcode.spi.service.LoginService;
+import static com.lanxi.couponcode.spi.assist.ArgAssist.getArg;
+import static com.lanxi.couponcode.spi.assist.ArgAssist.toLongArg;
 
 @Controller ("loginView")
 @RequestMapping("loginCon")
+@EasyLog (LoggerUtil.LogLevel.INFO)
 public class LoginController {
     @Resource (name = "loginControllerService")
     private LoginService loginService;
@@ -31,6 +36,7 @@ public class LoginController {
     }
 
     @SetUtf8
+    @LoginCheck
     @ResponseBody
     @RequestMapping (value = "logout", produces = "application/json;charset=utf-8")
     public String logout(HttpServletRequest req, HttpServletResponse res) {
@@ -53,6 +59,7 @@ public class LoginController {
     }
 
     @SetUtf8
+    @LoginCheck
     @ResponseBody
     @RequestMapping (value = "changePassword", produces = "application/json;charset=utf-8")
     public String changePassword(HttpServletRequest req, HttpServletResponse res) {
@@ -62,5 +69,13 @@ public class LoginController {
         String accountIdStr = getArg.apply(req, "accountId");
         Long accountId = toLongArg.apply(accountIdStr);
         return loginService.changePassword(oldPasswd, newPasswd, newRepeat, accountId).toJson();
+    }
+    @SetUtf8
+    @LoginCheck
+    @ResponseBody
+    @RequestMapping (value = "sendValidateCode", produces = "application/json;charset=utf-8")
+    public String sendValidateCode(HttpServletRequest req, HttpServletResponse res) {
+    	String phone=getArg.apply(req, "phone");
+    	return loginService.sendValidateCode(phone).toJson();
     }
 }

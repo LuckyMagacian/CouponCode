@@ -34,12 +34,14 @@
     <dubbo:application name="consume-loan"></dubbo:application>      
     <!-- 测试注册中心
      -->
-    <dubbo:registry address="zookeeper://192.168.17.186:2181"></dubbo:registry>
+    <dubbo:registry address="zookeeper://192.168.17.154:2181"></dubbo:registry>
+
+    <dubbo:registry address="redis://192.168.17.154:6379"></dubbo:registry>
     <!-- 生产注册中心    
     <dubbo:registry address="zookeeper://10.23.73.28:2181"></dubbo:registry>
      -->
     <!-- 蓝喜短信平台服务 -->
     <dubbo:reference interface="com.lanxi.common.interfaces.SmsSendServiceInterface" id="SmsService" check="false"></dubbo:reference>
     <!--&lt;!&ndash; redis缓存服务 &ndash;&gt;-->
-    <!--<dubbo:reference interface="com.lanxi.common.interfaces.RedisCacheServiceInterface" id="redisService" check="false"></dubbo:reference>-->
+    <dubbo:reference interface="com.lanxi.common.interfaces.RedisCacheServiceInterface" id="redisServiceOld" check="false"></dubbo:reference>
   </beans>

@@ -2,7 +2,9 @@ package com.lanxi.couponcode.impl.newservice;
 
 import com.lanxi.couponcode.spi.config.ConstConfig;
 import com.lanxi.couponcode.spi.config.StaticConfig;
+import com.lanxi.couponcode.spi.consts.annotations.EasyLog;
 import com.lanxi.util.entity.LogFactory;
+import com.lanxi.util.utils.LoggerUtil;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Service;
@@ -22,6 +24,7 @@ import java.util.stream.Stream;
  */
 @Order(Ordered.HIGHEST_PRECEDENCE)
 @Service("configService")
+@EasyLog (LoggerUtil.LogLevel.INFO)
 public class ConfigServiceImpl extends StaticConfig implements ConfigService {
 	private volatile Map<String, Properties> configs;
 

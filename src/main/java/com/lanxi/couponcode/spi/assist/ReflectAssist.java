@@ -2,14 +2,11 @@ package com.lanxi.couponcode.spi.assist;
 
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.reflect.MethodSignature;
-import org.junit.Test;
 
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.lang.reflect.Parameter;
-import java.util.List;
 import java.util.Map;
-import java.util.function.Supplier;
 
 /**
  * Created by yangyuanjian on 2017/11/23.

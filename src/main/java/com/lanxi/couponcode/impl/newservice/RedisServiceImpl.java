@@ -1,7 +1,9 @@
 package com.lanxi.couponcode.impl.newservice;
 
 import com.lanxi.couponcode.impl.newservice.ConfigService;
+import com.lanxi.couponcode.spi.consts.annotations.EasyLog;
 import com.lanxi.util.entity.LogFactory;
+import com.lanxi.util.utils.LoggerUtil;
 import com.sun.org.apache.xpath.internal.operations.Bool;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.core.annotation.Order;
@@ -21,6 +23,7 @@ import java.util.function.Supplier;
  */
 @Order (-10000)
 @Service ("redisService")
+@EasyLog (LoggerUtil.LogLevel.DEBUG)
 public class RedisServiceImpl implements RedisService {
     /**
      * job接口,用于真正执行redis操作
@@ -38,9 +41,6 @@ public class RedisServiceImpl implements RedisService {
             return t;
         }
     }
-
-    ;
-
     /**
      * work方法,封装redis连接的获取及销毁,执行job
      */
@@ -107,7 +107,6 @@ public class RedisServiceImpl implements RedisService {
      * 初始化redis连接池
      * 由于redis连接无法通过dubbo获取,改为本地redis连接池提供,
      */
-    @Lazy
     public void redisInit() {
         String url = config.getValue("redis", "url");
         int port = config.getValue("redis", "port") == null ? REDIS_DEFAULT_PORT : Integer.parseInt(config.getValue("redis", "port"));
@@ -444,7 +443,7 @@ public class RedisServiceImpl implements RedisService {
     public ConfigService getConfig() {
         return config;
     }
-
+    @Resource
     public void setConfig(ConfigService config) {
         this.config = config;
         redisInit();

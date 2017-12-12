@@ -9,6 +9,7 @@ import com.baomidou.mybatisplus.annotations.TableName;
 import com.lanxi.couponcode.spi.consts.enums.ClearStatus;
 import com.lanxi.couponcode.spi.consts.enums.InvoiceStatus;
 import com.lanxi.couponcode.spi.defaultInterfaces.CommonDefaultMethodOfEntity;
+import com.lanxi.couponcode.spi.defaultInterfaces.ToJson;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
@@ -165,7 +166,7 @@ public class ClearRecord extends Model<ClearRecord> implements CommonDefaultMeth
     }
 
     public String getDailyRecordIds() {
-        return JSON.toJSONString(dailyRecordIds);
+        return ToJson.toJson(dailyRecordIds);
     }
 
     public List<Long> getDailyRecordIdsList() {
@@ -269,7 +270,7 @@ public class ClearRecord extends Model<ClearRecord> implements CommonDefaultMeth
     }
 
     public String getInvoiceStatus() {
-        return invoiceStatus.getValue();
+        return invoiceStatus==null?null:invoiceStatus.getValue();
     }
 
     public void setInvoiceStatus(InvoiceStatus invoiceStatus) {
@@ -284,7 +285,7 @@ public class ClearRecord extends Model<ClearRecord> implements CommonDefaultMeth
         return clearStatus;
     }
     public String getClearStatus() {
-        return clearStatus.getValue();
+        return clearStatus==null?null:clearStatus.getValue();
     }
 
     public void setClearStatus(ClearStatus clearStatus) {

@@ -5,9 +5,11 @@ import com.baomidou.mybatisplus.plugins.Page;
 import com.baomidou.mybatisplus.toolkit.IdWorker;
 import com.lanxi.couponcode.spi.config.Path;
 import com.lanxi.couponcode.impl.entity.Shop;
+import com.lanxi.couponcode.spi.consts.annotations.EasyLog;
 import com.lanxi.couponcode.spi.consts.enums.ShopStatus;
 import com.lanxi.util.entity.LogFactory;
 import com.lanxi.util.utils.ExcelUtil;
+import com.lanxi.util.utils.LoggerUtil;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
@@ -35,6 +37,7 @@ import java.util.Map;
  *
  */
 @Service("shopService")
+@EasyLog (LoggerUtil.LogLevel.INFO)
 public class ShopServiceImpl implements ShopService {
 	@Resource
 	private DaoService dao;
@@ -142,18 +145,27 @@ public class ShopServiceImpl implements ShopService {
 						shop.setServicetel(getStringFromDouble(row.getCell(3).getNumericCellValue()));
 					}
 					shop.setShopName(row.getCell(1).getStringCellValue());
-					shop.setShopAddress(row.getCell(2).getStringCellValue());
-					shop.setCreateTime(LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMddHHmmss")));
-					shop.setShopId(IdWorker.getId());
-					LogFactory.info(this,
-							"批量添加门店----获取到第[" + j + "]个sheet第[" + i + "]个门店信息+[" + shop + "]开始尝试添加\n" + locker);
-					Integer var = dao.getShopDao().insert(shop);
-					if (var > 0) {
-					} else {
+					if (isRepeat(row.getCell(1).getStringCellValue(), merchantId)) {
+						shop.setShopAddress(row.getCell(2).getStringCellValue());
+						shop.setCreateTime(LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMddHHmmss")));
+						shop.setShopId(IdWorker.getId());
+						LogFactory.info(this,
+								"批量添加门店----获取到第[" + j + "]个sheet第[" + i + "]个门店信息+[" + shop + "]开始尝试添加\n" + locker);
+						Integer var = dao.getShopDao().insert(shop);
+						if (var > 0) {
+						} else {
+							list.add("批量添加门店----第[" + j + "]个sheet第[" + i + "]个门店添加失败");
+							// num[i-1]=i;
+							LogFactory.debug(this, "批量添加门店----第[" + j + "]个sheet第[" + i + "]个门店添加失败\n" + locker);
+						}
+					}else {
 						list.add("批量添加门店----第[" + j + "]个sheet第[" + i + "]个门店添加失败");
 						// num[i-1]=i;
 						LogFactory.debug(this, "批量添加门店----第[" + j + "]个sheet第[" + i + "]个门店添加失败\n" + locker);
 					}
+					
+					
+				
 				}
 				// workbook.close();
 			}
@@ -269,7 +281,7 @@ public class ShopServiceImpl implements ShopService {
 	public File queryShopsExport(EntityWrapper<Shop> wrapper, Page<Shop> pageObj) {
 		LogFactory.info(this, "尝试导出门店信息\n");
 		List<Shop> list = null;
-		File file = null;
+		
 		try {
 			list = dao.getShopDao().selectPage(pageObj, wrapper);
 			LogFactory.debug(this, "查询到的结果[" + list + "]\n");
@@ -281,12 +293,21 @@ public class ShopServiceImpl implements ShopService {
 			map.put("minuteShopAddress", "详细地址");
 			map.put("servicetel", "客服电话");
 			map.put("shopStatus", "门店状态");
-			file = ExcelUtil.exportExcelFile(list, map);
+			File file=new File(ShopServiceImpl.class.getClassLoader().getResource("").getPath()+IdWorker.getId()+".xls");
+			OutputStream os=new FileOutputStream(file);
+			ExcelUtil.exportExcelFile(list, map,os);
+			os.flush();
+			if (file.exists()) {
+				return file;
+			}else {
+				return null;
+			}
 		} catch (Exception e) {
 			LogFactory.error(this, "导出文件时发生异常\n");
+			return null;
 		}
 
-		return file;
+		
 	}
 
 	public String getStringFromDouble(double x) {
@@ -341,6 +362,9 @@ public class ShopServiceImpl implements ShopService {
 			EntityWrapper<Shop> wrapper=new EntityWrapper<>();
 			if (merchantId!=null) {
 				wrapper.eq("merchant_id", merchantId);
+				wrapper.ne("shop_status",ShopStatus.deleted);
+				wrapper.ne("shop_status",ShopStatus.test);
+				wrapper.ne("shop_status", ShopStatus.cancellation);
 				if (pageObj!=null) {
 					return dao.getShopDao().selectPage(pageObj, wrapper);
 				}
@@ -352,6 +376,62 @@ public class ShopServiceImpl implements ShopService {
 			return null;
 		}
 		
+		
+	}
+
+	@Override
+	public Boolean isRepeat(String shopName, Long merchantId) {
+		try {
+			EntityWrapper<Shop> wrapper=new EntityWrapper<Shop>();
+			wrapper.eq("shop_name", shopName);
+			wrapper.eq("merchant_id", merchantId);
+			wrapper.ne("shop_status",ShopStatus.deleted);
+			wrapper.ne("shop_status",ShopStatus.test);
+			wrapper.ne("shop_status",ShopStatus.cancellation);
+			List<Shop>list=dao.getShopDao().selectList(wrapper);
+			if (list==null||list.size()==0) {
+				return true;
+			}else {
+				return false;
+			}
+		} catch (Exception e) {
+			LogFactory.error(this,"判断门店名称是否可用时发生异常",e);
+			return false;
+		}
+	}
+
+	@Override
+	public Boolean isRepeat(Long shopId, String shopName,Long merchantId) {
+		try {
+			EntityWrapper<Shop> wrapper=new EntityWrapper<>();
+			wrapper.eq("shop_name", shopName);
+			wrapper.eq("merchant_id", merchantId);
+			wrapper.ne("shop_status",ShopStatus.deleted);
+			wrapper.ne("shop_status",ShopStatus.test);
+			wrapper.ne("shop_status",ShopStatus.cancellation);
+			List<Shop>list=dao.getShopDao().selectList(wrapper);
+			if (list==null||list.size()==0) {
+				return true;
+			}else {
+				if (list.get(0).getShopId().equals(shopId)) {
+					return true;
+				}else
+				return false;
+			}
+		} catch (Exception e) {
+			LogFactory.error(this,"判断门店名称是否可用时发生异常",e);
+			return false;
+		}
+	}
+
+	@Override
+	public List<Shop> adminQueryShop(EntityWrapper<Shop> wrapper, Page<Shop> pageObj) {
+		try {
+			return dao.getShopDao().selectPage(pageObj, wrapper);
+		} catch (Exception e) {
+			LogFactory.error(this,"查询门店时发生异常",e);
+			return null;
+		}
 		
 	}
 

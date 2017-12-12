@@ -1,13 +1,9 @@
 package com.lanxi.couponcode.spi.util;
 
-import java.util.Map;
-
 import org.apache.log4j.Logger;
-import org.dom4j.Document;
-import org.dom4j.DocumentException;
-import org.dom4j.DocumentHelper;
-import org.dom4j.Element;
-import org.dom4j.Node;
+import org.dom4j.*;
+
+import java.util.Map;
 
 /**
  * 

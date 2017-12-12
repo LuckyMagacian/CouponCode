@@ -1,7 +1,5 @@
 package com.lanxi.couponcode.spi.config;
 
-import com.lanxi.couponcode.impl.entity.Account;
-
 public interface ConstConfig {
 	//-------------------------------about project---------------------------------
 	/**公司名称*/

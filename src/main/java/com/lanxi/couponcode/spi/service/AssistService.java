@@ -7,5 +7,5 @@ import com.lanxi.couponcode.spi.assist.RetMessage;
  */
 public interface AssistService {
     RetMessage<Boolean> sendValidateCode(String phone);
-    RetMessage<Boolean> verifyCode(String phone,String code);
+    RetMessage<Boolean> verifyCode(String phone, String code);
 }

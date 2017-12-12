@@ -19,7 +19,7 @@ public interface ClearService {
 
     List<ClearDailyRecord> queryDailyRecords(Wrapper<ClearDailyRecord> wrapper, Page<ClearDailyRecord> page);
     List<ClearDailyRecord> queryDailyRecords(Long[] recordIds);
-    List<ClearRecord> queryClearRecords(Wrapper<ClearRecord> wrapper,Page<ClearRecord> page);
+    List<ClearRecord> queryClearRecords(Wrapper<ClearRecord> wrapper, Page<ClearRecord> page);
 
     Boolean clearDailyRecord(ClearDailyRecord record);
 

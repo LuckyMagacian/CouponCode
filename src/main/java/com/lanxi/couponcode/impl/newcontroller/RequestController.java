@@ -8,10 +8,16 @@ import com.lanxi.couponcode.spi.assist.TimeAssist;
 import com.lanxi.couponcode.impl.entity.*;
 import com.lanxi.couponcode.impl.newservice.*;
 import com.lanxi.couponcode.spi.assist.RetMessage;
+import com.lanxi.couponcode.spi.consts.annotations.CheckArg;
+import com.lanxi.couponcode.spi.consts.annotations.Comment;
+import com.lanxi.couponcode.spi.consts.annotations.EasyLog;
 import com.lanxi.couponcode.spi.consts.enums.*;
+import com.lanxi.couponcode.spi.defaultInterfaces.ToJson;
 import com.lanxi.util.entity.LogFactory;
+import com.lanxi.util.utils.LoggerUtil;
 import com.lanxi.util.utils.TimeUtil;
 import org.springframework.stereotype.Controller;
+
 import static com.lanxi.couponcode.impl.assist.PredicateAssist.*;
 
 import javax.annotation.Resource;
@@ -23,8 +29,10 @@ import java.util.Map;
 /**
  * Created by yangyuanjian on 2017/11/20.
  */
-@Controller("requestControllerService")
-public class RequestController implements com.lanxi.couponcode.spi.service.RequestService{
+@CheckArg
+@Controller ("requestControllerService")
+@EasyLog (LoggerUtil.LogLevel.INFO)
+public class RequestController implements com.lanxi.couponcode.spi.service.RequestService {
     @Resource
     private RequestService requestService;
     @Resource
@@ -52,8 +60,8 @@ public class RequestController implements com.lanxi.couponcode.spi.service.Reque
                                               RequestStatus status,
                                               CommodityType commodityType,
                                               Long merchantId,
-                                              Page<Request> page){
-        EntityWrapper<Request> wrapper= new EntityWrapper<>();
+                                              Page<Request> page) {
+        EntityWrapper<Request> wrapper = new EntityWrapper<>();
         if (timeStart != null && !timeStart.isEmpty()) {
             while (timeStart.length() < 14)
                 timeStart += "0";
@@ -64,24 +72,24 @@ public class RequestController implements com.lanxi.couponcode.spi.service.Reque
                 timeStop += "9";
             wrapper.le("create_time", timeStop);
         }
-        if(commodityName!=null)
-            wrapper.like("commodity_name",commodityName);
-        if(merchantName!=null)
-            wrapper.like("merchant_name",merchantName);
-        if(type!=null)
-            wrapper.eq("type",type.getValue());
-        if(status!=null)
-            wrapper.eq("status",status.getValue());
-        if(commodityType!=null)
-            wrapper.eq("commodity_type",commodityType.getValue());
-        if(merchantId!=null)
-            wrapper.eq("merchant_id",merchantId);
-        return requestService.queryRequestInfos(wrapper,page);
+        if (commodityName != null)
+            wrapper.like("commodity_name", commodityName);
+        if (merchantName != null)
+            wrapper.like("merchant_name", merchantName);
+        if (type != null)
+            wrapper.eq("type", type.getValue());
+        if (status != null)
+            wrapper.eq("status", status.getValue());
+        if (commodityType != null)
+            wrapper.eq("commodity_type", commodityType.getValue());
+        if (merchantId != null)
+            wrapper.eq("merchant_id", merchantId);
+        return requestService.queryRequestInfos(wrapper, page);
     }
 
-    private Request makeRequest(Account account,Merchant merchant,Commodity commodity){
+    private Request makeRequest(Account account, Merchant merchant, Commodity commodity) {
         //组装请求
-        Request request=new Request();
+        Request request = new Request();
         request.setRquestId(IdWorker.getId());
         request.setRequestTime(TimeUtil.getDateTime());
         request.setRequesterId(account.getAccountId());
@@ -94,7 +102,7 @@ public class RequestController implements com.lanxi.couponcode.spi.service.Reque
         request.setCommodityType(CommodityType.getType(commodity.getType()));
         request.setMerchantId(merchant.getMerchantId());
         request.setMerchantName(merchant.getMerchantName());
-        return  request;
+        return request;
     }
 
     @Override
@@ -109,20 +117,21 @@ public class RequestController implements com.lanxi.couponcode.spi.service.Reque
                                             Integer pageNum,
                                             Integer pageSize,
                                             Long operaterId) {
-        Account account=accountService.queryAccountById(operaterId);
-        RetMessage message=checkAccount.apply(account,OperateType.queryRequest);
-        if(message!=null)
+        Account account = accountService.queryAccountById(operaterId);
+        RetMessage message = checkAccount.apply(account, OperateType.queryRequest);
+        if (message != null)
             return message;
-        Page<Request> page=new Page<>(pageNum,pageSize);
-        List<Request> list=queryRequestsHidden(timeStart,timeStop,commodityName,merchantName,type,status,commodityType,merchantId,page);
-        Map<String,Object> map=new HashMap<>();
-        map.put("page",page);
-        map.put("list",list);
-        if(list!=null)
-            return new RetMessage<String>(RetCodeEnum.success,"查询成功", JSON.toJSONString(map));
+        Page<Request> page = new Page<>(pageNum, pageSize);
+        List<Request> list = queryRequestsHidden(timeStart, timeStop, commodityName, merchantName, type, status, commodityType, merchantId, page);
+        Map<String, Object> map = new HashMap<>();
+        map.put("page", page);
+        map.put("list", list);
+        if (list != null)
+            return new RetMessage<String>(RetCodeEnum.success, "查询成功",  ToJson.toJson(map));
         else
-            return new RetMessage<String>(RetCodeEnum.fail,"查询失败",null);
+            return new RetMessage<String>(RetCodeEnum.fail, "查询失败", null);
     }
+
     @Override
     public RetMessage<String> queryRequests(String timeStart,
                                             String timeStop,
@@ -134,41 +143,46 @@ public class RequestController implements com.lanxi.couponcode.spi.service.Reque
                                             Integer pageNum,
                                             Integer pageSize,
                                             Long operaterId) {
-        Account account=accountService.queryAccountById(operaterId);
-        return queryRequests(timeStart,timeStop,commodityName, account.getMerchantName(),type,status,commodityType, account.getMerchantId(),pageNum,pageSize,operaterId);
+        Account account = accountService.queryAccountById(operaterId);
+        return queryRequests(timeStart, timeStop, commodityName, account.getMerchantName(), type, status, commodityType, account.getMerchantId(), pageNum, pageSize, operaterId);
     }
 
 
     @Override
     public RetMessage<Boolean> agreeRequest(Long requestId,
                                             Long operaterId,
-                                            String reason) {
-        Account account=accountService.queryAccountById(operaterId);
-        RetMessage message=checkAccount.apply(account,OperateType.passRequest);
-        if(message!=null)
+                                            @Comment ("该参数在审核通过时,传入的是销售价格") String reason) {
+        Account account = accountService.queryAccountById(operaterId);
+        RetMessage message = checkAccount.apply(account, OperateType.passRequest);
+        if (message != null)
             return message;
-        Request request=requestService.queryRequestInfo(requestId);
-        Boolean lock=null;
+        Request request = requestService.queryRequestInfo(requestId);
+        Boolean lock = null;
         try {
-            lock=lockService.lock(request);
-            if(lock==null||!lock)
-                return new RetMessage<>(RetCodeEnum.fail,"请求不存在或正被处理,拒绝失败!",null);
-            message=checkRequest.apply(request,OperateType.passRequest);
-            if(message!=null)
+            lock = lockService.lock(request);
+            if (lock == null || !lock)
+                return new RetMessage<>(RetCodeEnum.fail, "请求不存在或正被处理,拒绝失败!", null);
+            message = checkRequest.apply(request, OperateType.passRequest);
+            if (message != null)
                 return message;
-            Merchant merchant=merchantService.queryMerchantParticularsById(account.getMerchantId());
-            message=checkMerchant.apply(merchant,OperateType.passRequest);
-            if(message!=null)
+            Merchant merchant = merchantService.queryMerchantParticularsById(account.getMerchantId());
+            message = checkMerchant.apply(merchant, OperateType.passRequest);
+            if (message != null)
                 return message;
-            String commodityJson=request.getCommodityInfo();
-            Commodity commodity=JSON.parseObject(commodityJson,Commodity.class);
-            if(!RequestOperateType.createCommodity.equals(request.getType())){
-                Long commodityId=commodity.getCommodityId();
-                if(commodityId==null)
-                    return new RetMessage<>(RetCodeEnum.fail,"非添加操作,商品编号不能为空!",null);
-                message=checkCommodity.apply(commodityService.queryCommodity(commodityId),OperateType.getType(request.getType()));
-                if(message!=null)
+            String commodityJson = request.getCommodityInfo();
+            Commodity commodity = JSON.parseObject(commodityJson, Commodity.class);
+            if (!RequestOperateType.createCommodity.equals(request.getType())) {
+                Long commodityId = commodity.getCommodityId();
+                if (commodityId == null)
+                    return new RetMessage<>(RetCodeEnum.fail, "非添加操作,商品编号不能为空!", null);
+                message = checkCommodity.apply(commodityService.queryCommodity(commodityId), OperateType.getType(request.getType()));
+                if (message != null)
                     return message;
+            }
+
+            if (!RequestOperateType.createCommodity.equals(request.getType())) {
+                @Comment ("调整销售价以通过添加申请时传入的值为准") Object obj = null;
+                commodity.setSellPrice(new BigDecimal(reason));
             }
             //配置请求
             request.setStatus(RequestStatus.pass);
@@ -178,12 +192,12 @@ public class RequestController implements com.lanxi.couponcode.spi.service.Reque
             request.setCheckTime(TimeUtil.getDateTime());
             request.setReason(reason);
 
-            Boolean result=requestService.passRequest(request);
+            Boolean result = requestService.passRequest(request);
 
 
-            if(result==null)
-                return new RetMessage<>(RetCodeEnum.fail,"通过时异常!",null);
-            if(result) {
+            if (result == null)
+                return new RetMessage<>(RetCodeEnum.fail, "通过时异常!", null);
+            if (result) {
                 OperateRecord record = new OperateRecord();
                 record.setRecordId(IdWorker.getId());
                 record.setOperaterId(account.getAccountId());
@@ -197,8 +211,8 @@ public class RequestController implements com.lanxi.couponcode.spi.service.Reque
                 record.setDescription("通过申请[" + request.getRquestId() + "]");
                 operateRecordService.addRecord(record);
 
-                Account adder=accountService.queryAccountById(request.getRequesterId());
-                record=new OperateRecord();
+                Account adder = accountService.queryAccountById(request.getRequesterId());
+                record = new OperateRecord();
                 record.setRecordId(IdWorker.getId());
                 record.setOperaterId(adder.getAccountId());
                 record.setAccountType(adder.getAccountType());
@@ -208,49 +222,64 @@ public class RequestController implements com.lanxi.couponcode.spi.service.Reque
                 record.setOperateTime(TimeAssist.getNow());
                 record.setOperateResult("success");
 
-                boolean flag=false;
-                commodity.setRemark(commodity.getRemark()+","+request.getRequesterId());
-                switch (RequestOperateType.getType(request.getType())){
-                    case createCommodity:{
-                        commodity.setRemark(request.getRequesterId()+"");
+                boolean flag = false;
+                commodity.setRemark(commodity.getRemark() + "," + request.getRequesterId());
+                switch (RequestOperateType.getType(request.getType())) {
+                    case createCommodity: {
+                        commodity.setRemark(request.getRequesterId() + "");
                         record.setType(OperateType.createCommodity);
                         record.setDescription("添加商品[" + commodity.getCommodityId() + "]");
-                        flag=commodityService.addCommodity(commodity);
-                    };break;
-                    case modifyCommodity:{
+                        flag = commodityService.addCommodity(commodity);
+                    }
+                    ;
+                    break;
+                    case modifyCommodity: {
                         record.setType(OperateType.modifyCommodity);
                         record.setDescription("修改商品[" + commodity.getCommodityId() + "]");
-                        flag=commodityService.modifyCommodity(commodity);
-                    };break;
-                    case unshelveCommodity:{
+                        flag = commodityService.modifyCommodity(commodity);
+                    }
+                    ;
+                    break;
+                    case unshelveCommodity: {
                         record.setType(OperateType.unshelveCommodity);
                         record.setDescription("下架商品[" + commodity.getCommodityId() + "]");
-                        flag=commodityService.shelveCommodity(commodity);
-                    };break;
-                    case shelveCommodity:{
+                        flag = commodityService.shelveCommodity(commodity);
+                    }
+                    ;
+                    break;
+                    case shelveCommodity: {
                         record.setType(OperateType.shelveCommodity);
                         record.setDescription("上架商品[" + commodity.getCommodityId() + "]");
-                        flag=commodityService.unshelveCommodity(commodity);
-                    };break;
-                    case cancelCommodity:throw new UnsupportedOperationException("不支持注销商品");
-                    default:;
+                        flag = commodityService.unshelveCommodity(commodity);
+                    }
+                    ;
+                    break;
+                    case deleteCommodity: {
+                        record.setType(OperateType.deleteCommodity);
+                        record.setDescription("删除商品[" + commodity.getCommodityId() + "]");
+                        flag = commodityService.delCommodity(commodity);
+                    }
+                    case cancelCommodity:
+                        throw new UnsupportedOperationException("不支持注销商品");
+                    default:
+                        ;
                 }
-                if(flag){
+                if (flag) {
                     record.setDescription("success");
                     recordService.addRecord(record);
-                    return new RetMessage<>(RetCodeEnum.success,"通过成功,操作成功!",null);
-                }else{
+                    return new RetMessage<>(RetCodeEnum.success, "通过成功,操作成功!", null);
+                } else {
                     record.setDescription("fail");
-                    return new RetMessage<>(RetCodeEnum.success,"通过成功!操作失败",null);
+                    return new RetMessage<>(RetCodeEnum.success, "通过成功!操作失败", null);
                 }
             }
-                return new RetMessage<>(RetCodeEnum.fail,"通过失败!",null);
+            return new RetMessage<>(RetCodeEnum.fail, "通过失败!", null);
 //            return new RetMessage<>(RetCodeEnum.exception,"no thing to do!",null);
         } catch (Exception e) {
-            LogFactory.info(this,"通过请求异常!",e);
-            return new RetMessage<>(RetCodeEnum.error,"系统异常!",null);
+            LogFactory.info(this, "通过请求异常!", e);
+            return new RetMessage<>(RetCodeEnum.error, "系统异常!", null);
         } finally {
-            if(lock!=null)
+            if (lock != null)
                 lockService.unlock(request);
         }
     }
@@ -259,22 +288,22 @@ public class RequestController implements com.lanxi.couponcode.spi.service.Reque
     public RetMessage<Boolean> disagreeRequest(Long requestId,
                                                Long operaterId,
                                                String reason) {
-        Account account=accountService.queryAccountById(operaterId);
-        RetMessage message=checkAccount.apply(account,OperateType.rejectRequest);
-        if(message!=null)
+        Account account = accountService.queryAccountById(operaterId);
+        RetMessage message = checkAccount.apply(account, OperateType.rejectRequest);
+        if (message != null)
             return message;
-        Request request=requestService.queryRequestInfo(requestId);
-        Boolean lock=null;
+        Request request = requestService.queryRequestInfo(requestId);
+        Boolean lock = null;
         try {
-            lock=lockService.lock(request);
-            if(lock==null||!lock)
-                return new RetMessage<>(RetCodeEnum.fail,"请求不存在或正被处理,拒绝失败!",null);
-            message=checkRequest.apply(request,OperateType.rejectRequest);
-            if(message!=null)
+            lock = lockService.lock(request);
+            if (lock == null || !lock)
+                return new RetMessage<>(RetCodeEnum.fail, "请求不存在或正被处理,拒绝失败!", null);
+            message = checkRequest.apply(request, OperateType.rejectRequest);
+            if (message != null)
                 return message;
-            Merchant merchant=merchantService.queryMerchantParticularsById(account.getMerchantId());
-            message=checkMerchant.apply(merchant,OperateType.rejectRequest);
-            if(message!=null)
+            Merchant merchant = merchantService.queryMerchantParticularsById(account.getMerchantId());
+            message = checkMerchant.apply(merchant, OperateType.rejectRequest);
+            if (message != null)
                 return message;
             //配置请求
             request.setStatus(RequestStatus.reject);
@@ -283,11 +312,11 @@ public class RequestController implements com.lanxi.couponcode.spi.service.Reque
             request.setCheckerPhone(account.getPhone());
             request.setCheckTime(TimeUtil.getDateTime());
             request.setReason(reason);
-            Boolean result=requestService.rejectRequest(request);
-            if(result==null)
-                return new RetMessage<>(RetCodeEnum.fail,"拒绝时异常!",null);
-            if(result){
-                OperateRecord record=new OperateRecord();
+            Boolean result = requestService.rejectRequest(request);
+            if (result == null)
+                return new RetMessage<>(RetCodeEnum.fail, "拒绝时异常!", null);
+            if (result) {
+                OperateRecord record = new OperateRecord();
                 record.setRecordId(IdWorker.getId());
                 record.setOperaterId(account.getAccountId());
                 record.setAccountType(account.getAccountType());
@@ -297,17 +326,17 @@ public class RequestController implements com.lanxi.couponcode.spi.service.Reque
                 record.setType(OperateType.rejectRequest);
                 record.setOperateTime(TimeAssist.getNow());
                 record.setOperateResult("success");
-                record.setDescription("驳回申请["+request.getRquestId()+"]");
+                record.setDescription("驳回申请[" + request.getRquestId() + "]");
                 operateRecordService.addRecord(record);
-                return new RetMessage<>(RetCodeEnum.success,"拒绝成功!",null);
+                return new RetMessage<>(RetCodeEnum.success, "拒绝成功!", null);
             }
-                return new RetMessage<>(RetCodeEnum.fail,"拒绝失败!",null);
+            return new RetMessage<>(RetCodeEnum.fail, "拒绝失败!", null);
 //            return new RetMessage<>(RetCodeEnum.exception,"no thing to do!",null);
         } catch (Exception e) {
-            LogFactory.info(this,"驳回请求异常!",e);
-            return new RetMessage<>(RetCodeEnum.error,"系统异常!",null);
-        }finally {
-            if(lock!=null&&lock)
+            LogFactory.info(this, "驳回请求异常!", e);
+            return new RetMessage<>(RetCodeEnum.error, "系统异常!", null);
+        } finally {
+            if (lock != null && lock)
                 lockService.unlock(request);
         }
 
@@ -324,16 +353,16 @@ public class RequestController implements com.lanxi.couponcode.spi.service.Reque
                                                    Long operaterId,
                                                    @Deprecated Long merchantId) {
 
-        Account account=accountService.queryAccountById(operaterId);
-        RetMessage message=checkAccount.apply(account,OperateType.requestAddCommodity);
-        if(message!=null)
+        Account account = accountService.queryAccountById(operaterId);
+        RetMessage message = checkAccount.apply(account, OperateType.requestAddCommodity);
+        if (message != null)
             return message;
-        Merchant merchant=merchantService.queryMerchantParticularsById(account.getMerchantId());
-        message=checkMerchant.apply(merchant,OperateType.requestAddCommodity);
-        if(message!=null)
+        Merchant merchant = merchantService.queryMerchantParticularsById(account.getMerchantId());
+        message = checkMerchant.apply(merchant, OperateType.requestAddCommodity);
+        if (message != null)
             return message;
         //组装商品
-        Commodity commodity=new Commodity();
+        Commodity commodity = new Commodity();
         commodity.setAddId(IdWorker.getId());
         commodity.setAddName(commodityName);
         commodity.setType(commodityType);
@@ -353,13 +382,13 @@ public class RequestController implements com.lanxi.couponcode.spi.service.Reque
         commodity.setAddTime(TimeUtil.getDateTime());
         commodity.setAddName(account.getUserName());
         //组装请求
-        Request request=makeRequest(account,merchant,commodity);
+        Request request = makeRequest(account, merchant, commodity);
         request.setType(RequestOperateType.createCommodity);
-        Boolean result=requestService.addRequest(request);
-        if(result==null)
-            return new RetMessage<>(RetCodeEnum.success,"添加时异常!",null);
-        if(result){
-            OperateRecord record=new OperateRecord();
+        Boolean result = requestService.addRequest(request);
+        if (result == null)
+            return new RetMessage<>(RetCodeEnum.success, "添加时异常!", null);
+        if (result) {
+            OperateRecord record = new OperateRecord();
             record.setRecordId(IdWorker.getId());
             record.setOperaterId(account.getAccountId());
             record.setAccountType(account.getAccountType());
@@ -369,10 +398,9 @@ public class RequestController implements com.lanxi.couponcode.spi.service.Reque
             record.setType(OperateType.requestAddCommodity);
             record.setOperateTime(TimeAssist.getNow());
             recordService.addRecord(record);
-            return new RetMessage<>(RetCodeEnum.success,"添加成功!",null);
-        }
-        else
-            return new RetMessage<>(RetCodeEnum.success,"添加失败!",null);
+            return new RetMessage<>(RetCodeEnum.success, "添加成功!", null);
+        } else
+            return new RetMessage<>(RetCodeEnum.success, "添加失败!", null);
     }
 
     @Override
@@ -382,31 +410,31 @@ public class RequestController implements com.lanxi.couponcode.spi.service.Reque
                                                       Integer lifeTime,
                                                       Long commodityId,
                                                       Long operaterId) {
-        Account account=accountService.queryAccountById(operaterId);
-        RetMessage message=checkAccount.apply(account,OperateType.requestModifyCommodity);
-        if(message!=null)
+        Account account = accountService.queryAccountById(operaterId);
+        RetMessage message = checkAccount.apply(account, OperateType.requestModifyCommodity);
+        if (message != null)
             return message;
-        Merchant merchant=merchantService.queryMerchantParticularsById(account.getMerchantId());
-        message=checkMerchant.apply(merchant,OperateType.requestModifyCommodity);
-        if(message!=null)
+        Merchant merchant = merchantService.queryMerchantParticularsById(account.getMerchantId());
+        message = checkMerchant.apply(merchant, OperateType.requestModifyCommodity);
+        if (message != null)
             return message;
         //修改商品
-        Commodity commodity=commodityService.queryCommodity(commodityId);
-        message=checkCommodity.apply(commodityService.queryCommodity(commodityId),OperateType.requestModifyCommodity);
-        if(message!=null)
+        Commodity commodity = commodityService.queryCommodity(commodityId);
+        message = checkCommodity.apply(commodityService.queryCommodity(commodityId), OperateType.requestModifyCommodity);
+        if (message != null)
             return message;
         commodity.setCostPrice(costPrice);
         commodity.setFacePrice(facePrice);
         commodity.setSellPrice(sellPrice);
         commodity.setLifeTime(lifeTime);
         //组装请求
-        Request request=makeRequest(account,merchant,commodity);
+        Request request = makeRequest(account, merchant, commodity);
         request.setType(RequestOperateType.modifyCommodity);
-        Boolean result=requestService.addRequest(request);
-        if(result==null)
-            return new RetMessage<>(RetCodeEnum.success,"添加时异常!",null);
-        if(result){
-            OperateRecord record=new OperateRecord();
+        Boolean result = requestService.addRequest(request);
+        if (result == null)
+            return new RetMessage<>(RetCodeEnum.success, "添加时异常!", null);
+        if (result) {
+            OperateRecord record = new OperateRecord();
             record.setRecordId(IdWorker.getId());
             record.setOperaterId(account.getAccountId());
             record.setAccountType(account.getAccountType());
@@ -416,37 +444,36 @@ public class RequestController implements com.lanxi.couponcode.spi.service.Reque
             record.setType(OperateType.requestModifyCommodity);
             record.setOperateTime(TimeAssist.getNow());
             recordService.addRecord(record);
-            return new RetMessage<>(RetCodeEnum.success,"添加成功!",null);
-        }
-        else
-            return new RetMessage<>(RetCodeEnum.success,"添加失败!",null);
+            return new RetMessage<>(RetCodeEnum.success, "添加成功!", null);
+        } else
+            return new RetMessage<>(RetCodeEnum.success, "添加失败!", null);
     }
 
     @Override
     public RetMessage<Boolean> requestShelveCommodity(Long commodityId,
                                                       Long operaterId) {
-        Account account=accountService.queryAccountById(operaterId);
-        RetMessage message=checkAccount.apply(account,OperateType.requestShelveCommodity);
-        if(message!=null)
+        Account account = accountService.queryAccountById(operaterId);
+        RetMessage message = checkAccount.apply(account, OperateType.requestShelveCommodity);
+        if (message != null)
             return message;
-        Merchant merchant=merchantService.queryMerchantParticularsById(account.getMerchantId());
-        message=checkMerchant.apply(merchant,OperateType.requestShelveCommodity);
-        if(message!=null)
+        Merchant merchant = merchantService.queryMerchantParticularsById(account.getMerchantId());
+        message = checkMerchant.apply(merchant, OperateType.requestShelveCommodity);
+        if (message != null)
             return message;
         //修改商品
-        Commodity commodity=commodityService.queryCommodity(commodityId);
-        message=checkCommodity.apply(commodityService.queryCommodity(commodityId),OperateType.requestShelveCommodity);
-        if(message!=null)
+        Commodity commodity = commodityService.queryCommodity(commodityId);
+        message = checkCommodity.apply(commodityService.queryCommodity(commodityId), OperateType.requestShelveCommodity);
+        if (message != null)
             return message;
         commodity.setStatus(CommodityStatus.shelved);
         //组装请求
-        Request request=makeRequest(account,merchant,commodity);
+        Request request = makeRequest(account, merchant, commodity);
         request.setType(RequestOperateType.shelveCommodity);
-        Boolean result=requestService.addRequest(request);
-        if(result==null)
-            return new RetMessage<>(RetCodeEnum.success,"添加时异常!",null);
-        if(result){
-            OperateRecord record=new OperateRecord();
+        Boolean result = requestService.addRequest(request);
+        if (result == null)
+            return new RetMessage<>(RetCodeEnum.success, "添加时异常!", null);
+        if (result) {
+            OperateRecord record = new OperateRecord();
             record.setRecordId(IdWorker.getId());
             record.setOperaterId(account.getAccountId());
             record.setAccountType(account.getAccountType());
@@ -455,35 +482,34 @@ public class RequestController implements com.lanxi.couponcode.spi.service.Reque
             record.setTargetType(OperateTargetType.request);
             record.setType(OperateType.requestShelveCommodity);
             record.setOperateTime(TimeAssist.getNow());
-            return new RetMessage<>(RetCodeEnum.success,"添加成功!",null);
-        }
-        else
-            return new RetMessage<>(RetCodeEnum.success,"添加失败!",null);
+            return new RetMessage<>(RetCodeEnum.success, "添加成功!", null);
+        } else
+            return new RetMessage<>(RetCodeEnum.success, "添加失败!", null);
     }
 
     @Override
     public RetMessage<Boolean> requestUnshelveCommodity(Long commodityId,
                                                         Long operaterId) {
-        Account account=accountService.queryAccountById(operaterId);
-        RetMessage message=checkAccount.apply(account,OperateType.requestUnshelveCommodity);
-        if(message!=null)
+        Account account = accountService.queryAccountById(operaterId);
+        RetMessage message = checkAccount.apply(account, OperateType.requestUnshelveCommodity);
+        if (message != null)
             return message;
-        Merchant merchant=merchantService.queryMerchantParticularsById(account.getMerchantId());
-        message=checkMerchant.apply(merchant,OperateType.requestUnshelveCommodity);
-        if(message!=null)
+        Merchant merchant = merchantService.queryMerchantParticularsById(account.getMerchantId());
+        message = checkMerchant.apply(merchant, OperateType.requestUnshelveCommodity);
+        if (message != null)
             return message;
         //修改商品
-        Commodity commodity=commodityService.queryCommodity(commodityId);
-        message=checkCommodity.apply(commodityService.queryCommodity(commodityId),OperateType.requestUnshelveCommodity);
-        if(message!=null)
+        Commodity commodity = commodityService.queryCommodity(commodityId);
+        message = checkCommodity.apply(commodityService.queryCommodity(commodityId), OperateType.requestUnshelveCommodity);
+        if (message != null)
             return message;
-        Request request=makeRequest(account,merchant,commodity);
+        Request request = makeRequest(account, merchant, commodity);
         request.setType(RequestOperateType.unshelveCommodity);
-        Boolean result=requestService.addRequest(request);
-        if(result==null)
-            return new RetMessage<>(RetCodeEnum.success,"添加时异常!",null);
-        if(result){
-            OperateRecord record=new OperateRecord();
+        Boolean result = requestService.addRequest(request);
+        if (result == null)
+            return new RetMessage<>(RetCodeEnum.success, "添加时异常!", null);
+        if (result) {
+            OperateRecord record = new OperateRecord();
             record.setRecordId(IdWorker.getId());
             record.setOperaterId(account.getAccountId());
             record.setAccountType(account.getAccountType());
@@ -492,11 +518,46 @@ public class RequestController implements com.lanxi.couponcode.spi.service.Reque
             record.setTargetType(OperateTargetType.request);
             record.setType(OperateType.requestUnshelveCommodity);
             record.setOperateTime(TimeAssist.getNow());
-            return new RetMessage<>(RetCodeEnum.success,"添加成功!",null);
-        }
-        else
-            return new RetMessage<>(RetCodeEnum.success,"添加失败!",null);
+            return new RetMessage<>(RetCodeEnum.success, "添加成功!", null);
+        } else
+            return new RetMessage<>(RetCodeEnum.success, "添加失败!", null);
     }
+
+    @Override
+    public RetMessage<Boolean> requestDelCommodity(Long commodityId, Long operaterId) {
+        Account account = accountService.queryAccountById(operaterId);
+        RetMessage message = checkAccount.apply(account, OperateType.requestDelCommodity);
+        if (message != null)
+            return message;
+        Merchant merchant = merchantService.queryMerchantParticularsById(account.getMerchantId());
+        message = checkMerchant.apply(merchant, OperateType.requestDelCommodity);
+        if (message != null)
+            return message;
+        //修改商品
+        Commodity commodity = commodityService.queryCommodity(commodityId);
+        message = checkCommodity.apply(commodityService.queryCommodity(commodityId), OperateType.requestDelCommodity);
+        if (message != null)
+            return message;
+        Request request = makeRequest(account, merchant, commodity);
+        request.setType(RequestOperateType.deleteCommodity);
+        Boolean result = requestService.addRequest(request);
+        if (result == null)
+            return new RetMessage<>(RetCodeEnum.success, "添加时异常!", null);
+        if (result) {
+            OperateRecord record = new OperateRecord();
+            record.setRecordId(IdWorker.getId());
+            record.setOperaterId(account.getAccountId());
+            record.setAccountType(account.getAccountType());
+            record.setPhone(account.getPhone());
+            record.setName(account.getUserName());
+            record.setTargetType(OperateTargetType.request);
+            record.setType(OperateType.requestDelCommodity);
+            record.setOperateTime(TimeAssist.getNow());
+            return new RetMessage<>(RetCodeEnum.success, "添加成功!", null);
+        } else
+            return new RetMessage<>(RetCodeEnum.success, "添加失败!", null);
+    }
+
 
     @Override
     @Deprecated
@@ -509,31 +570,32 @@ public class RequestController implements com.lanxi.couponcode.spi.service.Reque
                                                     Integer pageNum,
                                                     Integer pageSize,
                                                     Long operaterId) {
-        Account account=accountService.queryAccountById(operaterId);
-        RetMessage message=checkAccount.apply(account,OperateType.queryRequest);
-        if(message!=null)
+        Account account = accountService.queryAccountById(operaterId);
+        RetMessage message = checkAccount.apply(account, OperateType.queryRequest);
+        if (message != null)
             return message;
-        Merchant merchant=merchantService.queryMerchantParticularsById(account.getMerchantId());
-        message=checkMerchant.apply(merchant,OperateType.queryRequest);
-        if(message!=null)
+        Merchant merchant = merchantService.queryMerchantParticularsById(account.getMerchantId());
+        message = checkMerchant.apply(merchant, OperateType.queryRequest);
+        if (message != null)
             return message;
-        Page<Request> page=new Page<>(pageNum,pageSize);
-        List<Request> list=queryRequestsHidden(timeStart,timeEnd,commodityName,merchant.getMerchantName(),operateType,status,type,merchant.getMerchantId(),page);
-        Map<String,Object> map=new HashMap<>();
-        map.put("page",page);
-        map.put("list",list);
-        if(list!=null)
-            return new RetMessage<String>(RetCodeEnum.success,"查询成功", JSON.toJSONString(map));
+        Page<Request> page = new Page<>(pageNum, pageSize);
+        List<Request> list = queryRequestsHidden(timeStart, timeEnd, commodityName, merchant.getMerchantName(), operateType, status, type, merchant.getMerchantId(), page);
+        Map<String, Object> map = new HashMap<>();
+        map.put("page", page);
+        map.put("list", list);
+        if (list != null)
+            return new RetMessage<String>(RetCodeEnum.success, "查询成功",  ToJson.toJson(map));
         else
-            return new RetMessage<String>(RetCodeEnum.fail,"查询失败",null);
+            return new RetMessage<String>(RetCodeEnum.fail, "查询失败", null);
     }
+
     @Override
-    public RetMessage<String> queryRequest(Long requestId,Long operatorId){
-        Account account=accountService.queryAccountById(operatorId);
-        RetMessage message=checkAccount.apply(account,OperateType.queryRequest);
-        if(message!=null)
+    public RetMessage<String> queryRequest(Long requestId, Long operatorId) {
+        Account account = accountService.queryAccountById(operatorId);
+        RetMessage message = checkAccount.apply(account, OperateType.queryRequest);
+        if (message != null)
             return message;
-        Request request=requestService.queryRequestInfo(requestId);
-        return new RetMessage<>(RetCodeEnum.success,"查询成功!",request==null?null:request.toJson());
+        Request request = requestService.queryRequestInfo(requestId);
+        return new RetMessage<>(RetCodeEnum.success, "查询成功!", request == null ? null : request.toJson());
     }
 }

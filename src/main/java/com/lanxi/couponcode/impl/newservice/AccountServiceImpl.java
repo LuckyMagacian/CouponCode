@@ -3,8 +3,10 @@ package com.lanxi.couponcode.impl.newservice;
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.plugins.Page;
 import com.lanxi.couponcode.impl.entity.Account;
+import com.lanxi.couponcode.spi.consts.annotations.EasyLog;
 import com.lanxi.couponcode.spi.consts.enums.AccountStatus;
 import com.lanxi.util.entity.LogFactory;
+import com.lanxi.util.utils.LoggerUtil;
 import org.springframework.stereotype.Service;
 import javax.annotation.Resource;
 import java.text.SimpleDateFormat;
@@ -12,6 +14,7 @@ import java.util.Date;
 import java.util.List;
 
 @Service("accountService")
+@EasyLog(LoggerUtil.LogLevel.INFO)
 public class AccountServiceImpl implements AccountService {
 	@Resource
 	private DaoService dao;
@@ -95,13 +98,24 @@ public class AccountServiceImpl implements AccountService {
 		LogFactory.info(this, "尝试根据账户id获取账户信息\n");
 		try {
 			if (account != null) {
-				account = dao.getAccountDao().selectOne(account);
-				LogFactory.debug(this, "查询结果[" + account + "]\n");
-			}
-			return account;
+				EntityWrapper<Account> wrapper=new EntityWrapper<Account>();
+				if (account.getAccountId()!=null) {
+					wrapper.eq("account_id", account.getAccountId());
+				}
+				if (account.getPhone()!=null&&!account.getPhone().isEmpty()) {
+					wrapper.eq("phone",account.getPhone());
+				}
+				wrapper.ne("status", AccountStatus.deleted);
+				wrapper.ne("status", AccountStatus.test);
+				wrapper.ne("status", AccountStatus.cancellation);
+				account =dao.getAccountDao().selectList(wrapper).get(0);
+				LogFactory.info(this, "查询结果[" + account + "]\n");
+				return account;
+			}else
+			return null;
 		} catch (Exception e) {
 			LogFactory.error(this, "根据账户id获取账户信息时发生异常\n");
-			return account;
+			return null;
 		}
 	}
 
@@ -115,6 +129,9 @@ public class AccountServiceImpl implements AccountService {
 			if (phone != null && !phone.isEmpty()) {
 				wrapper.eq("phone", phone);
 			}
+			wrapper.ne("status", AccountStatus.deleted);
+			wrapper.ne("status",AccountStatus.test);
+			wrapper.ne("status",AccountStatus.cancellation);
 			list = dao.getAccountDao().selectList(wrapper);
 			if (list.size() > 0) {
 				LogFactory.debug(this, "此手机号码已经被注册过\n");
@@ -143,6 +160,11 @@ public class AccountServiceImpl implements AccountService {
 		LogFactory.info(this, "尝试登录账户\n");
 		try {
 			Account account2 = dao.getAccountDao().selectOne(account);
+			EntityWrapper<Account> wrapper=new EntityWrapper<Account>();
+			wrapper.eq("phone", account.getPhone());
+			wrapper.ne("status",AccountStatus.deleted);
+			wrapper.ne("status", AccountStatus.test);
+			wrapper.ne("status", AccountStatus.cancellation);
 			if (account2 != null) {
 				return account2;
 			} else {
@@ -168,10 +190,7 @@ public class AccountServiceImpl implements AccountService {
 			LogFactory.info(this, "尝试重置账户密码\n");
 			Boolean result = false;
 			try {
-				EntityWrapper<Account> wrapper = new EntityWrapper<Account>();
-				wrapper.eq("phone", account.getPhone());
-				LogFactory.info(this, "条件修饰结果[" + wrapper + "]");
-				Integer var = dao.getAccountDao().update(account, wrapper);
+				Integer var = dao.getAccountDao().updateById(account);
 				if (var < 0) {
 					result = false;
 					LogFactory.debug(this, "重置密码失败\n");

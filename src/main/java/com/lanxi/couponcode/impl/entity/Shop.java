@@ -21,6 +21,9 @@ public class Shop extends AbstractShop{
 	/**所属商户id*/
 	@TableField("merchant_id")
 	private Long merchantId;
+	/**所属商户名称*/
+	@TableField("merchant_name")
+	private String merchantName;
 	/**门店名称*/
 	@TableField("shop_name")
 	private String shopName;
@@ -63,6 +66,13 @@ public class Shop extends AbstractShop{
 	public void setMerchantId(Long merchantId) {
 		this.merchantId = merchantId;
 	}
+	
+	public String getMerchantName() {
+		return merchantName;
+	}
+	public void setMerchantName(String merchantName) {
+		this.merchantName = merchantName;
+	}
 	public void setShopId(Long shopId) {
 		this.shopId = shopId;
 	}
@@ -100,7 +110,6 @@ public class Shop extends AbstractShop{
 		this.minuteShopAddress = minuteShopAddress;
 	}
 	public String getShopStatus() {
-		
 		return shopStatus==null?null:shopStatus.getValue();
 	}
 	public void setShopStatus(ShopStatus shopStatus) {
@@ -131,11 +140,12 @@ public class Shop extends AbstractShop{
 	}
 	@Override
 	public String toString() {
-		return "Shop [shopId=" + shopId + ", merchantId=" + merchantId + ", shopName=" + shopName + ", createTime="
-				+ createTime + ", merchantStatus=" + merchantStatus + ", shopAddress=" + shopAddress
-				+ ", minuteShopAddress=" + minuteShopAddress + ", shopStatus=" + shopStatus + ", addId=" + addId
-				+ ", addName=" + addName + ", servicetel=" + servicetel + "]";
+		return "Shop [shopId=" + shopId + ", merchantId=" + merchantId + ", merchantName=" + merchantName
+				+ ", shopName=" + shopName + ", createTime=" + createTime + ", merchantStatus=" + merchantStatus
+				+ ", shopAddress=" + shopAddress + ", minuteShopAddress=" + minuteShopAddress + ", shopStatus="
+				+ shopStatus + ", addId=" + addId + ", addName=" + addName + ", servicetel=" + servicetel + "]";
 	}
+	
 	
 	
 	

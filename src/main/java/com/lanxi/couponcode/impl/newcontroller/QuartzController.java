@@ -2,17 +2,16 @@ package com.lanxi.couponcode.impl.newcontroller;
 
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.toolkit.IdWorker;
-import com.lanxi.couponcode.impl.entity.CommodityClearRecord;
+import com.lanxi.couponcode.impl.entity.*;
 import com.lanxi.couponcode.spi.assist.TimeAssist;
-import com.lanxi.couponcode.impl.entity.ClearDailyRecord;
-import com.lanxi.couponcode.impl.entity.Commodity;
-import com.lanxi.couponcode.impl.entity.CouponCode;
-import com.lanxi.couponcode.impl.entity.Merchant;
 import com.lanxi.couponcode.impl.newservice.*;
+import com.lanxi.couponcode.spi.consts.annotations.CheckArg;
+import com.lanxi.couponcode.spi.consts.annotations.EasyLog;
 import com.lanxi.couponcode.spi.consts.enums.ClearStatus;
 import com.lanxi.couponcode.spi.consts.enums.CouponCodeStatus;
 import com.lanxi.couponcode.spi.service.QuartzService;
 import com.lanxi.util.entity.LogFactory;
+import com.lanxi.util.utils.LoggerUtil;
 import org.springframework.stereotype.Controller;
 
 import javax.annotation.Resource;
@@ -28,7 +27,9 @@ import java.util.stream.Collectors;
  * 定时任务控制器
  * Created by yangyuanjian on 2017/11/23.
  */
+@CheckArg
 @Controller
+@EasyLog (LoggerUtil.LogLevel.INFO)
 public class QuartzController implements QuartzService{
     @Resource
     private RedisService redisService;
@@ -44,8 +45,6 @@ public class QuartzController implements QuartzService{
     private MerchantService merchantService;
     @Resource
     private LockService lockService;
-
-
     @Override
     public void codeOverTime() {
         EntityWrapper<CouponCode> wrapper=new EntityWrapper<>();
@@ -183,6 +182,35 @@ public class QuartzController implements QuartzService{
             if(list!=null&&locks!=null)
                 lockService.unlock(list);
         }
+
+    }
+
+    public void addClearRecords(){
+        //查上个月的记录
+        EntityWrapper<ClearDailyRecord> wrapper=new EntityWrapper();
+        wrapper.eq("clear_status",ClearStatus.uncleared.getValue());
+        wrapper.ge("record_time",TimeAssist.timeFixZero(TimeAssist.getLastMonth()));
+        wrapper.le("record_time",TimeAssist.timeFixNine(TimeAssist.getLastMonth()));
+        List<ClearDailyRecord> records=clearService.queryDailyRecords(wrapper,null);
+        //按商户分组
+        Map<Long,List<ClearDailyRecord>> merchantRecords=records.stream().parallel().collect(Collectors.groupingBy(ClearDailyRecord::getMerchantId));
+        //按商户结算
+        merchantRecords.entrySet().forEach(e->{
+            Long merchantId=e.getKey();
+            Merchant merchant=merchantService.queryMerchantParticularsById(merchantId);
+            List<ClearDailyRecord> dailyRecords=e.getValue();
+            BigDecimal showTotal=dailyRecords.stream().map(f->f.getVerificateCost()).reduce(new BigDecimal(0),(a,b)->a.add(b));
+            //生成结算记录插入数据库
+            ClearRecord record=new ClearRecord();
+            record.setRecordId(IdWorker.getId());
+            record.setMerchantId(merchantId);
+            record.setMerchantName(merchant.getMerchantName());
+            record.setDailyRecordIds(dailyRecords.stream().map(f->f.getRecordId()).collect(Collectors.toList()));
+            record.setCreateTime(TimeAssist.getNow());
+            record.setTimeStart(TimeAssist.timeFixZero(TimeAssist.getLastMonth()));
+            record.setClearStatus(ClearStatus.uncleared);
+            record.insert();
+        });
 
     }
 }
