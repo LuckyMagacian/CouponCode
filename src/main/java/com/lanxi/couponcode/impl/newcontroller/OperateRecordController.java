@@ -1,20 +1,21 @@
 package com.lanxi.couponcode.impl.newcontroller;
 
-import com.alibaba.fastjson.JSON;
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.plugins.Page;
-import com.lanxi.couponcode.impl.newservice.AccountService;
-import com.lanxi.couponcode.spi.assist.RetMessage;
 import com.lanxi.couponcode.impl.entity.Account;
 import com.lanxi.couponcode.impl.entity.OperateRecord;
+import com.lanxi.couponcode.impl.newservice.AccountService;
 import com.lanxi.couponcode.impl.newservice.OperateRecordService;
 import com.lanxi.couponcode.impl.newservice.RedisEnhancedService;
 import com.lanxi.couponcode.impl.newservice.RedisService;
+import com.lanxi.couponcode.spi.assist.RetMessage;
+import com.lanxi.couponcode.spi.consts.annotations.CheckArg;
 import com.lanxi.couponcode.spi.consts.annotations.EasyLog;
 import com.lanxi.couponcode.spi.consts.enums.AccountType;
 import com.lanxi.couponcode.spi.consts.enums.OperateTargetType;
 import com.lanxi.couponcode.spi.consts.enums.OperateType;
 import com.lanxi.couponcode.spi.consts.enums.RetCodeEnum;
+import com.lanxi.couponcode.spi.defaultInterfaces.ToJson;
 import com.lanxi.util.utils.LoggerUtil;
 import org.springframework.stereotype.Controller;
 
@@ -22,10 +23,11 @@ import javax.annotation.Resource;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import static com.lanxi.couponcode.spi.assist.PredicateAssist.*;
+import static com.lanxi.couponcode.impl.assist.PredicateAssist.*;
 /**
  * Created by yangyuanjian on 2017/11/16.
  */
+@CheckArg
 @EasyLog(LoggerUtil.LogLevel.INFO)
 @Controller("operateRecordControllerService")
 public class OperateRecordController implements com.lanxi.couponcode.spi.service.OperateRecordService {
@@ -69,12 +71,12 @@ public class OperateRecordController implements com.lanxi.couponcode.spi.service
         if (timeStart != null && !timeStart.isEmpty()) {
             while (timeStart.length() < 14)
                 timeStart += "0";
-            wrapper.ge("create_time", timeStart);
+            wrapper.ge("operate_time", timeStart);
         }
         if (timeStop != null && !timeStop.isEmpty()) {
             while (timeStop.length() < 14)
                 timeStop += "9";
-            wrapper.le("create_time", timeStop);
+            wrapper.le("operate_time", timeStop);
         }
         if (accountType != null)
             wrapper.eq("account_type", accountType);
@@ -90,7 +92,7 @@ public class OperateRecordController implements com.lanxi.couponcode.spi.service
         map.put("list",list);
 
         if (list != null)
-            return new RetMessage<>(RetCodeEnum.success, "查询成功!", JSON.toJSONString(map));
+            return new RetMessage<>(RetCodeEnum.success, "查询成功!",  ToJson.toJson(map));
         else
             return new RetMessage<>(RetCodeEnum.fail, "查询失败!", null);
     }
@@ -124,12 +126,12 @@ public class OperateRecordController implements com.lanxi.couponcode.spi.service
         if (timeStart != null && !timeStart.isEmpty()) {
             while (timeStart.length() < 14)
                 timeStart += "0";
-            wrapper.ge("create_time", timeStart);
+            wrapper.ge("operate_time", timeStart);
         }
         if (timeEnd != null && !timeEnd.isEmpty()) {
             while (timeEnd.length() < 14)
                 timeEnd += "9";
-            wrapper.le("create_time", timeEnd);
+            wrapper.le("operate_time", timeEnd);
         }
         if (accountType != null)
             wrapper.eq("account_type", accountType);
@@ -148,7 +150,7 @@ public class OperateRecordController implements com.lanxi.couponcode.spi.service
         if (list == null)
             return new RetMessage<>(RetCodeEnum.fail, "查询失败!", null);
         else
-            return new RetMessage<>(RetCodeEnum.success, "查询成功!", JSON.toJSONString(map));
+            return new RetMessage<>(RetCodeEnum.success, "查询成功!",  ToJson.toJson(map));
     }
 
     @Override
@@ -174,12 +176,12 @@ public class OperateRecordController implements com.lanxi.couponcode.spi.service
         if (timeStart != null && !timeStart.isEmpty()) {
             while (timeStart.length() < 14)
                 timeStart += "0";
-            wrapper.ge("create_time", timeStart);
+            wrapper.ge("operate_time", timeStart);
         }
         if (timeEnd != null && !timeEnd.isEmpty()) {
             while (timeEnd.length() < 14)
                 timeEnd += "9";
-            wrapper.le("create_time", timeEnd);
+            wrapper.le("operate_time", timeEnd);
         }
         if (accountType != null)
             wrapper.eq("account_type", accountType);
@@ -197,7 +199,7 @@ public class OperateRecordController implements com.lanxi.couponcode.spi.service
         if (list == null)
             return new RetMessage<>(RetCodeEnum.fail, "查询失败!", null);
         else
-            return new RetMessage<>(RetCodeEnum.success, "查询成功!", JSON.toJSONString(map));
+            return new RetMessage<>(RetCodeEnum.success, "查询成功!",  ToJson.toJson(map));
     }
 
     @Override

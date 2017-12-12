@@ -1,39 +1,52 @@
 package com.lanxi.couponcode.impl.newcontroller;
 
+import java.io.File;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
 import javax.annotation.Resource;
+
+import com.lanxi.couponcode.spi.consts.annotations.CheckArg;
+import com.lanxi.couponcode.spi.consts.enums.*;
 import org.springframework.stereotype.Controller;
 import com.alibaba.fastjson.JSON;
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
+import com.baomidou.mybatisplus.plugins.Page;
 import com.baomidou.mybatisplus.toolkit.IdWorker;
+import com.lanxi.couponcode.impl.entity.Account;
 import com.lanxi.couponcode.impl.entity.Commodity;
 import com.lanxi.couponcode.impl.entity.CouponCode;
 import com.lanxi.couponcode.impl.entity.Merchant;
 import com.lanxi.couponcode.impl.entity.Order;
-import com.lanxi.couponcode.impl.newservice.CommodityService;
-import com.lanxi.couponcode.impl.newservice.MerchantService;
-import com.lanxi.couponcode.impl.newservice.OrderService;
-import com.lanxi.couponcode.impl.newservice.RedisEnhancedService;
-import com.lanxi.couponcode.impl.newservice.RedisService;
+import com.lanxi.couponcode.impl.newservice.*;
 import com.lanxi.couponcode.spi.assist.RetMessage;
+import com.lanxi.couponcode.spi.config.ConstConfig;
 import com.lanxi.couponcode.spi.consts.annotations.EasyLog;
-import com.lanxi.couponcode.spi.consts.enums.CommodityStatus;
-import com.lanxi.couponcode.spi.consts.enums.CommodityType;
-import com.lanxi.couponcode.spi.consts.enums.OperateType;
-import com.lanxi.couponcode.spi.consts.enums.RetCodeEnum;
+import com.lanxi.couponcode.spi.defaultInterfaces.ToJson;
 import com.lanxi.couponcode.spi.service.CouponService;
 import com.lanxi.util.entity.LogFactory;
 import com.lanxi.util.utils.LoggerUtil;
-import static com.lanxi.couponcode.spi.assist.PredicateAssist.*;
+import org.springframework.stereotype.Controller;
+
+import javax.annotation.Resource;
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.List;
+
+import static com.lanxi.couponcode.impl.assist.PredicateAssist.*;
+import static com.lanxi.couponcode.impl.assist.PredicateAssist.notNull;
 
 /**
  * 
  * @author wuxiaobo
  *
  */
+@CheckArg
 @EasyLog(LoggerUtil.LogLevel.INFO)
 @Controller("orderControllerService")
 public class OrderController implements com.lanxi.couponcode.spi.service.OrderService {
@@ -49,7 +62,8 @@ public class OrderController implements com.lanxi.couponcode.spi.service.OrderSe
 	private MerchantService merchantService;
 	@Resource
 	private CouponService couponService;
-
+	@Resource
+	private AccountService accountService;
 	@Override
 	public RetMessage<String> addOrder(String Phone, CommodityType Type, Long SkuCode, Integer Count, String Remark,
 			String SRC, String requestType, String MsgID, String NeedSend, String WorkDate, String WorkTime,
@@ -96,7 +110,7 @@ public class OrderController implements com.lanxi.couponcode.spi.service.OrderSe
 								for (int i = 0; i < Count; i++) {
 									// 循环调用生成串码的接口结果以"|"为分隔添加到stringBuilder中
 									RetMessage<String> retMessage2 = couponService
-											.generateCode(commodity.getCommodityId(), SkuCode, "客户购买", null);
+											.generateCode(commodity.getCommodityId(), SkuCode, "客户购买", Channel.buy.getChannel());
 
 									if (RetCodeEnum.success.equals(retMessage2.getRetCode())) {
 										CouponCode couponCode = JSON.parseObject(retMessage2.getDetail(),
@@ -108,7 +122,7 @@ public class OrderController implements com.lanxi.couponcode.spi.service.OrderSe
 										RetMessage<String> retMessage3 = null;
 										for (int n = 0; n < 8; n++) {
 											retMessage3 = couponService.generateCode(commodity.getCommodityId(),
-													SkuCode, "客户购买", null);
+													SkuCode, "客户购买", Channel.buy.getChannel());
 											if (RetCodeEnum.success.equals(retMessage3.getRetCode())) {
 												CouponCode couponCode = JSON.parseObject(retMessage3.getDetail(),
 														CouponCode.class);
@@ -133,7 +147,7 @@ public class OrderController implements com.lanxi.couponcode.spi.service.OrderSe
 											new BigDecimal(m)));
 									Boolean result = orderService.changeOrderStatus(order);
 									if (result) {
-										String s = JSON.toJSONString(order);
+										String s = order.toJson();
 										retMessage.setAll(RetCodeEnum.success, "串码生成部分成功", s);
 										return retMessage;
 									} else {
@@ -149,7 +163,7 @@ public class OrderController implements com.lanxi.couponcode.spi.service.OrderSe
 											new BigDecimal(m)));
 									Boolean result = orderService.changeOrderStatus(order);
 									if (result) {
-										String s = JSON.toJSONString(order);
+										String s = order.toJson();
 										retMessage.setAll(RetCodeEnum.success, "串码生成部分成功", s);
 										return retMessage;
 									} else {
@@ -163,7 +177,7 @@ public class OrderController implements com.lanxi.couponcode.spi.service.OrderSe
 
 								// 调用一次生成串码接口
 								RetMessage<String> retMessage2 = couponService.generateCode(commodity.getCommodityId(),
-										SkuCode, "客户购买", null);
+										SkuCode, "客户购买", Channel.buy.getChannel());
 								// 判断串码生成是否成功
 								if (RetCodeEnum.success.equals(retMessage2.getRetCode())) {
 									CouponCode couponCode = JSON.parseObject(retMessage2.getDetail(), CouponCode.class);
@@ -174,7 +188,7 @@ public class OrderController implements com.lanxi.couponcode.spi.service.OrderSe
 									RetMessage<String> retMessage3 = null;
 									for (int i = 0; i < 8; i++) {
 										retMessage3 = couponService.generateCode(commodity.getCommodityId(), SkuCode,
-												"客户购买", null);
+												"客户购买", Channel.buy.getChannel());
 
 										if (RetCodeEnum.success.equals(retMessage3.getRetCode())) {
 
@@ -198,7 +212,7 @@ public class OrderController implements com.lanxi.couponcode.spi.service.OrderSe
 							order.setOrderStatus("1");
 							Boolean result = orderService.changeOrderStatus(order);
 							if (result) {
-								String s = JSON.toJSONString(order);
+								String s = order.toJson();
 								retMessage.setAll(RetCodeEnum.success, "订单生成成功", s);
 							} else {
 								retMessage.setAll(RetCodeEnum.exception, "订单生成失败", null);
@@ -269,7 +283,7 @@ public class OrderController implements com.lanxi.couponcode.spi.service.OrderSe
 				if (orders.size() < 1) {
 					retMessage.setAll(RetCodeEnum.success, "没有查询到任何历史订单", null);
 				} else {
-					retMessage.setAll(RetCodeEnum.success, "查询历史订单成功", JSON.toJSONString(orders));
+					retMessage.setAll(RetCodeEnum.success, "查询历史订单成功", ToJson.toJson(orders));
 				}
 
 			} else {
@@ -281,4 +295,116 @@ public class OrderController implements com.lanxi.couponcode.spi.service.OrderSe
 		return retMessage;
 	}
 
+	@Override
+	public RetMessage<String> queryOrders(String StartDate, String EndDate, String Phone, Long orderId, Long SkuCode,
+			String SRC, OrderStatus orderStatus, Integer pageNum, Integer pageSize, Long operaterId) {
+		try {
+			Account a=accountService.queryAccountById(operaterId);
+			if(a==null||notAdmin.test(a))
+				return new RetMessage<>(RetCodeEnum.fail,"非管理员不能执行此操作",null);
+			EntityWrapper<Order> wrapper=new EntityWrapper<>();
+			if (StartDate != null && !StartDate.isEmpty()) {
+				while (StartDate.length() < 14)
+					StartDate += "0";
+				wrapper.ge("create_time", StartDate);
+			}
+			if (EndDate != null && !EndDate.isEmpty()) {
+				while (EndDate.length() < 14)
+					EndDate += "9";
+				wrapper.le("create_time", EndDate);
+			}
+			if (Phone!=null&&!Phone.isEmpty()) {
+				wrapper.eq("phone", Phone);
+			}
+			if (orderId!=null) {
+				wrapper.eq("order_id",orderId);
+			}
+			if (SkuCode!=null) {
+				wrapper.eq("commodity_id",SkuCode);
+			}
+			if (SRC!=null) {
+				wrapper.eq("src",SRC);
+			}
+			if (orderStatus!=null) {
+				wrapper.eq("order_status",orderStatus);
+			}
+			if (pageNum != null) {
+				pageSize = pageSize == null ? ConstConfig.DEFAULT_PAGE_SIZE : pageSize;
+			}
+			Page<Order> pageObj=new Page<>(pageNum,pageSize);
+			List<Order> list=orderService.queryOrders(wrapper, pageObj);
+			if (list!=null) {
+				Map<String, Object>map=new HashMap<>();
+				map.put("page",pageObj);
+				map.put("list",list);
+				return new RetMessage<>(RetCodeEnum.success,"查询成功",ToJson.toJson(map));
+			}else
+			return new RetMessage<>(RetCodeEnum.fail,"没有查询到任何数据",null);
+		} catch (Exception e) {
+			LogFactory.error(this,"查询历史订单时发生异常",e);
+			return new RetMessage<>(RetCodeEnum.error,"没有查询到任何数据",null);
+		}
+	}
+
+	@Override
+	public RetMessage<File> orderExport(String StartDate, String EndDate, String Phone, Long orderId, Long SkuCode,
+			String SRC, OrderStatus orderStatus, Long operaterId) {
+		try {
+			Account a=accountService.queryAccountById(operaterId);
+			if(a==null||notAdmin.test(a))
+				return new RetMessage<>(RetCodeEnum.fail,"非管理员不能执行此操作",null);
+			EntityWrapper<Order>wrapper=new EntityWrapper<>();
+			if (StartDate != null && !StartDate.isEmpty()) {
+				while (StartDate.length() < 14)
+					StartDate += "0";
+				wrapper.ge("create_time", StartDate);
+			}
+			if (EndDate != null && !EndDate.isEmpty()) {
+				while (EndDate.length() < 14)
+					EndDate += "9";
+				wrapper.le("create_time", EndDate);
+			}
+			if (Phone!=null&&!Phone.isEmpty()) {
+				wrapper.eq("phone", Phone);
+			}
+			if (orderId!=null) {
+				wrapper.eq("order_id",orderId);
+			}
+			if (SkuCode!=null) {
+				wrapper.eq("commodity_id",SkuCode);
+			}
+			if (SRC!=null) {
+				wrapper.eq("src",SRC);
+			}
+			if (orderStatus!=null) {
+				wrapper.eq("order_status",orderStatus);
+			}
+			File file=orderService.orderExport(wrapper);
+			if (file!=null) {
+				return new RetMessage<>(RetCodeEnum.success,"导出订单成功",file);
+			}else
+				return new RetMessage<>(RetCodeEnum.fail,"导出订单失败",null);
+		} catch (Exception e) {
+			LogFactory.error(this,"导出订单时发生异常",e);
+			return new RetMessage<>(RetCodeEnum.error,"导出订单时发生异常",null);
+		}
+	}
+
+	@Override
+	public RetMessage<String> queryOrderInfo(Long orderId, Long operaterId) {
+		try {
+			Account a=accountService.queryAccountById(operaterId);
+			if(a==null||notAdmin.test(a))
+				return new RetMessage<>(RetCodeEnum.fail,"非管理员不能执行此操作",null);
+			Order order=orderService.queryOrderInfoById(orderId);
+			if (order!=null) {
+				return new RetMessage<>(RetCodeEnum.success,"查询成功",order.toJson());
+			}else
+				return new RetMessage<>(RetCodeEnum.fail,"没有查询到相关订单",null);
+		} catch (Exception e) {
+			LogFactory.error(this,"查询订单详情时发生异常",e);
+			return new RetMessage<>(RetCodeEnum.error,"查询订单详情时发生异常",null);
+		}
+	}
+	
 }

@@ -1,16 +1,17 @@
 package com.lanxi.couponcode.impl.newcontroller;
 
-import com.alibaba.fastjson.JSON;
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.plugins.Page;
 import com.baomidou.mybatisplus.toolkit.IdWorker;
-import com.lanxi.couponcode.spi.assist.TimeAssist;
 import com.lanxi.couponcode.impl.entity.*;
 import com.lanxi.couponcode.impl.newservice.*;
 import com.lanxi.couponcode.spi.assist.RetMessage;
+import com.lanxi.couponcode.spi.assist.TimeAssist;
 import com.lanxi.couponcode.spi.consts.annotations.Cache;
+import com.lanxi.couponcode.spi.consts.annotations.CheckArg;
 import com.lanxi.couponcode.spi.consts.annotations.EasyLog;
 import com.lanxi.couponcode.spi.consts.enums.*;
+import com.lanxi.couponcode.spi.defaultInterfaces.ToJson;
 import com.lanxi.util.utils.ExcelUtil;
 import com.lanxi.util.utils.LoggerUtil;
 import org.springframework.stereotype.Controller;
@@ -21,12 +22,14 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-import static com.lanxi.couponcode.spi.assist.PredicateAssist.*;
+
+import static com.lanxi.couponcode.impl.assist.PredicateAssist.*;
 
 
 /**
  * Created by yangyuanjian on 2017/11/15.
  */
+@CheckArg
 @EasyLog(LoggerUtil.LogLevel.INFO)
 @Controller("codeControllerService")
 public class CodeController implements com.lanxi.couponcode.spi.service.CouponService{
@@ -85,7 +88,7 @@ public class CodeController implements com.lanxi.couponcode.spi.service.CouponSe
     }
 
     @Override
-    @Cache(exclusionArgs = {"operaterId"})
+    @Cache (exclusionArgs = {"operaterId"})
     public RetMessage<String> queryCodes(String timeStart,
                                          String timeEnd,
                                          String merchantName,
@@ -118,7 +121,7 @@ public class CodeController implements com.lanxi.couponcode.spi.service.CouponSe
         map.put("page",page);
         map.put("list",list);
         if(list!=null)
-            return new RetMessage<String>(RetCodeEnum.success,"查询成功", JSON.toJSONString(map));
+            return new RetMessage<String>(RetCodeEnum.success,"查询成功", ToJson.toJson(map));
         else
             return new RetMessage<String>(RetCodeEnum.fail,"查询失败",null);
     }
@@ -131,7 +134,7 @@ public class CodeController implements com.lanxi.couponcode.spi.service.CouponSe
                                              Long codeId,
                                              Long operaterId) {
         Account account=accountService.queryAccountById(operaterId);
-        RetMessage message=checkAccount.apply(account,OperateType.queryCouponCodeList);
+        RetMessage message=checkAccount.apply(account, OperateType.queryCouponCodeList);
         if(message!=null)
             return message;
         //需要展示的内容
@@ -151,11 +154,11 @@ public class CodeController implements com.lanxi.couponcode.spi.service.CouponSe
         Boolean result=false;
 
         Account account=accountService.queryAccountById(operaterId);
-        RetMessage message=checkAccount.apply(account,OperateType.cancelCouponCode);
+        RetMessage message=checkAccount.apply(account, OperateType.cancelCouponCode);
         if(message!=null)
             return message;
         CouponCode code=codeService.queryCodeInfo(codeId,account.getMerchantId());
-        message=checkCode.apply(code,OperateType.cancelCouponCode);
+        message=checkCode.apply(code, OperateType.cancelCouponCode);
         if(message!=null)
             return message;
         //----------------------------------------------------------执行--------------------------------------------------------
@@ -225,7 +228,7 @@ public class CodeController implements com.lanxi.couponcode.spi.service.CouponSe
         Boolean result=false;
         //-----------------------------------------------------------------校验--------------------------------------------------------------
         Account account=accountService.queryAccountById(operaterId);
-        RetMessage message=checkAccount.apply(account,OperateType.destroyCouponCode);
+        RetMessage message=checkAccount.apply(account, OperateType.destroyCouponCode);
         if(message!=null)
             return message;
 
@@ -235,7 +238,7 @@ public class CodeController implements com.lanxi.couponcode.spi.service.CouponSe
 //            return new RetMessage<>(RetCodeEnum.fail,"无权核销!",null);
         //查询
         CouponCode code=codeService.queryCodeInfo(codeId,account.getMerchantId());
-        message=checkCode.apply(code,OperateType.destroyCouponCode);
+        message=checkCode.apply(code, OperateType.destroyCouponCode);
 //        if(isNull.test(code))
 //            return new RetMessage<>(RetCodeEnum.fail,"不存在!",null);
 //        if(diffMerchantCodeAccount.test(code,account))
@@ -252,6 +255,7 @@ public class CodeController implements com.lanxi.couponcode.spi.service.CouponSe
             if(lock){
                 code.setVerificationType(verificationType);
                 code.setDestroyRecordId(verificationRecord.getRecordId());
+                code.setVerifyTime(TimeAssist.getNow());
                 result=codeService.verificateCode(code);
             }
         } catch (Exception e) {
@@ -327,7 +331,7 @@ public class CodeController implements com.lanxi.couponcode.spi.service.CouponSe
                                            Long operaterId) {
         //-----------------------------------------------------------------校验--------------------------------------------------------------
         Account account=accountService.queryAccountById(operaterId);
-        RetMessage message=checkAccount.apply(account,OperateType.postoneCouponCode);
+        RetMessage message=checkAccount.apply(account, OperateType.postoneCouponCode);
         if(message!=null)
             return message;
 //        if(isNull.test(account))
@@ -337,7 +341,7 @@ public class CodeController implements com.lanxi.couponcode.spi.service.CouponSe
         Boolean result=false;
         //查询
         CouponCode code=codeService.queryCode(codeId);
-        message=checkCode.apply(code,OperateType.postoneCouponCode);
+        message=checkCode.apply(code, OperateType.postoneCouponCode);
         if(message!=null)
             return message;
         //不存在
@@ -391,15 +395,15 @@ public class CodeController implements com.lanxi.couponcode.spi.service.CouponSe
 
     @Override
     public RetMessage<String> generateCode(Long merchantId,
-                                            Long commodityId,
-                                            String reason,
-                                            Integer channel) {
+                                           Long commodityId,
+                                           String reason,
+                                           Integer channel) {
         if(isNull.test(merchantId))
             return new RetMessage<>(RetCodeEnum.fail,"商户号为空!",null);
         if(isNull.test(commodityId))
             return new RetMessage<>(RetCodeEnum.fail,"商品号为空!",null);
         Merchant merchant=merchantService.queryMerchantParticularsById(merchantId);
-        RetMessage message=checkMerchant.apply(merchant,OperateType.createCouponCode);
+        RetMessage message=checkMerchant.apply(merchant, OperateType.createCouponCode);
         if(message==null)
             return message;
 //        if(isNull.test(merchant))
@@ -407,7 +411,7 @@ public class CodeController implements com.lanxi.couponcode.spi.service.CouponSe
 //        if(!MerchantStatus.normal.equals(merchant.getMerchantStatus()))
 //            return new RetMessage<>(RetCodeEnum.fail,"商户状态异常!",null);
         Commodity commodity=commodityService.queryCommodity(commodityId,merchantId);
-        message=checkCommodity.apply(commodity,OperateType.createCouponCode);
+        message=checkCommodity.apply(commodity, OperateType.createCouponCode);
         if(message==null)
             return message;
 //        if(isNull.test(commodity))
@@ -437,6 +441,10 @@ public class CodeController implements com.lanxi.couponcode.spi.service.CouponSe
         codeObj.setClearStatus(ClearStatus.uncleared);
         codeObj.setReason(reason);
         codeObj.setChannel(channel);
+        if(channel==1){
+            codeObj.setGenerateType(GenerateType.hand);
+        }else
+            codeObj.setGenerateType(GenerateType.auto);
         if(codeService.addCode(codeObj)){
             redisCodeService.addCode(merchantId,code);
             return new RetMessage<>(RetCodeEnum.success,"生成成功!",codeObj.toJson());
@@ -445,11 +453,23 @@ public class CodeController implements com.lanxi.couponcode.spi.service.CouponSe
     }
 
     @Override
+    public RetMessage<String> generateCode(Long merchantId, Long commodityId, String reason, Long operaterId) {
+        Account account=accountService.queryAccountById(operaterId);
+        Commodity commodity=commodityService.queryCommodity(commodityId);
+        if(isNull.test(commodity)){
+            return new RetMessage<>(RetCodeEnum.fail,"商品不存在!",null);
+        }
+        if(notAdmin.test(account)||AccountType.merchantManager.equals(account.getAccountType()))
+            return new RetMessage<>(RetCodeEnum.fail,"非管理员无权操作!",null);
+        return generateCode(commodity.getCommodityId(),commodityId,reason,1);
+    }
+
+    @Override
     public RetMessage<String> couponCodeInfo(Long codeId, Long operaterId) {
         //TODO 校验权限
         //查询
         Account account=accountService.queryAccountById(operaterId);
-        RetMessage message=checkAccount.apply(account,OperateType.postoneCouponCode);
+        RetMessage message=checkAccount.apply(account, OperateType.postoneCouponCode);
         if(message!=null)
             return message;
 //        if(isNull.test(account))
@@ -457,7 +477,7 @@ public class CodeController implements com.lanxi.couponcode.spi.service.CouponSe
 //        if(cantQueryCode.test(account))
 //            return new RetMessage<>(RetCodeEnum.fail,"无权查询!",null);
         CouponCode code=codeService.queryCodeInfo(codeId,account.getMerchantId());
-        message=checkCode.apply(code,OperateType.queryCouponCode);
+        message=checkCode.apply(code, OperateType.queryCouponCode);
         if(message!=null)
             return message;
 //        if(diffMerchantCodeAccount.test(code,account))
