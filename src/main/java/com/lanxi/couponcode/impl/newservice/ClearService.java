@@ -1,5 +1,6 @@
 package com.lanxi.couponcode.impl.newservice;
 
+import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.mapper.Wrapper;
 import com.baomidou.mybatisplus.plugins.Page;
 import com.lanxi.couponcode.impl.entity.ClearDailyRecord;
@@ -17,9 +18,9 @@ public interface ClearService {
     ClearDailyRecord queryDailyRecordInfo(Long recordId);
     ClearRecord queryClearRecordInfo(Long recordId);
 
-    List<ClearDailyRecord> queryDailyRecords(Wrapper<ClearDailyRecord> wrapper, Page<ClearDailyRecord> page);
+    List<ClearDailyRecord> queryDailyRecords(EntityWrapper<ClearDailyRecord> wrapper, Page<ClearDailyRecord> page);
     List<ClearDailyRecord> queryDailyRecords(Long[] recordIds);
-    List<ClearRecord> queryClearRecords(Wrapper<ClearRecord> wrapper, Page<ClearRecord> page);
+    List<ClearRecord> queryClearRecords(EntityWrapper<ClearRecord> wrapper, Page<ClearRecord> page);
 
     Boolean clearDailyRecord(ClearDailyRecord record);
 

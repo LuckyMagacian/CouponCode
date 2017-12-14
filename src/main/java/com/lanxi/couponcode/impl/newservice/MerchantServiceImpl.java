@@ -477,9 +477,7 @@ public class MerchantServiceImpl implements MerchantService {
 			if (merchantStatus!=null) {
 				wrapper.eq("merchant_status",merchantStatus);
 			}else {
-				wrapper.ne("merchant_status", MerchantStatus.cancellation);
-				wrapper.ne("merchant_status",MerchantStatus.deleted);
-				wrapper.ne("merchant_status",MerchantStatus.test);
+				wrapper.in("merchant_status", MerchantStatus.normal.getValue()+","+MerchantStatus.freeze.getValue());
 			}
 			if (timeStart != null && !timeStart.isEmpty()) {
 				while (timeStart.length() < 14)
@@ -517,14 +515,23 @@ public class MerchantServiceImpl implements MerchantService {
 		try {
 			EntityWrapper<Merchant> wrapper=new EntityWrapper<>();
 			wrapper.eq("merchant_name", merchantName);
-			wrapper.ne("merchant_status", MerchantStatus.deleted);
-			wrapper.ne("merchant_status", MerchantStatus.test);
-			wrapper.ne("merchant_status",MerchantStatus.cancellation);
+			wrapper.in("merchant_status", MerchantStatus.normal.getValue()+","+MerchantStatus.freeze.getValue());
 			List<Merchant> list=dao.getMerchantDao().selectList(wrapper);
 			if (list==null||list.size()==0) {
 				return true;
 			}else {
-				return false;
+				for (Merchant merchant : list) {
+					if (merchant.getMerchantStatus()==null)
+						return true;
+					else {
+						if (MerchantStatus.normal.equals(merchant.getMerchantStatus())||
+								MerchantStatus.freeze.equals(merchant.getMerchantStatus())) {
+							return false;
+						}
+					}
+					
+				}
+				return true;
 			}
 		} catch (Exception e) {
 			LogFactory.error(this,"判断商户名称是否重复时发生异常",e);
@@ -536,17 +543,25 @@ public class MerchantServiceImpl implements MerchantService {
 		try {
 			EntityWrapper<Merchant> wrapper=new EntityWrapper<>();
 			wrapper.eq("merchant_name", merchantName);
-			wrapper.ne("merchant_status", MerchantStatus.deleted);
-			wrapper.ne("merchant_status", MerchantStatus.test);
-			wrapper.ne("merchant_status",MerchantStatus.cancellation);
+			wrapper.in("merchant_status", MerchantStatus.normal.getValue()+","+MerchantStatus.freeze.getValue());
 			List<Merchant> list=dao.getMerchantDao().selectList(wrapper);
 			if (list==null||list.size()==0) {
 				return true;
 			}else {
-				if (list.get(0).getMerchantId().equals(merchantId)) {
-					return true;
-				}else
-				return false;
+				for (Merchant merchant : list) {
+					if (merchant.getMerchantStatus()==null)
+						return true;
+					else {
+						if (MerchantStatus.normal.equals(merchant.getMerchantStatus())||
+								MerchantStatus.freeze.equals(merchant.getMerchantStatus())) {
+							if (merchant.getMerchantId().equals(merchantId)) {
+								return true;
+							}else
+							return false;
+						}
+					}
+				}
+				return true;
 			}
 		} catch (Exception e) {
 			LogFactory.error(this,"判断商户名称是否重复时发生异常",e);
@@ -556,9 +571,7 @@ public class MerchantServiceImpl implements MerchantService {
 	@Override
 	public List<Merchant> queryAll() {
 		EntityWrapper<Merchant> wrapper=new EntityWrapper<>();
-		wrapper.ne("merchant_status", MerchantStatus.deleted);
-		wrapper.ne("merchant_status", MerchantStatus.test);
-		wrapper.ne("merchant_status",MerchantStatus.cancellation);
+		wrapper.in("merchant_status", MerchantStatus.normal.getValue()+","+MerchantStatus.freeze.getValue());
 		return dao.getMerchantDao().selectList(wrapper);
 	}
 	

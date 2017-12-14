@@ -4,14 +4,19 @@ import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.toolkit.IdWorker;
 import com.lanxi.couponcode.impl.entity.*;
 import com.lanxi.couponcode.impl.newcontroller.LoginController;
+import com.lanxi.couponcode.impl.newcontroller.OperateRecordController;
+import com.lanxi.couponcode.impl.newservice.AccountService;
 import com.lanxi.couponcode.impl.newservice.CommodityService;
 import com.lanxi.couponcode.impl.newservice.DaoService;
+import com.lanxi.couponcode.impl.newservice.OperateRecordService;
 import com.lanxi.couponcode.impl.ztest.TestAop;
 import com.lanxi.couponcode.spi.aop.AddLog;
 import com.lanxi.couponcode.spi.consts.annotations.EasyLog;
+import com.lanxi.couponcode.spi.consts.enums.AccountType;
 import com.lanxi.couponcode.spi.service.LoginService;
 import com.lanxi.couponcode.spi.service.MerchantService;
 import com.lanxi.util.entity.MyClassLoader;
+import com.lanxi.util.utils.ExcelUtil;
 import com.lanxi.util.utils.LoggerUtil;
 import com.lanxi.util.utils.LoggerUtil.LogLevel;
 import com.lanxi.util.utils.SpringUtil;
@@ -26,9 +31,14 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import javax.annotation.Resource;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.lang.reflect.Field;
 import java.math.BigDecimal;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.stream.Stream;
 
@@ -98,15 +108,12 @@ public class TestMybatis {
 		test.sayHello();
 	}
     @Test
-    public void test5() {
-    	Merchant merchant=new Merchant();
-    	merchant.setMerchantId(1L);
-    	System.err.println(merchant);
-    	merchant=(Merchant) merchant.selectById();
-    	System.err.println(merchant);
-    	merchant.setMerchantName("123456");
-    	merchant.updateById();
-    	System.err.println(merchant);
+    public void test5() throws IOException {
+		File file=new File("testList.xls");
+		if(!file.exists())
+			file.createNewFile();
+		List<Account> accounts=ac.getBean(AccountService.class).queryAccounts(new EntityWrapper<Account>(),null);
+		ExcelUtil.exportExcelFile(accounts,null,new FileOutputStream(file));
     }	
 
 
@@ -128,4 +135,6 @@ public class TestMybatis {
 				new BigDecimal(1.2),null,null,null,940127998683226112L,938694848231235589L
 		));
 	}
+
+
 }

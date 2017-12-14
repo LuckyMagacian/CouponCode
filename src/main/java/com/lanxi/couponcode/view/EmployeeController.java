@@ -25,7 +25,7 @@ import static com.lanxi.couponcode.spi.assist.ArgAssist.*;
 @EasyLog (LoggerUtil.LogLevel.INFO)
 public class EmployeeController {
 
-    @Resource(name="codeControllerService")
+    @Resource(name="codeControllerServiceRef")
     private CouponService codeService;
 
     @SetUtf8

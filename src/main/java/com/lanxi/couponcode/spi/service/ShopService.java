@@ -6,6 +6,7 @@ import com.lanxi.couponcode.spi.consts.annotations.RealReturnType;
 import com.lanxi.couponcode.spi.consts.enums.ShopStatus;
 
 import java.io.File;
+import java.io.Serializable;
 
 /**
  * Created by yangyuanjian on 2017/11/9.
@@ -69,4 +70,5 @@ public interface ShopService {
     		@HiddenArg Long operaterId, 
     		@HiddenArg Integer pageNum,
     		@HiddenArg Integer pageSize);
+    RetMessage<Serializable> queruAllShopIds(Long operaterId);
 }

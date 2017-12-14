@@ -14,7 +14,7 @@ public class MsgRechargeBean extends MsgHeadBean implements Cloneable{
 	    private String Count="";//商品数量
 	    private String NeedSend="";//是否需要发送    0-需要，1-不需要
 	    private String Remark="";//备注
-
+	    private String SerialNum="";//平台流水号
 	    public String getPhone() {
 	        return Phone;
 	    }
@@ -63,7 +63,15 @@ public class MsgRechargeBean extends MsgHeadBean implements Cloneable{
 	        Remark = remark;
 	    }
 
-	    @Override
+	    public String getSerialNum() {
+			return SerialNum;
+		}
+
+		public void setSerialNum(String serialNum) {
+			SerialNum = serialNum;
+		}
+
+		@Override
 	    public Object clone() {
 	        try {
 	            return (MsgRechargeBean)super.clone();

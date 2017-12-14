@@ -89,7 +89,6 @@ public class LoginController implements com.lanxi.couponcode.spi.service.LoginSe
 										token,
 										Long.valueOf(configService.getValue("parameter", "accountLifeDefaultValue")));
 								if (boolean1) {
-
 									Map<String, Object> map=new HashMap<>();
 									map.put("token",token);
 									map.put("account", account);
@@ -197,7 +196,7 @@ public class LoginController implements com.lanxi.couponcode.spi.service.LoginSe
 		try {
 			String code=redisService.get(RedisKeyAssist.getVerificateCodeKey(phone));
 			if (code!=null&&!code.isEmpty()) {
-				if(SignUtil.md5LowerCase(code, "utf-8").equals(validateCode)) {
+				if(validateCode.equals(SignUtil.md5LowerCase(code, "utf-8"))) {
 					if (!newPassword.equals(newRepeat)) {
 						result = false;
 						LogFactory.debug(this, "两次密码不一致 ");

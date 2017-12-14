@@ -30,7 +30,7 @@ import java.util.Map;
 @RequestMapping("xmlApi")
 @EasyLog (LoggerUtil.LogLevel.INFO)
 public class XmlApiController {
-    @Resource(name = "orderControllerService")
+    @Resource(name = "orderControllerServiceRef")
     private OrderService orderService;
 
     /**
@@ -96,7 +96,7 @@ public class XmlApiController {
             RetMessage<String> retMessage = orderService.addOrder(msgRechargeBean.getPhone(), CommodityType.getType(msgRechargeBean.getType()), Long.valueOf(msgRechargeBean.getSkuCode()),
                     Integer.valueOf(msgRechargeBean.getCount()), msgRechargeBean.getRemark(), msgRechargeBean.getSRC(),
                     "POST", msgRechargeBean.getMsgID(), msgRechargeBean.getNeedSend(), msgRechargeBean.getWorkDate(), msgRechargeBean.getWorkTime(),
-                    msgRechargeBean.getCHKDate());
+                    msgRechargeBean.getCHKDate(),msgRechargeBean.getSerialNum());
             if (null!=retMessage.getDetail() ) {
                 JSONObject jsonObject = JSON.parseObject((String) retMessage.getDetail());
                 if (jsonObject.getString("count").equals( jsonObject.getString("successNum"))) {

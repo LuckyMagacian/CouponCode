@@ -28,11 +28,11 @@ import static com.lanxi.couponcode.spi.assist.ArgAssist.*;
 @RequestMapping("shopManager")
 @EasyLog (LoggerUtil.LogLevel.INFO)
 public class ShopManagerController {
-    @Resource(name="codeControllerService")
+    @Resource(name="codeControllerServiceRef")
     private CouponService codeService;
-    @Resource(name = "operateRecordControllerService")
+    @Resource(name = "operateRecordControllerServiceRef")
     private OperateRecordService operateRecordService;
-    @Resource(name="commodityControllerService")
+    @Resource(name="commodityControllerServiceRef")
     private CommodityService commodityService;
 
 

@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.toolkit.IdWorker;
 import com.lanxi.couponcode.spi.config.Path;
 import com.lanxi.couponcode.impl.entity.Shop;
 import com.lanxi.couponcode.spi.consts.annotations.EasyLog;
+import com.lanxi.couponcode.spi.consts.enums.MerchantStatus;
 import com.lanxi.couponcode.spi.consts.enums.ShopStatus;
 import com.lanxi.util.entity.LogFactory;
 import com.lanxi.util.utils.ExcelUtil;
@@ -46,9 +47,8 @@ public class ShopServiceImpl implements ShopService {
 
 	@Override
 	public Boolean freezeAllShop(Long merchantId, Long operaterId, String operaterInfo, String operaterPhone) {
-		String locker = "merchantId[" + merchantId + "]\n" + ",operaterId[" + operaterId + "]\n" + ",operaterPhone["
-				+ operaterPhone + "]\n" + ",operaterInfo[" + operaterInfo + "]\n";
-		LogFactory.info(this, "尝试冻结" + merchantId + "所有门店,\n" + locker);
+		
+		LogFactory.info(this, "尝试冻结" + merchantId + "所有门店,\n" );
 
 		boolean result = false;
 		// 因为要冻结所有门店shop直接设置为freeze
@@ -60,10 +60,10 @@ public class ShopServiceImpl implements ShopService {
 			wrapper.eq("merchant_id", merchantId);
 			Integer var = dao.getShopDao().update(shop, wrapper);
 			if (var < 0) {
-				LogFactory.debug(this, "冻结所有门店失败" + locker);
+				LogFactory.debug(this, "冻结所有门店失败" );
 				result = false;
 			} else if (var > 0) {
-				LogFactory.info(this, "冻结所有门店成功" + locker);
+				LogFactory.info(this, "冻结所有门店成功" );
 				result = true;
 			}
 		} catch (Exception e) {
@@ -76,25 +76,25 @@ public class ShopServiceImpl implements ShopService {
 
 	@Override
 	public Boolean addShop(Shop shop) {
-		String locker = "shop[" + shop + "]\n";
-		LogFactory.info(this, "尝试单个添加门店,\n" + locker);
+		
+		LogFactory.info(this, "尝试单个添加门店,\n" );
 		boolean result = false;
 		try {
 			if (shop != null) {
 				Integer var = dao.getShopDao().insert(shop);
 				if (var < 0) {
-					LogFactory.debug(this, "添加门店失败\n" + locker);
+					LogFactory.debug(this, "添加门店失败\n");
 					result = false;
 				} else if (var > 0) {
-					LogFactory.debug(this, "添加门店成功\n" + locker);
+					LogFactory.debug(this, "添加门店成功\n" );
 					result = true;
 				}
 			} else {
-				LogFactory.info(this, "没有获取到要添加的信息\n" + locker);
+				LogFactory.info(this, "没有获取到要添加的信息\n");
 			}
 		} catch (Exception e) {
 
-			LogFactory.error(this, "添加门店的时候发生异常,\n" + locker, e);
+			LogFactory.error(this, "添加门店的时候发生异常,\n", e);
 
 		}
 
@@ -103,7 +103,7 @@ public class ShopServiceImpl implements ShopService {
 
 	@Override
 	public List<String> importShops(File file, Long merchantId, Long operaterId, String merchantStatus) {
-		String locker = "shopId[" + merchantId + "]\n" + ",operaterId[" + operaterId + "]\n";
+		
 		Shop shop = null;
 		List<String> list = new ArrayList<String>();
 		try {
@@ -150,18 +150,18 @@ public class ShopServiceImpl implements ShopService {
 						shop.setCreateTime(LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMddHHmmss")));
 						shop.setShopId(IdWorker.getId());
 						LogFactory.info(this,
-								"批量添加门店----获取到第[" + j + "]个sheet第[" + i + "]个门店信息+[" + shop + "]开始尝试添加\n" + locker);
+								"批量添加门店----获取到第[" + j + "]个sheet第[" + i + "]个门店信息+[" + shop + "]开始尝试添加\n" );
 						Integer var = dao.getShopDao().insert(shop);
 						if (var > 0) {
 						} else {
 							list.add("批量添加门店----第[" + j + "]个sheet第[" + i + "]个门店添加失败");
 							// num[i-1]=i;
-							LogFactory.debug(this, "批量添加门店----第[" + j + "]个sheet第[" + i + "]个门店添加失败\n" + locker);
+							LogFactory.debug(this, "批量添加门店----第[" + j + "]个sheet第[" + i + "]个门店添加失败\n" );
 						}
 					}else {
 						list.add("批量添加门店----第[" + j + "]个sheet第[" + i + "]个门店添加失败");
 						// num[i-1]=i;
-						LogFactory.debug(this, "批量添加门店----第[" + j + "]个sheet第[" + i + "]个门店添加失败\n" + locker);
+						LogFactory.debug(this, "批量添加门店----第[" + j + "]个sheet第[" + i + "]个门店添加失败\n");
 					}
 					
 					
@@ -170,7 +170,7 @@ public class ShopServiceImpl implements ShopService {
 				// workbook.close();
 			}
 		} catch (Exception e) {
-			LogFactory.error(this, "批量添加门店的时候发生异常\n" + locker);
+			LogFactory.error(this, "批量添加门店的时候发生异常\n");
 			list.add("批量添加门店的时候发生异常");
 		}
 		return list;
@@ -179,20 +179,20 @@ public class ShopServiceImpl implements ShopService {
 	@Override
 	public Boolean freezeShop(Shop shop) {
 		synchronized (shop) {
-			String locker = "Shop[" + shop + "]\n";
-			LogFactory.info(this, "尝试冻结门店\n" + locker);
+			
+			LogFactory.info(this, "尝试冻结门店\n" );
 			Boolean result = false;
 			try {
 				Integer var = dao.getShopDao().updateById(shop);
 				if (var > 0) {
-					LogFactory.debug(this, "冻结门店成功\n" + locker);
+					LogFactory.debug(this, "冻结门店成功\n");
 					result = true;
 				} else {
-					LogFactory.debug(this, "冻结门店失败,\n" + locker);
+					LogFactory.debug(this, "冻结门店失败,\n" );
 					result = false;
 				}
 			} catch (Exception e) {
-				LogFactory.error(this, "冻结门店时发生异常,\n" + locker);
+				LogFactory.error(this, "冻结门店时发生异常,\n");
 			}
 			return result;
 		}
@@ -201,20 +201,20 @@ public class ShopServiceImpl implements ShopService {
 	@Override
 	public Boolean unfreezeShop(Shop shop) {
 		synchronized (shop) {
-			String locker = "shop[" + shop + "]\n";
-			LogFactory.info(this, "尝试开启门店\n" + locker);
+			
+			LogFactory.info(this, "尝试开启门店\n" );
 			Boolean result = false;
 			try {
 				Integer var = dao.getShopDao().updateById(shop);
 				if (var > 0) {
-					LogFactory.debug(this, "开启门店成功\n" + locker);
+					LogFactory.debug(this, "开启门店成功\n" );
 					result = true;
 				} else {
-					LogFactory.debug(this, "开启门店失败,\n" + locker);
+					LogFactory.debug(this, "开启门店失败,\n");
 					result = false;
 				}
 			} catch (Exception e) {
-				LogFactory.error(this, "开启门店时发生异常,\n" + locker);
+				LogFactory.error(this, "开启门店时发生异常,\n");
 			}
 			return result;
 		}
@@ -257,20 +257,20 @@ public class ShopServiceImpl implements ShopService {
 	@Override
 	public Boolean modifyShop(Shop shop) {
 		synchronized (shop) {
-			String locker = "shop[" + shop + "]\n";
-			LogFactory.info(this, "尝试开始修改门店信息\n" + locker);
+			
+			LogFactory.info(this, "尝试开始修改门店信息\n");
 			Boolean result = false;
 			try {
 				Integer var = dao.getShopDao().updateById(shop);
 				if (var > 0) {
 					result = true;
-					LogFactory.debug(this, "修改门店信息成功\n" + locker);
+					LogFactory.debug(this, "修改门店信息成功\n");
 				} else {
 					result = false;
-					LogFactory.debug(this, "修改门店信息失败\n" + locker);
+					LogFactory.debug(this, "修改门店信息失败\n" );
 				}
 			} catch (Exception e) {
-				LogFactory.error(this, "修改门店信息发生异常\n" + locker);
+				LogFactory.error(this, "修改门店信息发生异常\n" ,e);
 
 			}
 			return result;
@@ -362,9 +362,7 @@ public class ShopServiceImpl implements ShopService {
 			EntityWrapper<Shop> wrapper=new EntityWrapper<>();
 			if (merchantId!=null) {
 				wrapper.eq("merchant_id", merchantId);
-				wrapper.ne("shop_status",ShopStatus.deleted);
-				wrapper.ne("shop_status",ShopStatus.test);
-				wrapper.ne("shop_status", ShopStatus.cancellation);
+				wrapper.in("shop_status", ShopStatus.normal.getValue()+","+ShopStatus.freeze.getValue());
 				if (pageObj!=null) {
 					return dao.getShopDao().selectPage(pageObj, wrapper);
 				}
@@ -385,14 +383,22 @@ public class ShopServiceImpl implements ShopService {
 			EntityWrapper<Shop> wrapper=new EntityWrapper<Shop>();
 			wrapper.eq("shop_name", shopName);
 			wrapper.eq("merchant_id", merchantId);
-			wrapper.ne("shop_status",ShopStatus.deleted);
-			wrapper.ne("shop_status",ShopStatus.test);
-			wrapper.ne("shop_status",ShopStatus.cancellation);
+			wrapper.in("shop_status", ShopStatus.normal.getValue()+","+ShopStatus.freeze.getValue());
 			List<Shop>list=dao.getShopDao().selectList(wrapper);
 			if (list==null||list.size()==0) {
 				return true;
 			}else {
-				return false;
+				for (Shop shop : list) {
+					if (shop.getShopStatus()==null)
+						return true;
+					else {
+						if (ShopStatus.normal.equals(shop.getShopStatus())||
+								ShopStatus.freeze.equals(shop.getShopStatus())) {
+							return false;
+						}
+					}
+				}
+				return true;
 			}
 		} catch (Exception e) {
 			LogFactory.error(this,"判断门店名称是否可用时发生异常",e);
@@ -406,17 +412,25 @@ public class ShopServiceImpl implements ShopService {
 			EntityWrapper<Shop> wrapper=new EntityWrapper<>();
 			wrapper.eq("shop_name", shopName);
 			wrapper.eq("merchant_id", merchantId);
-			wrapper.ne("shop_status",ShopStatus.deleted);
-			wrapper.ne("shop_status",ShopStatus.test);
-			wrapper.ne("shop_status",ShopStatus.cancellation);
+			wrapper.in("shop_status", ShopStatus.normal.getValue()+","+ShopStatus.freeze.getValue());
 			List<Shop>list=dao.getShopDao().selectList(wrapper);
 			if (list==null||list.size()==0) {
 				return true;
 			}else {
-				if (list.get(0).getShopId().equals(shopId)) {
-					return true;
-				}else
-				return false;
+				for (Shop shop : list) {
+					if (shop.getShopStatus()==null) 
+						return true;
+					else {
+						if (ShopStatus.normal.equals(shop.getShopStatus())||
+								ShopStatus.freeze.equals(shop.getShopStatus())) {
+							if (shop.getShopId().equals(shopId)) 
+								return true;
+							else
+								return false;
+						}
+					}
+				}
+				return true;
 			}
 		} catch (Exception e) {
 			LogFactory.error(this,"判断门店名称是否可用时发生异常",e);
@@ -433,6 +447,13 @@ public class ShopServiceImpl implements ShopService {
 			return null;
 		}
 		
+	}
+
+	@Override
+	public List<Shop> queryAllShop() {
+		EntityWrapper<Shop> wrapper=new EntityWrapper<>();
+		wrapper.in("shop_status", ShopStatus.normal.getValue()+","+ShopStatus.freeze.getValue());
+		return dao.getShopDao().selectList(wrapper);
 	}
 
 	// @Override

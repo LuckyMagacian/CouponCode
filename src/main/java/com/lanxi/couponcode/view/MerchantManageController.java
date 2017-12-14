@@ -1,5 +1,7 @@
 package com.lanxi.couponcode.view;
 
+import com.lanxi.couponcode.spi.assist.FileAssit;
+import com.lanxi.couponcode.spi.assist.RetMessage;
 import com.lanxi.couponcode.spi.consts.annotations.EasyLog;
 import com.lanxi.couponcode.spi.consts.annotations.LoginCheck;
 import com.lanxi.couponcode.spi.consts.annotations.SetUtf8;
@@ -33,23 +35,23 @@ import static com.lanxi.couponcode.spi.assist.ArgAssist.*;
 @RequestMapping ("merchantManager")
 @EasyLog (LoggerUtil.LogLevel.INFO)
 public class MerchantManageController {
-    @Resource (name = "accountControllerService")
+    @Resource (name = "accountControllerServiceRef")
     private AccountService accountService;
-    @Resource (name = "codeControllerService")
+    @Resource (name = "codeControllerServiceRef")
     private CouponService codeService;
-    @Resource (name = "clearControllerService")
+    @Resource (name = "clearControllerServiceRef")
     private ClearService clearService;
-    @Resource (name = "operateRecordControllerService")
+    @Resource (name = "operateRecordControllerServiceRef")
     private OperateRecordService operateRecordService;
-    @Resource (name = "requestControllerService")
+    @Resource (name = "requestControllerServiceRef")
     private RequestService requestService;
-    @Resource (name = "verificationRecordControllerService")
+    @Resource (name = "verificationRecordControllerServiceRef")
     private VerificationRecordService verificationRecordService;
-    @Resource (name = "merchantControllerService")
+    @Resource (name = "merchantControllerServiceRef")
     private MerchantService merchantService;
-    @Resource (name = "shopControllerService")
+    @Resource (name = "shopControllerServiceRef")
     private ShopService shopService;
-    @Resource (name = "commodityControllerService")
+    @Resource (name = "commodityControllerServiceRef")
     private CommodityService commodityService;
 
     /* 完善商户详细信息 */
@@ -928,4 +930,118 @@ public class MerchantManageController {
         Long merchantId=toLongArg.apply(merchantIdStr);
         return merchantService.queryMerchantInfo(operaterId, merchantId).toJson();
     }
+    @LoginCheck
+    @RequestMapping(value = "exportDailyRecords", produces = "application/json;charset=utf-8")
+    public void exportDailyRecords(HttpServletRequest req,HttpServletResponse res){
+        String timeStart = getArg.apply(req, "timeStart");
+        String timeEnd = getArg.apply(req, "timeStop");
+        String clearStatusStr = getArg.apply(req, "clearStatus");
+        String invoiceStatusStr = getArg.apply(req, "invoiceStatus");
+        String operaterIdStr = getArg.apply(req, "operaterId");
+
+        ClearStatus clearStatus = ClearStatus.getType(clearStatusStr);
+        Long operaterId = parseArg(operaterIdStr, Long.class);
+        InvoiceStatus invoiceStatus = InvoiceStatus.getType(invoiceStatusStr);
+        RetMessage<File> retMessage=clearService.exoirtDailyRecords(timeStart,timeEnd,clearStatus,invoiceStatus,operaterId);
+        FileAssit.export(retMessage,res);
+    }
+
+    @LoginCheck
+    @RequestMapping(value = "exportVerifyRecords", produces = "application/json;charset=utf-8")
+    public void exportVerifyRecords(HttpServletRequest req,HttpServletResponse res){
+        String codeStr = getArg.apply(req, "code");
+        String timeStart = getArg.apply(req, "timeStart");
+        String timeEnd = getArg.apply(req, "timeStop");
+        String shopName = getArg.apply(req, "shopName");
+        String phone = getArg.apply(req, "phone");
+        String verificationTypeString = getArg.apply(req, "verificationType");
+        String pageNumStr = getArg.apply(req, "pageNum");
+        String pageSizeStr = getArg.apply(req, "pageSize");
+        String operaterIdStr = getArg.apply(req, "operaterId");
+        String commodityName = getArg.apply(req, "commodityName");
+
+        Long code = toLongArg.apply(codeStr);
+        VerificationType type = toVerificationType.apply(verificationTypeString);
+        Integer pageNum = toIntArg.apply(pageNumStr);
+        Integer pageSize = toIntArg.apply(pageSizeStr);
+        Long operaterId = toLongArg.apply(operaterIdStr);
+
+        RetMessage<File> retMessage=verificationRecordService.exportShopVerificationRecords(timeStart,timeEnd,shopName,code,commodityName,phone,type,operaterId);
+        FileAssit.export(retMessage,res);
+    }
+    @SetUtf8
+    @LoginCheck
+    @ResponseBody
+    @RequestMapping(value = "verifyCode",produces = "application/json;charset=utf-8")
+    public String verifyCode(HttpServletRequest req,HttpServletResponse res){
+        String codIdStr=getArg.apply(req,"codeId");
+        String operaterIdStr=getArg.apply(req,"operaterId");
+        String codeStr=getArg.apply(req,"code");
+        String verifyTypeStr=getArg.apply(req,"verificationType");
+        Long codeId=parseArg(codIdStr,Long.class);
+        Long operaterId=parseArg(operaterIdStr,Long.class);
+        Long code=parseArg(codeStr,Long.class);
+        VerificationType verifyType=toVerificationType.apply(verifyTypeStr);
+        if(codeId==null)
+            return codeService.verificateCode(code,null,operaterId,verifyType).toJson();
+        else
+            return codeService.verificateCode(codeId,operaterId,verifyType).toJson();
+    }
+
+    @LoginCheck
+    @RequestMapping(value = "exportClearRecords", produces = "application/json;charset=utf-8")
+    public void exportClearRecords(HttpServletRequest req,HttpServletResponse res){
+        String timeStart = getArg.apply(req, "timeStart");
+        String timeEnd = getArg.apply(req, "timeStop");
+        String clearStatusStr = getArg.apply(req, "clearStatus");
+        String invoiceStatusStr = getArg.apply(req, "invoiceStatus");
+        String operaterIdStr = getArg.apply(req, "operaterId");
+
+        ClearStatus clearStatus = ClearStatus.getType(clearStatusStr);
+        Long operaterId = parseArg(operaterIdStr, Long.class);
+        InvoiceStatus invoiceStatus = InvoiceStatus.getType(invoiceStatusStr);
+        RetMessage<File> retMessage=clearService.exportClearRecords(timeStart,timeEnd,clearStatus,invoiceStatus,operaterId);
+        FileAssit.export(retMessage,res);
+    }
+
+    @SetUtf8
+    @LoginCheck
+    @ResponseBody
+    @RequestMapping(value = "statsticDailyRecords", produces = "application/json;charset=utf-8")
+    public String statsticDailyRecords(HttpServletRequest req,HttpServletResponse res){
+        String timeStart = getArg.apply(req, "timeStart");
+        String timeEnd = getArg.apply(req, "timeStop");
+        String clearStatusStr = getArg.apply(req, "clearStatus");
+        String pageNumStr = getArg.apply(req, "pageNum");
+        String pageSizeStr = getArg.apply(req, "pageSize");
+        String operaterIdStr = getArg.apply(req, "operaterId");
+
+        ClearStatus clearStatus = ClearStatus.getType(clearStatusStr);
+        Long operaterId = parseArg(operaterIdStr, Long.class);
+        Integer pageNum = parseArg(pageNumStr, Integer.class);
+        Integer pageSize = parseArg(pageSizeStr, Integer.class);
+        return clearService.statsticDailyRecords(timeStart,timeEnd,clearStatus,pageNum,pageSize,operaterId).toJson();
+    }
+    @LoginCheck
+    @RequestMapping(value = "exportStaticDailyRecords", produces = "application/json;charset=utf-8")
+    public void exportStaticDailyRecords(HttpServletRequest req,HttpServletResponse res){
+        String timeStart = getArg.apply(req, "timeStart");
+        String timeEnd = getArg.apply(req, "timeStop");
+        String clearStatusStr = getArg.apply(req, "clearStatus");
+        String operaterIdStr = getArg.apply(req, "operaterId");
+
+        ClearStatus clearStatus = ClearStatus.getType(clearStatusStr);
+        Long operaterId = parseArg(operaterIdStr, Long.class);
+        RetMessage<File> retMessage=clearService.exportStatsticDailyRecords(timeStart,timeEnd,clearStatus,operaterId);
+        FileAssit.export(retMessage,res);
+    }
+		@SetUtf8
+	@LoginCheck
+	@ResponseBody
+	@RequestMapping(value = "queryAllShopIds", produces = "application/json;charset=utf-8")
+	public String queryAllShopIds(HttpServletRequest req, HttpServletResponse res) {
+		String operaterIdStr = getArg.apply(req, "operaterId");
+		Long operaterId = parseArg(operaterIdStr, Long.class);
+		return shopService.queruAllShopIds(operaterId).toJson();
+	}
 }

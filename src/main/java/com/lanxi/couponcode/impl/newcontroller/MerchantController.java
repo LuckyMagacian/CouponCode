@@ -201,9 +201,7 @@ public class MerchantController implements com.lanxi.couponcode.spi.service.Merc
 			if (merchantStatus != null) {
 				wrapper.eq("merchant_status", merchantStatus);
 			}else {
-				wrapper.ne("merchant_status", MerchantStatus.deleted);
-				wrapper.ne("merchant_status", MerchantStatus.test);
-				wrapper.ne("merchant_status",MerchantStatus.cancellation);
+				wrapper.in("merchant_status", MerchantStatus.normal.getValue()+","+MerchantStatus.freeze);
 			}
 			if (merchantName != null && !merchantName.isEmpty()) {
 				wrapper.eq("merchant_name", merchantName);
@@ -379,7 +377,7 @@ public class MerchantController implements com.lanxi.couponcode.spi.service.Merc
 					retMessage.setRetCode(RetCodeEnum.success.getValue());
 					retMessage.setRetMessage("商户详细信息提交成功");
 					retMessage.setRetCode(RetCodeEnum.success.getValue());
-					retMessage.setRetMessage("冻结商户成功");
+					retMessage.setRetMessage("商户详细信息提交成功");
 					OperateRecord record = new OperateRecord();
 					record.setRecordId(IdWorker.getId());
 					record.setOperaterId(operaterId);
@@ -745,6 +743,7 @@ public class MerchantController implements com.lanxi.couponcode.spi.service.Merc
 			return new RetMessage<String>(RetCodeEnum.error,"查询商户详情时发生异常",null);
 		}
 	}
+	@CheckArg
 	@Override
 	public RetMessage<Serializable> queryAllMerchant(Long operaterId){
 		try {

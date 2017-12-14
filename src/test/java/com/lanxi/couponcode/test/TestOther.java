@@ -3,6 +3,7 @@ package com.lanxi.couponcode.test;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.toolkit.IdWorker;
+import com.lanxi.couponcode.impl.entity.*;
 import com.lanxi.couponcode.spi.aop.AddLog;
 import com.lanxi.couponcode.spi.aop.AopJob;
 import com.lanxi.couponcode.spi.aop.AopOrder;
@@ -10,10 +11,6 @@ import com.lanxi.couponcode.spi.assist.CheckAssist;
 import com.lanxi.couponcode.impl.assist.PredicateAssist;
 import com.lanxi.couponcode.spi.assist.RedisKeyAssist;
 import com.lanxi.couponcode.spi.assist.SerializeAssist;
-import com.lanxi.couponcode.impl.entity.Account;
-import com.lanxi.couponcode.impl.entity.Commodity;
-import com.lanxi.couponcode.impl.entity.Merchant;
-import com.lanxi.couponcode.impl.entity.Shop;
 import com.lanxi.couponcode.spi.assist.RetMessage;
 import com.lanxi.couponcode.spi.consts.enums.RetCodeEnum;
 import com.lanxi.couponcode.spi.defaultInterfaces.ToJson;
@@ -199,6 +196,11 @@ public class TestOther {
     }
     @Test
     public void test18(){
-        System.out.println(SignUtil.md5LowerCase("12345","utf-8"));
+        Account code=new Account();
+        TestSpring.fillEntity.apply(code);
+        Map<String,Object> map=new HashMap<>();
+        map.put("a","aaa");
+        map.put("code",code);
+        System.out.println(new RetMessage<>(RetCodeEnum.success,"操作成功!",(HashMap)map).toJson());
     }
 }

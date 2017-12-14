@@ -1,10 +1,29 @@
 package com.lanxi.couponcode.impl.newcontroller;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.OutputStream;
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.annotation.Resource;
+
+import com.lanxi.couponcode.spi.consts.annotations.CheckArg;
+import com.lanxi.couponcode.spi.consts.enums.*;
+import org.springframework.stereotype.Controller;
 import com.alibaba.fastjson.JSON;
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.plugins.Page;
 import com.baomidou.mybatisplus.toolkit.IdWorker;
-import com.lanxi.couponcode.impl.entity.*;
+import com.lanxi.couponcode.impl.entity.Account;
+import com.lanxi.couponcode.impl.entity.Commodity;
+import com.lanxi.couponcode.impl.entity.CouponCode;
+import com.lanxi.couponcode.impl.entity.Merchant;
+import com.lanxi.couponcode.impl.entity.Order;
 import com.lanxi.couponcode.impl.newservice.*;
 import com.lanxi.couponcode.spi.assist.RetMessage;
 import com.lanxi.couponcode.spi.config.ConstConfig;
@@ -14,6 +33,7 @@ import com.lanxi.couponcode.spi.consts.enums.*;
 import com.lanxi.couponcode.spi.defaultInterfaces.ToJson;
 import com.lanxi.couponcode.spi.service.CouponService;
 import com.lanxi.util.entity.LogFactory;
+import com.lanxi.util.utils.ExcelUtil;
 import com.lanxi.util.utils.LoggerUtil;
 import org.springframework.stereotype.Controller;
 
@@ -27,6 +47,7 @@ import java.util.List;
 import java.util.Map;
 
 import static com.lanxi.couponcode.impl.assist.PredicateAssist.*;
+import static com.lanxi.couponcode.impl.assist.PredicateAssist.notNull;
 
 /**
  * 
@@ -34,27 +55,27 @@ import static com.lanxi.couponcode.impl.assist.PredicateAssist.*;
  *
  */
 @CheckArg
-@EasyLog (LoggerUtil.LogLevel.INFO)
+@EasyLog(LoggerUtil.LogLevel.INFO)
 @Controller("orderControllerService")
 public class OrderController implements com.lanxi.couponcode.spi.service.OrderService {
-	@Resource
+	@Resource(name="orderService")
 	private OrderService orderService;
 	@Resource
 	private RedisService redisService;
 	@Resource
 	private RedisEnhancedService redisEnhancedService;
-	@Resource
+	@Resource(name="commodityService")
 	private CommodityService commodityService;
-	@Resource
+	@Resource(name="merchantService")
 	private MerchantService merchantService;
-	@Resource
+	@Resource(name="codeControllerService")
 	private CouponService couponService;
-	@Resource
+	@Resource(name="accountService")
 	private AccountService accountService;
 	@Override
 	public RetMessage<String> addOrder(String Phone, CommodityType Type, Long SkuCode, Integer Count, String Remark,
-                                       String SRC, String requestType, String MsgID, String NeedSend, String WorkDate, String WorkTime,
-                                       String CHKDate) {
+			String SRC, String requestType, String MsgID, String NeedSend, String WorkDate, String WorkTime,
+			String CHKDate,String SerialNum) {
 		RetMessage<String> retMessage = null;
 		try {
 			retMessage = new RetMessage<String>();
@@ -70,6 +91,8 @@ public class OrderController implements com.lanxi.couponcode.spi.service.OrderSe
 						retMessage.setAll(RetCodeEnum.exception, "交易序号重复", null);
 					} else {
 						Order order = new Order();
+						order.setMerchantName(mer.getMerchantName());
+						order.setCommodityName(commodity.getCommodityName());
 						order.setSkuCode(SkuCode);
 						order.setCount(Count);
 						order.setCreateTime(LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMddHHmmss")));
@@ -78,10 +101,11 @@ public class OrderController implements com.lanxi.couponcode.spi.service.OrderSe
 						order.setCHKDate(CHKDate);
 						order.setRemark(Remark);
 						order.setSRC(SRC);
+						order.setSerialNum(SerialNum);
 						order.setOrderStatus("0");
 						order.setWorkDate(WorkDate);
 						order.setWorkTime(WorkTime);
-						order.setMerchantId(commodityService.queryCommodity(SkuCode).getMerchantId());
+						order.setMerchantId(mer.getMerchantId());
 						order.setOrderId(IdWorker.getId());
 						order.setRequestType(requestType);
 						order.setAmt(commodity.getSellPrice());
@@ -284,7 +308,7 @@ public class OrderController implements com.lanxi.couponcode.spi.service.OrderSe
 
 	@Override
 	public RetMessage<String> queryOrders(String StartDate, String EndDate, String Phone, Long orderId, Long SkuCode,
-                                          String SRC, OrderStatus orderStatus, Integer pageNum, Integer pageSize, Long operaterId) {
+			String SRC, OrderStatus orderStatus, Integer pageNum, Integer pageSize, Long operaterId) {
 		try {
 			Account a=accountService.queryAccountById(operaterId);
 			if(a==null||notAdmin.test(a))
@@ -324,7 +348,7 @@ public class OrderController implements com.lanxi.couponcode.spi.service.OrderSe
 				Map<String, Object>map=new HashMap<>();
 				map.put("page",pageObj);
 				map.put("list",list);
-				return new RetMessage<>(RetCodeEnum.success,"查询成功", ToJson.toJson(map));
+				return new RetMessage<>(RetCodeEnum.success,"查询成功",ToJson.toJson(map));
 			}else
 			return new RetMessage<>(RetCodeEnum.fail,"没有查询到任何数据",null);
 		} catch (Exception e) {
@@ -335,7 +359,7 @@ public class OrderController implements com.lanxi.couponcode.spi.service.OrderSe
 
 	@Override
 	public RetMessage<File> orderExport(String StartDate, String EndDate, String Phone, Long orderId, Long SkuCode,
-                                        String SRC, OrderStatus orderStatus, Long operaterId) {
+			String SRC, OrderStatus orderStatus, Long operaterId) {
 		try {
 			Account a=accountService.queryAccountById(operaterId);
 			if(a==null||notAdmin.test(a))
@@ -366,10 +390,34 @@ public class OrderController implements com.lanxi.couponcode.spi.service.OrderSe
 			if (orderStatus!=null) {
 				wrapper.eq("order_status",orderStatus);
 			}
-			File file=orderService.orderExport(wrapper);
-			if (file!=null) {
-				return new RetMessage<>(RetCodeEnum.success,"导出订单成功",file);
-			}else
+			List<Order> list=orderService.orderExport(wrapper);
+			if (list!=null&&list.size()>0) {
+				Map<String, String> map=new HashMap<>();
+				map.put("SerialNum","平台流水号");
+				map.put("orderId","订单编号");
+				map.put("SRC","交易机构号");
+				map.put("Phone","手机号码");
+				map.put("WorkDate","请求时间");
+				map.put("SkuCode","商品编号");
+				map.put("commodityName","商品名称");
+				map.put("Count","商品数量");
+				map.put("Type","商品类别");
+				map.put("merchantId","商户编号");
+				map.put("merchantName","商户名称");
+				map.put("Code","串码");
+				map.put("createTime","发放时间");
+				map.put("EndTime","失效时间");
+				map.put("orderStatus","状态");
+				map.put("successNum","成功数量");
+				File file=new File(OrderController.class.getClassLoader().getResource("").getPath()+IdWorker.getId()+".xls");
+				OutputStream os=new FileOutputStream(file);
+				ExcelUtil.exportExcelFile(list, map,os);
+				os.flush();
+				if (file.exists()) {
+					return new RetMessage<>(RetCodeEnum.success,"导出订单成功",file);
+				}else
+					return new RetMessage<>(RetCodeEnum.fail,"导出订单失败",null);
+			}else 
 				return new RetMessage<>(RetCodeEnum.fail,"导出订单失败",null);
 		} catch (Exception e) {
 			LogFactory.error(this,"导出订单时发生异常",e);

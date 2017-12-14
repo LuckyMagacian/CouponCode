@@ -90,7 +90,6 @@ public class OperateRecordController implements com.lanxi.couponcode.spi.service
         Map<String,Object> map=new HashMap<>();
         map.put("page",page);
         map.put("list",list);
-
         if (list != null)
             return new RetMessage<>(RetCodeEnum.success, "查询成功!",  ToJson.toJson(map));
         else

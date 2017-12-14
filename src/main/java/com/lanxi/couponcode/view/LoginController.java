@@ -1,11 +1,15 @@
 package com.lanxi.couponcode.view;
 
+import com.lanxi.couponcode.impl.newservice.RedisServiceImpl;
+import com.lanxi.couponcode.spi.assist.RedisKeyAssist;
 import com.lanxi.couponcode.spi.assist.RetMessage;
 import com.lanxi.couponcode.spi.consts.annotations.EasyLog;
 import com.lanxi.couponcode.spi.consts.annotations.LoginCheck;
 import com.lanxi.couponcode.spi.consts.annotations.SetUtf8;
+import com.lanxi.couponcode.spi.consts.enums.RetCodeEnum;
 import com.lanxi.couponcode.spi.service.LoginService;
 import com.lanxi.util.utils.LoggerUtil;
+import com.lanxi.util.utils.PictureVerifyUtil;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -21,9 +25,11 @@ import static com.lanxi.couponcode.spi.assist.ArgAssist.toLongArg;
 @RequestMapping("loginCon")
 @EasyLog (LoggerUtil.LogLevel.INFO)
 public class LoginController {
-    @Resource (name = "loginControllerService")
+    @Resource (name = "loginControllerServiceRef")
     private LoginService loginService;
-
+    @Resource(name = "redisServiceOld")
+    private RedisServiceImpl redisService;
+    private static final long picCodeLife=60*1000L;
     @SetUtf8
     @ResponseBody
     @RequestMapping (value = "login", produces = "application/json;charset=utf-8")
@@ -31,6 +37,15 @@ public class LoginController {
         String phone = getArg.apply(req, "phone");
         String password = getArg.apply(req, "password");
         String validateCode = getArg.apply(req, "validateCode");
+
+        String sessionId=req.getSession().getId();
+        String key=RedisKeyAssist.getVerificateCodeKey(sessionId);
+        String cacheCode=redisService.get(key);
+        if(cacheCode==null||!cacheCode.equals(validateCode)){
+            return new RetMessage<>(RetCodeEnum.fail,"图片验证码错误!",null).toJson();
+        }else{
+            redisService.del(key);
+        }
         RetMessage<String> retMessage = loginService.login(phone, password, validateCode);
         return retMessage.toJson();
     }
@@ -77,5 +92,12 @@ public class LoginController {
     public String sendValidateCode(HttpServletRequest req, HttpServletResponse res) {
     	String phone=getArg.apply(req, "phone");
     	return loginService.sendValidateCode(phone).toJson();
+    }
+    @RequestMapping(value = "getPicCode")
+    public void getPicValidateCode(HttpServletRequest req,HttpServletResponse res){
+        String sessionId=req.getSession().getId();
+        String code= PictureVerifyUtil.sendVerifyCode(res);
+        String key= RedisKeyAssist.getVerificateCodeKey(sessionId);
+        redisService.set(key,code,picCodeLife);
     }
 }

@@ -1,13 +1,14 @@
 package com.lanxi.couponcode.impl.entity;
 
-import java.io.Serializable;
-import java.math.BigDecimal;
 import com.baomidou.mybatisplus.annotations.TableField;
 import com.baomidou.mybatisplus.annotations.TableId;
 import com.baomidou.mybatisplus.annotations.TableName;
 import com.lanxi.couponcode.spi.abstractentity.AbstractOrder;
 import com.lanxi.couponcode.spi.consts.enums.CommodityType;
 import com.lanxi.couponcode.spi.consts.enums.OrderStatus;
+
+import java.io.Serializable;
+import java.math.BigDecimal;
 
 /**
  * Created by yangyuanjian on 2017/11/22.
@@ -89,6 +90,15 @@ public class Order extends AbstractOrder{
 	/**交易成功笔数*/
 	@TableField("success_num")
 	private Integer successNum;
+	/**商品名称*/
+	@TableField("commodity_name")
+	private String commodityName;
+	/**商户名称*/
+	@TableField("merchant_name")
+	private String merchantName;
+	/**平台流水号*/
+	@TableField("serial_num")
+	private String SerialNum;
 	/**备注*/
 	@TableField("remark")
 	private String Remark;
@@ -244,6 +254,30 @@ public class Order extends AbstractOrder{
 		this.successNum = successNum;
 	}
 
+	public String getSerialNum() {
+		return SerialNum;
+	}
+
+	public void setSerialNum(String serialNum) {
+		SerialNum = serialNum;
+	}
+
+	public String getCommodityName() {
+		return commodityName;
+	}
+
+	public void setCommodityName(String commodityName) {
+		this.commodityName = commodityName;
+	}
+
+	public String getMerchantName() {
+		return merchantName;
+	}
+
+	public void setMerchantName(String merchantName) {
+		this.merchantName = merchantName;
+	}
+
 	@Override
 	public String toString() {
 		return "Order [orderId=" + orderId + ", SRC=" + SRC + ", Phone=" + Phone + ", CHKDate=" + CHKDate
@@ -251,6 +285,7 @@ public class Order extends AbstractOrder{
 				+ ", MsgID=" + MsgID + ", requestType=" + requestType + ", merchantId=" + merchantId + ", Type=" + Type
 				+ ", SkuCode=" + SkuCode + ", Count=" + Count + ", WorkDate=" + WorkDate + ", createTime=" + createTime
 				+ ", WorkTime=" + WorkTime + ", Amt=" + Amt + ", TotalAmt=" + TotalAmt + ", successNum=" + successNum
+				+ ", commodityName=" + commodityName + ", merchantName=" + merchantName + ", SerialNum=" + SerialNum
 				+ ", Remark=" + Remark + "]";
 	}
 

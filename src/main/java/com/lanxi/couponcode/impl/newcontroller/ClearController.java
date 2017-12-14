@@ -4,7 +4,7 @@ import com.alibaba.fastjson.JSON;
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.plugins.Page;
 import com.baomidou.mybatisplus.toolkit.IdWorker;
-import com.lanxi.couponcode.impl.assist.PredicateAssist;
+//import com.lanxi.couponcode.impl.assist.PredicateAssist;
 import com.lanxi.couponcode.impl.entity.*;
 import com.lanxi.couponcode.impl.newservice.*;
 import com.lanxi.couponcode.spi.assist.RetMessage;
@@ -12,27 +12,32 @@ import com.lanxi.couponcode.spi.assist.TimeAssist;
 import com.lanxi.couponcode.spi.consts.enums.*;
 import com.lanxi.couponcode.spi.defaultInterfaces.ToJson;
 import com.lanxi.util.entity.LogFactory;
+import com.lanxi.util.utils.ExcelUtil;
 import org.springframework.stereotype.Controller;
 
 import javax.annotation.Resource;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.math.BigDecimal;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.util.function.*;
 import java.util.stream.Collectors;
 
 import static com.lanxi.couponcode.impl.assist.PredicateAssist.checkAccount;
+import static com.lanxi.couponcode.impl.assist.PredicateAssist.notNull;
+import static com.lanxi.couponcode.impl.assist.PredicateAssist.notNullOrEmpty;
 import static com.lanxi.couponcode.spi.assist.CheckAssist.*;
 import static com.lanxi.couponcode.spi.assist.TimeAssist.timeFixNine;
 import static com.lanxi.couponcode.spi.assist.TimeAssist.timeFixZero;
+import static com.lanxi.util.utils.ExcelUtil.exportExcelFile;
 
 /**
  * Created by yangyuanjian on 2017/11/23.
  */
 @Controller("clearControllerService")
 public class ClearController implements com.lanxi.couponcode.spi.service.ClearService{
+
     @Resource
     private RedisService redisService;
     @Resource
@@ -72,7 +77,7 @@ public class ClearController implements com.lanxi.couponcode.spi.service.ClearSe
         page.setRecords(null);
         Map<String,Object> map=new HashMap<>();
         map.put("page",page);
-        map.put("detail",list);
+        map.put("list",list);
         return new RetMessage<>(RetCodeEnum.success,"查询成功!",nullOrJson(map));
     }
 
@@ -98,7 +103,7 @@ public class ClearController implements com.lanxi.couponcode.spi.service.ClearSe
         Map<String,Object> map=new HashMap<>();
         page.setRecords(null);
         map.put("page",page);
-        map.put("detail",list);
+        map.put("list",list);
         return new RetMessage<>(RetCodeEnum.success,"查询成功!", nullOrJson(map));
     }
 
@@ -152,7 +157,25 @@ public class ClearController implements com.lanxi.couponcode.spi.service.ClearSe
                                                ClearStatus clearStatus,
                                                InvoiceStatus invoiceStatus,
                                                Long operaterId) {
-        throw new UnsupportedOperationException();
+        Account account=accountService.queryAccountById(operaterId);
+        RetMessage message=checkAccount.apply(account,OperateType.exportClearRecord);
+        if(message!=null)
+            return message;
+        EntityWrapper<ClearRecord> wrapper=new EntityWrapper<>();
+        notNullAndEmpty(merchantName).ifPresent(e->wrapper.eq("merchant_name",merchantName));
+        notNUll(timeStart).ifPresent(e->wrapper.ge("create_time",TimeAssist.timeFixZero(timeStart)));
+        notNUll(timeStop).ifPresent(e->wrapper.le("create_time",TimeAssist.timeFixNine(e)));
+        notNUll(clearStatus).ifPresent(e->wrapper.eq("clear_status",clearStatus));
+        notNUll(invoiceStatus).ifPresent(e->wrapper.eq("invoice_status",invoiceStatus));
+        List<ClearRecord> records=clearService.queryClearRecords(wrapper,null);
+        try {
+            File file= new File("结算记录导出"+TimeAssist.getNow()+".xls");
+            ExcelUtil.exportExcelFile(records,null,new FileOutputStream(file));
+            return new RetMessage<>(RetCodeEnum.success,"操作成功!",file);
+        } catch (FileNotFoundException e) {
+            LogFactory.error(this,"导出结算记录时发生异常!",e);
+            return new RetMessage<>(RetCodeEnum.error,"操作失败!",null);
+        }
     }
 
     @Override
@@ -191,7 +214,25 @@ public class ClearController implements com.lanxi.couponcode.spi.service.ClearSe
                                                ClearStatus clearStatus,
                                                InvoiceStatus invoiceStatus,
                                                Long operaterId) {
-        throw new UnsupportedOperationException();
+        Account account=accountService.queryAccountById(operaterId);
+        RetMessage message=checkAccount.apply(account,OperateType.exportClearRecord);
+        if(message!=null)
+            return message;
+        EntityWrapper<ClearRecord> wrapper=new EntityWrapper<>();
+        wrapper.eq("merchant_id",account.getMerchantId());
+        notNUll(timeStart).ifPresent(e->wrapper.ge("create_time",TimeAssist.timeFixZero(timeStart)));
+        notNUll(timeStop).ifPresent(e->wrapper.le("create_time",TimeAssist.timeFixNine(e)));
+        notNUll(clearStatus).ifPresent(e->wrapper.eq("clear_status",clearStatus));
+        notNUll(invoiceStatus).ifPresent(e->wrapper.eq("invoice_status",invoiceStatus));
+        List<ClearRecord> records=clearService.queryClearRecords(wrapper,null);
+        try {
+            File file= new File("结算记录导出"+TimeAssist.getNow()+".xls");
+            ExcelUtil.exportExcelFile(records,null,new FileOutputStream(file));
+            return new RetMessage<>(RetCodeEnum.success,"操作成功!",file);
+        } catch (FileNotFoundException e) {
+            LogFactory.info(this,"导出结算记录时发生异常!",e);
+            return new RetMessage<>(RetCodeEnum.fail,"操作失败!",null);
+        }
     }
 
     @Override
@@ -312,6 +353,255 @@ public class ClearController implements com.lanxi.couponcode.spi.service.ClearSe
         }
     }
 
+    @Override
+    public RetMessage<String> addInvoiceInfo(String taxNum,String logisticsCompany,String orderNum,String postTime,Long recordId,Long operaterId) {
+        Account account=accountService.queryAccountById(operaterId);
+        RetMessage message=checkAccount.apply(account,OperateType.modifyClearRecord);
+        if(message!=null)
+            return message;
+        ClearRecord record=clearService.queryClearRecordInfo(recordId);
+        if(!ClearStatus.cleard.equals(record.getClearStatus()))
+            return new RetMessage<>(RetCodeEnum.fail,"未结算!",null);
+        if(!InvoiceStatus.posted.equals(record.getInvoiceStatus()))
+            return new RetMessage<>(RetCodeEnum.fail,"已录入!",null);
+        record.setTaxNum(taxNum);
+        record.setOrderNum(orderNum);
+        record.setPostTime(postTime);
+        record.setLogisticsCompany(logisticsCompany);
+        boolean result=record.updateById();
+        if(result){
+            OperateRecord operateRecord=new OperateRecord();
+            operateRecord.setRecordId(IdWorker.getId());
+            operateRecord.setOperaterId(account.getAccountId());
+            operateRecord.setAccountType(account.getAccountType());
+            operateRecord.setPhone(account.getPhone());
+            operateRecord.setName(account.getUserName());
+            operateRecord.setTargetType(OperateTargetType.clearRecord);
+            operateRecord.setType(OperateType.modifyClearRecord);
+            operateRecord.setOperateTime(TimeAssist.getNow());
+            operateRecord.setOperateResult(result?"success":"fail");
+            operateRecord.insert();
+            return new RetMessage<>(RetCodeEnum.success,"操作成功!",null);
+        }else
+            return new RetMessage<>(RetCodeEnum.fail,"操作失败!",null);
+    }
+
+    @Override
+    public RetMessage<String> statsticDailyRecords(String merchantName, String timeStart, String timeStop, ClearStatus clearStatus, Integer pageNum, Integer pageSize, Long operaterId) {
+        Account account=accountService.queryAccountById(operaterId);
+        RetMessage<String> message=checkAccount.apply(account, OperateType.queryDailyRecord);
+        if(message!=null)
+            return message;
+        EntityWrapper<ClearDailyRecord> wrapper=new EntityWrapper<>();
+        notNullAndEmpty(merchantName).ifPresent(e->wrapper.like("merchant_name",e));
+        notNullAndEmpty(timeStart).ifPresent(e->wrapper.ge("create_time",timeFixZero(timeStart)));
+        notNullAndEmpty(timeStop).ifPresent(e->wrapper.le("create_time",timeFixNine(timeStop)));
+        notNUll(clearStatus).ifPresent(e->wrapper.eq("clear_status",clearStatus));
+        BinaryOperator<Integer> addInteger=(a,b)->{
+            a=a==null?0:a;
+            b=b==null?0:b;
+            return a+b;
+        };
+        BinaryOperator<BigDecimal> addDecimal=(a,b)->{
+            a=a==null?new BigDecimal(0):a;
+            b=b==null?new BigDecimal(0):b;
+            return a.add(b);
+        };
+        Page<ClearDailyRecord> page=new Page<>(pageNum,pageSize);
+        List<ClearDailyRecord> list=clearService.queryDailyRecords(wrapper,null);
+        Map<String,Object> sum=new HashMap<>();
+        sum.put("verificateNum",list.parallelStream().map(ClearDailyRecord::getVerificateNum).reduce(0,addInteger));
+        sum.put("cancelationNum",list.parallelStream().map(ClearDailyRecord::getCancelationNum).reduce(0,addInteger));
+        sum.put("overtimeNum",list.parallelStream().map(ClearDailyRecord::getOvertimeNum).reduce(0,addInteger));
+        sum.put("exchangeNum",(Integer)sum.get("verificateNum")+(Integer)sum.get("cancelationNum")+(Integer)sum.get("overtimeNum"));
+        sum.put("verificateCost",list.stream().map(ClearDailyRecord::getVerificateCost).reduce(new BigDecimal(0),addDecimal));
+        sum.put("cancelationCost",list.stream().map(ClearDailyRecord::getCancelationCost).reduce(new BigDecimal(0),addDecimal));
+        sum.put("overtimeCost",list.stream().map(ClearDailyRecord::getOvertimeCost).reduce(new BigDecimal(0),addDecimal));
+        sum.put("exchangeCost",((BigDecimal)sum.get("verificateCost")).add((BigDecimal)sum.get("cancelationCost")).add(((BigDecimal)sum.get("overtimeCost"))));
+        list=clearService.queryDailyRecords(wrapper,page);
+        page.setRecords(null);
+        Map<String,Object> map=new HashMap<>();
+        map.put("page",page);
+        map.put("list",list);
+        map.put("sum",sum);
+        return new RetMessage<>(RetCodeEnum.success,"查询成功!",nullOrJson(map));
+    }
+
+    @Override
+    public RetMessage<File> exportStatsticDailyRecords(String merchantName, String timeStart, String timeStop, ClearStatus clearStatus, Long operaterId) {
+        Account account=accountService.queryAccountById(operaterId);
+        RetMessage message=checkAccount.apply(account, OperateType.queryDailyRecord);
+        if(message!=null)
+            return message;
+        EntityWrapper<ClearDailyRecord> wrapper=new EntityWrapper<>();
+        notNullAndEmpty(merchantName).ifPresent(e->wrapper.like("merchant_name",e));
+        notNullAndEmpty(timeStart).ifPresent(e->wrapper.ge("create_time",timeFixZero(timeStart)));
+        notNullAndEmpty(timeStop).ifPresent(e->wrapper.le("create_time",timeFixNine(timeStop)));
+        notNUll(clearStatus).ifPresent(e->wrapper.eq("clear_status",clearStatus));
+        BinaryOperator<Integer> addInteger=(a,b)->{
+            a=a==null?0:a;
+            b=b==null?0:b;
+            return a+b;
+        };
+        BinaryOperator<BigDecimal> addDecimal=(a,b)->{
+            a=a==null?new BigDecimal(0):a;
+            b=b==null?new BigDecimal(0):b;
+            return a.add(b);
+        };
+        List<ClearDailyRecord> list=clearService.queryDailyRecords(wrapper,null);
+        ClearDailyRecord sum=new ClearDailyRecord();
+        sum.setVerificateNum(list.parallelStream().map(ClearDailyRecord::getVerificateNum).reduce(0,addInteger));
+        sum.setCancelationNum(list.parallelStream().map(ClearDailyRecord::getCancelationNum).reduce(0,addInteger));
+        sum.setOvertimeNum(list.parallelStream().map(ClearDailyRecord::getOvertimeNum).reduce(0,addInteger));
+
+        sum.setVerificateCost(list.stream().map(ClearDailyRecord::getVerificateCost).reduce(new BigDecimal(0),addDecimal));
+        sum.setCancelationCost(list.stream().map(ClearDailyRecord::getCancelationCost).reduce(new BigDecimal(0),addDecimal));
+        sum.setOvertimeCost(list.stream().map(ClearDailyRecord::getOvertimeCost).reduce(new BigDecimal(0),addDecimal));
+
+        list.add(new ClearDailyRecord());
+        list.add(sum);
+        File file=new File("日结算记录统计导出"+TimeAssist.getNow()+".xls");
+        try {
+            ExcelUtil.exportExcelFile(list,null,new FileOutputStream(file));
+            return new RetMessage<>(RetCodeEnum.success,"操作成功!",file);
+        } catch (FileNotFoundException e) {
+            LogFactory.error(this,"日结算记录导统计出时发生异常!",e);
+            return new RetMessage<>(RetCodeEnum.error,"操作失败!",null);
+        }
+
+    }
+
+    @Override
+    public RetMessage<String> statsticDailyRecords(String timeStart, String timeStop, ClearStatus clearStatus, Integer pageNum, Integer pageSize, Long operaterId) {
+        Account account=accountService.queryAccountById(operaterId);
+        RetMessage<String> message=checkAccount.apply(account, OperateType.queryDailyRecord);
+        if(message!=null)
+            return message;
+        EntityWrapper<ClearDailyRecord> wrapper=new EntityWrapper<>();
+        wrapper.eq("merchant_id",account.getMerchantId()) ;
+        notNullAndEmpty(timeStart).ifPresent(e->wrapper.ge("create_time",timeFixZero(timeStart)));
+        notNullAndEmpty(timeStop).ifPresent(e->wrapper.le("create_time",timeFixNine(timeStop)));
+        notNUll(clearStatus).ifPresent(e->wrapper.eq("clear_status",clearStatus));
+        BinaryOperator<Integer> addInteger=(a,b)->{
+            a=a==null?0:a;
+            b=b==null?0:b;
+            return a+b;
+        };
+        BinaryOperator<BigDecimal> addDecimal=(a,b)->{
+            a=a==null?new BigDecimal(0):a;
+            b=b==null?new BigDecimal(0):b;
+            return a.add(b);
+        };
+        Page<ClearDailyRecord> page=new Page<>(pageNum,pageSize);
+        List<ClearDailyRecord> list=clearService.queryDailyRecords(wrapper,null);
+        Map<String,Object> sum=new HashMap<>();
+        sum.put("verificateNum",list.parallelStream().map(ClearDailyRecord::getVerificateNum).reduce(0,addInteger));
+        sum.put("cancelationNum",list.parallelStream().map(ClearDailyRecord::getCancelationNum).reduce(0,addInteger));
+        sum.put("overtimeNum",list.parallelStream().map(ClearDailyRecord::getOvertimeNum).reduce(0,addInteger));
+        sum.put("exchangeNum",(Integer)sum.get("verificateNum")+(Integer)sum.get("cancelationNum")+(Integer)sum.get("overtimeNum"));
+        sum.put("verificateCost",list.stream().map(ClearDailyRecord::getVerificateCost).reduce(new BigDecimal(0),addDecimal));
+        sum.put("cancelationCost",list.stream().map(ClearDailyRecord::getCancelationCost).reduce(new BigDecimal(0),addDecimal));
+        sum.put("overtimeCost",list.stream().map(ClearDailyRecord::getOvertimeCost).reduce(new BigDecimal(0),addDecimal));
+        sum.put("exchangeCost",((BigDecimal)sum.get("verificateCost")).add((BigDecimal)sum.get("cancelationCost")).add(((BigDecimal)sum.get("overtimeCost"))));
+        list=clearService.queryDailyRecords(wrapper,page);
+        page.setRecords(null);
+        Map<String,Object> map=new HashMap<>();
+        map.put("page",page);
+        map.put("list",list);
+        map.put("sum",sum);
+        return new RetMessage<>(RetCodeEnum.success,"查询成功!",nullOrJson(map));
+    }
+
+    @Override
+    public RetMessage<File> exportStatsticDailyRecords(String timeStart, String timeStop, ClearStatus clearStatus,Long operaterId) {
+        Account account=accountService.queryAccountById(operaterId);
+        RetMessage message=checkAccount.apply(account, OperateType.queryDailyRecord);
+        if(message!=null)
+            return message;
+        EntityWrapper<ClearDailyRecord> wrapper=new EntityWrapper<>();
+        wrapper.eq("merchant_id",account.getMerchantId()) ;
+        notNullAndEmpty(timeStart).ifPresent(e->wrapper.ge("create_time",timeFixZero(timeStart)));
+        notNullAndEmpty(timeStop).ifPresent(e->wrapper.le("create_time",timeFixNine(timeStop)));
+        notNUll(clearStatus).ifPresent(e->wrapper.eq("clear_status",clearStatus));
+        BinaryOperator<Integer> addInteger=(a,b)->{
+            a=a==null?0:a;
+            b=b==null?0:b;
+            return a+b;
+        };
+        BinaryOperator<BigDecimal> addDecimal=(a,b)->{
+            a=a==null?new BigDecimal(0):a;
+            b=b==null?new BigDecimal(0):b;
+            return a.add(b);
+        };
+        List<ClearDailyRecord> list=clearService.queryDailyRecords(wrapper,null);
+        ClearDailyRecord sum=new ClearDailyRecord();
+        sum.setVerificateNum(list.parallelStream().map(ClearDailyRecord::getVerificateNum).reduce(0,addInteger));
+        sum.setCancelationNum(list.parallelStream().map(ClearDailyRecord::getCancelationNum).reduce(0,addInteger));
+        sum.setOvertimeNum(list.parallelStream().map(ClearDailyRecord::getOvertimeNum).reduce(0,addInteger));
+
+        sum.setVerificateCost(list.stream().map(ClearDailyRecord::getVerificateCost).reduce(new BigDecimal(0),addDecimal));
+        sum.setCancelationCost(list.stream().map(ClearDailyRecord::getCancelationCost).reduce(new BigDecimal(0),addDecimal));
+        sum.setOvertimeCost(list.stream().map(ClearDailyRecord::getOvertimeCost).reduce(new BigDecimal(0),addDecimal));
+
+        list.add(new ClearDailyRecord());
+        list.add(sum);
+        File file=new File("日结算记录统计"+TimeAssist.getNow()+".xls");
+        try {
+            ExcelUtil.exportExcelFile(list,null,new FileOutputStream(file));
+            return new RetMessage<>(RetCodeEnum.success,"操作成功!",file);
+        } catch (FileNotFoundException e) {
+            LogFactory.error(this,"日结算记录统计时发生异常!",e);
+            return new RetMessage<>(RetCodeEnum.error,"操作失败!",null);
+        }
+
+    }
+
+    @Override
+    public RetMessage<File> exoirtDailyRecords(String timeStart, String timeStop, ClearStatus clearStatus, InvoiceStatus invoiceStatus, Long operaterId) {
+        Account account=accountService.queryAccountById(operaterId);
+        RetMessage message=checkAccount.apply(account, OperateType.queryDailyRecord);
+        if(message!=null)
+            return message;
+        EntityWrapper<ClearDailyRecord> wrapper=new EntityWrapper<>();
+        wrapper.eq("merchant_id",account.getMerchantId());
+        notNullAndEmpty(timeStart).ifPresent(e->wrapper.ge("create_time",timeFixZero(timeStart)));
+        notNullAndEmpty(timeStop).ifPresent(e->wrapper.le("create_time",timeFixNine(timeStop)));
+        notNUll(clearStatus).ifPresent(e->wrapper.eq("clear_status",clearStatus));
+        List<ClearDailyRecord> list=clearService.queryDailyRecords(wrapper,null);
+        File file=new File("日结算记录导出"+TimeAssist.getNow()+".xls");
+        try {
+            ExcelUtil.exportExcelFile(list,null,new FileOutputStream(file));
+            return new RetMessage<>(RetCodeEnum.success,"操作成功!",null);
+        } catch (FileNotFoundException e) {
+            LogFactory.error(this,"日结算记录导出时发生异常!",e);
+            return new RetMessage<>(RetCodeEnum.error,"操作失败!",null);
+        }
+    }
+
+    @Override
+    public RetMessage<File> exoirtDailyRecords(String merchantName, String timeStart, String timeStop, ClearStatus clearStatus, InvoiceStatus invoiceStatus, Long operaterId) {
+        Account account=accountService.queryAccountById(operaterId);
+        RetMessage message=checkAccount.apply(account, OperateType.queryDailyRecord);
+        if(message!=null)
+            return message;
+        EntityWrapper<ClearDailyRecord> wrapper=new EntityWrapper<>();
+        notNullAndEmpty(merchantName).ifPresent(e->wrapper.like("merchant_name",e));
+        notNullAndEmpty(timeStart).ifPresent(e->wrapper.ge("create_time",timeFixZero(timeStart)));
+        notNullAndEmpty(timeStop).ifPresent(e->wrapper.le("create_time",timeFixNine(timeStop)));
+        notNUll(clearStatus).ifPresent(e->wrapper.eq("clear_status",clearStatus));
+        List<ClearDailyRecord> list=clearService.queryDailyRecords(wrapper,null);
+        File file=new File("日结算记录导出"+TimeAssist.getNow()+".xls");
+        try {
+            ExcelUtil.exportExcelFile(list,null,new FileOutputStream(file));
+            return new RetMessage<>(RetCodeEnum.success,"操作成功!",null);
+        } catch (FileNotFoundException e) {
+            LogFactory.error(this,"日结算记录导出时发生异常!",e);
+            return new RetMessage<>(RetCodeEnum.error,"操作失败!",null);
+        }
+    }
+
+
+
 //    private RetMessage<String> clear(String startMonth,String endMonth,Long merchantId1,Long operaterId){
 //        Account account=accountService.queryAccountById(operaterId);
 //        RetMessage<String> message=checkAccount.apply(account, OperateType.createClearRecord);
@@ -356,4 +646,6 @@ public class ClearController implements com.lanxi.couponcode.spi.service.ClearSe
 //        operateRecordService.addRecord(record);
 //        return new RetMessage<>(RetCodeEnum.success,"生成结算记录成功!",null);
 //    }
+
+
 }

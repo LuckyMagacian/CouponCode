@@ -12,6 +12,7 @@ import com.lanxi.couponcode.spi.assist.RetMessage;
 import com.lanxi.couponcode.impl.entity.Account;
 import com.lanxi.couponcode.impl.entity.VerificationRecord;
 import com.lanxi.couponcode.impl.newservice.VerificationRecordService;
+import com.lanxi.couponcode.spi.assist.TimeAssist;
 import com.lanxi.couponcode.spi.consts.annotations.CheckArg;
 import com.lanxi.couponcode.spi.consts.annotations.EasyLog;
 import com.lanxi.couponcode.spi.consts.annotations.HiddenArg;
@@ -19,11 +20,16 @@ import com.lanxi.couponcode.spi.consts.enums.OperateType;
 import com.lanxi.couponcode.spi.consts.enums.RetCodeEnum;
 import com.lanxi.couponcode.spi.consts.enums.VerificationType;
 import com.lanxi.couponcode.spi.defaultInterfaces.ToJson;
+import com.lanxi.util.entity.LogFactory;
+import com.lanxi.util.utils.ExcelUtil;
 import com.lanxi.util.utils.LoggerUtil;
 import org.springframework.stereotype.Controller;
 
 import static com.lanxi.couponcode.impl.assist.PredicateAssist.*;
 import javax.annotation.Resource;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -154,5 +160,85 @@ public class VerificationRecordController implements com.lanxi.couponcode.spi.se
             return new RetMessage<>(RetCodeEnum.fail,"不存在!",null);
         else
             return new RetMessage<>(RetCodeEnum.success,"查询成功!",record.toString());
+    }
+
+    @Override
+    public RetMessage<File> exportVerificationRecords(Long code, String timeStart, String timeStop, String merchantName, String shopName, String commodityName, String phone, VerificationType type, Long operaterId) {
+        Account account=accountService.queryAccountById(operaterId);
+        RetMessage message=checkAccount.apply(account, OperateType.queryVerifyRecordAll);
+        if(message!=null)
+            return message;
+
+        EntityWrapper<VerificationRecord> wrapper=new EntityWrapper<>();
+        if(code!=null)
+            wrapper.eq("code",code);
+        if (timeStart != null && !timeStart.isEmpty()) {
+            while (timeStart.length() < 14)
+                timeStart += "0";
+            wrapper.ge("create_time", timeStart);
+        }
+        if (timeStop != null && !timeStop.isEmpty()) {
+            while (timeStop.length() < 14)
+                timeStop += "9";
+            wrapper.le("create_time", timeStop);
+        }
+        if(merchantName!=null)
+            wrapper.like("merchant_name",merchantName);
+        if(shopName!=null)
+            wrapper.like("shopName",shopName);
+        if(commodityName!=null)
+            wrapper.like("commodity_name",commodityName);
+        if(phone!=null)
+            wrapper.like("operater_phone",phone);
+        if(type!=null)
+            wrapper.eq("verification_type",type);
+        List<VerificationRecord> list=verificationRecordService.queryVerificationRecords(wrapper,null);
+        File file=new File("核销记录导出"+ TimeAssist.getNow()+".xls");
+        try {
+            ExcelUtil.exportExcelFile(list,null,new FileOutputStream(file));
+            return new RetMessage<>(RetCodeEnum.success,"操作成功!",file);
+        } catch (FileNotFoundException e) {
+            LogFactory.error(this,"导出核销记录时发生异常!",e);
+            return new RetMessage<>(RetCodeEnum.error,"操作失败!",null);
+        }
+    }
+
+    @Override
+    public RetMessage<File> exportShopVerificationRecords(String timeStart, String timeStop, String shopName, Long code, String commodityName, String phone, VerificationType type, Long operaterId) {
+        Account account=accountService.queryAccountById(operaterId);
+        RetMessage message=checkAccount.apply(account, OperateType.queryVerifyRecordList);
+        if(message!=null)
+            return message;
+        EntityWrapper<VerificationRecord> wrapper=new EntityWrapper<>();
+        wrapper.eq("merchant_id",account.getMerchantId());
+        if(code!=null)
+            wrapper.eq("code",code);
+        if (timeStart != null && !timeStart.isEmpty()) {
+            while (timeStart.length() < 14)
+                timeStart += "0";
+            wrapper.ge("create_time", timeStart);
+        }
+        if (timeStop != null && !timeStop.isEmpty()) {
+            while (timeStop.length() < 14)
+                timeStop += "9";
+            wrapper.le("create_time", timeStop);
+        }
+        if(shopName!=null)
+            wrapper.like("shopName",shopName);
+        if(commodityName!=null)
+            wrapper.like("commodity_name",commodityName);
+        if(phone!=null)
+            wrapper.like("operater_phone",phone);
+        if(type!=null)
+            wrapper.eq("verification_type",type);
+        List<VerificationRecord> list=verificationRecordService.queryVerificationRecords(wrapper,null);
+        File file=new File("核销记录导出"+ TimeAssist.getNow()+".xls");
+        try {
+            ExcelUtil.exportExcelFile(list,null,new FileOutputStream(file));
+            return new RetMessage<>(RetCodeEnum.success,"操作成功!",file);
+        } catch (FileNotFoundException e) {
+            LogFactory.error(this,"导出核销记录时发生异常!",e);
+            return new RetMessage<>(RetCodeEnum.error,"操作失败!",null);
+        }
     }
 }

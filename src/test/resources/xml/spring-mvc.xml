@@ -28,6 +28,7 @@
         http://www.springframework.org/schema/data/jpa
         http://www.springframework.org/schema/data/jpa/spring-jpa-1.8.xsd">
     <!-- 支持@RequestMapping请求和Controller映射 -->
+
     <!-- 启用aop切入 -->
     <aop:aspectj-autoproxy expose-proxy="true"  proxy-target-class="true"/>
     <!-- 扫描包 -->

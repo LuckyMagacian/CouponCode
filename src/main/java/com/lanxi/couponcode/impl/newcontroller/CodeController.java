@@ -12,12 +12,15 @@ import com.lanxi.couponcode.spi.consts.annotations.CheckArg;
 import com.lanxi.couponcode.spi.consts.annotations.EasyLog;
 import com.lanxi.couponcode.spi.consts.enums.*;
 import com.lanxi.couponcode.spi.defaultInterfaces.ToJson;
+import com.lanxi.util.entity.LogFactory;
 import com.lanxi.util.utils.ExcelUtil;
 import com.lanxi.util.utils.LoggerUtil;
 import org.springframework.stereotype.Controller;
 
 import javax.annotation.Resource;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -138,14 +141,15 @@ public class CodeController implements com.lanxi.couponcode.spi.service.CouponSe
         if(message!=null)
             return message;
         //需要展示的内容
-        Map<String,String> show=new HashMap<>();
         List<CouponCode> list=queryCodesHidden(timeStart,timeEnd,merchantName,commodityName,code,codeId,null);
-        File file;
-        if(list!=null) {
-            file = ExcelUtil.exportExcelFile(list, show);
+        File file=new File("串码导出"+TimeAssist.getNow()+".xls");
+        try {
+            ExcelUtil.exportExcelFile(list, null,new FileOutputStream(file));
             return new RetMessage<>(RetCodeEnum.success,"导出成功!",file);
-        }else
-            return new RetMessage<>(RetCodeEnum.fail,"导出失败!",null);
+        } catch (FileNotFoundException e) {
+            LogFactory.error(this,"串码导出时发生异常!",e);
+            return new RetMessage<>(RetCodeEnum.error,"导出失败!",null);
+        }
     }
     @Override
     public RetMessage<Boolean> destroyCode(Long codeId,

@@ -74,4 +74,5 @@ public interface ShopService {
 	public Boolean isRepeat(Long shopId,String shopName,Long merchantId);
 	public List<Shop> adminQueryShop(EntityWrapper<Shop> wrapper,
             Page<Shop> pageObj);
+	public List<Shop> queryAllShop();
 }

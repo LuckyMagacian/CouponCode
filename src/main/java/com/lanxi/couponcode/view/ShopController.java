@@ -24,7 +24,7 @@ import static com.lanxi.couponcode.spi.assist.ArgAssist.parseArg;
 @RequestMapping("shop")
 @EasyLog (LoggerUtil.LogLevel.INFO)
 public class ShopController {
-	@Resource(name="accountControllerService")
+	@Resource(name="accountControllerServiceRef")
 	private AccountService accountService;
 
 	/* 门店管理员添加账户 */

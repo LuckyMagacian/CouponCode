@@ -70,4 +70,47 @@ public interface ClearService {
 
     RetMessage<String> clear(String clearTime, BigDecimal factTotal, String remark, Long recordId, Long operaterId);
 
+    RetMessage<String> addInvoiceInfo(String taxNum,String logisticsCompany,String orderNum,String postTime,Long recordId,Long operaterId);
+
+    /**管理员专用*/
+    RetMessage<String> statsticDailyRecords(String merchantName,
+                                         String timeStart,
+                                         String timeStop,
+                                         ClearStatus clearStatus,
+                                         Integer pageNum,
+                                         Integer pageSize,
+                                         Long operaterId);
+    /**管理员专用*/
+    RetMessage<File> exportStatsticDailyRecords(String merchantName,
+                                            String timeStart,
+                                            String timeStop,
+                                            ClearStatus clearStatus,
+                                            Long operaterId);
+
+
+    /**商户用*/
+    RetMessage<String> statsticDailyRecords(String timeStart,
+                                         String timeStop,
+                                         ClearStatus clearStatus,
+                                         Integer pageNum,
+                                         Integer pageSize,
+                                         Long operaterId);
+    /**管理员专用*/
+    RetMessage<File> exportStatsticDailyRecords(String timeStart,
+                                                String timeStop,
+                                                ClearStatus clearStatus,
+                                                Long operaterId);
+
+    RetMessage<File> exoirtDailyRecords(String timeStart,
+                                        String timeStop,
+                                        ClearStatus clearStatus,
+                                        InvoiceStatus invoiceStatus,
+                                        Long operaterId);
+
+    RetMessage<File> exoirtDailyRecords(String merchantName,
+                                        String timeStart,
+                                        String timeStop,
+                                        ClearStatus clearStatus,
+                                        InvoiceStatus invoiceStatus,
+                                        Long operaterId);
 }

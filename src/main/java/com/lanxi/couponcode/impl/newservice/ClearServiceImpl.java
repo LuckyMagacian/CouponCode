@@ -1,5 +1,6 @@
 package com.lanxi.couponcode.impl.newservice;
 
+import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.mapper.Wrapper;
 import com.baomidou.mybatisplus.plugins.Page;
 import com.lanxi.couponcode.impl.entity.ClearDailyRecord;
@@ -46,7 +47,7 @@ public class ClearServiceImpl implements ClearService{
     }
 
     @Override
-    public List<ClearDailyRecord> queryDailyRecords(Wrapper<ClearDailyRecord> wrapper, Page<ClearDailyRecord> page) {
+    public List<ClearDailyRecord> queryDailyRecords(EntityWrapper<ClearDailyRecord> wrapper, Page<ClearDailyRecord> page) {
         if(page==null)
             return daoService.getClearDailyRecordDao().selectList(wrapper);
         else
@@ -59,7 +60,7 @@ public class ClearServiceImpl implements ClearService{
     }
 
     @Override
-    public List<ClearRecord> queryClearRecords(Wrapper<ClearRecord> wrapper, Page<ClearRecord> page) {
+    public List<ClearRecord> queryClearRecords(EntityWrapper<ClearRecord> wrapper, Page<ClearRecord> page) {
         if(page==null)
             return daoService.getClearRecordDao().selectList(wrapper);
         else

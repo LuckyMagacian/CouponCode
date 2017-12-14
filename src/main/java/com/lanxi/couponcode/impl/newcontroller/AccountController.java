@@ -631,10 +631,9 @@ public class AccountController implements com.lanxi.couponcode.spi.service.Accou
 			}
 			if (status != null) {
 				wrapper.eq("status", status);
+			}else {
+				wrapper.in("status", AccountStatus.normal.getValue()+","+AccountStatus.freeze.getValue());
 			}
-			wrapper.ne("status", AccountStatus.deleted);
-			wrapper.ne("status", AccountStatus.test);
-			wrapper.ne("status", AccountStatus.cancellation);
 			LogFactory.info(this, "条件装饰结果[" + wrapper + "]\n");
 			accounts = accountService.queryAccounts(wrapper, pageObj);
 			if (accounts != null && accounts.size() > 0) {
@@ -687,10 +686,10 @@ public class AccountController implements com.lanxi.couponcode.spi.service.Accou
 			}
 			if (status != null) {
 				wrapper.eq("status", status);
+				System.err.println(status+"-----------------------");
+			}else {
+				wrapper.in("status", AccountStatus.normal+","+AccountStatus.freeze);
 			}
-			wrapper.ne("status", AccountStatus.deleted);
-			wrapper.ne("status", AccountStatus.test);
-			wrapper.ne("status", AccountStatus.cancellation);
 			LogFactory.info(this, "条件装饰结果[" + wrapper + "]\n");
 			accounts = accountService.queryAccounts(wrapper, pageObj);
 			if (accounts != null && accounts.size() > 0) {
@@ -752,10 +751,9 @@ public class AccountController implements com.lanxi.couponcode.spi.service.Accou
 			}
 			if (status != null) {
 				wrapper.eq("status", status);
+			}else {
+				wrapper.in("status", AccountStatus.normal.getValue()+","+AccountStatus.freeze.getValue());
 			}
-			wrapper.ne("status", AccountStatus.deleted);
-			wrapper.ne("status", AccountStatus.test);
-			wrapper.ne("status", AccountStatus.cancellation);
 			wrapper.eq("merchant_id", a.getMerchantId());
 			LogFactory.info(this, "条件装饰结果[" + wrapper + "]\n");
 			accounts = accountService.queryAccounts(wrapper, pageObj);
@@ -782,6 +780,7 @@ public class AccountController implements com.lanxi.couponcode.spi.service.Accou
 	public RetMessage<String> queryAccountInfo(Long accountId, Long operaterId) {
 		RetMessage<String> retMessage = new RetMessage<String>();
 		Account account2 = null;
+		String result=null;
 		// TODO 校验
 		try {
 			Account a = accountService.queryAccountById(operaterId);
@@ -795,11 +794,11 @@ public class AccountController implements com.lanxi.couponcode.spi.service.Accou
 			if (account2 != null) {
 				retMessage.setRetCode(RetCodeEnum.success.getValue());
 				retMessage.setRetMessage("查询账户信息完毕");
+				result = account2.toJson();
 			} else {
 				retMessage.setRetCode(RetCodeEnum.success.getValue());
 				retMessage.setRetMessage("没有查询到任何数据");
 			}
-			String result = account2.toJson();
 			retMessage.setDetail(result);
 		} catch (Exception e) {
 			LogFactory.error(this, "查询账户信息时出现异常", e);
@@ -833,23 +832,23 @@ public class AccountController implements com.lanxi.couponcode.spi.service.Accou
 			if (shopId != null) {
 				wrapper.eq("shop_id", shopId);
 			}
-			wrapper.ne("status", AccountStatus.deleted);
-			wrapper.ne("status", AccountStatus.test);
-			wrapper.ne("status", AccountStatus.cancellation);
+			wrapper.in("status", AccountStatus.normal.getValue()+","+AccountStatus.freeze.getValue());
 			LogFactory.info(this, "条件装饰结果[" + wrapper + "]\n");
 			accounts = accountService.queryAccounts(wrapper, pageObj);
 			if (accounts != null && accounts.size() > 0) {
 				retMessage.setRetCode(RetCodeEnum.success.getValue());
 				retMessage.setRetMessage("查询完毕");
+				Map<String, Object> map = new HashMap<>();
+				map.put("page", pageObj);
+				map.put("list", accounts);
+				String result = ToJson.toJson(map);
+				retMessage.setDetail(result);
 			} else {
 				retMessage.setRetCode(RetCodeEnum.success.getValue());
 				retMessage.setRetMessage("没有查询到任何数据");
+				retMessage.setDetail(null);
 			}
-			Map<String, Object> map = new HashMap<>();
-			map.put("page", pageObj);
-			map.put("list", accounts);
-			String result = ToJson.toJson(map);
-			retMessage.setDetail(result);
+			
 		} catch (Exception e) {
 			LogFactory.error(this, "查询数据时出现异常", e);
 			retMessage.setAll(RetCodeEnum.error, "查询数据时发生异常", null);

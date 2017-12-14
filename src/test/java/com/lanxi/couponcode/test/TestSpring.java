@@ -2,9 +2,13 @@ package com.lanxi.couponcode.test;
 
 import com.baomidou.mybatisplus.activerecord.Model;
 import com.baomidou.mybatisplus.mapper.BaseMapper;
+import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.lanxi.couponcode.impl.entity.*;
+import com.lanxi.couponcode.impl.newcontroller.OperateRecordController;
 import com.lanxi.couponcode.impl.newservice.DaoService;
 import com.lanxi.couponcode.impl.newservice.MerchantServiceImpl;
+import com.lanxi.couponcode.impl.newservice.OperateRecordService;
+import com.lanxi.couponcode.spi.consts.enums.AccountType;
 import com.lanxi.couponcode.spi.consts.enums.Gettype;
 import com.lanxi.util.utils.BeanUtil;
 import com.lanxi.util.utils.LoggerUtil;
@@ -66,7 +70,7 @@ public class TestSpring {
 
 	    @Before
 	    public void init(){
-	    	LoggerUtil.setLogLevel(LoggerUtil.LogLevel.DEBUG);
+	    	LoggerUtil.setLogLevel(LoggerUtil.LogLevel.INFO);
 	    	LoggerUtil.init();
 	        ac=new ClassPathXmlApplicationContext("xml/spring-mvc.xml");
 	        
@@ -99,6 +103,12 @@ public class TestSpring {
     @Test
     public void test6(){
         System.out.println(ac.getBean(DaoService.class).getMerchantDao().insert((Merchant)TestSpring.fillEntity.apply(new Merchant())));
+    }
+    @Test
+    public void test9(){
+//        System.err.println(ac.getBean(OperateRecordController.class).queryOperateRecord(null,null,null,null,null,
+//                null, AccountType.merchantManager,null,null,1,10,938694848231235584L));
+		System.err.println(ac.getBean(OperateRecordService.class).queryRecords(new EntityWrapper<OperateRecord>().eq("account_type",AccountType.merchantManager),null));
     }
 }
 

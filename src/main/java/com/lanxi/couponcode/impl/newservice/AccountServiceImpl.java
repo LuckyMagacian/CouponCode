@@ -105,10 +105,8 @@ public class AccountServiceImpl implements AccountService {
 				if (account.getPhone()!=null&&!account.getPhone().isEmpty()) {
 					wrapper.eq("phone",account.getPhone());
 				}
-				wrapper.ne("status", AccountStatus.deleted);
-				wrapper.ne("status", AccountStatus.test);
-				wrapper.ne("status", AccountStatus.cancellation);
-				account =dao.getAccountDao().selectList(wrapper).get(0);
+				wrapper.in("status", AccountStatus.normal.getValue() + "," + AccountStatus.freeze.getValue());
+				account = dao.getAccountDao().selectList(wrapper).get(0);
 				LogFactory.info(this, "查询结果[" + account + "]\n");
 				return account;
 			}else
@@ -129,16 +127,24 @@ public class AccountServiceImpl implements AccountService {
 			if (phone != null && !phone.isEmpty()) {
 				wrapper.eq("phone", phone);
 			}
-			wrapper.ne("status", AccountStatus.deleted);
-			wrapper.ne("status",AccountStatus.test);
-			wrapper.ne("status",AccountStatus.cancellation);
 			list = dao.getAccountDao().selectList(wrapper);
-			if (list.size() > 0) {
-				LogFactory.debug(this, "此手机号码已经被注册过\n");
-				result = false;
-			} else if (list.size() == 0) {
+			if (list == null || list.size() == 0) {
 				LogFactory.debug(this, "此手机号码可用\n");
-				result = true;
+				return true;
+			} else {
+				for (Account account : list) {
+					if (account.getStatus()==null) 
+						return true;
+					else {
+						if (AccountStatus.normal.equals(account.getStatus())
+								|| AccountStatus.freeze.equals(account.getStatus())) {
+							LogFactory.debug(this, "此手机号码已经被注册过\n");
+							return false;
+						}
+					}
+					
+				}
+				return true;
 			}
 		} catch (Exception e) {
 			LogFactory.error(this, "查询手机号码是否已注册时发生异常\n", e);
@@ -159,15 +165,22 @@ public class AccountServiceImpl implements AccountService {
 	public Account login(Account account, String validateCode) {
 		LogFactory.info(this, "尝试登录账户\n");
 		try {
-			Account account2 = dao.getAccountDao().selectOne(account);
-			EntityWrapper<Account> wrapper=new EntityWrapper<Account>();
+			EntityWrapper<Account> wrapper = new EntityWrapper<Account>();
 			wrapper.eq("phone", account.getPhone());
-			wrapper.ne("status",AccountStatus.deleted);
-			wrapper.ne("status", AccountStatus.test);
-			wrapper.ne("status", AccountStatus.cancellation);
-			if (account2 != null) {
-				return account2;
-			} else {
+			wrapper.in("status", AccountStatus.normal.getValue() + "," + AccountStatus.freeze.getValue());
+			List<Account> list = dao.getAccountDao().selectList(wrapper);
+			if (list==null||list.size()==0) 
+				return null;
+			else {
+				for (Account account3 : list) {
+					if (account3.getStatus()!=null) {
+						if (AccountStatus.normal.equals(account3.getStatus())
+								|| AccountStatus.freeze.equals(account3.getStatus())) {
+							return account3;
+						}
+					}else 
+					return null;
+				}
 				LogFactory.info(this, "此账户不存在");
 				return null;
 			}

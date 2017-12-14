@@ -23,7 +23,8 @@ public interface OrderService {
                                 String NeedSend,
                                 String WorkDate,
                                 String WorkTime,
-                                String CHKDate);
+                                String CHKDate,
+                                String SerialNum);
 
     RetMessage<String> queryOrderInfo(String OrgWorkDate,
                                       String OrgMsgID,

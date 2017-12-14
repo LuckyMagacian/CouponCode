@@ -1,8 +1,0 @@
-2017-11-17 15:01:53,204 WARN [com.lanxi.couponcode.impl.service.ShopServiceImpl] - <shopId,shopName,shopAddress不能为空
-shopName[杭州蓝喜]
-,serviceTel[null]
-,shopAddress[null]
-,minuteShopAddress[null]
-,shopId[931412883098533888]
-,operaterId[null]
->

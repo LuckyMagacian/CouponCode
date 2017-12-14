@@ -1,5 +1,6 @@
 package com.lanxi.couponcode.impl.assist;
 
+import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.lanxi.couponcode.impl.entity.*;
 import com.lanxi.couponcode.spi.assist.CheckAssist;
 import com.lanxi.couponcode.spi.assist.RetMessage;
