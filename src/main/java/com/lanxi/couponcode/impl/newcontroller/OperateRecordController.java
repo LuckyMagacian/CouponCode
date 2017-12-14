@@ -61,9 +61,9 @@ public class OperateRecordController implements com.lanxi.couponcode.spi.service
         Page<OperateRecord> page = new Page<>(pageNum, pageSize);
         EntityWrapper<OperateRecord> wrapper = new EntityWrapper<>();
         if (type != null)
-            wrapper.eq("operate_type", type);
+            wrapper.eq("operate_type", type.getValue());
         if (targetType != null)
-            wrapper.eq("target_type", targetType);
+            wrapper.eq("target_type", targetType.getValue());
         if (merchantName != null)
             wrapper.like("merchant_name", merchantName);
         if (shopName != null)
@@ -79,7 +79,7 @@ public class OperateRecordController implements com.lanxi.couponcode.spi.service
             wrapper.le("operate_time", timeStop);
         }
         if (accountType != null)
-            wrapper.eq("account_type", accountType);
+            wrapper.eq("account_type", accountType.getValue());
         if (name != null)
             wrapper.like("name", name);
         if (phone != null)
@@ -117,9 +117,9 @@ public class OperateRecordController implements com.lanxi.couponcode.spi.service
         Page<OperateRecord> page = new Page<>(pageNum, pageSize);
         EntityWrapper<OperateRecord> wrapper = new EntityWrapper<>();
         if (type != null)
-            wrapper.eq("operate_type", type);
+            wrapper.eq("operate_type", type.getValue());
         if (targetType != null)
-            wrapper.eq("operate_target_type", targetType);
+            wrapper.eq("operate_target_type", targetType.getValue());
         if (shopName != null)
             wrapper.like("shop_name", shopName);
         if (timeStart != null && !timeStart.isEmpty()) {
@@ -133,7 +133,7 @@ public class OperateRecordController implements com.lanxi.couponcode.spi.service
             wrapper.le("operate_time", timeEnd);
         }
         if (accountType != null)
-            wrapper.eq("account_type", accountType);
+            wrapper.eq("account_type", accountType.getValue());
         if (name != null)
             wrapper.like("name", name);
         if (phone != null)
@@ -169,9 +169,9 @@ public class OperateRecordController implements com.lanxi.couponcode.spi.service
         Page<OperateRecord> page = new Page<>(pageNum, pageSize);
         EntityWrapper<OperateRecord> wrapper = new EntityWrapper<>();
         if (type != null)
-            wrapper.eq("operate_type", type);
+            wrapper.eq("operate_type", type.getValue());
         if (targetType != null)
-            wrapper.eq("operate_target_type", targetType);
+            wrapper.eq("operate_target_type", targetType.getValue());
         if (timeStart != null && !timeStart.isEmpty()) {
             while (timeStart.length() < 14)
                 timeStart += "0";
@@ -183,7 +183,7 @@ public class OperateRecordController implements com.lanxi.couponcode.spi.service
             wrapper.le("operate_time", timeEnd);
         }
         if (accountType != null)
-            wrapper.eq("account_type", accountType);
+            wrapper.eq("account_type", accountType.getValue());
         if (name != null)
             wrapper.like("name", name);
         if (phone != null)

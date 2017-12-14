@@ -70,7 +70,7 @@ public class ClearController implements com.lanxi.couponcode.spi.service.ClearSe
         notNullAndEmpty(merchantName).ifPresent(e->wrapper.like("merchant_name",e));
         notNullAndEmpty(timeStart).ifPresent(e->wrapper.ge("create_time",timeFixZero(timeStart)));
         notNullAndEmpty(timeStop).ifPresent(e->wrapper.le("create_time",timeFixNine(timeStop)));
-        notNUll(clearStatus).ifPresent(e->wrapper.eq("clear_status",clearStatus));
+        notNUll(clearStatus).ifPresent(e->wrapper.eq("clear_status",clearStatus.getValue()));
 
         Page<ClearDailyRecord> page=new Page<>(pageNum,pageSize);
         List<ClearDailyRecord> list=clearService.queryDailyRecords(wrapper,page);
@@ -97,7 +97,7 @@ public class ClearController implements com.lanxi.couponcode.spi.service.ClearSe
         wrapper.eq("merchant_id",account.getMerchantId());
         notNullAndEmpty(timeStart).ifPresent(e->wrapper.ge("create_time",timeFixZero(timeStart)));
         notNullAndEmpty(timeStop).ifPresent(e->wrapper.le("create_time",timeFixNine(timeStop)));
-        notNUll(clearStatus).ifPresent(e->wrapper.eq("clear_status",clearStatus));
+        notNUll(clearStatus).ifPresent(e->wrapper.eq("clear_status",clearStatus.getValue()));
         Page<ClearDailyRecord> page=new Page<>(pageNum,pageSize);
         List<ClearDailyRecord> list=clearService.queryDailyRecords(wrapper,page);
         Map<String,Object> map=new HashMap<>();
@@ -137,8 +137,8 @@ public class ClearController implements com.lanxi.couponcode.spi.service.ClearSe
         notNullAndEmpty(merchantName).ifPresent(e->wrapper.like("merchant_name",e));
         notNullAndEmpty(timeStart).ifPresent(e->wrapper.ge("create_time",timeFixZero(timeStart)));
         notNullAndEmpty(timeStop).ifPresent(e->wrapper.le("create_time",timeFixNine(timeStop)));
-        notNUll(clearStatus).ifPresent(e->wrapper.eq("clear_status",clearStatus));
-        notNUll(invoiceStatus).ifPresent(e->wrapper.eq("invoice_status",invoiceStatus));
+        notNUll(clearStatus).ifPresent(e->wrapper.eq("clear_status",clearStatus.getValue()));
+        notNUll(invoiceStatus).ifPresent(e->wrapper.eq("invoice_status",invoiceStatus.getValue()));
         Page<ClearRecord> page=new Page<>(pageNum,pageSize);
         List<ClearRecord> list=clearService.queryClearRecords(wrapper,page);
         Map<String,Object> map=new HashMap<>();
@@ -165,8 +165,8 @@ public class ClearController implements com.lanxi.couponcode.spi.service.ClearSe
         notNullAndEmpty(merchantName).ifPresent(e->wrapper.eq("merchant_name",merchantName));
         notNUll(timeStart).ifPresent(e->wrapper.ge("create_time",TimeAssist.timeFixZero(timeStart)));
         notNUll(timeStop).ifPresent(e->wrapper.le("create_time",TimeAssist.timeFixNine(e)));
-        notNUll(clearStatus).ifPresent(e->wrapper.eq("clear_status",clearStatus));
-        notNUll(invoiceStatus).ifPresent(e->wrapper.eq("invoice_status",invoiceStatus));
+        notNUll(clearStatus).ifPresent(e->wrapper.eq("clear_status",clearStatus.getValue()));
+        notNUll(invoiceStatus).ifPresent(e->wrapper.eq("invoice_status",invoiceStatus.getValue()));
         List<ClearRecord> records=clearService.queryClearRecords(wrapper,null);
         try {
             File file= new File("结算记录导出"+TimeAssist.getNow()+".xls");
@@ -196,8 +196,8 @@ public class ClearController implements com.lanxi.couponcode.spi.service.ClearSe
         wrapper.eq("merchant_id",account.getMerchantId());
         notNullAndEmpty(timeStart).ifPresent(e->wrapper.ge("create_time",timeFixZero(timeStart)));
         notNullAndEmpty(timeStop).ifPresent(e->wrapper.le("create_time",timeFixNine(timeStop)));
-        notNUll(clearStatus).ifPresent(e->wrapper.eq("clear_status",clearStatus));
-        notNUll(invoiceStatus).ifPresent(e->wrapper.eq("invoice_status",invoiceStatus));
+        notNUll(clearStatus).ifPresent(e->wrapper.eq("clear_status",clearStatus.getValue()));
+        notNUll(invoiceStatus).ifPresent(e->wrapper.eq("invoice_status",invoiceStatus.getValue()));
         Page<ClearRecord> page=new Page<>(pageNum,pageSize);
         List<ClearRecord> list=clearService.queryClearRecords(wrapper,page);
         Map<String,Object> map=new HashMap<>();
@@ -222,8 +222,8 @@ public class ClearController implements com.lanxi.couponcode.spi.service.ClearSe
         wrapper.eq("merchant_id",account.getMerchantId());
         notNUll(timeStart).ifPresent(e->wrapper.ge("create_time",TimeAssist.timeFixZero(timeStart)));
         notNUll(timeStop).ifPresent(e->wrapper.le("create_time",TimeAssist.timeFixNine(e)));
-        notNUll(clearStatus).ifPresent(e->wrapper.eq("clear_status",clearStatus));
-        notNUll(invoiceStatus).ifPresent(e->wrapper.eq("invoice_status",invoiceStatus));
+        notNUll(clearStatus).ifPresent(e->wrapper.eq("clear_status",clearStatus.getValue()));
+        notNUll(invoiceStatus).ifPresent(e->wrapper.eq("invoice_status",invoiceStatus.getValue()));
         List<ClearRecord> records=clearService.queryClearRecords(wrapper,null);
         try {
             File file= new File("结算记录导出"+TimeAssist.getNow()+".xls");
@@ -396,7 +396,7 @@ public class ClearController implements com.lanxi.couponcode.spi.service.ClearSe
         notNullAndEmpty(merchantName).ifPresent(e->wrapper.like("merchant_name",e));
         notNullAndEmpty(timeStart).ifPresent(e->wrapper.ge("create_time",timeFixZero(timeStart)));
         notNullAndEmpty(timeStop).ifPresent(e->wrapper.le("create_time",timeFixNine(timeStop)));
-        notNUll(clearStatus).ifPresent(e->wrapper.eq("clear_status",clearStatus));
+        notNUll(clearStatus).ifPresent(e->wrapper.eq("clear_status",clearStatus.getValue()));
         BinaryOperator<Integer> addInteger=(a,b)->{
             a=a==null?0:a;
             b=b==null?0:b;
@@ -437,7 +437,7 @@ public class ClearController implements com.lanxi.couponcode.spi.service.ClearSe
         notNullAndEmpty(merchantName).ifPresent(e->wrapper.like("merchant_name",e));
         notNullAndEmpty(timeStart).ifPresent(e->wrapper.ge("create_time",timeFixZero(timeStart)));
         notNullAndEmpty(timeStop).ifPresent(e->wrapper.le("create_time",timeFixNine(timeStop)));
-        notNUll(clearStatus).ifPresent(e->wrapper.eq("clear_status",clearStatus));
+        notNUll(clearStatus).ifPresent(e->wrapper.eq("clear_status",clearStatus.getValue()));
         BinaryOperator<Integer> addInteger=(a,b)->{
             a=a==null?0:a;
             b=b==null?0:b;
@@ -481,7 +481,7 @@ public class ClearController implements com.lanxi.couponcode.spi.service.ClearSe
         wrapper.eq("merchant_id",account.getMerchantId()) ;
         notNullAndEmpty(timeStart).ifPresent(e->wrapper.ge("create_time",timeFixZero(timeStart)));
         notNullAndEmpty(timeStop).ifPresent(e->wrapper.le("create_time",timeFixNine(timeStop)));
-        notNUll(clearStatus).ifPresent(e->wrapper.eq("clear_status",clearStatus));
+        notNUll(clearStatus).ifPresent(e->wrapper.eq("clear_status",clearStatus.getValue()));
         BinaryOperator<Integer> addInteger=(a,b)->{
             a=a==null?0:a;
             b=b==null?0:b;
@@ -522,7 +522,7 @@ public class ClearController implements com.lanxi.couponcode.spi.service.ClearSe
         wrapper.eq("merchant_id",account.getMerchantId()) ;
         notNullAndEmpty(timeStart).ifPresent(e->wrapper.ge("create_time",timeFixZero(timeStart)));
         notNullAndEmpty(timeStop).ifPresent(e->wrapper.le("create_time",timeFixNine(timeStop)));
-        notNUll(clearStatus).ifPresent(e->wrapper.eq("clear_status",clearStatus));
+        notNUll(clearStatus).ifPresent(e->wrapper.eq("clear_status",clearStatus.getValue()));
         BinaryOperator<Integer> addInteger=(a,b)->{
             a=a==null?0:a;
             b=b==null?0:b;
@@ -566,7 +566,7 @@ public class ClearController implements com.lanxi.couponcode.spi.service.ClearSe
         wrapper.eq("merchant_id",account.getMerchantId());
         notNullAndEmpty(timeStart).ifPresent(e->wrapper.ge("create_time",timeFixZero(timeStart)));
         notNullAndEmpty(timeStop).ifPresent(e->wrapper.le("create_time",timeFixNine(timeStop)));
-        notNUll(clearStatus).ifPresent(e->wrapper.eq("clear_status",clearStatus));
+        notNUll(clearStatus).ifPresent(e->wrapper.eq("clear_status",clearStatus.getValue()));
         List<ClearDailyRecord> list=clearService.queryDailyRecords(wrapper,null);
         File file=new File("日结算记录导出"+TimeAssist.getNow()+".xls");
         try {
@@ -588,7 +588,7 @@ public class ClearController implements com.lanxi.couponcode.spi.service.ClearSe
         notNullAndEmpty(merchantName).ifPresent(e->wrapper.like("merchant_name",e));
         notNullAndEmpty(timeStart).ifPresent(e->wrapper.ge("create_time",timeFixZero(timeStart)));
         notNullAndEmpty(timeStop).ifPresent(e->wrapper.le("create_time",timeFixNine(timeStop)));
-        notNUll(clearStatus).ifPresent(e->wrapper.eq("clear_status",clearStatus));
+        notNUll(clearStatus).ifPresent(e->wrapper.eq("clear_status",clearStatus.getValue()));
         List<ClearDailyRecord> list=clearService.queryDailyRecords(wrapper,null);
         File file=new File("日结算记录导出"+TimeAssist.getNow()+".xls");
         try {

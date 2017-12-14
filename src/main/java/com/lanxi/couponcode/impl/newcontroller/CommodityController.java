@@ -139,8 +139,11 @@ public class CommodityController implements com.lanxi.couponcode.spi.service.Com
         if(message!=null)
             return message;
         Commodity commodity=commodityService.queryCommodity(commodityId);
-        if(commodity==null)
+        if(commodity==null||CommodityStatus.deleted.equals(commodity.getStatus()))
             return new RetMessage<>(RetCodeEnum.fail,"不存在!",null);
+        if(!CommodityStatus.unshelved.equals(commodity.getStatus())){
+            return new RetMessage<>(RetCodeEnum.fail,"非下架状态!无法修改!",null);
+        }
         if(notNull.test(costPrice))
             commodity.setCostPrice(costPrice);
         if(notNull.test(facePrice))
@@ -179,6 +182,12 @@ public class CommodityController implements com.lanxi.couponcode.spi.service.Com
         if(message!=null)
             return message;
         Commodity commodity=commodityService.queryCommodity(commodityId);
+        if(commodity==null||CommodityStatus.deleted.equals(commodity.getStatus())){
+            return new RetMessage<>(RetCodeEnum.fail,"不存在!",null);
+        }
+        if(!CommodityStatus.unshelved.equals(commodity.getStatus())){
+            return new RetMessage<>(RetCodeEnum.fail,"非下架状态!无法上架!",null);
+        }
         Boolean result= commodityService.shelveCommodity(commodity);
         if(result==null)
             return new RetMessage<>(RetCodeEnum.fail,"上架时异常!",null);
@@ -209,6 +218,12 @@ public class CommodityController implements com.lanxi.couponcode.spi.service.Com
         if(message!=null)
             return message;
         Commodity commodity=commodityService.queryCommodity(commodityId);
+        if(commodity==null||CommodityStatus.deleted.equals(commodity.getStatus())){
+            return new RetMessage<>(RetCodeEnum.fail,"不存在!",null);
+        }
+        if(!CommodityStatus.shelved.equals(commodity.getStatus())){
+            return new RetMessage<>(RetCodeEnum.fail,"非上架状态!无法上架!",null);
+        }
         Boolean result= commodityService.unshelveCommodity(commodity);
         if(result==null)
             return new RetMessage<>(RetCodeEnum.fail,"下架时异常!",null);
@@ -239,6 +254,12 @@ public class CommodityController implements com.lanxi.couponcode.spi.service.Com
         if(message!=null)
             return message;
         Commodity commodity=commodityService.queryCommodity(commodityId);
+        if(commodity==null||CommodityStatus.deleted.equals(commodity.getStatus())){
+            return new RetMessage<>(RetCodeEnum.fail,"不存在!",null);
+        }
+        if(!CommodityStatus.unshelved.equals(commodity.getStatus())){
+            return new RetMessage<>(RetCodeEnum.fail,"非下架状态!无法删除!",null);
+        }
         Boolean result= commodityService.delCommodity(commodity);
         if(result==null)
             return new RetMessage<>(RetCodeEnum.fail,"删除时异常!",null);

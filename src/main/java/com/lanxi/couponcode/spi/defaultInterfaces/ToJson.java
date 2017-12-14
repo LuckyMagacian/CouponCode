@@ -3,6 +3,7 @@ package com.lanxi.couponcode.spi.defaultInterfaces;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.baomidou.mybatisplus.plugins.pagination.Pagination;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
@@ -15,6 +16,7 @@ import java.util.stream.Stream;
  * Created by yangyuanjian on 12/7/2017.
  */
 public interface ToJson {
+    /**给定一个对象,返回其json状态*/
     Function<Object, Object> jsonDeal = e -> {
         if (e instanceof ToJson) {
             return ((ToJson) e).toJsonObject();
@@ -24,7 +26,9 @@ public interface ToJson {
             return mapToJsonObject((Map) e);
         } else if (e instanceof Number || e instanceof Character || e.getClass().isEnum() || e instanceof Boolean || e instanceof CharSequence) {
             return e.toString();
-        } else {
+        } else if(e instanceof Pagination){
+            return paginationToJsonObject((Pagination) e);
+        }else {
             return objToJsonObject(e);
         }
     };
@@ -143,6 +147,14 @@ public interface ToJson {
         return jobj;
     }
 
+    static JSONObject paginationToJsonObject(Pagination page){
+        JSONObject jobj=new JSONObject(new LinkedHashMap<>());
+        jobj.put("total",page.getTotal());
+        jobj.put("size",page.getSize());
+        jobj.put("current",page.getCurrent());
+        jobj.put("pages",page.getPages());
+        return jobj;
+    }
 //    static JSONArray toJsonArray(Object obj) {
 //        if(obj==null)
 //            return null;
@@ -160,7 +172,9 @@ public interface ToJson {
             return collectionToJsonArray((Collection) obj);
         } else if (obj instanceof Map) {
             return mapToJsonObject((Map) obj);
-        } else {
+        } else if(obj instanceof Pagination){
+            return paginationToJsonObject((Pagination) obj);
+        }else {
             return objToJsonObject(obj);
         }
     }

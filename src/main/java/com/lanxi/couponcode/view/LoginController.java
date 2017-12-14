@@ -27,9 +27,9 @@ import static com.lanxi.couponcode.spi.assist.ArgAssist.toLongArg;
 public class LoginController {
     @Resource (name = "loginControllerServiceRef")
     private LoginService loginService;
-    @Resource(name = "redisServiceOld")
+    @Resource(name = "redisService")
     private RedisServiceImpl redisService;
-    private static final long picCodeLife=60*1000L;
+    private static final long picCodeLife=600*1000L;
     @SetUtf8
     @ResponseBody
     @RequestMapping (value = "login", produces = "application/json;charset=utf-8")
@@ -38,7 +38,7 @@ public class LoginController {
         String password = getArg.apply(req, "password");
         String validateCode = getArg.apply(req, "validateCode");
 
-        String sessionId=req.getSession().getId();
+        String sessionId=req.getRemoteHost()+req.getRemoteUser();
         String key=RedisKeyAssist.getVerificateCodeKey(sessionId);
         String cacheCode=redisService.get(key);
         if(cacheCode==null||!cacheCode.equals(validateCode)){
@@ -95,7 +95,7 @@ public class LoginController {
     }
     @RequestMapping(value = "getPicCode")
     public void getPicValidateCode(HttpServletRequest req,HttpServletResponse res){
-        String sessionId=req.getSession().getId();
+        String sessionId=req.getRemoteHost()+req.getRemoteUser();
         String code= PictureVerifyUtil.sendVerifyCode(res);
         String key= RedisKeyAssist.getVerificateCodeKey(sessionId);
         redisService.set(key,code,picCodeLife);

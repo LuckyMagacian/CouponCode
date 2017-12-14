@@ -9,7 +9,9 @@ import com.lanxi.couponcode.impl.newservice.DaoService;
 import com.lanxi.couponcode.impl.newservice.MerchantServiceImpl;
 import com.lanxi.couponcode.impl.newservice.OperateRecordService;
 import com.lanxi.couponcode.spi.consts.enums.AccountType;
+import com.lanxi.couponcode.spi.consts.enums.ClearStatus;
 import com.lanxi.couponcode.spi.consts.enums.Gettype;
+import com.lanxi.couponcode.spi.service.ClearService;
 import com.lanxi.util.utils.BeanUtil;
 import com.lanxi.util.utils.LoggerUtil;
 import com.lanxi.util.utils.RandomUtil;
@@ -26,6 +28,9 @@ import java.util.Random;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.function.Function;
 import java.util.stream.Stream;
+
+import static com.lanxi.couponcode.spi.assist.ArgAssist.getArg;
+import static com.lanxi.couponcode.spi.assist.ArgAssist.parseArg;
 
 public class TestSpring {
 	    ApplicationContext ac;
@@ -106,9 +111,27 @@ public class TestSpring {
     }
     @Test
     public void test9(){
-//        System.err.println(ac.getBean(OperateRecordController.class).queryOperateRecord(null,null,null,null,null,
-//                null, AccountType.merchantManager,null,null,1,10,938694848231235584L));
-		System.err.println(ac.getBean(OperateRecordService.class).queryRecords(new EntityWrapper<OperateRecord>().eq("account_type",AccountType.merchantManager),null));
+        System.err.println(ac.getBean(OperateRecordController.class).queryOperateRecord(null,null,null,null,null,
+                null, AccountType.merchantManager,null,null,1,10,938694848231235584L));
+//		System.err.println(ac.getBean(OperateRecordService.class).queryRecords(new EntityWrapper<OperateRecord>().eq("account_type",AccountType.merchantManager.getValue()),null));
+    }
+    @Test
+    public void test10(){
+        String timeStart =null;
+        String timeEnd = null;
+        String merchantName = null;
+        String clearStatusStr = null;
+        String pageNumStr = "1";
+        String pageSizeStr = "10";
+        String operaterIdStr = "938694848231235584";
+
+        ClearStatus clearStatus = ClearStatus.getType(clearStatusStr);
+        Long operaterId = parseArg(operaterIdStr, Long.class);
+        Integer pageNum = parseArg(pageNumStr, Integer.class);
+        Integer pageSize = parseArg(pageSizeStr, Integer.class);
+        ClearService clearService= (ClearService) ac.getBean("clearControllerServiceRef");
+        System.out.println(clearService.statsticDailyRecords(merchantName,timeStart,timeEnd,clearStatus,pageNum,pageSize,operaterId).toJson());;
+
     }
 }
 

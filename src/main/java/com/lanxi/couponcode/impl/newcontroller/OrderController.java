@@ -337,7 +337,7 @@ public class OrderController implements com.lanxi.couponcode.spi.service.OrderSe
 				wrapper.eq("src",SRC);
 			}
 			if (orderStatus!=null) {
-				wrapper.eq("order_status",orderStatus);
+				wrapper.eq("order_status",orderStatus.getValue());
 			}
 			if (pageNum != null) {
 				pageSize = pageSize == null ? ConstConfig.DEFAULT_PAGE_SIZE : pageSize;
@@ -388,7 +388,7 @@ public class OrderController implements com.lanxi.couponcode.spi.service.OrderSe
 				wrapper.eq("src",SRC);
 			}
 			if (orderStatus!=null) {
-				wrapper.eq("order_status",orderStatus);
+				wrapper.eq("order_status",orderStatus.getValue());
 			}
 			List<Order> list=orderService.orderExport(wrapper);
 			if (list!=null&&list.size()>0) {

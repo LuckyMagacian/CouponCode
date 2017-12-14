@@ -91,7 +91,7 @@ public class VerificationRecordController implements com.lanxi.couponcode.spi.se
         if(phone!=null)
             wrapper.like("operater_phone",phone);
         if(type!=null)
-            wrapper.eq("verification_type",type);
+            wrapper.eq("verification_type",type.getValue());
         List<VerificationRecord> list=verificationRecordService.queryVerificationRecords(wrapper,page);
         if(list==null)
             return  new RetMessage<>(RetCodeEnum.fail,"查询失败!",null);
@@ -138,7 +138,7 @@ public class VerificationRecordController implements com.lanxi.couponcode.spi.se
         if(phone!=null)
             wrapper.like("operater_phone",phone);
         if(type!=null)
-            wrapper.eq("verification_type",type);
+            wrapper.eq("verification_type",type.getValue());
         wrapper.eq("merchant_id",account.getMerchantId());
         List<VerificationRecord> list=verificationRecordService.queryVerificationRecords(wrapper,page);
         if(list==null)
@@ -191,7 +191,7 @@ public class VerificationRecordController implements com.lanxi.couponcode.spi.se
         if(phone!=null)
             wrapper.like("operater_phone",phone);
         if(type!=null)
-            wrapper.eq("verification_type",type);
+            wrapper.eq("verification_type",type.getValue());
         List<VerificationRecord> list=verificationRecordService.queryVerificationRecords(wrapper,null);
         File file=new File("核销记录导出"+ TimeAssist.getNow()+".xls");
         try {
@@ -230,7 +230,7 @@ public class VerificationRecordController implements com.lanxi.couponcode.spi.se
         if(phone!=null)
             wrapper.like("operater_phone",phone);
         if(type!=null)
-            wrapper.eq("verification_type",type);
+            wrapper.eq("verification_type",type.getValue());
         List<VerificationRecord> list=verificationRecordService.queryVerificationRecords(wrapper,null);
         File file=new File("核销记录导出"+ TimeAssist.getNow()+".xls");
         try {

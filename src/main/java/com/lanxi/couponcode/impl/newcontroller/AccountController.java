@@ -627,10 +627,10 @@ public class AccountController implements com.lanxi.couponcode.spi.service.Accou
 				wrapper.like("merchant_name", merchantName);
 			}
 			if (type != null) {
-				wrapper.eq("account_type", type);
+				wrapper.eq("account_type", type.getValue());
 			}
 			if (status != null) {
-				wrapper.eq("status", status);
+				wrapper.eq("status", status.getValue());
 			}else {
 				wrapper.in("status", AccountStatus.normal.getValue()+","+AccountStatus.freeze.getValue());
 			}
@@ -682,10 +682,10 @@ public class AccountController implements com.lanxi.couponcode.spi.service.Accou
 				wrapper.like("merchant_name", merchantName);
 			}
 			if (type != null) {
-				wrapper.eq("account_type", type);
+				wrapper.eq("account_type", type.getValue());
 			}
 			if (status != null) {
-				wrapper.eq("status", status);
+				wrapper.eq("status", status.getValue());
 				System.err.println(status+"-----------------------");
 			}else {
 				wrapper.in("status", AccountStatus.normal+","+AccountStatus.freeze);
@@ -744,13 +744,13 @@ public class AccountController implements com.lanxi.couponcode.spi.service.Accou
 				wrapper.like("shop_name", shopName);
 			}
 			if (type == null) {
-				wrapper.ne("account_type", AccountType.merchantManager);
+				wrapper.ne("account_type", AccountType.merchantManager.getValue());
 			}
 			if (type != null) {
-				wrapper.eq("account_type", type);
+				wrapper.eq("account_type", type.getValue());
 			}
 			if (status != null) {
-				wrapper.eq("status", status);
+				wrapper.eq("status", status.getValue());
 			}else {
 				wrapper.in("status", AccountStatus.normal.getValue()+","+AccountStatus.freeze.getValue());
 			}
@@ -765,6 +765,9 @@ public class AccountController implements com.lanxi.couponcode.spi.service.Accou
 				retMessage.setRetMessage("没有查询到任何数据");
 			}
 			Map<String, Object> map = new HashMap<>();
+			pageObj.setRecords(null);
+			pageObj.setCondition(null);
+
 			map.put("page", pageObj);
 			map.put("list", accounts);
 			String result = ToJson.toJson(map);

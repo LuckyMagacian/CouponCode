@@ -199,7 +199,7 @@ public class MerchantController implements com.lanxi.couponcode.spi.service.Merc
 				wrapper.le("create_time", timeStop);
 			}
 			if (merchantStatus != null) {
-				wrapper.eq("merchant_status", merchantStatus);
+				wrapper.eq("merchant_status", merchantStatus.getValue());
 			}else {
 				wrapper.in("merchant_status", MerchantStatus.normal.getValue()+","+MerchantStatus.freeze);
 			}
@@ -724,7 +724,7 @@ public class MerchantController implements com.lanxi.couponcode.spi.service.Merc
 
 	@CheckArg
 	@Override
-	@Cache (exclusionArgs = {"operaterId"})
+//	@Cache (exclusionArgs = {"operaterId"})
 	public RetMessage<String> queryMerchantInfo(Long operaterId, Long merchantId) {
 		try {
 			Account a=accountService.queryAccountById(operaterId);

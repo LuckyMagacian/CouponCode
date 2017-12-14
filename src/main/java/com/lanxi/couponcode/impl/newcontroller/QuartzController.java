@@ -49,7 +49,7 @@ public class QuartzController implements QuartzService{
     public void codeOverTime() {
         EntityWrapper<CouponCode> wrapper=new EntityWrapper<>();
         wrapper.lt("over_time", TimeAssist.getTodayBegin());
-        wrapper.eq("code_status",CouponCodeStatus.undestroyed);
+        wrapper.eq("code_status",CouponCodeStatus.undestroyed.getValue());
         List<CouponCode> list=codeService.queryCodes(wrapper,null);
         List<Boolean> locks = null;
         try {
@@ -71,7 +71,7 @@ public class QuartzController implements QuartzService{
     @Override
     public void addClearDailyRecord() {
         EntityWrapper<CouponCode> wrapper=new EntityWrapper<>();
-        wrapper.eq("clear_status", ClearStatus.uncleared);
+        wrapper.eq("clear_status", ClearStatus.uncleared.getValue());
         wrapper.isNotNull("final_time");
         wrapper.between("final_time",TimeAssist.getTodayBegin(),TimeAssist.getToodayEnd());
         List codeStatus=new ArrayList(Arrays.asList(CouponCodeStatus.values()));

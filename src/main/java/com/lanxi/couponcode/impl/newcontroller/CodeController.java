@@ -91,7 +91,7 @@ public class CodeController implements com.lanxi.couponcode.spi.service.CouponSe
     }
 
     @Override
-    @Cache (exclusionArgs = {"operaterId"})
+//    @Cache (exclusionArgs = {"operaterId"})
     public RetMessage<String> queryCodes(String timeStart,
                                          String timeEnd,
                                          String merchantName,

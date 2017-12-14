@@ -22,6 +22,7 @@ import org.springframework.stereotype.Controller;
 
 import javax.annotation.Resource;
 import java.io.File;
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
@@ -280,11 +281,11 @@ public class ShopController implements com.lanxi.couponcode.spi.service.ShopServ
 					wrapper.like("shop_name", shopName);
 				}
 				if (status != null) {
-					wrapper.eq("shop_status", status);
+					wrapper.eq("shop_status", status.getValue());
 				}
-				wrapper.ne("shop_status", ShopStatus.deleted);
-				wrapper.ne("shop_status", ShopStatus.test);
-				wrapper.ne("shop_status", ShopStatus.cancellation);
+				wrapper.ne("shop_status", ShopStatus.deleted.getValue());
+				wrapper.ne("shop_status", ShopStatus.test.getValue());
+				wrapper.ne("shop_status", ShopStatus.cancellation.getValue());
 				if (shopAddress != null && !shopAddress.isEmpty()) {
 					wrapper.like("shop_address", shopAddress);
 				}
@@ -333,11 +334,11 @@ public class ShopController implements com.lanxi.couponcode.spi.service.ShopServ
 				wrapper.like("shop_name", shopName);
 			}
 			if (status != null) {
-				wrapper.eq("shop_status", status);
+				wrapper.eq("shop_status", status.getValue());
 			}
-			wrapper.ne("shop_status", ShopStatus.deleted);
-			wrapper.ne("shop_status", ShopStatus.test);
-			wrapper.ne("shop_status",ShopStatus.cancellation);
+			wrapper.ne("shop_status", ShopStatus.deleted.getValue());
+			wrapper.ne("shop_status", ShopStatus.test.getValue());
+			wrapper.ne("shop_status",ShopStatus.cancellation.getValue());
 			if (merchantName!=null&&!merchantName.isEmpty()) {
 				wrapper.like("merchant_name",merchantName);
 			}
@@ -455,11 +456,11 @@ public class ShopController implements com.lanxi.couponcode.spi.service.ShopServ
 					wrapper.like("shop_name", shopName);
 				}
 				if (status != null) {
-					wrapper.eq("shop_status", status);
+					wrapper.eq("shop_status", status.getValue());
 				}
-				wrapper.ne("shop_status", ShopStatus.deleted);
-				wrapper.ne("shop_status", ShopStatus.test);
-				wrapper.ne("shop_status",ShopStatus.cancellation);
+				wrapper.ne("shop_status", ShopStatus.deleted.getValue());
+				wrapper.ne("shop_status", ShopStatus.test.getValue());
+				wrapper.ne("shop_status",ShopStatus.cancellation.getValue());
 				if (shopAddress != null && !shopAddress.isEmpty()) {
 					wrapper.like("shop_address", shopAddress);
 				}
@@ -550,11 +551,11 @@ public class ShopController implements com.lanxi.couponcode.spi.service.ShopServ
 				wrapper.like("shop_name",shopName);
 			}
 			if (shopStatus!=null) {
-				wrapper.eq("shop_status", shopStatus);
+				wrapper.eq("shop_status", shopStatus.getValue());
 			}
-			wrapper.ne("shop_status",ShopStatus.deleted);
-			wrapper.ne("shop_status",ShopStatus.test);
-			wrapper.ne("shop_status",ShopStatus.cancellation);
+			wrapper.ne("shop_status",ShopStatus.deleted.getValue());
+			wrapper.ne("shop_status",ShopStatus.deleted.getValue());
+			wrapper.ne("shop_status",ShopStatus.deleted.getValue());
 			List<Shop> list=shopService.adminQueryShop(wrapper, pageObj);
 			
 			if (list != null && list.size() > 0) {
@@ -569,5 +570,13 @@ public class ShopController implements com.lanxi.couponcode.spi.service.ShopServ
 			LogFactory.error(this,"查询门店时发生异常",e);
 			return new RetMessage<>(RetCodeEnum.error,"查询门店时发生异常",null);
 		}
+	}
+
+	@Override
+	public RetMessage<Serializable> queruAllShopIds(Long operaterId) {
+		List<Shop> shops=shopService.queryAllShop();
+		Map<String,Long> map=new HashMap<>();
+		shops.parallelStream().forEach(e->map.put(e.getShopName(),e.getShopId()));
+		return new RetMessage<Serializable>(RetCodeEnum.success,"查询成功!",(HashMap)map);
 	}
 }

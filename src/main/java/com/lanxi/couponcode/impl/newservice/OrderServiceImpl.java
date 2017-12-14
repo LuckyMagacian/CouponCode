@@ -93,40 +93,44 @@ public class OrderServiceImpl implements OrderService{
 	}
 
 	@Override
-	public File orderExport(EntityWrapper<Order> wrapper) {
-		try {
-			List<Order> list=dao.getOrderDao().selectList(wrapper);
-			if (list!=null&&list.size()>0) {
-				Map<String, String> map=new HashMap<>();
-				map.put("","");
-				map.put("","");
-				map.put("","");
-				map.put("","");
-				map.put("","");
-				map.put("","");
-				map.put("","");
-				map.put("","");
-				map.put("","");
-				map.put("","");
-				map.put("","");
-				File file=new File(OrderServiceImpl.class.getClassLoader().getResource("").getPath()+IdWorker.getId()+".xls");
-				OutputStream os=new FileOutputStream(file);
-				ExcelUtil.exportExcelFile(list, map,os);
-				os.flush();
-				if (file.exists()) {
-					return file;
-				}else {
-					return null;
-				}
-				
-			}else 
-				return null;
-		} catch (Exception e) {
-			LogFactory.error(this,"导出订单时发生异常",e);
-			return null;
-		}
-		
+	public List<Order> orderExport(EntityWrapper<Order> wrapper) {
+		return dao.getOrderDao().selectList(wrapper);
 	}
+
+//	public File orderExport(EntityWrapper<Order> wrapper) {
+//		try {
+//			List<Order> list=dao.getOrderDao().selectList(wrapper);
+//			if (list!=null&&list.size()>0) {
+//				Map<String, String> map=new HashMap<>();
+//				map.put("","");
+//				map.put("","");
+//				map.put("","");
+//				map.put("","");
+//				map.put("","");
+//				map.put("","");
+//				map.put("","");
+//				map.put("","");
+//				map.put("","");
+//				map.put("","");
+//				map.put("","");
+//				File file=new File(OrderServiceImpl.class.getClassLoader().getResource("").getPath()+IdWorker.getId()+".xls");
+//				OutputStream os=new FileOutputStream(file);
+//				ExcelUtil.exportExcelFile(list, map,os);
+//				os.flush();
+//				if (file.exists()) {
+//					return file;
+//				}else {
+//					return null;
+//				}
+//
+//			}else
+//				return null;
+//		} catch (Exception e) {
+//			LogFactory.error(this,"导出订单时发生异常",e);
+//			return null;
+//		}
+//
+//	}
 
 	
 
