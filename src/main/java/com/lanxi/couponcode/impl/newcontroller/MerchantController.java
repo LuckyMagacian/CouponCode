@@ -15,21 +15,23 @@ import com.lanxi.couponcode.impl.newservice.MerchantService;
 import com.lanxi.couponcode.impl.newservice.OperateRecordService;
 import com.lanxi.couponcode.impl.newservice.RedisEnhancedService;
 import com.lanxi.couponcode.impl.newservice.RedisService;
-import com.lanxi.couponcode.spi.consts.annotations.Cache;
-import com.lanxi.couponcode.spi.consts.annotations.CheckArg;
-import com.lanxi.couponcode.spi.consts.annotations.EasyLog;
-import com.lanxi.couponcode.spi.consts.enums.AccountStatus;
-import com.lanxi.couponcode.spi.consts.enums.MerchantStatus;
-import com.lanxi.couponcode.spi.consts.enums.OperateTargetType;
-import com.lanxi.couponcode.spi.consts.enums.OperateType;
-import com.lanxi.couponcode.spi.consts.enums.RetCodeEnum;
+import com.lanxi.couponcode.spi.consts.annotations.*;
+import com.lanxi.couponcode.spi.consts.enums.*;
 import com.lanxi.couponcode.spi.defaultInterfaces.ToJson;
 import com.lanxi.util.entity.LogFactory;
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import static com.lanxi.couponcode.impl.assist.PredicateAssist.*;
+import static com.lanxi.couponcode.spi.assist.ArgAssist.getArg;
+import static com.lanxi.couponcode.spi.assist.ArgAssist.parseArg;
 
 import com.lanxi.util.utils.LoggerUtil;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+
 import java.io.File;
 import java.io.Serializable;
 import java.time.LocalDateTime;
@@ -199,7 +201,7 @@ public class MerchantController implements com.lanxi.couponcode.spi.service.Merc
 				wrapper.le("create_time", timeStop);
 			}
 			if (merchantStatus != null) {
-				wrapper.eq("merchant_status", merchantStatus.getValue());
+				wrapper.eq("merchant_status", merchantStatus+"");
 			}else {
 				wrapper.in("merchant_status", MerchantStatus.normal.getValue()+","+MerchantStatus.freeze);
 			}
@@ -760,5 +762,5 @@ public class MerchantController implements com.lanxi.couponcode.spi.service.Merc
 			return new RetMessage<>(RetCodeEnum.error,"查询全部商户时发生异常",null);
 		}
 	}
-	
+
 }

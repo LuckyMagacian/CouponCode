@@ -200,7 +200,7 @@ public class TestOther {
         TestSpring.fillEntity.apply(code);
         Map<String,Object> map=new HashMap<>();
         map.put("a","aaa");
-        map.put("code",code);
+        map.put("code",null);
         System.out.println(new RetMessage<>(RetCodeEnum.success,"操作成功!",(HashMap)map).toJson());
     }
 }

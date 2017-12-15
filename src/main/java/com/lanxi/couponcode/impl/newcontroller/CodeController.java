@@ -21,10 +21,8 @@ import javax.annotation.Resource;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.io.Serializable;
+import java.util.*;
 
 import static com.lanxi.couponcode.impl.assist.PredicateAssist.*;
 
@@ -408,13 +406,13 @@ public class CodeController implements com.lanxi.couponcode.spi.service.CouponSe
             return new RetMessage<>(RetCodeEnum.fail,"商品号为空!",null);
         Merchant merchant=merchantService.queryMerchantParticularsById(merchantId);
         RetMessage message=checkMerchant.apply(merchant, OperateType.createCouponCode);
-        if(message==null)
+        if(message!=null)
             return message;
 //        if(isNull.test(merchant))
 //            return new RetMessage<>(RetCodeEnum.fail,"商户不存在!",null);
 //        if(!MerchantStatus.normal.equals(merchant.getMerchantStatus()))
 //            return new RetMessage<>(RetCodeEnum.fail,"商户状态异常!",null);
-        Commodity commodity=commodityService.queryCommodity(commodityId,merchantId);
+        Commodity commodity=commodityService.queryCommodity(commodityId);
         message=checkCommodity.apply(commodity, OperateType.createCouponCode);
         if(message==null)
             return message;
@@ -457,7 +455,7 @@ public class CodeController implements com.lanxi.couponcode.spi.service.CouponSe
     }
 
     @Override
-    public RetMessage<String> generateCode(Long merchantId, Long commodityId, String reason, Long operaterId) {
+    public RetMessage<Serializable> generateCode(Long merchantId, Long commodityId, String reason,Integer number, Long operaterId) {
         Account account=accountService.queryAccountById(operaterId);
         Commodity commodity=commodityService.queryCommodity(commodityId);
         if(isNull.test(commodity)){
@@ -465,7 +463,15 @@ public class CodeController implements com.lanxi.couponcode.spi.service.CouponSe
         }
         if(notAdmin.test(account)||AccountType.merchantManager.equals(account.getAccountType()))
             return new RetMessage<>(RetCodeEnum.fail,"非管理员无权操作!",null);
-        return generateCode(commodity.getCommodityId(),commodityId,reason,1);
+        List<String> codes=new ArrayList<>();
+        Map<String,Object> map=new HashMap<>();
+        while(number>0){
+            RetMessage<String> message=generateCode(commodity.getMerchantId(),commodityId,reason,1);
+            if(message.getRetCode().equals(RetCodeEnum.success))
+                codes.add(message.getDetail());
+            number--;
+        }
+        return new RetMessage<Serializable>(RetCodeEnum.success,"操作成功!",(ArrayList)codes);
     }
 
     @Override

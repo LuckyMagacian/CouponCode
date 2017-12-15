@@ -53,6 +53,8 @@ public class CodeAlgorithmServiceImpl implements CodeAlgorithmService{
      */
     private static final long LOCAL_DEFAULT_CODE_VAR = 500000000L;
 
+    public CodeAlgorithmServiceImpl(){initPrimes();}
+
     /***
      * 判断一个数是否是素数
      * @param num

@@ -37,7 +37,9 @@ public class LoginController {
         String phone = getArg.apply(req, "phone");
         String password = getArg.apply(req, "password");
         String validateCode = getArg.apply(req, "validateCode");
-
+        if(validateCode==null){
+            return new RetMessage<>(RetCodeEnum.fail,"图片验证码校验不通过!",null).toJson();
+        }
         String sessionId=req.getRemoteHost()+req.getRemoteUser();
         String key=RedisKeyAssist.getVerificateCodeKey(sessionId);
         String cacheCode=redisService.get(key);
@@ -47,6 +49,15 @@ public class LoginController {
             redisService.del(key);
         }
         RetMessage<String> retMessage = loginService.login(phone, password, validateCode);
+        return retMessage.toJson();
+    }
+    @SetUtf8
+    @ResponseBody
+    @RequestMapping (value = "loginWechat", produces = "application/json;charset=utf-8")
+    public String loginWechat(HttpServletRequest req,HttpServletResponse res){
+        String phone=getArg.apply(req,"phone");
+        String password=getArg.apply(req,"password");
+        RetMessage<String> retMessage = loginService.login(phone, password, null);
         return retMessage.toJson();
     }
 
@@ -86,7 +97,6 @@ public class LoginController {
         return loginService.changePassword(oldPasswd, newPasswd, newRepeat, accountId).toJson();
     }
     @SetUtf8
-    @LoginCheck
     @ResponseBody
     @RequestMapping (value = "sendValidateCode", produces = "application/json;charset=utf-8")
     public String sendValidateCode(HttpServletRequest req, HttpServletResponse res) {
@@ -99,5 +109,14 @@ public class LoginController {
         String code= PictureVerifyUtil.sendVerifyCode(res);
         String key= RedisKeyAssist.getVerificateCodeKey(sessionId);
         redisService.set(key,code,picCodeLife);
+    }
+    @SetUtf8
+    @ResponseBody
+    @RequestMapping (value = "weChatLogin", produces = "application/json;charset=utf-8")
+    public String  weChatlogin(HttpServletRequest req, HttpServletResponse res) {
+        String phone = getArg.apply(req, "phone");
+        String password = getArg.apply(req, "password");
+        RetMessage<String> retMessage = loginService.login(phone, password, null);
+        return retMessage.toJson();
     }
 }

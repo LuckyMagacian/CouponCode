@@ -302,7 +302,6 @@ public interface PredicateAssist {
             case deleteMerchant:
             case modifyMerchant:
             case queryMerchant:
-            case queryMerchantInfo:
             case cancelMerchant:
             
                 if(notAdmin.test(a))
@@ -312,6 +311,7 @@ public interface PredicateAssist {
             case statscitcMerchantManager:
                 if(notAdmin.test(a))
                     return new RetMessage(RetCodeEnum.fail,"非管理员无权操作!",null);
+            case queryMerchantInfo:
             case statscitcShop:
                 if(isMerchantManager.negate().test(a)&&notAdmin.test(a))
                     return new RetMessage(RetCodeEnum.fail,"非管理员,商户管理员无权操作!",null);

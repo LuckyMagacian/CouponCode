@@ -3,6 +3,7 @@ package com.lanxi.couponcode.impl.newservice;
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.plugins.Page;
 import com.baomidou.mybatisplus.toolkit.IdWorker;
+import com.lanxi.couponcode.spi.assist.TimeAssist;
 import com.lanxi.couponcode.spi.config.Path;
 import com.lanxi.couponcode.impl.entity.Shop;
 import com.lanxi.couponcode.spi.consts.annotations.EasyLog;
@@ -283,7 +284,11 @@ public class ShopServiceImpl implements ShopService {
 		List<Shop> list = null;
 		
 		try {
-			list = dao.getShopDao().selectPage(pageObj, wrapper);
+			if (pageObj!=null) {
+				list = dao.getShopDao().selectPage(pageObj, wrapper);
+			}else {
+				list=dao.getShopDao().selectList(wrapper);
+			}
 			LogFactory.debug(this, "查询到的结果[" + list + "]\n");
 			LogFactory.info(this, "查询到的总记录数[" + list.size() + "]\n");
 			Map<String, String> map = new HashMap<>();
@@ -293,15 +298,10 @@ public class ShopServiceImpl implements ShopService {
 			map.put("minuteShopAddress", "详细地址");
 			map.put("servicetel", "客服电话");
 			map.put("shopStatus", "门店状态");
-			File file=new File(ShopServiceImpl.class.getClassLoader().getResource("").getPath()+IdWorker.getId()+".xls");
+			File file=new File("导出门店"+TimeAssist.getNow()+".xls");
 			OutputStream os=new FileOutputStream(file);
 			ExcelUtil.exportExcelFile(list, map,os);
-			os.flush();
-			if (file.exists()) {
-				return file;
-			}else {
-				return null;
-			}
+			return file;
 		} catch (Exception e) {
 			LogFactory.error(this, "导出文件时发生异常\n");
 			return null;

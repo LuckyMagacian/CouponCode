@@ -808,10 +808,14 @@ public class AdminController {
         String commodityIdStr=getArg.apply(req,"commodityId");
         String operaterIdStr=getArg.apply(req,"operaterId");
         String reason=getArg.apply(req,"reason");
+        String numberStr=getArg.apply(req,"number");
+        if(numberStr==null)
+            return new RetMessage<>(RetCodeEnum.fail,"生成数量未知!",null).toJson();
         Long merchantId=toLongArg.apply(merchantIdStr);
         Long commodityId=toLongArg.apply(commodityIdStr);
         Long operaterId=toLongArg.apply(operaterIdStr);
-        return codeService.generateCode(merchantId,commodityId,reason,operaterId).toJson();
+        Integer number=parseArg(numberStr,Integer.class);
+        return codeService.generateCode(merchantId,commodityId,reason,number,operaterId).toJson();
     }
 
     @LoginCheck
@@ -972,15 +976,11 @@ public class AdminController {
         String merchantName = getArg.apply(req, "merchantName");
         String phone = getArg.apply(req, "phone");
         String verificationTypeString = getArg.apply(req, "verificationType");
-        String pageNumStr = getArg.apply(req, "pageNum");
-        String pageSizeStr = getArg.apply(req, "pageSize");
         String operaterIdStr = getArg.apply(req, "operaterId");
         String commodityName = getArg.apply(req, "commodityName");
 
         Long code = toLongArg.apply(codeStr);
         VerificationType type = toVerificationType.apply(verificationTypeString);
-        Integer pageNum = toIntArg.apply(pageNumStr);
-        Integer pageSize = toIntArg.apply(pageSizeStr);
         Long operaterId = toLongArg.apply(operaterIdStr);
 
         RetMessage<File> retMessage=verificationRecordService.exportVerificationRecords(code,timeStart,timeEnd,shopName,merchantName,commodityName,phone,type,operaterId);

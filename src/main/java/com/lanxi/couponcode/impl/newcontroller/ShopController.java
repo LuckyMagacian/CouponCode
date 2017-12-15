@@ -12,6 +12,7 @@ import com.lanxi.couponcode.impl.newservice.*;
 import com.lanxi.couponcode.spi.assist.RetMessage;
 import com.lanxi.couponcode.spi.assist.TimeAssist;
 import com.lanxi.couponcode.spi.config.ConstConfig;
+import com.lanxi.couponcode.spi.consts.annotations.CheckArg;
 import com.lanxi.couponcode.spi.consts.enums.OperateTargetType;
 import com.lanxi.couponcode.spi.consts.enums.OperateType;
 import com.lanxi.couponcode.spi.consts.enums.RetCodeEnum;
@@ -63,8 +64,8 @@ public class ShopController implements com.lanxi.couponcode.spi.service.ShopServ
 			RetMessage message = checkAccount.apply(a, OperateType.createShop);
 			if (notNull.test(message))
 				return message;
-			if (shopService.isRepeat(shopName, merchantId)) {
-				Merchant m = merchantService.queryMerchantParticularsById(merchantId);
+			if (shopService.isRepeat(shopName,a.getMerchantId())) {
+				Merchant m = merchantService.queryMerchantParticularsById(a.getMerchantId());
 				message = checkMerchant.apply(m, OperateType.createShop);
 				if (notNull.test(message))
 					return message;
@@ -72,7 +73,7 @@ public class ShopController implements com.lanxi.couponcode.spi.service.ShopServ
 				shop.setShopName(shopName);
 				shop.setShopAddress(shopAddress);
 				shop.setMinuteShopAddress(minuteShopAddress);
-				shop.setMerchantId(merchantId);
+				shop.setMerchantId(m.getMerchantId());
 				shop.setServicetel(serviceTel);
 				shop.setShopId(IdWorker.getId());
 				shop.setShopStatus(ShopStatus.normal);
@@ -123,13 +124,13 @@ public class ShopController implements com.lanxi.couponcode.spi.service.ShopServ
 			RetMessage message = checkAccount.apply(a, OperateType.importShops);
 			if (notNull.test(message))
 				return message;
-			Merchant m = merchantService.queryMerchantParticularsById(operaterId);
+			Merchant m = merchantService.queryMerchantParticularsById(merchantId);
 			message = checkMerchant.apply(m, OperateType.importShops);
 			if (notNull.test(message))
 				return message;
 			if (file.getName().endsWith(".xlsx") || file.getName().endsWith(".xls")) {
-				String merchantStatus = merchantService.queryMerchantStatusByid(merchantId, operaterId);
-				list = shopService.importShops(file, merchantId, operaterId, merchantStatus);
+				String merchantStatus = merchantService.queryMerchantStatusByid(m.getMerchantId(), operaterId);
+				list = shopService.importShops(file, m.getMerchantId(), operaterId, merchantStatus);
 				if (list != null && list.size() == 0) {
 					result = true;
 					retMessage.setDetail(result);
@@ -281,11 +282,11 @@ public class ShopController implements com.lanxi.couponcode.spi.service.ShopServ
 					wrapper.like("shop_name", shopName);
 				}
 				if (status != null) {
-					wrapper.eq("shop_status", status.getValue());
+					wrapper.eq("shop_status", status+"");
+				}else {
+					wrapper.in("shop_status", ShopStatus.normal.getValue()+","+ShopStatus.freeze.getValue());
 				}
-				wrapper.ne("shop_status", ShopStatus.deleted.getValue());
-				wrapper.ne("shop_status", ShopStatus.test.getValue());
-				wrapper.ne("shop_status", ShopStatus.cancellation.getValue());
+				
 				if (shopAddress != null && !shopAddress.isEmpty()) {
 					wrapper.like("shop_address", shopAddress);
 				}
@@ -334,11 +335,9 @@ public class ShopController implements com.lanxi.couponcode.spi.service.ShopServ
 				wrapper.like("shop_name", shopName);
 			}
 			if (status != null) {
-				wrapper.eq("shop_status", status.getValue());
+				wrapper.eq("shop_status", status+"");
 			}
-			wrapper.ne("shop_status", ShopStatus.deleted.getValue());
-			wrapper.ne("shop_status", ShopStatus.test.getValue());
-			wrapper.ne("shop_status",ShopStatus.cancellation.getValue());
+			wrapper.in("shop_status", ShopStatus.normal.getValue()+","+ShopStatus.freeze.getValue());
 			if (merchantName!=null&&!merchantName.isEmpty()) {
 				wrapper.like("merchant_name",merchantName);
 			}
@@ -446,27 +445,25 @@ public class ShopController implements com.lanxi.couponcode.spi.service.ShopServ
 				if (notNull.test(message))
 					return message;
 			}
-			if (pageNum != null) {
-				pageSize = pageSize == null ? ConstConfig.DEFAULT_PAGE_SIZE : pageSize;
-			}
-			Page<Shop> pageObj = new Page<>(pageNum, pageSize);
+//			if (pageNum != null) {
+//				pageSize = pageSize == null ? ConstConfig.DEFAULT_PAGE_SIZE : pageSize;
+//			}
+//			Page<Shop> pageObj = new Page<>(pageNum, pageSize);
 			if (merchantId != null) {
 				EntityWrapper<Shop> wrapper = new EntityWrapper<Shop>();
 				if (shopName != null && !shopName.isEmpty()) {
 					wrapper.like("shop_name", shopName);
 				}
 				if (status != null) {
-					wrapper.eq("shop_status", status.getValue());
-				}
-				wrapper.ne("shop_status", ShopStatus.deleted.getValue());
-				wrapper.ne("shop_status", ShopStatus.test.getValue());
-				wrapper.ne("shop_status",ShopStatus.cancellation.getValue());
+					wrapper.eq("shop_status", status+"");
+				}else
+				wrapper.in("shop_status", ShopStatus.normal.getValue()+","+ShopStatus.freeze.getValue());
 				if (shopAddress != null && !shopAddress.isEmpty()) {
 					wrapper.like("shop_address", shopAddress);
 				}
 				wrapper.eq("merchant_id", merchantId);
 				LogFactory.info(this, "条件装饰结果[" + wrapper + "]\n");
-				File file = shopService.queryShopsExport(wrapper, pageObj);
+				File file = shopService.queryShopsExport(wrapper, null);
 				if (file != null) {
 					retMessage.setAll(RetCodeEnum.success, "导出成功", file);
 				} else {
@@ -489,7 +486,6 @@ public class ShopController implements com.lanxi.couponcode.spi.service.ShopServ
 			RetMessage message = checkAccount.apply(a, OperateType.downloadShopExcelTemplate);
 			if (notNull.test(message))
 				return message;
-
 			File file = shopService.downloadExcelTemplate();
 			if (file != null) {
 				retMessage.setAll(RetCodeEnum.success, "下载Excel模板成功", file);
@@ -551,11 +547,11 @@ public class ShopController implements com.lanxi.couponcode.spi.service.ShopServ
 				wrapper.like("shop_name",shopName);
 			}
 			if (shopStatus!=null) {
-				wrapper.eq("shop_status", shopStatus.getValue());
-			}
-			wrapper.ne("shop_status",ShopStatus.deleted.getValue());
-			wrapper.ne("shop_status",ShopStatus.deleted.getValue());
-			wrapper.ne("shop_status",ShopStatus.deleted.getValue());
+				wrapper.eq("shop_status", shopStatus+"");
+			}else {
+				wrapper.in("shop_status", ShopStatus.normal.getValue()+","+ShopStatus.freeze.getValue());
+				}
+			
 			List<Shop> list=shopService.adminQueryShop(wrapper, pageObj);
 			
 			if (list != null && list.size() > 0) {
@@ -571,12 +567,17 @@ public class ShopController implements com.lanxi.couponcode.spi.service.ShopServ
 			return new RetMessage<>(RetCodeEnum.error,"查询门店时发生异常",null);
 		}
 	}
-
+	@CheckArg
 	@Override
-	public RetMessage<Serializable> queruAllShopIds(Long operaterId) {
-		List<Shop> shops=shopService.queryAllShop();
-		Map<String,Long> map=new HashMap<>();
-		shops.parallelStream().forEach(e->map.put(e.getShopName(),e.getShopId()));
-		return new RetMessage<Serializable>(RetCodeEnum.success,"查询成功!",(HashMap)map);
+	public RetMessage<Serializable>queruAllShopIds(Long operaterId){
+		Account account=accountService.queryAccountById(operaterId);
+		if (isAdmin.test(account)||isMerchantManager.test(account)) {
+			Map<String,Long>map=new HashMap<>();
+			shopService.queryAllShop().parallelStream()
+			.forEach(e->map.put(e.getShopName(), e.getShopId()));
+			return new RetMessage<>(RetCodeEnum.success,"查询成功",(Serializable)map);
+		}else
+			return new RetMessage<>(RetCodeEnum.fail,"非管理员或者商户管理员无法操作!",null);
+		
 	}
 }

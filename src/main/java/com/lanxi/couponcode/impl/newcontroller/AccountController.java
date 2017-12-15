@@ -186,7 +186,7 @@ public class AccountController implements com.lanxi.couponcode.spi.service.Accou
 			account.setAddByName(a.getUserName());
 			if (merchant != null) {
 				account.setMerchantId(merchantId);
-				account.setMerchantName(merchantName);
+				account.setMerchantName(merchant.getMerchantName());
 			}
 			account.setPassword(SignUtil.md5LowerCase("123456", "utf-8"));
 			result = accountService.addAccount(account);
@@ -331,7 +331,7 @@ public class AccountController implements com.lanxi.couponcode.spi.service.Accou
 			account.setLoginFailureTime("20171114033028");
 			account.setPhone(phone);
 			account.setStatus(AccountStatus.normal);
-			account.setShopName(shopName);
+			account.setShopName(shop.getShopName());
 			account.setShopId(shopId);
 			account.setMerchantId(a.getMerchantId());
 			account.setMerchantName(a.getMerchantName());
@@ -627,10 +627,10 @@ public class AccountController implements com.lanxi.couponcode.spi.service.Accou
 				wrapper.like("merchant_name", merchantName);
 			}
 			if (type != null) {
-				wrapper.eq("account_type", type.getValue());
+				wrapper.eq("account_type", type+"");
 			}
 			if (status != null) {
-				wrapper.eq("status", status.getValue());
+				wrapper.eq("status", status+"");
 			}else {
 				wrapper.in("status", AccountStatus.normal.getValue()+","+AccountStatus.freeze.getValue());
 			}
@@ -682,11 +682,11 @@ public class AccountController implements com.lanxi.couponcode.spi.service.Accou
 				wrapper.like("merchant_name", merchantName);
 			}
 			if (type != null) {
-				wrapper.eq("account_type", type.getValue());
+				wrapper.eq("account_type", type+"");
 			}
 			if (status != null) {
-				wrapper.eq("status", status.getValue());
-				System.err.println(status+"-----------------------");
+				wrapper.eq("status", status+"");
+				
 			}else {
 				wrapper.in("status", AccountStatus.normal+","+AccountStatus.freeze);
 			}
@@ -729,7 +729,7 @@ public class AccountController implements com.lanxi.couponcode.spi.service.Accou
 				return message;
 
 			if (type != null
-					&& (AccountType.admin.equals(type.getValue()) || AccountType.shopManager.equals(type.getValue()))) {
+					&& (AccountType.admin.equals(type.getValue()) || AccountType.merchantManager.equals(type.getValue()))) {
 				return new RetMessage<>(RetCodeEnum.fail, "您没有权限查询此类账户", null);
 			}
 			if (pageNum != null) {
@@ -744,13 +744,13 @@ public class AccountController implements com.lanxi.couponcode.spi.service.Accou
 				wrapper.like("shop_name", shopName);
 			}
 			if (type == null) {
-				wrapper.ne("account_type", AccountType.merchantManager.getValue());
+				wrapper.ne("account_type", AccountType.merchantManager);
 			}
 			if (type != null) {
-				wrapper.eq("account_type", type.getValue());
+				wrapper.eq("account_type", type+"");
 			}
 			if (status != null) {
-				wrapper.eq("status", status.getValue());
+				wrapper.eq("status", status+"");
 			}else {
 				wrapper.in("status", AccountStatus.normal.getValue()+","+AccountStatus.freeze.getValue());
 			}
@@ -765,9 +765,6 @@ public class AccountController implements com.lanxi.couponcode.spi.service.Accou
 				retMessage.setRetMessage("没有查询到任何数据");
 			}
 			Map<String, Object> map = new HashMap<>();
-			pageObj.setRecords(null);
-			pageObj.setCondition(null);
-
 			map.put("page", pageObj);
 			map.put("list", accounts);
 			String result = ToJson.toJson(map);
@@ -821,7 +818,7 @@ public class AccountController implements com.lanxi.couponcode.spi.service.Accou
 			if (notNull.test(message)) {
 				return message;
 			}
-			Shop shop = shopService.queryShopInfo(shopId);
+			Shop shop = shopService.queryShopInfo(a.getShopId());
 			message = checkShop.apply(shop, OperateType.queryEmployee);
 			if (notNull.test(message)) {
 				return message;
@@ -832,9 +829,7 @@ public class AccountController implements com.lanxi.couponcode.spi.service.Accou
 				pageObj = new Page<>(pageNum, pageSize);
 			}
 			EntityWrapper<Account> wrapper = new EntityWrapper<Account>();
-			if (shopId != null) {
-				wrapper.eq("shop_id", shopId);
-			}
+			wrapper.eq("shop_id", a.getShopId());
 			wrapper.in("status", AccountStatus.normal.getValue()+","+AccountStatus.freeze.getValue());
 			LogFactory.info(this, "条件装饰结果[" + wrapper + "]\n");
 			accounts = accountService.queryAccounts(wrapper, pageObj);

@@ -173,6 +173,9 @@ public class Order extends AbstractOrder{
 	public void setType(CommodityType type) {
 		Type = type;
 	}
+	public void setType(String type) {
+		Type = CommodityType.getType(type);
+	}
 	public Long getSkuCode() {
 		return SkuCode;
 	}
@@ -238,6 +241,7 @@ public class Order extends AbstractOrder{
 	public String getOrderStatus() {
 		return orderStatus==null?null:orderStatus.getValue();
 	}
+
 
 	public void setOrderStatus(OrderStatus orderStatus) {
 		this.orderStatus = orderStatus;

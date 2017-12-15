@@ -26,6 +26,7 @@ import com.lanxi.couponcode.impl.entity.Merchant;
 import com.lanxi.couponcode.impl.entity.Order;
 import com.lanxi.couponcode.impl.newservice.*;
 import com.lanxi.couponcode.spi.assist.RetMessage;
+import com.lanxi.couponcode.spi.assist.TimeAssist;
 import com.lanxi.couponcode.spi.config.ConstConfig;
 import com.lanxi.couponcode.spi.consts.annotations.CheckArg;
 import com.lanxi.couponcode.spi.consts.annotations.EasyLog;
@@ -337,7 +338,7 @@ public class OrderController implements com.lanxi.couponcode.spi.service.OrderSe
 				wrapper.eq("src",SRC);
 			}
 			if (orderStatus!=null) {
-				wrapper.eq("order_status",orderStatus.getValue());
+				wrapper.eq("order_status",orderStatus+"");
 			}
 			if (pageNum != null) {
 				pageSize = pageSize == null ? ConstConfig.DEFAULT_PAGE_SIZE : pageSize;
@@ -388,10 +389,10 @@ public class OrderController implements com.lanxi.couponcode.spi.service.OrderSe
 				wrapper.eq("src",SRC);
 			}
 			if (orderStatus!=null) {
-				wrapper.eq("order_status",orderStatus.getValue());
+				wrapper.eq("order_status",orderStatus+"");
 			}
 			List<Order> list=orderService.orderExport(wrapper);
-			if (list!=null&&list.size()>0) {
+			if (list!=null) {
 				Map<String, String> map=new HashMap<>();
 				map.put("SerialNum","平台流水号");
 				map.put("orderId","订单编号");
@@ -409,14 +410,11 @@ public class OrderController implements com.lanxi.couponcode.spi.service.OrderSe
 				map.put("EndTime","失效时间");
 				map.put("orderStatus","状态");
 				map.put("successNum","成功数量");
-				File file=new File(OrderController.class.getClassLoader().getResource("").getPath()+IdWorker.getId()+".xls");
+				File file=new File("订单导出"+TimeAssist.getNow()+".xls");
 				OutputStream os=new FileOutputStream(file);
 				ExcelUtil.exportExcelFile(list, map,os);
-				os.flush();
-				if (file.exists()) {
+				os.close();
 					return new RetMessage<>(RetCodeEnum.success,"导出订单成功",file);
-				}else
-					return new RetMessage<>(RetCodeEnum.fail,"导出订单失败",null);
 			}else 
 				return new RetMessage<>(RetCodeEnum.fail,"导出订单失败",null);
 		} catch (Exception e) {

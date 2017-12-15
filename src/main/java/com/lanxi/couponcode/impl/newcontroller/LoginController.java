@@ -196,7 +196,7 @@ public class LoginController implements com.lanxi.couponcode.spi.service.LoginSe
 		try {
 			String code=redisService.get(RedisKeyAssist.getVerificateCodeKey(phone));
 			if (code!=null&&!code.isEmpty()) {
-				if(validateCode.equals(SignUtil.md5LowerCase(code, "utf-8"))) {
+				if(code.equals(SignUtil.md5LowerCase(validateCode, "utf-8"))) {
 					if (!newPassword.equals(newRepeat)) {
 						result = false;
 						LogFactory.debug(this, "两次密码不一致 ");

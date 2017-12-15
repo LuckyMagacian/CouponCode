@@ -18,7 +18,9 @@ import java.util.stream.Stream;
 public interface ToJson {
     /**给定一个对象,返回其json状态*/
     Function<Object, Object> jsonDeal = e -> {
-        if (e instanceof ToJson) {
+        if(e==null){
+            return "";
+        }else if (e instanceof ToJson) {
             return ((ToJson) e).toJsonObject();
         } else if (e instanceof Collection) {
             return collectionToJsonArray((Collection) e);
@@ -99,7 +101,10 @@ public interface ToJson {
         if (collection == null)
             return null;
         JSONArray jsonArray = new JSONArray();
-        collection.stream().forEach(e -> jsonArray.add(jsonDeal.apply(e)));
+        collection.stream().forEach(e ->{
+            if(e!=null)
+                jsonArray.add(jsonDeal.apply(e));
+        });
         return jsonArray;
     }
 
@@ -109,7 +114,9 @@ public interface ToJson {
             Map.Entry entry = (Map.Entry) e;
             Object key = entry.getKey();
             Object value = entry.getValue();
-            key = jsonDeal.apply(key);
+            if(value==null)
+                return;
+            key = jsonDeal.apply(key==null?"null":key);
             value = jsonDeal.apply(value);
             jobj.put(key.toString(), value);
         });
@@ -168,7 +175,9 @@ public interface ToJson {
 //    }
 
     static JSON toJsonObject(Object obj) {
-        if (obj instanceof Collection) {
+        if(obj==null){
+            return new JSONObject(new LinkedHashMap<>());
+        }else if (obj instanceof Collection) {
             return collectionToJsonArray((Collection) obj);
         } else if (obj instanceof Map) {
             return mapToJsonObject((Map) obj);

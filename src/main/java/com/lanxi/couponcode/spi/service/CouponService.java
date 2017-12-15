@@ -6,6 +6,7 @@ import com.lanxi.couponcode.spi.consts.annotations.RealReturnType;
 import com.lanxi.couponcode.spi.consts.enums.VerificationType;
 
 import java.io.File;
+import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -55,10 +56,11 @@ public interface CouponService {
                                     Long commodityId,
                                     String reason,
                                     @HiddenArg Integer channel);
-    RetMessage<String> generateCode(Long merchantId,
-                                    Long commodityId,
-                                    String reason,
-                                    @HiddenArg Long operaterId);
+    RetMessage<Serializable> generateCode(Long merchantId,
+                                          Long commodityId,
+                                          String reason,
+                                          Integer number,
+                                          @HiddenArg Long operaterId);
 
     @RealReturnType ("CouponCode")
     RetMessage<String> couponCodeInfo(Long codeId,

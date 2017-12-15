@@ -2,6 +2,7 @@ package com.lanxi.couponcode.impl.newservice;
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.plugins.Page;
 import com.baomidou.mybatisplus.toolkit.IdWorker;
+import com.lanxi.couponcode.spi.assist.TimeAssist;
 import com.lanxi.couponcode.spi.config.Path;
 import com.lanxi.couponcode.impl.entity.Merchant;
 import com.lanxi.couponcode.impl.entity.Shop;
@@ -475,7 +476,7 @@ public class MerchantServiceImpl implements MerchantService {
 				wrapper.eq("merchant_name",merchantName);
 			}
 			if (merchantStatus!=null) {
-				wrapper.eq("merchant_status",merchantStatus);
+				wrapper.eq("merchant_status",merchantStatus+"");
 			}else {
 				wrapper.in("merchant_status", MerchantStatus.normal.getValue()+","+MerchantStatus.freeze.getValue());
 			}
@@ -495,15 +496,11 @@ public class MerchantServiceImpl implements MerchantService {
 			map.put("workAddress","商户办公地址");
 			map.put("serviceTel","客服电话");
 			map.put("merchantStatus","商户状态");
-			File file=new File(MerchantServiceImpl.class.getClassLoader().getResource("").getPath()+IdWorker.getId()+".xls");
+			File file=new File("导出商户"+TimeAssist.getNow()+".xls");
 			OutputStream os=new FileOutputStream(file);
 			ExcelUtil.exportExcelFile(list, map,os);
-			os.flush();
-			if (file.exists()) {
-				return file;
-			}else {
-				return null;
-			}
+			os.close();
+			return file;
 		} catch (Exception e) {
 			LogFactory.error(this,"导出商户时发生异常",e);
 			return null;

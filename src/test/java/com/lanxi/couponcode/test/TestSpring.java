@@ -130,7 +130,7 @@ public class TestSpring {
         Integer pageNum = parseArg(pageNumStr, Integer.class);
         Integer pageSize = parseArg(pageSizeStr, Integer.class);
         ClearService clearService= (ClearService) ac.getBean("clearControllerServiceRef");
-        System.out.println(clearService.statsticDailyRecords(merchantName,timeStart,timeEnd,clearStatus,pageNum,pageSize,operaterId).toJson());;
+        System.out.println(clearService.statsticDailyRecords(merchantName,timeStart,timeEnd,clearStatus,pageNum,pageSize,operaterId));;
 
     }
 }

@@ -414,7 +414,7 @@ public class CommodityController implements com.lanxi.couponcode.spi.service.Com
         Map<String,Long> map=new HashMap<>();
         commodityService.queryAll()
                 .parallelStream()
-                .forEach(e->map.put(e.getMerchantName(),e.getMerchantId()));
+                .forEach(e->map.put(e.getCommodityName(),e.getCommodityId()));
         return new RetMessage<>(RetCodeEnum.success,"查询成功!",(Serializable) map);
     }
 

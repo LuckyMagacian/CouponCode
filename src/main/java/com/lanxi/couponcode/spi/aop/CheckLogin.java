@@ -51,12 +51,9 @@ public class CheckLogin {
                 }else if(token==null||token.isEmpty()){
                     message.setAll(RetCodeEnum.fail,"token can't be empty !",null);
                 }else{
-                    String key= RedisKeyAssist.getLoginKey(Long.parseLong(operaterIdStr));
-                    String cacheToken=redis.get(key);
-                    if(cacheToken==null||!token.equals(cacheToken)){
+                    if(!checkLogin(token,operaterIdStr)){
                         message.setAll(RetCodeEnum.unknown,"not login !",null);
                     }else{
-                        redis.setKeyLife(key,3*60*60*1000);
                         t= (String) joinPoint.proceed(args);
                         return t;
                     }
@@ -70,5 +67,16 @@ public class CheckLogin {
             }
         };
         return AopJob.workJob(job,joinPoint);
+    }
+
+    public boolean checkLogin(String token,String operaterId){
+        String key= RedisKeyAssist.getLoginKey(Long.parseLong(operaterId));
+        String cacheToken=redis.get(key);
+        if(cacheToken==null||!token.equals(cacheToken)){
+            return false;
+        }else{
+            redis.setKeyLife(key,3*60*60*1000);
+            return true;
+        }
     }
 }

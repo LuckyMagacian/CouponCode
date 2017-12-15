@@ -13,10 +13,12 @@ import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
+import javax.servlet.http.HttpServletRequest;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -39,7 +41,14 @@ public class AddLog {
             T t = null;
             try {
                 LoggerUtil.LogLevel level = getLogLevel(method);
-                LogFactory.debug(this.getClass(), "try invoke  class:[" + clazz.getName() + "] method:[" + method + "] arg:[" + Arrays.asList(args) + "]");
+                List<Object> argList=Arrays.asList(args);
+                HttpServletRequest req= (HttpServletRequest) argList.parallelStream().filter(e->e instanceof HttpServletRequest).findAny().orElse(null);
+                if(req!=null){
+                    LogFactory.debug(this.getClass(), "try invoke  class:[" + clazz.getName() + "] method:[" + method + "] arg:[" + req.getParameterMap() + "]");
+                }
+                else{
+                    LogFactory.debug(this.getClass(), "try invoke  class:[" + clazz.getName() + "] method:[" + method + "] arg:[" + argList + "]");
+                }
                 t = (T) joinPoint.proceed(args);
                 //若是集合类型则记录返回的数量,否则记录返回结果
                 if (t instanceof Collection) {
