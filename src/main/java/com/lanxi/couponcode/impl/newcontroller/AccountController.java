@@ -18,11 +18,15 @@ import com.lanxi.util.utils.SignUtil;
 import org.springframework.stereotype.Controller;
 
 import javax.annotation.Resource;
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import static com.lanxi.couponcode.impl.assist.PredicateAssist.*;
 
@@ -854,4 +858,21 @@ public class AccountController implements com.lanxi.couponcode.spi.service.Accou
 		return retMessage;
 	}
 
+	@Override
+	public RetMessage<Serializable> queryAllAccount(Long operaterId){
+		Account account=accountService.queryAccountById(operaterId);
+		List<Account> accounts=accountService.queryAccounts(new EntityWrapper<Account>(),null);
+		if(AccountType.admin.equals(account.getAccountType())){
+			accounts=accounts;
+		}else if(AccountType.merchantManager.equals(account.getAccountType())){
+			accounts=accounts.parallelStream().filter(e->e.getMerchantId().equals(account.getMerchantId())).collect(Collectors.toList());
+		}else if(AccountType.shopManager.equals(account.getAccountType())){
+			accounts=accounts.parallelStream().filter(e->e.getShopId().equals(account.getShopId())).collect(Collectors.toList());
+		}else{
+			accounts=new ArrayList<>();
+		}
+		Map<String,String> map=new HashMap<>();
+		accounts.parallelStream().forEach(e->map.put(e.getUserName(),e.getAccountId()+""));
+		return new RetMessage<>(RetCodeEnum.success,"操作成功!",(HashMap)map);
+	}
 }

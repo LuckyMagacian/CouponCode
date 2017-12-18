@@ -1,6 +1,5 @@
 package com.lanxi.couponcode.impl.newcontroller;
 
-import com.alibaba.fastjson.JSON;
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.plugins.Page;
 import com.baomidou.mybatisplus.toolkit.IdWorker;
@@ -124,13 +123,12 @@ public class ShopController implements com.lanxi.couponcode.spi.service.ShopServ
 			RetMessage message = checkAccount.apply(a, OperateType.importShops);
 			if (notNull.test(message))
 				return message;
-			Merchant m = merchantService.queryMerchantParticularsById(merchantId);
+			Merchant m = merchantService.queryMerchantParticularsById(a.getMerchantId());
 			message = checkMerchant.apply(m, OperateType.importShops);
 			if (notNull.test(message))
 				return message;
 			if (file.getName().endsWith(".xlsx") || file.getName().endsWith(".xls")) {
-				String merchantStatus = merchantService.queryMerchantStatusByid(m.getMerchantId(), operaterId);
-				list = shopService.importShops(file, m.getMerchantId(), operaterId, merchantStatus);
+				list = shopService.importShops(file, m.getMerchantId(), operaterId, m.getMerchantStatus());
 				if (list != null && list.size() == 0) {
 					result = true;
 					retMessage.setDetail(result);
@@ -161,7 +159,7 @@ public class ShopController implements com.lanxi.couponcode.spi.service.ShopServ
 				retMessage.setRetMessage("请导入Excel文件");
 			}
 		} catch (Exception e) {
-			LogFactory.error(this, "导入文件时发生异常");
+			LogFactory.error(this, "导入文件时发生异常",e);
 			retMessage.setAll(RetCodeEnum.error, "导入文件时发生异常", result);
 		}
 		return retMessage;
@@ -439,17 +437,17 @@ public class ShopController implements com.lanxi.couponcode.spi.service.ShopServ
 			RetMessage message = checkAccount.apply(a, OperateType.exportShop);
 			if (notNull.test(message))
 				return message;
-			if (merchantId != null) {
-				Merchant m = merchantService.queryMerchantParticularsById(merchantId);
+			
+				Merchant m = merchantService.queryMerchantParticularsById(a.getMerchantId());
 				message = checkMerchant.apply(m, OperateType.exportShop);
 				if (notNull.test(message))
 					return message;
-			}
+			
 //			if (pageNum != null) {
 //				pageSize = pageSize == null ? ConstConfig.DEFAULT_PAGE_SIZE : pageSize;
 //			}
 //			Page<Shop> pageObj = new Page<>(pageNum, pageSize);
-			if (merchantId != null) {
+			
 				EntityWrapper<Shop> wrapper = new EntityWrapper<Shop>();
 				if (shopName != null && !shopName.isEmpty()) {
 					wrapper.like("shop_name", shopName);
@@ -461,7 +459,7 @@ public class ShopController implements com.lanxi.couponcode.spi.service.ShopServ
 				if (shopAddress != null && !shopAddress.isEmpty()) {
 					wrapper.like("shop_address", shopAddress);
 				}
-				wrapper.eq("merchant_id", merchantId);
+				wrapper.eq("merchant_id", a.getMerchantId());
 				LogFactory.info(this, "条件装饰结果[" + wrapper + "]\n");
 				File file = shopService.queryShopsExport(wrapper, null);
 				if (file != null) {
@@ -469,7 +467,7 @@ public class ShopController implements com.lanxi.couponcode.spi.service.ShopServ
 				} else {
 					retMessage.setAll(RetCodeEnum.exception, "导出失败", null);
 				}
-			}
+			
 		} catch (Exception e) {
 			LogFactory.error(this, "导出文件时发生异常");
 			retMessage.setAll(RetCodeEnum.error, "导出文件时发生异常", null);
@@ -573,8 +571,14 @@ public class ShopController implements com.lanxi.couponcode.spi.service.ShopServ
 		Account account=accountService.queryAccountById(operaterId);
 		if (isAdmin.test(account)||isMerchantManager.test(account)) {
 			Map<String,Long>map=new HashMap<>();
-			shopService.queryAllShop().parallelStream()
-			.forEach(e->map.put(e.getShopName(), e.getShopId()));
+			if (account.getMerchantId()==null) {
+				shopService.queryAllShop(null).parallelStream()
+				.forEach(e->map.put(e.getShopName(), e.getShopId()));
+			}else {
+				shopService.queryAllShop(account.getMerchantId()).parallelStream()
+				.forEach(e->map.put(e.getShopName(), e.getShopId()));
+			}
+			
 			return new RetMessage<>(RetCodeEnum.success,"查询成功",(Serializable)map);
 		}else
 			return new RetMessage<>(RetCodeEnum.fail,"非管理员或者商户管理员无法操作!",null);

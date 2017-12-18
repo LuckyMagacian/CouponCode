@@ -29,8 +29,10 @@ public class TestEnum {
 		kryo.setInstantiatorStrategy(new StdInstantiatorStrategy());
 //		kryo.register(Temp2.class);
 		File file=new File("testKryo.txt");
-		if(!file.exists())
+		if(!file.exists()){
+			file.mkdirs();
 			file.createNewFile();
+		}
 		Output output=new Output(new FileOutputStream(new File("testKryo.txt")));
 		Temp temp=new Temp();
 		temp.setName("kryo");

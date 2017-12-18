@@ -29,7 +29,7 @@ public interface OrderService {
 	 * @param WorkDate 交易日期
 	 * @return true重复        false不重复
 	 */
-	public Boolean isRepetition(String MsgID, String WorkDate);
+	public Boolean isRepetition(String MsgID, String WorkDate,String SRC);
 	public List<Order> queryOrders(EntityWrapper<Order> wrapper,Page<Order> pageObj);
 	public List<Order> orderExport(EntityWrapper<Order> wrapper);
 }

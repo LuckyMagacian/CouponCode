@@ -203,4 +203,8 @@ public class TestOther {
         map.put("code",null);
         System.out.println(new RetMessage<>(RetCodeEnum.success,"操作成功!",(HashMap)map).toJson());
     }
+    @Test
+    public void test19(){
+
+    }
 }

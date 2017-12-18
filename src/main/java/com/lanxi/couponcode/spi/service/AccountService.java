@@ -6,6 +6,8 @@ import com.lanxi.couponcode.spi.consts.annotations.RealReturnType;
 import com.lanxi.couponcode.spi.consts.enums.AccountStatus;
 import com.lanxi.couponcode.spi.consts.enums.AccountType;
 
+import java.io.Serializable;
+
 /**
  * Created by yangyuanjian on 2017/11/9.
  */
@@ -166,5 +168,5 @@ public interface AccountService {
                                          @HiddenArg Long operaterId,
                                          @HiddenArg Integer pageNum,
                                          @HiddenArg Integer pageSize);
-
+    RetMessage<Serializable> queryAllAccount(Long operaterId);
 }

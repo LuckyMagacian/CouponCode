@@ -467,7 +467,7 @@ public class CodeController implements com.lanxi.couponcode.spi.service.CouponSe
         Map<String,Object> map=new HashMap<>();
         while(number>0){
             RetMessage<String> message=generateCode(commodity.getMerchantId(),commodityId,reason,1);
-            if(message.getRetCode().equals(RetCodeEnum.success))
+            if(RetCodeEnum.success.equals(message.getRetCode()))
                 codes.add(message.getDetail());
             number--;
         }

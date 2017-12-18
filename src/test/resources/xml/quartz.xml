@@ -39,44 +39,31 @@
 
     <bean id="codeOverTime" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
         <property name="jobDetail" ref="codeOverTimeJob"/>
-        <property name="cronExpression">
-            <value>0 0 * * * ?</value><!-- 每小时执行一次点触发 -->
-        </property>
+        <property name="cronExpression" value="0 0 * * * ?"/>
     </bean>
     <bean id="codeOverTimeJob"  class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
         <property name="targetObject" ref="quartzController"/>
-        <property name="targetMethod">
-            <value>codeOverTime</value>
-        </property>
+        <property name="targetMethod" value="codeOverTime"/>
     </bean>
 
 
     <bean id="addClearDailyRecords" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
         <property name="jobDetail" ref="addClearDailyRecordsJob"/>
-        <property name="cronExpression">
-            <value>0 0 0 * * ?</value><!-- 每24小时执行一次 -->
-        </property>
+        <property name="cronExpression" value="0 0 0 * * ?"/>
     </bean>
 
     <bean id="addClearDailyRecordsJob"  class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
         <property name="targetObject" ref="quartzController"/>
-        <property name="targetMethod">
-            <value>addClearDailyRecord</value>
-        </property>
+        <property name="targetMethod" value="addClearDailyRecord"/>
     </bean>
 
     <bean id="addClearRecords" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
         <property name="jobDetail" ref="addClearRecordsJob"/>
-        <property name="cronExpression">
-            <value>0 0 0 1 * ?</value><!-- 每24小时执行一次 -->
-        </property>
+        <property name="cronExpression" value="0 0 0 1 * ?"/>
     </bean>
 
     <bean id="addClearRecordsJob"  class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
         <property name="targetObject" ref="quartzController"/>
-        <property name="targetMethod">
-            <value>addClearRecords</value>
-        </property>
+        <property name="targetMethod" value="addClearRecords"/>
     </bean>
-
 </beans>

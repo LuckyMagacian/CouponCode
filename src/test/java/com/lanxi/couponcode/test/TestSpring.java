@@ -1,5 +1,6 @@
 package com.lanxi.couponcode.test;
 
+import com.alibaba.fastjson.JSON;
 import com.baomidou.mybatisplus.activerecord.Model;
 import com.baomidou.mybatisplus.mapper.BaseMapper;
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
@@ -12,6 +13,7 @@ import com.lanxi.couponcode.spi.consts.enums.AccountType;
 import com.lanxi.couponcode.spi.consts.enums.ClearStatus;
 import com.lanxi.couponcode.spi.consts.enums.Gettype;
 import com.lanxi.couponcode.spi.service.ClearService;
+import com.lanxi.couponcode.spi.service.CouponService;
 import com.lanxi.util.utils.BeanUtil;
 import com.lanxi.util.utils.LoggerUtil;
 import com.lanxi.util.utils.RandomUtil;
@@ -131,7 +133,17 @@ public class TestSpring {
         Integer pageSize = parseArg(pageSizeStr, Integer.class);
         ClearService clearService= (ClearService) ac.getBean("clearControllerServiceRef");
         System.out.println(clearService.statsticDailyRecords(merchantName,timeStart,timeEnd,clearStatus,pageNum,pageSize,operaterId));;
-
+    }
+    @Test
+    public void test11(){
+        String codeStr=((CouponService)ac.getBean("codeControllerService")).generateCode(938337490330136576L,940123769503518720L,"",1).getDetail();
+        System.out.println(codeStr);
+        CouponCode code= JSON.parseObject(codeStr,CouponCode.class);
+        System.out.println(code);
+        String commodityStr=code.getCommodityInfo();
+        System.out.println(commodityStr);
+        Commodity commodity=JSON.parseObject(commodityStr,Commodity.class);
+        System.out.println(commodity);
     }
 }
 

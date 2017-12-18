@@ -25,6 +25,8 @@ public class RedisCodeServiceImpl implements RedisCodeService{
      * code变量增加的步进
      */
     private static final long CODE_VAR_STEP = 1;
+
+    private static final String froever="-1";
     /**从redis中获取对应的code变量,本方法允许失败*/
     @Override
     public Long getCodeVar(Long merchantId){
@@ -44,7 +46,7 @@ public class RedisCodeServiceImpl implements RedisCodeService{
     @Override
     public Boolean addCode(Long merchantId, Long code) {
         String key = getCodeKey(merchantId);
-        return redis.hsetNx(key,code.toString(),null);
+        return redis.hsetNx(key,code.toString(),froever);
     }
 
     @Override

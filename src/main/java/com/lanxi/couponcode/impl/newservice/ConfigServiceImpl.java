@@ -91,11 +91,13 @@ public class ConfigServiceImpl extends StaticConfig implements ConfigService {
 			InputStream in = null;
 			try {
 				in = new FileInputStream(e);
+				InputStreamReader reader=new InputStreamReader(in,"utf-8");
 				Properties props = new Properties();
 				// 加载配置到properties
-				props.load(in);
+				props.load(reader);
 				// 存入config
 				configs.put(e.getName().replace(".properties", ""), props);
+				LogFactory.debug(this,e.getName()+":"+props);
 				in.close();
 				LogFactory.debug(this, "load file [" + e.getName() + "] success !");
 			} catch (FileNotFoundException e1) {

@@ -3,19 +3,16 @@ package com.lanxi.couponcode.impl.newcontroller;
 import com.alibaba.fastjson.JSON;
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.plugins.Page;
-import com.lanxi.couponcode.impl.entity.Account;
-import com.lanxi.couponcode.impl.entity.VerificationRecord;
-import com.lanxi.couponcode.impl.newservice.AccountService;
-import com.lanxi.couponcode.impl.newservice.CommodityService;
-import com.lanxi.couponcode.impl.newservice.MerchantService;
+import com.lanxi.couponcode.impl.entity.*;
+import com.lanxi.couponcode.impl.newservice.*;
 import com.lanxi.couponcode.spi.assist.RetMessage;
 import com.lanxi.couponcode.impl.entity.Account;
 import com.lanxi.couponcode.impl.entity.VerificationRecord;
-import com.lanxi.couponcode.impl.newservice.VerificationRecordService;
 import com.lanxi.couponcode.spi.assist.TimeAssist;
 import com.lanxi.couponcode.spi.consts.annotations.CheckArg;
 import com.lanxi.couponcode.spi.consts.annotations.EasyLog;
 import com.lanxi.couponcode.spi.consts.annotations.HiddenArg;
+import com.lanxi.couponcode.spi.consts.enums.AccountType;
 import com.lanxi.couponcode.spi.consts.enums.OperateType;
 import com.lanxi.couponcode.spi.consts.enums.RetCodeEnum;
 import com.lanxi.couponcode.spi.consts.enums.VerificationType;
@@ -33,6 +30,8 @@ import java.io.FileOutputStream;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import static com.lanxi.couponcode.impl.assist.PredicateAssist.*;
 
@@ -51,6 +50,8 @@ public class VerificationRecordController implements com.lanxi.couponcode.spi.se
     private MerchantService merchantService;
     @Resource
     private CommodityService commodityService;
+    @Resource
+    private CodeService codeService;
     @Override
     public RetMessage<String> queryVerificationRecords(Long code,
                                                        String timeStart,
@@ -240,5 +241,28 @@ public class VerificationRecordController implements com.lanxi.couponcode.spi.se
             LogFactory.error(this,"导出核销记录时发生异常!",e);
             return new RetMessage<>(RetCodeEnum.error,"操作失败!",null);
         }
+    }
+
+    public RetMessage<String> queryVerifyRecordsAndStatstis(Long accountId,Long operaterId){
+        Account account=accountService.queryAccountById(operaterId);
+        EntityWrapper<VerificationRecord> wrapper=new EntityWrapper<>();
+        List<VerificationRecord> records=verificationRecordService.queryVerificationRecords(new EntityWrapper<VerificationRecord>(),null);
+        Stream<VerificationRecord> stream=records.parallelStream();
+        if(accountId!=null){
+            stream.filter(e->e.getOperaterId().equals(accountId)).collect(Collectors.toList());
+        }
+        if(AccountType.merchantManager.equals(account.getAccountType())){
+            stream.filter(e->e.getMerchantId().equals(account.getMerchantId()));
+        }
+        if(AccountType.shopManager.equals(account.getAccountType())){
+            stream.filter(e->e.getShopId().equals(account.getShopId()));
+        }
+        records=stream.collect(Collectors.toList());
+        VerificationRecord sum=new VerificationRecord();
+        records.parallelStream().forEach(e->{
+            CouponCode code=codeService.queryCode(e.getMerchantId(),e.getCode()).orElse(null);
+
+        });
+        return null;
     }
 }

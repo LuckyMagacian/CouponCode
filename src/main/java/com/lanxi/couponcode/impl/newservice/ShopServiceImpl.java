@@ -145,8 +145,9 @@ public class ShopServiceImpl implements ShopService {
 						// 当客服电话为手机号码
 						shop.setServicetel(getStringFromDouble(row.getCell(3).getNumericCellValue()));
 					}
-					shop.setShopName(row.getCell(1).getStringCellValue());
+					
 					if (isRepeat(row.getCell(1).getStringCellValue(), merchantId)) {
+						shop.setShopName(row.getCell(1).getStringCellValue());
 						shop.setShopAddress(row.getCell(2).getStringCellValue());
 						shop.setCreateTime(LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMddHHmmss")));
 						shop.setShopId(IdWorker.getId());
@@ -171,7 +172,7 @@ public class ShopServiceImpl implements ShopService {
 				// workbook.close();
 			}
 		} catch (Exception e) {
-			LogFactory.error(this, "批量添加门店的时候发生异常\n");
+			LogFactory.error(this, "批量添加门店的时候发生异常\n",e);
 			list.add("批量添加门店的时候发生异常");
 		}
 		return list;
@@ -301,6 +302,7 @@ public class ShopServiceImpl implements ShopService {
 			File file=new File("导出门店"+TimeAssist.getNow()+".xls");
 			OutputStream os=new FileOutputStream(file);
 			ExcelUtil.exportExcelFile(list, map,os);
+			os.close();
 			return file;
 		} catch (Exception e) {
 			LogFactory.error(this, "导出文件时发生异常\n");
@@ -450,8 +452,11 @@ public class ShopServiceImpl implements ShopService {
 	}
 
 	@Override
-	public List<Shop> queryAllShop() {
+	public List<Shop> queryAllShop(Long merchantId) {
 		EntityWrapper<Shop> wrapper=new EntityWrapper<>();
+		if (merchantId!=null) {
+			wrapper.eq("merchant_id",merchantId);
+		}
 		wrapper.in("shop_status", ShopStatus.normal.getValue()+","+ShopStatus.freeze.getValue());
 		return dao.getShopDao().selectList(wrapper);
 	}

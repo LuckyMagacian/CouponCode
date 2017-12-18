@@ -95,6 +95,8 @@ public class RedisServiceImpl implements RedisService {
      */
     private static final String MILLI_SECONDS = "PX";
 
+    private static final Function<Long,Long> lifeDeal=e->e==null?-1:e;
+
     public RedisServiceImpl() {
 
     }
@@ -149,13 +151,13 @@ public class RedisServiceImpl implements RedisService {
     public Boolean set(String key, String value, Long life) {
         if (life == null)
             return REDIS_SUCCESS.equals(work(e -> e.set(key, value)));
-        return REDIS_SUCCESS.equals(work(e -> e.psetex(key, life, value)));
+        return REDIS_SUCCESS.equals(work(e -> e.psetex(key, lifeDeal.apply(life), value)));
     }
 
     @Override
     public Boolean set(String key, byte[] value, Long life) {
         try {
-            return set(key.getBytes("utf-8"),value,life);
+            return set(key.getBytes("utf-8"),value,lifeDeal.apply(life));
         } catch (UnsupportedEncodingException e) {
             return null;
         }
@@ -165,17 +167,17 @@ public class RedisServiceImpl implements RedisService {
     public Boolean set(byte[] key, byte[] value, Long life) {
         if(life==null)
             return REDIS_SUCCESS.equals(work(e->e.set(key,value)));
-        return REDIS_SUCCESS.equals(work(e->e.psetex(key,life,value)));
+        return REDIS_SUCCESS.equals(work(e->e.psetex(key,lifeDeal.apply(life),value)));
     }
 
     @Override
     public Boolean setEx(String key, String value, Long life) {
-        return REDIS_SUCCESS.equals(work(e -> e.set(key, value, EXISTED, MILLI_SECONDS, life)));
+        return REDIS_SUCCESS.equals(work(e -> e.set(key, value, EXISTED, MILLI_SECONDS, lifeDeal.apply(life))));
     }
 
     @Override
     public Boolean setNx(String key, String value, Long life) {
-        return REDIS_SUCCESS.equals(work(e -> e.set(key, value, NOT_EXISTED, MILLI_SECONDS, life)));
+        return REDIS_SUCCESS.equals(work(e -> e.set(key, value, NOT_EXISTED, MILLI_SECONDS, lifeDeal.apply(life))));
     }
 
     @Override
@@ -239,7 +241,7 @@ public class RedisServiceImpl implements RedisService {
 
     @Override
     public Boolean expire(String key, Long life) {
-        return work(e -> e.pexpire(key, life)) > 0;
+        return work(e -> e.pexpire(key, lifeDeal.apply(life))) > 0;
     }
 
     @Override

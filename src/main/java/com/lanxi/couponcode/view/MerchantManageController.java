@@ -20,6 +20,7 @@ import org.springframework.web.multipart.commons.CommonsMultipartFile;
 import java.io.*;
 
 import java.math.BigDecimal;
+import java.net.URLEncoder;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
@@ -392,16 +393,8 @@ public class MerchantManageController {
         Long merchantId = toLongArg.apply(merchantIdStr);
 		try {
 			File file=shopService.queryShopsExport(shopName, shopAddress, shopStatus, pageNum, pageSize, merchantId, operaterId).getDetail();
-			OutputStream os = res.getOutputStream();
-			 InputStream is=new FileInputStream(file);
-			 int temp=0;
-			 byte[] by=new byte[1024];
-			 while((temp=is.read(by))!=-1) {
-				 os.write(by,0,temp);
-			 }
-			 is.close();
-			 os.flush();
-			 file.delete();
+            FileAssit.write(file,res.getOutputStream());
+			file.delete();
 		} catch (IOException e) {
 			LogFactory.error(this,"导出门店时发生异常",e);
 		}

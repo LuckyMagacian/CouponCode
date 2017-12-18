@@ -64,21 +64,21 @@ public class OrderServiceImpl implements OrderService{
 	}
 
 	@Override
-	public Boolean isRepetition(String MsgID, String WorkDate) {
-		if (MsgID!=null&&!MsgID.isEmpty()&&WorkDate!=null&&!WorkDate.isEmpty()) {
-			Order order=new Order();
-			order.setMsgID(MsgID);
-			order.setWorkDate(WorkDate);
-			Order order2=dao.getOrderDao().selectOne(order);
-			if (order2.getOrderId()==null||order2.getOrderId()==0L) {
-				return false;
-			}else {
-				return true;
-			}
-		}else {
-			return true;
-		}
+	public Boolean isRepetition(String MsgID, String WorkDate,String SRC) {
 		
+			EntityWrapper<Order>wrapper=new EntityWrapper<>();
+		
+				wrapper.eq("msg_id",MsgID);
+		
+			wrapper.eq("work_date",WorkDate);
+		
+			wrapper.eq("src",SRC);
+			List<Order>list=dao.getOrderDao().selectList(wrapper);
+			if (list!=null&&list.size()>0) {
+				return true;
+			}else {
+				return false;
+			}
 	}
 
 	@Override

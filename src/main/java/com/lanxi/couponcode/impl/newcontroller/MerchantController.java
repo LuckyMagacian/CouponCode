@@ -356,8 +356,8 @@ public class MerchantController implements com.lanxi.couponcode.spi.service.Merc
 			RetMessage message = checkAccount.apply(a, OperateType.inputMerchantInfo);
 			if (notNull.test(message))
 				return message;
-			if (merchantService.isRepeat(merchantName, merchantId)) {
-				Merchant m = merchantService.queryMerchantParticularsById(merchantId);
+			if (merchantService.isRepeat(merchantName, a.getMerchantId())) {
+				Merchant m = merchantService.queryMerchantParticularsById(a.getMerchantId());
 				message = checkMerchant.apply(m, OperateType.inputMerchantInfo);
 				if (notNull.test(message))
 					return message;
@@ -372,7 +372,7 @@ public class MerchantController implements com.lanxi.couponcode.spi.service.Merc
 				merchant.setLinkManPhone(contactPhone);
 				merchant.setServiceTel(serviceTel);
 				merchant.setEmail(contactEmail);
-				merchant.setMerchantId(merchantId);
+				merchant.setMerchantId(m.getMerchantId());
 				merchant.setServeExplain(serviceDistription);
 				result = merchantService.fillInInformation(merchant);
 				if (result) {
@@ -390,7 +390,7 @@ public class MerchantController implements com.lanxi.couponcode.spi.service.Merc
 					record.setType(OperateType.inputMerchantInfo);
 					record.setOperateTime(TimeAssist.getNow());
 					record.setOperateResult("success");
-					record.setDescription("商户详细信息提交[" + merchantId + "]");
+					record.setDescription("商户详细信息提交[" + m.getMerchantId() + "]");
 					operateRecordService.addRecord(record);
 				} else {
 					retMessage.setRetCode(RetCodeEnum.exception.getValue());
@@ -421,8 +421,8 @@ public class MerchantController implements com.lanxi.couponcode.spi.service.Merc
 			RetMessage message = checkAccount.apply(a, OperateType.inputMerchantInfo);
 			if (notNull.test(message))
 				return message;
-			if (merchantService.isRepeat(merchantName, merchantId)) {
-				Merchant m = merchantService.queryMerchantParticularsById(merchantId);
+			if (merchantService.isRepeat(merchantName, a.getMerchantId())) {
+				Merchant m = merchantService.queryMerchantParticularsById(a.getMerchantId());
 				message = checkMerchant.apply(m, OperateType.inputMerchantInfo);
 				if (notNull.test(message))
 					return message;
@@ -438,7 +438,7 @@ public class MerchantController implements com.lanxi.couponcode.spi.service.Merc
 				merchant.setLinkManPhone(contactPhone);
 				merchant.setServiceTel(serviceTel);
 				merchant.setEmail(contactEmail);
-				merchant.setMerchantId(merchantId);
+				merchant.setMerchantId(a.getMerchantId());
 				result = merchantService.fillInInformation(merchant);
 				if (result) {
 					retMessage.setRetCode(RetCodeEnum.success.getValue());
@@ -453,7 +453,7 @@ public class MerchantController implements com.lanxi.couponcode.spi.service.Merc
 					record.setType(OperateType.modifyMerchant);
 					record.setOperateTime(TimeAssist.getNow());
 					record.setOperateResult("success");
-					record.setDescription("商户详细信息修改[" + merchantId + "]");
+					record.setDescription("商户详细信息修改[" + a.getMerchantId() + "]");
 					operateRecordService.addRecord(record);
 				} else {
 					retMessage.setRetCode(RetCodeEnum.exception.getValue());
@@ -483,13 +483,13 @@ public class MerchantController implements com.lanxi.couponcode.spi.service.Merc
 			RetMessage message = checkAccount.apply(a, OperateType.inputMerchantInfo);
 			if (notNull.test(message))
 				return message;
-			Merchant m = merchantService.queryMerchantParticularsById(merchantId);
+			Merchant m = merchantService.queryMerchantParticularsById(a.getMerchantId());
 			message = checkMerchant.apply(m, OperateType.inputMerchantInfo);
 			if (notNull.test(message))
 				return message;
 
 			merchant = new Merchant();
-			merchant.setMerchantId(merchantId);
+			merchant.setMerchantId(m.getMerchantId());
 			result = merchantService.organizingInstitutionBarCodePicUpLoad(merchant,
 					organizingInstitutionBarCodePicFile);
 			if (result) {
@@ -504,7 +504,7 @@ public class MerchantController implements com.lanxi.couponcode.spi.service.Merc
 				record.setType(OperateType.inputMerchantInfo);
 				record.setOperateTime(TimeAssist.getNow());
 				record.setOperateResult("success");
-				record.setDescription("商户详细信息提交[" + merchantId + "]");
+				record.setDescription("商户详细信息提交[" + m.getMerchantId() + "]");
 				operateRecordService.addRecord(record);
 			} else {
 				retMessage.setAll(RetCodeEnum.exception, "上传商户组织机构代码证失败", result);
@@ -526,13 +526,13 @@ public class MerchantController implements com.lanxi.couponcode.spi.service.Merc
 			RetMessage message = checkAccount.apply(a, OperateType.inputMerchantInfo);
 			if (notNull.test(message))
 				return message;
-			Merchant m = merchantService.queryMerchantParticularsById(merchantId);
+			Merchant m = merchantService.queryMerchantParticularsById(a.getMerchantId());
 			message = checkMerchant.apply(m, OperateType.inputMerchantInfo);
 			if (notNull.test(message))
 				return message;
 
 			merchant = new Merchant();
-			merchant.setMerchantId(merchantId);
+			merchant.setMerchantId(m.getMerchantId());
 			result = merchantService.businessLicensePicUpLoad(merchant, businessLicensePicFile);
 			if (result) {
 				retMessage.setAll(RetCodeEnum.success, "上传商户营业执照成功", result);
@@ -546,7 +546,7 @@ public class MerchantController implements com.lanxi.couponcode.spi.service.Merc
 				record.setType(OperateType.inputMerchantInfo);
 				record.setOperateTime(TimeAssist.getNow());
 				record.setOperateResult("success");
-				record.setDescription("商户详细信息提交[" + merchantId + "]");
+				record.setDescription("商户详细信息提交[" + m.getMerchantId() + "]");
 				operateRecordService.addRecord(record);
 			} else {
 				retMessage.setAll(RetCodeEnum.exception, "上传商户营业执照失败", result);
@@ -568,12 +568,12 @@ public class MerchantController implements com.lanxi.couponcode.spi.service.Merc
 			RetMessage message = checkAccount.apply(a, OperateType.inputMerchantInfo);
 			if (notNull.test(message))
 				return message;
-			Merchant m = merchantService.queryMerchantParticularsById(merchantId);
+			Merchant m = merchantService.queryMerchantParticularsById(a.getMerchantId());
 			message = checkMerchant.apply(m, OperateType.inputMerchantInfo);
 			if (notNull.test(message))
 				return message;
 			merchant = new Merchant();
-			merchant.setMerchantId(merchantId);
+			merchant.setMerchantId(m.getMerchantId());
 			result = merchantService.otherPicUpLoad(merchant, otherPicFile);
 			if (result) {
 				retMessage.setAll(RetCodeEnum.success, "上传其他证明资料成功", result);
@@ -587,7 +587,7 @@ public class MerchantController implements com.lanxi.couponcode.spi.service.Merc
 				record.setType(OperateType.inputMerchantInfo);
 				record.setOperateTime(TimeAssist.getNow());
 				record.setOperateResult("success");
-				record.setDescription("商户详细信息提交[" + merchantId + "]");
+				record.setDescription("商户详细信息提交[" + m.getMerchantId() + "]");
 				operateRecordService.addRecord(record);
 			} else {
 				retMessage.setAll(RetCodeEnum.exception, "上传其他证明资料失败", result);
@@ -610,13 +610,13 @@ public class MerchantController implements com.lanxi.couponcode.spi.service.Merc
 			RetMessage message = checkAccount.apply(a, OperateType.inputMerchantInfo);
 			if (notNull.test(message))
 				return message;
-			Merchant m = merchantService.queryMerchantParticularsById(merchantId);
+			Merchant m = merchantService.queryMerchantParticularsById(a.getMerchantId());
 			message = checkMerchant.apply(m, OperateType.inputMerchantInfo);
 			if (notNull.test(message))
 				return message;
 
 			merchant = new Merchant();
-			merchant.setMerchantId(merchantId);
+			merchant.setMerchantId(m.getMerchantId());
 			result = merchantService.organizingInstitutionBarCodePicUpLoad(merchant,
 					organizingInstitutionBarCodePicFile);
 			if (result) {
@@ -631,7 +631,7 @@ public class MerchantController implements com.lanxi.couponcode.spi.service.Merc
 				record.setType(OperateType.inputMerchantInfo);
 				record.setOperateTime(TimeAssist.getNow());
 				record.setOperateResult("success");
-				record.setDescription("修改商户组织机构代码证[" + merchantId + "]");
+				record.setDescription("修改商户组织机构代码证[" + m.getMerchantId() + "]");
 				operateRecordService.addRecord(record);
 			} else {
 				retMessage.setAll(RetCodeEnum.exception, "修改商户组织机构代码证失败", result);
@@ -653,13 +653,13 @@ public class MerchantController implements com.lanxi.couponcode.spi.service.Merc
 			RetMessage message = checkAccount.apply(a, OperateType.inputMerchantInfo);
 			if (notNull.test(message))
 				return message;
-			Merchant m = merchantService.queryMerchantParticularsById(merchantId);
+			Merchant m = merchantService.queryMerchantParticularsById(a.getMerchantId());
 			message = checkMerchant.apply(m, OperateType.inputMerchantInfo);
 			if (notNull.test(message))
 				return message;
 
 			merchant = new Merchant();
-			merchant.setMerchantId(merchantId);
+			merchant.setMerchantId(m.getMerchantId());
 			result = merchantService.businessLicensePicUpLoad(merchant, businessLicensePicFile);
 			if (result) {
 				retMessage.setAll(RetCodeEnum.success, "修改商户营业执照成功", result);
@@ -673,7 +673,7 @@ public class MerchantController implements com.lanxi.couponcode.spi.service.Merc
 				record.setType(OperateType.inputMerchantInfo);
 				record.setOperateTime(TimeAssist.getNow());
 				record.setOperateResult("success");
-				record.setDescription("修改商户营业执照[" + merchantId + "]");
+				record.setDescription("修改商户营业执照[" + m.getMerchantId() + "]");
 				operateRecordService.addRecord(record);
 			} else {
 				retMessage.setAll(RetCodeEnum.exception, "修改商户营业执照失败", result);
@@ -694,12 +694,12 @@ public class MerchantController implements com.lanxi.couponcode.spi.service.Merc
 			RetMessage message = checkAccount.apply(a, OperateType.inputMerchantInfo);
 			if (notNull.test(message))
 				return message;
-			Merchant m = merchantService.queryMerchantParticularsById(merchantId);
+			Merchant m = merchantService.queryMerchantParticularsById(a.getMerchantId());
 			message = checkMerchant.apply(m, OperateType.inputMerchantInfo);
 			if (notNull.test(message))
 				return message;
 			merchant = new Merchant();
-			merchant.setMerchantId(merchantId);
+			merchant.setMerchantId(m.getMerchantId());
 			result = merchantService.otherPicUpLoad(merchant, otherPicFile);
 			if (result) {
 				retMessage.setAll(RetCodeEnum.success, "修改其他证明资料成功", result);
@@ -713,7 +713,7 @@ public class MerchantController implements com.lanxi.couponcode.spi.service.Merc
 				record.setType(OperateType.inputMerchantInfo);
 				record.setOperateTime(TimeAssist.getNow());
 				record.setOperateResult("success");
-				record.setDescription("修改其他证明资料[" + merchantId + "]");
+				record.setDescription("修改其他证明资料[" + m.getMerchantId() + "]");
 				operateRecordService.addRecord(record);
 			} else {
 				retMessage.setAll(RetCodeEnum.exception, "修改其他证明资料失败", result);

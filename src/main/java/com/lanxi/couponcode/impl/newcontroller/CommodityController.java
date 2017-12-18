@@ -35,8 +35,8 @@ import static com.lanxi.couponcode.impl.assist.PredicateAssist.*;
 //商品不允许直接操作,只能通过request间接操作
 
 @EasyLog (LoggerUtil.LogLevel.INFO)
-@Service("commodityControllerService")
-public class CommodityController implements com.lanxi.couponcode.spi.service.CommodityService{
+@Service ("commodityControllerService")
+public class CommodityController implements com.lanxi.couponcode.spi.service.CommodityService {
     @Resource
     private DaoService daoService;
     @Resource
@@ -51,6 +51,7 @@ public class CommodityController implements com.lanxi.couponcode.spi.service.Com
     private OperateRecordService operateRecordService;
     @Resource
     private MerchantService merchantService;
+
     @CheckArg
     @Override
     public RetMessage<Boolean> addCommodity(String commodityName,
@@ -63,15 +64,15 @@ public class CommodityController implements com.lanxi.couponcode.spi.service.Com
                                             String useDestription,
                                             @Deprecated Long merchantId,
                                             Long operaterId) {
-        Account account=accountService.queryAccountById(operaterId);
-        RetMessage message=checkAccount.apply(account, OperateType.createCommodity);
-        if(notNull.test(message))
+        Account account = accountService.queryAccountById(operaterId);
+        RetMessage message = checkAccount.apply(account, OperateType.createCommodity);
+        if (notNull.test(message))
             return message;
-        Merchant merchant=merchantService.queryMerchantParticularsById(account.getMerchantId());
-        message=checkMerchant.apply(merchant, OperateType.createCommodity);
-        if(notNull.test(message))
+        Merchant merchant = merchantService.queryMerchantParticularsById(account.getMerchantId());
+        message = checkMerchant.apply(merchant, OperateType.createCommodity);
+        if (notNull.test(message))
             return message;
-        Commodity commodity=new Commodity();
+        Commodity commodity = new Commodity();
         commodity.setCommodityId(IdWorker.getId());
         commodity.setCommodityName(commodityName);
         commodity.setType(commodityType);
@@ -105,11 +106,11 @@ public class CommodityController implements com.lanxi.couponcode.spi.service.Com
 //        commodity.setCheckTime(null);
         //备注
         commodity.setRemark(null);
-        Boolean result= commodityService.addCommodity(commodity);
-        if(result==null)
-            return new RetMessage<>(RetCodeEnum.fail,"添加时异常!",null);
-        if(result){
-            OperateRecord record=new OperateRecord();
+        Boolean result = commodityService.addCommodity(commodity);
+        if (result == null)
+            return new RetMessage<>(RetCodeEnum.fail, "添加时异常!", null);
+        if (result) {
+            OperateRecord record = new OperateRecord();
             record.setRecordId(IdWorker.getId());
             record.setOperaterId(account.getAccountId());
             record.setAccountType(account.getAccountType());
@@ -121,11 +122,11 @@ public class CommodityController implements com.lanxi.couponcode.spi.service.Com
             record.setDescription("管理员添加商品[" + commodity.getCommodityId() + "]");
             record.setOperateResult("success");
             operateRecordService.addRecord(record);
-            return new RetMessage<>(RetCodeEnum.success,"添加成功!",null);
-        }
-        else
-            return new RetMessage<>(RetCodeEnum.fail,"添加失败!",null);
+            return new RetMessage<>(RetCodeEnum.success, "添加成功!", null);
+        } else
+            return new RetMessage<>(RetCodeEnum.fail, "添加失败!", null);
     }
+
     @CheckArg
     @Override
     public RetMessage<Boolean> modifyCommodity(BigDecimal costPrice,
@@ -134,29 +135,29 @@ public class CommodityController implements com.lanxi.couponcode.spi.service.Com
                                                Integer lifeTime,
                                                Long commodityId,
                                                Long operaterId) {
-        Account account=accountService.queryAccountById(operaterId);
-        RetMessage message=checkAccount.apply(account, OperateType.modifyCommodity);
-        if(message!=null)
+        Account account = accountService.queryAccountById(operaterId);
+        RetMessage message = checkAccount.apply(account, OperateType.modifyCommodity);
+        if (message != null)
             return message;
-        Commodity commodity=commodityService.queryCommodity(commodityId);
-        if(commodity==null||CommodityStatus.deleted.equals(commodity.getStatus()))
-            return new RetMessage<>(RetCodeEnum.fail,"不存在!",null);
-        if(!CommodityStatus.unshelved.equals(commodity.getStatus())){
-            return new RetMessage<>(RetCodeEnum.fail,"非下架状态!无法修改!",null);
+        Commodity commodity = commodityService.queryCommodity(commodityId);
+        if (commodity == null || CommodityStatus.deleted.equals(commodity.getStatus()))
+            return new RetMessage<>(RetCodeEnum.fail, "不存在!", null);
+        if (!CommodityStatus.unshelved.equals(commodity.getStatus())) {
+            return new RetMessage<>(RetCodeEnum.fail, "非下架状态!无法修改!", null);
         }
-        if(notNull.test(costPrice))
+        if (notNull.test(costPrice))
             commodity.setCostPrice(costPrice);
-        if(notNull.test(facePrice))
+        if (notNull.test(facePrice))
             commodity.setFacePrice(facePrice);
-        if(notNull.test(sellPrice))
+        if (notNull.test(sellPrice))
             commodity.setSellPrice(sellPrice);
-        if(notNull.test(lifeTime))
-        commodity.setLifeTime(lifeTime);
-        Boolean result= commodityService.modifyCommodity(commodity);
-        if(result==null)
-            return new RetMessage<>(RetCodeEnum.fail,"修改时异常!",null);
-        if(result){
-            OperateRecord record=new OperateRecord();
+        if (notNull.test(lifeTime))
+            commodity.setLifeTime(lifeTime);
+        Boolean result = commodityService.modifyCommodity(commodity);
+        if (result == null)
+            return new RetMessage<>(RetCodeEnum.fail, "修改时异常!", null);
+        if (result) {
+            OperateRecord record = new OperateRecord();
             record.setRecordId(IdWorker.getId());
             record.setOperaterId(account.getAccountId());
             record.setAccountType(account.getAccountType());
@@ -168,31 +169,31 @@ public class CommodityController implements com.lanxi.couponcode.spi.service.Com
             record.setDescription("管理员修改商品[" + commodity.getCommodityId() + "]");
             record.setOperateResult("success");
             operateRecordService.addRecord(record);
-            return new RetMessage<>(RetCodeEnum.success,"修改成功!",null);
-        }
-        else
-            return new RetMessage<>(RetCodeEnum.fail,"修改失败!",null);
+            return new RetMessage<>(RetCodeEnum.success, "修改成功!", null);
+        } else
+            return new RetMessage<>(RetCodeEnum.fail, "修改失败!", null);
     }
+
     @CheckArg
     @Override
     public RetMessage<Boolean> shelveCommodity(Long commodityId,
                                                Long operaterId) {
-        Account account=accountService.queryAccountById(operaterId);
-        RetMessage message=checkAccount.apply(account, OperateType.shelveCommodity);
-        if(message!=null)
+        Account account = accountService.queryAccountById(operaterId);
+        RetMessage message = checkAccount.apply(account, OperateType.shelveCommodity);
+        if (message != null)
             return message;
-        Commodity commodity=commodityService.queryCommodity(commodityId);
-        if(commodity==null||CommodityStatus.deleted.equals(commodity.getStatus())){
-            return new RetMessage<>(RetCodeEnum.fail,"不存在!",null);
+        Commodity commodity = commodityService.queryCommodity(commodityId);
+        if (commodity == null || CommodityStatus.deleted.equals(commodity.getStatus())) {
+            return new RetMessage<>(RetCodeEnum.fail, "不存在!", null);
         }
-        if(!CommodityStatus.unshelved.equals(commodity.getStatus())){
-            return new RetMessage<>(RetCodeEnum.fail,"非下架状态!无法上架!",null);
+        if (!CommodityStatus.unshelved.equals(commodity.getStatus())) {
+            return new RetMessage<>(RetCodeEnum.fail, "非下架状态!无法上架!", null);
         }
-        Boolean result= commodityService.shelveCommodity(commodity);
-        if(result==null)
-            return new RetMessage<>(RetCodeEnum.fail,"上架时异常!",null);
-        if(result){
-            OperateRecord record=new OperateRecord();
+        Boolean result = commodityService.shelveCommodity(commodity);
+        if (result == null)
+            return new RetMessage<>(RetCodeEnum.fail, "上架时异常!", null);
+        if (result) {
+            OperateRecord record = new OperateRecord();
             record.setRecordId(IdWorker.getId());
             record.setOperaterId(account.getAccountId());
             record.setAccountType(account.getAccountType());
@@ -204,31 +205,31 @@ public class CommodityController implements com.lanxi.couponcode.spi.service.Com
             record.setDescription("管理员上架商品[" + commodity.getCommodityId() + "]");
             record.setOperateResult("success");
             operateRecordService.addRecord(record);
-            return new RetMessage<>(RetCodeEnum.success,"上架成功!",null);
-        }
-        else
-            return new RetMessage<>(RetCodeEnum.fail,"上架失败!",null);
+            return new RetMessage<>(RetCodeEnum.success, "上架成功!", null);
+        } else
+            return new RetMessage<>(RetCodeEnum.fail, "上架失败!", null);
     }
+
     @CheckArg
     @Override
     public RetMessage<Boolean> unshelveCommodity(Long commodityId,
                                                  Long operaterId) {
-        Account account=accountService.queryAccountById(operaterId);
-        RetMessage message=checkAccount.apply(account, OperateType.unshelveCommodity);
-        if(message!=null)
+        Account account = accountService.queryAccountById(operaterId);
+        RetMessage message = checkAccount.apply(account, OperateType.unshelveCommodity);
+        if (message != null)
             return message;
-        Commodity commodity=commodityService.queryCommodity(commodityId);
-        if(commodity==null||CommodityStatus.deleted.equals(commodity.getStatus())){
-            return new RetMessage<>(RetCodeEnum.fail,"不存在!",null);
+        Commodity commodity = commodityService.queryCommodity(commodityId);
+        if (commodity == null || CommodityStatus.deleted.equals(commodity.getStatus())) {
+            return new RetMessage<>(RetCodeEnum.fail, "不存在!", null);
         }
-        if(!CommodityStatus.shelved.equals(commodity.getStatus())){
-            return new RetMessage<>(RetCodeEnum.fail,"非上架状态!无法上架!",null);
+        if (!CommodityStatus.shelved.equals(commodity.getStatus())) {
+            return new RetMessage<>(RetCodeEnum.fail, "非上架状态!无法上架!", null);
         }
-        Boolean result= commodityService.unshelveCommodity(commodity);
-        if(result==null)
-            return new RetMessage<>(RetCodeEnum.fail,"下架时异常!",null);
-        if(result){
-            OperateRecord record=new OperateRecord();
+        Boolean result = commodityService.unshelveCommodity(commodity);
+        if (result == null)
+            return new RetMessage<>(RetCodeEnum.fail, "下架时异常!", null);
+        if (result) {
+            OperateRecord record = new OperateRecord();
             record.setRecordId(IdWorker.getId());
             record.setOperaterId(account.getAccountId());
             record.setAccountType(account.getAccountType());
@@ -240,31 +241,31 @@ public class CommodityController implements com.lanxi.couponcode.spi.service.Com
             record.setDescription("管理员下架商品[" + commodity.getCommodityId() + "]");
             record.setOperateResult("success");
             operateRecordService.addRecord(record);
-            return new RetMessage<>(RetCodeEnum.success,"下架成功!",null);
-        }
-        else
-            return new RetMessage<>(RetCodeEnum.fail,"下架失败!",null);
+            return new RetMessage<>(RetCodeEnum.success, "下架成功!", null);
+        } else
+            return new RetMessage<>(RetCodeEnum.fail, "下架失败!", null);
     }
+
     @CheckArg
     @Override
     public RetMessage<Boolean> delCommodity(Long commodityId,
                                             Long operaterId) {
-        Account account=accountService.queryAccountById(operaterId);
-        RetMessage message=checkAccount.apply(account, OperateType.deleteCommodity);
-        if(message!=null)
+        Account account = accountService.queryAccountById(operaterId);
+        RetMessage message = checkAccount.apply(account, OperateType.deleteCommodity);
+        if (message != null)
             return message;
-        Commodity commodity=commodityService.queryCommodity(commodityId);
-        if(commodity==null||CommodityStatus.deleted.equals(commodity.getStatus())){
-            return new RetMessage<>(RetCodeEnum.fail,"不存在!",null);
+        Commodity commodity = commodityService.queryCommodity(commodityId);
+        if (commodity == null || CommodityStatus.deleted.equals(commodity.getStatus())) {
+            return new RetMessage<>(RetCodeEnum.fail, "不存在!", null);
         }
-        if(!CommodityStatus.unshelved.equals(commodity.getStatus())){
-            return new RetMessage<>(RetCodeEnum.fail,"非下架状态!无法删除!",null);
+        if (!CommodityStatus.unshelved.equals(commodity.getStatus())) {
+            return new RetMessage<>(RetCodeEnum.fail, "非下架状态!无法删除!", null);
         }
-        Boolean result= commodityService.delCommodity(commodity);
-        if(result==null)
-            return new RetMessage<>(RetCodeEnum.fail,"删除时异常!",null);
-        if(result){
-            OperateRecord record=new OperateRecord();
+        Boolean result = commodityService.delCommodity(commodity);
+        if (result == null)
+            return new RetMessage<>(RetCodeEnum.fail, "删除时异常!", null);
+        if (result) {
+            OperateRecord record = new OperateRecord();
             record.setRecordId(IdWorker.getId());
             record.setOperaterId(account.getAccountId());
             record.setAccountType(account.getAccountType());
@@ -276,11 +277,11 @@ public class CommodityController implements com.lanxi.couponcode.spi.service.Com
             record.setDescription("管理员删除商品[" + commodity.getCommodityId() + "]");
             record.setOperateResult("success");
             operateRecordService.addRecord(record);
-            return new RetMessage<>(RetCodeEnum.success,"删除成功!",null);
-        }
-        else
-            return new RetMessage<>(RetCodeEnum.fail,"删除失败!",null);
-}
+            return new RetMessage<>(RetCodeEnum.success, "删除成功!", null);
+        } else
+            return new RetMessage<>(RetCodeEnum.fail, "删除失败!", null);
+    }
+
     @CheckArg
     @Override
     public RetMessage<String> queryCommodities(String merchantName,
@@ -291,21 +292,22 @@ public class CommodityController implements com.lanxi.couponcode.spi.service.Com
                                                Integer pageNum,
                                                Integer pageSize,
                                                Long operaterId) {
-        Account account=accountService.queryAccountById(operaterId);
-        RetMessage message=checkAccount.apply(account, OperateType.queryCommodity);
-        if(message!=null)
+        Account account = accountService.queryAccountById(operaterId);
+        RetMessage message = checkAccount.apply(account, OperateType.queryCommodity);
+        if (message != null)
             return message;
-        Page<Commodity> page=new Page<>(pageNum,pageSize);
-        List<Commodity> list=queryCommoditiesHidden(merchantName,commodityName,commodityType,commodityStatus,timeStart,timeEnd,page);
+        Page<Commodity> page = new Page<>(pageNum, pageSize);
+        List<Commodity> list = queryCommoditiesHidden(merchantName, commodityName, commodityType, commodityStatus, timeStart, timeEnd, page);
         //需要分页信息
-        Map<String,Object> map=new HashMap<>();
-        map.put("page",page);
-        map.put("list",list);
-        if(list!=null)
-            return new RetMessage<String>(RetCodeEnum.success,"查询成功",  ToJson.toJson(map));
+        Map<String, Object> map = new HashMap<>();
+        map.put("page", page);
+        map.put("list", list);
+        if (list != null)
+            return new RetMessage<String>(RetCodeEnum.success, "查询成功", ToJson.toJson(map));
         else
-            return new RetMessage<String>(RetCodeEnum.fail,"查询失败",null);
+            return new RetMessage<String>(RetCodeEnum.fail, "查询失败", null);
     }
+
     @CheckArg
     @Override
     public RetMessage<File> queryCommoditiesExport(String merchantName,
@@ -315,19 +317,20 @@ public class CommodityController implements com.lanxi.couponcode.spi.service.Com
                                                    String timeStart,
                                                    String timeEnd,
                                                    Long operaterId) {
-        Account account=accountService.queryAccountById(operaterId);
-        RetMessage message=checkAccount.apply(account, OperateType.exportCommodity);
-        if(message!=null)
+        Account account = accountService.queryAccountById(operaterId);
+        RetMessage message = checkAccount.apply(account, OperateType.exportCommodity);
+        if (message != null)
             return message;
-        List<Commodity> list=queryCommoditiesHidden(merchantName,commodityName,commodityType,commodityStatus,timeStart,timeEnd,null);
+        List<Commodity> list = queryCommoditiesHidden(merchantName, commodityName, commodityType, commodityStatus, timeStart, timeEnd, null);
         // TODO 配置要显示的内容
-        Map<String,String> map=new HashMap<>();
-        File file= ExcelUtil.exportExcelFile(list,map);
-        if(file!=null)
-            return new RetMessage<File>(RetCodeEnum.success,"导出成功", file);
+        Map<String, String> map = new HashMap<>();
+        File file = ExcelUtil.exportExcelFile(list, map);
+        if (file != null)
+            return new RetMessage<File>(RetCodeEnum.success, "导出成功", file);
         else
-            return new RetMessage<File>(RetCodeEnum.fail,"导出失败", file);
+            return new RetMessage<File>(RetCodeEnum.fail, "导出失败", file);
     }
+
     @CheckArg
     @Override
     public RetMessage<String> merchantQueryCommodities(String commodityName,
@@ -337,23 +340,24 @@ public class CommodityController implements com.lanxi.couponcode.spi.service.Com
                                                        Integer pageSize,
                                                        Long merchantId,
                                                        Long operaterId) {
-        Account account=accountService.queryAccountById(operaterId);
-        RetMessage message=checkAccount.apply(account, OperateType.queryCommodity);
-        if(message!=null)
+        Account account = accountService.queryAccountById(operaterId);
+        RetMessage message = checkAccount.apply(account, OperateType.queryCommodity);
+        if (message != null)
             return message;
-        Merchant merchant=merchantService.queryMerchantParticularsById(account.getMerchantId());
+        Merchant merchant = merchantService.queryMerchantParticularsById(account.getMerchantId());
         //TODO 校验
-        Page<Commodity> page=new Page<>(pageNum,pageSize);
-        List<Commodity> list=queryCommoditiesHidden(merchant.getMerchantName(),commodityName,type,status,null,null,page);
+        Page<Commodity> page = new Page<>(pageNum, pageSize);
+        List<Commodity> list = queryCommoditiesHidden(merchant.getMerchantName(), commodityName, type, status, null, null, page);
         //需要分页信息
-        Map<String,Object> map=new HashMap<>();
-        map.put("page",page);
-        map.put("list",list);
-        if(list!=null)
-            return new RetMessage<String>(RetCodeEnum.success,"查询成功",  ToJson.toJson(map));
+        Map<String, Object> map = new HashMap<>();
+        map.put("page", page);
+        map.put("list", list);
+        if (list != null)
+            return new RetMessage<String>(RetCodeEnum.success, "查询成功", ToJson.toJson(map));
         else
-            return new RetMessage<String>(RetCodeEnum.fail,"查询失败",null);
+            return new RetMessage<String>(RetCodeEnum.fail, "查询失败", null);
     }
+
     @CheckArg
     @Override
     public RetMessage<File> merchantQueryCommoditiesExport(String commodityName,
@@ -361,20 +365,20 @@ public class CommodityController implements com.lanxi.couponcode.spi.service.Com
                                                            CommodityStatus status,
                                                            Long merchantId,
                                                            Long operaterId) {
-        Account account=accountService.queryAccountById(operaterId);
-        RetMessage message=checkAccount.apply(account, OperateType.exportCommodity);
-        if(message!=null)
+        Account account = accountService.queryAccountById(operaterId);
+        RetMessage message = checkAccount.apply(account, OperateType.exportCommodity);
+        if (message != null)
             return message;
-        Merchant merchant=merchantService.queryMerchantParticularsById(account.getMerchantId());
+        Merchant merchant = merchantService.queryMerchantParticularsById(account.getMerchantId());
         //TODO 校验
-        List<Commodity> list=queryCommoditiesHidden(merchant.getMerchantName(),commodityName,type,status,null,null,null);
+        List<Commodity> list = queryCommoditiesHidden(merchant.getMerchantName(), commodityName, type, status, null, null, null);
         // TODO 配置要显示的内容
-        Map<String,String> map=new HashMap<>();
-        File file= ExcelUtil.exportExcelFile(list,map);
-        if(file!=null)
-            return new RetMessage<File>(RetCodeEnum.success,"导出成功", file);
+        Map<String, String> map = new HashMap<>();
+        File file = ExcelUtil.exportExcelFile(list, map);
+        if (file != null)
+            return new RetMessage<File>(RetCodeEnum.success, "导出成功", file);
         else
-            return new RetMessage<File>(RetCodeEnum.fail,"导出失败", file);
+            return new RetMessage<File>(RetCodeEnum.fail, "导出失败", file);
     }
 
     private List<Commodity> queryCommoditiesHidden(String merchantName,
@@ -382,8 +386,8 @@ public class CommodityController implements com.lanxi.couponcode.spi.service.Com
                                                    CommodityType commodityType,
                                                    CommodityStatus commodityStatus,
                                                    String timeStart, String timeEnd,
-                                                   Page<Commodity> page){
-        EntityWrapper<Commodity> wrapper=new EntityWrapper<>();
+                                                   Page<Commodity> page) {
+        EntityWrapper<Commodity> wrapper = new EntityWrapper<>();
         if (timeStart != null && !timeStart.isEmpty()) {
             while (timeStart.length() < 14)
                 timeStart += "0";
@@ -394,34 +398,41 @@ public class CommodityController implements com.lanxi.couponcode.spi.service.Com
                 timeEnd += "9";
             wrapper.le("create_time", timeEnd);
         }
-        if(merchantName!=null)
-            wrapper.like("merchant_name",merchantName);
-        if(commodityName!=null)
-            wrapper.like("commodity_name",commodityName);
-        if(commodityType!=null)
-            wrapper.eq("type",commodityType.getValue());
-        if(commodityStatus!=null)
-            wrapper.eq("status",commodityStatus.getValue());
+        if (merchantName != null)
+            wrapper.like("merchant_name", merchantName);
+        if (commodityName != null)
+            wrapper.like("commodity_name", commodityName);
+        if (commodityType != null)
+            wrapper.eq("type", commodityType.getValue());
+        if (commodityStatus != null)
+            wrapper.eq("status", commodityStatus.getValue());
         wrapper.ne("status", CommodityStatus.deleted.getValue());
-        return commodityService.queryCommodities(wrapper,page);
+        return commodityService.queryCommodities(wrapper, page);
     }
+
     @CheckArg
     @Override
-    public RetMessage<Serializable> queryAllCommodityIds(Long operaterId){
-        Account account=accountService.queryAccountById(operaterId);
-        if(isAdmin.negate().test(account))
-            return new RetMessage<>(RetCodeEnum.fail,"非管理员无权操作!",null);
-        Map<String,Long> map=new HashMap<>();
+    public RetMessage<Serializable> queryAllCommodityIds(Long operaterId) {
+        Account account = accountService.queryAccountById(operaterId);
+        if(isAdmin.negate().test(account)&&isMerchantManager.negate().test(account))
+            return new RetMessage<>(RetCodeEnum.fail,"非管理员商户管理员无权操作!",null);
+        Map<String, Long> map = new HashMap<>();
         commodityService.queryAll()
                 .parallelStream()
-                .forEach(e->map.put(e.getCommodityName(),e.getCommodityId()));
-        return new RetMessage<>(RetCodeEnum.success,"查询成功!",(Serializable) map);
+                .filter(e -> {
+                    if (isMerchantManager.test(account))
+                        return e.getMerchantId().equals(account.getMerchantId());
+                    else
+                        return true;
+                })
+                .forEach(e -> map.put(e.getCommodityName(), e.getCommodityId()));
+            return new RetMessage<>(RetCodeEnum.success, "查询成功!", (Serializable) map);
     }
 
     @Override
     public RetMessage<String> queryCommodity(Long commodityId, Long operaterId) {
-        Account account=accountService.queryAccountById(operaterId);
-        Commodity commodity=commodityService.queryCommodity(commodityId);
-        return new RetMessage<>(RetCodeEnum.success,"查询成功!",commodity.toJson());
+        Account account = accountService.queryAccountById(operaterId);
+        Commodity commodity = commodityService.queryCommodity(commodityId);
+        return new RetMessage<>(RetCodeEnum.success, "查询成功!", commodity.toJson());
     }
 }
