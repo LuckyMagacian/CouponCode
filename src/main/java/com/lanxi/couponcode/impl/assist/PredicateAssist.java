@@ -381,14 +381,17 @@ public interface PredicateAssist {
             case unfreezeShop:
                 if(!ShopStatus.freeze.equals(s.getShopStatus()))
                     return new RetMessage(RetCodeEnum.fail,"非冻结状态,无法操作!",null);
+                return null;
             case freezeShop:
                  if(!ShopStatus.normal.equals(s.getShopStatus()))
                      return new RetMessage(RetCodeEnum.fail,"非正常状态,无法冻结!",null);
+                return null;
             case queryShop:
             case statscitcShop:
             case exportShop:
                 if(ShopStatus.deleted.equals(s.getShopStatus()))
                     return new RetMessage(RetCodeEnum.fail,"已删除!",null);
+                return null;
             case deleteShop:
         }
         return null;

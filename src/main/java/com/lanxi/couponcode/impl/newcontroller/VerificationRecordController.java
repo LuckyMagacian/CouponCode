@@ -1,10 +1,12 @@
 package com.lanxi.couponcode.impl.newcontroller;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.plugins.Page;
 import com.lanxi.couponcode.impl.entity.*;
 import com.lanxi.couponcode.impl.newservice.*;
+import com.lanxi.couponcode.spi.assist.FillAssist;
 import com.lanxi.couponcode.spi.assist.RetMessage;
 import com.lanxi.couponcode.impl.entity.Account;
 import com.lanxi.couponcode.impl.entity.VerificationRecord;
@@ -27,6 +29,8 @@ import javax.annotation.Resource;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.math.BigDecimal;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -242,10 +246,11 @@ public class VerificationRecordController implements com.lanxi.couponcode.spi.se
             return new RetMessage<>(RetCodeEnum.error,"操作失败!",null);
         }
     }
-
+    @Override
     public RetMessage<String> queryVerifyRecordsAndStatstis(Long accountId,Long operaterId){
         Account account=accountService.queryAccountById(operaterId);
         EntityWrapper<VerificationRecord> wrapper=new EntityWrapper<>();
+        wrapper.orderBy("verficate_time");
         List<VerificationRecord> records=verificationRecordService.queryVerificationRecords(new EntityWrapper<VerificationRecord>(),null);
         Stream<VerificationRecord> stream=records.parallelStream();
         if(accountId!=null){
@@ -257,12 +262,19 @@ public class VerificationRecordController implements com.lanxi.couponcode.spi.se
         if(AccountType.shopManager.equals(account.getAccountType())){
             stream.filter(e->e.getShopId().equals(account.getShopId()));
         }
+        stream.peek(e->FillAssist.keeyFieldValue.apply(e, Arrays.asList(new String[]{"commodityName","code","verficateTime"})));
         records=stream.collect(Collectors.toList());
-        VerificationRecord sum=new VerificationRecord();
+        Map<String,Object> map=new HashMap<>();
+        map.put("list",records);
+        map.put("count",0);
+        map.put("sum",new BigDecimal(0));
         records.parallelStream().forEach(e->{
             CouponCode code=codeService.queryCode(e.getMerchantId(),e.getCode()).orElse(null);
-
+            String commodityInfo=code.getCommodityInfo();
+            Commodity commodity= JSON.parseObject(commodityInfo,Commodity.class);
+            map.put("count",(Integer)map.get("count")+1);
+            map.put("sum",((BigDecimal)map.get("sum")).add(commodity.getSellPrice()));
         });
-        return null;
+        return new RetMessage<>(RetCodeEnum.success,"操作成功!",ToJson.toJson(map));
     }
 }

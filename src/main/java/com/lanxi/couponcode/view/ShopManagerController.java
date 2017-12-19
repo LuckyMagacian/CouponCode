@@ -7,9 +7,7 @@ import com.lanxi.couponcode.spi.consts.enums.AccountType;
 import com.lanxi.couponcode.spi.consts.enums.OperateTargetType;
 import com.lanxi.couponcode.spi.consts.enums.OperateType;
 import com.lanxi.couponcode.spi.consts.enums.VerificationType;
-import com.lanxi.couponcode.spi.service.CommodityService;
-import com.lanxi.couponcode.spi.service.CouponService;
-import com.lanxi.couponcode.spi.service.OperateRecordService;
+import com.lanxi.couponcode.spi.service.*;
 import com.lanxi.util.utils.LoggerUtil;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -34,8 +32,10 @@ public class ShopManagerController {
     private OperateRecordService operateRecordService;
     @Resource(name="commodityControllerServiceRef")
     private CommodityService commodityService;
-
-
+    @Resource (name = "accountControllerServiceRef")
+    private AccountService accountService;
+    @Resource (name = "verificationRecordControllerServiceRef")
+    private VerificationRecordService verificationRecordService;
     @SetUtf8
     @LoginCheck
     @ResponseBody
@@ -122,5 +122,24 @@ public class ShopManagerController {
         Long commodityId=toLongArg.apply(commodityIdStr);
         return commodityService.queryCommodity(commodityId,operaterId).toJson();
     }
-
+    @SetUtf8
+    @LoginCheck
+    @ResponseBody
+    @RequestMapping(value = "queryAllAccount", produces = "application/json;charset=utf-8")
+    public String queryAllAccount(HttpServletRequest req,HttpServletResponse res){
+        String operaterIdStr=req.getParameter("operaterId");
+        Long operaterId=toLongArg.apply(operaterIdStr);
+        return accountService.queryAllAccount(operaterId).toJson();
+    }
+    @SetUtf8
+    @LoginCheck
+    @ResponseBody
+    @RequestMapping(value = "queryVerifyAndStatstis", produces = "application/json;charset=utf-8")
+    public String queryVerifyRecordsAndStatstis(HttpServletRequest req,HttpServletResponse res){
+        String operaterIdStr=getArg.apply(req,"operaterId");
+        String accountIdStr=getArg.apply(req,"accountId");
+        Long operaterId=toLongArg.apply(operaterIdStr);
+        Long accountId=toLongArg.apply(accountIdStr);
+        return verificationRecordService.queryVerifyRecordsAndStatstis(accountId,operaterId).toJson();
+    }
 }

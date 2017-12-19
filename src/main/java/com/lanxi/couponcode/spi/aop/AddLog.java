@@ -25,7 +25,7 @@ import java.util.Map;
  * Created by yangyuanjian on 2017/11/10.
  */
 @Aspect
-//@Component
+@Component
 @Order(Ordered.HIGHEST_PRECEDENCE+10)
 public class AddLog {
 

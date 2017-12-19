@@ -376,8 +376,9 @@ public class MerchantManageController {
     }
 
     /* 导出 */
+    @SetUtf8
     @LoginCheck
-    @RequestMapping (value = "queryShopsExport")
+    @RequestMapping (value = "queryShopsExport",produces = "application/octet-stream")
     public void queryShopsExport(HttpServletRequest req, HttpServletResponse res) {
         String shopName = getArg.apply(req, "shopName");
         String shopAddress = getArg.apply(req, "shopAddress");
@@ -391,13 +392,14 @@ public class MerchantManageController {
         Integer pageSize = toIntArg.apply(pageSizeStr);
         Long operaterId = toLongArg.apply(operaterIdStr);
         Long merchantId = toLongArg.apply(merchantIdStr);
-		try {
-			File file=shopService.queryShopsExport(shopName, shopAddress, shopStatus, pageNum, pageSize, merchantId, operaterId).getDetail();
-            FileAssit.write(file,res.getOutputStream());
-			file.delete();
-		} catch (IOException e) {
-			LogFactory.error(this,"导出门店时发生异常",e);
-		}
+        File file=shopService.queryShopsExport(shopName, shopAddress, shopStatus, pageNum, pageSize, merchantId, operaterId).getDetail();
+        FileAssit.exportTest(file,res);
+//        try {
+//            FileAssit.write(file,res.getOutputStream());
+//			file.delete();
+//		} catch (IOException e) {
+//			LogFactory.error(this,"导出门店时发生异常",e);
+//		}
        
                 
     }
@@ -722,22 +724,8 @@ public class MerchantManageController {
         String operaterIdStr = getArg.apply(req, "operaterId");
         Long operaterId = toLongArg.apply(operaterIdStr);
         File file = (File) shopService.downloadExcelTemplate(operaterId).getDetail();
-        try {
-            if (file != null) {
-                InputStream is = new FileInputStream(file);
-                OutputStream os = res.getOutputStream();
-                byte temp[] = new byte[1024];
-                int size = -1;
-                while ((size = is.read(temp)) != -1) {
-                    os.write(temp, 0, size);
-                }
-                is.close();
-                os.close();
-            }
-
-        } catch (Exception e) {
-            LogFactory.error(this, "下载Excel模板时发生异常", e);
-        }
+        FileAssit.exportTest(file,res);
+//        FileAssit.export(file,res);
     }
 
 
@@ -760,8 +748,9 @@ public class MerchantManageController {
         Long operaterId = toLongArg.apply(operaterIdStr);
         return commodityService.merchantQueryCommodities(commodityName, commodityType, commodityStatus, pageNum, pageSize, null, operaterId).toJson();
     }
+    @SetUtf8
     @LoginCheck
-    @RequestMapping (value = "exportCommodities", produces = "application/json;charset=utf-8")
+    @RequestMapping (value = "exportCommodities", produces = "application/octet-stream;charset=utf-8")
     public void merchantExportCommodities(HttpServletRequest req, HttpServletResponse res) {
         String commodityName = getArg.apply(req, "commodityName");
         String commodityTypeStr = getArg.apply(req, "commodityType");
@@ -772,30 +761,8 @@ public class MerchantManageController {
         CommodityStatus commodityStatus = CommodityStatus.getType(commodityStatusStr);
         Long operaterId = toLongArg.apply(operaterIdStr);
         File file = commodityService.merchantQueryCommoditiesExport(commodityName, commodityType, commodityStatus, null, operaterId).getDetail();
-        FileInputStream fin = null;
-        try {
-            fin = new FileInputStream(file);
-            byte[] bytes = new byte[1024];
-            int readLenth = -1;
-            while ((readLenth = fin.read(bytes)) > 0) {
-                if (readLenth == 1024)
-                    res.getOutputStream().write(bytes);
-                else
-                    res.getOutputStream().write(bytes, 0, readLenth);
-            }
-            res.getOutputStream().flush();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } finally {
-            if (fin != null)
-                try {
-                    fin.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-        }
+        FileAssit.exportTest(file,res);
+//        FileAssit.export(file,res);
     }
 
     @SetUtf8
@@ -937,8 +904,9 @@ public class MerchantManageController {
         Long merchantId=toLongArg.apply(merchantIdStr);
         return merchantService.queryMerchantInfo(operaterId, merchantId).toJson();
     }
+    @SetUtf8
     @LoginCheck
-    @RequestMapping(value = "exportDailyRecords", produces = "application/json;charset=utf-8")
+    @RequestMapping(value = "exportDailyRecords", produces = "application/octet-stream;charset=utf-8")
     public void exportDailyRecords(HttpServletRequest req,HttpServletResponse res){
         String timeStart = getArg.apply(req, "timeStart");
         String timeEnd = getArg.apply(req, "timeStop");
@@ -950,11 +918,12 @@ public class MerchantManageController {
         Long operaterId = parseArg(operaterIdStr, Long.class);
         InvoiceStatus invoiceStatus = InvoiceStatus.getType(invoiceStatusStr);
         RetMessage<File> retMessage=clearService.exoirtDailyRecords(timeStart,timeEnd,clearStatus,invoiceStatus,operaterId);
-        FileAssit.export(retMessage,res);
+        FileAssit.exportTest(retMessage.getDetail(),res);
+//        FileAssit.export(retMessage,res);
     }
-
+    @SetUtf8
     @LoginCheck
-    @RequestMapping(value = "exportVerifyRecords", produces = "application/json;charset=utf-8")
+    @RequestMapping(value = "exportVerifyRecords", produces = "application/octet-stream;charset=utf-8")
     public void exportVerifyRecords(HttpServletRequest req,HttpServletResponse res){
         String codeStr = getArg.apply(req, "code");
         String timeStart = getArg.apply(req, "timeStart");
@@ -974,7 +943,8 @@ public class MerchantManageController {
         Long operaterId = toLongArg.apply(operaterIdStr);
 
         RetMessage<File> retMessage=verificationRecordService.exportShopVerificationRecords(timeStart,timeEnd,shopName,code,commodityName,phone,type,operaterId);
-        FileAssit.export(retMessage,res);
+        FileAssit.exportTest(retMessage.getDetail(),res);
+//        FileAssit.export(retMessage,res);
     }
     @SetUtf8
     @LoginCheck
@@ -994,9 +964,9 @@ public class MerchantManageController {
         else
             return codeService.verificateCode(codeId,operaterId,verifyType).toJson();
     }
-
+    @SetUtf8
     @LoginCheck
-    @RequestMapping(value = "exportClearRecords", produces = "application/json;charset=utf-8")
+    @RequestMapping(value = "exportClearRecords", produces = "application/octet-stream;charset=utf-8")
     public void exportClearRecords(HttpServletRequest req,HttpServletResponse res){
         String timeStart = getArg.apply(req, "timeStart");
         String timeEnd = getArg.apply(req, "timeStop");
@@ -1008,7 +978,8 @@ public class MerchantManageController {
         Long operaterId = parseArg(operaterIdStr, Long.class);
         InvoiceStatus invoiceStatus = InvoiceStatus.getType(invoiceStatusStr);
         RetMessage<File> retMessage=clearService.exportClearRecords(timeStart,timeEnd,clearStatus,invoiceStatus,operaterId);
-        FileAssit.export(retMessage,res);
+        FileAssit.exportTest(retMessage.getDetail(),res);
+//        FileAssit.export(retMessage,res);
     }
 
     @SetUtf8
@@ -1029,8 +1000,9 @@ public class MerchantManageController {
         Integer pageSize = parseArg(pageSizeStr, Integer.class);
         return clearService.statsticDailyRecords(timeStart,timeEnd,clearStatus,pageNum,pageSize,operaterId).toJson();
     }
+    @SetUtf8
     @LoginCheck
-    @RequestMapping(value = "exportStaticDailyRecords", produces = "application/json;charset=utf-8")
+    @RequestMapping(value = "exportStaticDailyRecords", produces = "application/octet-stream;charset=utf-8")
     public void exportStaticDailyRecords(HttpServletRequest req,HttpServletResponse res){
         String timeStart = getArg.apply(req, "timeStart");
         String timeEnd = getArg.apply(req, "timeStop");
@@ -1040,9 +1012,10 @@ public class MerchantManageController {
         ClearStatus clearStatus = ClearStatus.getType(clearStatusStr);
         Long operaterId = parseArg(operaterIdStr, Long.class);
         RetMessage<File> retMessage=clearService.exportStatsticDailyRecords(timeStart,timeEnd,clearStatus,operaterId);
-        FileAssit.export(retMessage,res);
+        FileAssit.exportTest(retMessage.getDetail(),res);
+//        FileAssit.export(retMessage,res);
     }
-		@SetUtf8
+    @SetUtf8
 	@LoginCheck
 	@ResponseBody
 	@RequestMapping(value = "queryAllShopIds", produces = "application/json;charset=utf-8")

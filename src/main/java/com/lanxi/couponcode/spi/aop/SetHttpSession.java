@@ -56,7 +56,7 @@ public class SetHttpSession {
             LogFactory.debug(clazz,"set  class:["+clazz.getName()+"]method:["+method.getName()+"] charset utf-8 !");
             return (T) joinPoint.proceed(args);
         }catch (Throwable throwable){
-            LogFactory.error(this, "exception occurred in ["+this.getClass().getName()+"] [checkLogin] when invoke class:["+clazz.getName()+"],method:["+method.getName()+"],args:["+(args==null?null: Arrays.asList(args))+"]");
+            LogFactory.error(this, "exception occurred in ["+this.getClass().getName()+"] [applySetReqToControllerService] when invoke class:["+clazz.getName()+"],method:["+method.getName()+"],args:["+(args==null?null: Arrays.asList(args))+"]");
             message.setAll(RetCodeEnum.error,"设置消息头时发生异常!",null);
             return (T) message;
         }

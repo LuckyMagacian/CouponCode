@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.toolkit.IdWorker;
 import com.lanxi.couponcode.impl.entity.*;
+import com.lanxi.couponcode.impl.newservice.MerchantServiceImpl;
 import com.lanxi.couponcode.spi.aop.AddLog;
 import com.lanxi.couponcode.spi.aop.AopJob;
 import com.lanxi.couponcode.spi.aop.AopOrder;
@@ -12,6 +13,7 @@ import com.lanxi.couponcode.impl.assist.PredicateAssist;
 import com.lanxi.couponcode.spi.assist.RedisKeyAssist;
 import com.lanxi.couponcode.spi.assist.SerializeAssist;
 import com.lanxi.couponcode.spi.assist.RetMessage;
+import com.lanxi.couponcode.spi.config.Path;
 import com.lanxi.couponcode.spi.consts.enums.RetCodeEnum;
 import com.lanxi.couponcode.spi.defaultInterfaces.ToJson;
 import com.lanxi.couponcode.test.entity.Cc;
@@ -205,6 +207,8 @@ public class TestOther {
     }
     @Test
     public void test19(){
-
+        String realPath=MerchantServiceImpl.class.getClassLoader().getResource("").
+                getPath()+ Path.businessLicensePicPath.replace("classpath:","");
+        System.err.println(realPath);
     }
 }

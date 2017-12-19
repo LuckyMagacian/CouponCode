@@ -223,12 +223,9 @@ public class MerchantServiceImpl implements MerchantService {
 						result = false;
 						return result;
 					}
-					
-					//为避免文件重复用日期+商户id+证件类型做文件名
-					String time = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMddHHmmss"));
 					String realPath=MerchantServiceImpl.class.getClassLoader().getResource("").
 							getPath()+Path.organizingInstitutionBarCodePicPath.replace("classpath:","");
-					String path =realPath+ time + merchant.getMerchantId()
+					String path =realPath+ merchant.getMerchantId()
 							+ "organizingInstitutionBarCodePic" + suffix;
 					File file3=new File(realPath.substring(0,realPath.lastIndexOf("/")));
 					if (!file3.exists()) {
@@ -248,7 +245,7 @@ public class MerchantServiceImpl implements MerchantService {
 					}
 					is.close();
 					os.close();
-					merchant.setOrganizingInstitutionBarCodePic(path);
+					merchant.setOrganizingInstitutionBarCodePic("admin/queryOrganizingInstitutionBarCodePic?path="+path);
 					Integer var = dao.getMerchantDao().updateById(merchant);
 					if (var < 0) {
 						LogFactory.info(this, "保存商户组织机构代码证失败\n");
@@ -280,11 +277,9 @@ public class MerchantServiceImpl implements MerchantService {
 						result = false;
 						return result;
 					}
-					//为避免文件重复用日期+商户id+证件类型做文件名
-					String time = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMddHHmmss"));
 					String realPath=MerchantServiceImpl.class.getClassLoader().getResource("").
 							getPath()+Path.businessLicensePicPath.replace("classpath:","");
-					String path = realPath+ time + merchant.getMerchantId() + "businessLicensePic"
+					String path = realPath + merchant.getMerchantId() + "businessLicensePic"
 							+ suffix;
 					File file3=new File(realPath.substring(0,realPath.lastIndexOf("/")));
 					if (!file3.exists()) {
@@ -304,7 +299,7 @@ public class MerchantServiceImpl implements MerchantService {
 					}
 					is.close();
 					os.close();
-					merchant.setBusinessLicensePic(path);
+					merchant.setBusinessLicensePic("admin/queryBusinessLicensePic?path="+path);
 					Integer var = dao.getMerchantDao().updateById(merchant);
 					if (var < 0) {
 						LogFactory.info(this, "保存商户工商营业执照失败\n");
@@ -337,11 +332,10 @@ public class MerchantServiceImpl implements MerchantService {
 						result = false;
 						return result;
 					}
-					//为避免文件重复用日期+商户id+证件类型做文件名
-					String time = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMddHHmmss"));
+					
 					String realPath=MerchantServiceImpl.class.getClassLoader().getResource("").
 							getPath()+Path.otherPicPath.replace("classpath:","");
-					String path =realPath+ time + merchant.getMerchantId() + "otherPic" + suffix;
+					String path =realPath+ merchant.getMerchantId() + "otherPic" + suffix;
 					File file3=new File(realPath.substring(0,realPath.lastIndexOf("/")));
 					if (!file3.exists()) {
 						file3.mkdir();
@@ -360,7 +354,7 @@ public class MerchantServiceImpl implements MerchantService {
 					}
 					is.close();
 					os.close();
-					merchant.setOtherPic(path);
+					merchant.setOtherPic("admin/queryOtherPic?path="+path);
 					Integer var = dao.getMerchantDao().updateById(merchant);
 					if (var < 0) {
 						LogFactory.info(this, "保存商户其他证明资料\n");

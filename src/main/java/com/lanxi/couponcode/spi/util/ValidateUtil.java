@@ -26,7 +26,7 @@ public class ValidateUtil {
 	                .append(msgRechargeBean.getAPP()).append(msgRechargeBean.getMsgID())
 	                .append(msgRechargeBean.getReserve());
 	        /** MSG */
-	        signParamSB.append(msgRechargeBean.getPhone()).append(msgRechargeBean.getType())
+	        signParamSB.append(msgRechargeBean.getSerialNum()).append(msgRechargeBean.getPhone()).append(msgRechargeBean.getType())
 	                .append(msgRechargeBean.getSkuCode()).append(msgRechargeBean.getCount())
 	                .append(msgRechargeBean.getNeedSend()).append(msgRechargeBean.getRemark());
 	        String sign = null;

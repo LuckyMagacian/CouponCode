@@ -105,5 +105,6 @@ public interface MerchantService {
     RetMessage<String> queryMerchantInfo(@HiddenArg Long operaterId,
                                          @HiddenArg Long merchantId);
     RetMessage<Serializable> queryAllMerchant(@HiddenArg Long operaterId);
+    RetMessage<File> queryPic(String path);
 }
 

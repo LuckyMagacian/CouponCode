@@ -145,5 +145,9 @@ public class TestSpring {
         Commodity commodity=JSON.parseObject(commodityStr,Commodity.class);
         System.out.println(commodity);
     }
+    @Test
+    public void test12(){
+
+    }
 }
 

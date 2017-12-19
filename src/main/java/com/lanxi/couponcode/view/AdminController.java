@@ -79,9 +79,9 @@ public class AdminController {
         Integer pageNum = parseArg(pageNumStr, Integer.class);
         Integer pageSize = parseArg(pageSizeStr, Integer.class);
 
-        return codeService.queryCodes(timeStart, timeEnd, merchantName, commodityName, code,
-                                        codeId, pageNum, pageSize, operaterId).toJson();
-    }
+		return codeService.queryCodes(timeStart, timeEnd, merchantName, commodityName, code, codeId, pageNum, pageSize,
+				operaterId).toJson();
+	}
 
     @SetUtf8
     @LoginCheck
@@ -101,8 +101,10 @@ public class AdminController {
         Integer pageNum = parseArg(pageNumStr, Integer.class);
         Integer pageSize = parseArg(pageSizeStr, Integer.class);
 
-        return clearService.queryDailyRecords(merchantName, timeStart, timeEnd, clearStatus, pageNum, pageSize, operaterId).toJson();
-    }
+		return clearService
+				.queryDailyRecords(merchantName, timeStart, timeEnd, clearStatus, pageNum, pageSize, operaterId)
+				.toJson();
+	}
 
     @SetUtf8
     @LoginCheck
@@ -132,14 +134,14 @@ public class AdminController {
         String pageSizeStr = getArg.apply(req, "pageSize");
         String operaterIdStr = getArg.apply(req, "operaterId");
 
-        ClearStatus clearStatus = ClearStatus.getType(clearStatusStr);
-        Long operaterId = parseArg(operaterIdStr, Long.class);
-        Integer pageNum = parseArg(pageNumStr, Integer.class);
-        Integer pageSize = parseArg(pageSizeStr, Integer.class);
-        InvoiceStatus invoiceStatus = InvoiceStatus.getType(invoiceStatusStr);
-        return clearService.queryClearRecords(merchantName, timeStart, timeEnd, clearStatus, invoiceStatus,
-                                                pageNum, pageSize, operaterId).toJson();
-    }
+		ClearStatus clearStatus = ClearStatus.getType(clearStatusStr);
+		Long operaterId = parseArg(operaterIdStr, Long.class);
+		Integer pageNum = parseArg(pageNumStr, Integer.class);
+		Integer pageSize = parseArg(pageSizeStr, Integer.class);
+		InvoiceStatus invoiceStatus = InvoiceStatus.getType(invoiceStatusStr);
+		return clearService.queryClearRecords(merchantName, timeStart, timeEnd, clearStatus, invoiceStatus, pageNum,
+				pageSize, operaterId).toJson();
+	}
 
     @SetUtf8
     @LoginCheck
@@ -153,23 +155,22 @@ public class AdminController {
         return clearService.queryRecordInfo(recordId, operaterId).toJson();
     }
 
-    @SetUtf8
-    @LoginCheck
-    @ResponseBody
-    @RequestMapping (value = "clear", produces = "application/json;charset=utf-8")
-    public String clear(final HttpServletRequest req, final HttpServletResponse res) {
-        String recordIdsStr = getArg.apply(req, "recordIds");
-        List<Long> recordIdsOrigin = Stream.of(recordIdsStr.split(","))
-                                            .map(e -> parseArg(e, Long.class))
-                                            .collect(Collectors.toList());
-        Long [] recordIds=new Long[recordIdsOrigin.size()];
-        int index=0;
-        for(Long each:recordIdsOrigin)
-            recordIds[index++]=each;
-        String operaterIdStr = getArg.apply(req, "operaterId");
-        Long operaterId = parseArg(operaterIdStr, Long.class);
-        return clearService.clear(recordIds, operaterId).toJson();
-    }
+	@SetUtf8
+	@LoginCheck
+	@ResponseBody
+	@RequestMapping(value = "clear", produces = "application/json;charset=utf-8")
+	public String clear(final HttpServletRequest req, final HttpServletResponse res) {
+		String recordIdsStr = getArg.apply(req, "recordIds");
+		List<Long> recordIdsOrigin = Stream.of(recordIdsStr.split(",")).map(e -> parseArg(e, Long.class))
+				.collect(Collectors.toList());
+		Long[] recordIds = new Long[recordIdsOrigin.size()];
+		int index = 0;
+		for (Long each : recordIdsOrigin)
+			recordIds[index++] = each;
+		String operaterIdStr = getArg.apply(req, "operaterId");
+		Long operaterId = parseArg(operaterIdStr, Long.class);
+		return clearService.clear(recordIds, operaterId).toJson();
+	}
 
     @SetUtf8
     @LoginCheck
@@ -506,8 +507,9 @@ public class AdminController {
 	}
 
 	/* 导出商户 */
+    @SetUtf8
     @LoginCheck
-	@RequestMapping(value = "queryMerchantsExport")
+	@RequestMapping(value = "queryMerchantsExport",produces="application/json;charset=utf-8")
 	public void queryMerchantsExport(HttpServletRequest req, HttpServletResponse res) {
 		String merchantName = getArg.apply(req, "merchantName");
 		String timeStart = getArg.apply(req, "timeStart");
@@ -518,22 +520,25 @@ public class AdminController {
 		MerchantStatus merchantStatus = MerchantStatus.getType(merchantStatusStr);
 		File file = merchantService
 				.queryMerchantsExport(merchantName, merchantStatus, timeStart, timeStop, operaterId).getDetail();
-		try {
-			if (file != null) {
-				InputStream is = new FileInputStream(file);
-				OutputStream os = res.getOutputStream();
-				byte temp[] = new byte[1024];
-				int size = -1;
-				while ((size = is.read(temp)) != -1) {
-					os.write(temp, 0, size);
-				}
-				is.close();
-				os.close();
-			}
-			file.delete();
-		} catch (Exception e) {
-			LogFactory.error(this, "导出Excel文件时发生异常", e);
-		}
+        FileAssit.exportTest(file,res);
+
+//		FileAssit.export(file,res);
+//		try {
+//			if (file != null) {
+//				InputStream is = new FileInputStream(file);
+//				OutputStream os = res.getOutputStream();
+//				byte temp[] = new byte[1024];
+//				int size = -1;
+//				while ((size = is.read(temp)) != -1) {
+//					os.write(temp, 0, size);
+//				}
+//				is.close();
+//				os.close();
+//			}
+//			file.delete();
+//		} catch (Exception e) {
+//			LogFactory.error(this, "导出Excel文件时发生异常", e);
+//		}
 	}
     @SetUtf8
     @LoginCheck
@@ -641,8 +646,9 @@ public class AdminController {
         Long operaterId = toLongArg.apply(operaterIdStr);
         return commodityService.queryCommodities(merchantNameStr,commodityName,commodityType,commodityStatus,timeStart,timeStart,pageNum,pageSize,operaterId).toJson();
     }
+    @SetUtf8
     @LoginCheck
-    @RequestMapping(value = "exportCommodities", produces = "application/json;charset=utf-8")
+    @RequestMapping(value = "exportCommodities", produces = "application/octet-stream;charset=utf-8")
     public void exportCommodities(HttpServletRequest req,HttpServletResponse res){
         String merchantNameStr=getArg.apply(req,"merchantName");
         String commodityName=getArg.apply(req,"commodityName");
@@ -656,30 +662,8 @@ public class AdminController {
         CommodityStatus commodityStatus= CommodityStatus.getType(commodityStatusStr);
         Long operaterId = toLongArg.apply(operaterIdStr);
         File file=commodityService.queryCommoditiesExport(merchantNameStr,commodityName,commodityType,commodityStatus,timeStart,timeStart,operaterId).getDetail();
-        FileInputStream fin=null;
-        try {
-            fin= new FileInputStream(file);
-            byte[] bytes=new byte[1024];
-            int readLenth=-1;
-            while((readLenth=fin.read(bytes))>0){
-                if(readLenth==1024)
-                    res.getOutputStream().write(bytes);
-                else
-                    res.getOutputStream().write(bytes,0,readLenth);
-            }
-            res.getOutputStream().flush();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }finally {
-            if(fin!=null)
-                try {
-                    fin.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-        }
+        FileAssit.exportTest(file,res);
+//        FileAssit.export(file,res);
     }
  	@SetUtf8
     @LoginCheck
@@ -767,8 +751,7 @@ public class AdminController {
 		}
     @SetUtf8
     @LoginCheck
-    @ResponseBody
-    @RequestMapping(value = "queryOrderExport", produces = "application/json;charset=utf-8")
+    @RequestMapping(value = "queryOrderExport", produces = "application/octet-stream;charset=utf-8")
 	public void queryOrderExport(HttpServletRequest req,HttpServletResponse res) {
     	String StartDate=getArg.apply(req,"StartDate");
 		String EndDate=getArg.apply(req,"EndDate");
@@ -782,22 +765,23 @@ public class AdminController {
 		Long SkuCode=toLongArg.apply(SkuCodeStr);
 		OrderStatus orderStatus=OrderStatus.getType(orderStatusStr);
 		Long operaterId=toLongArg.apply(operaterIdStr);
-		try {
-			File file=orderService.orderExport(StartDate, EndDate, Phone, orderId,
-					SkuCode, SRC, orderStatus, operaterId).getDetail();
-			OutputStream os = res.getOutputStream();
-			 InputStream is=new FileInputStream(file);
-			 int temp=0;
-			 byte[] by=new byte[1024];
-			 while((temp=is.read(by))!=-1) {
-				 os.write(by,0,temp);
-			 }
-			 is.close();
-			 os.flush();
-			 file.delete();
-		} catch (Exception e) {
-			LogFactory.error(this,"导出门店时发生异常",e);
-		}
+        File file=orderService.orderExport(StartDate, EndDate, Phone, orderId,
+                SkuCode, SRC, orderStatus, operaterId).getDetail();
+        FileAssit.exportTest(file,res);
+//        try {
+////			OutputStream os = res.getOutputStream();
+////			 InputStream is=new FileInputStream(file);
+////			 int temp=0;
+////			 byte[] by=new byte[1024];
+////			 while((temp=is.read(by))!=-1) {
+////				 os.write(by,0,temp);
+////			 }
+////			 is.close();
+////			 os.flush();
+////			 file.delete();
+//		} catch (Exception e) {
+//			LogFactory.error(this,"导出门店时发生异常",e);
+//		}
 	}
     @SetUtf8
     @LoginCheck
@@ -817,9 +801,9 @@ public class AdminController {
         Integer number=parseArg(numberStr,Integer.class);
         return codeService.generateCode(merchantId,commodityId,reason,number,operaterId).toJson();
     }
-
+    @SetUtf8
     @LoginCheck
-    @RequestMapping(value = "exportCodes", produces = "application/json;charset=utf-8")
+    @RequestMapping(value = "exportCodes", produces = "application/octet-stream;charset=utf-8")
     public void exportCodes(HttpServletRequest req,HttpServletResponse res){
         String timeStart = getArg.apply(req, "timeStart");
         String timeEnd = getArg.apply(req, "timeStop");
@@ -835,7 +819,8 @@ public class AdminController {
         Long operaterId = parseArg(operaterIdStr, Long.class);
 
         RetMessage<File> retMessage=codeService.queryCodesExport(timeStart,timeEnd,merchantName,commodityName,code,codeId,operaterId);
-        FileAssit.export(retMessage,res);
+        FileAssit.exportTest(retMessage.getDetail(),res);
+//        FileAssit.export(retMessage,res);
     }
     @SetUtf8
     @LoginCheck
@@ -850,8 +835,9 @@ public class AdminController {
         Long operaterId=parseArg(getArg.apply(req, "operaterId"), Long.class);
         return clearService.addInvoiceInfo(taxNum,logisticsCompany,orderNum,postTime,recordId,operaterId).toJson();
     }
+    @SetUtf8
     @LoginCheck
-    @RequestMapping(value = "exportClearRecords", produces = "application/json;charset=utf-8")
+    @RequestMapping(value = "exportClearRecords", produces = "application/octet-stream;charset=utf-8")
     public void exportClearRecords(HttpServletRequest req,HttpServletResponse res){
         String timeStart = getArg.apply(req, "timeStart");
         String timeEnd = getArg.apply(req, "timeStop");
@@ -865,11 +851,12 @@ public class AdminController {
         InvoiceStatus invoiceStatus = InvoiceStatus.getType(invoiceStatusStr);
 
         RetMessage<File> retMessage=clearService.exportClearRecords(merchantName,timeStart,timeEnd,clearStatus,invoiceStatus,operaterId);
-        FileAssit.export(retMessage,res);
+        FileAssit.exportTest(retMessage.getDetail(),res);
+//        FileAssit.export(retMessage,res);
     }
-
+    @SetUtf8
     @LoginCheck
-    @RequestMapping(value = "exportDailyRecords", produces = "application/json;charset=utf-8")
+    @RequestMapping(value = "exportDailyRecords", produces = "application/octet-stream;charset=utf-8")
     public void exportDailyRecords(HttpServletRequest req,HttpServletResponse res){
         String timeStart = getArg.apply(req, "timeStart");
         String timeEnd = getArg.apply(req, "timeStop");
@@ -882,7 +869,8 @@ public class AdminController {
         Long operaterId = parseArg(operaterIdStr, Long.class);
         InvoiceStatus invoiceStatus = InvoiceStatus.getType(invoiceStatusStr);
         RetMessage<File> retMessage=clearService.exoirtDailyRecords(merchantName,timeStart,timeEnd,clearStatus,invoiceStatus,operaterId);
-        FileAssit.export(retMessage,res);
+        FileAssit.exportTest(retMessage.getDetail(),res);
+//        FileAssit.export(retMessage,res);
     }
 
     @SetUtf8
@@ -904,9 +892,9 @@ public class AdminController {
         Integer pageSize = parseArg(pageSizeStr, Integer.class);
         return clearService.statsticDailyRecords(merchantName,timeStart,timeEnd,clearStatus,pageNum,pageSize,operaterId).toJson();
     }
-
+    @SetUtf8
     @LoginCheck
-    @RequestMapping(value = "exportStaticDailyRecords", produces = "application/json;charset=utf-8")
+    @RequestMapping(value = "exportStaticDailyRecords", produces = "application/octet-stream;charset=utf-8")
     public void exportStaticDailyRecords(HttpServletRequest req,HttpServletResponse res){
         String timeStart = getArg.apply(req, "timeStart");
         String timeEnd = getArg.apply(req, "timeStop");
@@ -917,7 +905,8 @@ public class AdminController {
         ClearStatus clearStatus = ClearStatus.getType(clearStatusStr);
         Long operaterId = parseArg(operaterIdStr, Long.class);
         RetMessage<File> retMessage=clearService.exportStatsticDailyRecords(merchantName,timeStart,timeEnd,clearStatus,operaterId);
-        FileAssit.export(retMessage,res);
+        FileAssit.exportTest(retMessage.getDetail(),res);
+//        FileAssit.export(retMessage,res);
     }
     @SetUtf8
     @LoginCheck
@@ -965,10 +954,10 @@ public class AdminController {
         else
             return codeService.couponCodeInfo(codeId, operaterId).toJson();
     }
-
+    @SetUtf8
     @LoginCheck
-    @RequestMapping(value = "exportVerifyRecords", produces = "application/json;charset=utf-8")
-    public void exportVerifyRecords(HttpServletRequest req,HttpServletResponse res){
+    @RequestMapping(value = "exportVerifyRecords", produces = "application/octet-stream;charset=utf-8")
+    public void exportVerifyRecords(HttpServletRequest req,HttpServletResponse res) {
         String codeStr = getArg.apply(req, "code");
         String timeStart = getArg.apply(req, "timeStart");
         String timeEnd = getArg.apply(req, "timeStop");
@@ -983,7 +972,79 @@ public class AdminController {
         VerificationType type = toVerificationType.apply(verificationTypeString);
         Long operaterId = toLongArg.apply(operaterIdStr);
 
-        RetMessage<File> retMessage=verificationRecordService.exportVerificationRecords(code,timeStart,timeEnd,shopName,merchantName,commodityName,phone,type,operaterId);
-        FileAssit.export(retMessage,res);
+        RetMessage<File> retMessage = verificationRecordService.exportVerificationRecords(code, timeStart, timeEnd, shopName, merchantName, commodityName, phone, type, operaterId);
+        FileAssit.exportTest(retMessage.getDetail(), res);
+//        FileAssit.export(retMessage,res);
     }
+	@RequestMapping(value = "queryOrganizingInstitutionBarCodePic", produces = "application/json;charset=utf-8")
+	public void queryOrganizingInstitutionBarCodePic(HttpServletRequest req, HttpServletResponse res) {
+		String path=getArg.apply(req, "path");
+		try {
+			File file= merchantService.queryPic(path).getDetail();
+			res.setContentType("image/jpeg");
+            res.setHeader("Content-Disposition", "attachment;fileName=" + URLEncoder.encode(file.getName(), "utf-8"));
+			if (file!=null) {
+				InputStream is=new FileInputStream(file);
+				OutputStream os=res.getOutputStream();
+				int length=-1;
+				byte[]temp=new byte[1024];
+				while((length=is.read(temp))!=-1) {
+					os.write(temp,0,length);
+				}
+				os.flush();
+				is.close();
+				os.close();
+			}
+		} catch (Exception e) {
+			LogFactory.error(this,"获取商户组织机构代码证时发生异常",e);
+		}
+	}
+	
+	@RequestMapping(value = "queryBusinessLicensePic", produces = "application/json;charset=utf-8")
+	public void queryBusinessLicensePic(HttpServletRequest req, HttpServletResponse res) {
+		String path=getArg.apply(req, "path");
+		try {
+			File file= merchantService.queryPic(path).getDetail();
+			res.setContentType("image/jpeg");
+            res.setHeader("Content-Disposition", "attachment;fileName=" + URLEncoder.encode(file.getName(), "utf-8"));
+			if (file!=null) {
+				InputStream is=new FileInputStream(file);
+				OutputStream os=res.getOutputStream();
+				int length=-1;
+				byte[]temp=new byte[1024];
+				while((length=is.read(temp))!=-1) {
+					os.write(temp,0,length);
+				}
+				os.flush();
+				is.close();
+				os.close();
+			}
+		} catch (Exception e) {
+			LogFactory.error(this,"获取商户营业执照时发生异常",e);
+		}
+	}
+	
+	@RequestMapping(value = "queryOtherPic", produces = "application/json;charset=utf-8")
+	public void queryOtherPic(HttpServletRequest req, HttpServletResponse res) {
+		String path=getArg.apply(req, "path");
+		try {
+			File file= merchantService.queryPic(path).getDetail();
+			res.setContentType("image/jpeg");
+            res.setHeader("Content-Disposition", "attachment;fileName=" + URLEncoder.encode(file.getName(), "utf-8"));
+			if (file!=null) {
+				InputStream is=new FileInputStream(file);
+				OutputStream os=res.getOutputStream();
+				int length=-1;
+				byte[]temp=new byte[1024];
+				while((length=is.read(temp))!=-1) {
+					os.write(temp,0,length);
+				}
+				os.flush();
+				is.close();
+				os.close();
+			}
+		} catch (Exception e) {
+			LogFactory.error(this,"获取商户其他证明资料时发生异常",e);
+		}
+	}
 }

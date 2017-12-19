@@ -33,6 +33,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -762,5 +766,32 @@ public class MerchantController implements com.lanxi.couponcode.spi.service.Merc
 			return new RetMessage<>(RetCodeEnum.error,"查询全部商户时发生异常",null);
 		}
 	}
-
+	@Override
+	public RetMessage<File> queryPic(String path){
+		try {
+					File file=new File(path);
+					if (file.exists()) {
+						InputStream is=new FileInputStream(file);
+						File file2=new File(file.getName());
+						OutputStream os=new FileOutputStream(file2);
+						int length=-1;
+						byte[]temp=new byte[1024];
+						while((length=is.read(temp))!=-1) {
+							os.write(temp,0,length);
+						}
+						os.flush();
+						is.close();
+						os.close();
+						return new RetMessage<>(RetCodeEnum.success,"获取商户证件成功",file2);
+					}
+					else
+						return new RetMessage<>(RetCodeEnum.fail,"获取商户证件失败",null);
+			
+		} catch (Exception e) {
+			LogFactory.error(this,"获取商户证件时发生异常",e);
+			return new RetMessage<>(RetCodeEnum.error,"获取商户证件时发生异常",null);
+		}
+		
+	}
+	
 }

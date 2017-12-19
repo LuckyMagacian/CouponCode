@@ -292,7 +292,7 @@ public class AccountServiceImpl implements AccountService {
 			account.setMerchantName(merchantName);
 			EntityWrapper<Account> wrapper = new EntityWrapper<Account>();
 			if (merchantName != null) {
-				wrapper.eq("merchant_name", merchantName);
+				wrapper.eq("merchant_id", merchantId);
 				Integer var = dao.getAccountDao().update(account, wrapper);
 				if (var > 0) {
 					result = true;
@@ -315,10 +315,10 @@ public class AccountServiceImpl implements AccountService {
 		Boolean result = false;
 		try {
 			Account account = new Account();
-			account.setMerchantName(shopName);
+			account.setShopName(shopName);
 			EntityWrapper<Account> wrapper = new EntityWrapper<Account>();
 			if (shopName != null) {
-				wrapper.eq("shop_name", shopName);
+				wrapper.eq("shop_id", shopId);
 				Integer var = dao.getAccountDao().update(account, wrapper);
 				if (var > 0) {
 					result = true;
