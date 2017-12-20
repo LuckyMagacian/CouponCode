@@ -10,6 +10,6 @@ import javax.servlet.http.HttpServletResponse;
  */
 @Deprecated
 public interface Handler {
-    public <T> String  handle(HttpServletRequest req, HttpServletResponse res);
-    public <T> void handle(HttpRequest req, HttpServletResponse res, boolean fileWanted);
+    <T> String  handle(HttpServletRequest req, HttpServletResponse res);
+    <T> void handle(HttpRequest req, HttpServletResponse res, boolean fileWanted);
 }

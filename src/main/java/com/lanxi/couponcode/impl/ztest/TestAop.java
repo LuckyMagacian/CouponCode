@@ -8,16 +8,17 @@ import org.springframework.stereotype.Service;
  * Created by yangyuanjian on 2017/11/13.
  */
 @Service
-@EasyLog(LoggerUtil.LogLevel.INFO)
+@EasyLog (LoggerUtil.LogLevel.INFO)
 public class TestAop {
-    public void sayHello(){
+    public void sayHello() {
         System.out.println("hello!");
     }
 
-    public String sayHello(String name){
-        return "hello,"+name;
+    public String sayHello(String name) {
+        return "hello," + name;
     }
-    public String say(String name){
-        return name+" !";
+
+    public String say(String name) {
+        return name + " !";
     }
 }

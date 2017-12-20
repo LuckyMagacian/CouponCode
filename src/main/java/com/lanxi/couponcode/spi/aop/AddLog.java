@@ -26,27 +26,29 @@ import java.util.Map;
  */
 @Aspect
 @Component
-@Order(Ordered.HIGHEST_PRECEDENCE+10)
+@Order (Ordered.HIGHEST_PRECEDENCE + 10)
 public class AddLog {
 
     @Pointcut ("@within(com.lanxi.couponcode.spi.consts.annotations.EasyLog)")
-    public void easyLogClass() {}
+    public void easyLogClass() {
+    }
+
     @Pointcut ("@annotation(com.lanxi.couponcode.spi.consts.annotations.EasyLog)")
-    public void easyLogMethod(){}
+    public void easyLogMethod() {
+    }
 
     @Around ("easyLogClass()||easyLogMethod()")
     public <T> T logDefault(ProceedingJoinPoint joinPoint) {
-        LogFactory.debug(this,"---------------------------aop addlog is working---------------------------");
+        LogFactory.debug(this, "---------------------------aop addlog is working---------------------------");
         AopJob<T> job = (clazz, method, args, point) -> {
             T t = null;
             try {
                 LoggerUtil.LogLevel level = getLogLevel(method);
-                List<Object> argList=Arrays.asList(args);
-                HttpServletRequest req= (HttpServletRequest) argList.parallelStream().filter(e->e instanceof HttpServletRequest).findAny().orElse(null);
-                if(req!=null){
+                List<Object> argList = Arrays.asList(args);
+                HttpServletRequest req = (HttpServletRequest) argList.parallelStream().filter(e -> e instanceof HttpServletRequest).findAny().orElse(null);
+                if (req != null) {
                     LogFactory.debug(this.getClass(), "try invoke  class:[" + clazz.getName() + "] method:[" + method + "] arg:[" + req.getParameterMap() + "]");
-                }
-                else{
+                } else {
                     LogFactory.debug(this.getClass(), "try invoke  class:[" + clazz.getName() + "] method:[" + method + "] arg:[" + argList + "]");
                 }
                 t = (T) joinPoint.proceed(args);
@@ -67,11 +69,11 @@ public class AddLog {
                 }
             } catch (Throwable throwable) {
                 //记录异常
-                LogFactory.error(clazz, "occured exception ["+throwable+"]!class:[" + clazz.getName() + "] method[" + method + "]  arg:[" + Arrays.asList(args) + "]", throwable);
-                if(t!=null)
+                LogFactory.error(clazz, "occured exception [" + throwable + "]!class:[" + clazz.getName() + "] method[" + method + "]  arg:[" + Arrays.asList(args) + "]", throwable);
+                if (t != null)
                     return t;
                 else
-                    return (T)new RetMessage(RetCodeEnum.error,"添加日志时发生异常!",null);
+                    return (T) new RetMessage(RetCodeEnum.error, "添加日志时发生异常!", null);
             }
         };
         return AopJob.workJob(job, joinPoint);

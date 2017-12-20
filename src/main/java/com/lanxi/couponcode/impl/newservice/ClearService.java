@@ -1,7 +1,6 @@
 package com.lanxi.couponcode.impl.newservice;
 
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
-import com.baomidou.mybatisplus.mapper.Wrapper;
 import com.baomidou.mybatisplus.plugins.Page;
 import com.lanxi.couponcode.impl.entity.ClearDailyRecord;
 import com.lanxi.couponcode.impl.entity.ClearRecord;

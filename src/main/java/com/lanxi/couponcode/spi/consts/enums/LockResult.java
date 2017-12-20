@@ -11,19 +11,21 @@ import java.io.Serializable;
  * exception 锁定时发生异常<br>
  * Created by yangyuanjian on 2017/10/31.
  */
-public enum LockResult  implements Serializable ,Gettype{
-    success(0),fail(1),occupy(2),none(3),exception(4);
+public enum LockResult implements Serializable, Gettype {
+    success(0), fail(1), occupy(2), none(3), exception(4);
     private String value;
-    private LockResult(int value) {
-        this.value=value+"";
+
+    LockResult(int value) {
+        this.value = value + "";
     }
+
     @Override
     public String toString() {
         return value;
     }
 
     public static LockResult getType(int value) {
-        return getType(value+"");
+        return getType(value + "");
     }
 
 

@@ -23,13 +23,15 @@ import javax.annotation.Resource;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 import static com.lanxi.couponcode.impl.assist.PredicateAssist.*;
+
 /**
  * Created by yangyuanjian on 2017/11/16.
  */
 @CheckArg
-@EasyLog(LoggerUtil.LogLevel.INFO)
-@Controller("operateRecordControllerService")
+@EasyLog (LoggerUtil.LogLevel.INFO)
+@Controller ("operateRecordControllerService")
 public class OperateRecordController implements com.lanxi.couponcode.spi.service.OperateRecordService {
     @Resource
     private OperateRecordService recordService;
@@ -39,6 +41,7 @@ public class OperateRecordController implements com.lanxi.couponcode.spi.service
     private RedisEnhancedService redisEnhancedService;
     @Resource
     private AccountService accountService;
+
     @Override
     public RetMessage<String> queryOperateRecord(OperateType type,
                                                  OperateTargetType targetType,
@@ -53,9 +56,9 @@ public class OperateRecordController implements com.lanxi.couponcode.spi.service
                                                  Integer pageSize,
                                                  Long operaterId) {
         //-----------------------------------------------------------------校验--------------------------------------------------------------
-        Account account=accountService.queryAccountById(operaterId);
-        RetMessage message=checkAccount.apply(account,OperateType.queryOperateRecordList);
-        if(message!=null)
+        Account account = accountService.queryAccountById(operaterId);
+        RetMessage message = checkAccount.apply(account, OperateType.queryOperateRecordList);
+        if (message != null)
             return message;
         //-----------------------------------------------------------------执行--------------------------------------------------------------
         Page<OperateRecord> page = new Page<>(pageNum, pageSize);
@@ -87,11 +90,11 @@ public class OperateRecordController implements com.lanxi.couponcode.spi.service
         List<OperateRecord> list = recordService.queryRecords(wrapper, page);
         //-----------------------------------------------------------------返回--------------------------------------------------------------
         //需要分页信息
-        Map<String,Object> map=new HashMap<>();
-        map.put("page",page);
-        map.put("list",list);
+        Map<String, Object> map = new HashMap<>();
+        map.put("page", page);
+        map.put("list", list);
         if (list != null)
-            return new RetMessage<>(RetCodeEnum.success, "查询成功!",  ToJson.toJson(map));
+            return new RetMessage<>(RetCodeEnum.success, "查询成功!", ToJson.toJson(map));
         else
             return new RetMessage<>(RetCodeEnum.fail, "查询失败!", null);
     }
@@ -109,9 +112,9 @@ public class OperateRecordController implements com.lanxi.couponcode.spi.service
                                                          Integer pageSize,
                                                          Long operaterId) {
         //-----------------------------------------------------------------校验--------------------------------------------------------------
-        Account account=accountService.queryAccountById(operaterId);
-        RetMessage message=checkAccount.apply(account,OperateType.queryOperateRecordList);
-        if(message!=null)
+        Account account = accountService.queryAccountById(operaterId);
+        RetMessage message = checkAccount.apply(account, OperateType.queryOperateRecordList);
+        if (message != null)
             return message;
         //-----------------------------------------------------------------执行--------------------------------------------------------------
         Page<OperateRecord> page = new Page<>(pageNum, pageSize);
@@ -142,14 +145,14 @@ public class OperateRecordController implements com.lanxi.couponcode.spi.service
         List<OperateRecord> list = recordService.queryRecords(wrapper, page);
         //-----------------------------------------------------------------返回--------------------------------------------------------------
         //需要分页信息
-        Map<String,Object> map=new HashMap<>();
-        map.put("page",page);
-        map.put("list",list);
+        Map<String, Object> map = new HashMap<>();
+        map.put("page", page);
+        map.put("list", list);
 
         if (list == null)
             return new RetMessage<>(RetCodeEnum.fail, "查询失败!", null);
         else
-            return new RetMessage<>(RetCodeEnum.success, "查询成功!",  ToJson.toJson(map));
+            return new RetMessage<>(RetCodeEnum.success, "查询成功!", ToJson.toJson(map));
     }
 
     @Override
@@ -162,9 +165,9 @@ public class OperateRecordController implements com.lanxi.couponcode.spi.service
                                                              Integer pageNum,
                                                              Integer pageSize,
                                                              Long operaterId) {
-        Account account=accountService.queryAccountById(operaterId);
-        RetMessage message=checkAccount.apply(account,OperateType.queryOperateRecord);
-        if(message!=null)
+        Account account = accountService.queryAccountById(operaterId);
+        RetMessage message = checkAccount.apply(account, OperateType.queryOperateRecord);
+        if (message != null)
             return message;
         Page<OperateRecord> page = new Page<>(pageNum, pageSize);
         EntityWrapper<OperateRecord> wrapper = new EntityWrapper<>();
@@ -189,28 +192,28 @@ public class OperateRecordController implements com.lanxi.couponcode.spi.service
         if (phone != null)
             wrapper.like("phone", phone);
         wrapper.eq("merchant_id", account.getMerchantId());
-        wrapper.eq("shop_id",account.getShopId());
+        wrapper.eq("shop_id", account.getShopId());
         List<OperateRecord> list = recordService.queryRecords(wrapper, page);
         //需要分页信息
-        Map<String,Object> map=new HashMap<>();
-        map.put("page",page);
-        map.put("list",list);
+        Map<String, Object> map = new HashMap<>();
+        map.put("page", page);
+        map.put("list", list);
         if (list == null)
             return new RetMessage<>(RetCodeEnum.fail, "查询失败!", null);
         else
-            return new RetMessage<>(RetCodeEnum.success, "查询成功!",  ToJson.toJson(map));
+            return new RetMessage<>(RetCodeEnum.success, "查询成功!", ToJson.toJson(map));
     }
 
     @Override
     public RetMessage<String> queryOperateRecordInfo(Long recordId, Long operaterId) {
-        Account account=accountService.queryAccountById(operaterId);
-        RetMessage message=checkAccount.apply(account,OperateType.queryOperateRecord);
-        if(message!=null)
+        Account account = accountService.queryAccountById(operaterId);
+        RetMessage message = checkAccount.apply(account, OperateType.queryOperateRecord);
+        if (message != null)
             return message;
-        OperateRecord record=recordService.queryRecordInfo(recordId);
-        if(record==null)
+        OperateRecord record = recordService.queryRecordInfo(recordId);
+        if (record == null)
             return new RetMessage<>(RetCodeEnum.fail, "查询失败!", null);
         else
-            return new RetMessage<>(RetCodeEnum.success, "查询成功!",record.toJson());
+            return new RetMessage<>(RetCodeEnum.success, "查询成功!", record.toJson());
     }
 }

@@ -166,15 +166,17 @@ public class Order extends AbstractOrder{
 	public void setMerchantId(Long merchantId) {
 		this.merchantId = merchantId;
 	}
-	public CommodityType getTypeEnum() {
-		return Type;
+
+	public String getType() {
+		return Type == null ? null : Type.toString();
 	}
-	public String getType(){return Type==null?null:Type.getValue();}
-	public void setType(CommodityType type) {
-		Type = type;
+
+	public void setType(CommodityType Type) {
+		this.Type = Type;
 	}
-	public void setType(String type) {
-		Type = CommodityType.getType(type);
+
+	public void setType(String Type) {
+		this.Type = CommodityType.getType(Type);
 	}
 	public Long getSkuCode() {
 		return SkuCode;

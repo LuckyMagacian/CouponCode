@@ -124,28 +124,7 @@ public class Request extends AbstractRequest {
 
     @Override
     public String toString() {
-        return "Request{" +
-                "rquestId=" + rquestId +
-                ", requestTime='" + requestTime + '\'' +
-                ", requesterId=" + requesterId +
-                ", requesterName='" + requesterName + '\'' +
-                ", requesterPhone='" + requesterPhone + '\'' +
-                ", type=" + type +
-                ", commodityInfo='" + commodityInfo + '\'' +
-                ", status=" + status +
-                ", checkerId=" + checkerId +
-                ", checkerName='" + checkerName + '\'' +
-                ", checkerPhone='" + checkerPhone + '\'' +
-                ", checkTime='" + checkTime + '\'' +
-                ", commodityId=" + commodityId +
-                ", commodityName='" + commodityName + '\'' +
-                ", commodityType=" + commodityType +
-                ", merchantId=" + merchantId +
-                ", merchantName='" + merchantName + '\'' +
-                ", commodityInfoBefore='" + commodityInfoBefore + '\'' +
-                ", commodityInfoAfter='" + commodityInfoAfter + '\'' +
-                ", reason='" + reason + '\'' +
-                '}';
+        return String.format("Request{rquestId=%d, requestTime='%s', requesterId=%d, requesterName='%s', requesterPhone='%s', type=%s, commodityInfo='%s', status=%s, checkerId=%d, checkerName='%s', checkerPhone='%s', checkTime='%s', commodityId=%d, commodityName='%s', commodityType=%s, merchantId=%d, merchantName='%s', commodityInfoBefore='%s', commodityInfoAfter='%s', reason='%s'}", rquestId, requestTime, requesterId, requesterName, requesterPhone, type, commodityInfo, status, checkerId, checkerName, checkerPhone, checkTime, commodityId, commodityName, commodityType, merchantId, merchantName, commodityInfoBefore, commodityInfoAfter, reason);
     }
 
     public String getReason() {

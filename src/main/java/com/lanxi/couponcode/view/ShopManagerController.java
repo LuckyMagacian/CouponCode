@@ -23,123 +23,129 @@ import static com.lanxi.couponcode.spi.assist.ArgAssist.*;
  * Created by yangyuanjian on 11/30/2017.
  */
 @Controller
-@RequestMapping("shopManager")
+@RequestMapping ("shopManager")
 @EasyLog (LoggerUtil.LogLevel.INFO)
 public class ShopManagerController {
-    @Resource(name="codeControllerServiceRef")
+    @Resource (name = "codeControllerServiceRef")
     private CouponService codeService;
-    @Resource(name = "operateRecordControllerServiceRef")
+    @Resource (name = "operateRecordControllerServiceRef")
     private OperateRecordService operateRecordService;
-    @Resource(name="commodityControllerServiceRef")
+    @Resource (name = "commodityControllerServiceRef")
     private CommodityService commodityService;
     @Resource (name = "accountControllerServiceRef")
     private AccountService accountService;
     @Resource (name = "verificationRecordControllerServiceRef")
     private VerificationRecordService verificationRecordService;
+
     @SetUtf8
     @LoginCheck
     @ResponseBody
-    @RequestMapping(value = "verifyCode",produces = "application/json;charset=utf-8")
-    public String verifyCode(HttpServletRequest req,HttpServletResponse res){
-        String codIdStr=getArg.apply(req,"codeId");
-        String operaterIdStr=getArg.apply(req,"operaterId");
-        String codeStr=getArg.apply(req,"code");
-        String verifyTypeStr=getArg.apply(req,"verificationType");
+    @RequestMapping (value = "verifyCode", produces = "application/json;charset=utf-8")
+    public String verifyCode(HttpServletRequest req, HttpServletResponse res) {
+        String codIdStr = getArg.apply(req, "codeId");
+        String operaterIdStr = getArg.apply(req, "operaterId");
+        String codeStr = getArg.apply(req, "code");
+        String verifyTypeStr = getArg.apply(req, "verificationType");
 
-        Long codeId=parseArg(codIdStr,Long.class);
-        Long operaterId=parseArg(operaterIdStr,Long.class);
-        Long code=parseArg(codeStr,Long.class);
-        VerificationType verifyType=toVerificationType.apply(verifyTypeStr);
-        if(codeId==null)
-            return codeService.verificateCode(code,null,operaterId,verifyType).toJson();
+        Long codeId = parseArg(codIdStr, Long.class);
+        Long operaterId = parseArg(operaterIdStr, Long.class);
+        Long code = parseArg(codeStr, Long.class);
+        VerificationType verifyType = toVerificationType.apply(verifyTypeStr);
+        if (codeId == null)
+            return codeService.verificateCode(code, null, operaterId, verifyType).toJson();
         else
-            return codeService.verificateCode(codeId,operaterId,verifyType).toJson();
+            return codeService.verificateCode(codeId, operaterId, verifyType).toJson();
     }
+
     @SetUtf8
     @LoginCheck
     @ResponseBody
-    @RequestMapping(value = "queryCode",produces = "application/json;charset=utf-8")
-    public String queryCode(HttpServletRequest req,HttpServletResponse res){
-        String codIdStr=getArg.apply(req,"codeId");
-        String operaterIdStr=getArg.apply(req,"operaterId");
-        String codeStr=getArg.apply(req,"code");
+    @RequestMapping (value = "queryCode", produces = "application/json;charset=utf-8")
+    public String queryCode(HttpServletRequest req, HttpServletResponse res) {
+        String codIdStr = getArg.apply(req, "codeId");
+        String operaterIdStr = getArg.apply(req, "operaterId");
+        String codeStr = getArg.apply(req, "code");
 
 
-        Long codeId=parseArg(codIdStr,Long.class);
-        Long operaterId=parseArg(operaterIdStr,Long.class);
-        Long code=parseArg(codeStr,Long.class);
+        Long codeId = parseArg(codIdStr, Long.class);
+        Long operaterId = parseArg(operaterIdStr, Long.class);
+        Long code = parseArg(codeStr, Long.class);
 
-        if(codeId==null)
-            return codeService.couponCodeInfo(null,code,operaterId).toJson();
+        if (codeId == null)
+            return codeService.couponCodeInfo(null, code, operaterId).toJson();
         else
-            return codeService.couponCodeInfo(codeId,operaterId).toJson();
+            return codeService.couponCodeInfo(codeId, operaterId).toJson();
     }
 
 
     @SetUtf8
     @LoginCheck
     @ResponseBody
-    @RequestMapping(value = "queryOperateRecords", produces = "application/json;charset=utf-8")
-    public String queryOperateRecords(HttpServletRequest req,HttpServletResponse res){
-        String typeStr=getArg.apply(req,"type");
-        String targetTypeStr=getArg.apply(req,"targetType");
-        String accountTypeStr=getArg.apply(req,"accountType");
-        String timeStart=getArg.apply(req,"timeStart");
-        String timeEnd=getArg.apply(req,"timeStop");
-        String name=getArg.apply(req,"name");
-        String phone=getArg.apply(req,"phone");
-        String pageNumStr=getArg.apply(req,"pageNum");
-        String pageSizeStr=getArg.apply(req,"pageSize");
-        String operaterIdStr=getArg.apply(req,"operaterId");
+    @RequestMapping (value = "queryOperateRecords", produces = "application/json;charset=utf-8")
+    public String queryOperateRecords(HttpServletRequest req, HttpServletResponse res) {
+        String typeStr = getArg.apply(req, "type");
+        String targetTypeStr = getArg.apply(req, "targetType");
+        String accountTypeStr = getArg.apply(req, "accountType");
+        String timeStart = getArg.apply(req, "timeStart");
+        String timeEnd = getArg.apply(req, "timeStop");
+        String name = getArg.apply(req, "name");
+        String phone = getArg.apply(req, "phone");
+        String pageNumStr = getArg.apply(req, "pageNum");
+        String pageSizeStr = getArg.apply(req, "pageSize");
+        String operaterIdStr = getArg.apply(req, "operaterId");
 
-        OperateType type= OperateType.getType(typeStr);
-        OperateTargetType targetType= OperateTargetType.getType(targetTypeStr);
-        AccountType accountType= AccountType.getType(accountTypeStr);
-        Long operaterId=parseArg(operaterIdStr,Long.class);
-        Integer pageNum=parseArg(pageNumStr,Integer.class);
-        Integer pageSize=parseArg(pageSizeStr,Integer.class);
-        return operateRecordService.queryShopMerchantOperateRecord(type,targetType,timeStart,timeEnd,accountType,name,phone,pageNum,pageSize,operaterId).toJson();
+        OperateType type = OperateType.getType(typeStr);
+        OperateTargetType targetType = OperateTargetType.getType(targetTypeStr);
+        AccountType accountType = AccountType.getType(accountTypeStr);
+        Long operaterId = parseArg(operaterIdStr, Long.class);
+        Integer pageNum = parseArg(pageNumStr, Integer.class);
+        Integer pageSize = parseArg(pageSizeStr, Integer.class);
+        return operateRecordService.queryShopMerchantOperateRecord(type, targetType, timeStart, timeEnd, accountType, name, phone, pageNum, pageSize, operaterId).toJson();
     }
+
     @SetUtf8
     @LoginCheck
     @ResponseBody
-    @RequestMapping(value = "queryOperateRecord", produces = "application/json;charset=utf-8")
-    public String queryOperateRecord(HttpServletRequest req,HttpServletResponse res){
-        String recordIdStr=getArg.apply(req,"recordId");
-        String operaterIdStr=getArg.apply(req,"operaterId");
-        Long recordId=parseArg(recordIdStr,Long.class);
-        Long operaterId=parseArg(operaterIdStr,Long.class);
-        return operateRecordService.queryOperateRecordInfo(recordId,operaterId).toJson();
+    @RequestMapping (value = "queryOperateRecord", produces = "application/json;charset=utf-8")
+    public String queryOperateRecord(HttpServletRequest req, HttpServletResponse res) {
+        String recordIdStr = getArg.apply(req, "recordId");
+        String operaterIdStr = getArg.apply(req, "operaterId");
+        Long recordId = parseArg(recordIdStr, Long.class);
+        Long operaterId = parseArg(operaterIdStr, Long.class);
+        return operateRecordService.queryOperateRecordInfo(recordId, operaterId).toJson();
     }
+
     @SetUtf8
     @LoginCheck
     @ResponseBody
-    @RequestMapping(value = "queryCommodity", produces = "application/json;charset=utf-8")
-    public String queryCommodity(HttpServletRequest req,HttpServletResponse res){
-        String commodityIdStr=getArg.apply(req,"commodityId");
-        String operaterIdStr=getArg.apply(req,"operaterId");
+    @RequestMapping (value = "queryCommodity", produces = "application/json;charset=utf-8")
+    public String queryCommodity(HttpServletRequest req, HttpServletResponse res) {
+        String commodityIdStr = getArg.apply(req, "commodityId");
+        String operaterIdStr = getArg.apply(req, "operaterId");
         Long operaterId = toLongArg.apply(operaterIdStr);
-        Long commodityId=toLongArg.apply(commodityIdStr);
-        return commodityService.queryCommodity(commodityId,operaterId).toJson();
+        Long commodityId = toLongArg.apply(commodityIdStr);
+        return commodityService.queryCommodity(commodityId, operaterId).toJson();
     }
+
     @SetUtf8
     @LoginCheck
     @ResponseBody
-    @RequestMapping(value = "queryAllAccount", produces = "application/json;charset=utf-8")
-    public String queryAllAccount(HttpServletRequest req,HttpServletResponse res){
-        String operaterIdStr=req.getParameter("operaterId");
-        Long operaterId=toLongArg.apply(operaterIdStr);
+    @RequestMapping (value = "queryAllAccount", produces = "application/json;charset=utf-8")
+    public String queryAllAccount(HttpServletRequest req, HttpServletResponse res) {
+        String operaterIdStr = req.getParameter("operaterId");
+        Long operaterId = toLongArg.apply(operaterIdStr);
         return accountService.queryAllAccount(operaterId).toJson();
     }
+
     @SetUtf8
     @LoginCheck
     @ResponseBody
-    @RequestMapping(value = "queryVerifyAndStatstis", produces = "application/json;charset=utf-8")
-    public String queryVerifyRecordsAndStatstis(HttpServletRequest req,HttpServletResponse res){
-        String operaterIdStr=getArg.apply(req,"operaterId");
-        String accountIdStr=getArg.apply(req,"accountId");
-        Long operaterId=toLongArg.apply(operaterIdStr);
-        Long accountId=toLongArg.apply(accountIdStr);
-        return verificationRecordService.queryVerifyRecordsAndStatstis(accountId,operaterId).toJson();
+    @RequestMapping (value = "queryVerifyAndStatstis", produces = "application/json;charset=utf-8")
+    public String queryVerifyRecordsAndStatstis(HttpServletRequest req, HttpServletResponse res) {
+        String operaterIdStr = getArg.apply(req, "operaterId");
+        String accountIdStr = getArg.apply(req, "accountId");
+        Long operaterId = toLongArg.apply(operaterIdStr);
+        Long accountId = toLongArg.apply(accountIdStr);
+        return verificationRecordService.queryVerifyRecordsAndStatstis(accountId, operaterId).toJson();
     }
 }

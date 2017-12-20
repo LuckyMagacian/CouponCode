@@ -1,6 +1,5 @@
 package com.lanxi.couponcode.impl.entity;
 
-import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.baomidou.mybatisplus.activerecord.Model;
 import com.baomidou.mybatisplus.annotations.TableField;
@@ -14,7 +13,6 @@ import com.lanxi.couponcode.spi.defaultInterfaces.ToJson;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.List;
-import java.util.Map;
 
 /**
  * 清算记录类
@@ -102,35 +100,20 @@ public class ClearRecord extends Model<ClearRecord> implements CommonDefaultMeth
      */
     @TableField ("invoice_status")
     private InvoiceStatus invoiceStatus;
-    /**创建时间*/
-    @TableField("create_time")
+    /**
+     * 创建时间
+     */
+    @TableField ("create_time")
     private String createTime;
-    /**结算状态*/
-    @TableField("clear_status")
+    /**
+     * 结算状态
+     */
+    @TableField ("clear_status")
     private ClearStatus clearStatus;
 
     @Override
     public String toString() {
-        return "ClearRecord{" +
-                "recordId=" + recordId +
-                ", merchantId=" + merchantId +
-                ", merchantName='" + merchantName + '\'' +
-                ", dailyRecordIds=" + dailyRecordIds +
-                ", timeStart='" + timeStart + '\'' +
-                ", timeStop='" + timeStop + '\'' +
-                ", showTotal=" + showTotal +
-                ", factTotal=" + factTotal +
-                ", clearTime='" + clearTime + '\'' +
-                ", operaterId=" + operaterId +
-                ", operaterName='" + operaterName + '\'' +
-                ", taxNum='" + taxNum + '\'' +
-                ", logisticsCompany='" + logisticsCompany + '\'' +
-                ", orderNum='" + orderNum + '\'' +
-                ", postTime='" + postTime + '\'' +
-                ", invoiceStatus=" + invoiceStatus +
-                ", createTime='" + createTime + '\'' +
-                ", clearStatus=" + clearStatus +
-                '}';
+        return String.format("ClearRecord{recordId=%d, merchantId=%d, merchantName='%s', dailyRecordIds=%s, timeStart='%s', timeStop='%s', showTotal=%s, factTotal=%s, clearTime='%s', operaterId=%d, operaterName='%s', taxNum='%s', logisticsCompany='%s', orderNum='%s', postTime='%s', invoiceStatus=%s, createTime='%s', clearStatus=%s}", recordId, merchantId, merchantName, dailyRecordIds, timeStart, timeStop, showTotal, factTotal, clearTime, operaterId, operaterName, taxNum, logisticsCompany, orderNum, postTime, invoiceStatus, createTime, clearStatus);
     }
 
     public String getCreateTime() {
@@ -270,7 +253,7 @@ public class ClearRecord extends Model<ClearRecord> implements CommonDefaultMeth
     }
 
     public String getInvoiceStatus() {
-        return invoiceStatus==null?null:invoiceStatus.getValue();
+        return invoiceStatus == null ? null : invoiceStatus.getValue();
     }
 
     public void setInvoiceStatus(InvoiceStatus invoiceStatus) {
@@ -284,16 +267,19 @@ public class ClearRecord extends Model<ClearRecord> implements CommonDefaultMeth
     public ClearStatus getClearStatusEnum() {
         return clearStatus;
     }
+
     public String getClearStatus() {
-        return clearStatus==null?null:clearStatus.getValue();
+        return clearStatus == null ? null : clearStatus.getValue();
     }
 
     public void setClearStatus(ClearStatus clearStatus) {
         this.clearStatus = clearStatus;
     }
+
     public void setClearStatus(String clearStatus) {
         this.clearStatus = ClearStatus.getType(clearStatus);
     }
+
     @Override
     protected Serializable pkVal() {
         return this.recordId;

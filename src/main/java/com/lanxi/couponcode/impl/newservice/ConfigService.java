@@ -5,7 +5,7 @@ package com.lanxi.couponcode.impl.newservice;
  * @author yangyuanjian
  */
 public interface ConfigService {
-	public String getValue(String fileName, String keyName);
-	public String getValue(String keyName);
-	public void reload();
+	String getValue(String fileName, String keyName);
+	String getValue(String keyName);
+	void reload();
 }

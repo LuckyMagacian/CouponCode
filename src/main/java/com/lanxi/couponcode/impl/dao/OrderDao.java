@@ -4,6 +4,6 @@ import com.baomidou.mybatisplus.mapper.BaseMapper;
 import com.lanxi.couponcode.impl.entity.Order;
 
 
-public interface OrderDao extends BaseMapper<Order>{
+public interface OrderDao extends BaseMapper<Order> {
 
 }

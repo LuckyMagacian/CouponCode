@@ -5,19 +5,21 @@ import java.io.Serializable;
 /**
  * Created by yangyuanjian on 2017/11/7.
  */
-public enum ClearStatus  implements Serializable,Gettype {
-    cleard(1),uncleared(2),all(3),waitsure(4);
+public enum ClearStatus implements Serializable, Gettype {
+    cleard(1), uncleared(2), all(3), waitsure(4);
     private String value;
-    private ClearStatus(int value) {
-        this.value=value+"";
+
+    ClearStatus(int value) {
+        this.value = value + "";
     }
+
     @Override
     public String toString() {
         return value;
     }
 
     public static ClearStatus getType(int value) {
-        return getType(value+"");
+        return getType(value + "");
     }
 
 

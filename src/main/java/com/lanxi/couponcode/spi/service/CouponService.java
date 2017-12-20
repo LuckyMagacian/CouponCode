@@ -7,7 +7,6 @@ import com.lanxi.couponcode.spi.consts.enums.VerificationType;
 
 import java.io.File;
 import java.io.Serializable;
-import java.util.List;
 
 /**
  * Created by yangyuanjian on 2017/11/7.

@@ -4,7 +4,9 @@ import com.lanxi.couponcode.spi.assist.RedisKeyAssist;
 import com.lanxi.couponcode.spi.consts.annotations.EasyLog;
 import com.lanxi.util.utils.LoggerUtil;
 import org.springframework.stereotype.Service;
+
 import static com.lanxi.couponcode.spi.assist.SerializeAssist.*;
+
 import javax.annotation.Resource;
 import java.io.Serializable;
 import java.util.List;
@@ -12,62 +14,62 @@ import java.util.List;
 /**
  * Created by yangyuanjian on 2017/11/23.
  */
-@Service("cacheService")
+@Service ("cacheService")
 @EasyLog (LoggerUtil.LogLevel.INFO)
-public class CacheServiceImpl implements CacheService{
+public class CacheServiceImpl implements CacheService {
 
     @Resource
     private RedisService redisService;
 
     @Override
     public boolean addCache(String key, Serializable value, Long lifecycle) {
-        if(value==null)
+        if (value == null)
             return false;
-        final byte[] bytes=serialize(value);
-        return redisService.set(key,bytes,lifecycle);
+        final byte[] bytes = serialize(value);
+        return redisService.set(key, bytes, lifecycle);
     }
 
     @Override
     public boolean addCache(String className, String methodName, List<Object> args, Serializable value, Long lifecycle) {
-        final String key=RedisKeyAssist.getMethodCacheKey(className,methodName,args);
-        return addCache(key,value,lifecycle);
+        final String key = RedisKeyAssist.getMethodCacheKey(className, methodName, args);
+        return addCache(key, value, lifecycle);
     }
 
     @Override
     public Serializable getCache(String className, String methodName, List<Object> args) {
-        final String key=RedisKeyAssist.getMethodCacheKey(className,methodName,args);
+        final String key = RedisKeyAssist.getMethodCacheKey(className, methodName, args);
         return getCache(key);
     }
 
     @Override
     public Serializable getCache(String key) {
         byte[] bytes = redisService.getBytes(key);
-        if(bytes==null)
+        if (bytes == null)
             return null;
         return unserialize(bytes);
     }
 
     @Override
     public boolean delCache(String className, String methodName, List<Object> args) {
-        final String key=RedisKeyAssist.getMethodCacheKey(className,methodName,args);
+        final String key = RedisKeyAssist.getMethodCacheKey(className, methodName, args);
         return redisService.del(key);
     }
 
     @Override
     public boolean delCache(String className, String methodName) {
-        final String key=RedisKeyAssist.getMethodCacheKey(className,methodName,"*");
+        final String key = RedisKeyAssist.getMethodCacheKey(className, methodName, "*");
         return redisService.delKeyByPattern(key);
     }
 
     @Override
     public boolean delCache(String className) {
-        final String key=RedisKeyAssist.getMethodCacheKey(className,"","*");
+        final String key = RedisKeyAssist.getMethodCacheKey(className, "", "*");
         return redisService.delKeyByPattern(key);
     }
 
     @Override
     public boolean delAllCache() {
-        final String key=RedisKeyAssist.getMethodCacheKey("","","*");
+        final String key = RedisKeyAssist.getMethodCacheKey("", "", "*");
         return redisService.delKeyByPattern(key);
     }
 

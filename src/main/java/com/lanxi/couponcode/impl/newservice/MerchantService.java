@@ -21,48 +21,48 @@ import java.util.List;
  * @author wuxiaobo
  *
  */
-public interface MerchantService {
+ public interface MerchantService {
 	/*添加商户*/
-	public Boolean addMerchant(Merchant merchant);
+	 Boolean addMerchant(Merchant merchant);
 	/*修改商户*/
-	public Boolean updateMerchantById(Merchant merchant);
+	 Boolean updateMerchantById(Merchant merchant);
 	/*分页获取商户无查询条件*/
-	public List<Merchant> getAllMerchant(Page<Merchant> pageObj);
+	 List<Merchant> getAllMerchant(Page<Merchant> pageObj);
 	/*根据条件获取商户*/
-	public List<Merchant> getMerchantByCondition(Page<Merchant> pageObj, EntityWrapper<Merchant> wrapper);
+	 List<Merchant> getMerchantByCondition(Page<Merchant> pageObj, EntityWrapper<Merchant> wrapper);
 	/*查询商户详情*/
-	public Merchant queryMerchantParticularsById(Long merchantId);
+	 Merchant queryMerchantParticularsById(Long merchantId);
 //	/*更改商户状态*/
-//	public Boolean changeMerchanStatus(Long merchantId,
+//	 Boolean changeMerchanStatus(Long merchantId,
 //			Long operaterId, 
 //			String operaterInfo,
 //			String operaterPhone, 
 //			String merchantStatus);
 	/*冻结商户*/
-	public Boolean freezeMerchant(Merchant merchant);
+	 Boolean freezeMerchant(Merchant merchant);
 	/*开启商户*/
-	public Boolean unFreezeMerchant(Merchant merchant);
+	 Boolean unFreezeMerchant(Merchant merchant);
 	/*商户信息填写*/
-	public Boolean fillInInformation(Merchant merchant);
+	 Boolean fillInInformation(Merchant merchant);
 	/*商户组织机构代码证上传*/
-	public Boolean organizingInstitutionBarCodePicUpLoad(Merchant merchant,
+	 Boolean organizingInstitutionBarCodePicUpLoad(Merchant merchant,
                                                          File file);
 	/*商户工商营业执照上传*/
-	public Boolean businessLicensePicUpLoad(Merchant merchant,
+	 Boolean businessLicensePicUpLoad(Merchant merchant,
                                             File file);
 	/*商户其他证明材料上传*/
-	public Boolean otherPicUpLoad(Merchant merchant,
+	 Boolean otherPicUpLoad(Merchant merchant,
                                   File file);
 	/*根据商户id查询商户的状态*/
-	public String queryMerchantStatusByid(Long merchantId,
+	 String queryMerchantStatusByid(Long merchantId,
                                           Long operaterId);
 	/*导出*/
-	public File merchantExport(String merchantName, MerchantStatus merchantStatus, String timeStart,
+	 File merchantExport(String merchantName, MerchantStatus merchantStatus, String timeStart,
                                String timeStop, Long operaterId);
 	/**判断商户名称是否可用
 	 * true可用 
 	 * false 不可用*/
-	public Boolean isRepeat(String merchantName);
+	 Boolean isRepeat(String merchantName);
 	/**
 	 * 判断商户名称是否可用
 	 * @param merchantName
@@ -70,6 +70,6 @@ public interface MerchantService {
 	 * @return true可用 false 不可用
 	 * 
 	 */
-	public Boolean isRepeat(String merchantName,Long merchantId);
-	public List<Merchant> queryAll();
+	 Boolean isRepeat(String merchantName,Long merchantId);
+	 List<Merchant> queryAll();
 }

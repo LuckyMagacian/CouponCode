@@ -14,9 +14,9 @@ import java.util.List;
 /**
  * Created by yangyuanjian on 2017/11/16.
  */
-@EasyLog(LoggerUtil.LogLevel.INFO)
-@Service("operateRecordService")
-public class OperateRecordServiceImpl implements OperateRecordService{
+@EasyLog (LoggerUtil.LogLevel.INFO)
+@Service ("operateRecordService")
+public class OperateRecordServiceImpl implements OperateRecordService {
     @Resource
     private DaoService daoService;
     @Resource
@@ -31,17 +31,18 @@ public class OperateRecordServiceImpl implements OperateRecordService{
 
     @Override
     public OperateRecord queryRecordInfo(Long recordId) {
-        OperateRecord record= daoService.getOperateRecordDao().selectById(recordId);
+        OperateRecord record = daoService.getOperateRecordDao().selectById(recordId);
         return record;
     }
 
     @Override
     public List<OperateRecord> queryRecords(Wrapper<OperateRecord> wrapper, Page<OperateRecord> page) {
+        wrapper.orderBy("operate_time", false);
         List<OperateRecord> list;
-        if(page==null)
+        if (page == null)
             list = daoService.getOperateRecordDao().selectList(wrapper);
         else
-            list =daoService.getOperateRecordDao().selectPage(page,wrapper);
+            list = daoService.getOperateRecordDao().selectPage(page, wrapper);
         return list;
     }
 }

@@ -17,13 +17,15 @@ import java.util.stream.Stream;
  * Created by yangyuanjian on 12/18/2017.
  */
 public interface FillAssist {
-    /**根据list里的字段名,自动填充字段*/
-    BiFunction<Object,List<String>,Object> fillFieldValue=(o,l)->{
+    /**
+     * 根据list里的字段名,自动填充字段
+     */
+    BiFunction<Object, List<String>, Object> fillFieldValue = (o, l) -> {
         Field[] fields = o.getClass().getDeclaredFields();
         Stream.of(fields).parallel().filter(f -> !Modifier.isStatic(f.getModifiers())).forEach(f -> {
             try {
-                String name=f.getName();
-                if(l!=null&&!l.contains(name))
+                String name = f.getName();
+                if (l != null && !l.contains(name))
                     return;
 
                 f.setAccessible(true);
@@ -60,19 +62,23 @@ public interface FillAssist {
         return o;
     };
 
-    /**根据字字段类型自动填充字段-全部*/
+    /**
+     * 根据字字段类型自动填充字段-全部
+     */
     Function<Object, Object> fillEntity = e ->
-            fillFieldValue.apply(e,null);
+            fillFieldValue.apply(e, null);
 
-    /**根据字段名清除对应的字段的值*/
-    BiFunction<Object,List<String>,Object> clearFieldValue=(o,l)->{
+    /**
+     * 根据字段名清除对应的字段的值
+     */
+    BiFunction<Object, List<String>, Object> clearFieldValue = (o, l) -> {
         Field[] fields = o.getClass().getDeclaredFields();
         Stream.of(fields).parallel().filter(f -> !Modifier.isStatic(f.getModifiers())).forEach(f -> {
-            String name=f.getName();
-            if (l!=null&&l.contains(name)){
+            String name = f.getName();
+            if (l != null && l.contains(name)) {
                 f.setAccessible(true);
                 try {
-                    f.set(o,null);
+                    f.set(o, null);
                 } catch (IllegalAccessException e) {
                     e.printStackTrace();
                 }
@@ -80,15 +86,17 @@ public interface FillAssist {
         });
         return o;
     };
-    /**根据字段名保留对应的字段的值*/
-    BiFunction<Object,List<String>,Object> keeyFieldValue=(o,l)->{
+    /**
+     * 根据字段名保留对应的字段的值
+     */
+    BiFunction<Object, List<String>, Object> keeyFieldValue = (o, l) -> {
         Field[] fields = o.getClass().getDeclaredFields();
         Stream.of(fields).parallel().filter(f -> !Modifier.isStatic(f.getModifiers())).forEach(f -> {
-            String name=f.getName();
-            if (l!=null&&!l.contains(name)){
+            String name = f.getName();
+            if (l != null && !l.contains(name)) {
                 f.setAccessible(true);
                 try {
-                    f.set(o,null);
+                    f.set(o, null);
                 } catch (IllegalAccessException e) {
                     e.printStackTrace();
                 }

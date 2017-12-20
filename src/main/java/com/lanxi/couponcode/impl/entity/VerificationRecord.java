@@ -6,63 +6,90 @@ import com.baomidou.mybatisplus.annotations.TableName;
 import com.lanxi.couponcode.spi.abstractentity.AbstractVerificationRecord;
 import com.lanxi.couponcode.spi.consts.enums.ClearStatus;
 import com.lanxi.couponcode.spi.consts.enums.VerificationType;
-import org.apache.zookeeper.data.Stat;
 
 import java.io.Serializable;
-import java.sql.JDBCType;
 
 /**
  * 串码核销记录类
  * Created by yangyuanjian on 2017/11/2.
  */
-@TableName("verification_record")
-public class VerificationRecord extends AbstractVerificationRecord{
-    /**记录编号*/
-    @TableId("record_id")
+@TableName ("verification_record")
+public class VerificationRecord extends AbstractVerificationRecord {
+    /**
+     * 记录编号
+     */
+    @TableId ("record_id")
     private Long recordId;
-    /**串码*/
-    @TableField("code")
+    /**
+     * 串码
+     */
+    @TableField ("code")
     private Long code;
-    /**操作者编号*/
-    @TableField("operater_id")
+    /**
+     * 操作者编号
+     */
+    @TableField ("operater_id")
     private Long operaterId;
-    /**操作者手机号码*/
-    @TableField("operater_phone")
+    /**
+     * 操作者手机号码
+     */
+    @TableField ("operater_phone")
     private String operaterPhone;
-    /**商品编号*/
-    @TableField("commodity_id")
+    /**
+     * 商品编号
+     */
+    @TableField ("commodity_id")
     private Long commodityId;
-    /**商品名称*/
-    @TableField("commodity_name")
+    /**
+     * 商品名称
+     */
+    @TableField ("commodity_name")
     private String commodityName;
-    /**核销时间*/
-    @TableField("verficate_time")
+    /**
+     * 核销时间
+     */
+    @TableField ("verficate_time")
     private String verficateTime;
-    /**商户编号*/
-    @TableField("merchant_id")
+    /**
+     * 商户编号
+     */
+    @TableField ("merchant_id")
     private Long merchantId;
-    /**商户名称*/
-    @TableField("merchant_name")
+    /**
+     * 商户名称
+     */
+    @TableField ("merchant_name")
     private String merchantName;
-    /**门店编号*/
-    @TableField("shop_id")
+    /**
+     * 门店编号
+     */
+    @TableField ("shop_id")
     private Long shopId;
-    /**门店名称*/
-    @TableField("shop_name")
+    /**
+     * 门店名称
+     */
+    @TableField ("shop_name")
     private String shopName;
-    /**验证方式*/
-    @TableField(value = "verification_type")
+    /**
+     * 验证方式
+     */
+    @TableField (value = "verification_type")
     private VerificationType verificationType;
-    /**清算状态*/
-    @TableField("clear_status")
+    /**
+     * 清算状态
+     */
+    @TableField ("clear_status")
     private ClearStatus clearStatus;
 
 //    /**商品详情*/
 //    @TableField("commodity_info")
 //    private String commodityInfo;
-    /**门店详情*/
-    @TableField("shop_info")
+    /**
+     * 门店详情
+     */
+    @TableField ("shop_info")
     private String shopInfo;
+
     @Override
     protected Serializable pkVal() {
         return this.recordId;
@@ -185,12 +212,13 @@ public class VerificationRecord extends AbstractVerificationRecord{
     }
 
     public String getVerificationType() {
-        return verificationType==null?null:verificationType.getValue();
+        return verificationType == null ? null : verificationType.getValue();
     }
 
     public void setVerificationType(VerificationType verificationType) {
         this.verificationType = verificationType;
     }
+
     public void setVerificationType(String verificationType) {
         this.verificationType = VerificationType.getType(verificationType);
     }
@@ -204,12 +232,13 @@ public class VerificationRecord extends AbstractVerificationRecord{
     }
 
     public String getClearStatus() {
-        return clearStatus==null?null:clearStatus.toString();
+        return clearStatus == null ? null : clearStatus.toString();
     }
 
     public void setClearStatus(ClearStatus clearStatus) {
         this.clearStatus = clearStatus;
     }
+
     public void setClearStatus(String clearStatus) {
         this.clearStatus = ClearStatus.getType(clearStatus);
     }

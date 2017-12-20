@@ -22,14 +22,15 @@ import static com.lanxi.couponcode.spi.assist.ArgAssist.getArg;
 import static com.lanxi.couponcode.spi.assist.ArgAssist.toLongArg;
 
 @Controller ("loginView")
-@RequestMapping("loginCon")
+@RequestMapping ("loginCon")
 @EasyLog (LoggerUtil.LogLevel.INFO)
 public class LoginController {
     @Resource (name = "loginControllerServiceRef")
     private LoginService loginService;
-    @Resource(name = "redisService")
+    @Resource (name = "redisService")
     private RedisServiceImpl redisService;
-    private static final long picCodeLife=600*1000L;
+    private static final long picCodeLife = 600 * 1000L;
+
     @SetUtf8
     @ResponseBody
     @RequestMapping (value = "login", produces = "application/json;charset=utf-8")
@@ -37,26 +38,27 @@ public class LoginController {
         String phone = getArg.apply(req, "phone");
         String password = getArg.apply(req, "password");
         String validateCode = getArg.apply(req, "validateCode");
-        if(validateCode==null){
-            return new RetMessage<>(RetCodeEnum.fail,"图片验证码校验不通过!",null).toJson();
+        if (validateCode == null) {
+            return new RetMessage<>(RetCodeEnum.fail, "图片验证码校验不通过!", null).toJson();
         }
-        String sessionId=req.getRemoteHost()+req.getRemoteUser();
-        String key=RedisKeyAssist.getVerificateCodeKey(sessionId);
-        String cacheCode=redisService.get(key);
-        if(cacheCode==null||!cacheCode.equals(validateCode)){
-            return new RetMessage<>(RetCodeEnum.fail,"图片验证码错误!",null).toJson();
-        }else{
+        String sessionId = req.getRemoteHost() + req.getRemoteUser();
+        String key = RedisKeyAssist.getVerificateCodeKey(sessionId);
+        String cacheCode = redisService.get(key);
+        if (cacheCode == null || !cacheCode.equals(validateCode)) {
+            return new RetMessage<>(RetCodeEnum.fail, "图片验证码错误!", null).toJson();
+        } else {
             redisService.del(key);
         }
         RetMessage<String> retMessage = loginService.login(phone, password, validateCode);
         return retMessage.toJson();
     }
+
     @SetUtf8
     @ResponseBody
     @RequestMapping (value = "loginWechat", produces = "application/json;charset=utf-8")
-    public String loginWechat(HttpServletRequest req,HttpServletResponse res){
-        String phone=getArg.apply(req,"phone");
-        String password=getArg.apply(req,"password");
+    public String loginWechat(HttpServletRequest req, HttpServletResponse res) {
+        String phone = getArg.apply(req, "phone");
+        String password = getArg.apply(req, "password");
         RetMessage<String> retMessage = loginService.login(phone, password, null);
         return retMessage.toJson();
     }
@@ -96,24 +98,27 @@ public class LoginController {
         Long accountId = toLongArg.apply(accountIdStr);
         return loginService.changePassword(oldPasswd, newPasswd, newRepeat, accountId).toJson();
     }
+
     @SetUtf8
     @ResponseBody
     @RequestMapping (value = "sendValidateCode", produces = "application/json;charset=utf-8")
     public String sendValidateCode(HttpServletRequest req, HttpServletResponse res) {
-    	String phone=getArg.apply(req, "phone");
-    	return loginService.sendValidateCode(phone).toJson();
+        String phone = getArg.apply(req, "phone");
+        return loginService.sendValidateCode(phone).toJson();
     }
-    @RequestMapping(value = "getPicCode")
-    public void getPicValidateCode(HttpServletRequest req,HttpServletResponse res){
-        String sessionId=req.getRemoteHost()+req.getRemoteUser();
-        String code= PictureVerifyUtil.sendVerifyCode(res);
-        String key= RedisKeyAssist.getVerificateCodeKey(sessionId);
-        redisService.set(key,code,picCodeLife);
+
+    @RequestMapping (value = "getPicCode")
+    public void getPicValidateCode(HttpServletRequest req, HttpServletResponse res) {
+        String sessionId = req.getRemoteHost() + req.getRemoteUser();
+        String code = PictureVerifyUtil.sendVerifyCode(res);
+        String key = RedisKeyAssist.getVerificateCodeKey(sessionId);
+        redisService.set(key, code, picCodeLife);
     }
+
     @SetUtf8
     @ResponseBody
     @RequestMapping (value = "weChatLogin", produces = "application/json;charset=utf-8")
-    public String  weChatlogin(HttpServletRequest req, HttpServletResponse res) {
+    public String weChatlogin(HttpServletRequest req, HttpServletResponse res) {
         String phone = getArg.apply(req, "phone");
         String password = getArg.apply(req, "password");
         RetMessage<String> retMessage = loginService.login(phone, password, null);

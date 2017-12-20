@@ -11,12 +11,11 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.List;
-import java.util.Optional;
 
 /**
  * Created by yangyuanjian on 2017/11/17.
  */
-@Service("commodityService")
+@Service ("commodityService")
 @EasyLog (LoggerUtil.LogLevel.INFO)
 public class CommodityServiceImpl implements CommodityService {
     @Resource
@@ -38,28 +37,28 @@ public class CommodityServiceImpl implements CommodityService {
 
     @Override
     public Commodity queryCommodity(Long commodityId, Long merchantId) {
-        EntityWrapper<Commodity> wrapper=new EntityWrapper<>();
-        wrapper.eq("commodity_id",commodityId);
-        wrapper.eq("merchant_id",merchantId);
-        List<Commodity> list=queryCommodities(wrapper,null);
-        if(list==null||list.isEmpty())
+        EntityWrapper<Commodity> wrapper = new EntityWrapper<>();
+        wrapper.eq("commodity_id", commodityId);
+        wrapper.eq("merchant_id", merchantId);
+        List<Commodity> list = queryCommodities(wrapper, null);
+        if (list == null || list.isEmpty())
             return null;
-        if(list.size()>1)
+        if (list.size() > 1)
             return null;
         return list.get(0);
     }
 
     @Override
     public List<Commodity> queryCommodities(Wrapper<Commodity> wrapper, Page<Commodity> page) {
-        if(page==null)
+        if (page == null)
             return daoService.getCommodityDao().selectList(wrapper);
         else
-            return daoService.getCommodityDao().selectPage(page,wrapper);
+            return daoService.getCommodityDao().selectPage(page, wrapper);
     }
 
     @Override
     public Boolean delCommodity(Commodity commodity) {
-        synchronized (commodity){
+        synchronized (commodity) {
             commodity.setStatus(CommodityStatus.deleted);
             return commodity.updateById();
         }
@@ -67,23 +66,23 @@ public class CommodityServiceImpl implements CommodityService {
 
     @Override
     public Boolean shelveCommodity(Commodity commodity) {
-        synchronized (commodity){
+        synchronized (commodity) {
             commodity.setStatus(CommodityStatus.shelved);
-            return  commodity.updateById();
+            return commodity.updateById();
         }
     }
 
     @Override
     public Boolean unshelveCommodity(Commodity commodity) {
-        synchronized (commodity){
+        synchronized (commodity) {
             commodity.setStatus(CommodityStatus.unshelved);
-            return  commodity.updateById();
+            return commodity.updateById();
         }
     }
 
     @Override
     public Boolean modifyCommodity(Commodity commodity) {
-        synchronized (commodity){
+        synchronized (commodity) {
             return commodity.updateById();
         }
     }

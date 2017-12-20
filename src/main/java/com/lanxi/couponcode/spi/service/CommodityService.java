@@ -29,15 +29,19 @@ public interface CommodityService {
                                         BigDecimal facePrice,
                                         BigDecimal sellPrice,
                                         Integer lifeTime,
+                                        String useDetail,
                                         @HiddenArg Long commodityId,
                                         @HiddenArg Long operaterId);
 
     RetMessage<Boolean> shelveCommodity(@HiddenArg Long commodityId,
                                         @HiddenArg Long operaterId);
+
     RetMessage<Boolean> unshelveCommodity(@HiddenArg Long commodityId,
                                           @HiddenArg Long operaterId);
+
     RetMessage<Boolean> delCommodity(@HiddenArg Long commodity,
                                      @HiddenArg Long operaterId);
+
     @RealReturnType ("List<Commodity>")
     RetMessage<String> queryCommodities(String merchantName,
                                         String commodityName,
@@ -56,6 +60,7 @@ public interface CommodityService {
                                             String timeStart,
                                             String timeEnd,
                                             @HiddenArg Long operaterId);
+
     @RealReturnType ("List<Commodity>")
     RetMessage<String> merchantQueryCommodities(String commodityName,
                                                 CommodityType type,

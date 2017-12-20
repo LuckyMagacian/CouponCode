@@ -1,12 +1,9 @@
 package com.lanxi.couponcode.impl.newservice;
 
-import com.lanxi.couponcode.impl.newservice.ConfigService;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.Pipeline;
 
-import javax.annotation.Resource;
 import java.util.Collection;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 

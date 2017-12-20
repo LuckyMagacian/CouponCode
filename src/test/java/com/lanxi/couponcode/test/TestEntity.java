@@ -12,28 +12,29 @@ import java.lang.invoke.MethodType;
 
 public class TestEntity {
 
-	@Test
-	public void test3() throws Throwable {
-		MethodType type=MethodType.methodType(String.class,int.class,int.class);
-		MethodHandle handle=MethodHandles.lookup().findVirtual(String.class, "substring", type);
-		System.out.println(handle.invoke("123456",1,5));
-		
-	}
-	
-	@Test
-	public void test4() throws Throwable {
+    @Test
+    public void test3() throws Throwable {
+        MethodType type = MethodType.methodType(String.class, int.class, int.class);
+        MethodHandle handle = MethodHandles.lookup().findVirtual(String.class, "substring", type);
+        System.out.println(handle.invoke("123456", 1, 5));
 
-		
-	}
-	
-	public static void main(String[] args) {
-		System.out.println(RandomUtil.getRandomChar());
-	}
-	@Test
-	public void test5(){
-		BiMap<Long,Long> map= HashBiMap.create();
-		long i=0;
-		while(i<100000000)
-			map.put(i++, IdWorker.getId());
-	}
+    }
+
+    @Test
+    public void test4() throws Throwable {
+
+
+    }
+
+    public static void main(String[] args) {
+        System.out.println(RandomUtil.getRandomChar());
+    }
+
+    @Test
+    public void test5() {
+        BiMap<Long, Long> map = HashBiMap.create();
+        long i = 0;
+        while (i < 100000000)
+            map.put(i++, IdWorker.getId());
+    }
 }

@@ -135,6 +135,7 @@ public class CommodityController implements com.lanxi.couponcode.spi.service.Com
                                                BigDecimal facePrice,
                                                BigDecimal sellPrice,
                                                Integer lifeTime,
+                                               String useDetail,
                                                Long commodityId,
                                                Long operaterId) {
         Account account = accountService.queryAccountById(operaterId);
@@ -155,6 +156,10 @@ public class CommodityController implements com.lanxi.couponcode.spi.service.Com
             commodity.setSellPrice(sellPrice);
         if (notNull.test(lifeTime))
             commodity.setLifeTime(lifeTime);
+        if (notNull.test(useDetail)) {
+            commodity.setUseDetail(useDetail);
+            commodity.setDescription(useDetail);
+        }
         Boolean result = commodityService.modifyCommodity(commodity);
         if (result == null)
             return new RetMessage<>(RetCodeEnum.fail, "修改时异常!", null);
@@ -326,9 +331,9 @@ public class CommodityController implements com.lanxi.couponcode.spi.service.Com
         List<Commodity> list = queryCommoditiesHidden(merchantName, commodityName, commodityType, commodityStatus, timeStart, timeEnd, null);
         // TODO 配置要显示的内容
         Map<String, String> map = new HashMap<>();
-        File file = new File("商品导出"+TimeAssist.getNow()+".xls");
+        File file = new File("商品导出" + TimeAssist.getNow() + ".xls");
         try {
-            ExcelUtil.exportExcelFile(list,map,new FileOutputStream(file));
+            ExcelUtil.exportExcelFile(list, map, new FileOutputStream(file));
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
@@ -421,8 +426,8 @@ public class CommodityController implements com.lanxi.couponcode.spi.service.Com
     @Override
     public RetMessage<Serializable> queryAllCommodityIds(Long operaterId) {
         Account account = accountService.queryAccountById(operaterId);
-        if(isAdmin.negate().test(account)&&isMerchantManager.negate().test(account))
-            return new RetMessage<>(RetCodeEnum.fail,"非管理员商户管理员无权操作!",null);
+        if (isAdmin.negate().test(account) && isMerchantManager.negate().test(account))
+            return new RetMessage<>(RetCodeEnum.fail, "非管理员商户管理员无权操作!", null);
         Map<String, Long> map = new HashMap<>();
         commodityService.queryAll()
                 .parallelStream()
@@ -433,7 +438,7 @@ public class CommodityController implements com.lanxi.couponcode.spi.service.Com
                         return true;
                 })
                 .forEach(e -> map.put(e.getCommodityName(), e.getCommodityId()));
-            return new RetMessage<>(RetCodeEnum.success, "查询成功!", (Serializable) map);
+        return new RetMessage<>(RetCodeEnum.success, "查询成功!", (Serializable) map);
     }
 
     @Override

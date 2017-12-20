@@ -1,6 +1,5 @@
 package com.lanxi.couponcode.impl.assist;
 
-import com.lanxi.couponcode.spi.consts.annotations.Comment;
 import com.lanxi.util.utils.ExcelUtil;
 import org.apache.poi.ss.usermodel.Workbook;
 
@@ -10,7 +9,6 @@ import java.io.FileOutputStream;
 import java.io.OutputStream;
 import java.util.List;
 import java.util.Map;
-import java.util.function.Consumer;
 import java.util.function.Supplier;
 
 /**
@@ -19,10 +17,10 @@ import java.util.function.Supplier;
 public class ExcelAssist {
     private Workbook workbook;
 
-    private Boolean readSkipFirstLine=null;
-    private Boolean writeSkipFirstLine=null;
+    private Boolean readSkipFirstLine = null;
+    private Boolean writeSkipFirstLine = null;
 
-    private Supplier<Object> checkSkip=()->{
+    private Supplier<Object> checkSkip = () -> {
         throw new IllegalStateException("must set readSkipFirstLine and writeSkipFirstLine otherwise may result wrong data !");
     };
 //    @Comment("0 is first number in poi !")
@@ -33,14 +31,14 @@ public class ExcelAssist {
 //
 //    }
 
-    public void writeList(OutputStream out, List<Object> list, Map<String,String> headMap){
-        ExcelUtil.exportExcelFile(list,headMap,out);
+    public void writeList(OutputStream out, List<Object> list, Map<String, String> headMap) {
+        ExcelUtil.exportExcelFile(list, headMap, out);
     }
 
-    public void writeList(File file, List<Object> list,Map<String,String> headMap){
+    public void writeList(File file, List<Object> list, Map<String, String> headMap) {
         try {
-            FileOutputStream fout=new FileOutputStream(file);
-            ExcelUtil.exportExcelFile(list,headMap,fout);
+            FileOutputStream fout = new FileOutputStream(file);
+            ExcelUtil.exportExcelFile(list, headMap, fout);
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }

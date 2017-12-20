@@ -16,53 +16,80 @@ import java.util.List;
 /**
  * Created by yangyuanjian on 2017/11/22.
  */
-@TableName("clear_daily_record")
-public class ClearDailyRecord extends Model<ClearDailyRecord> implements CommonDefaultMethodOfEntity{
-    /**记录编号*/
-    @TableId("record_id")
+@TableName ("clear_daily_record")
+public class ClearDailyRecord extends Model<ClearDailyRecord> implements CommonDefaultMethodOfEntity {
+    /**
+     * 记录编号
+     */
+    @TableId ("record_id")
     private Long recordId;
-    /**记录时间*/
-    @TableField("record_time")
+    /**
+     * 记录时间
+     */
+    @TableField ("record_time")
     private String recordTime;
 //    private List<Long> commodityIds;
 //    private List<String> commodityNames;
-    /**应结算总额*/
-    @TableField("show_total")
+    /**
+     * 应结算总额
+     */
+    @TableField ("show_total")
     private BigDecimal showTotal;
-    /**商户编号*/
-    @TableField("merchant_id")
+    /**
+     * 商户编号
+     */
+    @TableField ("merchant_id")
     private Long merchantId;
-    /**商户名称*/
-    @TableField("merchant_name")
+    /**
+     * 商户名称
+     */
+    @TableField ("merchant_name")
     private String merchantName;
-    /**核销数量*/
-    @TableField("verificate_num")
+    /**
+     * 核销数量
+     */
+    @TableField ("verificate_num")
     private Integer verificateNum;
-    /**销毁数量*/
-    @TableField("cancelation_num")
+    /**
+     * 销毁数量
+     */
+    @TableField ("cancelation_num")
     private Integer cancelationNum;
-    /**过期数量*/
-    @TableField("overtime_num")
+    /**
+     * 过期数量
+     */
+    @TableField ("overtime_num")
     private Integer overtimeNum;
-    /**核销成本*/
-    @TableField("verificate_cost")
+    /**
+     * 核销成本
+     */
+    @TableField ("verificate_cost")
     private BigDecimal verificateCost;
-    /**销毁成本*/
-    @TableField("cancelation_cost")
+    /**
+     * 销毁成本
+     */
+    @TableField ("cancelation_cost")
     private BigDecimal cancelationCost;
-    /**过期成本*/
-    @TableField("overtime_cost")
+    /**
+     * 过期成本
+     */
+    @TableField ("overtime_cost")
     private BigDecimal overtimeCost;
-    /**结算状态*/
-    @TableField("clear_status")
+    /**
+     * 结算状态
+     */
+    @TableField ("clear_status")
     private ClearStatus clearStatus;
-    /**清算时间*/
-    @TableField("clear_time")
+    /**
+     * 清算时间
+     */
+    @TableField ("clear_time")
     private String clearTime;
-    /**商品清算记录列表*/
-    @TableField("commodity_clear_records")
+    /**
+     * 商品清算记录列表
+     */
+    @TableField ("commodity_clear_records")
     private List<CommodityClearRecord> commodityClearRecords;
-
 
 
     public Long getRecordId() {
@@ -154,7 +181,7 @@ public class ClearDailyRecord extends Model<ClearDailyRecord> implements CommonD
     }
 
     public String getClearStatus() {
-        return clearStatus==null?null:clearStatus.getValue();
+        return clearStatus == null ? null : clearStatus.getValue();
     }
 
 
@@ -179,14 +206,15 @@ public class ClearDailyRecord extends Model<ClearDailyRecord> implements CommonD
     }
 
     public String getCommodityClearRecords() {
-        return commodityClearRecords==null?null:ToJson.toJson(commodityClearRecords);
+        return commodityClearRecords == null ? null : ToJson.toJson(commodityClearRecords);
     }
 
     public void setCommodityClearRecords(List<CommodityClearRecord> cmommodityClearRecords) {
         this.commodityClearRecords = cmommodityClearRecords;
     }
+
     public void setCommodityClearRecords(String commodityClearRecords) {
-        this.commodityClearRecords = JSONArray.parseArray(commodityClearRecords,CommodityClearRecord.class);
+        this.commodityClearRecords = JSONArray.parseArray(commodityClearRecords, CommodityClearRecord.class);
     }
 
 

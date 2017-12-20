@@ -7,7 +7,7 @@ import java.math.BigDecimal;
 /**
  * Created by yangyuanjian on 12/7/2017.
  */
-public class Cc implements ToJson{
+public class Cc implements ToJson {
     private Long a;
     private BigDecimal b;
     private Double c;

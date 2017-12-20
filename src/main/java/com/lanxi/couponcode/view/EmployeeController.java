@@ -21,48 +21,49 @@ import static com.lanxi.couponcode.spi.assist.ArgAssist.*;
  * Created by yangyuanjian on 2017/11/20.
  */
 @Controller
-@RequestMapping("employee")
+@RequestMapping ("employee")
 @EasyLog (LoggerUtil.LogLevel.INFO)
 public class EmployeeController {
 
-    @Resource(name="codeControllerServiceRef")
+    @Resource (name = "codeControllerServiceRef")
     private CouponService codeService;
 
     @SetUtf8
     @LoginCheck
     @ResponseBody
-    @RequestMapping(value = "verifyCode",produces = "application/json;charset=utf-8")
-    public String verifyCode(HttpServletRequest req, HttpServletResponse res){
-        String codIdStr=getArg.apply(req,"codeId");
-        String operaterIdStr=getArg.apply(req,"operaterId");
-        String codeStr=getArg.apply(req,"code");
-        String verifyTypeStr=getArg.apply(req,"verificationType");
+    @RequestMapping (value = "verifyCode", produces = "application/json;charset=utf-8")
+    public String verifyCode(HttpServletRequest req, HttpServletResponse res) {
+        String codIdStr = getArg.apply(req, "codeId");
+        String operaterIdStr = getArg.apply(req, "operaterId");
+        String codeStr = getArg.apply(req, "code");
+        String verifyTypeStr = getArg.apply(req, "verificationType");
 
-        Long codeId=parseArg(codIdStr,Long.class);
-        Long operaterId=parseArg(operaterIdStr,Long.class);
-        Long code=parseArg(codeStr,Long.class);
-        VerificationType verifyType=toVerificationType.apply(verifyTypeStr);
-        if(codeId==null)
-            return codeService.verificateCode(code,null,operaterId,verifyType).toJson();
+        Long codeId = parseArg(codIdStr, Long.class);
+        Long operaterId = parseArg(operaterIdStr, Long.class);
+        Long code = parseArg(codeStr, Long.class);
+        VerificationType verifyType = toVerificationType.apply(verifyTypeStr);
+        if (codeId == null)
+            return codeService.verificateCode(code, null, operaterId, verifyType).toJson();
         else
-            return codeService.verificateCode(codeId,operaterId,verifyType).toJson();
+            return codeService.verificateCode(codeId, operaterId, verifyType).toJson();
     }
+
     @SetUtf8
     @LoginCheck
     @ResponseBody
-    @RequestMapping(value = "queryCode",produces = "application/json;charset=utf-8")
-    public String queryCode(HttpServletRequest req,HttpServletResponse res){
+    @RequestMapping (value = "queryCode", produces = "application/json;charset=utf-8")
+    public String queryCode(HttpServletRequest req, HttpServletResponse res) {
 //        String codIdStr=getArg.apply(req,"codeId");
-        String operaterIdStr=getArg.apply(req,"operaterId");
-        String codeStr=getArg.apply(req,"code");
+        String operaterIdStr = getArg.apply(req, "operaterId");
+        String codeStr = getArg.apply(req, "code");
 
 
 //        Long codeId=parseArg(codIdStr,Long.class);
-        Long operaterId=parseArg(operaterIdStr,Long.class);
-        Long code=parseArg(codeStr,Long.class);
+        Long operaterId = parseArg(operaterIdStr, Long.class);
+        Long code = parseArg(codeStr, Long.class);
 
 //        if(codeId==null)
-            return codeService.couponCodeInfo(null,code,operaterId).toJson();
+        return codeService.couponCodeInfo(null, code, operaterId).toJson();
 //        else
 //            return codeService.couponCodeInfo(codeId,operaterId).toJson();
     }

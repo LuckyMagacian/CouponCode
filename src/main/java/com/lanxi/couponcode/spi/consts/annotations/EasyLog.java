@@ -7,8 +7,8 @@ import java.lang.annotation.*;
 /**
  * Created by yangyuanjian on 2017/11/14.
  */
-@Retention(RetentionPolicy.RUNTIME)
-@Target({ElementType.METHOD,ElementType.TYPE})
+@Retention (RetentionPolicy.RUNTIME)
+@Target ({ElementType.METHOD, ElementType.TYPE})
 public @interface EasyLog {
     LoggerUtil.LogLevel value();
 }

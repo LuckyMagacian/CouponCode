@@ -1,48 +1,74 @@
 package com.lanxi.couponcode.impl.entity;
 
-import com.baomidou.mybatisplus.activerecord.Model;
 import com.lanxi.couponcode.spi.consts.enums.ClearStatus;
 import com.lanxi.couponcode.spi.consts.enums.CommodityType;
 import com.lanxi.couponcode.spi.defaultInterfaces.CommonDefaultMethodOfEntity;
 
-import java.io.Serializable;
 import java.math.BigDecimal;
 
 /**
  * Created by yangyuanjian on 2017/11/20.
  */
 public class CommodityClearRecord implements CommonDefaultMethodOfEntity {
-    /**记录编号*/
+    /**
+     * 记录编号
+     */
     private Long recordId;
-    /**记录时间*/
+    /**
+     * 记录时间
+     */
     private String recordTime;
-    /**商品编号*/
+    /**
+     * 商品编号
+     */
     private Long commodityId;
-    /**商户编号*/
+    /**
+     * 商户编号
+     */
     private Long merchantId;
-    /**商品名称*/
+    /**
+     * 商品名称
+     */
     private String commodityName;
-    /**商户名称*/
+    /**
+     * 商户名称
+     */
     private String merchantName;
-    /**商品类型*/
+    /**
+     * 商品类型
+     */
     private CommodityType commodityType;
 //    /**兑换数量*/
 //    private Integer exchangedNum;
-    /**核销数量*/
+    /**
+     * 核销数量
+     */
     private Integer verificateNum;
-    /**销毁数量*/
+    /**
+     * 销毁数量
+     */
     private Integer cancelationNum;
-    /**过期数量*/
+    /**
+     * 过期数量
+     */
     private Integer overtimeNum;
 //    /**兑换成本*/
 //    private BigDecimal exchangedCost;
-    /**核销成本*/
+    /**
+     * 核销成本
+     */
     private BigDecimal verificateCost;
-    /**销毁成本*/
+    /**
+     * 销毁成本
+     */
     private BigDecimal cancelationCost;
-    /**过期成本*/
+    /**
+     * 过期成本
+     */
     private BigDecimal overtimeCost;
-    /**清算状态{@link ClearStatus}*/
+    /**
+     * 清算状态{@link ClearStatus}
+     */
     private ClearStatus clearStatus;
 
 
@@ -98,7 +124,9 @@ public class CommodityClearRecord implements CommonDefaultMethodOfEntity {
         return commodityType;
     }
 
-    public String getCommodityType(){return commodityType==null?null: commodityType.getValue();}
+    public String getCommodityType() {
+        return commodityType == null ? null : commodityType.getValue();
+    }
 
 
     public void setCommodityType(CommodityType commodityType) {

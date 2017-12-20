@@ -13,61 +13,95 @@ import java.math.BigDecimal;
 /**
  * Created by yangyuanjian on 2017/11/7.
  */
-@TableName("commodity")
-public class Commodity extends AbstractCommodity{
-    /**商品编号*/
-    @TableId("commodity_id")
+@TableName ("commodity")
+public class Commodity extends AbstractCommodity {
+    /**
+     * 商品编号
+     */
+    @TableId ("commodity_id")
     private Long commodityId;
-    /**商品名称*/
-    @TableField("commodity_name")
+    /**
+     * 商品名称
+     */
+    @TableField ("commodity_name")
     private String commodityName;
-    /**商品类型*/
-    @TableField("type")
+    /**
+     * 商品类型
+     */
+    @TableField ("type")
     private CommodityType type;
-    /**商品面值*/
-    @TableField("face_price")
+    /**
+     * 商品面值
+     */
+    @TableField ("face_price")
     private BigDecimal facePrice;
-    /**商品销售价*/
-    @TableField("sell_price")
+    /**
+     * 商品销售价
+     */
+    @TableField ("sell_price")
     private BigDecimal sellPrice;
-    /**商品成本价*/
-    @TableField("cost_price")
+    /**
+     * 商品成本价
+     */
+    @TableField ("cost_price")
     private BigDecimal costPrice;
-    /**商品有效期*/
-    @TableField("life_time")
+    /**
+     * 商品有效期
+     */
+    @TableField ("life_time")
     private Integer lifeTime;
-    /**商品状态*/
-    @TableField("status")
+    /**
+     * 商品状态
+     */
+    @TableField ("status")
     private CommodityStatus status;
-    /**剩余库存*/
-    @TableField("less_num")
+    /**
+     * 剩余库存
+     */
+    @TableField ("less_num")
     private Integer lessNum;
-    /**库存警告值*/
-    @TableField("warnning_num")
+    /**
+     * 库存警告值
+     */
+    @TableField ("warnning_num")
     private Integer warnningNum;
 
-    /**商户编号*/
-    @TableField("merchant_id")
+    /**
+     * 商户编号
+     */
+    @TableField ("merchant_id")
     private Long merchantId;
-    /**商户名称*/
-    @TableField("merchant_name")
+    /**
+     * 商户名称
+     */
+    @TableField ("merchant_name")
     private String merchantName;
 
-    /**商品描述*/
-    @TableField("description")
+    /**
+     * 商品描述
+     */
+    @TableField ("description")
     private String description;
-    /**使用详情*/
-    @TableField("use_detail")
+    /**
+     * 使用详情
+     */
+    @TableField ("use_detail")
     private String useDetail;
 
-    /**添加者编号*/
-    @TableField("add_id")
+    /**
+     * 添加者编号
+     */
+    @TableField ("add_id")
     private Long addId;
-    /**添加时间*/
-    @TableField("add_time")
+    /**
+     * 添加时间
+     */
+    @TableField ("add_time")
     private String addTime;
-    /**添加者姓名*/
-    @TableField("add_name")
+    /**
+     * 添加者姓名
+     */
+    @TableField ("add_name")
     private String addName;
 
 
@@ -94,8 +128,10 @@ public class Commodity extends AbstractCommodity{
 //    @TableField("check_name")
 //    private String checkName;
 
-    /**备注--用作存储请求id*/
-    @TableField("remark")
+    /**
+     * 备注--用作存储请求id
+     */
+    @TableField ("remark")
     private String remark;
 
     @Override
@@ -151,7 +187,7 @@ public class Commodity extends AbstractCommodity{
     }
 
     public String getType() {
-        return type==null?null:type.toString();
+        return type == null ? null : type.toString();
     }
 
     public void setType(CommodityType type) {
@@ -291,7 +327,6 @@ public class Commodity extends AbstractCommodity{
 //    }
 
 
-
     public String getRemark() {
         return remark;
     }
@@ -301,12 +336,13 @@ public class Commodity extends AbstractCommodity{
     }
 
     public String getStatus() {
-        return status==null?null:status.toString();
+        return status == null ? null : status.toString();
     }
 
     public void setStatus(CommodityStatus status) {
         this.status = status;
     }
+
     public void setStatus(String status) {
         this.status = CommodityStatus.getType(status);
     }

@@ -22,30 +22,33 @@ import java.util.Arrays;
  */
 @Aspect
 @Component
-@Order(Ordered.HIGHEST_PRECEDENCE)
+@Order (Ordered.HIGHEST_PRECEDENCE)
 public class SetHttpSession {
-    @Pointcut("@annotation(com.lanxi.couponcode.spi.consts.annotations.SetUtf8)")
-    public void setUtf8(){};
+    @Pointcut ("@annotation(com.lanxi.couponcode.spi.consts.annotations.SetUtf8)")
+    public void setUtf8() {
+    }
 
-    @Around("setUtf8()")
-    public <T> T applySetReqToControllerService(ProceedingJoinPoint joinPoint){
-        LogFactory.debug(this,"---------------------------aop sethttpsession is working---------------------------");
+    ;
+
+    @Around ("setUtf8()")
+    public <T> T applySetReqToControllerService(ProceedingJoinPoint joinPoint) {
+        LogFactory.debug(this, "---------------------------aop sethttpsession is working---------------------------");
         //获取代理方法参数值
-        Object[] args=joinPoint.getArgs();
-        Class clazz= joinPoint.getTarget().getClass();
-        Method method= ReflectAssist.getTargetMethod(joinPoint);
+        Object[] args = joinPoint.getArgs();
+        Class clazz = joinPoint.getTarget().getClass();
+        Method method = ReflectAssist.getTargetMethod(joinPoint);
         LogFactory.debug(this.getClass(), "try sethttpsession for class:[" + clazz.getName() + "] method:[" + method + "] arg:[" + Arrays.asList(args) + "]");
 
-        RetMessage message=new RetMessage();
-        T t=null;
+        RetMessage message = new RetMessage();
+        T t = null;
         try {
-            for(Object each:args){
-                if(each instanceof HttpServletRequest){
-                    HttpServletRequest request= (HttpServletRequest) each;
+            for (Object each : args) {
+                if (each instanceof HttpServletRequest) {
+                    HttpServletRequest request = (HttpServletRequest) each;
                     request.setCharacterEncoding("utf-8");
 
-                }else if(each instanceof HttpServletResponse){
-                    HttpServletResponse response= (HttpServletResponse) each;
+                } else if (each instanceof HttpServletResponse) {
+                    HttpServletResponse response = (HttpServletResponse) each;
                     response.setCharacterEncoding("utf-8");
                     response.setHeader("Access-Control-Allow-Methods", "POST, PUT, GET, OPTIONS, DELETE");
                     response.setHeader("Access-Control-Max-Age", "3600"); //设置过期时间
@@ -53,11 +56,11 @@ public class SetHttpSession {
                     response.setHeader("Access-Control-Allow-Origin", "*");
                 }
             }
-            LogFactory.debug(clazz,"set  class:["+clazz.getName()+"]method:["+method.getName()+"] charset utf-8 !");
+            LogFactory.debug(clazz, "set  class:[" + clazz.getName() + "]method:[" + method.getName() + "] charset utf-8 !");
             return (T) joinPoint.proceed(args);
-        }catch (Throwable throwable){
-            LogFactory.error(this, "exception occurred in ["+this.getClass().getName()+"] [applySetReqToControllerService] when invoke class:["+clazz.getName()+"],method:["+method.getName()+"],args:["+(args==null?null: Arrays.asList(args))+"]");
-            message.setAll(RetCodeEnum.error,"设置消息头时发生异常!",null);
+        } catch (Throwable throwable) {
+            LogFactory.error(this, "exception occurred in [" + this.getClass().getName() + "] [applySetReqToControllerService] when invoke class:[" + clazz.getName() + "],method:[" + method.getName() + "],args:[" + (args == null ? null : Arrays.asList(args)) + "]");
+            message.setAll(RetCodeEnum.error, "设置消息头时发生异常!", null);
             return (T) message;
         }
     }

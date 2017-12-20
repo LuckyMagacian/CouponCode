@@ -75,19 +75,29 @@ public interface FileAssit {
         }
     }
 
-    static void exportTest(File file, HttpServletResponse res) {
-        try {
-            res.setContentType("text/html;charset=utf8");
-            if (file == null) {
-                res.getOutputStream().write(new RetMessage(RetCodeEnum.fail, "导出失败!", null).toJson().getBytes("utf-8"));
-            } else {
-                String fileName = file.getName();
-                String secret=SignUtil.md5LowerCase(fileName+TimeAssist.getNow(), "utf-8");
-                PatchController.addFile(secret, file);
-                res.getOutputStream().write(new RetMessage(RetCodeEnum.success, "导出成功!", secret).toJson().getBytes("utf-8"));
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
+    //    static void exportTest(File file, HttpServletResponse res) {
+//        try {
+//            res.setContentType("text/html;charset=utf8");
+//            if (file == null) {
+//                res.getOutputStream().write(new RetMessage(RetCodeEnum.fail, "导出失败!", null).toJson().getBytes("utf-8"));
+//            } else {
+//                String fileName = file.getName();
+//                String secret = SignUtil.md5LowerCase(fileName + TimeAssist.getNow(), "utf-8");
+//                PatchController.addFile(secret, file);
+//                res.getOutputStream().write(new RetMessage(RetCodeEnum.success, "导出成功!", secret).toJson().getBytes("utf-8"));
+//            }
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//    }
+    static String exportTest(File file, HttpServletResponse res) {
+        res.setContentType("text/html;charset=utf8");
+        if (file == null) {
+            return new RetMessage(RetCodeEnum.fail, "导出失败!", null).toJson();
+        } else {
+            String fileName = file.getName();
+            String secret = SignUtil.md5LowerCase(fileName + TimeAssist.getNow(), "utf-8");
+            return new RetMessage(RetCodeEnum.success, "导出成功!", secret).toJson();
         }
     }
 }

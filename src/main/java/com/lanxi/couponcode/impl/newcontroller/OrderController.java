@@ -100,7 +100,10 @@ public class OrderController implements com.lanxi.couponcode.spi.service.OrderSe
 					order.setCreateTime(LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMddHHmmss")));
 					order.setType(Type);
 					order.setPhone(Phone);
-					order.setCHKDate(CHKDate);
+					if (CHKDate!=null&&!CHKDate.isEmpty()) 
+						order.setCHKDate(CHKDate);
+					else
+						order.setCHKDate(WorkDate);
 					order.setRemark(Remark);
 					order.setSRC(SRC);
 					order.setSerialNum(SerialNum);
@@ -116,7 +119,8 @@ public class OrderController implements com.lanxi.couponcode.spi.service.OrderSe
 					Boolean b = orderService.createOrder(order);
 					if (b) {
 						// 调用接口生成串码
-						StringBuilder stringBuilder = new StringBuilder();
+						StringBuffer stringBuffer=new StringBuffer();
+						
 						// 当count==1 直接添加>1则for循环
 						if (Count > 1) {
 							int m = 0;
@@ -126,7 +130,7 @@ public class OrderController implements com.lanxi.couponcode.spi.service.OrderSe
 										SkuCode, "客户购买", Channel.buy.getChannel());
 								if (RetCodeEnum.success.equals(retMessage2.getRetCode())) {
 									JSONObject jsonObject = JSON.parseObject(retMessage2.getDetail());
-									stringBuilder.append(jsonObject.getString("code") + "|");
+									stringBuffer.append(jsonObject.getString("code") + "|");
 									order.setEndTime(jsonObject.getString("overTime"));
 									m++;
 								} else {
@@ -136,7 +140,7 @@ public class OrderController implements com.lanxi.couponcode.spi.service.OrderSe
 												"客户购买", Channel.buy.getChannel());
 										if (RetCodeEnum.success.equals(retMessage3.getRetCode())) {
 											JSONObject jsonObject = JSON.parseObject(retMessage2.getDetail());
-											stringBuilder.append(jsonObject.getString("code") + "|");
+											stringBuffer.append(jsonObject.getString("code") + "|");
 											order.setEndTime(jsonObject.getString("overTime"));
 											m++;
 											break;
@@ -148,8 +152,8 @@ public class OrderController implements com.lanxi.couponcode.spi.service.OrderSe
 							if (m == 0) {
 								return new RetMessage<>(RetCodeEnum.exception, "串码生成失败", null);
 							} else if (m == 1) {
-								order.setCode(stringBuilder.toString().substring(0,
-										stringBuilder.toString().lastIndexOf("|")));
+								order.setCode(stringBuffer.toString().substring(0,
+										stringBuffer.toString().lastIndexOf("|")));
 								order.setOrderStatus("2");
 								order.setSuccessNum(m);
 								order.setTotalAmt(commodity.getSellPrice().multiply(new BigDecimal(m)));
@@ -164,7 +168,7 @@ public class OrderController implements com.lanxi.couponcode.spi.service.OrderSe
 								}
 
 							} else if (m < Count) {
-								order.setCode(stringBuilder.toString());
+								order.setCode(stringBuffer.toString());
 								order.setOrderStatus("2");
 								order.setSuccessNum(m);
 								order.setTotalAmt(commodity.getSellPrice().multiply(new BigDecimal(m)));
@@ -179,7 +183,7 @@ public class OrderController implements com.lanxi.couponcode.spi.service.OrderSe
 								}
 
 							} else {
-								order.setCode(stringBuilder.toString());
+								order.setCode(stringBuffer.toString());
 								order.setOrderStatus("1");
 								order.setSuccessNum(m);
 								order.setTotalAmt(commodity.getSellPrice().multiply(new BigDecimal(m)));
@@ -201,9 +205,9 @@ public class OrderController implements com.lanxi.couponcode.spi.service.OrderSe
 							// 判断串码生成是否成功
 							if (RetCodeEnum.success.equals(retMessage2.getRetCode())) {
 								JSONObject jsonObject = JSON.parseObject(retMessage2.getDetail());
-								stringBuilder.append(jsonObject.getString("code"));
+								stringBuffer.append(jsonObject.getString("code"));
 								order.setEndTime(jsonObject.getString("overTime"));
-								order.setCode(stringBuilder.toString());
+								order.setCode(stringBuffer.toString());
 								order.setSuccessNum(Count);
 								order.setOrderStatus("1");
 								Boolean result = orderService.changeOrderStatus(order);
@@ -227,9 +231,9 @@ public class OrderController implements com.lanxi.couponcode.spi.service.OrderSe
 								}
 								if (RetCodeEnum.success.equals(retMessage3.getRetCode())) {
 									JSONObject jsonObject = JSON.parseObject(retMessage2.getDetail());
-									stringBuilder.append(jsonObject.getString("code"));
+									stringBuffer.append(jsonObject.getString("code"));
 									order.setEndTime(jsonObject.getString("overTime"));
-									order.setCode(stringBuilder.toString());
+									order.setCode(stringBuffer.toString());
 									order.setSuccessNum(Count);
 									order.setOrderStatus("1");
 									Boolean result = orderService.changeOrderStatus(order);
@@ -303,8 +307,8 @@ public class OrderController implements com.lanxi.couponcode.spi.service.OrderSe
 				EntityWrapper<Order> wrapper = new EntityWrapper<Order>();
 				wrapper.eq("phone", Phone);
 				wrapper.like("remark", Remark);
-				wrapper.ge("start_date", StartDate);
-				wrapper.le("start_date", EndDate);
+				wrapper.ge("work_date", StartDate);
+				wrapper.le("work_date", EndDate);
 				orders = orderService.queryOrders(wrapper);
 				if (orders.size() < 1) {
 					retMessage.setAll(RetCodeEnum.success, "没有查询到任何历史订单", null);
@@ -316,6 +320,7 @@ public class OrderController implements com.lanxi.couponcode.spi.service.OrderSe
 				retMessage.setAll(RetCodeEnum.fail, "信息提供不完整", null);
 			}
 		} catch (Exception e) {
+			LogFactory.error(this,"查询历史订单发生异常",e);
 			retMessage.setAll(RetCodeEnum.error, "查询发生异常", null);
 		}
 		return retMessage;
@@ -368,7 +373,7 @@ public class OrderController implements com.lanxi.couponcode.spi.service.OrderSe
 				return new RetMessage<>(RetCodeEnum.fail, "没有查询到任何数据", null);
 		} catch (Exception e) {
 			LogFactory.error(this, "查询历史订单时发生异常", e);
-			return new RetMessage<>(RetCodeEnum.error, "没有查询到任何数据", null);
+			return new RetMessage<>(RetCodeEnum.error, "查询历史订单时发生异常", null);
 		}
 	}
 
@@ -443,13 +448,17 @@ public class OrderController implements com.lanxi.couponcode.spi.service.OrderSe
 			Account a = accountService.queryAccountById(operaterId);
 			if (a == null || notAdmin.test(a))
 				return new RetMessage<>(RetCodeEnum.fail, "非管理员不能执行此操作", null);
+			System.err.println(TimeAssist.getNow());
 			Order order = orderService.queryOrderInfoById(orderId);
 			if (order != null) {
+				System.err.println(TimeAssist.getNow());
 				return new RetMessage<>(RetCodeEnum.success, "查询成功", order.toJson());
 			} else
+				System.err.println(TimeAssist.getNow());
 				return new RetMessage<>(RetCodeEnum.fail, "没有查询到相关订单", null);
 		} catch (Exception e) {
 			LogFactory.error(this, "查询订单详情时发生异常", e);
+			System.err.println(TimeAssist.getNow());
 			return new RetMessage<>(RetCodeEnum.error, "查询订单详情时发生异常", null);
 		}
 	}

@@ -9,7 +9,7 @@ public class TestCodeServce {
 
 
     @Test
-    public  void test1(){
+    public void test1() {
 //        CodeServiceImpl codeService=new CodeServiceImpl();
 //        codeService.test1();
     }
@@ -25,7 +25,6 @@ public class TestCodeServce {
 //            while (true){
 //            try {
 //                Thread.sleep(1000);
-//                System.out.println(opt.get().get());
 //            } catch (InterruptedException e) {
 //                e.printStackTrace();
 //            }}

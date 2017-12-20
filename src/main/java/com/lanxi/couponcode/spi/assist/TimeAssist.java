@@ -96,8 +96,8 @@ public interface TimeAssist {
         return getNow().substring(0, 8) + "000000";
     }
 
-    static String getLastMonth(){
-        return LocalDateTime.now().minusMonths(1).format(formatter).substring(0,6);
+    static String getLastMonth() {
+        return LocalDateTime.now().minusMonths(1).format(formatter).substring(0, 6);
     }
 
     static String getToodayEnd() {
@@ -108,13 +108,13 @@ public interface TimeAssist {
         return LocalDateTime.now().plusSeconds(10).format(formatter);
     }
 
-    static LocalDateTime parseToDateTime(String time){
-        if(!isyyyyMMddHHmmss(time))
+    static LocalDateTime parseToDateTime(String time) {
+        if (!isyyyyMMddHHmmss(time))
             return null;
-        return LocalDateTime.parse(time,formatter);
+        return LocalDateTime.parse(time, formatter);
     }
 
-    static String formatToyyyyMMddHHmmss(LocalDateTime dateTime){
+    static String formatToyyyyMMddHHmmss(LocalDateTime dateTime) {
         return dateTime.format(formatter);
     }
 }

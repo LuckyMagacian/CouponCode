@@ -11,7 +11,7 @@ import java.util.List;
  *
  * @author wuxiaobo
  */
-public interface AccountService {
+ public interface AccountService {
 
 //    List<Account> merchantQueryAccounts(EntityWrapper<Account> wrapper,
 //                                        Page<Account> pageObj);
@@ -27,39 +27,39 @@ public interface AccountService {
 
 
 	/*添加账户*/
-	public Boolean addAccount(Account account);
+	 Boolean addAccount(Account account);
 	/*冻结账户*/
-	public Boolean freezeAccount(Account account);
+	 Boolean freezeAccount(Account account);
 	/*开启账户*/
-	public Boolean unfreezeAccount(Account account);
+	 Boolean unfreezeAccount(Account account);
 	/*删除账户*/
-	public Boolean delAccount(Account account);
+	 Boolean delAccount(Account account);
 	/*账户查询*/
-	public List<Account> queryAccounts(EntityWrapper<Account> wrapper,
+	 List<Account> queryAccounts(EntityWrapper<Account> wrapper,
                                        Page<Account> pageObj);
 	/*账户详情查询*/
-	public Account queryAccountInfo(Account account);
+	 Account queryAccountInfo(Account account);
 	/*手机号码验证true可使用 false不可使用*/
-	public Boolean phoneVerify(String phone);
+	 Boolean phoneVerify(String phone);
 	/*修改账户仅在用户登录时用来修改登录失败次数和登录失败时间*/
-	public Boolean modifyAccount(Account account);
+	 Boolean modifyAccount(Account account);
 	/*修改账户的门店名称*/
-	public Boolean modifyAccountShopName(Long shopId, String shopName);
+	 Boolean modifyAccountShopName(Long shopId, String shopName);
 	/*登录*/
-	public Account login(Account account,
+	 Account login(Account account,
                          String validateCode);
 	/*登出*/
-	public Boolean logout(Long accountId);
+	 Boolean logout(Long accountId);
 	/*忘记密码*/
-	public Boolean forgetPassword(String validateCode,
+	 Boolean forgetPassword(String validateCode,
                                   Account account,
                                   Long accountId);
 	/*修改密码*/
-	public Boolean changePassword(Account account);
+	 Boolean changePassword(Account account);
 	/*判断时间两个时间差值是否大于15分钟*/
-	public Boolean localdateLtDate(String date);
+	 Boolean localdateLtDate(String date);
 	/*根据账户id查询账户状态*/
-	public String queryAccountStatusById(Long accountId);
+	 String queryAccountStatusById(Long accountId);
 	/*根据账户id获取账户详情*/
-	public Account queryAccountById(Long accountId);
+	 Account queryAccountById(Long accountId);
 }

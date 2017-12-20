@@ -4,35 +4,36 @@ import java.io.Serializable;
 
 /**
  * <strong>商品类型枚举</strong>
- * 
- * @author yangyuanjian
  *
+ * @author yangyuanjian
  */
-public enum CommodityType  implements Serializable,Gettype {
-	eleCoupon(1),voucher(2);
-	private String value;
-	private CommodityType(int value) {
-		this.value=value+"";
-	}
-	public static CommodityType getType(int value) {
-		return getType(value+"");
-	}
+public enum CommodityType implements Serializable, Gettype {
+    eleCoupon(1), voucher(2);
+    private String value;
 
-	
-	public static CommodityType getType(String value) {
-		return Gettype.getType(value);
-	}
-	
-	@Override
-	public String toString() {
-		return value;
-	}
-	
-	public String getValue() {
-		return value;
-	}
+    CommodityType(int value) {
+        this.value = value + "";
+    }
 
-	public void setValue(String value) {
-		this.value = value;
-	}
+    public static CommodityType getType(int value) {
+        return getType(value + "");
+    }
+
+
+    public static CommodityType getType(String value) {
+        return Gettype.getType(value);
+    }
+
+    @Override
+    public String toString() {
+        return value;
+    }
+
+    public String getValue() {
+        return value;
+    }
+
+    public void setValue(String value) {
+        this.value = value;
+    }
 }

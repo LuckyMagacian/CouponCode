@@ -8,7 +8,7 @@ import java.lang.annotation.Target;
 /**
  * Created by yangyuanjian on 2017/11/17.
  */
-@Retention(RetentionPolicy.RUNTIME)
-@Target({ElementType.PARAMETER,ElementType.FIELD})
+@Retention (RetentionPolicy.RUNTIME)
+@Target ({ElementType.PARAMETER, ElementType.FIELD})
 public @interface Trim {
 }

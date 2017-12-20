@@ -19,43 +19,43 @@ import java.util.stream.Collectors;
  */
 @Service
 @EasyLog (LoggerUtil.LogLevel.INFO)
-public class LockServiceImpl implements LockService{
+public class LockServiceImpl implements LockService {
     @Resource
     private RedisService redisService;
     @Resource
     private RedisEnhancedService redisEnhancedService;
-    private static final long LOCK_TIME=10000L;
+    private static final long LOCK_TIME = 10000L;
 
-    private Function<Object,String> getKey=o->{
-        String key=null;
-        if(o==null)
+    private Function<Object, String> getKey = o -> {
+        String key = null;
+        if (o == null)
             return null;
-        if(o instanceof Merchant){
-            return RedisKeyAssist.getMerchantKey()+((Merchant) o).getMerchantId();
+        if (o instanceof Merchant) {
+            return RedisKeyAssist.getMerchantKey() + ((Merchant) o).getMerchantId();
         }
-        if(o instanceof Shop){
-            return RedisKeyAssist.getShopKey()+((Shop) o).getMerchantId()+((Shop) o).getShopId();
+        if (o instanceof Shop) {
+            return RedisKeyAssist.getShopKey() + ((Shop) o).getMerchantId() + ((Shop) o).getShopId();
         }
-        if(o instanceof Commodity){
-            return RedisKeyAssist.getCommodityKey()+((Commodity) o).getMerchantId()+((Commodity) o).getCommodityId();
+        if (o instanceof Commodity) {
+            return RedisKeyAssist.getCommodityKey() + ((Commodity) o).getMerchantId() + ((Commodity) o).getCommodityId();
         }
-        if(o instanceof Account){
-            return RedisKeyAssist.getAccountKey()+((Account) o).getMerchantId()+((Account) o).getShopId()+((Account) o).getAccountId();
+        if (o instanceof Account) {
+            return RedisKeyAssist.getAccountKey() + ((Account) o).getMerchantId() + ((Account) o).getShopId() + ((Account) o).getAccountId();
         }
-        if(o instanceof ClearDailyRecord){
-            return RedisKeyAssist.getDailyRecordKey()+((ClearDailyRecord) o).getMerchantId()+((ClearDailyRecord) o).getRecordId();
+        if (o instanceof ClearDailyRecord) {
+            return RedisKeyAssist.getDailyRecordKey() + ((ClearDailyRecord) o).getMerchantId() + ((ClearDailyRecord) o).getRecordId();
         }
 //        if(o instanceof Enterprise){
 //            return RedisKeyAssist.getEnterpriseKey()+((Enterprise) o).getMerchantId();
 //        }
-        if(o instanceof Order){
-            return RedisKeyAssist.getOrderKey()+((Order) o).getMerchantId()+((Order) o).getOrderId();
+        if (o instanceof Order) {
+            return RedisKeyAssist.getOrderKey() + ((Order) o).getMerchantId() + ((Order) o).getOrderId();
         }
-        if(o instanceof Request){
-            return RedisKeyAssist.getRequestKey()+((Request) o).getMerchantId()+((Request) o).getRquestId();
+        if (o instanceof Request) {
+            return RedisKeyAssist.getRequestKey() + ((Request) o).getMerchantId() + ((Request) o).getRquestId();
         }
-        if(o instanceof CouponCode){
-            return RedisKeyAssist.getCodeKey()+((CouponCode) o).getMerchantId()+((CouponCode) o).getCodeId();
+        if (o instanceof CouponCode) {
+            return RedisKeyAssist.getCodeKey() + ((CouponCode) o).getMerchantId() + ((CouponCode) o).getCodeId();
         }
         return null;
     };
@@ -63,9 +63,9 @@ public class LockServiceImpl implements LockService{
 
     @Override
     public Boolean lock(Object obj) {
-        String  key=getKey.apply(obj);
+        String key = getKey.apply(obj);
         try {
-            return key==null?null:redisService.setNx(key,obj.hashCode()+"",LOCK_TIME);
+            return key == null ? null : redisService.setNx(key, obj.hashCode() + "", LOCK_TIME);
         } catch (Exception e) {
             return null;
         }
@@ -73,31 +73,31 @@ public class LockServiceImpl implements LockService{
 
     @Override
     public List<Boolean> lock(List list) {
-        List<Boolean> locks=new ArrayList<>();
-        List<String> keys=(List<String>) list.stream().map(getKey).collect(Collectors.toList());
+        List<Boolean> locks = new ArrayList<>();
+        List<String> keys = (List<String>) list.stream().map(getKey).collect(Collectors.toList());
         try {
-            Pipeline pipeline=redisService.pipeline();
-            for(int i=0;i<keys.size();i++){
-                pipeline.set(keys.get(i),list.get(i).hashCode()+"","NX","PX", (int) LOCK_TIME);
+            Pipeline pipeline = redisService.pipeline();
+            for (int i = 0; i < keys.size(); i++) {
+                pipeline.set(keys.get(i), list.get(i).hashCode() + "", "NX", "PX", (int) LOCK_TIME);
             }
             Response<List<Object>> res = pipeline.exec();
-            for(int i=0,j=0;i<keys.size();i++){
-                if(keys.get(i)==null)
+            for (int i = 0, j = 0; i < keys.size(); i++) {
+                if (keys.get(i) == null)
                     locks.add(null);
                 else
                     locks.add((Boolean) res.get().get(j++));
             }
             return locks;
-        }catch (Throwable e){
+        } catch (Throwable e) {
             return null;
         }
     }
 
     @Override
     public Boolean unlock(Object obj) {
-        String  key=getKey.apply(obj);
+        String key = getKey.apply(obj);
         try {
-            return key==null?null:redisService.del(key);
+            return key == null ? null : redisService.del(key);
         } catch (Exception e) {
             return null;
         }
@@ -105,23 +105,23 @@ public class LockServiceImpl implements LockService{
 
     @Override
     public List<Boolean> unlock(List list) {
-        List<Boolean> locks=new ArrayList<>();
-        List<String> keys=(List<String>) list.stream().map(getKey).collect(Collectors.toList());
+        List<Boolean> locks = new ArrayList<>();
+        List<String> keys = (List<String>) list.stream().map(getKey).collect(Collectors.toList());
         try {
-            Pipeline pipeline=redisService.pipeline();
-            for(int i=0;i<keys.size();i++){
-                if(keys!=null)
+            Pipeline pipeline = redisService.pipeline();
+            for (int i = 0; i < keys.size(); i++) {
+                if (keys != null)
                     pipeline.del(keys.get(i));
             }
             Response<List<Object>> res = pipeline.exec();
-            for(int i=0,j=0;i<keys.size();i++){
-                if(keys.get(i)==null)
+            for (int i = 0, j = 0; i < keys.size(); i++) {
+                if (keys.get(i) == null)
                     locks.add(null);
                 else
                     locks.add((Boolean) res.get().get(j++));
             }
             return locks;
-        }catch (Throwable e){
+        } catch (Throwable e) {
             return null;
         }
     }

@@ -11,12 +11,12 @@ import java.io.File;
 public class TestPatch {
 
     @Test
-    public void test1()throws Throwable{
-        MyClassLoader loader=new MyClassLoader();
-        File file=new File(TestPatch.class.getClassLoader().getResource("").getPath()+"patch/AccountManage.class");
+    public void test1() throws Throwable {
+        MyClassLoader loader = new MyClassLoader();
+        File file = new File(TestPatch.class.getClassLoader().getResource("").getPath() + "patch/AccountManage.class");
         System.out.println(TestPatch.class.getClassLoader().getResource("").getPath());
-        if(file.exists()){
-            Class clazz=loader.loadPathClass(TestPatch.class.getClassLoader().getResource("").getPath()+"patch/AccountManage.class");
+        if (file.exists()) {
+            Class clazz = loader.loadPathClass(TestPatch.class.getClassLoader().getResource("").getPath() + "patch/AccountManage.class");
             System.out.println(clazz.getName());
         }
     }

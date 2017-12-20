@@ -127,7 +127,7 @@ public class RequestController implements com.lanxi.couponcode.spi.service.Reque
         map.put("page", page);
         map.put("list", list);
         if (list != null)
-            return new RetMessage<String>(RetCodeEnum.success, "查询成功",  ToJson.toJson(map));
+            return new RetMessage<String>(RetCodeEnum.success, "查询成功", ToJson.toJson(map));
         else
             return new RetMessage<String>(RetCodeEnum.fail, "查询失败", null);
     }
@@ -584,7 +584,7 @@ public class RequestController implements com.lanxi.couponcode.spi.service.Reque
         map.put("page", page);
         map.put("list", list);
         if (list != null)
-            return new RetMessage<String>(RetCodeEnum.success, "查询成功",  ToJson.toJson(map));
+            return new RetMessage<String>(RetCodeEnum.success, "查询成功", ToJson.toJson(map));
         else
             return new RetMessage<String>(RetCodeEnum.fail, "查询失败", null);
     }

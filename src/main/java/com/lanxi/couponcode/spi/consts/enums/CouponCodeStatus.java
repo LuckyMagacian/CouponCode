@@ -8,35 +8,37 @@ import java.io.Serializable;
  * undestroyed 2 未核销<br>
  * overtime	3 过期<br>
  * test 4 测试<br>
- * @author yangyuanjian
  *
+ * @author yangyuanjian
  */
-public enum CouponCodeStatus  implements Serializable,Gettype {
-	destroyed(1),undestroyed(2),overtime(3),test(4),cancellation(9);
-	private String value;
-	private CouponCodeStatus(int value) {
-		this.value=value+"";
-	}
-	@Override
-	public String toString() {
-		return value;
-	}
+public enum CouponCodeStatus implements Serializable, Gettype {
+    destroyed(1), undestroyed(2), overtime(3), test(4), cancellation(9);
+    private String value;
 
-	public static CouponCodeStatus getType(int value) {
-		return getType(value+"");
-	}
+    private CouponCodeStatus(int value) {
+        this.value = value + "";
+    }
 
-	
-	public static CouponCodeStatus getType(String value) {
-		return Gettype.getType(value);
-	}
-	
-	public String getValue() {
-		return value;
-	}
+    @Override
+    public String toString() {
+        return value;
+    }
 
-	public void setValue(String value) {
-		this.value = value;
-	}
+    public static CouponCodeStatus getType(int value) {
+        return getType(value + "");
+    }
+
+
+    public static CouponCodeStatus getType(String value) {
+        return Gettype.getType(value);
+    }
+
+    public String getValue() {
+        return value;
+    }
+
+    public void setValue(String value) {
+        this.value = value;
+    }
 
 }

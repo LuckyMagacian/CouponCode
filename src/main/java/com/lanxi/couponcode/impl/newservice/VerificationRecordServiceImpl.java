@@ -13,9 +13,9 @@ import java.util.List;
 /**
  * Created by yangyuanjian on 2017/11/16.
  */
-@Service("verificationRecordService")
+@Service ("verificationRecordService")
 @EasyLog (LoggerUtil.LogLevel.INFO)
-public class VerificationRecordServiceImpl implements VerificationRecordService{
+public class VerificationRecordServiceImpl implements VerificationRecordService {
     @Resource
     private DaoService daoService;
     @Resource
@@ -25,20 +25,20 @@ public class VerificationRecordServiceImpl implements VerificationRecordService{
 
     @Override
     public Boolean addVerificationRecord(VerificationRecord record) {
-        return  record.insert();
+        return record.insert();
     }
 
     @Override
     public VerificationRecord queryVerificationRecordInfo(Long recordId) {
-        VerificationRecord record=daoService.getVerificationRecordDao().selectById(recordId);
+        VerificationRecord record = daoService.getVerificationRecordDao().selectById(recordId);
         return record;
     }
 
     @Override
     public List<VerificationRecord> queryVerificationRecords(Wrapper<VerificationRecord> wrapper, Page<VerificationRecord> page) {
-        if(page==null)
+        if (page == null)
             return daoService.getVerificationRecordDao().selectList(wrapper);
         else
-            return daoService.getVerificationRecordDao().selectPage(page,wrapper);
+            return daoService.getVerificationRecordDao().selectPage(page, wrapper);
     }
 }

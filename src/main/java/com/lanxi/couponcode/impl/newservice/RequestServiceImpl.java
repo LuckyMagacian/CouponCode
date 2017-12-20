@@ -14,11 +14,12 @@ import java.util.List;
 /**
  * Created by yangyuanjian on 2017/11/20.
  */
-@Service("cequestService")
+@Service ("cequestService")
 @EasyLog (LoggerUtil.LogLevel.INFO)
 public class RequestServiceImpl implements RequestService {
     @Resource
     private DaoService daoService;
+
     @Override
     public Boolean addRequest(Request request) {
         return request.insert();
@@ -43,9 +44,9 @@ public class RequestServiceImpl implements RequestService {
 
     @Override
     public List<Request> queryRequestInfos(Wrapper<Request> wrapper, Page<Request> page) {
-        if(page==null)
+        if (page == null)
             return daoService.getRequestDao().selectList(wrapper);
         else
-            return daoService.getRequestDao().selectPage(page,wrapper);
+            return daoService.getRequestDao().selectPage(page, wrapper);
     }
 }

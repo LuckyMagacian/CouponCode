@@ -8,7 +8,7 @@ import com.lanxi.couponcode.impl.entity.CouponCode;
 public interface RedisCodeService {
     Long getCodeVar(Long merchantId);
     Boolean addCode(Long merchantId, Long code);
-    public Boolean addCode(CouponCode code);
+    Boolean addCode(CouponCode code);
 
     Boolean checkCodeExists(Long merchantId, Long code);
     Boolean checkCodeExists(CouponCode code);

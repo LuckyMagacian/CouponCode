@@ -7,14 +7,14 @@ import java.io.BufferedReader;
 
 
 /**
- * 
  * @author wuxiaobo
- *
  */
 public class HttpUtil {
-	private static Logger log = Logger.getLogger(HttpUtil.class);
-	 /**
+    private static Logger log = Logger.getLogger(HttpUtil.class);
+
+    /**
      * 获取post请求的body
+     *
      * @param request
      * @param encode
      * @return
@@ -34,5 +34,5 @@ public class HttpUtil {
 
         return bodySB.toString();
     }
-   
+
 }

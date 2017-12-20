@@ -8,8 +8,8 @@ import java.lang.annotation.Target;
 /**
  * Created by yangyuanjian on 2017/11/27.
  */
-@Retention(RetentionPolicy.RUNTIME)
-@Target({ElementType.METHOD,ElementType.TYPE})
+@Retention (RetentionPolicy.RUNTIME)
+@Target ({ElementType.METHOD, ElementType.TYPE})
 public @interface CheckArg {
 //    boolean notNull() default false;
 //

@@ -4,6 +4,6 @@ import com.baomidou.mybatisplus.mapper.BaseMapper;
 import com.lanxi.couponcode.impl.entity.VerificationRecord;
 
 
-public interface VerificationRecordDao extends BaseMapper<VerificationRecord>{
+public interface VerificationRecordDao extends BaseMapper<VerificationRecord> {
 
 }

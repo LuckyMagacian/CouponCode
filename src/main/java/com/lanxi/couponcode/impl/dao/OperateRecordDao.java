@@ -4,6 +4,6 @@ import com.baomidou.mybatisplus.mapper.BaseMapper;
 import com.lanxi.couponcode.impl.entity.OperateRecord;
 
 
-public interface OperateRecordDao extends BaseMapper<OperateRecord>{
+public interface OperateRecordDao extends BaseMapper<OperateRecord> {
 
 }

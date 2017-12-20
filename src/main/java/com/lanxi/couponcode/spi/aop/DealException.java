@@ -14,20 +14,23 @@ import org.springframework.stereotype.Component;
 @Aspect
 @Component
 public class DealException {
-    @Pointcut("execution(public * com.lanxi.couponcode.view.*Controller.*(..))")
-    private void codeView(){}
-
-    @Pointcut("execution(public * com.lanxi.couponcode.impl.newcontroller.*Controller.*(..))")
-    private void codeImpl(){}
-
-    @AfterThrowing(value = "codeView()",throwing = "e")
-    public String dealExceptionView(Throwable e){
-        LogFactory.error(DealException.class,"发现异常!",e);
-        return new RetMessage(RetCodeEnum.error,"发生异常!",null).toJson();
+    @Pointcut ("execution(public * com.lanxi.couponcode.view.*Controller.*(..))")
+    private void codeView() {
     }
-    @AfterThrowing(value="codeImpl()",throwing = "e")
-    public RetMessage dealExceptionImpl(Throwable e){
-        LogFactory.error(DealException.class,"发现异常!",e);
-        return new RetMessage(RetCodeEnum.error,"发生异常!",null);
+
+    @Pointcut ("execution(public * com.lanxi.couponcode.impl.newcontroller.*Controller.*(..))")
+    private void codeImpl() {
+    }
+
+    @AfterThrowing (value = "codeView()", throwing = "e")
+    public String dealExceptionView(Throwable e) {
+        LogFactory.error(DealException.class, "发现异常!", e);
+        return new RetMessage(RetCodeEnum.error, "发生异常!", null).toJson();
+    }
+
+    @AfterThrowing (value = "codeImpl()", throwing = "e")
+    public RetMessage dealExceptionImpl(Throwable e) {
+        LogFactory.error(DealException.class, "发现异常!", e);
+        return new RetMessage(RetCodeEnum.error, "发生异常!", null);
     }
 }

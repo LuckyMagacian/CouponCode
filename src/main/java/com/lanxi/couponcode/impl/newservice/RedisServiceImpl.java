@@ -1,19 +1,20 @@
 package com.lanxi.couponcode.impl.newservice;
 
-import com.lanxi.couponcode.impl.newservice.ConfigService;
 import com.lanxi.couponcode.spi.consts.annotations.EasyLog;
 import com.lanxi.util.entity.LogFactory;
 import com.lanxi.util.utils.LoggerUtil;
-import com.sun.org.apache.xpath.internal.operations.Bool;
-import org.springframework.context.annotation.Lazy;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Service;
-import redis.clients.jedis.*;
+import redis.clients.jedis.Jedis;
+import redis.clients.jedis.JedisPool;
+import redis.clients.jedis.JedisPoolConfig;
+import redis.clients.jedis.Pipeline;
 
 import javax.annotation.Resource;
 import java.io.UnsupportedEncodingException;
-import java.lang.reflect.Parameter;
-import java.util.*;
+import java.util.Collection;
+import java.util.Map;
+import java.util.Set;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
@@ -31,21 +32,23 @@ public class RedisServiceImpl implements RedisService {
     @FunctionalInterface
     private interface Job<T> {
         T job(Jedis conn);
+
         static <T> T work(Job<T> job, Supplier<Jedis> jedisSupplier) {
             Jedis jedis;
             T t;
-            jedis= jedisSupplier.get();
+            jedis = jedisSupplier.get();
             t = job.job(jedis);
-            if(jedis!=null)
+            if (jedis != null)
                 jedis.close();
             return t;
         }
     }
+
     /**
      * work方法,封装redis连接的获取及销毁,执行job
      */
     private <T> T work(Job<T> job) {
-        return Job.work(job,this::generateConn);
+        return Job.work(job, this::generateConn);
 //        Jedis jedis;
 //        T t;
 //        jedis= generateConn();
@@ -95,7 +98,7 @@ public class RedisServiceImpl implements RedisService {
      */
     private static final String MILLI_SECONDS = "PX";
 
-    private static final Function<Long,Long> lifeDeal=e->e==null?-1:e;
+    private static final Function<Long, Long> lifeDeal = e -> e == null ? -1 : e;
 
     public RedisServiceImpl() {
 
@@ -157,7 +160,7 @@ public class RedisServiceImpl implements RedisService {
     @Override
     public Boolean set(String key, byte[] value, Long life) {
         try {
-            return set(key.getBytes("utf-8"),value,lifeDeal.apply(life));
+            return set(key.getBytes("utf-8"), value, lifeDeal.apply(life));
         } catch (UnsupportedEncodingException e) {
             return null;
         }
@@ -165,9 +168,9 @@ public class RedisServiceImpl implements RedisService {
 
     @Override
     public Boolean set(byte[] key, byte[] value, Long life) {
-        if(life==null)
-            return REDIS_SUCCESS.equals(work(e->e.set(key,value)));
-        return REDIS_SUCCESS.equals(work(e->e.psetex(key,lifeDeal.apply(life),value)));
+        if (life == null)
+            return REDIS_SUCCESS.equals(work(e -> e.set(key, value)));
+        return REDIS_SUCCESS.equals(work(e -> e.psetex(key, lifeDeal.apply(life), value)));
     }
 
     @Override
@@ -211,7 +214,7 @@ public class RedisServiceImpl implements RedisService {
 
     @Override
     public byte[] get(byte[] key) {
-        return work(e->e.get(key));
+        return work(e -> e.get(key));
     }
 
     @Override
@@ -231,11 +234,11 @@ public class RedisServiceImpl implements RedisService {
 
     @Override
     public Boolean delKeyByPattern(String pattern) {
-        if(pattern.contains("*")){
+        if (pattern.contains("*")) {
             Set<String> keys = work(e -> e.keys(pattern));
             return work(e -> e.del(keys.toArray(new String[keys.size()]))) == keys.size();
-        }else{
-            return work(e->e.del(pattern)==1);
+        } else {
+            return work(e -> e.del(pattern) == 1);
         }
     }
 
@@ -266,7 +269,7 @@ public class RedisServiceImpl implements RedisService {
 
     @Override
     public Boolean hset(String mapName, String key, String value) {
-        return work(e -> e.hset(mapName, key, value)) > 0;
+        return work(e -> e.hset(mapName, key, value)) == 0;
     }
 
     @Override
@@ -284,7 +287,7 @@ public class RedisServiceImpl implements RedisService {
     @Override
     public Boolean hset(String mapName, byte[] key, byte[] value) {
         try {
-            return hset(mapName.getBytes("utf-8"),key,value);
+            return hset(mapName.getBytes("utf-8"), key, value);
         } catch (UnsupportedEncodingException e) {
             return null;
         }
@@ -293,7 +296,7 @@ public class RedisServiceImpl implements RedisService {
     @Override
     public Boolean hset(String mapName, String key, byte[] value) {
         try {
-            return hset(mapName.getBytes("utf-8"),key.getBytes("utf-8"),value);
+            return hset(mapName.getBytes("utf-8"), key.getBytes("utf-8"), value);
         } catch (UnsupportedEncodingException e) {
             return null;
         }
@@ -307,7 +310,7 @@ public class RedisServiceImpl implements RedisService {
     @Override
     public byte[] hgetBytes(String mapName, String key) {
         try {
-            return hget(mapName.getBytes("utf-8"),key.getBytes("utf-8"));
+            return hget(mapName.getBytes("utf-8"), key.getBytes("utf-8"));
         } catch (UnsupportedEncodingException e) {
             return null;
         }
@@ -315,7 +318,7 @@ public class RedisServiceImpl implements RedisService {
 
     @Override
     public byte[] hget(byte[] mapName, byte[] key) {
-        return work(e->e.hget(mapName,key));
+        return work(e -> e.hget(mapName, key));
     }
 
     @Override
@@ -445,13 +448,14 @@ public class RedisServiceImpl implements RedisService {
     public ConfigService getConfig() {
         return config;
     }
+
     @Resource
     public void setConfig(ConfigService config) {
         this.config = config;
         redisInit();
     }
 
-    public Pipeline pipeline(){
-         return generateConn().pipelined();
+    public Pipeline pipeline() {
+        return generateConn().pipelined();
     }
 }

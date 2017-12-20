@@ -10,7 +10,7 @@ public enum AccountLevel implements Serializable, Gettype {
     lowes(0), low(3), medium(5), high(7), highest(9);
     private String value;
 
-    private AccountLevel(int value) {
+    AccountLevel(int value) {
         this.value = value + "";
     }
 

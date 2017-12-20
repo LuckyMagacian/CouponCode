@@ -1,12 +1,5 @@
 package com.lanxi.couponcode.impl.entity;
 
-import java.io.Serializable;
-
-import com.baomidou.mybatisplus.activerecord.Model;
-import com.baomidou.mybatisplus.annotations.TableField;
-import com.baomidou.mybatisplus.annotations.TableName;
-import com.lanxi.couponcode.spi.abstractentity.AbstractEnterprise;
-import com.lanxi.couponcode.spi.defaultInterfaces.CommonDefaultMethodOfEntity;
 //@TableName("enterprise")
 @Deprecated
 public class Enterprise{

@@ -59,5 +59,6 @@ public interface VerificationRecordService {
                                                    String phone,
                                                    VerificationType type,
                                                    @HiddenArg Long operaterId);
-    RetMessage<String> queryVerifyRecordsAndStatstis(Long accountId,Long operaterId);
+
+    RetMessage<String> queryVerifyRecordsAndStatstis(Long accountId, Long operaterId);
 }

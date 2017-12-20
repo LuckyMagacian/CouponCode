@@ -17,17 +17,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
-import java.io.*;
-
-import java.math.BigDecimal;
-import java.net.URLEncoder;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.*;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.math.BigDecimal;
 
 import static com.lanxi.couponcode.spi.assist.ArgAssist.*;
@@ -58,9 +54,10 @@ public class MerchantManageController {
     @Resource (name = "commodityControllerServiceRef")
     private CommodityService commodityService;
 
-    @Comment("aop注解-用于处理文件上传时的参数问题")
+    @Comment ("aop注解-用于处理文件上传时的参数问题")
     @Resource
     private CheckLogin checkLogin;
+
     /* 完善商户详细信息 */
     @SetUtf8
     @LoginCheck
@@ -93,29 +90,29 @@ public class MerchantManageController {
 //    @LoginCheck
     @ResponseBody
     @RequestMapping (value = "organizingInstitutionBarCodePicUpLoad", produces = "application/json;charset=utf-8")
-    public String organizingInstitutionBarCodePicUpLoad(HttpServletRequest req, HttpServletResponse res,@RequestParam("file") CommonsMultipartFile file) {
+    public String organizingInstitutionBarCodePicUpLoad(HttpServletRequest req, HttpServletResponse res, @RequestParam ("file") CommonsMultipartFile file) {
         String operaterIdStr = getArg.apply(req, "operaterId");
         String merchantIdStr = getArg.apply(req, "merchantId");
         Long operaterId = parseArg(operaterIdStr, Long.class);
         Long merchantId = parseArg(merchantIdStr, Long.class);
 
-        if(!checkLogin.checkLogin(req.getParameter("token"),operaterIdStr))
-            return new RetMessage<>(RetCodeEnum.fail,"not login !",null).toJson();
+        if (!checkLogin.checkLogin(req.getParameter("token"), operaterIdStr))
+            return new RetMessage<>(RetCodeEnum.fail, "not login !", null).toJson();
 
         String result = null;
         try {
-        	if (!file.isEmpty()) {
-        		File file2=new File(file.getOriginalFilename());
-        		InputStream is=file.getInputStream();
-        		OutputStream os=new FileOutputStream(file2);
-        		  byte temp[] = new byte[1024];
-                  int size = -1;
-                  while ((size = is.read(temp)) != -1) {
-                      os.write(temp, 0, size);
-                  }
-                  os.close();
-                  result=merchantService.organizingInstitutionBarCodePicUpLoad(file2, operaterId, merchantId).toJson();
-			}
+            if (!file.isEmpty()) {
+                File file2 = new File(file.getOriginalFilename());
+                InputStream is = file.getInputStream();
+                OutputStream os = new FileOutputStream(file2);
+                byte[] temp = new byte[1024];
+                int size = -1;
+                while ((size = is.read(temp)) != -1) {
+                    os.write(temp, 0, size);
+                }
+                os.close();
+                result = merchantService.organizingInstitutionBarCodePicUpLoad(file2, operaterId, merchantId).toJson();
+            }
         } catch (Exception e) {
             LogFactory.error(this, "上传组织机构代码证时发生异常");
 
@@ -128,27 +125,27 @@ public class MerchantManageController {
 //    @LoginCheck
     @ResponseBody
     @RequestMapping (value = "businessLicensePicUpLoad", produces = "application/json;charset=utf-8")
-    public String businessLicensePicUpLoad(HttpServletRequest req, HttpServletResponse res,@RequestParam("file") CommonsMultipartFile file) {
+    public String businessLicensePicUpLoad(HttpServletRequest req, HttpServletResponse res, @RequestParam ("file") CommonsMultipartFile file) {
         String operaterIdStr = getArg.apply(req, "operaterId");
         String merchantIdStr = getArg.apply(req, "merchantId");
         Long operaterId = parseArg(operaterIdStr, Long.class);
         Long merchantId = parseArg(merchantIdStr, Long.class);
-        if(!checkLogin.checkLogin(req.getParameter("token"),operaterIdStr))
-            return new RetMessage<>(RetCodeEnum.fail,"not login !",null).toJson();
+        if (!checkLogin.checkLogin(req.getParameter("token"), operaterIdStr))
+            return new RetMessage<>(RetCodeEnum.fail, "not login !", null).toJson();
         String result = null;
         try {
-        	if (!file.isEmpty()) {
-        		File file2=new File(file.getOriginalFilename());
-        		InputStream is=file.getInputStream();
-        		OutputStream os=new FileOutputStream(file2);
-        		  byte temp[] = new byte[1024];
-                  int size = -1;
-                  while ((size = is.read(temp)) != -1) {
-                      os.write(temp, 0, size);
-                  }
-                  os.close();
-                  result=merchantService.businessLicensePicUpLoad(file2, operaterId, merchantId).toJson();
-			}
+            if (!file.isEmpty()) {
+                File file2 = new File(file.getOriginalFilename());
+                InputStream is = file.getInputStream();
+                OutputStream os = new FileOutputStream(file2);
+                byte[] temp = new byte[1024];
+                int size = -1;
+                while ((size = is.read(temp)) != -1) {
+                    os.write(temp, 0, size);
+                }
+                os.close();
+                result = merchantService.businessLicensePicUpLoad(file2, operaterId, merchantId).toJson();
+            }
         } catch (Exception e) {
             LogFactory.error(this, "上传组织机构代码证时发生异常");
 
@@ -161,27 +158,27 @@ public class MerchantManageController {
 //    @LoginCheck
     @RequestMapping (value = "otherPicUpLoad", produces = "application/json;charset=utf-8")
     @ResponseBody
-    public String otherPicUpLoad(HttpServletRequest req, HttpServletResponse res,@RequestParam("file") CommonsMultipartFile file) {
+    public String otherPicUpLoad(HttpServletRequest req, HttpServletResponse res, @RequestParam ("file") CommonsMultipartFile file) {
         String operaterIdStr = getArg.apply(req, "operaterId");
         String merchantIdStr = getArg.apply(req, "merchantId");
         Long operaterId = parseArg(operaterIdStr, Long.class);
         Long merchantId = parseArg(merchantIdStr, Long.class);
-        if(!checkLogin.checkLogin(req.getParameter("token"),operaterIdStr))
-            return new RetMessage<>(RetCodeEnum.fail,"not login !",null).toJson();
+        if (!checkLogin.checkLogin(req.getParameter("token"), operaterIdStr))
+            return new RetMessage<>(RetCodeEnum.fail, "not login !", null).toJson();
         String result = null;
         try {
-        	if (!file.isEmpty()) {
-        		File file2=new File(file.getOriginalFilename());
-        		InputStream is=file.getInputStream();
-        		OutputStream os=new FileOutputStream(file2);
-        		  byte temp[] = new byte[1024];
-                  int size = -1;
-                  while ((size = is.read(temp)) != -1) {
-                      os.write(temp, 0, size);
-                  }
-                  os.close();
-                  result=merchantService.otherPicUpLoad(file2, operaterId, merchantId).toJson();
-			}
+            if (!file.isEmpty()) {
+                File file2 = new File(file.getOriginalFilename());
+                InputStream is = file.getInputStream();
+                OutputStream os = new FileOutputStream(file2);
+                byte[] temp = new byte[1024];
+                int size = -1;
+                while ((size = is.read(temp)) != -1) {
+                    os.write(temp, 0, size);
+                }
+                os.close();
+                result = merchantService.otherPicUpLoad(file2, operaterId, merchantId).toJson();
+            }
         } catch (Exception e) {
             LogFactory.error(this, "上传组织机构代码证时发生异常");
 
@@ -221,25 +218,25 @@ public class MerchantManageController {
     @LoginCheck
     @RequestMapping (value = "modifyOrganizingInstitutionBarCodePic", produces = "application/json;charset=utf-8")
     @ResponseBody
-    public String modifyOrganizingInstitutionBarCodePic(HttpServletRequest req, HttpServletResponse res,@RequestParam("file") CommonsMultipartFile file) {
+    public String modifyOrganizingInstitutionBarCodePic(HttpServletRequest req, HttpServletResponse res, @RequestParam ("file") CommonsMultipartFile file) {
         String operaterIdStr = getArg.apply(req, "operaterId");
         String merchantIdStr = getArg.apply(req, "merchantId");
         Long operaterId = parseArg(operaterIdStr, Long.class);
         Long merchantId = parseArg(merchantIdStr, Long.class);
         String result = null;
         try {
-        	if (!file.isEmpty()) {
-        		File file2=new File(file.getOriginalFilename());
-        		InputStream is=file.getInputStream();
-        		OutputStream os=new FileOutputStream(file2);
-        		  byte temp[] = new byte[1024];
-                  int size = -1;
-                  while ((size = is.read(temp)) != -1) {
-                      os.write(temp, 0, size);
-                  }
-                  os.close();
-                  result=merchantService.modifyOrganizingInstitutionBarCodePic(file2, operaterId, merchantId).toJson();
-			}
+            if (!file.isEmpty()) {
+                File file2 = new File(file.getOriginalFilename());
+                InputStream is = file.getInputStream();
+                OutputStream os = new FileOutputStream(file2);
+                byte[] temp = new byte[1024];
+                int size = -1;
+                while ((size = is.read(temp)) != -1) {
+                    os.write(temp, 0, size);
+                }
+                os.close();
+                result = merchantService.modifyOrganizingInstitutionBarCodePic(file2, operaterId, merchantId).toJson();
+            }
         } catch (Exception e) {
             LogFactory.error(this, "上传组织机构代码证时发生异常");
         }
@@ -251,25 +248,25 @@ public class MerchantManageController {
     @LoginCheck
     @RequestMapping (value = "modifyBusinessLicensePic", produces = "application/json;charset=utf-8")
     @ResponseBody
-    public String modifyBusinessLicensePic(HttpServletRequest req, HttpServletResponse res,CommonsMultipartFile file) {
+    public String modifyBusinessLicensePic(HttpServletRequest req, HttpServletResponse res, CommonsMultipartFile file) {
         String operaterIdStr = getArg.apply(req, "operaterId");
         String merchantIdStr = getArg.apply(req, "merchantId");
         Long operaterId = parseArg(operaterIdStr, Long.class);
         Long merchantId = parseArg(merchantIdStr, Long.class);
         String result = null;
         try {
-        	if (!file.isEmpty()) {
-        		File file2=new File(file.getOriginalFilename());
-        		InputStream is=file.getInputStream();
-        		OutputStream os=new FileOutputStream(file2);
-        		  byte temp[] = new byte[1024];
-                  int size = -1;
-                  while ((size = is.read(temp)) != -1) {
-                      os.write(temp, 0, size);
-                  }
-                  os.close();
-                  result=merchantService.modifyBusinessLicensePic(file2, operaterId, merchantId).toJson();
-			}
+            if (!file.isEmpty()) {
+                File file2 = new File(file.getOriginalFilename());
+                InputStream is = file.getInputStream();
+                OutputStream os = new FileOutputStream(file2);
+                byte[] temp = new byte[1024];
+                int size = -1;
+                while ((size = is.read(temp)) != -1) {
+                    os.write(temp, 0, size);
+                }
+                os.close();
+                result = merchantService.modifyBusinessLicensePic(file2, operaterId, merchantId).toJson();
+            }
         } catch (Exception e) {
             LogFactory.error(this, "上传组织机构代码证时发生异常");
 
@@ -282,25 +279,25 @@ public class MerchantManageController {
     @LoginCheck
     @RequestMapping (value = "modifyOtherPic", produces = "application/json;charset=utf-8")
     @ResponseBody
-    public String modifyOtherPic(HttpServletRequest req, HttpServletResponse res,CommonsMultipartFile file) {
+    public String modifyOtherPic(HttpServletRequest req, HttpServletResponse res, CommonsMultipartFile file) {
         String operaterIdStr = getArg.apply(req, "operaterId");
         String merchantIdStr = getArg.apply(req, "merchantId");
         Long operaterId = parseArg(operaterIdStr, Long.class);
         Long merchantId = parseArg(merchantIdStr, Long.class);
         String result = null;
         try {
-        	if (!file.isEmpty()) {
-        		File file2=new File(file.getOriginalFilename());
-        		InputStream is=file.getInputStream();
-        		OutputStream os=new FileOutputStream(file2);
-        		  byte temp[] = new byte[1024];
-                  int size = -1;
-                  while ((size = is.read(temp)) != -1) {
-                      os.write(temp, 0, size);
-                  }
-                  os.close();
-                  result=merchantService.modifyOtherPic(file2, operaterId, merchantId).toJson();
-			}
+            if (!file.isEmpty()) {
+                File file2 = new File(file.getOriginalFilename());
+                InputStream is = file.getInputStream();
+                OutputStream os = new FileOutputStream(file2);
+                byte[] temp = new byte[1024];
+                int size = -1;
+                while ((size = is.read(temp)) != -1) {
+                    os.write(temp, 0, size);
+                }
+                os.close();
+                result = merchantService.modifyOtherPic(file2, operaterId, merchantId).toJson();
+            }
         } catch (Exception e) {
             LogFactory.error(this, "上传组织机构代码证时发生异常");
 
@@ -378,8 +375,9 @@ public class MerchantManageController {
     /* 导出 */
     @SetUtf8
     @LoginCheck
-    @RequestMapping (value = "queryShopsExport",produces = "application/octet-stream")
-    public void queryShopsExport(HttpServletRequest req, HttpServletResponse res) {
+    @ResponseBody
+    @RequestMapping (value = "queryShopsExport", produces = "application/octet-stream")
+    public String queryShopsExport(HttpServletRequest req, HttpServletResponse res) {
         String shopName = getArg.apply(req, "shopName");
         String shopAddress = getArg.apply(req, "shopAddress");
         String shopStatusStr = getArg.apply(req, "shopStatus");
@@ -392,16 +390,16 @@ public class MerchantManageController {
         Integer pageSize = toIntArg.apply(pageSizeStr);
         Long operaterId = toLongArg.apply(operaterIdStr);
         Long merchantId = toLongArg.apply(merchantIdStr);
-        File file=shopService.queryShopsExport(shopName, shopAddress, shopStatus, pageNum, pageSize, merchantId, operaterId).getDetail();
-        FileAssit.exportTest(file,res);
+        File file = shopService.queryShopsExport(shopName, shopAddress, shopStatus, pageNum, pageSize, merchantId, operaterId).getDetail();
+        return FileAssit.exportTest(file, res);
 //        try {
 //            FileAssit.write(file,res.getOutputStream());
 //			file.delete();
 //		} catch (IOException e) {
 //			LogFactory.error(this,"导出门店时发生异常",e);
 //		}
-       
-                
+
+
     }
 
     /* 商户负责人添加门店管理员和核销员账户 */
@@ -660,7 +658,7 @@ public class MerchantManageController {
     @LoginCheck
     @ResponseBody
     @RequestMapping (value = "importShops", produces = "application/json;charset=utf-8")
-    public String importShops(HttpServletRequest req, HttpServletResponse res,@RequestParam("file") CommonsMultipartFile file) {
+    public String importShops(HttpServletRequest req, HttpServletResponse res, @RequestParam ("file") CommonsMultipartFile file) {
         String operaterIdStr = getArg.apply(req, "operaterId");
         String merchantIdStr = getArg.apply(req, "merchantId");
         Long operaterId = toLongArg.apply(operaterIdStr);
@@ -670,7 +668,7 @@ public class MerchantManageController {
             InputStream is = file.getInputStream();
             File file2 = new File(file.getOriginalFilename());
             OutputStream os = new FileOutputStream(file2);
-            byte temp[] = new byte[1024];
+            byte[] temp = new byte[1024];
             int size = -1;
             while ((size = is.read(temp)) != -1) {
                 os.write(temp, 0, size);
@@ -718,14 +716,15 @@ public class MerchantManageController {
         Long operaterId = parseArg(operaterIdStr, Long.class);
         return verificationRecordService.queryVerificationRecordInfo(recordId, operaterId).toJson();
     }
+
     @LoginCheck
     @RequestMapping (value = "downloadExcelTemplate")
     public void downloadExcelTemplate(HttpServletRequest req, HttpServletResponse res) {
         String operaterIdStr = getArg.apply(req, "operaterId");
         Long operaterId = toLongArg.apply(operaterIdStr);
         File file = (File) shopService.downloadExcelTemplate(operaterId).getDetail();
-        FileAssit.exportTest(file,res);
-//        FileAssit.export(file,res);
+//        return FileAssit.exportTest(file, res);
+        FileAssit.export(file, res);
     }
 
 
@@ -748,10 +747,12 @@ public class MerchantManageController {
         Long operaterId = toLongArg.apply(operaterIdStr);
         return commodityService.merchantQueryCommodities(commodityName, commodityType, commodityStatus, pageNum, pageSize, null, operaterId).toJson();
     }
+
     @SetUtf8
     @LoginCheck
+    @ResponseBody
     @RequestMapping (value = "exportCommodities", produces = "application/octet-stream;charset=utf-8")
-    public void merchantExportCommodities(HttpServletRequest req, HttpServletResponse res) {
+    public String merchantExportCommodities(HttpServletRequest req, HttpServletResponse res) {
         String commodityName = getArg.apply(req, "commodityName");
         String commodityTypeStr = getArg.apply(req, "commodityType");
         String commodityStatusStr = getArg.apply(req, "commodityStatus");
@@ -761,7 +762,7 @@ public class MerchantManageController {
         CommodityStatus commodityStatus = CommodityStatus.getType(commodityStatusStr);
         Long operaterId = toLongArg.apply(operaterIdStr);
         File file = commodityService.merchantQueryCommoditiesExport(commodityName, commodityType, commodityStatus, null, operaterId).getDetail();
-        FileAssit.exportTest(file,res);
+        return FileAssit.exportTest(file, res);
 //        FileAssit.export(file,res);
     }
 
@@ -801,7 +802,7 @@ public class MerchantManageController {
         String lifeTimeStr = getArg.apply(req, "lifeTime");
         String merchantIdStr = getArg.apply(req, "merchantId");
         String operaterIdStr = getArg.apply(req, "operaterId");
-        String useDestription=getArg.apply(req,"useDestription");
+        String useDestription = getArg.apply(req, "useDestription");
 
         CommodityType commodityType = CommodityType.getType(commodityTypeStr);
         BigDecimal facePrice = parseArg(facePriceStr, BigDecimal.class);
@@ -811,7 +812,7 @@ public class MerchantManageController {
         Long merchantId = parseArg(merchantIdStr, Long.class);
         Long operaterId = parseArg(operaterIdStr, Long.class);
 
-        return requestService.requestAddCommodity(commodityName, commodityType, facePrice, costPrice, sellPrice, lifeTime,useDestription, operaterId, null).toJson();
+        return requestService.requestAddCommodity(commodityName, commodityType, facePrice, costPrice, sellPrice, lifeTime, useDestription, operaterId, null).toJson();
     }
 
     @SetUtf8
@@ -882,32 +883,36 @@ public class MerchantManageController {
         Long operaterId = parseArg(operaterIdStr, Long.class);
         return requestService.queryRequest(requestId, operaterId).toJson();
     }
+
     @SetUtf8
     @LoginCheck
     @ResponseBody
-    @RequestMapping(value = "queryCommodity", produces = "application/json;charset=utf-8")
-    public String queryCommodity(HttpServletRequest req,HttpServletResponse res){
-        String commodityIdStr=getArg.apply(req,"commodityId");
-        String operaterIdStr=getArg.apply(req,"operaterId");
+    @RequestMapping (value = "queryCommodity", produces = "application/json;charset=utf-8")
+    public String queryCommodity(HttpServletRequest req, HttpServletResponse res) {
+        String commodityIdStr = getArg.apply(req, "commodityId");
+        String operaterIdStr = getArg.apply(req, "operaterId");
         Long operaterId = toLongArg.apply(operaterIdStr);
-        Long commodityId=toLongArg.apply(commodityIdStr);
-        return commodityService.queryCommodity(commodityId,operaterId).toJson();
+        Long commodityId = toLongArg.apply(commodityIdStr);
+        return commodityService.queryCommodity(commodityId, operaterId).toJson();
     }
+
     @SetUtf8
     @LoginCheck
     @ResponseBody
-    @RequestMapping(value = "queryMerchantInfo", produces = "application/json;charset=utf-8")
-    public String queryMerchantInfo(HttpServletRequest req,HttpServletResponse res){
-        String merchantIdStr=getArg.apply(req,"merchantId");
-        String operaterIdStr=getArg.apply(req,"operaterId");
+    @RequestMapping (value = "queryMerchantInfo", produces = "application/json;charset=utf-8")
+    public String queryMerchantInfo(HttpServletRequest req, HttpServletResponse res) {
+        String merchantIdStr = getArg.apply(req, "merchantId");
+        String operaterIdStr = getArg.apply(req, "operaterId");
         Long operaterId = toLongArg.apply(operaterIdStr);
-        Long merchantId=toLongArg.apply(merchantIdStr);
+        Long merchantId = toLongArg.apply(merchantIdStr);
         return merchantService.queryMerchantInfo(operaterId, merchantId).toJson();
     }
+
     @SetUtf8
     @LoginCheck
-    @RequestMapping(value = "exportDailyRecords", produces = "application/octet-stream;charset=utf-8")
-    public void exportDailyRecords(HttpServletRequest req,HttpServletResponse res){
+    @ResponseBody
+    @RequestMapping (value = "exportDailyRecords", produces = "application/octet-stream;charset=utf-8")
+    public String exportDailyRecords(HttpServletRequest req, HttpServletResponse res) {
         String timeStart = getArg.apply(req, "timeStart");
         String timeEnd = getArg.apply(req, "timeStop");
         String clearStatusStr = getArg.apply(req, "clearStatus");
@@ -917,14 +922,16 @@ public class MerchantManageController {
         ClearStatus clearStatus = ClearStatus.getType(clearStatusStr);
         Long operaterId = parseArg(operaterIdStr, Long.class);
         InvoiceStatus invoiceStatus = InvoiceStatus.getType(invoiceStatusStr);
-        RetMessage<File> retMessage=clearService.exoirtDailyRecords(timeStart,timeEnd,clearStatus,invoiceStatus,operaterId);
-        FileAssit.exportTest(retMessage.getDetail(),res);
+        RetMessage<File> retMessage = clearService.exoirtDailyRecords(timeStart, timeEnd, clearStatus, invoiceStatus, operaterId);
+        return FileAssit.exportTest(retMessage.getDetail(), res);
 //        FileAssit.export(retMessage,res);
     }
+
     @SetUtf8
     @LoginCheck
-    @RequestMapping(value = "exportVerifyRecords", produces = "application/octet-stream;charset=utf-8")
-    public void exportVerifyRecords(HttpServletRequest req,HttpServletResponse res){
+    @ResponseBody
+    @RequestMapping (value = "exportVerifyRecords", produces = "application/octet-stream;charset=utf-8")
+    public String exportVerifyRecords(HttpServletRequest req, HttpServletResponse res) {
         String codeStr = getArg.apply(req, "code");
         String timeStart = getArg.apply(req, "timeStart");
         String timeEnd = getArg.apply(req, "timeStop");
@@ -942,32 +949,35 @@ public class MerchantManageController {
         Integer pageSize = toIntArg.apply(pageSizeStr);
         Long operaterId = toLongArg.apply(operaterIdStr);
 
-        RetMessage<File> retMessage=verificationRecordService.exportShopVerificationRecords(timeStart,timeEnd,shopName,code,commodityName,phone,type,operaterId);
-        FileAssit.exportTest(retMessage.getDetail(),res);
+        RetMessage<File> retMessage = verificationRecordService.exportShopVerificationRecords(timeStart, timeEnd, shopName, code, commodityName, phone, type, operaterId);
+        return FileAssit.exportTest(retMessage.getDetail(), res);
 //        FileAssit.export(retMessage,res);
     }
+
     @SetUtf8
     @LoginCheck
     @ResponseBody
-    @RequestMapping(value = "verifyCode",produces = "application/json;charset=utf-8")
-    public String verifyCode(HttpServletRequest req,HttpServletResponse res){
-        String codIdStr=getArg.apply(req,"codeId");
-        String operaterIdStr=getArg.apply(req,"operaterId");
-        String codeStr=getArg.apply(req,"code");
-        String verifyTypeStr=getArg.apply(req,"verificationType");
-        Long codeId=parseArg(codIdStr,Long.class);
-        Long operaterId=parseArg(operaterIdStr,Long.class);
-        Long code=parseArg(codeStr,Long.class);
-        VerificationType verifyType=toVerificationType.apply(verifyTypeStr);
-        if(codeId==null)
-            return codeService.verificateCode(code,null,operaterId,verifyType).toJson();
+    @RequestMapping (value = "verifyCode", produces = "application/json;charset=utf-8")
+    public String verifyCode(HttpServletRequest req, HttpServletResponse res) {
+        String codIdStr = getArg.apply(req, "codeId");
+        String operaterIdStr = getArg.apply(req, "operaterId");
+        String codeStr = getArg.apply(req, "code");
+        String verifyTypeStr = getArg.apply(req, "verificationType");
+        Long codeId = parseArg(codIdStr, Long.class);
+        Long operaterId = parseArg(operaterIdStr, Long.class);
+        Long code = parseArg(codeStr, Long.class);
+        VerificationType verifyType = toVerificationType.apply(verifyTypeStr);
+        if (codeId == null)
+            return codeService.verificateCode(code, null, operaterId, verifyType).toJson();
         else
-            return codeService.verificateCode(codeId,operaterId,verifyType).toJson();
+            return codeService.verificateCode(codeId, operaterId, verifyType).toJson();
     }
+
     @SetUtf8
     @LoginCheck
-    @RequestMapping(value = "exportClearRecords", produces = "application/octet-stream;charset=utf-8")
-    public void exportClearRecords(HttpServletRequest req,HttpServletResponse res){
+    @ResponseBody
+    @RequestMapping (value = "exportClearRecords", produces = "application/octet-stream;charset=utf-8")
+    public String exportClearRecords(HttpServletRequest req, HttpServletResponse res) {
         String timeStart = getArg.apply(req, "timeStart");
         String timeEnd = getArg.apply(req, "timeStop");
         String clearStatusStr = getArg.apply(req, "clearStatus");
@@ -977,16 +987,16 @@ public class MerchantManageController {
         ClearStatus clearStatus = ClearStatus.getType(clearStatusStr);
         Long operaterId = parseArg(operaterIdStr, Long.class);
         InvoiceStatus invoiceStatus = InvoiceStatus.getType(invoiceStatusStr);
-        RetMessage<File> retMessage=clearService.exportClearRecords(timeStart,timeEnd,clearStatus,invoiceStatus,operaterId);
-        FileAssit.exportTest(retMessage.getDetail(),res);
+        RetMessage<File> retMessage = clearService.exportClearRecords(timeStart, timeEnd, clearStatus, invoiceStatus, operaterId);
+        return FileAssit.exportTest(retMessage.getDetail(), res);
 //        FileAssit.export(retMessage,res);
     }
 
     @SetUtf8
     @LoginCheck
     @ResponseBody
-    @RequestMapping(value = "statsticDailyRecords", produces = "application/json;charset=utf-8")
-    public String statsticDailyRecords(HttpServletRequest req,HttpServletResponse res){
+    @RequestMapping (value = "statsticDailyRecords", produces = "application/json;charset=utf-8")
+    public String statsticDailyRecords(HttpServletRequest req, HttpServletResponse res) {
         String timeStart = getArg.apply(req, "timeStart");
         String timeEnd = getArg.apply(req, "timeStop");
         String clearStatusStr = getArg.apply(req, "clearStatus");
@@ -998,12 +1008,14 @@ public class MerchantManageController {
         Long operaterId = parseArg(operaterIdStr, Long.class);
         Integer pageNum = parseArg(pageNumStr, Integer.class);
         Integer pageSize = parseArg(pageSizeStr, Integer.class);
-        return clearService.statsticDailyRecords(timeStart,timeEnd,clearStatus,pageNum,pageSize,operaterId).toJson();
+        return clearService.statsticDailyRecords(timeStart, timeEnd, clearStatus, pageNum, pageSize, operaterId).toJson();
     }
+
     @SetUtf8
     @LoginCheck
-    @RequestMapping(value = "exportStaticDailyRecords", produces = "application/octet-stream;charset=utf-8")
-    public void exportStaticDailyRecords(HttpServletRequest req,HttpServletResponse res){
+    @ResponseBody
+    @RequestMapping (value = "exportStaticDailyRecords", produces = "application/octet-stream;charset=utf-8")
+    public String exportStaticDailyRecords(HttpServletRequest req, HttpServletResponse res) {
         String timeStart = getArg.apply(req, "timeStart");
         String timeEnd = getArg.apply(req, "timeStop");
         String clearStatusStr = getArg.apply(req, "clearStatus");
@@ -1011,18 +1023,19 @@ public class MerchantManageController {
 
         ClearStatus clearStatus = ClearStatus.getType(clearStatusStr);
         Long operaterId = parseArg(operaterIdStr, Long.class);
-        RetMessage<File> retMessage=clearService.exportStatsticDailyRecords(timeStart,timeEnd,clearStatus,operaterId);
-        FileAssit.exportTest(retMessage.getDetail(),res);
+        RetMessage<File> retMessage = clearService.exportStatsticDailyRecords(timeStart, timeEnd, clearStatus, operaterId);
+        return FileAssit.exportTest(retMessage.getDetail(), res);
 //        FileAssit.export(retMessage,res);
     }
+
     @SetUtf8
-	@LoginCheck
-	@ResponseBody
-	@RequestMapping(value = "queryAllShopIds", produces = "application/json;charset=utf-8")
-	public String queryAllShopIds(HttpServletRequest req, HttpServletResponse res) {
-		String operaterIdStr = getArg.apply(req, "operaterId");
-		Long operaterId = parseArg(operaterIdStr, Long.class);
-		return shopService.queruAllShopIds(operaterId).toJson();
-	}
+    @LoginCheck
+    @ResponseBody
+    @RequestMapping (value = "queryAllShopIds", produces = "application/json;charset=utf-8")
+    public String queryAllShopIds(HttpServletRequest req, HttpServletResponse res) {
+        String operaterIdStr = getArg.apply(req, "operaterId");
+        Long operaterId = parseArg(operaterIdStr, Long.class);
+        return shopService.queruAllShopIds(operaterId).toJson();
+    }
 
 }

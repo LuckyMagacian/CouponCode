@@ -7,6 +7,7 @@ import com.lanxi.util.utils.LoggerUtil;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+
 import static com.lanxi.couponcode.spi.consts.enums.LockResult.*;
 import static com.lanxi.couponcode.spi.assist.RedisKeyAssist.getCodeKey;
 import static com.lanxi.couponcode.spi.assist.RedisKeyAssist.getVarKey;
@@ -14,9 +15,9 @@ import static com.lanxi.couponcode.spi.assist.RedisKeyAssist.getVarKey;
 /**
  * Created by yangyuanjian on 2017/11/15.
  */
-@EasyLog(LoggerUtil.LogLevel.INFO)
-@Service("redisCodeService")
-public class RedisCodeServiceImpl implements RedisCodeService{
+@EasyLog (LoggerUtil.LogLevel.INFO)
+@Service ("redisCodeService")
+public class RedisCodeServiceImpl implements RedisCodeService {
     @Resource
     private RedisService redis;
     @Resource
@@ -26,34 +27,37 @@ public class RedisCodeServiceImpl implements RedisCodeService{
      */
     private static final long CODE_VAR_STEP = 1;
 
-    private static final String froever="-1";
-    /**从redis中获取对应的code变量,本方法允许失败*/
+    private static final String froever = "-1";
+
+    /**
+     * 从redis中获取对应的code变量,本方法允许失败
+     */
     @Override
-    public Long getCodeVar(Long merchantId){
+    public Long getCodeVar(Long merchantId) {
         try {
             String key = getVarKey(merchantId);
-            long var = redis.hincr(key, merchantId+"");
+            long var = redis.hincr(key, merchantId + "");
             return var;
         } catch (Exception e) {
             return null;
         }
     }
 
-    public Boolean addCode(CouponCode code){
-        return addCode(code.getMerchantId(),code.getCode());
+    public Boolean addCode(CouponCode code) {
+        return addCode(code.getMerchantId(), code.getCode());
     }
 
     @Override
     public Boolean addCode(Long merchantId, Long code) {
         String key = getCodeKey(merchantId);
-        return redis.hsetNx(key,code.toString(),froever);
+        return redis.hsetNx(key, code.toString(), froever);
     }
 
     @Override
     public Boolean checkCodeExists(Long merchantId, Long code) {
         try {
             String key = getCodeKey(merchantId);
-            return redis.hexists(key,code.toString());
+            return redis.hexists(key, code.toString());
         } catch (Exception e) {
             return null;
         }
@@ -61,66 +65,66 @@ public class RedisCodeServiceImpl implements RedisCodeService{
 
     @Override
     public Boolean checkCodeExists(CouponCode code) {
-        return checkCodeExists(code.getMerchantId(),code.getCode());
+        return checkCodeExists(code.getMerchantId(), code.getCode());
     }
 
     @Override
-    public Boolean lockCode(Long merchantId, Long code,@Deprecated String locker) {
+    public Boolean lockCode(Long merchantId, Long code, @Deprecated String locker) {
         String key = getCodeKey(merchantId);
-        LockResult result=enhancedRedis.hlock(key,code.toString());
+        LockResult result = enhancedRedis.hlock(key, code.toString());
         return success.equals(result);
     }
 
     @Override
-    public Boolean lockCode(CouponCode code,@Deprecated String locker) {
-        return lockCode(code.getMerchantId(),code.getCode(),locker);
+    public Boolean lockCode(CouponCode code, @Deprecated String locker) {
+        return lockCode(code.getMerchantId(), code.getCode(), locker);
     }
 
     @Override
-    public Boolean lockCodeForce(Long merchantId, Long code,@Deprecated String locker) {
+    public Boolean lockCodeForce(Long merchantId, Long code, @Deprecated String locker) {
         String key = getCodeKey(merchantId);
-        LockResult result=enhancedRedis.hlockForce(key,code.toString());
+        LockResult result = enhancedRedis.hlockForce(key, code.toString());
         return success.equals(result);
     }
 
     @Override
-    public Boolean lockCodeForce(CouponCode code,@Deprecated String locker) {
-        return lockCodeForce(code.getMerchantId(),code.getCode(),locker);
+    public Boolean lockCodeForce(CouponCode code, @Deprecated String locker) {
+        return lockCodeForce(code.getMerchantId(), code.getCode(), locker);
     }
 
     @Override
     public Boolean unlockCode(CouponCode code, String unlocker) {
-        return unlockCode(code.getMerchantId(),code.getCode(),unlocker);
+        return unlockCode(code.getMerchantId(), code.getCode(), unlocker);
     }
 
     @Override
     public Boolean unlockCode(Long merchantId, Long code, String unlocker) {
         String key = getCodeKey(merchantId);
-        LockResult result= enhancedRedis.hunlock(key,code.toString(),unlocker);
+        LockResult result = enhancedRedis.hunlock(key, code.toString(), unlocker);
         return success.equals(result);
     }
 
     @Override
     public Boolean unlockCodeForce(Long merchantId, Long code, @Deprecated String unlocker) {
         String key = getCodeKey(merchantId);
-        LockResult result=  enhancedRedis.hunlockForce(key,code.toString());
+        LockResult result = enhancedRedis.hunlockForce(key, code.toString());
         return success.equals(result);
     }
 
     @Override
     public Boolean unlockCodeForce(CouponCode code, @Deprecated String unlocker) {
-        return unlockCodeForce(code.getMerchantId(),code.getCode(),unlocker);
+        return unlockCodeForce(code.getMerchantId(), code.getCode(), unlocker);
     }
 
     @Override
     public Boolean delCode(Long merchantId, Long code) {
         String key = getCodeKey(merchantId);
-        return redis.hdel(key,code.toString());
+        return redis.hdel(key, code.toString());
     }
 
     @Override
     public Boolean delCode(CouponCode code) {
-        return delCode(code.getMerchantId(),code.getCode());
+        return delCode(code.getMerchantId(), code.getCode());
     }
 
 //    @Override
@@ -133,12 +137,12 @@ public class RedisCodeServiceImpl implements RedisCodeService{
     @Override
     public Boolean delCodeForce(Long merchantId, Long code) {
         String key = getCodeKey(merchantId);
-        return redis.hdel(key,code.toString());
+        return redis.hdel(key, code.toString());
     }
 
     @Override
     public Boolean delCodeForce(CouponCode code) {
-        return delCode(code.getMerchantId(),code.getCode());
+        return delCode(code.getMerchantId(), code.getCode());
     }
 
     @Override

@@ -10,7 +10,7 @@ import java.io.Serializable;
 /**
  * Created by yangyuanjian on 2017/11/2.
  */
-public class RetMessage<T extends  Serializable> implements ToJson,ToMap,Serializable{
+public class RetMessage<T extends Serializable> implements ToJson, ToMap, Serializable {
     private String retCode;
     private String retMessage;
     private T detail;
@@ -21,11 +21,11 @@ public class RetMessage<T extends  Serializable> implements ToJson,ToMap,Seriali
 
 
     public RetMessage(RetCodeEnum retCode, String retMessage) {
-        this(retCode,retMessage,null);
+        this(retCode, retMessage, null);
     }
 
     public RetMessage(RetCodeEnum retCode, String retMessage, T detail) {
-        this(retCode.toString(),retMessage,detail);
+        this(retCode.toString(), retMessage, detail);
     }
 
     public RetMessage(String retCode, String retMessage, T detail) {
@@ -34,13 +34,13 @@ public class RetMessage<T extends  Serializable> implements ToJson,ToMap,Seriali
         this.detail = detail;
     }
 
-    public void setCodeAndMessage(RetCodeEnum code, String message){
+    public void setCodeAndMessage(RetCodeEnum code, String message) {
         setRetCode(code);
         setRetMessage(message);
     }
 
-    public void setAll(RetCodeEnum code, String message, T deatil){
-        setCodeAndMessage(code,message);
+    public void setAll(RetCodeEnum code, String message, T deatil) {
+        setCodeAndMessage(code, message);
         setDetail(deatil);
     }
 
@@ -81,7 +81,9 @@ public class RetMessage<T extends  Serializable> implements ToJson,ToMap,Seriali
                 '}';
     }
 
-    public static<T> RetMessage fromJson(String json){
-        return JSONObject.parseObject(json,RetMessage.class);
-    };
+    public static <T> RetMessage fromJson(String json) {
+        return JSONObject.parseObject(json, RetMessage.class);
+    }
+
+    ;
 }

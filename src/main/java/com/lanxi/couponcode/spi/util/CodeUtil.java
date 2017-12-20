@@ -16,8 +16,6 @@ import java.util.stream.IntStream;
 public class CodeUtil {
     public CodeUtil() {
     }
-
-    ;
     private static final Supplier<LocalDateTime> DATE_TIME_SUPPLIER = LocalDateTime::now;
     private static final Supplier<Instant> TIME_STAMP_SUPPLIER = Instant::now;
     private static final Supplier<Integer> DAY_NUMBER_OF_YEAR = DATE_TIME_SUPPLIER.get().toLocalDate()::getDayOfYear;
@@ -25,12 +23,6 @@ public class CodeUtil {
     private static final Supplier<Integer> SECOND_NUMBER_OF_YEAR = () -> {
         return null;
     };
-
-    @Test
-    public void test1() throws InterruptedException {
-        System.out.println(DAY_NUMBER_OF_YEAR.get());
-        System.out.println(SECOND_NUMBER_OF_YEAR.get());
-    }
 
 
     @Test
@@ -56,8 +48,5 @@ public class CodeUtil {
         List<Integer> small = list.parallelStream().filter(e -> (e + "").length() < 5).collect(Collectors.toList());
         List<Integer> middle = list.parallelStream().filter(e -> (e + "").length() == 3).collect(Collectors.toList());
         List<Integer> big = list.parallelStream().filter(e -> (e + "").length() == 5).collect(Collectors.toList());
-        System.out.println(small);
-        System.out.println(middle);
-        System.out.println(big);
     }
 }

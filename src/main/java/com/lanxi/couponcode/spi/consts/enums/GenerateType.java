@@ -5,19 +5,21 @@ import java.io.Serializable;
 /**
  * Created by yangyuanjian on 12/11/2017.
  */
-public enum GenerateType  implements Serializable,Gettype {
-    hand(1),auto(0);
+public enum GenerateType implements Serializable, Gettype {
+    hand(1), auto(0);
     private String value;
-    private GenerateType(int value) {
-        this.value=value+"";
+
+    GenerateType(int value) {
+        this.value = value + "";
     }
+
     @Override
     public String toString() {
         return value;
     }
 
     public static GenerateType getType(int value) {
-        return getType(value+"");
+        return getType(value + "");
     }
 
 

@@ -94,13 +94,6 @@ public abstract class AbstractEnterprise extends Model<AbstractEnterprise> imple
 
     @Override
     public String toString() {
-        return "AbstractEnterprise{" +
-                "merchantId='" + merchantId + '\'' +
-                ", enterpriseFullName='" + enterpriseFullName + '\'' +
-                ", identificationNumber='" + identificationNumber + '\'' +
-                ", logTime='" + logTime + '\'' +
-                ", loggerId='" + loggerId + '\'' +
-                ", remark='" + remark + '\'' +
-                '}';
+        return String.format("AbstractEnterprise{merchantId='%d', enterpriseFullName='%s', identificationNumber='%s', logTime='%s', loggerId='%d', remark='%s'}", merchantId, enterpriseFullName, identificationNumber, logTime, loggerId, remark);
     }
 }

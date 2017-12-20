@@ -4,7 +4,6 @@ import com.lanxi.couponcode.spi.assist.RetMessage;
 import com.lanxi.couponcode.spi.consts.annotations.HiddenArg;
 import com.lanxi.couponcode.spi.consts.annotations.RealReturnType;
 import com.lanxi.couponcode.spi.consts.enums.CommodityType;
-import com.lanxi.couponcode.spi.consts.enums.OperateType;
 import com.lanxi.couponcode.spi.consts.enums.RequestOperateType;
 import com.lanxi.couponcode.spi.consts.enums.RequestStatus;
 
@@ -27,7 +26,7 @@ public interface RequestService {
                                      @HiddenArg Integer pageSize,
                                      @HiddenArg Long operaterId);
 
-    public RetMessage<String> queryRequests(String timeStart,
+    RetMessage<String> queryRequests(String timeStart,
                                             String timeStop,
                                             String commodityName,
                                             RequestOperateType type,
@@ -45,6 +44,7 @@ public interface RequestService {
     RetMessage<Boolean> disagreeRequest(@HiddenArg Long requestId,
                                         @HiddenArg Long operaterId,
                                         String reason);
+
     @RealReturnType ("List<OperateRequest>")
     RetMessage<String> queryCommodityRequest(String commodityName,
                                              CommodityType type,
@@ -84,7 +84,6 @@ public interface RequestService {
                                             Long operaterId);
 
     RetMessage<String> queryRequest(Long requestId, Long operatorId);
-
 
 
 }

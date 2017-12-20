@@ -8,42 +8,42 @@ import java.io.Serializable;
  * merchantManager 2商户管理员<br>
  * shopManager 3店铺管理员<br>
  * shopEmployee 4店铺员工<br>
- * @author yangyuanjian
  *
+ * @author yangyuanjian
  */
-public enum AccountType implements Serializable,Gettype{
-	admin(1),merchantManager(2),shopManager(3),shopEmployee(4),cancellation(9);
-	
-	private String value;
-	
-	private AccountType(int value) {
-		this(value+"");
-	}
-	
-	private AccountType(String value) {
-		this.value=value;
-	}
+public enum AccountType implements Serializable, Gettype {
+    admin(1), merchantManager(2), shopManager(3), shopEmployee(4), cancellation(9);
 
-	@Override
-	public String toString() {
-		return value;
-	}
-	
-	public static AccountType getType(int value) {
-		return getType(value+"");
-	}
+    private String value;
 
-	
-	public static AccountType getType(String value) {
-		return Gettype.getType(value);
-	}
-	
-	public String getValue() {
-		return value;
-	}
+    AccountType(int value) {
+        this(value + "");
+    }
 
-	public void setValue(String value) {
-		this.value = value;
-	}
+    AccountType(String value) {
+        this.value = value;
+    }
+
+    @Override
+    public String toString() {
+        return value;
+    }
+
+    public static AccountType getType(int value) {
+        return getType(value + "");
+    }
+
+
+    public static AccountType getType(String value) {
+        return Gettype.getType(value);
+    }
+
+    public String getValue() {
+        return value;
+    }
+
+    public void setValue(String value) {
+        this.value = value;
+    }
 
 }

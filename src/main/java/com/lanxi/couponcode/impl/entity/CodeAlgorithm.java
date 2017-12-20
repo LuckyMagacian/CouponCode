@@ -7,7 +7,6 @@ import com.lanxi.couponcode.spi.abstractentity.AbstractCodeAlgorithm;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.sql.JDBCType;
 import java.util.concurrent.atomic.AtomicLong;
 
 /**
@@ -71,7 +70,7 @@ public class CodeAlgorithm extends AbstractCodeAlgorithm {
 //        return code.longValue();
 //    }
     public long getCode(Long var) {
-        if (var==null||var < 0) {
+        if (var == null || var < 0) {
             synchronized (this) {
                 var = getAndIncyVar();
                 this.updateById();
@@ -89,14 +88,7 @@ public class CodeAlgorithm extends AbstractCodeAlgorithm {
 
     @Override
     public String toString() {
-        return "CodeAlgorithm{" +
-                "merchantId='" + merchantId + '\'' +
-                ", power=" + power +
-                ", p1=" + p1 +
-                ", p2=" + p2 +
-                ", n=" + n +
-                ", var=" + var +
-                '}';
+        return String.format("CodeAlgorithm{merchantId='%d', power=%d, p1=%s, p2=%s, n=%s, var=%s}", merchantId, power, p1, p2, n, var);
     }
 
     public Long getMerchantId() {
@@ -140,7 +132,7 @@ public class CodeAlgorithm extends AbstractCodeAlgorithm {
     }
 
     public Long getVar() {
-        return this.var==null?0:this.var.get();
+        return this.var == null ? 0 : this.var.get();
     }
 
     public long getAndIncyVar() {
