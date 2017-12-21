@@ -126,7 +126,7 @@ public class XmlUtil {
 
     /**
      * 根据xml生成MsgOrderInfoHeadBean
-     *
+     *用于查询订单详情
      * @param XmlStr
      * @return
      */
@@ -207,25 +207,25 @@ public class XmlUtil {
             Element jfdh = xmlDoc.addElement("JFDH");
             /** HEAD */
             Element head = jfdh.addElement("HEAD");
-            head.addElement("VER").setText(msg.getVER());
-            head.addElement("MsgNo").setText(msg.getMsgNo());
-            head.addElement("CHKDate").setText(msg.getCHKDate());
-            head.addElement("WorkDate").setText(msg.getWorkDate());
-            head.addElement("WorkTime").setText(msg.getWorkTime());
-            head.addElement("ADD").setText(msg.getADD());
-            head.addElement("SRC").setText(msg.getSRC());
-            head.addElement("DES").setText(msg.getDES());
-            head.addElement("APP").setText(msg.getAPP());
-            head.addElement("MsgID").setText(msg.getMsgID());
-            head.addElement("Reserve").setText(msg.getReserve());
-            head.addElement("Sign").setText(msg.getSign());
-            head.addElement("ResCode").setText(statusMap.get("ResCode"));
-            head.addElement("ResMsg").setText(statusMap.get("ResMsg"));
+            head.addElement("VER").setText(msg.getVER()==null?"":msg.getVER());
+            head.addElement("MsgNo").setText(msg.getMsgNo()==null?"":msg.getMsgNo());
+            head.addElement("CHKDate").setText(msg.getCHKDate()==null?"":msg.getCHKDate());
+            head.addElement("WorkDate").setText(msg.getWorkDate()==null?"":msg.getWorkDate());
+            head.addElement("WorkTime").setText(msg.getWorkTime()==null?"":msg.getWorkTime());
+            head.addElement("ADD").setText(msg.getADD()==null?"":msg.getADD());
+            head.addElement("SRC").setText(msg.getSRC()==null?"":msg.getSRC());
+            head.addElement("DES").setText(msg.getDES()==null?"":msg.getDES());
+            head.addElement("APP").setText(msg.getAPP()==null?"":msg.getAPP());
+            head.addElement("MsgID").setText(msg.getMsgID()==null?"":msg.getMsgID());
+            head.addElement("Reserve").setText(msg.getReserve()==null?"":msg.getReserve());
+            head.addElement("Sign").setText(msg.getSign()==null?"":msg.getSign());
+            head.addElement("ResCode").setText(statusMap.get("ResCode")==null?"":statusMap.get("ResCode"));
+            head.addElement("ResMsg").setText(statusMap.get("ResMsg")==null?"":statusMap.get("ResMsg"));
             /** MSG */
             Element msgElEment = jfdh.addElement("MSG");
-            msgElEment.addElement("OrgWorkDate").setText(msg.getOrgWorkDate());
-            msgElEment.addElement("OrgMsgID").setText(msg.getOrgMsgID());
-            msgElEment.addElement("Phone").setText(msg.getPhone());
+            msgElEment.addElement("OrgWorkDate").setText(msg.getOrgWorkDate()==null?"":msg.getOrgWorkDate());
+            msgElEment.addElement("OrgMsgID").setText(msg.getOrgMsgID()==null?"":msg.getOrgMsgID());
+            msgElEment.addElement("Phone").setText(msg.getPhone()==null?"":msg.getPhone());
             msgElEment.addElement("Type").setText(statusMap.get("Type") == null ? "0" : statusMap.get("Type"));
             msgElEment.addElement("SkuCode").setText(statusMap.get("SkuCode") == null ? "0" : statusMap.get("SkuCode"));
             msgElEment.addElement("Count").setText(statusMap.get("Count") == null ? "0" : statusMap.get("Count"));
@@ -270,23 +270,23 @@ public class XmlUtil {
             Element jfdh = xmlDoc.addElement("JFDH");
             /** HEAD */
             Element head = jfdh.addElement("HEAD");
-            head.addElement("VER").setText(msg.getVER());
-            head.addElement("MsgNo").setText(msg.getMsgNo());
-            head.addElement("CHKDate").setText(msg.getCHKDate());
-            head.addElement("WorkDate").setText(msg.getWorkDate());
-            head.addElement("WorkTime").setText(msg.getWorkTime());
-            head.addElement("ADD").setText(msg.getADD());
-            head.addElement("SRC").setText(msg.getSRC());
-            head.addElement("DES").setText(msg.getDES());
-            head.addElement("APP").setText(msg.getAPP());
-            head.addElement("MsgID").setText(msg.getMsgID());
-            head.addElement("Reserve").setText(msg.getReserve());
-            head.addElement("Sign").setText(msg.getSign());
-            head.addElement("ResCode").setText(statusMap.get("ResCode"));
-            head.addElement("ResMsg").setText(statusMap.get("ResMsg"));
+            head.addElement("VER").setText(msg.getVER()==null?"":msg.getVER());
+            head.addElement("MsgNo").setText(msg.getMsgNo()==null?"":msg.getMsgNo());
+            head.addElement("CHKDate").setText(msg.getCHKDate()==null?"":msg.getCHKDate());
+            head.addElement("WorkDate").setText(msg.getWorkDate()==null?"":msg.getWorkDate());
+            head.addElement("WorkTime").setText(msg.getWorkTime()==null?"":msg.getWorkTime());
+            head.addElement("ADD").setText(msg.getADD()==null?"":msg.getADD());
+            head.addElement("SRC").setText(msg.getSRC()==null?"":msg.getSRC());
+            head.addElement("DES").setText(msg.getDES()==null?"":msg.getDES());
+            head.addElement("APP").setText(msg.getAPP()==null?"":msg.getAPP());
+            head.addElement("MsgID").setText(msg.getMsgID()==null?"":msg.getMsgID());
+            head.addElement("Reserve").setText(msg.getReserve()==null?"":msg.getReserve());
+            head.addElement("Sign").setText(msg.getSign()==null?"":msg.getSign());
+            head.addElement("ResCode").setText(statusMap.get("ResCode")==null?"":statusMap.get("ResCode"));
+            head.addElement("ResMsg").setText(statusMap.get("ResMsg")==null?"":statusMap.get("ResMsg"));
             /** MSG */
             Element msgElEment = jfdh.addElement("MSG");
-            msgElEment.addElement("Phone").setText(msg.getPhone());
+            msgElEment.addElement("Phone").setText(msg.getPhone()==null?"":msg.getPhone());
             msgElEment.addElement("Count").setText(statusMap.get("Count") == null ? "0" : statusMap.get("Count"));
             Element orderList = msgElEment.addElement("OrderList");
             if (Integer.parseInt(statusMap.get("Count")) > 0) {
