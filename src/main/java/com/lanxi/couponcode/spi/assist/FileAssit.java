@@ -97,6 +97,7 @@ public interface FileAssit {
         } else {
             String fileName = file.getName();
             String secret = SignUtil.md5LowerCase(fileName + TimeAssist.getNow(), "utf-8");
+            PatchController.addFile(secret,file);
             return new RetMessage(RetCodeEnum.success, "导出成功!", secret).toJson();
         }
     }

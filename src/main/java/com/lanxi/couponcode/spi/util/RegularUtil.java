@@ -14,7 +14,7 @@ public class RegularUtil {
         if (str.length() == 0) {
             return false;
         }
-        Pattern pattern = Pattern.compile("^((17[0-9])|(14[0-9])|(13[0-9])|(15[^4,\\D])|(18[0,5-9]))\\d{8}$");
+        Pattern pattern = Pattern.compile("^((17[0-9])|(14[0-9])|(13[0-9])|(15[^4,\\D])|(18[0-9]))\\d{8}$");
         Matcher isPhone = pattern.matcher(str);
         if (isPhone.matches()) {
             return true;

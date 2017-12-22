@@ -34,7 +34,7 @@ public class RequestServiceImpl implements RequestService {
     @Override
     public Boolean rejectRequest(Request request) {
         request.setStatus(RequestStatus.reject);
-        return null;
+        return request.updateById();
     }
 
     @Override

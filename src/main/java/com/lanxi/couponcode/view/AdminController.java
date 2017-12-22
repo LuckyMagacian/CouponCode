@@ -180,7 +180,7 @@ public class AdminController {
     @ResponseBody
     @RequestMapping (value = "clear", produces = "application/json;charset=utf-8")
     public String clear(final HttpServletRequest req, final HttpServletResponse res) {
-        String clearTime = getArg.apply(req, "clearTime");
+        String clearTime = getArg.apply(req, "date");
         String factTotalStr = getArg.apply(req, "factTotal");
         String remark = getArg.apply(req, "remark");
         String recordIdStr = getArg.apply(req, "recordId");
@@ -797,7 +797,7 @@ public class AdminController {
         String Phone = getArg.apply(req, "phone");
         String orderIdStr = getArg.apply(req, "orderId");
         String SkuCodeStr = getArg.apply(req, "skuCode");
-        String SRC = getArg.apply(req, "sRC");
+        String SRC = getArg.apply(req, "src");
         String orderStatusStr = getArg.apply(req, "orderStatus");
         String operaterIdStr = getArg.apply(req, "operaterId");
         Long orderId = toLongArg.apply(orderIdStr);

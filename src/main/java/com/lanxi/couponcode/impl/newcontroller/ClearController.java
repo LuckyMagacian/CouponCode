@@ -333,6 +333,7 @@ public class ClearController implements com.lanxi.couponcode.spi.service.ClearSe
         record.setOperaterName(account.getUserName());
         record.setClearStatus(ClearStatus.cleard);
         record.setClearTime(TimeAssist.timeFixZero(clearTime));
+        record.setRemark(remark);
         boolean result = record.updateById();
         if (result) {
             OperateRecord operateRecord = new OperateRecord();
@@ -362,7 +363,7 @@ public class ClearController implements com.lanxi.couponcode.spi.service.ClearSe
         ClearRecord record = clearService.queryClearRecordInfo(recordId);
         if (!ClearStatus.cleard.equals(record.getClearStatus()))
             return new RetMessage<>(RetCodeEnum.fail, "未结算!", null);
-        if (!InvoiceStatus.posted.equals(record.getInvoiceStatus()))
+        if (!InvoiceStatus.unposted.equals(record.getInvoiceStatus()))
             return new RetMessage<>(RetCodeEnum.fail, "已录入!", null);
         record.setTaxNum(taxNum);
         record.setOrderNum(orderNum);

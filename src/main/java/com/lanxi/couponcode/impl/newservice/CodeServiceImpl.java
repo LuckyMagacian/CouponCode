@@ -87,9 +87,9 @@ public class CodeServiceImpl implements CodeService {
     public Boolean postoneCode(CouponCode code) {
         CheckJob job = () -> {
             LocalDateTime overTime = TimeAssist.parseToDateTime(code.getOverTime());
-            overTime.plusDays(code.getLifeTime());
+            overTime = overTime.plusDays(30);
             code.setOverTime(TimeAssist.formatToyyyyMMddHHmmss(overTime));
-            code.setLifeTime(code.getLifeTime() * 2);
+            code.setLifeTime(code.getLifeTime()+30);
             return code.updateById();
         };
         return doCheckJob(job, code);

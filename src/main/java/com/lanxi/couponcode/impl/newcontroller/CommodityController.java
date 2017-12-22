@@ -386,7 +386,13 @@ public class CommodityController implements com.lanxi.couponcode.spi.service.Com
         List<Commodity> list = queryCommoditiesHidden(merchant.getMerchantName(), commodityName, type, status, null, null, null);
         // TODO 配置要显示的内容
         Map<String, String> map = new HashMap<>();
-        File file = ExcelUtil.exportExcelFile(list, map);
+        File file = new File("商品查询导出"+TimeAssist.getNow()+".xls");
+        try {
+            ExcelUtil.exportExcelFile(list,map,new FileOutputStream(file));
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+            file=null;
+        }
         if (file != null)
             return new RetMessage<File>(RetCodeEnum.success, "导出成功", file);
         else

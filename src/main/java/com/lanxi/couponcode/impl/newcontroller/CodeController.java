@@ -169,14 +169,14 @@ public class CodeController implements com.lanxi.couponcode.spi.service.CouponSe
         boolean lock = false;
         try {
             //加锁
-            lock = redisCodeService.lockCode(code, null);
+            lock = redisCodeService.lockCode(code, "");
             if (lock)
                 result = codeService.delCode(code);
         } catch (Exception e) {
             result = null;
         } finally {
             if (lock)
-                redisCodeService.unlockCodeForce(code, null);
+                redisCodeService.unlockCodeForce(code, "");
         }
         //-----------------------------------------------------------------返回--------------------------------------------------------------
         //返回null,发生异常
@@ -254,7 +254,7 @@ public class CodeController implements com.lanxi.couponcode.spi.service.CouponSe
         boolean lock = false;
         try {
             //加锁
-            lock = redisCodeService.lockCode(code, null);
+            lock = redisCodeService.lockCode(code, "");
             if (lock) {
                 code.setVerificationType(verificationType);
                 code.setDestroyRecordId(verificationRecord.getRecordId());
@@ -266,7 +266,7 @@ public class CodeController implements com.lanxi.couponcode.spi.service.CouponSe
         } finally {
             //解锁
             if (lock)
-                redisCodeService.unlockCodeForce(code, null);
+                redisCodeService.unlockCodeForce(code, "");
         }
         //-----------------------------------------------------------------返回--------------------------------------------------------------
         //返回null,发生异常
@@ -360,7 +360,7 @@ public class CodeController implements com.lanxi.couponcode.spi.service.CouponSe
         boolean lock = false;
         try {
             //加锁
-            lock = redisCodeService.lockCode(code, null);
+            lock = redisCodeService.lockCode(code, "");
             if (lock)
                 result = codeService.postoneCode(code);
         } catch (Exception e) {
@@ -368,7 +368,7 @@ public class CodeController implements com.lanxi.couponcode.spi.service.CouponSe
         } finally {
             //解锁
             if (lock)
-                redisCodeService.unlockCodeForce(code, null);
+                redisCodeService.unlockCodeForce(code, "");
         }
         //-----------------------------------------------------------------返回--------------------------------------------------------------
         //返回null,发生异常
@@ -438,7 +438,7 @@ public class CodeController implements com.lanxi.couponcode.spi.service.CouponSe
         codeObj.setCode(code);
         codeObj.setCreateTime(TimeAssist.getNow());
         codeObj.setLifeTime(commodity.getLifeTime());
-        codeObj.setOverTime(TimeAssist.addSecond(codeObj.getCreateTime(), codeObj.getLifeTime() * 24L * 60 * 60 * 1000));
+        codeObj.setOverTime(TimeAssist.addSecond(codeObj.getCreateTime(), codeObj.getLifeTime() * 24L * 60 * 60));
         codeObj.setCommodityId(commodity.getCommodityId());
         codeObj.setCommodityName(commodity.getCommodityName());
         codeObj.setCommodityInfo(commodity.toJson());

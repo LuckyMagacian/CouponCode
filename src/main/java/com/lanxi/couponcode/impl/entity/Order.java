@@ -35,28 +35,28 @@ public class Order extends AbstractOrder{
 	private Long orderId;
 	/**订单发起机构*/
 	@TableField("src")
-	private String SRC;
+	private String src;
 	/**绑定手机号*/
 	@TableField("phone")
-	private String Phone;
+	private String phone;
 	/**清算日期*/
 	@TableField("chk_date")
-	private String CHKDate;
+	private String chkDate;
 	/**是否需要下发"0"需要"1"不需要*/
 	@TableField("need_send")
-	private String NeedSend;
+	private String needSend;
 	/**订单状态"0"表示未完成  "1"表示已完成  "2"表示部分成功*/
 	@TableField("order_status")
 	private OrderStatus orderStatus;
 	/**串码过期时间*/
 	@TableField("end_time")
-	private String EndTime;
+	private String endTime;
 	/**串码*/
 	@TableField("code")
-	private String Code;
+	private String code;
 	/**交易序号*/
 	@TableField("msg_id")
-	private String MsgID;
+	private String msgId;
 	/**请求类型*/
 	@TableField("request_type")
 	private String requestType;
@@ -65,28 +65,31 @@ public class Order extends AbstractOrder{
 	private Long merchantId;
 	/**商品类型*/
 	@TableField("commodity_type")
-	private CommodityType Type;
+	private CommodityType type;
 	/**商品id*/
 	@TableField("commodity_id")
-	private Long SkuCode;
+	private Long skuCode;
 	/**商品数量*/
 	@TableField("count")
-	private Integer Count;
+	private Integer count;
 	/**交易日期*/
 	@TableField("work_date")
-	private String WorkDate;
+	private String workDate;
 	/**订单创建时间*/
 	@TableField("create_time")
 	private String createTime;
+	/**串码生成时间*/
+	@TableField("code_create_time")
+	private String codeCreateTime;
 	/**交易时间*/
 	@TableField("work_time")
-	private String WorkTime;
+	private String workTime;
 	/**商品单价*/
 	@TableField("amt")
-	private BigDecimal Amt;
+	private BigDecimal amt;
 	/**交易总额*/
 	@TableField("total_amt")
-	private BigDecimal TotalAmt;
+	private BigDecimal totalAmt;
 	/**交易成功笔数*/
 	@TableField("success_num")
 	private Integer successNum;
@@ -98,23 +101,144 @@ public class Order extends AbstractOrder{
 	private String merchantName;
 	/**平台流水号*/
 	@TableField("serial_num")
-	private String SerialNum;
+	private String serialNum;
 	/**备注*/
 	@TableField("remark")
-	private String Remark;
+	private String remark;
 	@Override
 	protected Serializable pkVal() {
 		
 		return this.orderId;
 	}
-	
-	public String getCHKDate() {
-		return CHKDate;
+
+	public String getSrc() {
+		return src;
 	}
 
-	public void setCHKDate(String cHKDate) {
-		CHKDate = cHKDate;
+	public void setSrc(String src) {
+		this.src = src;
 	}
+
+	public String getPhone() {
+		return phone;
+	}
+
+	public void setPhone(String phone) {
+		this.phone = phone;
+	}
+
+	public String getChkDate() {
+		return chkDate;
+	}
+
+	public void setChkDate(String chkDate) {
+		this.chkDate = chkDate;
+	}
+
+	public String getNeedSend() {
+		return needSend;
+	}
+
+	public void setNeedSend(String needSend) {
+		this.needSend = needSend;
+	}
+
+	public String getEndTime() {
+		return endTime;
+	}
+
+	public void setEndTime(String endTime) {
+		this.endTime = endTime;
+	}
+
+	public String getCode() {
+		return code;
+	}
+
+	public void setCode(String code) {
+		this.code = code;
+	}
+
+	public String getMsgId() {
+		return msgId;
+	}
+
+	public void setMsgId(String msgId) {
+		this.msgId = msgId;
+	}
+
+	public Long getSkuCode() {
+		return skuCode;
+	}
+
+	public void setSkuCode(Long skuCode) {
+		this.skuCode = skuCode;
+	}
+
+	public Integer getCount() {
+		return count;
+	}
+
+	public void setCount(Integer count) {
+		this.count = count;
+	}
+
+	public String getWorkDate() {
+		return workDate;
+	}
+
+	public void setWorkDate(String workDate) {
+		this.workDate = workDate;
+	}
+
+	public String getWorkTime() {
+		return workTime;
+	}
+
+	public void setWorkTime(String workTime) {
+		this.workTime = workTime;
+	}
+
+	public BigDecimal getAmt() {
+		return amt;
+	}
+
+	public void setAmt(BigDecimal amt) {
+		this.amt = amt;
+	}
+
+	public BigDecimal getTotalAmt() {
+		return totalAmt;
+	}
+
+	public void setTotalAmt(BigDecimal totalAmt) {
+		this.totalAmt = totalAmt;
+	}
+
+	public String getSerialNum() {
+		return serialNum;
+	}
+
+	public void setSerialNum(String serialNum) {
+		this.serialNum = serialNum;
+	}
+
+	public String getRemark() {
+		return remark;
+	}
+
+	public void setRemark(String remark) {
+		this.remark = remark;
+	}
+
+	public String getCodeCreateTime() {
+		return codeCreateTime;
+	}
+
+	public void setCodeCreateTime(String codeCreateTime) {
+		this.codeCreateTime = codeCreateTime;
+	}
+
 
 	public String getCreateTime() {
 		return createTime;
@@ -130,30 +254,7 @@ public class Order extends AbstractOrder{
 	public void setOrderId(Long orderId) {
 		this.orderId = orderId;
 	}
-	public String getSRC() {
-		return SRC;
-	}
-	public void setSRC(String sRC) {
-		SRC = sRC;
-	}
-	public String getPhone() {
-		return Phone;
-	}
-	public void setPhone(String phone) {
-		Phone = phone;
-	}
-	public String getNeedSend() {
-		return NeedSend;
-	}
-	public void setNeedSend(String needSend) {
-		NeedSend = needSend;
-	}
-	public String getMsgID() {
-		return MsgID;
-	}
-	public void setMsgID(String msgID) {
-		MsgID = msgID;
-	}
+
 	public String getRequestType() {
 		return requestType;
 	}
@@ -168,75 +269,17 @@ public class Order extends AbstractOrder{
 	}
 
 	public String getType() {
-		return Type == null ? null : Type.toString();
+		return type == null ? null : type.toString();
 	}
 
 	public void setType(CommodityType Type) {
-		this.Type = Type;
+		this.type = Type;
 	}
 
 	public void setType(String Type) {
-		this.Type = CommodityType.getType(Type);
-	}
-	public Long getSkuCode() {
-		return SkuCode;
-	}
-	public void setSkuCode(Long skuCode) {
-		SkuCode = skuCode;
-	}
-	public Integer getCount() {
-		return Count;
-	}
-	public void setCount(Integer count) {
-		Count = count;
-	}
-	public String getWorkDate() {
-		return WorkDate;
-	}
-	public void setWorkDate(String workDate) {
-		WorkDate = workDate;
-	}
-	public String getWorkTime() {
-		return WorkTime;
-	}
-	public void setWorkTime(String workTime) {
-		WorkTime = workTime;
-	}
-	public BigDecimal getAmt() {
-		return Amt;
-	}
-	public void setAmt(BigDecimal amt) {
-		Amt = amt;
-	}
-	public BigDecimal getTotalAmt() {
-		return TotalAmt;
-	}
-	public void setTotalAmt(BigDecimal totalAmt) {
-		TotalAmt = totalAmt;
-	}
-	public String getRemark() {
-		return Remark;
-	}
-	public void setRemark(String remark) {
-		Remark = remark;
+		this.type = CommodityType.getType(Type);
 	}
 
-	
-	public String getCode() {
-		return Code;
-	}
-
-	public void setCode(String code) {
-		Code = code;
-	}
-
-	public String getEndTime() {
-		return EndTime;
-	}
-
-	public void setEndTime(String endTime) {
-		EndTime = endTime;
-	}
 
 	public OrderStatus getOrderStatusEnum(){return orderStatus;}
 
@@ -260,13 +303,6 @@ public class Order extends AbstractOrder{
 		this.successNum = successNum;
 	}
 
-	public String getSerialNum() {
-		return SerialNum;
-	}
-
-	public void setSerialNum(String serialNum) {
-		SerialNum = serialNum;
-	}
 
 	public String getCommodityName() {
 		return commodityName;
@@ -286,19 +322,33 @@ public class Order extends AbstractOrder{
 
 	@Override
 	public String toString() {
-		return "Order [orderId=" + orderId + ", SRC=" + SRC + ", Phone=" + Phone + ", CHKDate=" + CHKDate
-				+ ", NeedSend=" + NeedSend + ", orderStatus=" + orderStatus + ", EndTime=" + EndTime + ", Code=" + Code
-				+ ", MsgID=" + MsgID + ", requestType=" + requestType + ", merchantId=" + merchantId + ", Type=" + Type
-				+ ", SkuCode=" + SkuCode + ", Count=" + Count + ", WorkDate=" + WorkDate + ", createTime=" + createTime
-				+ ", WorkTime=" + WorkTime + ", Amt=" + Amt + ", TotalAmt=" + TotalAmt + ", successNum=" + successNum
-				+ ", commodityName=" + commodityName + ", merchantName=" + merchantName + ", SerialNum=" + SerialNum
-				+ ", Remark=" + Remark + "]";
+		return "Order{" +
+				"orderId=" + orderId +
+				", src='" + src + '\'' +
+				", phone='" + phone + '\'' +
+				", chkDate='" + chkDate + '\'' +
+				", needSend='" + needSend + '\'' +
+				", orderStatus=" + orderStatus +
+				", endTime='" + endTime + '\'' +
+				", code='" + code + '\'' +
+				", msgId='" + msgId + '\'' +
+				", requestType='" + requestType + '\'' +
+				", merchantId=" + merchantId +
+				", type=" + type +
+				", skuCode=" + skuCode +
+				", count=" + count +
+				", workDate='" + workDate + '\'' +
+				", createTime='" + createTime + '\'' +
+				", codeCreateTime='" + codeCreateTime + '\'' +
+				", workTime='" + workTime + '\'' +
+				", amt=" + amt +
+				", totalAmt=" + totalAmt +
+				", successNum=" + successNum +
+				", commodityName='" + commodityName + '\'' +
+				", merchantName='" + merchantName + '\'' +
+				", serialNum='" + serialNum + '\'' +
+				", remark='" + remark + '\'' +
+				'}';
 	}
-
-	
-
-	
-
-	
 }
 

@@ -3,6 +3,7 @@ package com.lanxi.couponcode.impl.newservice;
 import com.lanxi.couponcode.spi.assist.RedisKeyAssist;
 import com.lanxi.couponcode.impl.entity.*;
 import com.lanxi.couponcode.spi.consts.annotations.EasyLog;
+import com.lanxi.util.entity.LogFactory;
 import com.lanxi.util.utils.LoggerUtil;
 import org.springframework.stereotype.Service;
 import redis.clients.jedis.Pipeline;
@@ -52,7 +53,7 @@ public class LockServiceImpl implements LockService {
             return RedisKeyAssist.getOrderKey() + ((Order) o).getMerchantId() + ((Order) o).getOrderId();
         }
         if (o instanceof Request) {
-            return RedisKeyAssist.getRequestKey() + ((Request) o).getMerchantId() + ((Request) o).getRquestId();
+            return RedisKeyAssist.getRequestKey() + ((Request) o).getMerchantId() + ((Request) o).getRequestId();
         }
         if (o instanceof CouponCode) {
             return RedisKeyAssist.getCodeKey() + ((CouponCode) o).getMerchantId() + ((CouponCode) o).getCodeId();
@@ -77,10 +78,12 @@ public class LockServiceImpl implements LockService {
         List<String> keys = (List<String>) list.stream().map(getKey).collect(Collectors.toList());
         try {
             Pipeline pipeline = redisService.pipeline();
+            pipeline.multi();
             for (int i = 0; i < keys.size(); i++) {
                 pipeline.set(keys.get(i), list.get(i).hashCode() + "", "NX", "PX", (int) LOCK_TIME);
             }
             Response<List<Object>> res = pipeline.exec();
+            pipeline.close();
             for (int i = 0, j = 0; i < keys.size(); i++) {
                 if (keys.get(i) == null)
                     locks.add(null);
@@ -89,6 +92,7 @@ public class LockServiceImpl implements LockService {
             }
             return locks;
         } catch (Throwable e) {
+            LogFactory.error(this.getClass(),"redis加锁异常!",e);
             return null;
         }
     }

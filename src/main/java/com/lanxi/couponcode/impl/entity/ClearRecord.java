@@ -111,10 +111,8 @@ public class ClearRecord extends Model<ClearRecord> implements CommonDefaultMeth
     @TableField ("clear_status")
     private ClearStatus clearStatus;
 
-    @Override
-    public String toString() {
-        return String.format("ClearRecord{recordId=%d, merchantId=%d, merchantName='%s', dailyRecordIds=%s, timeStart='%s', timeStop='%s', showTotal=%s, factTotal=%s, clearTime='%s', operaterId=%d, operaterName='%s', taxNum='%s', logisticsCompany='%s', orderNum='%s', postTime='%s', invoiceStatus=%s, createTime='%s', clearStatus=%s}", recordId, merchantId, merchantName, dailyRecordIds, timeStart, timeStop, showTotal, factTotal, clearTime, operaterId, operaterName, taxNum, logisticsCompany, orderNum, postTime, invoiceStatus, createTime, clearStatus);
-    }
+    @TableField("remark")
+    private String remark;
 
     public String getCreateTime() {
         return createTime;
@@ -149,7 +147,9 @@ public class ClearRecord extends Model<ClearRecord> implements CommonDefaultMeth
     }
 
     public String getDailyRecordIds() {
-        return ToJson.toJson(dailyRecordIds);
+        if(dailyRecordIds!=null&&!dailyRecordIds.isEmpty()&&!dailyRecordIds.equals("{}"))
+            return ToJson.toJson(dailyRecordIds);
+        else return null;
     }
 
     public List<Long> getDailyRecordIdsList() {
@@ -161,7 +161,8 @@ public class ClearRecord extends Model<ClearRecord> implements CommonDefaultMeth
     }
 
     public void setDailyRecordIds(String dailyRecordIds) {
-        this.dailyRecordIds = JSONArray.parseArray(dailyRecordIds, Long.class);
+        if(dailyRecordIds!=null&&!dailyRecordIds.isEmpty()&&!dailyRecordIds.equals("{}"))
+            this.dailyRecordIds = JSONArray.parseArray(dailyRecordIds, Long.class);
     }
 
     public String getTimeStart() {
@@ -280,8 +281,44 @@ public class ClearRecord extends Model<ClearRecord> implements CommonDefaultMeth
         this.clearStatus = ClearStatus.getType(clearStatus);
     }
 
+    public String getRemark() {
+        return remark;
+    }
+
+    public void setRemark(String remark) {
+        this.remark = remark;
+    }
+
     @Override
     protected Serializable pkVal() {
         return this.recordId;
+    }
+
+    @Override
+    public String toString() {
+        final StringBuffer sb = new StringBuffer("ClearRecord{");
+        sb.append("recordId=").append(recordId);
+        sb.append(", merchantId=").append(merchantId);
+        sb.append(", merchantName='").append(merchantName).append('\'');
+        sb.append(", dailyRecordIds=").append(dailyRecordIds);
+        sb.append(", timeStart='").append(timeStart).append('\'');
+        sb.append(", timeStop='").append(timeStop).append('\'');
+        sb.append(", showTotal=").append(showTotal);
+        sb.append(", factTotal=").append(factTotal);
+        sb.append(", clearTime='").append(clearTime).append('\'');
+        sb.append(", operaterId=").append(operaterId);
+        sb.append(", operaterName='").append(operaterName).append('\'');
+        sb.append(", taxNum='").append(taxNum).append('\'');
+        sb.append(", logisticsCompany='").append(logisticsCompany).append('\'');
+        sb.append(", orderNum='").append(orderNum).append('\'');
+        sb.append(", postTime='").append(postTime).append('\'');
+        sb.append(", invoiceStatus=").append(invoiceStatus);
+        sb.append(", createTime='").append(createTime).append('\'');
+        sb.append(", clearStatus=").append(clearStatus);
+        sb.append(", remark='").append(remark).append('\'');
+        sb.append(", dailyRecordIdsList=").append(getDailyRecordIdsList());
+        sb.append(", clearStatusEnum=").append(getClearStatusEnum());
+        sb.append('}');
+        return sb.toString();
     }
 }

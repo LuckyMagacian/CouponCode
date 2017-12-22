@@ -78,7 +78,7 @@ public class XmlApiController {
                 return XmlUtil.getPrepaidRechargeRespXmlStr(msgRechargeBean, statusMap);
             }
             /** 验证商品数量 */
-            if (!RegularUtil.isNumeric(msgRechargeBean.getCount()) || Integer.parseInt(msgRechargeBean.getCount()) < 0) {
+            if (!RegularUtil.isNumeric(msgRechargeBean.getCount()) || Integer.parseInt(msgRechargeBean.getCount()) < 1) {
                 Map<String, String> statusMap = new HashMap<String, String>();
                 statusMap.put("ResCode", ProjectParam.RESCODE_ERR);
                 statusMap.put("ResMsg", "商品数量不正确");
@@ -103,7 +103,7 @@ public class XmlApiController {
                     Map<String, String> statusMap = new HashMap<String, String>();
                     statusMap.put("ResCode", ProjectParam.RESCODE_SUCC);
                     statusMap.put("ResMsg", "交易成功");
-                    statusMap.put("TotalAmt", jsonObject.getString("totalAmt"));
+                    statusMap.put("TotalAmt", jsonObject.getString("cotalAmt"));
                     if (jsonObject.getString("code").lastIndexOf("|") < 0) {
                         statusMap.put("Code1", jsonObject.getString("code"));
                     } else {
@@ -113,7 +113,7 @@ public class XmlApiController {
                     statusMap.put("EndTime", jsonObject.getString("endTime"));
                     return XmlUtil.getPrepaidRechargeRespXmlStr(msgRechargeBean, statusMap);
 
-                } else if (Integer.valueOf(jsonObject.getString("successNum")) < Integer.valueOf(jsonObject.getString("count"))) {
+                } else if (Integer.valueOf(jsonObject.getString("successNum"))>0&&Integer.valueOf(jsonObject.getString("successNum")) < Integer.valueOf(jsonObject.getString("count"))) {
                     Map<String, String> statusMap = new HashMap<String, String>();
                     statusMap.put("ResCode", ProjectParam.RESCODE_ERR);
                     statusMap.put("ResMsg", "交易部分成功-成功笔数:" + jsonObject.getString("successNum"));
@@ -129,13 +129,13 @@ public class XmlApiController {
                 } else {
                     Map<String, String> statusMap = new HashMap<String, String>();
                     statusMap.put("ResCode", ProjectParam.RESCODE_ERR);
-                    statusMap.put("ResMsg", "操作失败");
+                    statusMap.put("ResMsg", retMessage.getRetMessage());
                     return XmlUtil.getPrepaidRechargeRespXmlStr(msgRechargeBean, statusMap);
                 }
             } else {
                 Map<String, String> statusMap = new HashMap<String, String>();
                 statusMap.put("ResCode", ProjectParam.RESCODE_ERR);
-                statusMap.put("ResMsg", "操作失败");
+                statusMap.put("ResMsg", retMessage.getRetMessage());
                 return XmlUtil.getPrepaidRechargeRespXmlStr(msgRechargeBean, statusMap);
             }
 
@@ -218,14 +218,14 @@ public class XmlApiController {
 
                 statusMap.put("TotalAmt", jsonObject.getString("totalAmt"));
                 statusMap.put("SkuCode", jsonObject.getString("skuCode"));
-                statusMap.put("Status", jsonObject.getString("status"));
+                statusMap.put("Status", jsonObject.getString("orderStatus"));
                 if (jsonObject.getString("count") == null || jsonObject.getString("count").equals("")) {
-                    statusMap.put("Count", jsonObject.getString("0"));
+                    statusMap.put("Count", "0");
                 } else {
                     statusMap.put("Count", jsonObject.getString("count"));
                 }
                 if (Integer.parseInt(statusMap.get("Count")) > 0) {
-                    if (jsonObject.getString("code").lastIndexOf("|") < 0) {
+                    if (jsonObject.getString("Code").lastIndexOf("|") < 0) {
                         statusMap.put("Code1", jsonObject.getString("code"));
                     } else {
                         statusMap = XmlUtil.split(jsonObject.getString("code").substring(0, jsonObject.getString("code").lastIndexOf("|")), 1, statusMap, "Code");
@@ -321,8 +321,8 @@ public class XmlApiController {
                     statusMap.put("ResMsg", "查询成功");
                     statusMap.put("Count", String.valueOf(jsonArray.size()));
                     for (int i = 0; i < jsonArray.size(); i++) {
-                        statusMap.put("OrgWorkDate" + (i + 1), jsonArray.getJSONObject(i).getString("orgWorkDate"));
-                        statusMap.put("OrgMsgID" + (i + 1),  jsonArray.getJSONObject(i).getString("orgMsgID"));
+                        statusMap.put("OrgWorkDate" + (i + 1), jsonArray.getJSONObject(i).getString("workDate"));
+                        statusMap.put("OrgMsgID" + (i + 1),  jsonArray.getJSONObject(i).getString("msgID"));
                         statusMap.put("Type" + (i + 1),jsonArray.getJSONObject(i).getString("type"));
                         statusMap.put("SkuCode" +( i + 1),jsonArray.getJSONObject(i).getString("skuCode"));
                     }

@@ -105,7 +105,7 @@ public class XmlUtil {
             Element msgElEment = jfdh.addElement("MSG");
             msgElEment.addElement("TotalAmt").setText(statusMap.get("TotalAmt") == null ? "0" : statusMap.get("TotalAmt"));
             Element skuList = msgElEment.addElement("SkuList");
-            if (msg.getCount() != null && Integer.parseInt(msg.getCount()) > 0) {
+            if (!msg.getCount().equals("") && Integer.parseInt(msg.getCount()) > 0) {
                 for (int i = 0; i < Integer.parseInt(msg.getCount()); i++) {
                     skuList.addElement("Amt").setText(statusMap.get("Amt") == null ? "0" : statusMap.get("Amt"));
                     skuList.addElement("Code")

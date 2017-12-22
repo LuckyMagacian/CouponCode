@@ -38,7 +38,7 @@
     <!-- 生产注册中心    
     <dubbo:registry address="zookeeper://10.23.73.28:2181"></dubbo:registry>
     -->
-    <dubbo:protocol name="dubbo" port="20880" serialization="java"></dubbo:protocol>
+    <dubbo:protocol name="dubbo" port="20770" serialization="java"></dubbo:protocol>
     <!-- 蓝喜短信平台服务 -->
     <dubbo:reference interface="com.lanxi.common.interfaces.SmsSendServiceInterface" id="SmsService" check="false" registry="zk"></dubbo:reference>
     <dubbo:reference interface="com.lanxi.common.interfaces.RedisCacheServiceInterface" id="redisServiceOld" check="false" registry="zk"></dubbo:reference>

@@ -160,5 +160,11 @@ public class TestSpring {
         FillAssist.fillEntity.apply(record);
         record.insert();
     }
+    @Test
+    public void test14() {
+        VerificationRecord record = new VerificationRecord();
+        FillAssist.fillEntity.apply(record);
+        record.insert();
+    }
 }
 

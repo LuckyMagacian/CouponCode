@@ -101,20 +101,20 @@ public class OrderController implements com.lanxi.couponcode.spi.service.OrderSe
 					order.setType(Type);
 					order.setPhone(Phone);
 					if (CHKDate!=null&&!CHKDate.isEmpty()) 
-						order.setCHKDate(CHKDate);
+						order.setChkDate(CHKDate);
 					else
-						order.setCHKDate(WorkDate);
+						order.setChkDate(WorkDate);
 					order.setRemark(Remark);
-					order.setSRC(SRC);
+					order.setSrc(SRC);
 					order.setSerialNum(SerialNum);
-					order.setOrderStatus("0");
+					order.setOrderStatus(OrderStatus.unfinish);
 					order.setWorkDate(WorkDate);
 					order.setWorkTime(WorkTime);
 					order.setMerchantId(mer.getMerchantId());
 					order.setOrderId(IdWorker.getId());
 					order.setRequestType(requestType);
 					order.setAmt(commodity.getSellPrice());
-					order.setMsgID(MsgID);
+					order.setMsgId(MsgID);
 					order.setNeedSend(NeedSend);
 					Boolean b = orderService.createOrder(order);
 					if (b) {
@@ -130,6 +130,7 @@ public class OrderController implements com.lanxi.couponcode.spi.service.OrderSe
 										SkuCode, "客户购买", Channel.buy.getChannel());
 								if (RetCodeEnum.success.equals(retMessage2.getRetCode())) {
 									JSONObject jsonObject = JSON.parseObject(retMessage2.getDetail());
+									order.setCodeCreateTime(jsonObject.getString("createTime"));
 									stringBuffer.append(jsonObject.getString("code") + "|");
 									order.setEndTime(jsonObject.getString("overTime"));
 									m++;
@@ -140,6 +141,7 @@ public class OrderController implements com.lanxi.couponcode.spi.service.OrderSe
 												"客户购买", Channel.buy.getChannel());
 										if (RetCodeEnum.success.equals(retMessage3.getRetCode())) {
 											JSONObject jsonObject = JSON.parseObject(retMessage2.getDetail());
+											order.setCodeCreateTime(jsonObject.getString("createTime"));
 											stringBuffer.append(jsonObject.getString("code") + "|");
 											order.setEndTime(jsonObject.getString("overTime"));
 											m++;
@@ -150,50 +152,50 @@ public class OrderController implements com.lanxi.couponcode.spi.service.OrderSe
 								}
 							}
 							if (m == 0) {
-								return new RetMessage<>(RetCodeEnum.exception, "串码生成失败", null);
+								return new RetMessage<>(RetCodeEnum.exception, "调码失败", null);
 							} else if (m == 1) {
 								order.setCode(stringBuffer.toString().substring(0,
 										stringBuffer.toString().lastIndexOf("|")));
-								order.setOrderStatus("2");
+								order.setOrderStatus(OrderStatus.portionfinish);
 								order.setSuccessNum(m);
 								order.setTotalAmt(commodity.getSellPrice().multiply(new BigDecimal(m)));
 								Boolean result = orderService.changeOrderStatus(order);
 								if (result) {
 									String s = order.toJson();
-									retMessage.setAll(RetCodeEnum.success, "串码生成部分成功", s);
+									retMessage.setAll(RetCodeEnum.success, "调码部分成功", s);
 									return retMessage;
 								} else {
-									retMessage.setAll(RetCodeEnum.exception, "串码生成失败", null);
+									retMessage.setAll(RetCodeEnum.exception, "调码失败", null);
 									return retMessage;
 								}
 
 							} else if (m < Count) {
 								order.setCode(stringBuffer.toString());
-								order.setOrderStatus("2");
+								order.setOrderStatus(OrderStatus.portionfinish);
 								order.setSuccessNum(m);
 								order.setTotalAmt(commodity.getSellPrice().multiply(new BigDecimal(m)));
 								Boolean result = orderService.changeOrderStatus(order);
 								if (result) {
 									String s = order.toJson();
-									retMessage.setAll(RetCodeEnum.success, "串码生成部分成功", s);
+									retMessage.setAll(RetCodeEnum.success, "调码部分成功", s);
 									return retMessage;
 								} else {
-									retMessage.setAll(RetCodeEnum.exception, "串码生成失败", null);
+									retMessage.setAll(RetCodeEnum.exception, "调码失败", null);
 									return retMessage;
 								}
 
 							} else {
 								order.setCode(stringBuffer.toString());
-								order.setOrderStatus("1");
+								order.setOrderStatus(OrderStatus.finish);
 								order.setSuccessNum(m);
 								order.setTotalAmt(commodity.getSellPrice().multiply(new BigDecimal(m)));
 								Boolean result = orderService.changeOrderStatus(order);
 								if (result) {
 									String s = order.toJson();
-									retMessage.setAll(RetCodeEnum.success, "串码生成成功", s);
+									retMessage.setAll(RetCodeEnum.success, "调码成功", s);
 									return retMessage;
 								} else {
-									retMessage.setAll(RetCodeEnum.exception, "串码生成失败", null);
+									retMessage.setAll(RetCodeEnum.exception, "调码失败", null);
 									return retMessage;
 								}
 							}
@@ -205,17 +207,19 @@ public class OrderController implements com.lanxi.couponcode.spi.service.OrderSe
 							// 判断串码生成是否成功
 							if (RetCodeEnum.success.equals(retMessage2.getRetCode())) {
 								JSONObject jsonObject = JSON.parseObject(retMessage2.getDetail());
+								order.setCodeCreateTime(jsonObject.getString("createTime"));
 								stringBuffer.append(jsonObject.getString("code"));
 								order.setEndTime(jsonObject.getString("overTime"));
 								order.setCode(stringBuffer.toString());
 								order.setSuccessNum(Count);
-								order.setOrderStatus("1");
+								order.setOrderStatus(OrderStatus.finish);
+								order.setTotalAmt(commodity.getSellPrice().multiply(new BigDecimal(Count)));
 								Boolean result = orderService.changeOrderStatus(order);
 								if (result) {
 									String s = order.toJson();
-									return new RetMessage<>(RetCodeEnum.success, "订单生成成功", s);
+									return new RetMessage<>(RetCodeEnum.success, "调码成功", s);
 								} else 
-									return new RetMessage<>(RetCodeEnum.fail, "订单生成失败", null);
+									return new RetMessage<>(RetCodeEnum.fail, "调码失败", null);
 								
 							} else {
 								// 当当前次生成串码失败则再次生成 若连续失败8次则为失败
@@ -233,17 +237,19 @@ public class OrderController implements com.lanxi.couponcode.spi.service.OrderSe
 									JSONObject jsonObject = JSON.parseObject(retMessage2.getDetail());
 									stringBuffer.append(jsonObject.getString("code"));
 									order.setEndTime(jsonObject.getString("overTime"));
+									order.setCodeCreateTime(jsonObject.getString("createTime"));
 									order.setCode(stringBuffer.toString());
 									order.setSuccessNum(Count);
-									order.setOrderStatus("1");
+									order.setOrderStatus(OrderStatus.finish);
+									order.setTotalAmt(commodity.getSellPrice().multiply(new BigDecimal(Count)));
 									Boolean result = orderService.changeOrderStatus(order);
 									if (result) {
 										String s = order.toJson();
-										return new RetMessage<>(RetCodeEnum.success, "订单生成成功", s);
+										return new RetMessage<>(RetCodeEnum.success, "调码成功", s);
 									} else 
-										return new RetMessage<>(RetCodeEnum.fail, "订单生成失败", null);
+										return new RetMessage<>(RetCodeEnum.fail, "调码失败", null);
 								} else {
-									retMessage.setAll(RetCodeEnum.fail, "订单生成失败", null);
+									retMessage.setAll(RetCodeEnum.fail, "调码失败", null);
 									return retMessage;
 								}
 							}
@@ -413,20 +419,20 @@ public class OrderController implements com.lanxi.couponcode.spi.service.OrderSe
 			List<Order> list = orderService.orderExport(wrapper);
 			if (list != null) {
 				Map<String, String> map = new HashMap<>();
-				map.put("SerialNum", "平台流水号");
+				map.put("serialNum", "平台流水号");
 				map.put("orderId", "订单编号");
-				map.put("SRC", "交易机构号");
-				map.put("Phone", "手机号码");
-				map.put("WorkDate", "请求时间");
-				map.put("SkuCode", "商品编号");
+				map.put("src", "交易机构号");
+				map.put("phone", "手机号码");
+				map.put("workDate", "请求时间");
+				map.put("skuCode", "商品编号");
 				map.put("commodityName", "商品名称");
-				map.put("Count", "商品数量");
-				map.put("Type", "商品类别");
+				map.put("count", "商品数量");
+				map.put("type", "商品类别");
 				map.put("merchantId", "商户编号");
 				map.put("merchantName", "商户名称");
-				map.put("Code", "串码");
-				map.put("createTime", "发放时间");
-				map.put("EndTime", "失效时间");
+				map.put("code", "串码");
+				map.put("codeCreateTime", "发放时间");
+				map.put("endTime", "失效时间");
 				map.put("orderStatus", "状态");
 				map.put("successNum", "成功数量");
 				File file = new File("订单导出" + TimeAssist.getNow() + ".xls");

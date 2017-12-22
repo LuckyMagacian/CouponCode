@@ -19,7 +19,7 @@ public class Request extends AbstractRequest {
      * 请求编号
      */
     @TableId ("request_id")
-    private Long rquestId;
+    private Long requestId;
     /**
      * 请求时间
      */
@@ -124,7 +124,7 @@ public class Request extends AbstractRequest {
 
     @Override
     public String toString() {
-        return String.format("Request{rquestId=%d, requestTime='%s', requesterId=%d, requesterName='%s', requesterPhone='%s', type=%s, commodityInfo='%s', status=%s, checkerId=%d, checkerName='%s', checkerPhone='%s', checkTime='%s', commodityId=%d, commodityName='%s', commodityType=%s, merchantId=%d, merchantName='%s', commodityInfoBefore='%s', commodityInfoAfter='%s', reason='%s'}", rquestId, requestTime, requesterId, requesterName, requesterPhone, type, commodityInfo, status, checkerId, checkerName, checkerPhone, checkTime, commodityId, commodityName, commodityType, merchantId, merchantName, commodityInfoBefore, commodityInfoAfter, reason);
+        return String.format("Request{rquestId=%d, requestTime='%s', requesterId=%d, requesterName='%s', requesterPhone='%s', type=%s, commodityInfo='%s', status=%s, checkerId=%d, checkerName='%s', checkerPhone='%s', checkTime='%s', commodityId=%d, commodityName='%s', commodityType=%s, merchantId=%d, merchantName='%s', commodityInfoBefore='%s', commodityInfoAfter='%s', reason='%s'}", requestId, requestTime, requesterId, requesterName, requesterPhone, type, commodityInfo, status, checkerId, checkerName, checkerPhone, checkTime, commodityId, commodityName, commodityType, merchantId, merchantName, commodityInfoBefore, commodityInfoAfter, reason);
     }
 
     public String getReason() {
@@ -135,12 +135,12 @@ public class Request extends AbstractRequest {
         this.reason = reason;
     }
 
-    public Long getRquestId() {
-        return rquestId;
+    public Long getRequestId() {
+        return requestId;
     }
 
-    public void setRquestId(Long rquestId) {
-        this.rquestId = rquestId;
+    public void setRequestId(Long rquestId) {
+        this.requestId = rquestId;
     }
 
     public String getRequestTime() {

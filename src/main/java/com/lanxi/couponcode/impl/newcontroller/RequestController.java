@@ -90,7 +90,7 @@ public class RequestController implements com.lanxi.couponcode.spi.service.Reque
     private Request makeRequest(Account account, Merchant merchant, Commodity commodity) {
         //组装请求
         Request request = new Request();
-        request.setRquestId(IdWorker.getId());
+        request.setRequestId(IdWorker.getId());
         request.setRequestTime(TimeUtil.getDateTime());
         request.setRequesterId(account.getAccountId());
         request.setRequesterName(account.getUserName());
@@ -100,6 +100,7 @@ public class RequestController implements com.lanxi.couponcode.spi.service.Reque
         request.setStatus(RequestStatus.submit);
         request.setCommodityId(commodity.getCommodityId());
         request.setCommodityType(CommodityType.getType(commodity.getType()));
+        request.setCommodityName(commodity.getCommodityName());
         request.setMerchantId(merchant.getMerchantId());
         request.setMerchantName(merchant.getMerchantName());
         return request;
@@ -178,9 +179,12 @@ public class RequestController implements com.lanxi.couponcode.spi.service.Reque
                 message = checkCommodity.apply(commodityService.queryCommodity(commodityId), OperateType.getType(request.getType()));
                 if (message != null)
                     return message;
+            }else{
+                commodity.setCommodityId(IdWorker.getId());
+                request.setCommodityId(commodity.getCommodityId());
             }
 
-            if (!RequestOperateType.createCommodity.equals(request.getType())) {
+            if (RequestOperateType.createCommodity.equals(request.getType())) {
                 @Comment ("调整销售价以通过添加申请时传入的值为准") Object obj = null;
                 commodity.setSellPrice(new BigDecimal(reason));
             }
@@ -190,6 +194,7 @@ public class RequestController implements com.lanxi.couponcode.spi.service.Reque
             request.setCheckerName(account.getUserName());
             request.setCheckerPhone(account.getPhone());
             request.setCheckTime(TimeUtil.getDateTime());
+            request.setCommodityName(commodity.getCommodityName());
             request.setReason(reason);
 
             Boolean result = requestService.passRequest(request);
@@ -208,7 +213,7 @@ public class RequestController implements com.lanxi.couponcode.spi.service.Reque
                 record.setType(OperateType.passRequest);
                 record.setOperateTime(TimeAssist.getNow());
                 record.setOperateResult("success");
-                record.setDescription("通过申请[" + request.getRquestId() + "]");
+                record.setDescription("通过申请[" + request.getRequestId() + "]");
                 operateRecordService.addRecord(record);
 
                 Account adder = accountService.queryAccountById(request.getRequesterId());
@@ -326,7 +331,7 @@ public class RequestController implements com.lanxi.couponcode.spi.service.Reque
                 record.setType(OperateType.rejectRequest);
                 record.setOperateTime(TimeAssist.getNow());
                 record.setOperateResult("success");
-                record.setDescription("驳回申请[" + request.getRquestId() + "]");
+                record.setDescription("驳回申请[" + request.getRequestId() + "]");
                 operateRecordService.addRecord(record);
                 return new RetMessage<>(RetCodeEnum.success, "拒绝成功!", null);
             }

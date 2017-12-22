@@ -342,10 +342,10 @@ public class MerchantManageController {
         String minuteShopAddress = getArg.apply(req, "minuteShopAddress");
         String serviceTel = getArg.apply(req, "serviceTel");
         String operaterIdStr = getArg.apply(req, "operaterId");
-        String merchantIdStr = getArg.apply(req, "merchantId");
+        String shopIdStr = getArg.apply(req, "shopId");
         Long operaterId = toLongArg.apply(operaterIdStr);
-        Long merchantId = toLongArg.apply(merchantIdStr);
-        return shopService.modifyShop(shopName, shopAddress, minuteShopAddress, serviceTel, merchantId, operaterId)
+        Long shopId = toLongArg.apply(shopIdStr);
+        return shopService.modifyShop(shopName, shopAddress, minuteShopAddress, serviceTel, shopId, operaterId)
                 .toJson();
     }
 
@@ -716,7 +716,7 @@ public class MerchantManageController {
         Long operaterId = parseArg(operaterIdStr, Long.class);
         return verificationRecordService.queryVerificationRecordInfo(recordId, operaterId).toJson();
     }
-
+    @SetUtf8
     @LoginCheck
     @RequestMapping (value = "downloadExcelTemplate")
     public void downloadExcelTemplate(HttpServletRequest req, HttpServletResponse res) {
