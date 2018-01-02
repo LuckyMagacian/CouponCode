@@ -106,7 +106,7 @@ public class CodeServiceImpl implements CodeService {
         else if (list.size() > 1)
             return null;
         else
-            return Optional.of(list.get(0));
+            return Optional.ofNullable(list.get(0));
     }
 
     @Override

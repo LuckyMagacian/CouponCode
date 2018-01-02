@@ -130,7 +130,7 @@ public interface AccountService {
     /**
      * merchant查询账户
      * @param phone
-     * @param shopName
+     * @param shopId
      * @param type
      * @param status
      * @param pageNum
@@ -140,7 +140,7 @@ public interface AccountService {
      */
     @RealReturnType("List<Account>")
     RetMessage<String> merchantQueryAccounts(String phone,
-                                             String shopName,
+                                             Long shopId,
                                              AccountType type,
                                              AccountStatus status,
                                              @HiddenArg Integer pageNum,

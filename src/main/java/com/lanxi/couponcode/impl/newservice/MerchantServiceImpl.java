@@ -2,10 +2,14 @@ package com.lanxi.couponcode.impl.newservice;
 
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.plugins.Page;
+import com.lanxi.couponcode.impl.assist.ExcelAssist;
 import com.lanxi.couponcode.impl.entity.Merchant;
+import com.lanxi.couponcode.spi.assist.FillAssist;
 import com.lanxi.couponcode.spi.assist.TimeAssist;
+import com.lanxi.couponcode.spi.config.HiddenMap;
 import com.lanxi.couponcode.spi.config.Path;
 import com.lanxi.couponcode.spi.consts.annotations.EasyLog;
+import com.lanxi.couponcode.spi.consts.enums.AccountType;
 import com.lanxi.couponcode.spi.consts.enums.MerchantStatus;
 import com.lanxi.couponcode.spi.util.ImageUtil;
 import com.lanxi.util.entity.LogFactory;
@@ -17,9 +21,7 @@ import org.springframework.transaction.TransactionDefinition;
 
 import javax.annotation.Resource;
 import java.io.*;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * 商户操作实现类
@@ -473,7 +475,7 @@ public class MerchantServiceImpl implements MerchantService {
         try {
             EntityWrapper<Merchant> wrapper = new EntityWrapper<>();
             if (merchantName != null && !merchantName.isEmpty()) {
-                wrapper.eq("merchant_name", merchantName);
+                wrapper.like("merchant_name", merchantName);
             }
             if (merchantStatus != null) {
                 wrapper.eq("merchant_status", merchantStatus + "");
@@ -491,14 +493,9 @@ public class MerchantServiceImpl implements MerchantService {
                 wrapper.le("create_time", timeStop);
             }
             List<Merchant> list = dao.getMerchantDao().selectList(wrapper);
-            Map<String, String> map = new HashMap<>();
-            map.put("merchantName", "商户名称");
-            map.put("workAddress", "商户办公地址");
-            map.put("serviceTel", "客服电话");
-            map.put("merchantStatus", "商户状态");
             File file = new File("导出商户" + TimeAssist.getNow() + ".xls");
             OutputStream os = new FileOutputStream(file);
-            ExcelUtil.exportExcelFile(list, map, os);
+            ExcelUtil.exportExcelFile(ExcelAssist.toStringList(list, Merchant.class,HiddenMap.getAdminFieldCN), new FileOutputStream(file));
             os.close();
             return file;
         } catch (Exception e) {

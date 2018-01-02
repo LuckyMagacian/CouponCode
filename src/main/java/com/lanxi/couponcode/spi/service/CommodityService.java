@@ -49,6 +49,7 @@ public interface CommodityService {
                                         CommodityStatus commodityStatus,
                                         String timeStart,
                                         String timeEnd,
+                                        Long commodityId,
                                         @HiddenArg Integer pageNum,
                                         @HiddenArg Integer pageSize,
                                         @HiddenArg Long operaterId);
@@ -59,6 +60,7 @@ public interface CommodityService {
                                             CommodityStatus commodityStatus,
                                             String timeStart,
                                             String timeEnd,
+                                            Long commodityId,
                                             @HiddenArg Long operaterId);
 
     @RealReturnType ("List<Commodity>")
@@ -67,14 +69,14 @@ public interface CommodityService {
                                                 CommodityStatus status,
                                                 @HiddenArg Integer pageNum,
                                                 @HiddenArg Integer pageSize,
-                                                @HiddenArg Long merchantId,
+                                                @HiddenArg Long commodityId,
                                                 @HiddenArg Long operaterId);
 
 
     RetMessage<File> merchantQueryCommoditiesExport(String commodityName,
                                                     CommodityType type,
                                                     CommodityStatus status,
-                                                    @HiddenArg Long merchantId,
+                                                    @HiddenArg Long commodityId,
                                                     @HiddenArg Long operaterId);
 
     RetMessage<Serializable> queryAllCommodityIds(Long operaterId);

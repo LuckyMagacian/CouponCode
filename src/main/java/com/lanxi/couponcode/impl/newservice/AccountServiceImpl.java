@@ -82,6 +82,7 @@ public class AccountServiceImpl implements AccountService {
         List<Account> list = null;
         try {
             if (pageObj != null) {
+                wrapper.orderBy("add_time",false);
                 list = dao.getAccountDao().selectPage(pageObj, wrapper);
                 LogFactory.debug(this, "查询到的结果[" + list + "]\n");
                 LogFactory.info(this, "查询到的总记录数[" + list.size() + "]\n");

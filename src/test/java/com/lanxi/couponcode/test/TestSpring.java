@@ -157,14 +157,15 @@ public class TestSpring {
     @Test
     public void test13() {
         ClearDailyRecord record = new ClearDailyRecord();
-        FillAssist.fillEntity.apply(record);
+        FillAssist.fillEntityFieldAll(record);
         record.insert();
     }
     @Test
     public void test14() {
         VerificationRecord record = new VerificationRecord();
-        FillAssist.fillEntity.apply(record);
+        FillAssist.fillEntityFieldAll(record);
         record.insert();
     }
+
 }
 

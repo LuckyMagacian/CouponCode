@@ -3,13 +3,13 @@ package com.lanxi.couponcode.impl.newcontroller;
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.plugins.Page;
 import com.baomidou.mybatisplus.toolkit.IdWorker;
-import com.lanxi.couponcode.impl.entity.Account;
-import com.lanxi.couponcode.impl.entity.Commodity;
-import com.lanxi.couponcode.impl.entity.Merchant;
-import com.lanxi.couponcode.impl.entity.OperateRecord;
+import com.lanxi.couponcode.impl.assist.ExcelAssist;
+import com.lanxi.couponcode.impl.entity.*;
 import com.lanxi.couponcode.impl.newservice.*;
+import com.lanxi.couponcode.spi.assist.FillAssist;
 import com.lanxi.couponcode.spi.assist.RetMessage;
 import com.lanxi.couponcode.spi.assist.TimeAssist;
+import com.lanxi.couponcode.spi.config.HiddenMap;
 import com.lanxi.couponcode.spi.consts.annotations.CheckArg;
 import com.lanxi.couponcode.spi.consts.annotations.EasyLog;
 import com.lanxi.couponcode.spi.consts.enums.*;
@@ -28,6 +28,7 @@ import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 import static com.lanxi.couponcode.impl.assist.PredicateAssist.*;
 
@@ -70,7 +71,10 @@ public class CommodityController implements com.lanxi.couponcode.spi.service.Com
         RetMessage message = checkAccount.apply(account, OperateType.createCommodity);
         if (notNull.test(message))
             return message;
-        Merchant merchant = merchantService.queryMerchantParticularsById(account.getMerchantId());
+        if (merchantId == null && isMerchantManager.test(account)) {
+            merchantId = account.getMerchantId();
+        }
+        Merchant merchant = merchantService.queryMerchantParticularsById(merchantId);
         message = checkMerchant.apply(merchant, OperateType.createCommodity);
         if (notNull.test(message))
             return message;
@@ -83,6 +87,7 @@ public class CommodityController implements com.lanxi.couponcode.spi.service.Com
         commodity.setCostPrice(costPrice);
         commodity.setLifeTime(lifeTime);
         commodity.setStatus(CommodityStatus.unshelved);
+
         commodity.setMerchantId(merchant.getMerchantId());
         commodity.setMerchantName(merchant.getMerchantName());
         //库存
@@ -123,6 +128,10 @@ public class CommodityController implements com.lanxi.couponcode.spi.service.Com
             record.setType(OperateType.createCommodity);
             record.setDescription("管理员添加商品[" + commodity.getCommodityId() + "]");
             record.setOperateResult("success");
+            record.setMerchantName(account.getMerchantName());
+            record.setShopName(account.getShopName());
+            record.setMerchantId(account.getMerchantId());
+            record.setShopId(account.getShopId());
             operateRecordService.addRecord(record);
             return new RetMessage<>(RetCodeEnum.success, "添加成功!", null);
         } else
@@ -173,6 +182,10 @@ public class CommodityController implements com.lanxi.couponcode.spi.service.Com
             record.setTargetType(OperateTargetType.commodity);
             record.setOperateTime(TimeAssist.getNow());
             record.setType(OperateType.modifyCommodity);
+            record.setMerchantId(account.getMerchantId());
+            record.setShopId(account.getShopId());
+            record.setMerchantName(account.getMerchantName());
+            record.setShopName(account.getShopName());
             record.setDescription("管理员修改商品[" + commodity.getCommodityId() + "]");
             record.setOperateResult("success");
             operateRecordService.addRecord(record);
@@ -209,6 +222,10 @@ public class CommodityController implements com.lanxi.couponcode.spi.service.Com
             record.setTargetType(OperateTargetType.commodity);
             record.setOperateTime(TimeAssist.getNow());
             record.setType(OperateType.unshelveCommodity);
+            record.setMerchantId(account.getMerchantId());
+            record.setShopId(account.getShopId());
+            record.setMerchantName(account.getMerchantName());
+            record.setShopName(account.getShopName());
             record.setDescription("管理员上架商品[" + commodity.getCommodityId() + "]");
             record.setOperateResult("success");
             operateRecordService.addRecord(record);
@@ -245,6 +262,8 @@ public class CommodityController implements com.lanxi.couponcode.spi.service.Com
             record.setTargetType(OperateTargetType.commodity);
             record.setOperateTime(TimeAssist.getNow());
             record.setType(OperateType.shelveCommodity);
+            record.setMerchantId(account.getMerchantId());
+            record.setShopId(account.getShopId());
             record.setDescription("管理员下架商品[" + commodity.getCommodityId() + "]");
             record.setOperateResult("success");
             operateRecordService.addRecord(record);
@@ -281,6 +300,10 @@ public class CommodityController implements com.lanxi.couponcode.spi.service.Com
             record.setTargetType(OperateTargetType.commodity);
             record.setOperateTime(TimeAssist.getNow());
             record.setType(OperateType.deleteCommodity);
+            record.setMerchantId(account.getMerchantId());
+            record.setShopId(account.getShopId());
+            record.setMerchantName(account.getMerchantName());
+            record.setShopName(account.getShopName());
             record.setDescription("管理员删除商品[" + commodity.getCommodityId() + "]");
             record.setOperateResult("success");
             operateRecordService.addRecord(record);
@@ -295,7 +318,9 @@ public class CommodityController implements com.lanxi.couponcode.spi.service.Com
                                                String commodityName,
                                                CommodityType commodityType,
                                                CommodityStatus commodityStatus,
-                                               String timeStart, String timeEnd,
+                                               String timeStart,
+                                               String timeEnd,
+                                               Long commodityId,
                                                Integer pageNum,
                                                Integer pageSize,
                                                Long operaterId) {
@@ -304,7 +329,8 @@ public class CommodityController implements com.lanxi.couponcode.spi.service.Com
         if (message != null)
             return message;
         Page<Commodity> page = new Page<>(pageNum, pageSize);
-        List<Commodity> list = queryCommoditiesHidden(merchantName, commodityName, commodityType, commodityStatus, timeStart, timeEnd, page);
+        List<Commodity> list = queryCommoditiesHidden(merchantName, commodityName, commodityType, commodityStatus, timeStart, timeEnd, commodityId, page);
+        FillAssist.returnDeal.accept(FillAssist.getMap.apply(AccountType.merchantManager,Commodity.class), list);
         //需要分页信息
         Map<String, Object> map = new HashMap<>();
         map.put("page", page);
@@ -323,17 +349,18 @@ public class CommodityController implements com.lanxi.couponcode.spi.service.Com
                                                    CommodityStatus commodityStatus,
                                                    String timeStart,
                                                    String timeEnd,
+                                                   Long commodityId,
                                                    Long operaterId) {
         Account account = accountService.queryAccountById(operaterId);
         RetMessage message = checkAccount.apply(account, OperateType.exportCommodity);
         if (message != null)
             return message;
-        List<Commodity> list = queryCommoditiesHidden(merchantName, commodityName, commodityType, commodityStatus, timeStart, timeEnd, null);
+        List<Commodity> list = queryCommoditiesHidden(merchantName, commodityName, commodityType, commodityStatus, timeStart, timeEnd, commodityId, null);
         // TODO 配置要显示的内容
         Map<String, String> map = new HashMap<>();
         File file = new File("商品导出" + TimeAssist.getNow() + ".xls");
         try {
-            ExcelUtil.exportExcelFile(list, map, new FileOutputStream(file));
+            ExcelUtil.exportExcelFile(ExcelAssist.toStringList(list,Commodity.class ,HiddenMap.getAdminFieldCN), new FileOutputStream(file));
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
@@ -350,7 +377,7 @@ public class CommodityController implements com.lanxi.couponcode.spi.service.Com
                                                        CommodityStatus status,
                                                        Integer pageNum,
                                                        Integer pageSize,
-                                                       Long merchantId,
+                                                       Long commodityId,
                                                        Long operaterId) {
         Account account = accountService.queryAccountById(operaterId);
         RetMessage message = checkAccount.apply(account, OperateType.queryCommodity);
@@ -359,7 +386,8 @@ public class CommodityController implements com.lanxi.couponcode.spi.service.Com
         Merchant merchant = merchantService.queryMerchantParticularsById(account.getMerchantId());
         //TODO 校验
         Page<Commodity> page = new Page<>(pageNum, pageSize);
-        List<Commodity> list = queryCommoditiesHidden(merchant.getMerchantName(), commodityName, type, status, null, null, page);
+        List<Commodity> list = queryCommoditiesHidden(merchant.getMerchantName(), commodityName, type, status, null, null, commodityId, page);
+        FillAssist.returnDeal.accept(FillAssist.getMap.apply(AccountType.merchantManager,Commodity.class), list);
         //需要分页信息
         Map<String, Object> map = new HashMap<>();
         map.put("page", page);
@@ -375,7 +403,7 @@ public class CommodityController implements com.lanxi.couponcode.spi.service.Com
     public RetMessage<File> merchantQueryCommoditiesExport(String commodityName,
                                                            CommodityType type,
                                                            CommodityStatus status,
-                                                           Long merchantId,
+                                                           Long commodityId,
                                                            Long operaterId) {
         Account account = accountService.queryAccountById(operaterId);
         RetMessage message = checkAccount.apply(account, OperateType.exportCommodity);
@@ -383,15 +411,15 @@ public class CommodityController implements com.lanxi.couponcode.spi.service.Com
             return message;
         Merchant merchant = merchantService.queryMerchantParticularsById(account.getMerchantId());
         //TODO 校验
-        List<Commodity> list = queryCommoditiesHidden(merchant.getMerchantName(), commodityName, type, status, null, null, null);
+        List<Commodity> list = queryCommoditiesHidden(merchant.getMerchantName(), commodityName, type, status, null, null, commodityId, null);
         // TODO 配置要显示的内容
         Map<String, String> map = new HashMap<>();
-        File file = new File("商品查询导出"+TimeAssist.getNow()+".xls");
+        File file = new File("商品查询导出" + TimeAssist.getNow() + ".xls");
         try {
-            ExcelUtil.exportExcelFile(list,map,new FileOutputStream(file));
+            ExcelUtil.exportExcelFile(ExcelAssist.toStringList(list,Commodity.class ,HiddenMap.getMerchantManagerFieldCN), new FileOutputStream(file));
         } catch (FileNotFoundException e) {
             e.printStackTrace();
-            file=null;
+            file = null;
         }
         if (file != null)
             return new RetMessage<File>(RetCodeEnum.success, "导出成功", file);
@@ -403,7 +431,9 @@ public class CommodityController implements com.lanxi.couponcode.spi.service.Com
                                                    String commodityName,
                                                    CommodityType commodityType,
                                                    CommodityStatus commodityStatus,
-                                                   String timeStart, String timeEnd,
+                                                   String timeStart,
+                                                   String timeEnd,
+                                                   Long commodityId,
                                                    Page<Commodity> page) {
         EntityWrapper<Commodity> wrapper = new EntityWrapper<>();
         if (timeStart != null && !timeStart.isEmpty()) {
@@ -424,6 +454,7 @@ public class CommodityController implements com.lanxi.couponcode.spi.service.Com
             wrapper.eq("type", commodityType.getValue());
         if (commodityStatus != null)
             wrapper.eq("status", commodityStatus.getValue());
+        Optional.ofNullable(commodityId).ifPresent(e -> wrapper.eq("commodity_id", e));
         wrapper.ne("status", CommodityStatus.deleted.getValue());
         return commodityService.queryCommodities(wrapper, page);
     }
@@ -434,16 +465,16 @@ public class CommodityController implements com.lanxi.couponcode.spi.service.Com
         Account account = accountService.queryAccountById(operaterId);
         if (isAdmin.negate().test(account) && isMerchantManager.negate().test(account))
             return new RetMessage<>(RetCodeEnum.fail, "非管理员商户管理员无权操作!", null);
-        Map<String, Long> map = new HashMap<>();
+        Map<Long, String> map = new HashMap<>();
         commodityService.queryAll()
                 .parallelStream()
                 .filter(e -> {
                     if (isMerchantManager.test(account))
                         return e.getMerchantId().equals(account.getMerchantId());
                     else
-                        return true;
+                        return !CommodityStatus.deleted.equals(e.getStatus());
                 })
-                .forEach(e -> map.put(e.getCommodityName(), e.getCommodityId()));
+                .forEach(e -> map.put(e.getCommodityId(), e.getCommodityName()));
         return new RetMessage<>(RetCodeEnum.success, "查询成功!", (Serializable) map);
     }
 
@@ -451,6 +482,13 @@ public class CommodityController implements com.lanxi.couponcode.spi.service.Com
     public RetMessage<String> queryCommodity(Long commodityId, Long operaterId) {
         Account account = accountService.queryAccountById(operaterId);
         Commodity commodity = commodityService.queryCommodity(commodityId);
+        if(isAdmin.test(account))
+            FillAssist.returnDeal.accept(FillAssist.getMap.apply(AccountType.merchantManager,Commodity.class), commodity);
+        else if(isMerchantManager.test(account))
+            FillAssist.returnDeal.accept(FillAssist.getMap.apply(AccountType.merchantManager,Commodity.class), commodity);
+        else
+            FillAssist.returnDeal.accept(FillAssist.getMap.apply(AccountType.shopManager,Commodity.class), commodity);
+
         return new RetMessage<>(RetCodeEnum.success, "查询成功!", commodity.toJson());
     }
 }

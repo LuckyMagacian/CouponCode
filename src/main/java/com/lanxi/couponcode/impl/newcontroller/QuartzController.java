@@ -28,7 +28,7 @@ import java.util.stream.Collectors;
  * Created by yangyuanjian on 2017/11/23.
  */
 @CheckArg
-@Controller
+@Controller("quartzControllerService")
 @EasyLog (LoggerUtil.LogLevel.INFO)
 public class QuartzController implements QuartzService {
     @Resource
@@ -52,20 +52,21 @@ public class QuartzController implements QuartzService {
         wrapper.le("over_time", TimeAssist.getTodayBegin());
         wrapper.eq("code_status", CouponCodeStatus.undestroyed.getValue());
         List<CouponCode> list = codeService.queryCodes(wrapper, null);
-        List<Boolean> locks = null;
+//        List<Boolean> locks = null;
         try {
-            locks = lockService.lock(list);
+//            locks = lockService.lock(list);
             for (int i = 0; i < list.size(); i++) {
-                if (locks.get(i) == null || !locks.get(i))
-                    continue;
+//                if (locks.get(i) == null || !locks.get(i))
+//                    continue;
                 codeService.overTimeCode(list.get(i));
             }
         } catch (Exception e) {
             LogFactory.info(this, "串码过期quartz异常!", e);
-        } finally {
-            if (list != null && locks != null)
-                lockService.unlock(list);
         }
+//        finally {
+//            if (list != null && locks != null)
+//                lockService.unlock(list);
+//        }
 
     }
 

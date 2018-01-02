@@ -4,10 +4,12 @@ import com.alibaba.fastjson.JSON;
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.plugins.Page;
 import com.baomidou.mybatisplus.toolkit.IdWorker;
+import com.lanxi.couponcode.spi.assist.FillAssist;
 import com.lanxi.couponcode.spi.assist.TimeAssist;
 import com.lanxi.couponcode.impl.entity.*;
 import com.lanxi.couponcode.impl.newservice.*;
 import com.lanxi.couponcode.spi.assist.RetMessage;
+import com.lanxi.couponcode.spi.config.HiddenMap;
 import com.lanxi.couponcode.spi.consts.annotations.CheckArg;
 import com.lanxi.couponcode.spi.consts.annotations.Comment;
 import com.lanxi.couponcode.spi.consts.annotations.EasyLog;
@@ -16,6 +18,7 @@ import com.lanxi.couponcode.spi.defaultInterfaces.ToJson;
 import com.lanxi.util.entity.LogFactory;
 import com.lanxi.util.utils.LoggerUtil;
 import com.lanxi.util.utils.TimeUtil;
+import org.apache.zookeeper.Op;
 import org.springframework.stereotype.Controller;
 
 import static com.lanxi.couponcode.impl.assist.PredicateAssist.*;
@@ -25,6 +28,7 @@ import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 /**
  * Created by yangyuanjian on 2017/11/20.
@@ -60,6 +64,7 @@ public class RequestController implements com.lanxi.couponcode.spi.service.Reque
                                               RequestStatus status,
                                               CommodityType commodityType,
                                               Long merchantId,
+                                              Long commodityId,
                                               Page<Request> page) {
         EntityWrapper<Request> wrapper = new EntityWrapper<>();
         if (timeStart != null && !timeStart.isEmpty()) {
@@ -82,8 +87,9 @@ public class RequestController implements com.lanxi.couponcode.spi.service.Reque
             wrapper.eq("status", status.getValue());
         if (commodityType != null)
             wrapper.eq("commodity_type", commodityType.getValue());
-        if (merchantId != null)
-            wrapper.eq("merchant_id", merchantId);
+        if (commodityId != null)
+            wrapper.eq("commodity_id", commodityId);
+        Optional.ofNullable(merchantId).ifPresent(e->wrapper.eq("merchant_id",e));
         return requestService.queryRequestInfos(wrapper, page);
     }
 
@@ -114,7 +120,7 @@ public class RequestController implements com.lanxi.couponcode.spi.service.Reque
                                             RequestOperateType type,
                                             RequestStatus status,
                                             CommodityType commodityType,
-                                            Long merchantId,
+                                            Long commodityId,
                                             Integer pageNum,
                                             Integer pageSize,
                                             Long operaterId) {
@@ -123,7 +129,8 @@ public class RequestController implements com.lanxi.couponcode.spi.service.Reque
         if (message != null)
             return message;
         Page<Request> page = new Page<>(pageNum, pageSize);
-        List<Request> list = queryRequestsHidden(timeStart, timeStop, commodityName, merchantName, type, status, commodityType, merchantId, page);
+        List<Request> list = queryRequestsHidden(timeStart, timeStop, commodityName, merchantName, type, status, commodityType,null, commodityId, page);
+        FillAssist.returnDeal.accept(HiddenMap.ADMIN_REQUEST,list);
         Map<String, Object> map = new HashMap<>();
         map.put("page", page);
         map.put("list", list);
@@ -212,7 +219,11 @@ public class RequestController implements com.lanxi.couponcode.spi.service.Reque
                 record.setTargetType(OperateTargetType.request);
                 record.setType(OperateType.passRequest);
                 record.setOperateTime(TimeAssist.getNow());
+                record.setMerchantId(account.getMerchantId());
+                record.setShopId(account.getShopId());
                 record.setOperateResult("success");
+                record.setMerchantName(account.getMerchantName());
+                record.setShopName(account.getShopName());
                 record.setDescription("通过申请[" + request.getRequestId() + "]");
                 operateRecordService.addRecord(record);
 
@@ -331,6 +342,8 @@ public class RequestController implements com.lanxi.couponcode.spi.service.Reque
                 record.setType(OperateType.rejectRequest);
                 record.setOperateTime(TimeAssist.getNow());
                 record.setOperateResult("success");
+                record.setMerchantName(account.getMerchantName());
+                record.setShopName(account.getShopName());
                 record.setDescription("驳回申请[" + request.getRequestId() + "]");
                 operateRecordService.addRecord(record);
                 return new RetMessage<>(RetCodeEnum.success, "拒绝成功!", null);
@@ -402,6 +415,10 @@ public class RequestController implements com.lanxi.couponcode.spi.service.Reque
             record.setTargetType(OperateTargetType.request);
             record.setType(OperateType.requestAddCommodity);
             record.setOperateTime(TimeAssist.getNow());
+            record.setMerchantId(account.getMerchantId());
+            record.setShopId(account.getShopId());
+            record.setMerchantName(account.getMerchantName());
+            record.setShopName(account.getShopName());
             recordService.addRecord(record);
             return new RetMessage<>(RetCodeEnum.success, "添加成功!", null);
         } else
@@ -428,10 +445,10 @@ public class RequestController implements com.lanxi.couponcode.spi.service.Reque
         message = checkCommodity.apply(commodityService.queryCommodity(commodityId), OperateType.requestModifyCommodity);
         if (message != null)
             return message;
-        commodity.setCostPrice(costPrice);
-        commodity.setFacePrice(facePrice);
-        commodity.setSellPrice(sellPrice);
-        commodity.setLifeTime(lifeTime);
+        Optional.ofNullable(costPrice).ifPresent(e->commodity.setCostPrice(e));
+        Optional.ofNullable(facePrice).ifPresent(e->commodity.setFacePrice(e));
+        Optional.ofNullable(sellPrice).ifPresent(e->commodity.setSellPrice(e));
+        Optional.ofNullable(lifeTime).ifPresent(e->commodity.setLifeTime(e));
         //组装请求
         Request request = makeRequest(account, merchant, commodity);
         request.setType(RequestOperateType.modifyCommodity);
@@ -446,6 +463,10 @@ public class RequestController implements com.lanxi.couponcode.spi.service.Reque
             record.setPhone(account.getPhone());
             record.setName(account.getUserName());
             record.setTargetType(OperateTargetType.request);
+            record.setMerchantId(account.getMerchantId());
+            record.setShopId(account.getShopId());
+            record.setMerchantName(account.getMerchantName());
+            record.setShopName(account.getShopName());
             record.setType(OperateType.requestModifyCommodity);
             record.setOperateTime(TimeAssist.getNow());
             recordService.addRecord(record);
@@ -484,6 +505,10 @@ public class RequestController implements com.lanxi.couponcode.spi.service.Reque
             record.setAccountType(account.getAccountType());
             record.setPhone(account.getPhone());
             record.setName(account.getUserName());
+            record.setMerchantId(account.getMerchantId());
+            record.setShopId(account.getShopId());
+            record.setMerchantName(account.getMerchantName());
+            record.setShopName(account.getShopName());
             record.setTargetType(OperateTargetType.request);
             record.setType(OperateType.requestShelveCommodity);
             record.setOperateTime(TimeAssist.getNow());
@@ -520,6 +545,10 @@ public class RequestController implements com.lanxi.couponcode.spi.service.Reque
             record.setAccountType(account.getAccountType());
             record.setPhone(account.getPhone());
             record.setName(account.getUserName());
+            record.setMerchantId(account.getMerchantId());
+            record.setShopId(account.getShopId());
+            record.setMerchantName(account.getMerchantName());
+            record.setShopName(account.getShopName());
             record.setTargetType(OperateTargetType.request);
             record.setType(OperateType.requestUnshelveCommodity);
             record.setOperateTime(TimeAssist.getNow());
@@ -557,6 +586,10 @@ public class RequestController implements com.lanxi.couponcode.spi.service.Reque
             record.setName(account.getUserName());
             record.setTargetType(OperateTargetType.request);
             record.setType(OperateType.requestDelCommodity);
+            record.setMerchantId(account.getMerchantId());
+            record.setShopId(account.getShopId());
+            record.setMerchantName(account.getMerchantName());
+            record.setShopName(account.getShopName());
             record.setOperateTime(TimeAssist.getNow());
             return new RetMessage<>(RetCodeEnum.success, "添加成功!", null);
         } else
@@ -584,7 +617,8 @@ public class RequestController implements com.lanxi.couponcode.spi.service.Reque
         if (message != null)
             return message;
         Page<Request> page = new Page<>(pageNum, pageSize);
-        List<Request> list = queryRequestsHidden(timeStart, timeEnd, commodityName, merchant.getMerchantName(), operateType, status, type, merchant.getMerchantId(), page);
+        List<Request> list = queryRequestsHidden(timeStart, timeEnd, commodityName, merchant.getMerchantName(), operateType, status, type, merchant.getMerchantId(),null, page);
+        FillAssist.returnDeal.accept(FillAssist.getMap.apply(AccountType.merchantManager,Request.class), list);
         Map<String, Object> map = new HashMap<>();
         map.put("page", page);
         map.put("list", list);
@@ -601,6 +635,10 @@ public class RequestController implements com.lanxi.couponcode.spi.service.Reque
         if (message != null)
             return message;
         Request request = requestService.queryRequestInfo(requestId);
+        if(isAdmin.test(account))
+            FillAssist.returnDeal.accept(FillAssist.getMap.apply(AccountType.admin,Request.class), request);
+        else if (isMerchantManager.test(account))
+            FillAssist.returnDeal.accept(FillAssist.getMap.apply(AccountType.merchantManager,Request.class), request);
         return new RetMessage<>(RetCodeEnum.success, "查询成功!", request == null ? null : request.toJson());
     }
 }

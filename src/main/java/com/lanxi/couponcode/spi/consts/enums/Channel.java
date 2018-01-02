@@ -18,4 +18,9 @@ public enum Channel {
     public void setChannel(Integer channel) {
         this.channel = channel;
     }
+
+    @Override
+    public String toString() {
+        return getChannel()+"";
+    }
 }

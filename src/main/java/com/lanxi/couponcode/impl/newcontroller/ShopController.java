@@ -8,14 +8,13 @@ import com.lanxi.couponcode.impl.entity.Merchant;
 import com.lanxi.couponcode.impl.entity.OperateRecord;
 import com.lanxi.couponcode.impl.entity.Shop;
 import com.lanxi.couponcode.impl.newservice.*;
+import com.lanxi.couponcode.spi.assist.FillAssist;
 import com.lanxi.couponcode.spi.assist.RetMessage;
 import com.lanxi.couponcode.spi.assist.TimeAssist;
 import com.lanxi.couponcode.spi.config.ConstConfig;
+import com.lanxi.couponcode.spi.config.HiddenMap;
 import com.lanxi.couponcode.spi.consts.annotations.CheckArg;
-import com.lanxi.couponcode.spi.consts.enums.OperateTargetType;
-import com.lanxi.couponcode.spi.consts.enums.OperateType;
-import com.lanxi.couponcode.spi.consts.enums.RetCodeEnum;
-import com.lanxi.couponcode.spi.consts.enums.ShopStatus;
+import com.lanxi.couponcode.spi.consts.enums.*;
 import com.lanxi.couponcode.spi.defaultInterfaces.ToJson;
 import com.lanxi.util.entity.LogFactory;
 import org.springframework.stereotype.Controller;
@@ -92,6 +91,10 @@ public class ShopController implements com.lanxi.couponcode.spi.service.ShopServ
                     record.setTargetType(OperateTargetType.shop);
                     record.setType(OperateType.createShop);
                     record.setOperateTime(TimeAssist.getNow());
+                    record.setMerchantId(a.getMerchantId());
+                    record.setShopId(a.getShopId());
+                    record.setMerchantName(a.getMerchantName());
+                    record.setShopName(a.getShopName());
                     record.setOperateResult("success");
                     record.setDescription("添加门店[" + shop.getShopId() + "]");
                     operateRecordService.addRecord(record);
@@ -142,6 +145,10 @@ public class ShopController implements com.lanxi.couponcode.spi.service.ShopServ
                     record.setType(OperateType.importShops);
                     record.setOperateTime(TimeAssist.getNow());
                     record.setOperateResult("success");
+                    record.setMerchantName(a.getMerchantName());
+                    record.setShopName(a.getShopName());
+                    record.setMerchantId(a.getMerchantId());
+                    record.setShopId(a.getShopId());
                     record.setDescription("批量导入门店[]");
                     operateRecordService.addRecord(record);
                 } else {
@@ -193,6 +200,10 @@ public class ShopController implements com.lanxi.couponcode.spi.service.ShopServ
                 record.setTargetType(OperateTargetType.shop);
                 record.setType(OperateType.freezeShop);
                 record.setOperateTime(TimeAssist.getNow());
+                record.setMerchantId(a.getMerchantId());
+                record.setShopId(a.getShopId());
+                record.setMerchantName(a.getMerchantName());
+                record.setShopName(a.getShopName());
                 record.setOperateResult("success");
                 record.setDescription("冻结门店[" + shopId + "]");
                 operateRecordService.addRecord(record);
@@ -239,6 +250,10 @@ public class ShopController implements com.lanxi.couponcode.spi.service.ShopServ
                 record.setType(OperateType.unfreezeShop);
                 record.setOperateTime(TimeAssist.getNow());
                 record.setOperateResult("success");
+                record.setMerchantName(a.getMerchantName());
+                record.setShopName(a.getShopName());
+                record.setMerchantId(a.getMerchantId());
+                record.setShopId(a.getShopId());
                 record.setDescription("开启门店[" + shopId + "]");
                 operateRecordService.addRecord(record);
             } else {
@@ -290,6 +305,7 @@ public class ShopController implements com.lanxi.couponcode.spi.service.ShopServ
             }
             LogFactory.info(this, "条件装饰结果[" + wrapper + "]\n");
             shops = shopService.queryShop(wrapper, pageObj);
+            FillAssist.returnDeal.accept(FillAssist.getMap.apply(AccountType.merchantManager,Shop.class), shops);
             if (shops != null && shops.size() > 0) {
                 retMessage.setRetCode(RetCodeEnum.success.getValue());
                 retMessage.setRetMessage("查询完毕");
@@ -408,6 +424,10 @@ public class ShopController implements com.lanxi.couponcode.spi.service.ShopServ
                     record.setType(OperateType.modifyShop);
                     record.setOperateTime(TimeAssist.getNow());
                     record.setOperateResult("success");
+                    record.setMerchantName(a.getMerchantName());
+                    record.setShopName(a.getShopName());
+                    record.setMerchantId(a.getMerchantId());
+                    record.setShopId(a.getShopId());
                     record.setDescription("修改门店[" + shopId + "]");
                     operateRecordService.addRecord(record);
                 } else {
@@ -478,10 +498,10 @@ public class ShopController implements com.lanxi.couponcode.spi.service.ShopServ
     public RetMessage<File> downloadExcelTemplate(Long operaterId) {
         RetMessage<File> retMessage = new RetMessage<File>();
         try {
-            Account a = accountService.queryAccountById(operaterId);
-            RetMessage message = checkAccount.apply(a, OperateType.downloadShopExcelTemplate);
-            if (notNull.test(message))
-                return message;
+//            Account a = accountService.queryAccountById(operaterId);
+//            RetMessage message = checkAccount.apply(a, OperateType.downloadShopExcelTemplate);
+//            if (notNull.test(message))
+//                return message;
             File file = shopService.downloadExcelTemplate();
             if (file != null) {
                 retMessage.setAll(RetCodeEnum.success, "下载Excel模板成功", file);
@@ -510,7 +530,7 @@ public class ShopController implements com.lanxi.couponcode.spi.service.ShopServ
             } else {
                 shops = shopService.queryShops(merchantId, null);
             }
-
+            FillAssist.returnDeal.accept(HiddenMap.ADMIN_SHOP, shops);
             if (shops != null && shops.size() > 0) {
                 Map<String, Object> map = new HashMap<>();
                 map.put("page", pageObj);
@@ -550,7 +570,7 @@ public class ShopController implements com.lanxi.couponcode.spi.service.ShopServ
             }
 
             List<Shop> list = shopService.adminQueryShop(wrapper, pageObj);
-
+            FillAssist.returnDeal.accept(HiddenMap.ADMIN_SHOP,list);
             if (list != null && list.size() > 0) {
                 Map<String, Object> map = new HashMap<>();
                 map.put("page", pageObj);
@@ -570,13 +590,15 @@ public class ShopController implements com.lanxi.couponcode.spi.service.ShopServ
     public RetMessage<Serializable> queruAllShopIds(Long operaterId) {
         Account account = accountService.queryAccountById(operaterId);
         if (isAdmin.test(account) || isMerchantManager.test(account)) {
-            Map<String, Long> map = new HashMap<>();
-            if (account.getMerchantId() == null) {
-                shopService.queryAllShop(null).parallelStream()
-                        .forEach(e -> map.put(e.getShopName(), e.getShopId()));
+            Map<Long,String> map = new HashMap<>();
+            if (isAdmin.test(account)) {
+                shopService.queryAllShop(null).stream()
+                        .filter(e->!ShopStatus.deleted.equals(e.getShopStatus()))
+                        .forEach(e -> map.put(e.getShopId(),e.getShopName()));
             } else {
-                shopService.queryAllShop(account.getMerchantId()).parallelStream()
-                        .forEach(e -> map.put(e.getShopName(), e.getShopId()));
+                shopService.queryAllShop(account.getMerchantId()).stream()
+                        .filter(e->!ShopStatus.deleted.equals(e.getShopStatus()))
+                        .forEach(e -> map.put( e.getShopId(),e.getShopName()));
             }
 
             return new RetMessage<>(RetCodeEnum.success, "查询成功", (Serializable) map);

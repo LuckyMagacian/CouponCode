@@ -1,9 +1,9 @@
 package com.lanxi.couponcode.impl.newcontroller;
 
 import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.plugins.Page;
+import com.lanxi.couponcode.impl.assist.ExcelAssist;
 import com.lanxi.couponcode.impl.entity.*;
 import com.lanxi.couponcode.impl.newservice.*;
 import com.lanxi.couponcode.spi.assist.FillAssist;
@@ -11,6 +11,7 @@ import com.lanxi.couponcode.spi.assist.RetMessage;
 import com.lanxi.couponcode.impl.entity.Account;
 import com.lanxi.couponcode.impl.entity.VerificationRecord;
 import com.lanxi.couponcode.spi.assist.TimeAssist;
+import com.lanxi.couponcode.spi.config.HiddenMap;
 import com.lanxi.couponcode.spi.consts.annotations.CheckArg;
 import com.lanxi.couponcode.spi.consts.annotations.EasyLog;
 import com.lanxi.couponcode.spi.consts.annotations.HiddenArg;
@@ -98,6 +99,7 @@ public class VerificationRecordController implements com.lanxi.couponcode.spi.se
         if (type != null)
             wrapper.eq("verification_type", type.getValue());
         List<VerificationRecord> list = verificationRecordService.queryVerificationRecords(wrapper, page);
+        FillAssist.returnDeal.accept(HiddenMap.ADMIN_VERIFY, list);
         if (list == null)
             return new RetMessage<>(RetCodeEnum.fail, "查询失败!", null);
         //需要分页信息
@@ -146,6 +148,7 @@ public class VerificationRecordController implements com.lanxi.couponcode.spi.se
             wrapper.eq("verification_type", type.getValue());
         wrapper.eq("merchant_id", account.getMerchantId());
         List<VerificationRecord> list = verificationRecordService.queryVerificationRecords(wrapper, page);
+        FillAssist.returnDeal.accept(FillAssist.getMap.apply(AccountType.merchantManager,VerificationRecord.class), list);
         if (list == null)
             return new RetMessage<>(RetCodeEnum.fail, "查询失败!", null);
         //需要分页信息
@@ -159,6 +162,10 @@ public class VerificationRecordController implements com.lanxi.couponcode.spi.se
     public RetMessage<String> queryVerificationRecordInfo(Long recordId, Long operaterId) {
         Account account = accountService.queryAccountById(operaterId);
         VerificationRecord record = verificationRecordService.queryVerificationRecordInfo(recordId);
+        if(isAdmin.test(account))
+            FillAssist.returnDeal.accept(FillAssist.getMap.apply(AccountType.admin,VerificationRecord.class), record);
+        else if(isMerchantManager.test(account))
+            FillAssist.returnDeal.accept(FillAssist.getMap.apply(AccountType.merchantManager,VerificationRecord.class), record);
         if (notAdmin.test(account) && diffMerchant.test(account, record))
             return new RetMessage<>(RetCodeEnum.fail, "记录不存在!!", null);
         if (record == null)
@@ -200,7 +207,7 @@ public class VerificationRecordController implements com.lanxi.couponcode.spi.se
         List<VerificationRecord> list = verificationRecordService.queryVerificationRecords(wrapper, null);
         File file = new File("核销记录导出" + TimeAssist.getNow() + ".xls");
         try {
-            ExcelUtil.exportExcelFile(list, null, new FileOutputStream(file));
+            ExcelUtil.exportExcelFile(ExcelAssist.toStringList(list, VerificationRecord.class,HiddenMap.getAdminFieldCN), new FileOutputStream(file));
             return new RetMessage<>(RetCodeEnum.success, "操作成功!", file);
         } catch (FileNotFoundException e) {
             LogFactory.error(this, "导出核销记录时发生异常!", e);
@@ -239,7 +246,7 @@ public class VerificationRecordController implements com.lanxi.couponcode.spi.se
         List<VerificationRecord> list = verificationRecordService.queryVerificationRecords(wrapper, null);
         File file = new File("核销记录导出" + TimeAssist.getNow() + ".xls");
         try {
-            ExcelUtil.exportExcelFile(list, null, new FileOutputStream(file));
+            ExcelUtil.exportExcelFile(ExcelAssist.toStringList(list,VerificationRecord.class ,HiddenMap.getMerchantManagerFieldCN), new FileOutputStream(file));
             return new RetMessage<>(RetCodeEnum.success, "操作成功!", file);
         } catch (FileNotFoundException e) {
             LogFactory.error(this, "导出核销记录时发生异常!", e);
@@ -248,28 +255,33 @@ public class VerificationRecordController implements com.lanxi.couponcode.spi.se
     }
 
     @Override
-    public RetMessage<String> queryVerifyRecordsAndStatstis(Long accountId, Long operaterId) {
+    public RetMessage<String> queryVerifyRecordsAndStatstis(Long accountId,String operateTime, Long operaterId) {
         Account account = accountService.queryAccountById(operaterId);
         EntityWrapper<VerificationRecord> wrapper = new EntityWrapper<>();
         wrapper.orderBy("verficate_time");
         List<VerificationRecord> records = verificationRecordService.queryVerificationRecords(new EntityWrapper<VerificationRecord>(), null);
-        Stream<VerificationRecord> stream = records.parallelStream();
-        if (accountId != null) {
-            stream.filter(e -> e.getOperaterId().equals(accountId)).collect(Collectors.toList());
+        Stream<VerificationRecord> stream = records.stream();
+        if (account!=null) {
+            stream= stream.filter(e -> e.getOperaterId().equals(accountId));
+        }
+        if(operateTime!=null){
+            stream=stream.filter(e->e.getVerficateTime().compareTo(TimeAssist.timeFixZero(operateTime))>=0&&e.getVerficateTime().compareTo(TimeAssist.timeFixNine(operateTime))<=0);
         }
         if (AccountType.merchantManager.equals(account.getAccountType())) {
-            stream.filter(e -> e.getMerchantId().equals(account.getMerchantId()));
+            stream=stream.filter(e -> e.getMerchantId().equals(account.getMerchantId()));
         }
         if (AccountType.shopManager.equals(account.getAccountType())) {
-            stream.filter(e -> e.getShopId().equals(account.getShopId()));
+            stream=stream.filter(e -> e.getShopId().equals(account.getShopId()));
         }
-        stream.peek(e -> FillAssist.keeyFieldValue.apply(e, Arrays.asList(new String[]{"commodityName", "code", "verficateTime"})));
+        stream=stream.peek(e -> FillAssist.keepEntityField(Arrays.asList(new String[]{"commodityName", "code", "verficateTime"}), e));
         records = stream.collect(Collectors.toList());
+        FillAssist.returnDeal.accept(FillAssist.getMap.apply(AccountType.shopManager,VerificationRecord.class), records);
+
         Map<String, Object> map = new HashMap<>();
         map.put("list", records);
         map.put("count", 0);
         map.put("sum", new BigDecimal(0));
-        records.parallelStream().forEach(e -> {
+        records.stream().forEach(e -> {
             CouponCode code = codeService.queryCode(e.getMerchantId(), e.getCode()).orElse(null);
             String commodityInfo = code.getCommodityInfo();
             Commodity commodity = JSON.parseObject(commodityInfo, Commodity.class);

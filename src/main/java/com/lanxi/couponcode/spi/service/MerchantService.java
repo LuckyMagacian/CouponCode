@@ -57,7 +57,9 @@ public interface MerchantService {
                                           String serviceTel,
                                           String email,
                                           @HiddenArg Long operaterId,
-                                          @HiddenArg Long merchantId);
+                                          @HiddenArg Long merchantId,
+                                          String registerAddress,
+                                          String minuteRegisterAddress);
 
     RetMessage<Boolean> modifyMerchantInfo(String merchantName,
                                            String serveExplain,
@@ -71,7 +73,9 @@ public interface MerchantService {
                                            String serviceTel,
                                            String email,
                                            @HiddenArg Long operaterId,
-                                           @HiddenArg Long merchantId);
+                                           @HiddenArg Long merchantId,
+                                           String registerAddress,
+                                           String minuteRegisterAddress);
     
     RetMessage<Boolean> organizingInstitutionBarCodePicUpLoad(
             File organizingInstitutionBarCodePicFile,

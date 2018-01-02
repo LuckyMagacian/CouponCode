@@ -253,15 +253,16 @@ public interface PredicateAssist {
                 return null;
 
 
-            case createCommodity:
+
             case unshelveCommodity:
             case shelveCommodity:
-            case deleteCommodity:
-            case modifyCommodity:
             case cancelCommodity:
                 if (notAdmin.test(a))
                     return new RetMessage(RetCodeEnum.fail, "非管理员无权操作!", null);
+            case createCommodity:
             case queryCommodity:
+            case deleteCommodity:
+            case modifyCommodity:
                 if (isMerchantManager.negate().test(a) && notAdmin.test(a))
                     return new RetMessage(RetCodeEnum.fail, "非管理员,商户管理员无权操作!", null);
                 return null;
@@ -365,15 +366,18 @@ public interface PredicateAssist {
             case cancelCommodity:
                 if (!CommodityStatus.unshelved.equals(c.getStatus()))
                     return new RetMessage(RetCodeEnum.fail, "非下架状态,无法操作!", null);
+                return null;
             case unshelveCommodity:
             case requestUnshelveCommodity:
                 if (!CommodityStatus.shelved.equals(c.getStatus()))
                     return new RetMessage(RetCodeEnum.fail, "非上架状态,无法下架!", null);
+                return null;
             case queryCommodity:
             case statscitcCommodity:
             case exportCommodity:
                 if (CommodityStatus.deleted.equals(c.getStatus()))
                     return new RetMessage(RetCodeEnum.fail, "已删除!", null);
+                return null;
             case deleteCommodity:
         }
         return null;

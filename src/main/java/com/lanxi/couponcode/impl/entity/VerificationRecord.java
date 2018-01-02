@@ -8,6 +8,7 @@ import com.lanxi.couponcode.spi.consts.enums.ClearStatus;
 import com.lanxi.couponcode.spi.consts.enums.VerificationType;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 
 /**
  * 串码核销记录类
@@ -19,57 +20,57 @@ public class VerificationRecord extends AbstractVerificationRecord {
      * 记录编号
      */
     @TableId ("record_id")
-    private Long recordId;
+    private Long             recordId;
     /**
      * 串码
      */
     @TableField ("code")
-    private Long code;
+    private Long             code;
     /**
      * 操作者编号
      */
     @TableField ("operater_id")
-    private Long operaterId;
+    private Long             operaterId;
     /**
      * 操作者手机号码
      */
     @TableField ("operater_phone")
-    private String operaterPhone;
+    private String           operaterPhone;
     /**
      * 商品编号
      */
     @TableField ("commodity_id")
-    private Long commodityId;
+    private Long             commodityId;
     /**
      * 商品名称
      */
     @TableField ("commodity_name")
-    private String commodityName;
+    private String           commodityName;
     /**
      * 核销时间
      */
     @TableField ("verficate_time")
-    private String verficateTime;
+    private String           verficateTime;
     /**
      * 商户编号
      */
     @TableField ("merchant_id")
-    private Long merchantId;
+    private Long             merchantId;
     /**
      * 商户名称
      */
     @TableField ("merchant_name")
-    private String merchantName;
+    private String           merchantName;
     /**
      * 门店编号
      */
     @TableField ("shop_id")
-    private Long shopId;
+    private Long             shopId;
     /**
      * 门店名称
      */
     @TableField ("shop_name")
-    private String shopName;
+    private String           shopName;
     /**
      * 验证方式
      */
@@ -79,16 +80,26 @@ public class VerificationRecord extends AbstractVerificationRecord {
      * 清算状态
      */
     @TableField ("clear_status")
-    private ClearStatus clearStatus;
+    private ClearStatus      clearStatus;
 
-//    /**商品详情*/
-//    @TableField("commodity_info")
-//    private String commodityInfo;
+    //    /**商品详情*/
+    //    @TableField("commodity_info")
+    //    private String commodityInfo;
     /**
      * 门店详情
      */
     @TableField ("shop_info")
-    private String shopInfo;
+    private String     shopInfo;
+    /**
+     * 商品类型
+     */
+    @TableField ("commodity_type")
+    private String     commodityType;
+    /**
+     * 面值
+     */
+    @TableField ("face_price")
+    private BigDecimal facePrice;
 
     @Override
     protected Serializable pkVal() {
@@ -167,33 +178,13 @@ public class VerificationRecord extends AbstractVerificationRecord {
         this.operaterPhone = operaterPhone;
     }
 
-//    public String getCommodityInfo() {
-//        return commodityInfo;
-//    }
-//
-//    public void setCommodityInfo(String commodityInfo) {
-//        this.commodityInfo = commodityInfo;
-//    }
-
-    @Override
-    public String toString() {
-        return "VerificationRecord{" +
-                "recordId=" + recordId +
-                ", code=" + code +
-                ", operaterId=" + operaterId +
-                ", operaterPhone='" + operaterPhone + '\'' +
-                ", commodityId=" + commodityId +
-                ", commodityName='" + commodityName + '\'' +
-                ", verficateTime='" + verficateTime + '\'' +
-                ", merchantId=" + merchantId +
-                ", merchantName='" + merchantName + '\'' +
-                ", shopId=" + shopId +
-                ", shopName='" + shopName + '\'' +
-                ", verificationType=" + verificationType +
-                ", clearStatus=" + clearStatus +
-                ", shopInfo='" + shopInfo + '\'' +
-                '}';
-    }
+    //    public String getCommodityInfo() {
+    //        return commodityInfo;
+    //    }
+    //
+    //    public void setCommodityInfo(String commodityInfo) {
+    //        this.commodityInfo = commodityInfo;
+    //    }
 
     public Long getShopId() {
         return shopId;
@@ -241,5 +232,43 @@ public class VerificationRecord extends AbstractVerificationRecord {
 
     public void setClearStatus(String clearStatus) {
         this.clearStatus = ClearStatus.getType(clearStatus);
+    }
+
+    public String getCommodityType() {
+        return commodityType;
+    }
+
+    public void setCommodityType(String commodityType) {
+        this.commodityType = commodityType;
+    }
+
+    public BigDecimal getFacePrice() {
+        return facePrice;
+    }
+
+    public void setFacePrice(BigDecimal facePrice) {
+        this.facePrice = facePrice;
+    }
+
+    @Override public String toString() {
+        final StringBuffer sb = new StringBuffer("VerificationRecord{");
+        sb.append("recordId=").append(recordId);
+        sb.append(", code=").append(code);
+        sb.append(", operaterId=").append(operaterId);
+        sb.append(", operaterPhone='").append(operaterPhone).append('\'');
+        sb.append(", commodityId=").append(commodityId);
+        sb.append(", commodityName='").append(commodityName).append('\'');
+        sb.append(", verficateTime='").append(verficateTime).append('\'');
+        sb.append(", merchantId=").append(merchantId);
+        sb.append(", merchantName='").append(merchantName).append('\'');
+        sb.append(", shopId=").append(shopId);
+        sb.append(", shopName='").append(shopName).append('\'');
+        sb.append(", verificationType=").append(verificationType);
+        sb.append(", clearStatus=").append(clearStatus);
+        sb.append(", shopInfo='").append(shopInfo).append('\'');
+        sb.append(", commodityType='").append(commodityType).append('\'');
+        sb.append(", facePrice=").append(facePrice);
+        sb.append('}');
+        return sb.toString();
     }
 }

@@ -1,5 +1,6 @@
 package com.lanxi.couponcode.view;
 
+import com.lanxi.couponcode.spi.assist.ArgAssist;
 import com.lanxi.couponcode.spi.consts.annotations.EasyLog;
 import com.lanxi.couponcode.spi.consts.annotations.LoginCheck;
 import com.lanxi.couponcode.spi.consts.annotations.SetUtf8;
@@ -132,7 +133,7 @@ public class ShopManagerController {
     @ResponseBody
     @RequestMapping (value = "queryAllAccount", produces = "application/json;charset=utf-8")
     public String queryAllAccount(HttpServletRequest req, HttpServletResponse res) {
-        String operaterIdStr = req.getParameter("operaterId");
+        String operaterIdStr = ArgAssist.getArg.apply(req,"operaterId");
         Long operaterId = toLongArg.apply(operaterIdStr);
         return accountService.queryAllAccount(operaterId).toJson();
     }
@@ -144,8 +145,9 @@ public class ShopManagerController {
     public String queryVerifyRecordsAndStatstis(HttpServletRequest req, HttpServletResponse res) {
         String operaterIdStr = getArg.apply(req, "operaterId");
         String accountIdStr = getArg.apply(req, "accountId");
+        String operateTime=getArg.apply(req,"operateTime");
         Long operaterId = toLongArg.apply(operaterIdStr);
         Long accountId = toLongArg.apply(accountIdStr);
-        return verificationRecordService.queryVerifyRecordsAndStatstis(accountId, operaterId).toJson();
+        return verificationRecordService.queryVerifyRecordsAndStatstis(accountId,operateTime, operaterId).toJson();
     }
 }

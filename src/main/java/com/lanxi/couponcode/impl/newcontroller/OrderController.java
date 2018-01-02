@@ -12,6 +12,9 @@ import java.util.Map;
 
 import javax.annotation.Resource;
 
+import com.lanxi.couponcode.impl.assist.ExcelAssist;
+import com.lanxi.couponcode.spi.assist.FillAssist;
+import com.lanxi.couponcode.spi.config.HiddenMap;
 import com.lanxi.couponcode.spi.consts.annotations.CheckArg;
 import com.lanxi.couponcode.spi.consts.enums.*;
 import org.springframework.stereotype.Controller;
@@ -370,6 +373,7 @@ public class OrderController implements com.lanxi.couponcode.spi.service.OrderSe
 			}
 			Page<Order> pageObj = new Page<>(pageNum, pageSize);
 			List<Order> list = orderService.queryOrders(wrapper, pageObj);
+			FillAssist.returnDeal.accept(HiddenMap.ADMIN_ORDER,list);
 			if (list != null) {
 				Map<String, Object> map = new HashMap<>();
 				map.put("page", pageObj);
@@ -437,7 +441,7 @@ public class OrderController implements com.lanxi.couponcode.spi.service.OrderSe
 				map.put("successNum", "成功数量");
 				File file = new File("订单导出" + TimeAssist.getNow() + ".xls");
 				OutputStream os = new FileOutputStream(file);
-				ExcelUtil.exportExcelFile(list, map, os);
+				ExcelUtil.exportExcelFile(ExcelAssist.toStringList(list, Order.class,HiddenMap.getAdminFieldCN), new FileOutputStream(file));
 				os.close();
 				return new RetMessage<>(RetCodeEnum.success, "导出订单成功", file);
 			} else
@@ -456,11 +460,10 @@ public class OrderController implements com.lanxi.couponcode.spi.service.OrderSe
 				return new RetMessage<>(RetCodeEnum.fail, "非管理员不能执行此操作", null);
 			System.err.println(TimeAssist.getNow());
 			Order order = orderService.queryOrderInfoById(orderId);
+			FillAssist.returnDeal.accept(HiddenMap.ADMIN_ORDER,order);
 			if (order != null) {
-				System.err.println(TimeAssist.getNow());
 				return new RetMessage<>(RetCodeEnum.success, "查询成功", order.toJson());
 			} else
-				System.err.println(TimeAssist.getNow());
 				return new RetMessage<>(RetCodeEnum.fail, "没有查询到相关订单", null);
 		} catch (Exception e) {
 			LogFactory.error(this, "查询订单详情时发生异常", e);

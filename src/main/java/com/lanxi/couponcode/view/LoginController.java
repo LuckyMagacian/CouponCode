@@ -64,7 +64,6 @@ public class LoginController {
     }
 
     @SetUtf8
-    @LoginCheck
     @ResponseBody
     @RequestMapping (value = "logout", produces = "application/json;charset=utf-8")
     public String logout(HttpServletRequest req, HttpServletResponse res) {

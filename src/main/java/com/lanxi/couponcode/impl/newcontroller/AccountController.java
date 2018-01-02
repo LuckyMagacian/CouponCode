@@ -3,14 +3,13 @@ package com.lanxi.couponcode.impl.newcontroller;
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.plugins.Page;
 import com.baomidou.mybatisplus.toolkit.IdWorker;
-import com.lanxi.couponcode.impl.entity.Account;
-import com.lanxi.couponcode.impl.entity.Merchant;
-import com.lanxi.couponcode.impl.entity.OperateRecord;
-import com.lanxi.couponcode.impl.entity.Shop;
+import com.lanxi.couponcode.impl.entity.*;
 import com.lanxi.couponcode.impl.newservice.*;
+import com.lanxi.couponcode.spi.assist.FillAssist;
 import com.lanxi.couponcode.spi.assist.RetMessage;
 import com.lanxi.couponcode.spi.assist.TimeAssist;
 import com.lanxi.couponcode.spi.config.ConstConfig;
+import com.lanxi.couponcode.spi.config.HiddenMap;
 import com.lanxi.couponcode.spi.consts.enums.*;
 import com.lanxi.couponcode.spi.defaultInterfaces.ToJson;
 import com.lanxi.util.entity.LogFactory;
@@ -134,6 +133,10 @@ public class AccountController implements com.lanxi.couponcode.spi.service.Accou
                 record.setOperateTime(TimeAssist.getNow());
                 record.setOperateResult("success");
                 record.setDescription("添加账户[" + account.getAccountId() + "]");
+                record.setMerchantId(account.getMerchantId());
+                record.setShopId(account.getShopId());
+                record.setMerchantName(account.getMerchantName());
+                record.setShopName(account.getShopName());
                 operateRecordService.addRecord(record);
             }
             if (!result) {
@@ -172,7 +175,7 @@ public class AccountController implements com.lanxi.couponcode.spi.service.Accou
                     return message;
                 ot = OperateType.createMerchantManager;
             } else {
-                return new RetMessage<>(RetCodeEnum.exception, "此接口只允许添加admin账户和商户管理员账户", null);
+                return new RetMessage<>(RetCodeEnum.exception, "此接口只允许添加管理员账户和商户管理员账户", null);
             }
             if (!accountService.phoneVerify(phone))
                 return new RetMessage<>(RetCodeEnum.exception, "此手机号码已被注册", null);
@@ -196,7 +199,7 @@ public class AccountController implements com.lanxi.couponcode.spi.service.Accou
             result = accountService.addAccount(account);
             if (result) {
                 retMessage.setRetCode(RetCodeEnum.success.getValue());
-                retMessage.setRetMessage("添加管理员账户成功");
+                retMessage.setRetMessage("添加账户成功");
                 OperateRecord record = new OperateRecord();
                 record.setRecordId(IdWorker.getId());
                 record.setOperaterId(operaterId);
@@ -208,6 +211,10 @@ public class AccountController implements com.lanxi.couponcode.spi.service.Accou
                 record.setOperateTime(TimeAssist.getNow());
                 record.setOperateResult("success");
                 record.setDescription("添加账户[" + account.getAccountId() + "]");
+                record.setMerchantId(account.getMerchantId());
+                record.setShopId(account.getShopId());
+                record.setMerchantName(account.getMerchantName());
+                record.setShopName(account.getShopName());
                 operateRecordService.addRecord(record);
             }
             if (!result) {
@@ -246,7 +253,7 @@ public class AccountController implements com.lanxi.couponcode.spi.service.Accou
                 return new RetMessage<>(RetCodeEnum.exception, "此手机号码已被注册", null);
             Account account = new Account();
             account.setAccountId(IdWorker.getId());
-            account.setAccountType(type);
+            account.setAccountType(AccountType.shopEmployee);
             account.setUserName(name);
             account.setLoginFailureNum(0);
             account.setLoginFailureTime("20171114033028");
@@ -275,6 +282,10 @@ public class AccountController implements com.lanxi.couponcode.spi.service.Accou
                 record.setOperateTime(TimeAssist.getNow());
                 record.setOperateResult("success");
                 record.setDescription("添加账户[" + account.getAccountId() + "]");
+                record.setMerchantId(account.getMerchantId());
+                record.setShopId(account.getShopId());
+                record.setMerchantName(account.getMerchantName());
+                record.setShopName(account.getShopName());
                 operateRecordService.addRecord(record);
             }
             if (!result) {
@@ -284,6 +295,7 @@ public class AccountController implements com.lanxi.couponcode.spi.service.Accou
             retMessage.setDetail(result);
 
         } catch (Exception e) {
+            LogFactory.error(this,"添加核销员时发生异常",e);
             retMessage.setAll(RetCodeEnum.error, "添加核销员时发生异常", result);
         }
         return retMessage;
@@ -358,6 +370,10 @@ public class AccountController implements com.lanxi.couponcode.spi.service.Accou
                 record.setOperateTime(TimeAssist.getNow());
                 record.setOperateResult("success");
                 record.setDescription("添加账户[" + account.getAccountId() + "]");
+                record.setMerchantId(account.getMerchantId());
+                record.setShopId(account.getShopId());
+                record.setMerchantName(account.getMerchantName());
+                record.setShopName(account.getShopName());
                 operateRecordService.addRecord(record);
             }
             if (!result) {
@@ -421,6 +437,10 @@ public class AccountController implements com.lanxi.couponcode.spi.service.Accou
                     record.setOperateTime(TimeAssist.getNow());
                     record.setOperateResult("success");
                     record.setDescription("冻结账户[" + account.getAccountId() + "]");
+                    record.setMerchantId(account.getMerchantId());
+                    record.setShopId(account.getShopId());
+                    record.setMerchantName(account.getMerchantName());
+                    record.setShopName(account.getShopName());
                     operateRecordService.addRecord(record);
                 }
                 if (!result) {
@@ -487,6 +507,10 @@ public class AccountController implements com.lanxi.couponcode.spi.service.Accou
                     record.setOperateTime(TimeAssist.getNow());
                     record.setOperateResult("success");
                     record.setDescription("开启账户[" + account.getAccountId() + "]");
+                    record.setMerchantId(account.getMerchantId());
+                    record.setShopId(account.getShopId());
+                    record.setMerchantName(account.getMerchantName());
+                    record.setShopName(account.getShopName());
                     operateRecordService.addRecord(record);
                 }
                 if (!result) {
@@ -516,6 +540,8 @@ public class AccountController implements com.lanxi.couponcode.spi.service.Accou
                 OperateType ot = null;
                 Account a = accountService.queryAccountById(operaterId);
                 Account b = accountService.queryAccountById(accountId);
+                if (AccountStatus.normal.equals(b.getStatus()))
+                    return new RetMessage<>(RetCodeEnum.fail,"不能删除开启状态下的账户",null);
                 if (AccountType.merchantManager.equals(b.getAccountType())) {
                     message = checkAccount.apply(a, OperateType.deleteMerchantManager);
                     if (notNull.test(message))
@@ -552,6 +578,10 @@ public class AccountController implements com.lanxi.couponcode.spi.service.Accou
                     record.setOperateTime(TimeAssist.getNow());
                     record.setOperateResult("success");
                     record.setDescription("删除账户[" + account.getAccountId() + "]");
+                    record.setMerchantId(account.getMerchantId());
+                    record.setShopId(account.getShopId());
+                    record.setMerchantName(account.getMerchantName());
+                    record.setShopName(account.getShopName());
                     operateRecordService.addRecord(record);
                 } else {
                     retMessage.setRetCode(RetCodeEnum.exception.getValue());
@@ -708,6 +738,7 @@ public class AccountController implements com.lanxi.couponcode.spi.service.Accou
                 retMessage.setRetCode(RetCodeEnum.success.getValue());
                 retMessage.setRetMessage("没有查询到任何数据");
             }
+            FillAssist.returnDeal.accept(FillAssist.getMap.apply(AccountType.admin,Account.class), accounts);
             Map<String, Object> map = new HashMap<>();
             map.put("page", pageObj);
             map.put("list", accounts);
@@ -721,7 +752,7 @@ public class AccountController implements com.lanxi.couponcode.spi.service.Accou
     }
 
     @Override
-    public RetMessage<String> merchantQueryAccounts(String phone, String shopName, AccountType type,
+    public RetMessage<String> merchantQueryAccounts(String phone, Long shopId, AccountType type,
                                                     AccountStatus status, Integer pageNum, Integer pageSize, Long operaterId) {
         RetMessage<String> retMessage = new RetMessage<String>();
         List<Account> accounts = null;
@@ -749,9 +780,6 @@ public class AccountController implements com.lanxi.couponcode.spi.service.Accou
             if (phone != null && !phone.isEmpty()) {
                 wrapper.eq("phone", phone);
             }
-            if (shopName != null && !shopName.isEmpty()) {
-                wrapper.like("shop_name", shopName);
-            }
             if (type == null) {
 				wrapper.in("account_type",AccountType.shopManager+","+AccountType.shopEmployee);
             }
@@ -763,9 +791,12 @@ public class AccountController implements com.lanxi.couponcode.spi.service.Accou
             } else {
                 wrapper.in("status", AccountStatus.normal.getValue() + "," + AccountStatus.freeze.getValue());
             }
+            if (shopId!=null)
+                wrapper.eq("shop_id",shopId);
             wrapper.eq("merchant_id", a.getMerchantId());
             LogFactory.info(this, "条件装饰结果[" + wrapper + "]\n");
             accounts = accountService.queryAccounts(wrapper, pageObj);
+            FillAssist.returnDeal.accept(FillAssist.getMap.apply(AccountType.merchantManager,Account.class), accounts);
             if (accounts != null && accounts.size() > 0) {
                 retMessage.setRetCode(RetCodeEnum.success.getValue());
                 retMessage.setRetMessage("查询完毕");
@@ -843,6 +874,8 @@ public class AccountController implements com.lanxi.couponcode.spi.service.Accou
             wrapper.in("status", AccountStatus.normal.getValue() + "," + AccountStatus.freeze.getValue());
             LogFactory.info(this, "条件装饰结果[" + wrapper + "]\n");
             accounts = accountService.queryAccounts(wrapper, pageObj);
+            FillAssist.returnDeal.accept(FillAssist.getMap.apply(AccountType.shopManager,Account.class), accounts);
+
             if (accounts != null && accounts.size() > 0) {
                 retMessage.setRetCode(RetCodeEnum.success.getValue());
                 retMessage.setRetMessage("查询完毕");

@@ -3,10 +3,14 @@ package com.lanxi.couponcode.impl.newcontroller;
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.plugins.Page;
 import com.baomidou.mybatisplus.toolkit.IdWorker;
+import com.lanxi.couponcode.impl.assist.ExcelAssist;
 import com.lanxi.couponcode.impl.entity.*;
 import com.lanxi.couponcode.impl.newservice.*;
+import com.lanxi.couponcode.spi.assist.FillAssist;
 import com.lanxi.couponcode.spi.assist.RetMessage;
 import com.lanxi.couponcode.spi.assist.TimeAssist;
+import com.lanxi.couponcode.spi.config.HiddenMap;
+import com.lanxi.couponcode.spi.config.HiddenMapExcel;
 import com.lanxi.couponcode.spi.consts.enums.*;
 import com.lanxi.couponcode.spi.defaultInterfaces.ToJson;
 import com.lanxi.util.entity.LogFactory;
@@ -26,6 +30,8 @@ import java.util.function.BinaryOperator;
 import java.util.stream.Collectors;
 
 import static com.lanxi.couponcode.impl.assist.PredicateAssist.checkAccount;
+import static com.lanxi.couponcode.impl.assist.PredicateAssist.isAdmin;
+import static com.lanxi.couponcode.impl.assist.PredicateAssist.isMerchantManager;
 import static com.lanxi.couponcode.spi.assist.CheckAssist.*;
 import static com.lanxi.couponcode.spi.assist.TimeAssist.timeFixNine;
 import static com.lanxi.couponcode.spi.assist.TimeAssist.timeFixZero;
@@ -75,6 +81,7 @@ public class ClearController implements com.lanxi.couponcode.spi.service.ClearSe
 
         Page<ClearDailyRecord> page = new Page<>(pageNum, pageSize);
         List<ClearDailyRecord> list = clearService.queryDailyRecords(wrapper, page);
+        FillAssist.returnDeal.accept(HiddenMap.ADMIN_DAILY_CLEAR,list);
         page.setRecords(null);
         Map<String, Object> map = new HashMap<>();
         map.put("page", page);
@@ -101,6 +108,7 @@ public class ClearController implements com.lanxi.couponcode.spi.service.ClearSe
         notNUll(clearStatus).ifPresent(e -> wrapper.eq("clear_status", clearStatus.getValue()));
         Page<ClearDailyRecord> page = new Page<>(pageNum, pageSize);
         List<ClearDailyRecord> list = clearService.queryDailyRecords(wrapper, page);
+        FillAssist.returnDeal.accept(FillAssist.getMap.apply(AccountType.merchantManager,ClearDailyRecord.class), list);
         Map<String, Object> map = new HashMap<>();
         page.setRecords(null);
         map.put("page", page);
@@ -117,6 +125,8 @@ public class ClearController implements com.lanxi.couponcode.spi.service.ClearSe
             return message;
         }
         ClearDailyRecord record = clearService.queryDailyRecordInfo(recordId);
+        FillAssist.returnDeal.accept(FillAssist.getMap.apply(AccountType.merchantManager,ClearDailyRecord.class), record);
+        FillAssist.returnDeal.accept(HiddenMap.ADMIN_DAILY_CLEAR,record);
         return new RetMessage<>(RetCodeEnum.success, "查询成功!", nullOrJson(record));
     }
 
@@ -142,6 +152,7 @@ public class ClearController implements com.lanxi.couponcode.spi.service.ClearSe
         notNUll(invoiceStatus).ifPresent(e -> wrapper.eq("invoice_status", invoiceStatus.getValue()));
         Page<ClearRecord> page = new Page<>(pageNum, pageSize);
         List<ClearRecord> list = clearService.queryClearRecords(wrapper, page);
+        FillAssist.returnDeal.accept(HiddenMap.ADMIN_CLEAR_RECORD,list);
         Map<String, Object> map = new HashMap<>();
         map.put("page", page);
         map.put("list", list);
@@ -168,9 +179,11 @@ public class ClearController implements com.lanxi.couponcode.spi.service.ClearSe
         notNUll(clearStatus).ifPresent(e -> wrapper.eq("clear_status", clearStatus.getValue()));
         notNUll(invoiceStatus).ifPresent(e -> wrapper.eq("invoice_status", invoiceStatus.getValue()));
         List<ClearRecord> records = clearService.queryClearRecords(wrapper, null);
+//        FillAssist.returnDeal.accept(HiddenMap.ADMIN_REQUEST,records);
         try {
             File file = new File("结算记录导出" + TimeAssist.getNow() + ".xls");
-            ExcelUtil.exportExcelFile(records, null, new FileOutputStream(file));
+            ExcelUtil.exportExcelFile(ExcelAssist.toStringList(records,ClearRecord.class,HiddenMap.getAdminFieldCN), new FileOutputStream(file));
+//            ExcelUtil.exportExcelFile(records, null, new FileOutputStream(file));
             return new RetMessage<>(RetCodeEnum.success, "操作成功!", file);
         } catch (FileNotFoundException e) {
             LogFactory.error(this, "导出结算记录时发生异常!", e);
@@ -200,6 +213,7 @@ public class ClearController implements com.lanxi.couponcode.spi.service.ClearSe
         notNUll(invoiceStatus).ifPresent(e -> wrapper.eq("invoice_status", invoiceStatus.getValue()));
         Page<ClearRecord> page = new Page<>(pageNum, pageSize);
         List<ClearRecord> list = clearService.queryClearRecords(wrapper, page);
+        FillAssist.returnDeal.accept(FillAssist.getMap.apply(AccountType.merchantManager,ClearRecord.class), list);
         Map<String, Object> map = new HashMap<>();
         map.put("page", page);
         map.put("list", list);
@@ -227,7 +241,7 @@ public class ClearController implements com.lanxi.couponcode.spi.service.ClearSe
         List<ClearRecord> records = clearService.queryClearRecords(wrapper, null);
         try {
             File file = new File("结算记录导出" + TimeAssist.getNow() + ".xls");
-            ExcelUtil.exportExcelFile(records, null, new FileOutputStream(file));
+            ExcelUtil.exportExcelFile(ExcelAssist.toStringList(records,ClearRecord.class ,HiddenMap.getMerchantManagerFieldCN), new FileOutputStream(file));
             return new RetMessage<>(RetCodeEnum.success, "操作成功!", file);
         } catch (FileNotFoundException e) {
             LogFactory.info(this, "导出结算记录时发生异常!", e);
@@ -244,6 +258,10 @@ public class ClearController implements com.lanxi.couponcode.spi.service.ClearSe
             return message;
         }
         ClearRecord record = clearService.queryClearRecordInfo(recordId);
+        if(isAdmin.test(account))
+            FillAssist.returnDeal.accept(FillAssist.getMap.apply(AccountType.admin,ClearRecord.class), record);
+        else if(isMerchantManager.test(account))
+            FillAssist.returnDeal.accept(FillAssist.getMap.apply(AccountType.merchantManager,ClearRecord.class), record);
         message = new RetMessage<>();
         message.setAll(RetCodeEnum.success, "查询成功!", nullOrJson(record));
         return message;
@@ -301,6 +319,10 @@ public class ClearController implements com.lanxi.couponcode.spi.service.ClearSe
             record.setType(OperateType.createClearRecord);
             record.setOperateTime(TimeAssist.getNow());
             record.setOperateResult("success");
+            record.setMerchantId(account.getMerchantId());
+            record.setShopId(account.getShopId());
+            record.setMerchantName(account.getMerchantName());
+            record.setShopName(account.getShopName());
             record.setDescription("结算[" + Arrays.asList(dailyRecordIds) + "]");
             operateRecordService.addRecord(record);
 
@@ -347,6 +369,10 @@ public class ClearController implements com.lanxi.couponcode.spi.service.ClearSe
             operateRecord.setOperateTime(TimeAssist.getNow());
             operateRecord.setOperateResult(result ? "success" : "fail");
             operateRecord.setDescription(remark);
+            operateRecord.setMerchantId(account.getMerchantId());
+            operateRecord.setShopId(account.getShopId());
+            operateRecord.setMerchantName(account.getMerchantName());
+            operateRecord.setShopName(account.getShopName());
             operateRecord.insert();
             return new RetMessage<>(RetCodeEnum.success, "操作成功!", null);
         } else {
@@ -381,7 +407,12 @@ public class ClearController implements com.lanxi.couponcode.spi.service.ClearSe
             operateRecord.setType(OperateType.modifyClearRecord);
             operateRecord.setOperateTime(TimeAssist.getNow());
             operateRecord.setOperateResult(result ? "success" : "fail");
+            operateRecord.setMerchantId(account.getMerchantId());
+            operateRecord.setShopId(account.getShopId());
+            operateRecord.setMerchantName(account.getMerchantName());
+            operateRecord.setShopName(account.getShopName());
             operateRecord.insert();
+
             return new RetMessage<>(RetCodeEnum.success, "操作成功!", null);
         } else
             return new RetMessage<>(RetCodeEnum.fail, "操作失败!", null);
@@ -410,6 +441,7 @@ public class ClearController implements com.lanxi.couponcode.spi.service.ClearSe
         };
         Page<ClearDailyRecord> page = new Page<>(pageNum, pageSize);
         List<ClearDailyRecord> list = clearService.queryDailyRecords(wrapper, null);
+        FillAssist.returnDeal.accept(HiddenMap.ADMIN_DAILY_CLEAR,list);
         Map<String, Object> sum = new HashMap<>();
         sum.put("verificateNum", list.parallelStream().map(ClearDailyRecord::getVerificateNum).reduce(0, addInteger));
         sum.put("cancelationNum", list.parallelStream().map(ClearDailyRecord::getCancelationNum).reduce(0, addInteger));
@@ -463,7 +495,7 @@ public class ClearController implements com.lanxi.couponcode.spi.service.ClearSe
         list.add(sum);
         File file = new File("日结算记录统计导出" + TimeAssist.getNow() + ".xls");
         try {
-            ExcelUtil.exportExcelFile(list, null, new FileOutputStream(file));
+            ExcelUtil.exportExcelFile(ExcelAssist.toStringList(list,ClearDailyRecord.class,HiddenMap.getAdminFieldCN), new FileOutputStream(file));
             return new RetMessage<>(RetCodeEnum.success, "操作成功!", file);
         } catch (FileNotFoundException e) {
             LogFactory.error(this, "日结算记录导统计出时发生异常!", e);
@@ -505,6 +537,7 @@ public class ClearController implements com.lanxi.couponcode.spi.service.ClearSe
         sum.put("overtimeCost", list.stream().map(ClearDailyRecord::getOvertimeCost).reduce(new BigDecimal(0), addDecimal));
         sum.put("exchangeCost", ((BigDecimal) sum.get("verificateCost")).add((BigDecimal) sum.get("cancelationCost")).add(((BigDecimal) sum.get("overtimeCost"))));
         list = clearService.queryDailyRecords(wrapper, page);
+        FillAssist.returnDeal.accept(FillAssist.getMap.apply(AccountType.merchantManager,ClearDailyRecord.class), list);
         page.setRecords(null);
         Map<String, Object> map = new HashMap<>();
         map.put("page", page);
@@ -548,7 +581,7 @@ public class ClearController implements com.lanxi.couponcode.spi.service.ClearSe
         list.add(sum);
         File file = new File("日结算记录统计" + TimeAssist.getNow() + ".xls");
         try {
-            ExcelUtil.exportExcelFile(list, null, new FileOutputStream(file));
+            ExcelUtil.exportExcelFile(ExcelAssist.toStringList(list,ClearDailyRecord.class ,HiddenMap.getMerchantManagerFieldCN), new FileOutputStream(file));
             return new RetMessage<>(RetCodeEnum.success, "操作成功!", file);
         } catch (FileNotFoundException e) {
             LogFactory.error(this, "日结算记录统计时发生异常!", e);
@@ -571,8 +604,8 @@ public class ClearController implements com.lanxi.couponcode.spi.service.ClearSe
         List<ClearDailyRecord> list = clearService.queryDailyRecords(wrapper, null);
         File file = new File("日结算记录导出" + TimeAssist.getNow() + ".xls");
         try {
-            ExcelUtil.exportExcelFile(list, null, new FileOutputStream(file));
-            return new RetMessage<>(RetCodeEnum.success, "操作成功!", null);
+            ExcelUtil.exportExcelFile(ExcelAssist.toStringList(list,ClearDailyRecord.class ,HiddenMap.getMerchantManagerFieldCN), new FileOutputStream(file));
+            return new RetMessage<>(RetCodeEnum.success, "操作成功!", file);
         } catch (FileNotFoundException e) {
             LogFactory.error(this, "日结算记录导出时发生异常!", e);
             return new RetMessage<>(RetCodeEnum.error, "操作失败!", null);
@@ -593,8 +626,8 @@ public class ClearController implements com.lanxi.couponcode.spi.service.ClearSe
         List<ClearDailyRecord> list = clearService.queryDailyRecords(wrapper, null);
         File file = new File("日结算记录导出" + TimeAssist.getNow() + ".xls");
         try {
-            ExcelUtil.exportExcelFile(list, null, new FileOutputStream(file));
-            return new RetMessage<>(RetCodeEnum.success, "操作成功!", null);
+            ExcelUtil.exportExcelFile(ExcelAssist.toStringList(list,ClearDailyRecord.class,HiddenMap.getAdminFieldCN), new FileOutputStream(file));
+            return new RetMessage<>(RetCodeEnum.success, "操作成功!", file);
         } catch (FileNotFoundException e) {
             LogFactory.error(this, "日结算记录导出时发生异常!", e);
             return new RetMessage<>(RetCodeEnum.error, "操作失败!", null);

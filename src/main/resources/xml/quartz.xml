@@ -42,7 +42,7 @@
         <property name="cronExpression" value="0 0 * * * ?"/>
     </bean>
     <bean id="codeOverTimeJob"  class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
-        <property name="targetObject" ref="quartzController"/>
+        <property name="targetObject" ref="quartzControllerService"/>
         <property name="targetMethod" value="codeOverTime"/>
     </bean>
 
@@ -53,7 +53,7 @@
     </bean>
 
     <bean id="addClearDailyRecordsJob"  class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
-        <property name="targetObject" ref="quartzController"/>
+        <property name="targetObject" ref="quartzControllerService"/>
         <property name="targetMethod" value="addClearDailyRecord"/>
     </bean>
 
@@ -63,7 +63,7 @@
     </bean>
 
     <bean id="addClearRecordsJob"  class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
-        <property name="targetObject" ref="quartzController"/>
+        <property name="targetObject" ref="quartzControllerService"/>
         <property name="targetMethod" value="addClearRecords"/>
     </bean>
 

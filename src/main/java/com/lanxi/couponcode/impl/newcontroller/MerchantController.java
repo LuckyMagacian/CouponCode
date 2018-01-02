@@ -4,19 +4,20 @@ import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.plugins.Page;
 import com.baomidou.mybatisplus.toolkit.IdWorker;
 import com.lanxi.couponcode.impl.entity.Account;
+import com.lanxi.couponcode.impl.entity.CouponCode;
 import com.lanxi.couponcode.impl.entity.Merchant;
 import com.lanxi.couponcode.impl.entity.OperateRecord;
 import com.lanxi.couponcode.impl.newservice.*;
+import com.lanxi.couponcode.spi.assist.FillAssist;
 import com.lanxi.couponcode.spi.assist.RetMessage;
 import com.lanxi.couponcode.spi.assist.TimeAssist;
 import com.lanxi.couponcode.spi.config.ConstConfig;
+import com.lanxi.couponcode.spi.config.HiddenMap;
 import com.lanxi.couponcode.spi.consts.annotations.CheckArg;
 import com.lanxi.couponcode.spi.consts.annotations.EasyLog;
-import com.lanxi.couponcode.spi.consts.enums.MerchantStatus;
-import com.lanxi.couponcode.spi.consts.enums.OperateTargetType;
-import com.lanxi.couponcode.spi.consts.enums.OperateType;
-import com.lanxi.couponcode.spi.consts.enums.RetCodeEnum;
+import com.lanxi.couponcode.spi.consts.enums.*;
 import com.lanxi.couponcode.spi.defaultInterfaces.ToJson;
+import com.lanxi.couponcode.spi.util.RegularUtil;
 import com.lanxi.util.entity.LogFactory;
 import com.lanxi.util.utils.LoggerUtil;
 import org.springframework.stereotype.Controller;
@@ -86,6 +87,10 @@ public class MerchantController implements com.lanxi.couponcode.spi.service.Merc
                     record.setType(OperateType.createMerchant);
                     record.setOperateTime(TimeAssist.getNow());
                     record.setOperateResult("success");
+                    record.setMerchantId(a.getMerchantId());
+                    record.setShopId(a.getShopId());
+                    record.setMerchantName(a.getMerchantName());
+                    record.setShopName(a.getShopName());
                     record.setDescription("添加商户[" + merchant.getMerchantId() + "]");
                     operateRecordService.addRecord(record);
                 }
@@ -146,6 +151,10 @@ public class MerchantController implements com.lanxi.couponcode.spi.service.Merc
                     record.setTargetType(OperateTargetType.merchant);
                     record.setType(OperateType.modifyMerchant);
                     record.setOperateTime(TimeAssist.getNow());
+                    record.setMerchantId(a.getMerchantId());
+                    record.setShopId(a.getShopId());
+                    record.setMerchantName(a.getMerchantName());
+                    record.setShopName(a.getShopName());
                     record.setOperateResult("success");
                     record.setDescription("修改商户[" + merchantId + "]");
                     operateRecordService.addRecord(record);
@@ -197,11 +206,12 @@ public class MerchantController implements com.lanxi.couponcode.spi.service.Merc
                 wrapper.in("merchant_status", MerchantStatus.normal.getValue() + "," + MerchantStatus.freeze);
             }
             if (merchantName != null && !merchantName.isEmpty()) {
-                wrapper.eq("merchant_name", merchantName);
+                wrapper.like("merchant_name", merchantName);
             }
             LogFactory.info(this, "组装成的条件[" + wrapper + "]");
             Page<Merchant> pageObj = new Page<Merchant>(pageNum, pageSize);
             merchants = merchantService.getMerchantByCondition(pageObj, wrapper);
+            FillAssist.returnDeal.accept(HiddenMap.ADMIN_MERCHANT,merchants);
             Map<String, Object> map = new HashMap<>();
             map.put("page", pageObj);
             map.put("list", merchants);
@@ -232,6 +242,7 @@ public class MerchantController implements com.lanxi.couponcode.spi.service.Merc
             if (notNull.test(message))
                 return message;
             File file = merchantService.merchantExport(merchantName, merchantStatus, timeStart, timeStop, operaterId);
+
             if (file != null) {
                 return new RetMessage<File>(RetCodeEnum.success, "导出成功", file);
             } else {
@@ -275,6 +286,10 @@ public class MerchantController implements com.lanxi.couponcode.spi.service.Merc
                 record.setType(OperateType.unfreezeMerchant);
                 record.setOperateTime(TimeAssist.getNow());
                 record.setOperateResult("success");
+                record.setMerchantId(a.getMerchantId());
+                record.setShopId(a.getShopId());
+                record.setMerchantName(a.getMerchantName());
+                record.setShopName(a.getShopName());
                 record.setDescription("开启商户[" + merchantId + "]");
                 operateRecordService.addRecord(record);
             } else {
@@ -320,6 +335,10 @@ public class MerchantController implements com.lanxi.couponcode.spi.service.Merc
                 record.setType(OperateType.freezeMerchant);
                 record.setOperateTime(TimeAssist.getNow());
                 record.setOperateResult("success");
+                record.setMerchantId(a.getMerchantId());
+                record.setShopId(a.getShopId());
+                record.setMerchantName(a.getMerchantName());
+                record.setShopName(a.getShopName());
                 record.setDescription("冻结商户[" + merchantId + "]");
                 operateRecordService.addRecord(record);
             } else {
@@ -338,7 +357,8 @@ public class MerchantController implements com.lanxi.couponcode.spi.service.Merc
     public RetMessage<Boolean> inputMerchantInfo(String merchantName, String serviceDistription, String workAddress,
                                                  String minuteWorkAddress, String businessLicenseNum, String organizingInstitutionBarCode,
                                                  String enterpriseLegalRepresentativeName, String contactsName, String contactPhone, String serviceTel,
-                                                 String contactEmail, Long operaterId, Long merchantId) {
+                                                 String contactEmail, Long operaterId, Long merchantId,String registerAddress,
+                                                 String minuteRegisterAddress) {
         RetMessage<Boolean> retMessage = new RetMessage<Boolean>();
         Boolean result = false;
         // TODO 校验
@@ -354,17 +374,25 @@ public class MerchantController implements com.lanxi.couponcode.spi.service.Merc
                     return message;
                 Merchant merchant = new Merchant();
                 merchant.setMerchantName(merchantName);
-                merchant.setWorkAddress(workAddress);
-                merchant.setMinuteWorkAddress(minuteWorkAddress);
+//                merchant.setWorkAddress(workAddress);
+//                merchant.setMinuteWorkAddress(minuteWorkAddress);
                 merchant.setCharterCode(businessLicenseNum);
                 merchant.setOraganizingCode(organizingInstitutionBarCode);
                 merchant.setPrincipal(enterpriseLegalRepresentativeName);
                 merchant.setLinkMan(contactsName);
+               // if (RegularUtil.isPhone(contactPhone))
                 merchant.setLinkManPhone(contactPhone);
+               // else
+                  //  merchant.setLinkManPhone(null);
                 merchant.setServiceTel(serviceTel);
-                merchant.setEmail(contactEmail);
+                //if (RegularUtil.isEmail(contactEmail))
+                    merchant.setEmail(contactEmail);
+               // else
+                 //   merchant.setEmail(null);
                 merchant.setMerchantId(m.getMerchantId());
                 merchant.setServeExplain(serviceDistription);
+                merchant.setRegisterAddress(registerAddress);
+                merchant.setMinuteRegisterAddress(minuteRegisterAddress);
                 result = merchantService.fillInInformation(merchant);
                 if (result) {
                     retMessage.setRetCode(RetCodeEnum.success.getValue());
@@ -377,10 +405,14 @@ public class MerchantController implements com.lanxi.couponcode.spi.service.Merc
                     record.setAccountType(a.getAccountType());
                     record.setPhone(a.getPhone());
                     record.setName(a.getUserName());
+                    record.setMerchantId(a.getMerchantId());
+                    record.setShopId(a.getShopId());
                     record.setTargetType(OperateTargetType.merchant);
                     record.setType(OperateType.inputMerchantInfo);
                     record.setOperateTime(TimeAssist.getNow());
                     record.setOperateResult("success");
+                    record.setMerchantName(a.getMerchantName());
+                    record.setShopName(a.getShopName());
                     record.setDescription("商户详细信息提交[" + m.getMerchantId() + "]");
                     operateRecordService.addRecord(record);
                 } else {
@@ -403,7 +435,8 @@ public class MerchantController implements com.lanxi.couponcode.spi.service.Merc
     public RetMessage<Boolean> modifyMerchantInfo(String merchantName, String serviceDistription, String workAddress,
                                                   String minuteWorkAddress, String businessLicenseNum, String organizingInstitutionBarCode,
                                                   String enterpriseLegalRepresentativeName, String contactsName, String contactPhone, String serviceTel,
-                                                  String contactEmail, Long operaterId, Long merchantId) {
+                                                  String contactEmail, Long operaterId, Long merchantId,String registerAddress,
+                                                  String minuteRegisterAddress) {
         RetMessage<Boolean> retMessage = new RetMessage<Boolean>();
         Boolean result = false;
         // TODO 权限校验
@@ -419,17 +452,25 @@ public class MerchantController implements com.lanxi.couponcode.spi.service.Merc
                     return message;
                 Merchant merchant = new Merchant();
                 merchant.setMerchantName(merchantName);
-                merchant.setWorkAddress(workAddress);
-                merchant.setMinuteWorkAddress(minuteWorkAddress);
+//                merchant.setWorkAddress(workAddress);
+//                merchant.setMinuteWorkAddress(minuteWorkAddress);
                 merchant.setServeExplain(serviceDistription);
                 merchant.setCharterCode(businessLicenseNum);
                 merchant.setOraganizingCode(organizingInstitutionBarCode);
                 merchant.setPrincipal(enterpriseLegalRepresentativeName);
                 merchant.setLinkMan(contactsName);
+                //if (RegularUtil.isPhone(contactPhone))
                 merchant.setLinkManPhone(contactPhone);
+                //else
+                   // merchant.setLinkManPhone(null);
                 merchant.setServiceTel(serviceTel);
+                //if (RegularUtil.isEmail(contactEmail))
                 merchant.setEmail(contactEmail);
+                //else
+                  //  merchant.setEmail(null);
                 merchant.setMerchantId(a.getMerchantId());
+                merchant.setRegisterAddress(registerAddress);
+                merchant.setMinuteRegisterAddress(minuteRegisterAddress);
                 result = merchantService.fillInInformation(merchant);
                 if (result) {
                     retMessage.setRetCode(RetCodeEnum.success.getValue());
@@ -444,6 +485,10 @@ public class MerchantController implements com.lanxi.couponcode.spi.service.Merc
                     record.setType(OperateType.modifyMerchant);
                     record.setOperateTime(TimeAssist.getNow());
                     record.setOperateResult("success");
+                    record.setMerchantName(a.getMerchantName());
+                    record.setShopName(a.getShopName());
+                    record.setMerchantId(a.getMerchantId());
+                    record.setShopId(a.getShopId());
                     record.setDescription("商户详细信息修改[" + a.getMerchantId() + "]");
                     operateRecordService.addRecord(record);
                 } else {
@@ -494,6 +539,10 @@ public class MerchantController implements com.lanxi.couponcode.spi.service.Merc
                 record.setTargetType(OperateTargetType.merchant);
                 record.setType(OperateType.inputMerchantInfo);
                 record.setOperateTime(TimeAssist.getNow());
+                record.setMerchantId(a.getMerchantId());
+                record.setShopId(a.getShopId());
+                record.setMerchantName(a.getMerchantName());
+                record.setShopName(a.getShopName());
                 record.setOperateResult("success");
                 record.setDescription("商户详细信息提交[" + m.getMerchantId() + "]");
                 operateRecordService.addRecord(record);
@@ -536,6 +585,10 @@ public class MerchantController implements com.lanxi.couponcode.spi.service.Merc
                 record.setTargetType(OperateTargetType.merchant);
                 record.setType(OperateType.inputMerchantInfo);
                 record.setOperateTime(TimeAssist.getNow());
+                record.setMerchantId(a.getMerchantId());
+                record.setShopId(a.getShopId());
+                record.setMerchantName(a.getMerchantName());
+                record.setShopName(a.getShopName());
                 record.setOperateResult("success");
                 record.setDescription("商户详细信息提交[" + m.getMerchantId() + "]");
                 operateRecordService.addRecord(record);
@@ -578,6 +631,10 @@ public class MerchantController implements com.lanxi.couponcode.spi.service.Merc
                 record.setType(OperateType.inputMerchantInfo);
                 record.setOperateTime(TimeAssist.getNow());
                 record.setOperateResult("success");
+                record.setMerchantId(a.getMerchantId());
+                record.setShopId(a.getShopId());
+                record.setMerchantName(a.getMerchantName());
+                record.setShopName(a.getShopName());
                 record.setDescription("商户详细信息提交[" + m.getMerchantId() + "]");
                 operateRecordService.addRecord(record);
             } else {
@@ -622,6 +679,10 @@ public class MerchantController implements com.lanxi.couponcode.spi.service.Merc
                 record.setType(OperateType.inputMerchantInfo);
                 record.setOperateTime(TimeAssist.getNow());
                 record.setOperateResult("success");
+                record.setMerchantName(a.getMerchantName());
+                record.setShopName(a.getShopName());
+                record.setMerchantId(a.getMerchantId());
+                record.setShopId(a.getShopId());
                 record.setDescription("修改商户组织机构代码证[" + m.getMerchantId() + "]");
                 operateRecordService.addRecord(record);
             } else {
@@ -664,6 +725,10 @@ public class MerchantController implements com.lanxi.couponcode.spi.service.Merc
                 record.setType(OperateType.inputMerchantInfo);
                 record.setOperateTime(TimeAssist.getNow());
                 record.setOperateResult("success");
+                record.setMerchantId(a.getMerchantId());
+                record.setShopId(a.getShopId());
+                record.setMerchantName(a.getMerchantName());
+                record.setShopName(a.getShopName());
                 record.setDescription("修改商户营业执照[" + m.getMerchantId() + "]");
                 operateRecordService.addRecord(record);
             } else {
@@ -704,6 +769,10 @@ public class MerchantController implements com.lanxi.couponcode.spi.service.Merc
                 record.setType(OperateType.inputMerchantInfo);
                 record.setOperateTime(TimeAssist.getNow());
                 record.setOperateResult("success");
+                record.setMerchantName(a.getMerchantName());
+                record.setShopName(a.getShopName());
+                record.setMerchantId(a.getMerchantId());
+                record.setShopId(a.getShopId());
                 record.setDescription("修改其他证明资料[" + m.getMerchantId() + "]");
                 operateRecordService.addRecord(record);
             } else {
@@ -725,6 +794,10 @@ public class MerchantController implements com.lanxi.couponcode.spi.service.Merc
             if (notNull.test(message))
                 return message;
             Merchant merchant = merchantService.queryMerchantParticularsById(merchantId);
+            if(isAdmin.test(a))
+                FillAssist.returnDeal.accept(FillAssist.getMap.apply(AccountType.admin,Merchant.class), merchant);
+            else if(isMerchantManager.test(a))
+                FillAssist.returnDeal.accept(FillAssist.getMap.apply(AccountType.merchantManager, Merchant.class), merchant);
             if (merchant != null) {
                 String result = merchant.toJson();
                 return new RetMessage<String>(RetCodeEnum.success, "查询商户详情成功", result);
@@ -743,10 +816,10 @@ public class MerchantController implements com.lanxi.couponcode.spi.service.Merc
             Account account = accountService.queryAccountById(operaterId);
             if (isAdmin.negate().test(account))
                 return new RetMessage<>(RetCodeEnum.fail, "非管理员无权操作!", null);
-            Map<String, Long> map = new HashMap<>();
+            Map<Long,String> map = new HashMap<>();
             merchantService.queryAll()
                     .parallelStream()
-                    .forEach(e -> map.put(e.getMerchantName(), e.getMerchantId()));
+                    .forEach(e -> map.put(e.getMerchantId(),e.getMerchantName()));
             return new RetMessage<>(RetCodeEnum.success, "查询成功!", (Serializable) map);
         } catch (Exception e) {
             LogFactory.error(this, "查询全部商户时发生异常", e);

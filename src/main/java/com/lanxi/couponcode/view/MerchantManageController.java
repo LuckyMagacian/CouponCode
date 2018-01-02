@@ -27,6 +27,8 @@ import java.io.OutputStream;
 import java.math.BigDecimal;
 
 import static com.lanxi.couponcode.spi.assist.ArgAssist.*;
+import static com.lanxi.couponcode.spi.assist.PredicateAssist.isNull;
+import static com.lanxi.couponcode.spi.assist.PredicateAssist.notId;
 
 /**
  * 商户管理端 Created by yangyuanjian on 2017/11/20.
@@ -66,8 +68,8 @@ public class MerchantManageController {
     public String inputMerchantInfo(HttpServletRequest req, HttpServletResponse res) {
         String merchantName = getArg.apply(req, "merchantName");
         String serveExplain = getArg.apply(req, "serveExplain");
-        String workAddress = getArg.apply(req, "workAddress");
-        String minuteWorkAddress = getArg.apply(req, "minuteWorkAddress");
+//        String workAddress = getArg.apply(req, "workAddress");
+//        String minuteWorkAddress = getArg.apply(req, "minuteWorkAddress");
         String charterCode = getArg.apply(req, "charterCode");
         String oraganizingCode = getArg.apply(req, "oraganizingCode");
         String principal = getArg.apply(req, "principal");
@@ -77,17 +79,19 @@ public class MerchantManageController {
         String email = getArg.apply(req, "email");
         String operaterIdStr = getArg.apply(req, "operaterId");
         String merchantIdStr = getArg.apply(req, "merchantId");
+        String registeraddress=getArg.apply(req,"registerAddress");
+        String minuteRegisterAddress=getArg.apply(req,"minuteRegisterAddress");
         Long operaterId = parseArg(operaterIdStr, Long.class);
         Long merchantId = parseArg(merchantIdStr, Long.class);
         return merchantService
-                .inputMerchantInfo(merchantName, serveExplain, workAddress, minuteWorkAddress, charterCode,
-                        oraganizingCode, principal, linkMan, linkManPhone, serviceTel, email, operaterId, merchantId)
+                .inputMerchantInfo(merchantName, serveExplain, null, null, charterCode,
+                        oraganizingCode, principal, linkMan, linkManPhone, serviceTel, email, operaterId, merchantId,registeraddress,minuteRegisterAddress)
                 .toJson();
     }
 
     /* 完善商户组织机构代码证 */
     @SetUtf8
-//    @LoginCheck
+    @LoginCheck
     @ResponseBody
     @RequestMapping (value = "organizingInstitutionBarCodePicUpLoad", produces = "application/json;charset=utf-8")
     public String organizingInstitutionBarCodePicUpLoad(HttpServletRequest req, HttpServletResponse res, @RequestParam ("file") CommonsMultipartFile file) {
@@ -96,7 +100,7 @@ public class MerchantManageController {
         Long operaterId = parseArg(operaterIdStr, Long.class);
         Long merchantId = parseArg(merchantIdStr, Long.class);
 
-        if (!checkLogin.checkLogin(req.getParameter("token"), operaterIdStr))
+        if (!checkLogin.checkLogin(getArg.apply(req,"token"), operaterIdStr))
             return new RetMessage<>(RetCodeEnum.fail, "not login !", null).toJson();
 
         String result = null;
@@ -122,7 +126,7 @@ public class MerchantManageController {
 
     /* 完善商户营业执照 */
     @SetUtf8
-//    @LoginCheck
+    @LoginCheck
     @ResponseBody
     @RequestMapping (value = "businessLicensePicUpLoad", produces = "application/json;charset=utf-8")
     public String businessLicensePicUpLoad(HttpServletRequest req, HttpServletResponse res, @RequestParam ("file") CommonsMultipartFile file) {
@@ -130,7 +134,7 @@ public class MerchantManageController {
         String merchantIdStr = getArg.apply(req, "merchantId");
         Long operaterId = parseArg(operaterIdStr, Long.class);
         Long merchantId = parseArg(merchantIdStr, Long.class);
-        if (!checkLogin.checkLogin(req.getParameter("token"), operaterIdStr))
+        if (!checkLogin.checkLogin(getArg.apply(req,"token"), operaterIdStr))
             return new RetMessage<>(RetCodeEnum.fail, "not login !", null).toJson();
         String result = null;
         try {
@@ -155,7 +159,7 @@ public class MerchantManageController {
 
     /* 完善商户其他证明资料 */
     @SetUtf8
-//    @LoginCheck
+    @LoginCheck
     @RequestMapping (value = "otherPicUpLoad", produces = "application/json;charset=utf-8")
     @ResponseBody
     public String otherPicUpLoad(HttpServletRequest req, HttpServletResponse res, @RequestParam ("file") CommonsMultipartFile file) {
@@ -163,7 +167,7 @@ public class MerchantManageController {
         String merchantIdStr = getArg.apply(req, "merchantId");
         Long operaterId = parseArg(operaterIdStr, Long.class);
         Long merchantId = parseArg(merchantIdStr, Long.class);
-        if (!checkLogin.checkLogin(req.getParameter("token"), operaterIdStr))
+        if (!checkLogin.checkLogin(getArg.apply(req,"token"), operaterIdStr))
             return new RetMessage<>(RetCodeEnum.fail, "not login !", null).toJson();
         String result = null;
         try {
@@ -203,13 +207,15 @@ public class MerchantManageController {
         String linkManPhone = getArg.apply(req, "linkManPhone");
         String serviceTel = getArg.apply(req, "serviceTel");
         String email = getArg.apply(req, "email");
+        String registeraddress=getArg.apply(req,"registeraddress");
+        String minuteRegisterAddress=getArg.apply(req,"minuteRegisterAddress");
         String operaterIdStr = getArg.apply(req, "operaterId");
         String merchantIdStr = getArg.apply(req, "merchantId");
         Long operaterId = parseArg(operaterIdStr, Long.class);
         Long merchantId = parseArg(merchantIdStr, Long.class);
         return merchantService
                 .modifyMerchantInfo(merchantName, serveExplain, workAddress, minuteWorkAddress, charterCode,
-                        oraganizingCode, principal, linkMan, linkManPhone, serviceTel, email, operaterId, merchantId)
+                        oraganizingCode, principal, linkMan, linkManPhone, serviceTel, email, operaterId, merchantId,registeraddress,minuteRegisterAddress)
                 .toJson();
     }
 
@@ -437,8 +443,9 @@ public class MerchantManageController {
         String pageSizeStr = getArg.apply(req, "pageSize");
         Integer pageNum = parseArg(pageNumStr, Integer.class);
         Integer pageSize = parseArg(pageSizeStr, Integer.class);
-        String shopName = getArg.apply(req, "shopName");
-        return accountService.merchantQueryAccounts(phone, shopName, type, status, pageNum, pageSize, operaterId)
+        String shopIdStr = getArg.apply(req, "shopId");
+        Long shopId=parseArg(statusStr,Long.class);
+        return accountService.merchantQueryAccounts(phone, shopId, type, status, pageNum, pageSize, operaterId)
                 .toJson();
     }
 
@@ -525,11 +532,36 @@ public class MerchantManageController {
         Long operaterId = parseArg(operaterIdStr, Long.class);
         Long code = parseArg(codeStr, Long.class);
         if (codeId == null)
-            return codeService.couponCodeInfo(code, null, operaterId).toJson();
+            return codeService.couponCodeInfo(null, code, operaterId).toJson();
         else
             return codeService.couponCodeInfo(codeId, operaterId).toJson();
     }
-
+//    @SetUtf8
+//    @LoginCheck
+//    @ResponseBody
+//    @RequestMapping (value = "queryCodes", produces = "application/json;charset=utf-8")
+//    public String queryCodes(HttpServletRequest req, HttpServletResponse res) {
+//        String timeStart = getArg.apply(req, "timeStart");
+//        String timeEnd = getArg.apply(req, "timeStop");
+//        String merchantName = getArg.apply(req, "merchantName");
+//        String commodityName = getArg.apply(req, "commodityName");
+//
+//        String codeStr = getArg.apply(req, "code");
+//        String codeIdStr = getArg.apply(req, "codeId");
+//        String pageNumStr = getArg.apply(req, "pageNum");
+//        String pageSizeStr = getArg.apply(req, "pageSize");
+//        String operaterIdStr = getArg.apply(req, "operaterId");
+//
+//        Long code = parseArg(codeStr, Long.class);
+//        Long codeId = parseArg(codeIdStr, Long.class);
+//        Long operaterId = parseArg(operaterIdStr, Long.class);
+//        Long commodityId= (Long) getArgDir.apply(getArg.apply(req,"commodity_id"),Long.class);
+//        Integer pageNum = parseArg(pageNumStr, Integer.class);
+//        Integer pageSize = parseArg(pageSizeStr, Integer.class);
+//
+//        return codeService.queryCodes(timeStart, timeEnd, merchantName, commodityName, code, codeId, commodityId, pageNum, pageSize,
+//                                      operaterId).toJson();
+//    }
     @SetUtf8
     @LoginCheck
     @ResponseBody
@@ -594,6 +626,7 @@ public class MerchantManageController {
         String operaterIdStr = getArg.apply(req, "operaterId");
         Long recordId = parseArg(recordIdStr, Long.class);
         Long operaterId = parseArg(operaterIdStr, Long.class);
+
         return clearService.queryRecordInfo(recordId, operaterId).toJson();
     }
 
@@ -717,7 +750,6 @@ public class MerchantManageController {
         return verificationRecordService.queryVerificationRecordInfo(recordId, operaterId).toJson();
     }
     @SetUtf8
-    @LoginCheck
     @RequestMapping (value = "downloadExcelTemplate")
     public void downloadExcelTemplate(HttpServletRequest req, HttpServletResponse res) {
         String operaterIdStr = getArg.apply(req, "operaterId");
@@ -757,11 +789,11 @@ public class MerchantManageController {
         String commodityTypeStr = getArg.apply(req, "commodityType");
         String commodityStatusStr = getArg.apply(req, "commodityStatus");
         String operaterIdStr = getArg.apply(req, "operaterId");
-
+        Long commodityId= (Long) getArgDir.apply(getArg.apply(req,"commodity_id"),Long.class);
         CommodityType commodityType = CommodityType.getType(commodityTypeStr);
         CommodityStatus commodityStatus = CommodityStatus.getType(commodityStatusStr);
         Long operaterId = toLongArg.apply(operaterIdStr);
-        File file = commodityService.merchantQueryCommoditiesExport(commodityName, commodityType, commodityStatus, null, operaterId).getDetail();
+        File file = commodityService.merchantQueryCommoditiesExport(commodityName, commodityType, commodityStatus, commodityId, operaterId).getDetail();
         return FileAssit.exportTest(file, res);
 //        FileAssit.export(file,res);
     }
@@ -1036,6 +1068,67 @@ public class MerchantManageController {
         String operaterIdStr = getArg.apply(req, "operaterId");
         Long operaterId = parseArg(operaterIdStr, Long.class);
         return shopService.queruAllShopIds(operaterId).toJson();
+    }
+
+    @SetUtf8
+    @LoginCheck
+    @ResponseBody
+    @RequestMapping (value = "modifyCommodity", produces = "application/json;charset=utf-8")
+    public String modifyCommodity(HttpServletRequest req, HttpServletResponse res) {
+        String facePriceStr = getArg.apply(req, "facePrice");
+        String costPriceStr = getArg.apply(req, "costPrice");
+        String sellPriceStr = getArg.apply(req, "sellPrice");
+        String lifeTimeStr = getArg.apply(req, "lifeTime");
+        String commodityIdStr = getArg.apply(req, "commodityId");
+        String operaterIdStr = getArg.apply(req, "operaterId");
+        String useDetail = getArg.apply(req, "useDestription");
+
+        BigDecimal facePrice = parseArg(facePriceStr, BigDecimal.class);
+        BigDecimal costPrice = parseArg(costPriceStr, BigDecimal.class);
+        BigDecimal sellPrice = parseArg(sellPriceStr, BigDecimal.class);
+        Integer lifeTime = parseArg(lifeTimeStr, Integer.class);
+        Long commodityId = parseArg(commodityIdStr, Long.class);
+        Long operaterId = parseArg(operaterIdStr, Long.class);
+
+        return commodityService.modifyCommodity(costPrice, facePrice, sellPrice, lifeTime, useDetail, commodityId, operaterId).toJson();
+    }
+
+    @SetUtf8
+    @LoginCheck
+    @ResponseBody
+    @RequestMapping (value = "addCommodity", produces = "application/json;charset=utf-8")
+    public String addCommodity(HttpServletRequest req, HttpServletResponse res) {
+        String commodityName = getArg.apply(req, "commodityName");
+        String commodityTypeStr = getArg.apply(req, "commodityType");
+        String facePriceStr = getArg.apply(req, "facePrice");
+        String costPriceStr = getArg.apply(req, "costPrice");
+        String sellPriceStr = getArg.apply(req, "sellPrice");
+        String lifeTimeStr = getArg.apply(req, "lifeTime");
+        String merchantNameStr = getArg.apply(req, "merchantName");
+        String merchantIdStr = getArg.apply(req, "merchantId");
+        String operaterIdStr = getArg.apply(req, "operaterId");
+        String useDestription = getArg.apply(req, "useDestription");
+
+        CommodityType commodityType = CommodityType.getType(commodityTypeStr);
+        BigDecimal facePrice = parseArg(facePriceStr, BigDecimal.class);
+        BigDecimal costPrice = parseArg(costPriceStr, BigDecimal.class);
+        BigDecimal sellPrice = parseArg(sellPriceStr, BigDecimal.class);
+        Integer lifeTime = parseArg(lifeTimeStr, Integer.class);
+        Long merchantId = parseArg(merchantIdStr, Long.class);
+        Long operaterId = parseArg(operaterIdStr, Long.class);
+
+        return commodityService.addCommodity(commodityName, commodityType, facePrice, costPrice, sellPrice, lifeTime, merchantNameStr, useDestription, null, operaterId).toJson();
+    }
+    @SetUtf8
+    @LoginCheck
+    @ResponseBody
+    @RequestMapping (value = "delCommodity", produces = "application/json;charset=utf-8")
+    public String delCommodity(HttpServletRequest req, HttpServletResponse res) {
+        String commodityIdStr = getArg.apply(req, "commodityId");
+        String operaterIdStr = getArg.apply(req, "operaterId");
+        Long commodityId = parseArg(commodityIdStr, Long.class);
+        Long operaterId = parseArg(operaterIdStr, Long.class);
+        return commodityService.delCommodity(commodityId, operaterId).toJson();
     }
 
 }

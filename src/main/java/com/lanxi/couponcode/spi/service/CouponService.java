@@ -19,6 +19,7 @@ public interface CouponService {
                                   String commodityName,
                                   Long code,
                                   Long codeId,
+                                  Long commodityId,
                                   @HiddenArg Integer pageNum,
                                   @HiddenArg Integer pageSize,
                                   @HiddenArg Long operaterId
@@ -30,6 +31,7 @@ public interface CouponService {
                                       String commodityName,
                                       Long code,
                                       Long codeId,
+                                      Long commodityId,
                                       @HiddenArg Long operaterId);
 
     RetMessage<Boolean> destroyCode(@HiddenArg Long codeId,

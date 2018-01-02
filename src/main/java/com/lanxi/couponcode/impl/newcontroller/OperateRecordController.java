@@ -3,12 +3,15 @@ package com.lanxi.couponcode.impl.newcontroller;
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.plugins.Page;
 import com.lanxi.couponcode.impl.entity.Account;
+import com.lanxi.couponcode.impl.entity.CouponCode;
 import com.lanxi.couponcode.impl.entity.OperateRecord;
 import com.lanxi.couponcode.impl.newservice.AccountService;
 import com.lanxi.couponcode.impl.newservice.OperateRecordService;
 import com.lanxi.couponcode.impl.newservice.RedisEnhancedService;
 import com.lanxi.couponcode.impl.newservice.RedisService;
+import com.lanxi.couponcode.spi.assist.FillAssist;
 import com.lanxi.couponcode.spi.assist.RetMessage;
+import com.lanxi.couponcode.spi.config.HiddenMap;
 import com.lanxi.couponcode.spi.consts.annotations.CheckArg;
 import com.lanxi.couponcode.spi.consts.annotations.EasyLog;
 import com.lanxi.couponcode.spi.consts.enums.AccountType;
@@ -88,6 +91,7 @@ public class OperateRecordController implements com.lanxi.couponcode.spi.service
         if (phone != null)
             wrapper.like("phone", phone);
         List<OperateRecord> list = recordService.queryRecords(wrapper, page);
+        FillAssist.returnDeal.accept(HiddenMap.ADMIN_OPERATE,list);
         //-----------------------------------------------------------------返回--------------------------------------------------------------
         //需要分页信息
         Map<String, Object> map = new HashMap<>();
@@ -143,6 +147,7 @@ public class OperateRecordController implements com.lanxi.couponcode.spi.service
             wrapper.like("phone", phone);
         wrapper.eq("merchant_id", account.getMerchantId());
         List<OperateRecord> list = recordService.queryRecords(wrapper, page);
+        FillAssist.returnDeal.accept(FillAssist.getMap.apply(AccountType.merchantManager,OperateRecord.class), list);
         //-----------------------------------------------------------------返回--------------------------------------------------------------
         //需要分页信息
         Map<String, Object> map = new HashMap<>();
@@ -194,6 +199,7 @@ public class OperateRecordController implements com.lanxi.couponcode.spi.service
         wrapper.eq("merchant_id", account.getMerchantId());
         wrapper.eq("shop_id", account.getShopId());
         List<OperateRecord> list = recordService.queryRecords(wrapper, page);
+        FillAssist.returnDeal.accept(FillAssist.getMap.apply(AccountType.merchantManager,OperateRecord.class), list);
         //需要分页信息
         Map<String, Object> map = new HashMap<>();
         map.put("page", page);
@@ -211,6 +217,12 @@ public class OperateRecordController implements com.lanxi.couponcode.spi.service
         if (message != null)
             return message;
         OperateRecord record = recordService.queryRecordInfo(recordId);
+        if(isAdmin.test(account))
+            FillAssist.returnDeal.accept(FillAssist.getMap.apply(AccountType.admin,OperateRecord.class), record);
+        else if(isMerchantManager.test(account))
+            FillAssist.returnDeal.accept(FillAssist.getMap.apply(AccountType.merchantManager,OperateRecord.class), record);
+        else
+            FillAssist.returnDeal.accept(FillAssist.getMap.apply(AccountType.shopManager,CouponCode.class), record);
         if (record == null)
             return new RetMessage<>(RetCodeEnum.fail, "查询失败!", null);
         else

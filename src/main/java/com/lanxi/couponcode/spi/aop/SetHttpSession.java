@@ -1,5 +1,6 @@
 package com.lanxi.couponcode.spi.aop;
 
+import com.lanxi.couponcode.spi.assist.ArgAssist;
 import com.lanxi.couponcode.spi.assist.ReflectAssist;
 import com.lanxi.couponcode.spi.assist.RetMessage;
 import com.lanxi.couponcode.spi.consts.enums.RetCodeEnum;
@@ -41,10 +42,12 @@ public class SetHttpSession {
 
         RetMessage message = new RetMessage();
         T t = null;
+        HttpServletRequest req=null;
         try {
             for (Object each : args) {
                 if (each instanceof HttpServletRequest) {
                     HttpServletRequest request = (HttpServletRequest) each;
+                    req=request;
                     request.setCharacterEncoding("utf-8");
 
                 } else if (each instanceof HttpServletResponse) {
@@ -57,7 +60,9 @@ public class SetHttpSession {
                 }
             }
             LogFactory.debug(clazz, "set  class:[" + clazz.getName() + "]method:[" + method.getName() + "] charset utf-8 !");
-            return (T) joinPoint.proceed(args);
+            T result= (T) joinPoint.proceed(args);
+            ArgAssist.argCache.remove(req+"");
+            return result;
         } catch (Throwable throwable) {
             LogFactory.error(this, "exception occurred in [" + this.getClass().getName() + "] [applySetReqToControllerService] when invoke class:[" + clazz.getName() + "],method:[" + method.getName() + "],args:[" + (args == null ? null : Arrays.asList(args)) + "]");
             message.setAll(RetCodeEnum.error, "设置消息头时发生异常!", null);

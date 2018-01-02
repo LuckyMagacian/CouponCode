@@ -30,7 +30,7 @@ public interface FileAssit {
             out.flush();
             return true;
         } finally {
-            Optional.of(fin).ifPresent(e -> {
+            Optional.ofNullable(fin).ifPresent(e -> {
                 try {
                     e.close();
                 } catch (IOException e1) {

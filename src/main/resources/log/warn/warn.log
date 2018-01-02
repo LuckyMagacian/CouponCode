@@ -1,24 +1,80 @@
-2017-12-22 09:11:11,832 WARN [com.alibaba.dubbo.remoting.transport.AbstractServer] - < [DUBBO] All clients has discontected from /192.168.17.62:20660. You can graceful shutdown now., dubbo version: 2.5.7, current host: 192.168.17.62>
-2017-12-22 09:11:12,088 WARN [com.alibaba.dubbo.remoting.transport.netty.NettyServer] - < [DUBBO] org/jboss/netty/util/internal/ExecutorUtil, dubbo version: 2.5.7, current host: 192.168.17.62>
-java.lang.NoClassDefFoundError: org/jboss/netty/util/internal/ExecutorUtil
-	at org.jboss.netty.channel.socket.nio.NioServerSocketChannelFactory.releaseExternalResources(NioServerSocketChannelFactory.java:146)
-	at org.jboss.netty.bootstrap.Bootstrap.releaseExternalResources(Bootstrap.java:324)
-	at com.alibaba.dubbo.remoting.transport.netty.NettyServer.doClose(NettyServer.java:124)
-	at com.alibaba.dubbo.remoting.transport.AbstractServer.close(AbstractServer.java:153)
-	at com.alibaba.dubbo.remoting.transport.AbstractServer.close(AbstractServer.java:161)
-	at com.alibaba.dubbo.remoting.exchange.support.header.HeaderExchangeServer.close(HeaderExchangeServer.java:118)
-	at com.alibaba.dubbo.rpc.protocol.dubbo.DubboProtocol.destroy(DubboProtocol.java:382)
-	at com.alibaba.dubbo.rpc.protocol.ProtocolListenerWrapper.destroy(ProtocolListenerWrapper.java:72)
-	at com.alibaba.dubbo.rpc.protocol.ProtocolFilterWrapper.destroy(ProtocolFilterWrapper.java:105)
-	at com.alibaba.dubbo.config.ProtocolConfig.destroyAll(ProtocolConfig.java:153)
-	at com.alibaba.dubbo.config.AbstractConfig$1.run(AbstractConfig.java:82)
+2018-01-02 01:32:51,689 WARN [com.alibaba.dubbo.remoting.transport.AbstractClient] - < [DUBBO] client reconnect to 192.168.17.154:20880 find error . url: dubbo://192.168.17.154:20880/com.lanxi.couponcode.spi.service.AccountService?anyhost=true&application=coupon-code-all&check=false&codec=dubbo&dubbo=2.5.7&generic=false&heartbeat=60000&interface=com.lanxi.couponcode.spi.service.AccountService&methods=unfreezeAccount,queryAccounts,queryShopAccounts,adminAddAccount,shopAddAccount,merchantQueryAccounts,freezeAccount,queryAccountInfo,queryAllAccount,delAccount,addAccount,merchantAddAccount&pid=208264&register.ip=192.168.17.62&remote.timestamp=1514205090534&serialization=java&side=consumer&timestamp=1514538499508, dubbo version: 2.5.7, current host: 192.168.17.62>
+com.alibaba.dubbo.remoting.RemotingException: client(url: dubbo://192.168.17.154:20880/com.lanxi.couponcode.spi.service.AccountService?anyhost=true&application=coupon-code-all&check=false&codec=dubbo&dubbo=2.5.7&generic=false&heartbeat=60000&interface=com.lanxi.couponcode.spi.service.AccountService&methods=unfreezeAccount,queryAccounts,queryShopAccounts,adminAddAccount,shopAddAccount,merchantQueryAccounts,freezeAccount,queryAccountInfo,queryAllAccount,delAccount,addAccount,merchantAddAccount&pid=208264&register.ip=192.168.17.62&remote.timestamp=1514205090534&serialization=java&side=consumer&timestamp=1514538499508) failed to connect to server /192.168.17.154:20880, error message is:connection timed out
+	at com.alibaba.dubbo.remoting.transport.netty.NettyClient.doConnect(NettyClient.java:124)
+	at com.alibaba.dubbo.remoting.transport.AbstractClient.connect(AbstractClient.java:268)
+	at com.alibaba.dubbo.remoting.transport.AbstractClient$1.run(AbstractClient.java:157)
+	at java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:511)
+	at java.util.concurrent.FutureTask.runAndReset(FutureTask.java:308)
+	at java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.access$301(ScheduledThreadPoolExecutor.java:180)
+	at java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.run(ScheduledThreadPoolExecutor.java:294)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1142)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:617)
 	at java.lang.Thread.run(Thread.java:745)
-Caused by: java.lang.ClassNotFoundException: Illegal access: this web application instance has been stopped already. Could not load [org.jboss.netty.util.internal.ExecutorUtil]. The following stack trace is thrown for debugging purposes as well as to attempt to terminate the thread which caused the illegal access.
-	at org.apache.catalina.loader.WebappClassLoaderBase.checkStateForClassLoading(WebappClassLoaderBase.java:1285)
-	at org.apache.catalina.loader.WebappClassLoaderBase.loadClass(WebappClassLoaderBase.java:1148)
-	at org.apache.catalina.loader.WebappClassLoaderBase.loadClass(WebappClassLoaderBase.java:1109)
-	... 12 more
-Caused by: java.lang.IllegalStateException: Illegal access: this web application instance has been stopped already. Could not load [org.jboss.netty.util.internal.ExecutorUtil]. The following stack trace is thrown for debugging purposes as well as to attempt to terminate the thread which caused the illegal access.
-	at org.apache.catalina.loader.WebappClassLoaderBase.checkStateForResourceLoading(WebappClassLoaderBase.java:1295)
-	at org.apache.catalina.loader.WebappClassLoaderBase.checkStateForClassLoading(WebappClassLoaderBase.java:1283)
-	... 14 more
+Caused by: java.net.ConnectException: connection timed out
+	at org.jboss.netty.channel.socket.nio.NioClientSocketPipelineSink$Boss.processConnectTimeout(NioClientSocketPipelineSink.java:371)
+	at org.jboss.netty.channel.socket.nio.NioClientSocketPipelineSink$Boss.run(NioClientSocketPipelineSink.java:283)
+	... 3 more
+2018-01-02 03:07:18,657 WARN [com.alibaba.dubbo.remoting.transport.AbstractClient] - < [DUBBO] client reconnect to 192.168.17.154:20880 find error . url: dubbo://192.168.17.154:20880/com.lanxi.couponcode.spi.service.AccountService?anyhost=true&application=coupon-code-all&check=false&codec=dubbo&dubbo=2.5.7&generic=false&heartbeat=60000&interface=com.lanxi.couponcode.spi.service.AccountService&methods=unfreezeAccount,queryAccounts,queryShopAccounts,adminAddAccount,shopAddAccount,merchantQueryAccounts,freezeAccount,queryAccountInfo,queryAllAccount,delAccount,addAccount,merchantAddAccount&pid=208264&register.ip=192.168.17.62&remote.timestamp=1514205090534&serialization=java&side=consumer&timestamp=1514538499508, dubbo version: 2.5.7, current host: 192.168.17.62>
+com.alibaba.dubbo.remoting.RemotingException: client(url: dubbo://192.168.17.154:20880/com.lanxi.couponcode.spi.service.AccountService?anyhost=true&application=coupon-code-all&check=false&codec=dubbo&dubbo=2.5.7&generic=false&heartbeat=60000&interface=com.lanxi.couponcode.spi.service.AccountService&methods=unfreezeAccount,queryAccounts,queryShopAccounts,adminAddAccount,shopAddAccount,merchantQueryAccounts,freezeAccount,queryAccountInfo,queryAllAccount,delAccount,addAccount,merchantAddAccount&pid=208264&register.ip=192.168.17.62&remote.timestamp=1514205090534&serialization=java&side=consumer&timestamp=1514538499508) failed to connect to server /192.168.17.154:20880, error message is:connection timed out
+	at com.alibaba.dubbo.remoting.transport.netty.NettyClient.doConnect(NettyClient.java:124)
+	at com.alibaba.dubbo.remoting.transport.AbstractClient.connect(AbstractClient.java:268)
+	at com.alibaba.dubbo.remoting.transport.AbstractClient$1.run(AbstractClient.java:157)
+	at java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:511)
+	at java.util.concurrent.FutureTask.runAndReset(FutureTask.java:308)
+	at java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.access$301(ScheduledThreadPoolExecutor.java:180)
+	at java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.run(ScheduledThreadPoolExecutor.java:294)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1142)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:617)
+	at java.lang.Thread.run(Thread.java:745)
+Caused by: java.net.ConnectException: connection timed out
+	at org.jboss.netty.channel.socket.nio.NioClientSocketPipelineSink$Boss.processConnectTimeout(NioClientSocketPipelineSink.java:371)
+	at org.jboss.netty.channel.socket.nio.NioClientSocketPipelineSink$Boss.run(NioClientSocketPipelineSink.java:283)
+	... 3 more
+2018-01-02 04:41:48,425 WARN [com.alibaba.dubbo.remoting.transport.AbstractClient] - < [DUBBO] client reconnect to 192.168.17.154:20880 find error . url: dubbo://192.168.17.154:20880/com.lanxi.couponcode.spi.service.AccountService?anyhost=true&application=coupon-code-all&check=false&codec=dubbo&dubbo=2.5.7&generic=false&heartbeat=60000&interface=com.lanxi.couponcode.spi.service.AccountService&methods=unfreezeAccount,queryAccounts,queryShopAccounts,adminAddAccount,shopAddAccount,merchantQueryAccounts,freezeAccount,queryAccountInfo,queryAllAccount,delAccount,addAccount,merchantAddAccount&pid=208264&register.ip=192.168.17.62&remote.timestamp=1514205090534&serialization=java&side=consumer&timestamp=1514538499508, dubbo version: 2.5.7, current host: 192.168.17.62>
+com.alibaba.dubbo.remoting.RemotingException: client(url: dubbo://192.168.17.154:20880/com.lanxi.couponcode.spi.service.AccountService?anyhost=true&application=coupon-code-all&check=false&codec=dubbo&dubbo=2.5.7&generic=false&heartbeat=60000&interface=com.lanxi.couponcode.spi.service.AccountService&methods=unfreezeAccount,queryAccounts,queryShopAccounts,adminAddAccount,shopAddAccount,merchantQueryAccounts,freezeAccount,queryAccountInfo,queryAllAccount,delAccount,addAccount,merchantAddAccount&pid=208264&register.ip=192.168.17.62&remote.timestamp=1514205090534&serialization=java&side=consumer&timestamp=1514538499508) failed to connect to server /192.168.17.154:20880, error message is:connection timed out
+	at com.alibaba.dubbo.remoting.transport.netty.NettyClient.doConnect(NettyClient.java:124)
+	at com.alibaba.dubbo.remoting.transport.AbstractClient.connect(AbstractClient.java:268)
+	at com.alibaba.dubbo.remoting.transport.AbstractClient$1.run(AbstractClient.java:157)
+	at java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:511)
+	at java.util.concurrent.FutureTask.runAndReset(FutureTask.java:308)
+	at java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.access$301(ScheduledThreadPoolExecutor.java:180)
+	at java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.run(ScheduledThreadPoolExecutor.java:294)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1142)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:617)
+	at java.lang.Thread.run(Thread.java:745)
+Caused by: java.net.ConnectException: connection timed out
+	at org.jboss.netty.channel.socket.nio.NioClientSocketPipelineSink$Boss.processConnectTimeout(NioClientSocketPipelineSink.java:371)
+	at org.jboss.netty.channel.socket.nio.NioClientSocketPipelineSink$Boss.run(NioClientSocketPipelineSink.java:283)
+	... 3 more
+2018-01-02 06:16:15,429 WARN [com.alibaba.dubbo.remoting.transport.AbstractClient] - < [DUBBO] client reconnect to 192.168.17.154:20880 find error . url: dubbo://192.168.17.154:20880/com.lanxi.couponcode.spi.service.AccountService?anyhost=true&application=coupon-code-all&check=false&codec=dubbo&dubbo=2.5.7&generic=false&heartbeat=60000&interface=com.lanxi.couponcode.spi.service.AccountService&methods=unfreezeAccount,queryAccounts,queryShopAccounts,adminAddAccount,shopAddAccount,merchantQueryAccounts,freezeAccount,queryAccountInfo,queryAllAccount,delAccount,addAccount,merchantAddAccount&pid=208264&register.ip=192.168.17.62&remote.timestamp=1514205090534&serialization=java&side=consumer&timestamp=1514538499508, dubbo version: 2.5.7, current host: 192.168.17.62>
+com.alibaba.dubbo.remoting.RemotingException: client(url: dubbo://192.168.17.154:20880/com.lanxi.couponcode.spi.service.AccountService?anyhost=true&application=coupon-code-all&check=false&codec=dubbo&dubbo=2.5.7&generic=false&heartbeat=60000&interface=com.lanxi.couponcode.spi.service.AccountService&methods=unfreezeAccount,queryAccounts,queryShopAccounts,adminAddAccount,shopAddAccount,merchantQueryAccounts,freezeAccount,queryAccountInfo,queryAllAccount,delAccount,addAccount,merchantAddAccount&pid=208264&register.ip=192.168.17.62&remote.timestamp=1514205090534&serialization=java&side=consumer&timestamp=1514538499508) failed to connect to server /192.168.17.154:20880, error message is:connection timed out
+	at com.alibaba.dubbo.remoting.transport.netty.NettyClient.doConnect(NettyClient.java:124)
+	at com.alibaba.dubbo.remoting.transport.AbstractClient.connect(AbstractClient.java:268)
+	at com.alibaba.dubbo.remoting.transport.AbstractClient$1.run(AbstractClient.java:157)
+	at java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:511)
+	at java.util.concurrent.FutureTask.runAndReset(FutureTask.java:308)
+	at java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.access$301(ScheduledThreadPoolExecutor.java:180)
+	at java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.run(ScheduledThreadPoolExecutor.java:294)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1142)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:617)
+	at java.lang.Thread.run(Thread.java:745)
+Caused by: java.net.ConnectException: connection timed out
+	at org.jboss.netty.channel.socket.nio.NioClientSocketPipelineSink$Boss.processConnectTimeout(NioClientSocketPipelineSink.java:371)
+	at org.jboss.netty.channel.socket.nio.NioClientSocketPipelineSink$Boss.run(NioClientSocketPipelineSink.java:283)
+	... 3 more
+2018-01-02 07:50:50,827 WARN [com.alibaba.dubbo.remoting.transport.AbstractClient] - < [DUBBO] client reconnect to 192.168.17.154:20880 find error . url: dubbo://192.168.17.154:20880/com.lanxi.couponcode.spi.service.AccountService?anyhost=true&application=coupon-code-all&check=false&codec=dubbo&dubbo=2.5.7&generic=false&heartbeat=60000&interface=com.lanxi.couponcode.spi.service.AccountService&methods=unfreezeAccount,queryAccounts,queryShopAccounts,adminAddAccount,shopAddAccount,merchantQueryAccounts,freezeAccount,queryAccountInfo,queryAllAccount,delAccount,addAccount,merchantAddAccount&pid=208264&register.ip=192.168.17.62&remote.timestamp=1514205090534&serialization=java&side=consumer&timestamp=1514538499508, dubbo version: 2.5.7, current host: 192.168.17.62>
+com.alibaba.dubbo.remoting.RemotingException: client(url: dubbo://192.168.17.154:20880/com.lanxi.couponcode.spi.service.AccountService?anyhost=true&application=coupon-code-all&check=false&codec=dubbo&dubbo=2.5.7&generic=false&heartbeat=60000&interface=com.lanxi.couponcode.spi.service.AccountService&methods=unfreezeAccount,queryAccounts,queryShopAccounts,adminAddAccount,shopAddAccount,merchantQueryAccounts,freezeAccount,queryAccountInfo,queryAllAccount,delAccount,addAccount,merchantAddAccount&pid=208264&register.ip=192.168.17.62&remote.timestamp=1514205090534&serialization=java&side=consumer&timestamp=1514538499508) failed to connect to server /192.168.17.154:20880, error message is:connection timed out
+	at com.alibaba.dubbo.remoting.transport.netty.NettyClient.doConnect(NettyClient.java:124)
+	at com.alibaba.dubbo.remoting.transport.AbstractClient.connect(AbstractClient.java:268)
+	at com.alibaba.dubbo.remoting.transport.AbstractClient$1.run(AbstractClient.java:157)
+	at java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:511)
+	at java.util.concurrent.FutureTask.runAndReset(FutureTask.java:308)
+	at java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.access$301(ScheduledThreadPoolExecutor.java:180)
+	at java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.run(ScheduledThreadPoolExecutor.java:294)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1142)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:617)
+	at java.lang.Thread.run(Thread.java:745)
+Caused by: java.net.ConnectException: connection timed out
+	at org.jboss.netty.channel.socket.nio.NioClientSocketPipelineSink$Boss.processConnectTimeout(NioClientSocketPipelineSink.java:371)
+	at org.jboss.netty.channel.socket.nio.NioClientSocketPipelineSink$Boss.run(NioClientSocketPipelineSink.java:283)
+	... 3 more

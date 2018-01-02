@@ -1,15 +1,15 @@
-<beans xmlns="http://www.springframework.org/schema/beans" 
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:context="http://www.springframework.org/schema/context"
-    xmlns:jdbc="http://www.springframework.org/schema/jdbc"
-    xmlns:jee="http://www.springframework.org/schema/jee"
-    xmlns:tx="http://www.springframework.org/schema/tx"
-    xmlns:aop="http://www.springframework.org/schema/aop"
-    xmlns:mvc="http://www.springframework.org/schema/mvc"
-    xmlns:util="http://www.springframework.org/schema/util"
-    xmlns:jpa="http://www.springframework.org/schema/data/jpa"
-    xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
-    xsi:schemaLocation="
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:jdbc="http://www.springframework.org/schema/jdbc"
+       xmlns:jee="http://www.springframework.org/schema/jee"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xmlns:jpa="http://www.springframework.org/schema/data/jpa"
+       xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
+       xsi:schemaLocation="
         http://www.springframework.org/schema/beans
         http://www.springframework.org/schema/beans/spring-beans-4.3.xsd
         http://www.springframework.org/schema/context
@@ -30,42 +30,69 @@
         http://www.springframework.org/schema/data/jpa/spring-jpa-1.8.xsd
         http://code.alibabatech.com/schema/dubbo
         http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
-     <!-- dubbo 服务配置 -->
+    <!-- dubbo 服务配置 -->
     <dubbo:application name="coupon-code-all"></dubbo:application>
     <!-- 测试注册中心 -->
     <dubbo:registry address="zookeeper://192.168.17.154:2181" id="zk"></dubbo:registry>
-    <!--<dubbo:registry address="redis://192.168.17.154:6379" id="rs"></dubbo:registry>-->
-    <!-- 生产注册中心    
+    <!-- 生产注册中心
     <dubbo:registry address="zookeeper://10.23.73.28:2181"></dubbo:registry>
     -->
     <dubbo:protocol name="dubbo" port="20770" serialization="java"></dubbo:protocol>
     <!-- 蓝喜短信平台服务 -->
-    <dubbo:reference interface="com.lanxi.common.interfaces.SmsSendServiceInterface" id="SmsService" check="false" registry="zk"></dubbo:reference>
-    <dubbo:reference interface="com.lanxi.common.interfaces.RedisCacheServiceInterface" id="redisServiceOld" check="false" registry="zk"></dubbo:reference>
+    <dubbo:reference interface="com.lanxi.common.interfaces.SmsSendServiceInterface" id="SmsService" check="false"
+                     registry="zk"></dubbo:reference>
+    <dubbo:reference interface="com.lanxi.common.interfaces.RedisCacheServiceInterface" id="redisServiceOld"
+                     check="false" registry="zk"></dubbo:reference>
 
     <!-- 项目业务部分-->
-    <dubbo:service interface="com.lanxi.couponcode.spi.service.AccountService" ref="accountControllerService" registry="zk"></dubbo:service>
-    <dubbo:service interface="com.lanxi.couponcode.spi.service.CouponService" ref="codeControllerService" registry="zk"></dubbo:service>
-    <dubbo:service interface="com.lanxi.couponcode.spi.service.ClearService" ref="clearControllerService" registry="zk"></dubbo:service>
-    <dubbo:service interface="com.lanxi.couponcode.spi.service.OperateRecordService" ref="operateRecordControllerService" registry="zk"></dubbo:service>
-    <dubbo:service interface="com.lanxi.couponcode.spi.service.RequestService" ref="requestControllerService" registry="zk"></dubbo:service>
-    <dubbo:service interface="com.lanxi.couponcode.spi.service.VerificationRecordService" ref="verificationRecordControllerService" registry="zk"></dubbo:service>
-    <dubbo:service interface="com.lanxi.couponcode.spi.service.MerchantService" ref="merchantControllerService" registry="zk"></dubbo:service>
-    <dubbo:service interface="com.lanxi.couponcode.spi.service.ShopService" ref="shopControllerService" registry="zk"></dubbo:service>
-    <dubbo:service interface="com.lanxi.couponcode.spi.service.LoginService" ref="loginControllerService" registry="zk"></dubbo:service>
-    <dubbo:service interface="com.lanxi.couponcode.spi.service.OrderService" ref="orderControllerService" registry="zk"></dubbo:service>
-    <dubbo:service interface="com.lanxi.couponcode.spi.service.CommodityService" ref="commodityControllerService" registry="zk"></dubbo:service>
-    
-    
-    <dubbo:reference interface="com.lanxi.couponcode.spi.service.AccountService" id="accountControllerServiceRef" check="false" registry="zk"></dubbo:reference>
-    <dubbo:reference interface="com.lanxi.couponcode.spi.service.CouponService" id="codeControllerServiceRef" check="false" registry="zk"></dubbo:reference>
-    <dubbo:reference interface="com.lanxi.couponcode.spi.service.ClearService" id="clearControllerServiceRef" check="false" registry="zk"></dubbo:reference>
-    <dubbo:reference interface="com.lanxi.couponcode.spi.service.OperateRecordService" id="operateRecordControllerServiceRef" check="false" registry="zk"></dubbo:reference>
-    <dubbo:reference interface="com.lanxi.couponcode.spi.service.RequestService" id="requestControllerServiceRef" check="false" registry="zk"></dubbo:reference>
-    <dubbo:reference interface="com.lanxi.couponcode.spi.service.VerificationRecordService" id="verificationRecordControllerServiceRef" check="false" registry="zk"></dubbo:reference>
-    <dubbo:reference interface="com.lanxi.couponcode.spi.service.MerchantService" id="merchantControllerServiceRef" check="false" registry="zk"></dubbo:reference>
-    <dubbo:reference interface="com.lanxi.couponcode.spi.service.ShopService" id="shopControllerServiceRef" check="false" registry="zk"></dubbo:reference>
-    <dubbo:reference interface="com.lanxi.couponcode.spi.service.LoginService" id="loginControllerServiceRef" check="false" registry="zk"></dubbo:reference>
-    <dubbo:reference interface="com.lanxi.couponcode.spi.service.OrderService" id="orderControllerServiceRef" check="false" registry="zk"></dubbo:reference>
-    <dubbo:reference interface="com.lanxi.couponcode.spi.service.CommodityService" id="commodityControllerServiceRef" check="false" registry="zk"></dubbo:reference>
+    <dubbo:service interface="com.lanxi.couponcode.spi.service.AccountService" ref="accountControllerService"
+                   registry="zk"></dubbo:service>
+    <dubbo:service interface="com.lanxi.couponcode.spi.service.CouponService" ref="codeControllerService"
+                   registry="zk"></dubbo:service>
+    <dubbo:service interface="com.lanxi.couponcode.spi.service.ClearService" ref="clearControllerService"
+                   registry="zk"></dubbo:service>
+    <dubbo:service interface="com.lanxi.couponcode.spi.service.OperateRecordService"
+                   ref="operateRecordControllerService" registry="zk"></dubbo:service>
+    <dubbo:service interface="com.lanxi.couponcode.spi.service.RequestService" ref="requestControllerService"
+                   registry="zk"></dubbo:service>
+    <dubbo:service interface="com.lanxi.couponcode.spi.service.VerificationRecordService"
+                   ref="verificationRecordControllerService" registry="zk"></dubbo:service>
+    <dubbo:service interface="com.lanxi.couponcode.spi.service.MerchantService" ref="merchantControllerService"
+                   registry="zk"></dubbo:service>
+    <dubbo:service interface="com.lanxi.couponcode.spi.service.ShopService" ref="shopControllerService"
+                   registry="zk"></dubbo:service>
+    <dubbo:service interface="com.lanxi.couponcode.spi.service.LoginService" ref="loginControllerService"
+                   registry="zk"></dubbo:service>
+    <dubbo:service interface="com.lanxi.couponcode.spi.service.OrderService" ref="orderControllerService"
+                   registry="zk"></dubbo:service>
+    <dubbo:service interface="com.lanxi.couponcode.spi.service.CommodityService" ref="commodityControllerService"
+                   registry="zk"></dubbo:service>
+    <dubbo:service interface="com.lanxi.couponcode.spi.service.QuartzService" ref="quartzControllerService"
+                   registry="zk"></dubbo:service>
+
+
+    <dubbo:reference interface="com.lanxi.couponcode.spi.service.AccountService" id="accountControllerServiceRef"
+                     check="false" registry="zk"></dubbo:reference>
+    <dubbo:reference interface="com.lanxi.couponcode.spi.service.CouponService" id="codeControllerServiceRef"
+                     check="false" registry="zk"></dubbo:reference>
+    <dubbo:reference interface="com.lanxi.couponcode.spi.service.ClearService" id="clearControllerServiceRef"
+                     check="false" registry="zk"></dubbo:reference>
+    <dubbo:reference interface="com.lanxi.couponcode.spi.service.OperateRecordService"
+                     id="operateRecordControllerServiceRef" check="false" registry="zk"></dubbo:reference>
+    <dubbo:reference interface="com.lanxi.couponcode.spi.service.RequestService" id="requestControllerServiceRef"
+                     check="false" registry="zk"></dubbo:reference>
+    <dubbo:reference interface="com.lanxi.couponcode.spi.service.VerificationRecordService"
+                     id="verificationRecordControllerServiceRef" check="false" registry="zk"></dubbo:reference>
+    <dubbo:reference interface="com.lanxi.couponcode.spi.service.MerchantService" id="merchantControllerServiceRef"
+                     check="false" registry="zk"></dubbo:reference>
+    <dubbo:reference interface="com.lanxi.couponcode.spi.service.ShopService" id="shopControllerServiceRef"
+                     check="false" registry="zk"></dubbo:reference>
+    <dubbo:reference interface="com.lanxi.couponcode.spi.service.LoginService" id="loginControllerServiceRef"
+                     check="false" registry="zk"></dubbo:reference>
+    <dubbo:reference interface="com.lanxi.couponcode.spi.service.OrderService" id="orderControllerServiceRef"
+                     check="false" registry="zk"></dubbo:reference>
+    <dubbo:reference interface="com.lanxi.couponcode.spi.service.CommodityService" id="commodityControllerServiceRef"
+                     check="false" registry="zk"></dubbo:reference>
+    <dubbo:reference interface="com.lanxi.couponcode.spi.service.QuartzService" id="quartzControllerServiceRef"
+                     check="false" registry="zk"></dubbo:reference>
 </beans>

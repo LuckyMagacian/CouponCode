@@ -38,64 +38,17 @@ public interface ToJson {
     default String toJson() {
         return toJson(this);
     }
+    default String toJson(Collection<String> c){
+        return toJson(this,c);
+    }
 
     default JSON toJsonObject() {
         return toJsonObject(this);
     }
+    default JSON toJsonObject(Collection<String> c){
+        return toJsonObject(this,c);
+    }
 
-//    static JSONObject toJsonObject2(Object obj){
-//        if(obj==null)
-//            return null;
-//        if (obj instanceof ToJson) {
-//            return ((ToJson) obj).toJsonObject();
-//        } else if (obj instanceof Map) {
-//            JSONObject jobj = new JSONObject();
-//            ((Map) obj).entrySet().stream().forEach(e -> {
-//                Map.Entry entry = (Map.Entry) e;
-//                Object key = entry.getKey();
-//                Object value = entry.getValue();
-//                key = jsonDeal.apply(key);
-//                value = jsonDeal.apply(value);
-//                jobj.put(key.toString(), value);
-//            });
-//            return jobj;
-//        } else {
-//            return JSONObject.parseObject(JSON.toJSONString(obj));
-//        }
-//    }
-
-//    static JSONObject toJsonObject(Object obj){
-//        return objToJsonObject(obj);
-//        Field[] fields = obj.getClass().getDeclaredFields();
-//        JSONObject jobj = new JSONObject(new LinkedHashMap<>());
-//        Arrays  .asList(fields)
-//                .stream()
-//                .sorted(Comparator.comparing(Field::getName))
-//                .filter(e -> !Modifier.isStatic(e.getModifiers()))
-//                .forEach(e -> {
-//                    try {
-//                        e.setAccessible(true);
-//                        String name = e.getName();
-//                        Object value = e.get(obj);
-//                        if(value==null)
-//                            return ;
-//                        if (value instanceof Map) {
-//                            jobj.put(name, toJsonObject(value));
-//                        } else if (value instanceof Collection) {
-//                            jobj.put(name, toJsonArray(value));
-//                        } else if (value instanceof Number || value instanceof Character || value.getClass().isEnum() || value instanceof Boolean) {
-//                            jobj.put(name, value.toString());
-//                        } else if (value instanceof CharSequence) {
-//                            jobj.put(name, value);
-//                        } else {
-//                            jobj.put(name, toJsonObject(value));
-//                        }
-//                    } catch (IllegalAccessException e1) {
-//                        e1.printStackTrace();
-//                    }
-//                });
-//        return jobj;
-//    }
 
     static JSONArray collectionToJsonArray(Collection collection) {
         if (collection == null)
@@ -108,12 +61,27 @@ public interface ToJson {
         return jsonArray;
     }
 
+    static JSONObject paginationToJsonObject(Pagination page) {
+        JSONObject jobj = new JSONObject(new LinkedHashMap<>());
+        jobj.put("total", page.getTotal());
+        jobj.put("size", page.getSize());
+        jobj.put("current", page.getCurrent());
+        jobj.put("pages", page.getPages());
+        return jobj;
+    }
+
     static JSONObject mapToJsonObject(Map map) {
+        return mapToJsonObject(map,null);
+    }
+    static JSONObject mapToJsonObject(Map map,Collection<String> c) {
         JSONObject jobj = new JSONObject();
-        map.entrySet().stream().forEach(e -> {
+        map.entrySet()
+           .stream()
+           .filter(e->c==null||c.contains(((Map.Entry) e).getKey().toString()))
+           .forEach(e -> {
             Map.Entry entry = (Map.Entry) e;
-            Object key = entry.getKey();
-            Object value = entry.getValue();
+            Object    key   = entry.getKey();
+            Object    value = entry.getValue();
             if (value == null)
                 return;
             key = jsonDeal.apply(key == null ? "null" : key);
@@ -124,71 +92,63 @@ public interface ToJson {
     }
 
     static JSONObject objToJsonObject(Object obj) {
-        Field[] fields = obj.getClass().getDeclaredFields();
-        JSONObject jobj = new JSONObject(new LinkedHashMap<>());
+        return objToJsonObject(obj,null);
+    }
+    static JSONObject objToJsonObject(Object obj,Collection<String> c) {
+        Field[]    fields = obj.getClass().getDeclaredFields();
+        JSONObject jobj   = new JSONObject(new LinkedHashMap<>());
         Arrays.asList(fields)
-                .stream()
-                .sorted(Comparator.comparing(Field::getName))
-                .filter(e -> !Modifier.isStatic(e.getModifiers()))
-                .forEach(e -> {
-                    try {
-                        e.setAccessible(true);
-                        String name = e.getName();
-                        Object value = e.get(obj);
-                        if (value == null)
-                            return;
-                        if (value instanceof Map) {
-                            jobj.put(name, mapToJsonObject((Map) value));
-                        } else if (value instanceof Collection) {
-                            jobj.put(name, collectionToJsonArray((Collection) value));
-                        } else if (value instanceof Number || value instanceof Character || value.getClass().isEnum() || value instanceof Boolean || value instanceof CharSequence) {
-                            jobj.put(name, value.toString());
-                        } else if (!value.getClass().getSuperclass().equals(Object.class)) {
-                            jobj.put(name, objToJsonObject(value));
-                        } else
-                            jobj.put(name, obj.toString());
-                    } catch (IllegalAccessException e1) {
-                        e1.printStackTrace();
-                    }
-                });
+              .stream()
+              .filter(e -> !Modifier.isStatic(e.getModifiers()))
+              .filter(e -> c==null||c.contains(e.getName()))
+              .sorted(Comparator.comparing(Field::getName))
+              .forEach(e -> {
+                  try {
+                      e.setAccessible(true);
+                      String name  = e.getName();
+                      Object value = e.get(obj);
+                      if (value == null)
+                          return;
+                      if (value instanceof Map) {
+                          jobj.put(name, mapToJsonObject((Map) value));
+                      } else if (value instanceof Collection) {
+                          jobj.put(name, collectionToJsonArray((Collection) value));
+                      } else if (value instanceof Number || value instanceof Character || value.getClass().isEnum() || value instanceof Boolean || value instanceof CharSequence) {
+                          jobj.put(name, value.toString());
+                      } else if (!value.getClass().getSuperclass().equals(Object.class)) {
+                          jobj.put(name, objToJsonObject(value));
+                      } else
+                          jobj.put(name, obj.toString());
+                  } catch (IllegalAccessException e1) {
+                      e1.printStackTrace();
+                  }
+              });
         return jobj;
     }
-
-    static JSONObject paginationToJsonObject(Pagination page) {
-        JSONObject jobj = new JSONObject(new LinkedHashMap<>());
-        jobj.put("total", page.getTotal());
-        jobj.put("size", page.getSize());
-        jobj.put("current", page.getCurrent());
-        jobj.put("pages", page.getPages());
-        return jobj;
-    }
-//    static JSONArray toJsonArray(Object obj) {
-//        if(obj==null)
-//            return null;
-//        if (obj instanceof Collection) {
-//            Collection collection = (Collection) obj;
-//            JSONArray jsonArray = new JSONArray();
-//            collection.stream().forEach(e -> jsonArray.add(jsonDeal.apply(e)));
-//            return jsonArray;
-//        }
-//        throw new IllegalArgumentException("method toJsonArray can only accept collection as arg !");
-//    }
 
     static JSON toJsonObject(Object obj) {
+        return toJsonObject(obj,null);
+    }
+    static JSON toJsonObject(Object obj,Collection<String> c){
         if (obj == null) {
             return new JSONObject(new LinkedHashMap<>());
         } else if (obj instanceof Collection) {
             return collectionToJsonArray((Collection) obj);
         } else if (obj instanceof Map) {
-            return mapToJsonObject((Map) obj);
+            return mapToJsonObject((Map) obj,c);
         } else if (obj instanceof Pagination) {
             return paginationToJsonObject((Pagination) obj);
         } else {
-            return objToJsonObject(obj);
+            return objToJsonObject(obj,c);
         }
     }
 
+
     static String toJson(Object obj) {
-        return toJsonObject(obj).toJSONString();
+        return toJson(obj,null);
     }
+    static String toJson(Object obj,Collection<String> c){
+        return toJsonObject(obj,c).toJSONString();
+    }
+
 }

@@ -21,7 +21,7 @@ public interface RequestService {
                                      RequestOperateType type,
                                      RequestStatus status,
                                      CommodityType commodityType,
-                                     @HiddenArg Long merchantId,
+                                     @HiddenArg Long commodityId,
                                      @HiddenArg Integer pageNum,
                                      @HiddenArg Integer pageSize,
                                      @HiddenArg Long operaterId);

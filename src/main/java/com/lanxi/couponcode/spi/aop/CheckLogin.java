@@ -1,6 +1,7 @@
 package com.lanxi.couponcode.spi.aop;
 
 import com.lanxi.common.interfaces.RedisCacheServiceInterface;
+import com.lanxi.couponcode.spi.assist.ArgAssist;
 import com.lanxi.couponcode.spi.assist.PredicateAssist;
 import com.lanxi.couponcode.spi.assist.RedisKeyAssist;
 import com.lanxi.couponcode.spi.assist.RetMessage;
@@ -44,10 +45,10 @@ public class CheckLogin {
                 HttpServletRequest req = (HttpServletRequest) Stream.of(args).filter(e -> e instanceof HttpServletRequest).findAny().orElse(null);
                 if (req == null)
                     throw new IllegalArgumentException("annotation @LoginCheck must apply on a method which with arg type HttpServletRequest");
-                String operaterIdStr = req.getParameter("operaterId");
+                String operaterIdStr = ArgAssist.getArg.apply(req,"operaterId");
                 if (operaterIdStr == null)
-                    operaterIdStr = req.getParameter("accountId");
-                String token = req.getParameter("token");
+                    operaterIdStr = ArgAssist.getArg.apply(req,"accountId");
+                String token = ArgAssist.getArg.apply(req,"token");
                 if (!PredicateAssist.isId.test(operaterIdStr)) {
                     message.setAll(RetCodeEnum.fail, "illegalargument operaterId [" + operaterIdStr + "]!", null);
                 } else if (token == null || token.isEmpty()) {

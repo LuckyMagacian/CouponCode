@@ -38,8 +38,8 @@ public class ShopController {
         String operaterIdStr = getArg.apply(req, "operaterId");
         String typeStr = getArg.apply(req, "type");
         Long operaterId = parseArg(operaterIdStr, Long.class);
-        AccountType type = AccountType.getType(typeStr);
-        return accountService.shopAddAccount(type, userName, phone, operaterId).toJson();
+//        AccountType type = AccountType.getType(typeStr) ;
+        return accountService.shopAddAccount(AccountType.shopEmployee, userName, phone, operaterId).toJson();
     }
 
     /* 门店管理员查询账户 */

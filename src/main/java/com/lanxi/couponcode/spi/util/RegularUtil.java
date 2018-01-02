@@ -21,7 +21,16 @@ public class RegularUtil {
         }
         return false;
     }
-
+    public static Boolean isEmail(String str){
+        if(str==null||str.length()==0)
+            return false;
+        Pattern pattern=Pattern.compile("^\\w+((-\\w+)|(\\.\\w+))*\\@[A-Za-z0-9]+((\\.|-)[A-Za-z0-9]+)*\\.[A-Za-z0-9]+$");
+        Matcher isEmail=pattern.matcher(str);
+        if (isEmail.matches())
+            return true;
+        else
+            return false;
+    }
     /**
      * 验证输入是否是数字
      *

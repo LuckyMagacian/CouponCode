@@ -1,5 +1,6 @@
 package com.lanxi.couponcode.view;
 
+import com.lanxi.couponcode.spi.assist.ArgAssist;
 import com.lanxi.couponcode.spi.assist.FileAssit;
 import com.lanxi.couponcode.spi.assist.RetMessage;
 import com.lanxi.couponcode.spi.consts.annotations.EasyLog;
@@ -79,12 +80,12 @@ public class AdminController {
         Long code = parseArg(codeStr, Long.class);
         Long codeId = parseArg(codeIdStr, Long.class);
         Long operaterId = parseArg(operaterIdStr, Long.class);
-
+        Long commodityId= (Long) getArgDir.apply(getArg.apply(req,"commodity_id"),Long.class);
         Integer pageNum = parseArg(pageNumStr, Integer.class);
         Integer pageSize = parseArg(pageSizeStr, Integer.class);
 
-        return codeService.queryCodes(timeStart, timeEnd, merchantName, commodityName, code, codeId, pageNum, pageSize,
-                operaterId).toJson();
+        return codeService.queryCodes(timeStart, timeEnd, merchantName, commodityName, code, codeId, commodityId, pageNum, pageSize,
+               operaterId).toJson();
     }
 
     @SetUtf8
@@ -251,6 +252,7 @@ public class AdminController {
         String pageNumStr = getArg.apply(req, "pageNum");
         String pageSizeStr = getArg.apply(req, "pageSize");
         String operaterIdStr = getArg.apply(req, "operaterId");
+        Long commodityId= (Long) getArgDir.apply(getArg.apply(req,"commodityId"),Long.class);
 
         RequestOperateType operateType = RequestOperateType.getType(typeStr);
         RequestStatus status = RequestStatus.getType(statusStr);
@@ -259,7 +261,7 @@ public class AdminController {
         Integer pageNum = parseArg(pageNumStr, Integer.class);
         Integer pageSize = parseArg(pageSizeStr, Integer.class);
         return requestService.queryRequests(timeStart, timeEnd, commodityName, merchantName, operateType,
-                status, commodityType, null, pageNum, pageSize, operaterId).toJson();
+                status, commodityType, commodityId, pageNum, pageSize, operaterId).toJson();
     }
 
     @SetUtf8
@@ -669,13 +671,13 @@ public class AdminController {
         String pageNumStr = getArg.apply(req, "pageNum");
         String pageSizeStr = getArg.apply(req, "pageSize");
         String operaterIdStr = getArg.apply(req, "operaterId");
-
+        Long commodityId= (Long) getArgDir.apply(getArg.apply(req,"commodityId"),Long.class);
         CommodityType commodityType = CommodityType.getType(commodityTypeStr);
         CommodityStatus commodityStatus = CommodityStatus.getType(commodityStatusStr);
         Integer pageNum = toIntArg.apply(pageNumStr);
         Integer pageSize = toIntArg.apply(pageSizeStr);
         Long operaterId = toLongArg.apply(operaterIdStr);
-        return commodityService.queryCommodities(merchantNameStr, commodityName, commodityType, commodityStatus, timeStart, timeStart, pageNum, pageSize, operaterId).toJson();
+        return commodityService.queryCommodities(merchantNameStr, commodityName, commodityType, commodityStatus, timeStart, timeStart,commodityId, pageNum, pageSize, operaterId).toJson();
     }
 
     @SetUtf8
@@ -690,11 +692,11 @@ public class AdminController {
         String timeStart = getArg.apply(req, "timeStart");
         String timeStop = getArg.apply(req, "timeStop");
         String operaterIdStr = getArg.apply(req, "operaterId");
-
+        Long commodityId= (Long) getArgDir.apply(getArg.apply(req,"commodityId"),Long.class);
         CommodityType commodityType = CommodityType.getType(commodityTypeStr);
         CommodityStatus commodityStatus = CommodityStatus.getType(commodityStatusStr);
         Long operaterId = toLongArg.apply(operaterIdStr);
-        File file = commodityService.queryCommoditiesExport(merchantNameStr, commodityName, commodityType, commodityStatus, timeStart, timeStart, operaterId).getDetail();
+        File file = commodityService.queryCommoditiesExport(merchantNameStr, commodityName, commodityType, commodityStatus, timeStart, timeStart, commodityId,operaterId).getDetail();
         return FileAssit.exportTest(file, res);
 //        FileAssit.export(file,res);
     }
@@ -855,12 +857,12 @@ public class AdminController {
         String codeStr = getArg.apply(req, "code");
         String codeIdStr = getArg.apply(req, "codeId");
         String operaterIdStr = getArg.apply(req, "operaterId");
-
+        Long commodityId= (Long) getArgDir.apply(getArg.apply(req,"commodity_id"),Long.class);
         Long code = parseArg(codeStr, Long.class);
         Long codeId = parseArg(codeIdStr, Long.class);
         Long operaterId = parseArg(operaterIdStr, Long.class);
 
-        RetMessage<File> retMessage = codeService.queryCodesExport(timeStart, timeEnd, merchantName, commodityName, code, codeId, operaterId);
+        RetMessage<File> retMessage = codeService.queryCodesExport(timeStart, timeEnd, merchantName, commodityName, code, codeId,commodityId, operaterId);
         return FileAssit.exportTest(retMessage.getDetail(), res);
 //        FileAssit.export(retMessage,res);
     }
@@ -1034,11 +1036,12 @@ public class AdminController {
 
     @RequestMapping (value = "queryOrganizingInstitutionBarCodePic", produces = "application/json;charset=utf-8")
     public void queryOrganizingInstitutionBarCodePic(HttpServletRequest req, HttpServletResponse res) {
-        String path = getArg.apply(req, "path");
+        String path= ArgAssist.getArg.apply(req,"path");
+//        String path = getArg.apply(req, "path");
         try {
             File file = merchantService.queryPic(path).getDetail();
             res.setContentType("image/jpeg");
-            res.setHeader("Content-Disposition", "attachment;fileName=" + URLEncoder.encode(file.getName(), "utf-8"));
+            res.setHeader("Content-Disposition", "inline;fileName=" + URLEncoder.encode(file.getName(), "utf-8"));
             if (file != null) {
                 InputStream is = new FileInputStream(file);
                 OutputStream os = res.getOutputStream();
@@ -1058,11 +1061,11 @@ public class AdminController {
 
     @RequestMapping (value = "queryBusinessLicensePic", produces = "application/json;charset=utf-8")
     public void queryBusinessLicensePic(HttpServletRequest req, HttpServletResponse res) {
-        String path = getArg.apply(req, "path");
+        String path= ArgAssist.getArg.apply(req,"path");
         try {
             File file = merchantService.queryPic(path).getDetail();
             res.setContentType("image/jpeg");
-            res.setHeader("Content-Disposition", "attachment;fileName=" + URLEncoder.encode(file.getName(), "utf-8"));
+            res.setHeader("Content-Disposition", "inline;fileName=" + URLEncoder.encode(file.getName(), "utf-8"));
             if (file != null) {
                 InputStream is = new FileInputStream(file);
                 OutputStream os = res.getOutputStream();
@@ -1086,7 +1089,7 @@ public class AdminController {
         try {
             File file = merchantService.queryPic(path).getDetail();
             res.setContentType("image/jpeg");
-            res.setHeader("Content-Disposition", "attachment;fileName=" + URLEncoder.encode(file.getName(), "utf-8"));
+            res.setHeader("Content-Disposition", "inline;fileName=" + URLEncoder.encode(file.getName(), "utf-8"));
             if (file != null) {
                 InputStream is = new FileInputStream(file);
                 OutputStream os = res.getOutputStream();

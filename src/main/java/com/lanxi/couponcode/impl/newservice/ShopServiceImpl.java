@@ -3,7 +3,9 @@ package com.lanxi.couponcode.impl.newservice;
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.plugins.Page;
 import com.baomidou.mybatisplus.toolkit.IdWorker;
+import com.lanxi.couponcode.impl.assist.ExcelAssist;
 import com.lanxi.couponcode.spi.assist.TimeAssist;
+import com.lanxi.couponcode.spi.config.HiddenMap;
 import com.lanxi.couponcode.spi.config.Path;
 import com.lanxi.couponcode.impl.entity.Shop;
 import com.lanxi.couponcode.spi.consts.annotations.EasyLog;
@@ -300,7 +302,7 @@ public class ShopServiceImpl implements ShopService {
             map.put("shopStatus", "门店状态");
             File file = new File("导出门店" + TimeAssist.getNow() + ".xls");
             OutputStream os = new FileOutputStream(file);
-            ExcelUtil.exportExcelFile(list, map, os);
+            ExcelUtil.exportExcelFile(ExcelAssist.toStringList(list, Shop.class, HiddenMap.getMerchantManagerFieldCN),os);
             os.close();
             return file;
         } catch (Exception e) {
@@ -341,7 +343,7 @@ public class ShopServiceImpl implements ShopService {
         try {
 			File file = new File(ShopServiceImpl.class.getClassLoader().
 					getResource("").getPath()+Path.excelTemplatePath.
-					replace("classpath:","")+"template.xls");
+					replace("classpath:","")+"template.xlsx");
             is = new FileInputStream(file);
 			file2 = new File(file.getName());
             os = new FileOutputStream(file2);

@@ -1,33 +1,45 @@
 package com.lanxi.couponcode.test;
 
+import com.alibaba.dubbo.common.utils.LogUtil;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.toolkit.IdWorker;
+import com.lanxi.couponcode.impl.assist.ExcelAssist;
 import com.lanxi.couponcode.impl.assist.PredicateAssist;
-import com.lanxi.couponcode.impl.entity.Account;
-import com.lanxi.couponcode.impl.entity.Commodity;
-import com.lanxi.couponcode.impl.entity.Merchant;
-import com.lanxi.couponcode.impl.entity.Shop;
+import com.lanxi.couponcode.impl.entity.*;
 import com.lanxi.couponcode.impl.newservice.MerchantServiceImpl;
 import com.lanxi.couponcode.spi.aop.AddLog;
 import com.lanxi.couponcode.spi.aop.AopOrder;
-import com.lanxi.couponcode.spi.assist.CheckAssist;
-import com.lanxi.couponcode.spi.assist.RedisKeyAssist;
-import com.lanxi.couponcode.spi.assist.RetMessage;
-import com.lanxi.couponcode.spi.assist.SerializeAssist;
+import com.lanxi.couponcode.spi.assist.*;
+import com.lanxi.couponcode.spi.config.ConstConfig;
+import com.lanxi.couponcode.spi.config.HiddenMap;
 import com.lanxi.couponcode.spi.config.Path;
+import com.lanxi.couponcode.spi.consts.enums.AccountType;
 import com.lanxi.couponcode.spi.consts.enums.RetCodeEnum;
 import com.lanxi.couponcode.spi.defaultInterfaces.ToJson;
+import com.lanxi.util.entity.LogFactory;
+import com.lanxi.util.utils.LoggerUtil;
+import com.lanxi.util.utils.RandomUtil;
 import com.lanxi.util.utils.SignUtil;
+import org.apache.ibatis.annotations.Arg;
 import org.junit.Test;
 import org.springframework.mock.web.MockHttpServletRequest;
+import org.springframework.mock.web.MockHttpServletResponse;
 
+import javax.crypto.Cipher;
+import javax.crypto.KeyGenerator;
+import javax.crypto.SecretKey;
+import javax.crypto.SecretKeyFactory;
+import javax.crypto.spec.DESKeySpec;
+import javax.crypto.spec.SecretKeySpec;
 import java.io.*;
 import java.lang.reflect.Array;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.net.URLDecoder;
+import java.security.NoSuchAlgorithmException;
+import java.security.SecureRandom;
+import java.util.*;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * Created by yangyuanjian on 2017/11/9.
@@ -46,9 +58,9 @@ public class TestOther {
     @Test
     public void test2() throws IOException {
         MockHttpServletRequest request = new MockHttpServletRequest();
-        InputStream is = request.getInputStream();
-        int temp = -1;
-        File file = new File("file.name");
+        InputStream            is      = request.getInputStream();
+        int                    temp    = -1;
+        File                   file    = new File("file.name");
         file.createNewFile();
         FileOutputStream fout = new FileOutputStream(file);
         while ((temp = is.read()) != -1) {
@@ -61,9 +73,9 @@ public class TestOther {
     @Test
     public void test3() {
         RetMessage<Boolean> m1 = new RetMessage<>(RetCodeEnum.success, "布尔", false);
-        RetMessage<String> m2 = new RetMessage<>(RetCodeEnum.success, "字符串", "true");
+        RetMessage<String>  m2 = new RetMessage<>(RetCodeEnum.success, "字符串", "true");
         RetMessage<Boolean> m3 = new RetMessage<>(RetCodeEnum.fail, "布尔null", null);
-        RetMessage<String> m4 = new RetMessage<>(RetCodeEnum.fail, "字符串null", null);
+        RetMessage<String>  m4 = new RetMessage<>(RetCodeEnum.fail, "字符串null", null);
 
         String s1 = m1.toJson();
         String s2 = m2.toJson();
@@ -84,7 +96,7 @@ public class TestOther {
 
     @Test
     public void test4() {
-        String pageNum = "123";
+        String pageNum  = "123";
         String pageSize = "2333";
 
         String time1 = "20161226";
@@ -101,7 +113,7 @@ public class TestOther {
 
     @Test
     public void test6() {
-        String str = "012346";
+        String       str  = "012346";
         List<String> list = new ArrayList<>();
         while (list.size() < 10)
             list.add(list.size() + "");
@@ -192,8 +204,8 @@ public class TestOther {
 
     @Test
     public void test17() {
-        Map<String, Object> map = new HashMap<>();
-        Merchant merchant = new Merchant();
+        Map<String, Object> map      = new HashMap<>();
+        Merchant            merchant = new Merchant();
         TestSpring.fillEntity.apply(merchant);
         merchant.setMerchantId(IdWorker.getId());
         map.put("token", "12346");
@@ -221,8 +233,70 @@ public class TestOther {
                 getPath() + Path.businessLicensePicPath.replace("classpath:", "");
         System.err.println(realPath);
     }
+
     @Test
-    public void test20(){
-        System.out.println(SignUtil.md5LowerCase("123456","utf-8"));
+    public void test20() {
+        System.out.println(SignUtil.md5LowerCase("123456", "utf-8"));
+    }
+
+    @Test
+    public void test21() {
+        List<String> list = new ArrayList<>();
+        list.add("merchantName");
+        list.add("merchantId");
+        Merchant merchant = new Merchant();
+        FillAssist.fillEntityFieldAll(merchant);
+        System.out.println(merchant.toJson(list));
+    }
+
+    @Test
+    public void test22() {
+        Map<String, Object> map = SignUtil.getKeyPair();
+        System.err.println(SignUtil.getPrivateKey(map));
+        System.out.println();
+        System.out.println(SignUtil.getPublicKey(map));
+    }
+
+    @Test
+    public void test23() {
+        String key  = "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAmSnPI2rg92DhLF6PnwHoq2wgeMfKXkhzv4psnFuN7rPN8hWqRzCatraUVpQlTWmNd+IkcpQgN/ZEsDkuixtrLqPeyylgTLmZu0M+hhbp+tPhI2cOdvqveIHI3/0ErXipc0OkAmX2Hl+uEcl53js3qULzuHzBVkhlD2CxgKCFCrrZuO2foicsXl1OdHt7ZC+xfFS+N0mCPdibwKqBU4l5ETS9VdqNzsnz3zhzhxzRAlNwMQ7UhMVi+3zGqHFMMGqRFMBxKMFTpFwmh5Eaqxp0kw2/S8pNnNsILj9aYF6IgVC3+g7Rk/mzhBXTimQa81+kr1fgcR3adOtqasTW0wX5kQIDAQAB";
+        String info = "U2FsdGVkX1/JqnDnxr0eZqV9frHC1aYe";
+        System.out.println(ArgAssist.argStrDe.apply(key, info));
+    }
+
+    @Test
+    public void test24() throws Exception {
+        LoggerUtil.setLogLevel(LoggerUtil.LogLevel.DEBUG);
+        LoggerUtil.init();
+        String desKeyCipher            = "SElhNYycy5pEbdbi2TZd5jlNz5rvBRGlllokrRlQ7adbN1ykgJSzeEyctrYIJJ8Dy4vBXNV7g5taDCfBp3tZDt0ZA%2FPgNTUNwE7i7Y6flSGbdVV1PBJQnA3%2FYUMjUOFmnq1SbHfGSCTRz4nvAKvbsmJfQJKkTq6XSUq%2BNeooD%2B7qNhMAikhsDkulYSoowjPHSV3lBmFA91nkhNFKn6PzgeAkebHxAJcyzmkDGKc8SHD1xtAReUbsZ%2BNL47rehFycZkTcwflKYcztlUFuaA76p35aM4jaTy7Ge1vRDgml%2BNloOhNm1KwqEjFvt9QxCDFVT24mWrtlMynjd3krDY50rg%3D%3D";
+        String argCipher="Cv6AZtQvyS3JgxuFNUUvPZh7dsCuCmYETZzgnr%2Fx2HSfntKWWn97Fv5y2Y1D9%2FrrBBZLxnzAFCcSx8WMcZFClA%3D%3D";
+    MockHttpServletRequest req=new MockHttpServletRequest();
+        req.addParameter("secret",desKeyCipher);
+        req.addParameter("args",argCipher);
+        System.out.println(ArgAssist.getArg.apply(req,"phone"));
+    }
+
+    @Test
+    public void test25() throws Exception {
+        String plainText="您好";
+        String key="abcdefgabcdefg12";
+        System.out.println(plainText);
+        String cipher=AesAssist.aesEncrypt(plainText,key);
+        System.out.println(cipher);
+        System.out.println(AesAssist.aesDecrypt(cipher,key));
+    }
+    @Test
+    public void test26(){
+        System.out.println(FillAssist.getMap.apply(AccountType.admin,Merchant.class));
+    }
+    @Test
+    public void test27(){
+        System.out.println(Stream.of(HiddenMap.class.getDeclaredFields()).filter(f->Map.class.isAssignableFrom(f.getType())).map(f->f.getClass().getName()).collect(Collectors.toList()));
+    }
+    @Test
+    public void test28() throws UnsupportedEncodingException {
+        String value="7fivtSDmyGHV9aaj1wxVYocLNR967tnbx1UBAnZK0s+/PXNb0P8odlg0oAUt8P2oHixqt9eX4/LbwNl8wpkHTA==";
+        System.out.println( SignUtil.rsaDe(
+                ConstConfig.priKey, SignUtil.base64De(value.getBytes("utf-8"))));
     }
 }
