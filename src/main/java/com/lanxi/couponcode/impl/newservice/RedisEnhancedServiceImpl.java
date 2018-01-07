@@ -4,6 +4,7 @@ import com.lanxi.couponcode.spi.assist.RetMessage;
 import com.lanxi.couponcode.spi.consts.annotations.EasyLog;
 import com.lanxi.couponcode.spi.consts.enums.LockResult;
 import com.lanxi.couponcode.spi.consts.enums.RetCodeEnum;
+import com.lanxi.couponcode.spi.service.RedisService;
 import com.lanxi.util.utils.LoggerUtil;
 import org.springframework.stereotype.Service;
 
@@ -20,7 +21,7 @@ import java.io.Serializable;
 @Service ("redisEnhancedService")
 @EasyLog (LoggerUtil.LogLevel.INFO)
 public class RedisEnhancedServiceImpl implements RedisEnhancedService {
-    @Resource
+    @Resource(name="redisService")
     private RedisService redisService;
 
     private LockResult doLockCommon(LockJob<Serializable> job, String key) {

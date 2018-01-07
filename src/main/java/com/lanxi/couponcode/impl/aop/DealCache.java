@@ -2,7 +2,7 @@ package com.lanxi.couponcode.impl.aop;
 
 import com.lanxi.couponcode.impl.newservice.CacheService;
 import com.lanxi.couponcode.impl.newservice.RedisEnhancedService;
-import com.lanxi.couponcode.impl.newservice.RedisService;
+import com.lanxi.couponcode.spi.service.RedisService;
 import com.lanxi.couponcode.spi.aop.AopJob;
 import com.lanxi.couponcode.spi.assist.RedisKeyAssist;
 import com.lanxi.couponcode.spi.consts.annotations.Cache;
@@ -30,7 +30,7 @@ import java.util.stream.Stream;
 public class DealCache {
     @Resource
     private CacheService cacheService;
-    @Resource
+    @Resource(name="redisService")
     private RedisService redisService;
     @Resource
     private RedisEnhancedService redisEnhancedService;

@@ -12,6 +12,7 @@ import com.lanxi.couponcode.spi.consts.annotations.CheckArg;
 import com.lanxi.couponcode.spi.consts.annotations.EasyLog;
 import com.lanxi.couponcode.spi.consts.enums.*;
 import com.lanxi.couponcode.spi.defaultInterfaces.ToJson;
+import com.lanxi.couponcode.spi.service.RedisService;
 import com.lanxi.util.entity.LogFactory;
 import com.lanxi.util.utils.LoggerUtil;
 import com.lanxi.util.utils.SignUtil;
@@ -34,15 +35,15 @@ import static com.lanxi.couponcode.impl.assist.PredicateAssist.notNull;
 @EasyLog (LoggerUtil.LogLevel.INFO)
 public class LoginController implements com.lanxi.couponcode.spi.service.LoginService {
     @Resource
-    private AccountService accountService;
+    private AccountService          accountService;
     @Resource
-    private RedisService redisService;
+    private RedisService            redisService;
     @Resource
-    private RedisEnhancedService redisEnhancedService;
+    private RedisEnhancedService    redisEnhancedService;
     @Resource
-    private ConfigService configService;
+    private ConfigService           configService;
     @Resource
-    private OperateRecordService operateRecordService;
+    private OperateRecordService    operateRecordService;
     @Resource
     private SmsSendServiceInterface sms;
 
@@ -56,10 +57,13 @@ public class LoginController implements com.lanxi.couponcode.spi.service.LoginSe
                 account2.setPhone(phone);
                 account = accountService.login(account2, validateCode);
                 if (account != null) {
-//                    if (AccountType.shopManager.equals(account.getAccountType()) ||
-//                        AccountType.shopEmployee.equals(account.getAccountType()) ||
-//                        AccountType.cancellation.equals(account.getAccountType()))
-//                        return  new RetMessage<>(RetCodeEnum.fail,"该平台只允许管理员与商户管理员登录",null);
+                    if (validateCode!=null&&(AccountType.shopManager.equals(account.getAccountType()) ||
+                        AccountType.shopEmployee.equals(account.getAccountType())))
+                        return  new RetMessage<>(RetCodeEnum.fail,"该平台只允许管理员与商户管理员登录!",null);
+
+                    if(validateCode==null&&(AccountType.admin.equals(account.getAccountType())||AccountType.merchantManager.equals(account.getType()))){
+                        return  new RetMessage<>(RetCodeEnum.fail,"该平台只允许门店工作人员登录!",null);
+                    }
                     if (accountService.localdateLtDate(account.getLoginFailureTime())) {
                         // 距离上次登录失败大于15分钟
                         //account.setPassword(SignUtil.md5LowerCase("123456","utf-8"));
@@ -163,7 +167,8 @@ public class LoginController implements com.lanxi.couponcode.spi.service.LoginSe
         Boolean result = false;
         try {
             String loginKey = RedisKeyAssist.getLoginKey(accountId);
-            if (loginKey != null) {
+            String cache=redisService.get(loginKey);
+            if (cache != null) {
                 result = redisService.del(RedisKeyAssist.getLoginKey(accountId));
             } else {
                 result = true;
@@ -218,7 +223,8 @@ public class LoginController implements com.lanxi.couponcode.spi.service.LoginSe
                             record.setMerchantName(account.getMerchantName());
                             record.setShopName(account.getShopName());
                             record.setShopId(account.getShopId());
-                            record.setDescription("修改密码[" + a.getAccountId() + "]");
+                            record.setDescription("重置密码");
+//                            record.setDescription("修改密码[" + a.getAccountId() + "]");
                             operateRecordService.addRecord(record);
                         } else {
                             retMessage.setAll(RetCodeEnum.exception, "重置密码失败", result);
@@ -274,7 +280,8 @@ public class LoginController implements com.lanxi.couponcode.spi.service.LoginSe
                             record.setShopId(account.getShopId());
                             record.setMerchantName(account.getMerchantName());
                             record.setShopName(account.getShopName());
-                            record.setDescription("修改密码[" + accountId + "]");
+                            record.setDescription("修改密码");
+//                            record.setDescription("修改密码[" + accountId + "]");
                             operateRecordService.addRecord(record);
                         } else {
                             retMessage.setAll(RetCodeEnum.exception, "修改密码失败", result);
@@ -301,8 +308,12 @@ public class LoginController implements com.lanxi.couponcode.spi.service.LoginSe
     public RetMessage<String> sendValidateCode(String phone) {
         try {
             if (!accountService.phoneVerify(phone)) {
-                String s = sms.sendVerifySms(configService.getValue("parameter",
-                        "smsTemplate"),
+                //短信模版
+                String template=configService.getValue("parameter", "smsTemplate");
+                //短信有效期
+                String life=configService.getValue("parameter", "smsLifeDefaultValue");
+                template=template.replace("[life]",(Long.parseLong(life)/6000)+"");
+                String s = sms.sendVerifySms(template,
                         "[code]", Integer.valueOf(configService.getValue("parameter", "smsLength")),
                         phone);
                 if (s != null && !s.isEmpty()) {

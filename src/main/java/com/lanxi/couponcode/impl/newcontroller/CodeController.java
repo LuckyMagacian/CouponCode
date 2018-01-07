@@ -8,15 +8,16 @@ import com.baomidou.mybatisplus.toolkit.IdWorker;
 import com.lanxi.couponcode.impl.assist.ExcelAssist;
 import com.lanxi.couponcode.impl.entity.*;
 import com.lanxi.couponcode.impl.newservice.*;
-import com.lanxi.couponcode.spi.assist.FillAssist;
+import com.lanxi.couponcode.impl.assist.FillAssist;
 import com.lanxi.couponcode.spi.assist.RetMessage;
 import com.lanxi.couponcode.spi.assist.TimeAssist;
-import com.lanxi.couponcode.spi.config.HiddenMap;
+import com.lanxi.couponcode.impl.config.HiddenMap;
 import com.lanxi.couponcode.spi.consts.annotations.CheckArg;
 import com.lanxi.couponcode.spi.consts.annotations.EasyLog;
 import com.lanxi.couponcode.spi.consts.enums.*;
 import com.lanxi.couponcode.spi.defaultInterfaces.ToJson;
 import com.lanxi.util.entity.LogFactory;
+import com.lanxi.util.utils.BeanUtil;
 import com.lanxi.util.utils.ExcelUtil;
 import com.lanxi.util.utils.LoggerUtil;
 import org.springframework.stereotype.Controller;
@@ -67,6 +68,8 @@ public class CodeController implements com.lanxi.couponcode.spi.service.CouponSe
                                               Long code,
                                               Long codeId,
                                               Long commodityId,
+                                              CouponCodeStatus status,
+                                              GenerateType type,
                                               Page<CouponCode> page) {
         //装配查询条件
         EntityWrapper<CouponCode> wrapper = new EntityWrapper<>();
@@ -88,6 +91,10 @@ public class CodeController implements com.lanxi.couponcode.spi.service.CouponSe
             wrapper.eq("code", code);
         if (codeId != null)
             wrapper.eq("code_id", codeId + "");
+        if(status!=null)
+            wrapper.eq("code_status",status.getValue());
+        if(type!=null)
+            wrapper.eq("generate_type",type.getValue());
         Optional.ofNullable(commodityId).ifPresent(e->wrapper.eq("commodity_id",e));
         //查询
         List<CouponCode> list = codeService.queryCodes(wrapper, page);
@@ -104,6 +111,8 @@ public class CodeController implements com.lanxi.couponcode.spi.service.CouponSe
                                          Long code,
                                          Long codeId,
                                          Long commodityId,
+                                         CouponCodeStatus status,
+                                         GenerateType type,
                                          Integer pageNum,
                                          Integer pageSize,
                                          Long operaterId) {
@@ -124,7 +133,7 @@ public class CodeController implements com.lanxi.couponcode.spi.service.CouponSe
 //        if(notNullOrEmpty.and(notTime).test(timeEnd))
 //            return new RetMessage<>(RetCodeEnum.fail,"结束时间不规范!",null);
         Page<CouponCode> page = new Page<>(pageNum, pageSize);
-        List<CouponCode> list = queryCodesHidden(timeStart, timeEnd, merchantName, commodityName, code, codeId,commodityId, page);
+        List<CouponCode> list = queryCodesHidden(timeStart, timeEnd, merchantName, commodityName, code, codeId,commodityId,status,type, page);
         FillAssist.returnDeal.accept(HiddenMap.ADMIN_CODE,list);
         //需要分页信息
         Map<String, Object> map = new HashMap<>();
@@ -144,13 +153,15 @@ public class CodeController implements com.lanxi.couponcode.spi.service.CouponSe
                                              Long code,
                                              Long codeId,
                                              Long commodityId,
+                                             CouponCodeStatus status,
+                                             GenerateType type,
                                              Long operaterId) {
         Account account = accountService.queryAccountById(operaterId);
         RetMessage message = checkAccount.apply(account, OperateType.queryCouponCodeList);
         if (message != null)
             return message;
         //需要展示的内容
-        List<CouponCode> list = queryCodesHidden(timeStart, timeEnd, merchantName, commodityName, code, codeId, commodityId,null);
+        List<CouponCode> list = queryCodesHidden(timeStart, timeEnd, merchantName, commodityName, code, codeId, commodityId,status,type,null);
         File file = new File("串码导出" + TimeAssist.getNow() + ".xls");
         try {
             ExcelUtil.exportExcelFile(ExcelAssist.toStringList(list, CouponCode.class,HiddenMap.getAdminFieldCN), new FileOutputStream(file));
@@ -210,7 +221,8 @@ public class CodeController implements com.lanxi.couponcode.spi.service.CouponSe
             record.setShopId(account.getShopId());
             record.setMerchantName(account.getMerchantName());
             record.setShopName(account.getShopName());
-            record.setDescription("销毁串码[" + codeId + "]");
+//            record.setDescription("销毁串码[" + codeId + "]");
+            record.setDescription("销毁串码");
             operateRecordService.addRecord(record);
             return new RetMessage<>(RetCodeEnum.success, "注销成功!", null);
         }
@@ -227,6 +239,10 @@ public class CodeController implements com.lanxi.couponcode.spi.service.CouponSe
 
         //-----------------------------------------------------------------校验--------------------------------------------------------------
         Account account = accountService.queryAccountById(operaterId);
+        Merchant m=merchantService.queryMerchantParticularsById(account.getMerchantId());
+        RetMessage message = checkMerchant.apply(m, OperateType.destroyCouponCode);
+        if (notNull.test(message))
+            return message;
         Optional<CouponCode> opt = codeService.queryCode(account.getMerchantId(), code);
         if (isNull.test(opt))
             return new RetMessage<>(RetCodeEnum.fail, "多个!", null);
@@ -249,7 +265,10 @@ public class CodeController implements com.lanxi.couponcode.spi.service.CouponSe
         RetMessage message = checkAccount.apply(account, OperateType.destroyCouponCode);
         if (message != null)
             return message;
-
+        Merchant m=merchantService.queryMerchantParticularsById(account.getMerchantId());
+        message = checkMerchant.apply(m, OperateType.cancelCouponCode);
+        if (notNull.test(message))
+            return message;
 //        if(isNull.test(account))
 //            return new RetMessage<>(RetCodeEnum.fail,"帐号不存在!",null);
 //        if(cantVerifyCode.test(account))
@@ -305,7 +324,8 @@ public class CodeController implements com.lanxi.couponcode.spi.service.CouponSe
             record.setShopId(account.getShopId());
             record.setMerchantName(account.getMerchantName());
             record.setShopName(account.getShopName());
-            record.setDescription("核销串码[" + codeId + "]");
+//            record.setDescription("核销串码[" + codeId + "]");
+            record.setDescription("核销串码");
             operateRecordService.addRecord(record);
             JSONObject commodity=JSON.parseObject(code.getCommodityInfo());
 
@@ -358,6 +378,10 @@ public class CodeController implements com.lanxi.couponcode.spi.service.CouponSe
         RetMessage message = checkAccount.apply(account, OperateType.postoneCouponCode);
         if (message != null)
             return message;
+        Merchant m=merchantService.queryMerchantParticularsById(account.getMerchantId());
+        message = checkMerchant.apply(m, OperateType.postoneCouponCode);
+        if (notNull.test(message))
+            return message;
 //        if(isNull.test(account))
 //            return new RetMessage<>(RetCodeEnum.fail,"帐号不存在!",null);
 //        if(cantPostoneCode.test(account))
@@ -378,19 +402,19 @@ public class CodeController implements com.lanxi.couponcode.spi.service.CouponSe
             return new RetMessage<>(RetCodeEnum.fail, "已被使用,已被注销!!", null);
         //-----------------------------------------------------------------执行--------------------------------------------------------------
         //执行延期(默认延长时间为设定的有效期)
-        boolean lock = false;
-        try {
-            //加锁
-            lock = redisCodeService.lockCode(code, "");
-            if (lock)
+//        boolean lock = false;
+//        try {
+//            //加锁
+//            lock = redisCodeService.lockCode(code, "");
+//            if (lock)
                 result = codeService.postoneCode(code);
-        } catch (Exception e) {
-            result = null;
-        } finally {
-            //解锁
-            if (lock)
-                redisCodeService.unlockCodeForce(code, "");
-        }
+//        } catch (Exception e) {
+//            result = null;
+//        } finally {
+//            //解锁
+//            if (lock)
+//                redisCodeService.unlockCodeForce(code, "");
+//        }
         //-----------------------------------------------------------------返回--------------------------------------------------------------
         //返回null,发生异常
         if (isNull.test(result))
@@ -411,7 +435,8 @@ public class CodeController implements com.lanxi.couponcode.spi.service.CouponSe
             record.setShopId(account.getShopId());
             record.setMerchantName(account.getMerchantName());
             record.setShopName(account.getShopName());
-            record.setDescription("延期串码[" + codeId + "]");
+//            record.setDescription("延期串码[" + codeId + "]");
+            record.setDescription("延期串码");
             operateRecordService.addRecord(record);
             return new RetMessage<>(RetCodeEnum.success, "延期成功!", null);
         }
@@ -441,7 +466,7 @@ public class CodeController implements com.lanxi.couponcode.spi.service.CouponSe
 //            return new RetMessage<>(RetCodeEnum.fail,"商户状态异常!",null);
         Commodity commodity = commodityService.queryCommodity(commodityId);
         message = checkCommodity.apply(commodity, OperateType.createCouponCode);
-        if (message == null)
+        if (message != null)
             return message;
 //        if(isNull.test(commodity))
 //            return new RetMessage<>(RetCodeEnum.fail,"商品不存在!",null);
@@ -466,7 +491,6 @@ public class CodeController implements com.lanxi.couponcode.spi.service.CouponSe
         codeObj.setOverTime(TimeAssist.addSecond(codeObj.getCreateTime(), codeObj.getLifeTime() * 24L * 60 * 60));
         codeObj.setCommodityId(commodity.getCommodityId());
         codeObj.setCommodityName(commodity.getCommodityName());
-        codeObj.setCommodityInfo(commodity.toJson());
         codeObj.setCodeStatus(CouponCodeStatus.undestroyed);
         codeObj.setMerchantId(commodity.getMerchantId());
         codeObj.setMerchantName(commodity.getMerchantName());
@@ -477,6 +501,7 @@ public class CodeController implements com.lanxi.couponcode.spi.service.CouponSe
             codeObj.setGenerateType(GenerateType.hand);
         } else
             codeObj.setGenerateType(GenerateType.auto);
+        codeObj.setCommodityInfo(FillAssist.keepEntityField(HiddenMap.CODE_COMMODITY.keySet(), BeanUtil.deepCopy(commodity)).toJson( ));
         if (codeService.addCode(codeObj)) {
             redisCodeService.addCode(merchantId, code);
             return new RetMessage<>(RetCodeEnum.success, "生成成功!", codeObj.toJson());
@@ -521,7 +546,7 @@ public class CodeController implements com.lanxi.couponcode.spi.service.CouponSe
         else
             code = codeService.queryCodeInfo(codeId, account.getMerchantId());
         if(isAdmin.test(account))
-            FillAssist.returnDeal.accept(FillAssist.getMap.apply(AccountType.merchantManager,CouponCode.class), code);
+            FillAssist.returnDeal.accept(FillAssist.getMap.apply(AccountType.admin,CouponCode.class), code);
         else if(isMerchantManager.test(account))
             FillAssist.returnDeal.accept(FillAssist.getMap.apply(AccountType.merchantManager,CouponCode.class), code);
         else

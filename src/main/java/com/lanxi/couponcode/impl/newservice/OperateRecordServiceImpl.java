@@ -4,8 +4,8 @@ import com.baomidou.mybatisplus.mapper.Wrapper;
 import com.baomidou.mybatisplus.plugins.Page;
 import com.lanxi.couponcode.impl.entity.OperateRecord;
 import com.lanxi.couponcode.spi.consts.annotations.EasyLog;
+import com.lanxi.couponcode.spi.service.RedisService;
 import com.lanxi.util.utils.LoggerUtil;
-import com.sun.org.apache.regexp.internal.RE;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -18,9 +18,9 @@ import java.util.List;
 @Service ("operateRecordService")
 public class OperateRecordServiceImpl implements OperateRecordService {
     @Resource
-    private DaoService daoService;
-    @Resource
-    private RedisService redisService;
+    private DaoService           daoService;
+    @Resource(name="redisService")
+    private RedisService         redisService;
     @Resource
     private RedisEnhancedService redisEnhancedService;
 

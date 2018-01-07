@@ -6,8 +6,10 @@ import com.baomidou.mybatisplus.plugins.Page;
 import com.lanxi.couponcode.impl.entity.CouponCode;
 import com.lanxi.couponcode.spi.assist.TimeAssist;
 import com.lanxi.couponcode.spi.consts.annotations.EasyLog;
+import com.lanxi.couponcode.spi.consts.enums.ClearStatus;
 import com.lanxi.couponcode.spi.consts.enums.CouponCodeStatus;
 import com.lanxi.util.utils.LoggerUtil;
+import com.lanxi.util.utils.TimeUtil;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -59,6 +61,8 @@ public class CodeServiceImpl implements CodeService {
     @Override
     public Boolean delCode(CouponCode code) {
         CheckJob job = () -> {
+            code.setFinalTime(TimeUtil.getDateTime());
+//            code.setClearStatus(ClearStatus.uncleared);
             code.setCodeStatus(CouponCodeStatus.cancellation);
             return code.updateById();
         };
@@ -68,6 +72,8 @@ public class CodeServiceImpl implements CodeService {
     @Override
     public Boolean verificateCode(CouponCode code) {
         CheckJob job = () -> {
+            code.setFinalTime(TimeUtil.getDateTime());
+//            code.setClearStatus(ClearStatus.uncleared);
             code.setCodeStatus(CouponCodeStatus.destroyed);
             return code.updateById();
         };
@@ -77,6 +83,8 @@ public class CodeServiceImpl implements CodeService {
     @Override
     public Boolean overTimeCode(CouponCode code) {
         CheckJob job = () -> {
+            code.setFinalTime(TimeUtil.getDateTime());
+//            code.setClearStatus(ClearStatus.uncleared);
             code.setCodeStatus(CouponCodeStatus.overtime);
             return code.updateById();
         };

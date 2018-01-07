@@ -3,6 +3,7 @@ package com.lanxi.couponcode.impl.newservice;
 import com.lanxi.couponcode.impl.entity.CouponCode;
 import com.lanxi.couponcode.spi.consts.annotations.EasyLog;
 import com.lanxi.couponcode.spi.consts.enums.LockResult;
+import com.lanxi.couponcode.spi.service.RedisService;
 import com.lanxi.util.utils.LoggerUtil;
 import org.springframework.stereotype.Service;
 
@@ -18,8 +19,8 @@ import static com.lanxi.couponcode.spi.assist.RedisKeyAssist.getVarKey;
 @EasyLog (LoggerUtil.LogLevel.INFO)
 @Service ("redisCodeService")
 public class RedisCodeServiceImpl implements RedisCodeService {
-    @Resource
-    private RedisService redis;
+    @Resource(name="redisService")
+    private RedisService         redis;
     @Resource
     private RedisEnhancedService enhancedRedis;
     /**

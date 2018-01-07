@@ -4,20 +4,19 @@ import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.plugins.Page;
 import com.baomidou.mybatisplus.toolkit.IdWorker;
 import com.lanxi.couponcode.impl.entity.Account;
-import com.lanxi.couponcode.impl.entity.CouponCode;
 import com.lanxi.couponcode.impl.entity.Merchant;
 import com.lanxi.couponcode.impl.entity.OperateRecord;
 import com.lanxi.couponcode.impl.newservice.*;
-import com.lanxi.couponcode.spi.assist.FillAssist;
+import com.lanxi.couponcode.impl.assist.FillAssist;
 import com.lanxi.couponcode.spi.assist.RetMessage;
 import com.lanxi.couponcode.spi.assist.TimeAssist;
 import com.lanxi.couponcode.spi.config.ConstConfig;
-import com.lanxi.couponcode.spi.config.HiddenMap;
+import com.lanxi.couponcode.impl.config.HiddenMap;
 import com.lanxi.couponcode.spi.consts.annotations.CheckArg;
 import com.lanxi.couponcode.spi.consts.annotations.EasyLog;
 import com.lanxi.couponcode.spi.consts.enums.*;
 import com.lanxi.couponcode.spi.defaultInterfaces.ToJson;
-import com.lanxi.couponcode.spi.util.RegularUtil;
+import com.lanxi.couponcode.spi.service.RedisService;
 import com.lanxi.util.entity.LogFactory;
 import com.lanxi.util.utils.LoggerUtil;
 import org.springframework.stereotype.Controller;
@@ -40,11 +39,11 @@ import static com.lanxi.couponcode.impl.assist.PredicateAssist.*;
 @EasyLog (LoggerUtil.LogLevel.INFO)
 public class MerchantController implements com.lanxi.couponcode.spi.service.MerchantService {
     @Resource
-    private AccountService accountService;
+    private AccountService       accountService;
     @Resource
-    private MerchantService merchantService;
+    private MerchantService      merchantService;
     @Resource
-    private RedisService redisService;
+    private RedisService         redisService;
     @Resource
     private RedisEnhancedService redisEnhancedService;
     @Resource
@@ -91,7 +90,8 @@ public class MerchantController implements com.lanxi.couponcode.spi.service.Merc
                     record.setShopId(a.getShopId());
                     record.setMerchantName(a.getMerchantName());
                     record.setShopName(a.getShopName());
-                    record.setDescription("添加商户[" + merchant.getMerchantId() + "]");
+//                    record.setDescription("添加商户[" + merchant.getMerchantId() + "]");
+                    record.setDescription("添加商户");
                     operateRecordService.addRecord(record);
                 }
                 if (!result) {
@@ -156,7 +156,8 @@ public class MerchantController implements com.lanxi.couponcode.spi.service.Merc
                     record.setMerchantName(a.getMerchantName());
                     record.setShopName(a.getShopName());
                     record.setOperateResult("success");
-                    record.setDescription("修改商户[" + merchantId + "]");
+                    record.setDescription("修改商户");
+//                    record.setDescription("修改商户[" + merchantId + "]");
                     operateRecordService.addRecord(record);
                 }
                 if (!result) {
@@ -290,7 +291,8 @@ public class MerchantController implements com.lanxi.couponcode.spi.service.Merc
                 record.setShopId(a.getShopId());
                 record.setMerchantName(a.getMerchantName());
                 record.setShopName(a.getShopName());
-                record.setDescription("开启商户[" + merchantId + "]");
+                record.setDescription("开启商户");
+//                record.setDescription("开启商户[" + merchantId + "]");
                 operateRecordService.addRecord(record);
             } else {
                 retMessage.setRetCode(RetCodeEnum.exception.getValue());
@@ -339,7 +341,8 @@ public class MerchantController implements com.lanxi.couponcode.spi.service.Merc
                 record.setShopId(a.getShopId());
                 record.setMerchantName(a.getMerchantName());
                 record.setShopName(a.getShopName());
-                record.setDescription("冻结商户[" + merchantId + "]");
+                record.setDescription("冻结商户");
+//                record.setDescription("冻结商户[" + merchantId + "]");
                 operateRecordService.addRecord(record);
             } else {
                 retMessage.setRetCode(RetCodeEnum.exception.getValue());
@@ -413,7 +416,8 @@ public class MerchantController implements com.lanxi.couponcode.spi.service.Merc
                     record.setOperateResult("success");
                     record.setMerchantName(a.getMerchantName());
                     record.setShopName(a.getShopName());
-                    record.setDescription("商户详细信息提交[" + m.getMerchantId() + "]");
+                    record.setDescription("商户详细信息提交");
+//                    record.setDescription("商户详细信息提交[" + m.getMerchantId() + "]");
                     operateRecordService.addRecord(record);
                 } else {
                     retMessage.setRetCode(RetCodeEnum.exception.getValue());
@@ -489,7 +493,8 @@ public class MerchantController implements com.lanxi.couponcode.spi.service.Merc
                     record.setShopName(a.getShopName());
                     record.setMerchantId(a.getMerchantId());
                     record.setShopId(a.getShopId());
-                    record.setDescription("商户详细信息修改[" + a.getMerchantId() + "]");
+                    record.setDescription("商户详细信息修改");
+//                    record.setDescription("商户详细信息修改[" + a.getMerchantId() + "]");
                     operateRecordService.addRecord(record);
                 } else {
                     retMessage.setRetCode(RetCodeEnum.exception.getValue());
@@ -544,7 +549,8 @@ public class MerchantController implements com.lanxi.couponcode.spi.service.Merc
                 record.setMerchantName(a.getMerchantName());
                 record.setShopName(a.getShopName());
                 record.setOperateResult("success");
-                record.setDescription("商户详细信息提交[" + m.getMerchantId() + "]");
+                record.setDescription("商户详细信息提交");
+//                record.setDescription("商户详细信息提交[" + m.getMerchantId() + "]");
                 operateRecordService.addRecord(record);
             } else {
                 retMessage.setAll(RetCodeEnum.exception, "上传商户组织机构代码证失败", result);
@@ -590,7 +596,8 @@ public class MerchantController implements com.lanxi.couponcode.spi.service.Merc
                 record.setMerchantName(a.getMerchantName());
                 record.setShopName(a.getShopName());
                 record.setOperateResult("success");
-                record.setDescription("商户详细信息提交[" + m.getMerchantId() + "]");
+//                record.setDescription("商户详细信息提交[" + m.getMerchantId() + "]");
+                record.setDescription("商户详细信息提交");
                 operateRecordService.addRecord(record);
             } else {
                 retMessage.setAll(RetCodeEnum.exception, "上传商户营业执照失败", result);
@@ -635,7 +642,8 @@ public class MerchantController implements com.lanxi.couponcode.spi.service.Merc
                 record.setShopId(a.getShopId());
                 record.setMerchantName(a.getMerchantName());
                 record.setShopName(a.getShopName());
-                record.setDescription("商户详细信息提交[" + m.getMerchantId() + "]");
+//                record.setDescription("商户详细信息提交[" + m.getMerchantId() + "]");
+                record.setDescription("商户详细信息提交");
                 operateRecordService.addRecord(record);
             } else {
                 retMessage.setAll(RetCodeEnum.exception, "上传其他证明资料失败", result);
@@ -683,7 +691,8 @@ public class MerchantController implements com.lanxi.couponcode.spi.service.Merc
                 record.setShopName(a.getShopName());
                 record.setMerchantId(a.getMerchantId());
                 record.setShopId(a.getShopId());
-                record.setDescription("修改商户组织机构代码证[" + m.getMerchantId() + "]");
+                record.setDescription("修改商户组织机构代码证");
+//                record.setDescription("修改商户组织机构代码证[" + m.getMerchantId() + "]");
                 operateRecordService.addRecord(record);
             } else {
                 retMessage.setAll(RetCodeEnum.exception, "修改商户组织机构代码证失败", result);
@@ -729,7 +738,8 @@ public class MerchantController implements com.lanxi.couponcode.spi.service.Merc
                 record.setShopId(a.getShopId());
                 record.setMerchantName(a.getMerchantName());
                 record.setShopName(a.getShopName());
-                record.setDescription("修改商户营业执照[" + m.getMerchantId() + "]");
+                record.setDescription("修改商户营业执照");
+//                record.setDescription("修改商户营业执照[" + m.getMerchantId() + "]");
                 operateRecordService.addRecord(record);
             } else {
                 retMessage.setAll(RetCodeEnum.exception, "修改商户营业执照失败", result);
@@ -773,7 +783,8 @@ public class MerchantController implements com.lanxi.couponcode.spi.service.Merc
                 record.setShopName(a.getShopName());
                 record.setMerchantId(a.getMerchantId());
                 record.setShopId(a.getShopId());
-                record.setDescription("修改其他证明资料[" + m.getMerchantId() + "]");
+                record.setDescription("修改其他证明资料");
+//                record.setDescription("修改其他证明资料[" + m.getMerchantId() + "]");
                 operateRecordService.addRecord(record);
             } else {
                 retMessage.setAll(RetCodeEnum.exception, "修改其他证明资料失败", result);

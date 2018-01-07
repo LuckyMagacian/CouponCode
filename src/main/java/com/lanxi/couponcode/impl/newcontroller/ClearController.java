@@ -6,13 +6,13 @@ import com.baomidou.mybatisplus.toolkit.IdWorker;
 import com.lanxi.couponcode.impl.assist.ExcelAssist;
 import com.lanxi.couponcode.impl.entity.*;
 import com.lanxi.couponcode.impl.newservice.*;
-import com.lanxi.couponcode.spi.assist.FillAssist;
+import com.lanxi.couponcode.impl.assist.FillAssist;
 import com.lanxi.couponcode.spi.assist.RetMessage;
 import com.lanxi.couponcode.spi.assist.TimeAssist;
-import com.lanxi.couponcode.spi.config.HiddenMap;
-import com.lanxi.couponcode.spi.config.HiddenMapExcel;
+import com.lanxi.couponcode.impl.config.HiddenMap;
 import com.lanxi.couponcode.spi.consts.enums.*;
 import com.lanxi.couponcode.spi.defaultInterfaces.ToJson;
+import com.lanxi.couponcode.spi.service.RedisService;
 import com.lanxi.util.entity.LogFactory;
 import com.lanxi.util.utils.ExcelUtil;
 import org.springframework.stereotype.Controller;
@@ -29,9 +29,8 @@ import java.util.Map;
 import java.util.function.BinaryOperator;
 import java.util.stream.Collectors;
 
-import static com.lanxi.couponcode.impl.assist.PredicateAssist.checkAccount;
-import static com.lanxi.couponcode.impl.assist.PredicateAssist.isAdmin;
-import static com.lanxi.couponcode.impl.assist.PredicateAssist.isMerchantManager;
+import static com.lanxi.couponcode.impl.assist.PredicateAssist.*;
+import static com.lanxi.couponcode.impl.assist.PredicateAssist.notNull;
 import static com.lanxi.couponcode.spi.assist.CheckAssist.*;
 import static com.lanxi.couponcode.spi.assist.TimeAssist.timeFixNine;
 import static com.lanxi.couponcode.spi.assist.TimeAssist.timeFixZero;
@@ -45,19 +44,19 @@ import static com.lanxi.couponcode.spi.assist.TimeAssist.timeFixZero;
 public class ClearController implements com.lanxi.couponcode.spi.service.ClearService {
 
     @Resource
-    private RedisService redisService;
+    private RedisService         redisService;
     @Resource
     private RedisEnhancedService redisEnhancedService;
     @Resource
-    private ClearService clearService;
+    private ClearService         clearService;
     @Resource
-    private MerchantService merchantService;
+    private MerchantService      merchantService;
     @Resource
-    private CommodityService commodityService;
+    private CommodityService     commodityService;
     @Resource
-    private AccountService accountService;
+    private AccountService       accountService;
     @Resource
-    private LockService lockService;
+    private LockService          lockService;
     @Resource
     private OperateRecordService operateRecordService;
 
@@ -232,6 +231,10 @@ public class ClearController implements com.lanxi.couponcode.spi.service.ClearSe
         RetMessage message = checkAccount.apply(account, OperateType.exportClearRecord);
         if (message != null)
             return message;
+        Merchant m=merchantService.queryMerchantParticularsById(account.getMerchantId());
+         message = checkMerchant.apply(m, OperateType.exportClearRecord);
+        if (notNull.test(message))
+            return message;
         EntityWrapper<ClearRecord> wrapper = new EntityWrapper<>();
         wrapper.eq("merchant_id", account.getMerchantId());
         notNUll(timeStart).ifPresent(e -> wrapper.ge("create_time", TimeAssist.timeFixZero(timeStart)));
@@ -323,7 +326,8 @@ public class ClearController implements com.lanxi.couponcode.spi.service.ClearSe
             record.setShopId(account.getShopId());
             record.setMerchantName(account.getMerchantName());
             record.setShopName(account.getShopName());
-            record.setDescription("结算[" + Arrays.asList(dailyRecordIds) + "]");
+//            record.setDescription("结算[" + Arrays.asList(dailyRecordIds) + "]");
+            record.setDescription("结算");
             operateRecordService.addRecord(record);
 
             if (lock.parallelStream().filter(e -> e == null || e == false).findAny().isPresent()) {
@@ -368,7 +372,7 @@ public class ClearController implements com.lanxi.couponcode.spi.service.ClearSe
             operateRecord.setType(OperateType.modifyClearRecord);
             operateRecord.setOperateTime(TimeAssist.getNow());
             operateRecord.setOperateResult(result ? "success" : "fail");
-            operateRecord.setDescription(remark);
+            operateRecord.setDescription("添加结算信息");
             operateRecord.setMerchantId(account.getMerchantId());
             operateRecord.setShopId(account.getShopId());
             operateRecord.setMerchantName(account.getMerchantName());
@@ -510,6 +514,10 @@ public class ClearController implements com.lanxi.couponcode.spi.service.ClearSe
         RetMessage<String> message = checkAccount.apply(account, OperateType.queryDailyRecord);
         if (message != null)
             return message;
+        Merchant m=merchantService.queryMerchantParticularsById(account.getMerchantId());
+        message = checkMerchant.apply(m, OperateType.queryDailyRecord);
+        if (notNull.test(message))
+            return message;
         EntityWrapper<ClearDailyRecord> wrapper = new EntityWrapper<>();
         wrapper.eq("merchant_id", account.getMerchantId());
         notNullAndEmpty(timeStart).ifPresent(e -> wrapper.ge("record_time", timeFixZero(timeStart)));
@@ -551,6 +559,10 @@ public class ClearController implements com.lanxi.couponcode.spi.service.ClearSe
         Account account = accountService.queryAccountById(operaterId);
         RetMessage message = checkAccount.apply(account, OperateType.queryDailyRecord);
         if (message != null)
+            return message;
+        Merchant m=merchantService.queryMerchantParticularsById(account.getMerchantId());
+        message = checkMerchant.apply(m, OperateType.exportDailyRecord);
+        if (notNull.test(message))
             return message;
         EntityWrapper<ClearDailyRecord> wrapper = new EntityWrapper<>();
         wrapper.eq("merchant_id", account.getMerchantId());
@@ -595,6 +607,10 @@ public class ClearController implements com.lanxi.couponcode.spi.service.ClearSe
         Account account = accountService.queryAccountById(operaterId);
         RetMessage message = checkAccount.apply(account, OperateType.queryDailyRecord);
         if (message != null)
+            return message;
+        Merchant m=merchantService.queryMerchantParticularsById(account.getMerchantId());
+        message = checkMerchant.apply(m, OperateType.exportDailyRecord);
+        if (notNull.test(message))
             return message;
         EntityWrapper<ClearDailyRecord> wrapper = new EntityWrapper<>();
         wrapper.eq("merchant_id", account.getMerchantId());

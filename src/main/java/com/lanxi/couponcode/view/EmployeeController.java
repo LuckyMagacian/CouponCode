@@ -1,10 +1,13 @@
 package com.lanxi.couponcode.view;
 
+import com.lanxi.couponcode.spi.assist.RetMessage;
 import com.lanxi.couponcode.spi.consts.annotations.EasyLog;
 import com.lanxi.couponcode.spi.consts.annotations.LoginCheck;
 import com.lanxi.couponcode.spi.consts.annotations.SetUtf8;
+import com.lanxi.couponcode.spi.consts.enums.RetCodeEnum;
 import com.lanxi.couponcode.spi.consts.enums.VerificationType;
 import com.lanxi.couponcode.spi.service.CouponService;
+import com.lanxi.util.entity.LogFactory;
 import com.lanxi.util.utils.LoggerUtil;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -33,19 +36,24 @@ public class EmployeeController {
     @ResponseBody
     @RequestMapping (value = "verifyCode", produces = "application/json;charset=utf-8")
     public String verifyCode(HttpServletRequest req, HttpServletResponse res) {
-        String codIdStr = getArg.apply(req, "codeId");
-        String operaterIdStr = getArg.apply(req, "operaterId");
-        String codeStr = getArg.apply(req, "code");
-        String verifyTypeStr = getArg.apply(req, "verificationType");
+        try {
+            String codIdStr = getArg.apply(req, "codeId");
+            String operaterIdStr = getArg.apply(req, "operaterId");
+            String codeStr = getArg.apply(req, "code");
+            String verifyTypeStr = getArg.apply(req, "verificationType");
 
-        Long codeId = parseArg(codIdStr, Long.class);
-        Long operaterId = parseArg(operaterIdStr, Long.class);
-        Long code = parseArg(codeStr, Long.class);
-        VerificationType verifyType = toVerificationType.apply(verifyTypeStr);
-        if (codeId == null)
-            return codeService.verificateCode(code, null, operaterId, verifyType).toJson();
-        else
-            return codeService.verificateCode(codeId, operaterId, verifyType).toJson();
+            Long codeId = parseArg(codIdStr, Long.class);
+            Long operaterId = parseArg(operaterIdStr, Long.class);
+            Long code = parseArg(codeStr, Long.class);
+            VerificationType verifyType = toVerificationType.apply(verifyTypeStr);
+            if (codeId == null)
+                return codeService.verificateCode(code, null, operaterId, verifyType).toJson();
+            else
+                return codeService.verificateCode(codeId, operaterId, verifyType).toJson();
+        } catch (Exception e) {
+            LogFactory.error(this, "响应时发生异常!", e);
+            return new RetMessage<String>(RetCodeEnum.error, "系统异常,稍后再试!", null).toJson();
+        }
     }
 
     @SetUtf8
@@ -54,17 +62,22 @@ public class EmployeeController {
     @RequestMapping (value = "queryCode", produces = "application/json;charset=utf-8")
     public String queryCode(HttpServletRequest req, HttpServletResponse res) {
 //        String codIdStr=getArg.apply(req,"codeId");
-        String operaterIdStr = getArg.apply(req, "operaterId");
-        String codeStr = getArg.apply(req, "code");
+        try {
+            String operaterIdStr = getArg.apply(req, "operaterId");
+            String codeStr = getArg.apply(req, "code");
 
 
-//        Long codeId=parseArg(codIdStr,Long.class);
-        Long operaterId = parseArg(operaterIdStr, Long.class);
-        Long code = parseArg(codeStr, Long.class);
+            //        Long codeId=parseArg(codIdStr,Long.class);
+            Long operaterId = parseArg(operaterIdStr, Long.class);
+            Long code = parseArg(codeStr, Long.class);
 
-//        if(codeId==null)
-        return codeService.couponCodeInfo(null, code, operaterId).toJson();
-//        else
+            //        if(codeId==null)
+            return codeService.couponCodeInfo(null, code, operaterId).toJson();
+        } catch (Exception e) {
+            LogFactory.error(this,"响应时发生异常!",e);
+            return new RetMessage<String>(RetCodeEnum.error,"系统异常,稍后再试!",null).toJson();
+        }
+        //        else
 //            return codeService.couponCodeInfo(codeId,operaterId).toJson();
     }
 

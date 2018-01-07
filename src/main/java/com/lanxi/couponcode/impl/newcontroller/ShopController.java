@@ -8,14 +8,15 @@ import com.lanxi.couponcode.impl.entity.Merchant;
 import com.lanxi.couponcode.impl.entity.OperateRecord;
 import com.lanxi.couponcode.impl.entity.Shop;
 import com.lanxi.couponcode.impl.newservice.*;
-import com.lanxi.couponcode.spi.assist.FillAssist;
+import com.lanxi.couponcode.impl.assist.FillAssist;
 import com.lanxi.couponcode.spi.assist.RetMessage;
 import com.lanxi.couponcode.spi.assist.TimeAssist;
 import com.lanxi.couponcode.spi.config.ConstConfig;
-import com.lanxi.couponcode.spi.config.HiddenMap;
+import com.lanxi.couponcode.impl.config.HiddenMap;
 import com.lanxi.couponcode.spi.consts.annotations.CheckArg;
 import com.lanxi.couponcode.spi.consts.enums.*;
 import com.lanxi.couponcode.spi.defaultInterfaces.ToJson;
+import com.lanxi.couponcode.spi.service.RedisService;
 import com.lanxi.util.entity.LogFactory;
 import org.springframework.stereotype.Controller;
 
@@ -36,13 +37,13 @@ import static com.lanxi.couponcode.impl.assist.PredicateAssist.*;
 @Controller ("shopControllerService")
 public class ShopController implements com.lanxi.couponcode.spi.service.ShopService {
     @Resource
-    private AccountService accountService;
+    private AccountService       accountService;
     @Resource
-    private MerchantService merchantService;
+    private MerchantService      merchantService;
     @Resource
-    private ShopService shopService;
+    private ShopService          shopService;
     @Resource
-    private RedisService redisService;
+    private RedisService         redisService;
     @Resource
     private RedisEnhancedService redisEnhancedService;
     @Resource
@@ -96,7 +97,8 @@ public class ShopController implements com.lanxi.couponcode.spi.service.ShopServ
                     record.setMerchantName(a.getMerchantName());
                     record.setShopName(a.getShopName());
                     record.setOperateResult("success");
-                    record.setDescription("添加门店[" + shop.getShopId() + "]");
+                    record.setDescription("添加门店");
+//                    record.setDescription("添加门店[" + shop.getShopId() + "]");
                     operateRecordService.addRecord(record);
                 } else {
                     retMessage.setRetMessage("添加门店失败");
@@ -149,7 +151,8 @@ public class ShopController implements com.lanxi.couponcode.spi.service.ShopServ
                     record.setShopName(a.getShopName());
                     record.setMerchantId(a.getMerchantId());
                     record.setShopId(a.getShopId());
-                    record.setDescription("批量导入门店[]");
+                    record.setDescription("批量导入门店");
+//                    record.setDescription("批量导入门店[]");
                     operateRecordService.addRecord(record);
                 } else {
                     result = false;
@@ -180,6 +183,10 @@ public class ShopController implements com.lanxi.couponcode.spi.service.ShopServ
             RetMessage message = checkAccount.apply(a, OperateType.freezeShop);
             if (notNull.test(message))
                 return message;
+            Merchant m=merchantService.queryMerchantParticularsById(a.getMerchantId());
+            message = checkMerchant.apply(m, OperateType.freezeShop);
+            if (notNull.test(message))
+                return message;
             Shop s = shopService.queryShopInfo(shopId);
             message = checkShop.apply(s, OperateType.freezeShop);
             if (notNull.test(message))
@@ -205,7 +212,8 @@ public class ShopController implements com.lanxi.couponcode.spi.service.ShopServ
                 record.setMerchantName(a.getMerchantName());
                 record.setShopName(a.getShopName());
                 record.setOperateResult("success");
-                record.setDescription("冻结门店[" + shopId + "]");
+                record.setDescription("冻结门店");
+//                record.setDescription("冻结门店[" + shopId + "]");
                 operateRecordService.addRecord(record);
             } else {
                 retMessage.setRetMessage("冻结门店失败");
@@ -254,7 +262,8 @@ public class ShopController implements com.lanxi.couponcode.spi.service.ShopServ
                 record.setShopName(a.getShopName());
                 record.setMerchantId(a.getMerchantId());
                 record.setShopId(a.getShopId());
-                record.setDescription("开启门店[" + shopId + "]");
+                record.setDescription("开启门店");
+//                record.setDescription("开启门店[" + shopId + "]");
                 operateRecordService.addRecord(record);
             } else {
                 retMessage.setRetMessage("开启门店失败");
@@ -428,7 +437,8 @@ public class ShopController implements com.lanxi.couponcode.spi.service.ShopServ
                     record.setShopName(a.getShopName());
                     record.setMerchantId(a.getMerchantId());
                     record.setShopId(a.getShopId());
-                    record.setDescription("修改门店[" + shopId + "]");
+                    record.setDescription("修改门店");
+//                    record.setDescription("修改门店[" + shopId + "]");
                     operateRecordService.addRecord(record);
                 } else {
                     retMessage.setRetMessage("修改门店失败");

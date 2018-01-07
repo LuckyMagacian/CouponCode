@@ -49,9 +49,9 @@ public interface AesAssist {
         KeyGenerator kgen = KeyGenerator.getInstance("AES");
         kgen.init(128);
         Cipher cipher = Cipher.getInstance("AES/ECB/PKCS5Padding");
-        cipher.init(Cipher.DECRYPT_MODE, new SecretKeySpec(decryptKey.getBytes(), "AES"));
+        cipher.init(Cipher.DECRYPT_MODE, new SecretKeySpec(decryptKey.getBytes("utf-8"), "AES"));
         byte[] decryptBytes = cipher.doFinal(encryptBytes);
-        return new String(decryptBytes);
+        return new String(decryptBytes,"utf-8");
     }
 
 

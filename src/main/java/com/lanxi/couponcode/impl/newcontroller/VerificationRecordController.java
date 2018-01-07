@@ -6,12 +6,12 @@ import com.baomidou.mybatisplus.plugins.Page;
 import com.lanxi.couponcode.impl.assist.ExcelAssist;
 import com.lanxi.couponcode.impl.entity.*;
 import com.lanxi.couponcode.impl.newservice.*;
-import com.lanxi.couponcode.spi.assist.FillAssist;
+import com.lanxi.couponcode.impl.assist.FillAssist;
 import com.lanxi.couponcode.spi.assist.RetMessage;
 import com.lanxi.couponcode.impl.entity.Account;
 import com.lanxi.couponcode.impl.entity.VerificationRecord;
 import com.lanxi.couponcode.spi.assist.TimeAssist;
-import com.lanxi.couponcode.spi.config.HiddenMap;
+import com.lanxi.couponcode.impl.config.HiddenMap;
 import com.lanxi.couponcode.spi.consts.annotations.CheckArg;
 import com.lanxi.couponcode.spi.consts.annotations.EasyLog;
 import com.lanxi.couponcode.spi.consts.annotations.HiddenArg;
@@ -220,6 +220,10 @@ public class VerificationRecordController implements com.lanxi.couponcode.spi.se
         Account account = accountService.queryAccountById(operaterId);
         RetMessage message = checkAccount.apply(account, OperateType.queryVerifyRecordList);
         if (message != null)
+            return message;
+        Merchant m=merchantService.queryMerchantParticularsById(account.getMerchantId());
+        message = checkMerchant.apply(m, OperateType.exportVerifyRecord);
+        if (notNull.test(message))
             return message;
         EntityWrapper<VerificationRecord> wrapper = new EntityWrapper<>();
         wrapper.eq("merchant_id", account.getMerchantId());

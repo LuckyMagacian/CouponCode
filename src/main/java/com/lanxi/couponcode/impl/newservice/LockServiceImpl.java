@@ -3,6 +3,7 @@ package com.lanxi.couponcode.impl.newservice;
 import com.lanxi.couponcode.spi.assist.RedisKeyAssist;
 import com.lanxi.couponcode.impl.entity.*;
 import com.lanxi.couponcode.spi.consts.annotations.EasyLog;
+import com.lanxi.couponcode.spi.service.RedisService;
 import com.lanxi.util.entity.LogFactory;
 import com.lanxi.util.utils.LoggerUtil;
 import org.springframework.stereotype.Service;
@@ -21,8 +22,8 @@ import java.util.stream.Collectors;
 @Service
 @EasyLog (LoggerUtil.LogLevel.INFO)
 public class LockServiceImpl implements LockService {
-    @Resource
-    private RedisService redisService;
+    @Resource(name="redisService")
+    private RedisService         redisService;
     @Resource
     private RedisEnhancedService redisEnhancedService;
     private static final long LOCK_TIME = 10000L;

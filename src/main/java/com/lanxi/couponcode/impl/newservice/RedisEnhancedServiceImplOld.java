@@ -1,5 +1,7 @@
 package com.lanxi.couponcode.impl.newservice;
 
+import com.lanxi.couponcode.spi.service.RedisService;
+
 import javax.annotation.Resource;
 
 /**
@@ -8,7 +10,7 @@ import javax.annotation.Resource;
 @Deprecated
 public class RedisEnhancedServiceImplOld {
 
-    @Resource
+    @Resource(name="redisService")
     private RedisService redis;
 
     public interface LockJob {

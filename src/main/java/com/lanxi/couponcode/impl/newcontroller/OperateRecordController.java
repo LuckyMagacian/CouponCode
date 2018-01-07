@@ -8,10 +8,10 @@ import com.lanxi.couponcode.impl.entity.OperateRecord;
 import com.lanxi.couponcode.impl.newservice.AccountService;
 import com.lanxi.couponcode.impl.newservice.OperateRecordService;
 import com.lanxi.couponcode.impl.newservice.RedisEnhancedService;
-import com.lanxi.couponcode.impl.newservice.RedisService;
-import com.lanxi.couponcode.spi.assist.FillAssist;
+import com.lanxi.couponcode.spi.service.RedisService;
+import com.lanxi.couponcode.impl.assist.FillAssist;
 import com.lanxi.couponcode.spi.assist.RetMessage;
-import com.lanxi.couponcode.spi.config.HiddenMap;
+import com.lanxi.couponcode.impl.config.HiddenMap;
 import com.lanxi.couponcode.spi.consts.annotations.CheckArg;
 import com.lanxi.couponcode.spi.consts.annotations.EasyLog;
 import com.lanxi.couponcode.spi.consts.enums.AccountType;
@@ -90,6 +90,8 @@ public class OperateRecordController implements com.lanxi.couponcode.spi.service
             wrapper.like("name", name);
         if (phone != null)
             wrapper.like("phone", phone);
+        wrapper.ne("account_type",accountType.shopEmployee.getValue());
+        wrapper.ne("account_type",AccountType.shopManager.getValue());
         List<OperateRecord> list = recordService.queryRecords(wrapper, page);
         FillAssist.returnDeal.accept(HiddenMap.ADMIN_OPERATE,list);
         //-----------------------------------------------------------------返回--------------------------------------------------------------
@@ -146,6 +148,7 @@ public class OperateRecordController implements com.lanxi.couponcode.spi.service
         if (phone != null)
             wrapper.like("phone", phone);
         wrapper.eq("merchant_id", account.getMerchantId());
+        wrapper.ne("operate_type",OperateType.destroyCouponCode.getValue());
         List<OperateRecord> list = recordService.queryRecords(wrapper, page);
         FillAssist.returnDeal.accept(FillAssist.getMap.apply(AccountType.merchantManager,OperateRecord.class), list);
         //-----------------------------------------------------------------返回--------------------------------------------------------------

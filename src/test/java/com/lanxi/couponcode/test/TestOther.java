@@ -1,10 +1,9 @@
 package com.lanxi.couponcode.test;
 
-import com.alibaba.dubbo.common.utils.LogUtil;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.toolkit.IdWorker;
-import com.lanxi.couponcode.impl.assist.ExcelAssist;
+import com.lanxi.couponcode.impl.assist.FillAssist;
 import com.lanxi.couponcode.impl.assist.PredicateAssist;
 import com.lanxi.couponcode.impl.entity.*;
 import com.lanxi.couponcode.impl.newservice.MerchantServiceImpl;
@@ -12,31 +11,20 @@ import com.lanxi.couponcode.spi.aop.AddLog;
 import com.lanxi.couponcode.spi.aop.AopOrder;
 import com.lanxi.couponcode.spi.assist.*;
 import com.lanxi.couponcode.spi.config.ConstConfig;
-import com.lanxi.couponcode.spi.config.HiddenMap;
+import com.lanxi.couponcode.impl.config.HiddenMap;
 import com.lanxi.couponcode.spi.config.Path;
 import com.lanxi.couponcode.spi.consts.enums.AccountType;
 import com.lanxi.couponcode.spi.consts.enums.RetCodeEnum;
 import com.lanxi.couponcode.spi.defaultInterfaces.ToJson;
-import com.lanxi.util.entity.LogFactory;
+import com.lanxi.util.utils.BeanUtil;
 import com.lanxi.util.utils.LoggerUtil;
-import com.lanxi.util.utils.RandomUtil;
 import com.lanxi.util.utils.SignUtil;
-import org.apache.ibatis.annotations.Arg;
 import org.junit.Test;
 import org.springframework.mock.web.MockHttpServletRequest;
-import org.springframework.mock.web.MockHttpServletResponse;
 
-import javax.crypto.Cipher;
-import javax.crypto.KeyGenerator;
-import javax.crypto.SecretKey;
-import javax.crypto.SecretKeyFactory;
-import javax.crypto.spec.DESKeySpec;
-import javax.crypto.spec.SecretKeySpec;
 import java.io.*;
 import java.lang.reflect.Array;
 import java.net.URLDecoder;
-import java.security.NoSuchAlgorithmException;
-import java.security.SecureRandom;
 import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -298,5 +286,49 @@ public class TestOther {
         String value="7fivtSDmyGHV9aaj1wxVYocLNR967tnbx1UBAnZK0s+/PXNb0P8odlg0oAUt8P2oHixqt9eX4/LbwNl8wpkHTA==";
         System.out.println( SignUtil.rsaDe(
                 ConstConfig.priKey, SignUtil.base64De(value.getBytes("utf-8"))));
+    }
+    @Test
+    public void test29(){
+        System.out.println(Account.class.getSimpleName());
+    }
+    @Test
+    public void test30(){
+        System.out.println(IdWorker.getId());
+        System.out.println((IdWorker.getId()+"").length());
+        System.out.println();
+    }
+    @Test
+    public void test31(){
+        Commodity commodity=new Commodity();
+        FillAssist.fillEntityFieldAll(commodity);
+        Commodity copy= BeanUtil.deepCopy(commodity);
+        System.out.println(commodity.hashCode()+":"+commodity );
+        System.out.println(copy.hashCode()+":"+copy );
+    }
+    @Test
+    public void test32(){
+        System.out.println(TimeAssist.timeFixZero(TimeAssist.getLastMonth(),14) );
+    }
+    @Test
+    public void test33() throws UnsupportedEncodingException {
+        String keyCipher="MExWvuYQck910FnaJEzD2YOo%2FIY6JiCJlDG4iGd20w2XXufvXG6QCWERElqdaes2%2BDAYK7lyjp%2FbXqnVYVcwooquPBFV7mhdl3RA1pZOW2MSrT1I%2FKgLxhl%2FPZVXYpNi6Wf2GLpAG8eun8tFeFX97mfMhpQ%2FkNEWZqjMycC0UUWY%2BOk70TFUMTXh3wLAmHMasTYqrW2NmxfMx%2FRgKyJjlSa7G6sRbNv44%2Fa%2FfrRhes1PGJucIqbatcrakWv5PRc%2B6b7YddnGmkyJJuLVncKk38hGnPFpcpYva7TAKGIvqrzh8rKxtS%2BP%2FJ423ZgJFC8vRZetAiHKCtFKrF0wGWcckg%3D%3D";
+        String paramCipher="VB0Gepg%2BbLdKB9BlH%2FDGLBzMmqetjGZB5haJBslaOf%2FECywW3H90D27wNhzaT02ChpsFYUY2A6Nrk%2B4%2B6z76VncsSnbKwYCNzNHTtjLgAKsKMqOsgJsXsNyLgcHijCR9h4d1QMVwaxINxyD4CFIsO3LFBy84aD5NslsWWo4f1QW511hJ7YMJ4DRKB60w1OVRfMUMGAUgjXfqVNnB9Eysp6HsbroL9zym4A%2Bm1MHestByhOI3uO2cq59sRigaZRqC4Y%2B7XFqXGTLvIr%2Bg3Rj29y9YKQfQll8Y%2BiAb%2FaWDthI%3D";
+
+        keyCipher= URLDecoder.decode(keyCipher,"utf-8");
+        paramCipher=URLDecoder.decode(paramCipher,"utf-8");
+
+
+        String keyPlain=ArgAssist.symmetricalKeyDe.apply(keyCipher);
+        String paramPlain=ArgAssist.argStrDe.apply(keyPlain,paramCipher);
+
+
+        System.out.println(keyPlain);
+        System.out.println(paramPlain);
+    }
+    @Test
+    public void test34(){
+        String keyPlain="BEPiPTEZPLmke44h";
+        String paramCipher="kl2MkmdHG4bkspMC+oNLSxNAiLPjiQ9mo4cV9sCQsqn/ocRnIOP6wudSK00U2jvTgKVpanwLNNCoYHdQyzCb0SKwd+2CHfG7DSRadeboiYkXf6385qXpPsfvLZAQQgUZR6QudAMLSyGJG2tJP7+XJ7WfeAwSjh1Rb0Icny6Dv8gqrunjb+TlKBGbibOFVIQHhcYMq4xmFBvwWigQ3SMoJQmJT9ManeSr+tYh9RKFC4l+GDPRttjtqk+tRNnmAzw3Y7P7sRKkCucYUduptaIzlwZnbj7fYv6SLHehSBk8oEs=";
+        System.out.println(ArgAssist.argStrDe.apply(keyPlain,paramCipher) );
     }
 }

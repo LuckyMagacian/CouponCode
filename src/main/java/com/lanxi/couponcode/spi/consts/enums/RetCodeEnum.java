@@ -7,7 +7,7 @@ import java.io.Serializable;
 /**
  * Created by yangyuanjian on 2017/11/7.
  */
-public enum RetCodeEnum implements Serializable, Gettype, ReEquals {
+public enum RetCodeEnum implements Serializable, Gettype {
     error("9999"), exception("8999"), fail("1999"), warning("4999"), success("0000"), unknown("7999");
     private String value;
 

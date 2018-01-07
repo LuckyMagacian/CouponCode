@@ -1,12 +1,13 @@
 package com.lanxi.couponcode.spi.assist;
 
 import com.lanxi.couponcode.spi.consts.enums.RetCodeEnum;
-import com.lanxi.couponcode.view.PatchController;
 import com.lanxi.util.entity.LogFactory;
-import com.lanxi.util.utils.SignUtil;
 
 import javax.servlet.http.HttpServletResponse;
-import java.io.*;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.OutputStream;
 import java.net.URLEncoder;
 import java.util.Arrays;
 import java.util.Optional;
@@ -90,15 +91,15 @@ public interface FileAssit {
 //            e.printStackTrace();
 //        }
 //    }
-    static String exportTest(File file, HttpServletResponse res) {
-        res.setContentType("text/html;charset=utf8");
-        if (file == null) {
-            return new RetMessage(RetCodeEnum.fail, "导出失败!", null).toJson();
-        } else {
-            String fileName = file.getName();
-            String secret = SignUtil.md5LowerCase(fileName + TimeAssist.getNow(), "utf-8");
-            PatchController.addFile(secret,file);
-            return new RetMessage(RetCodeEnum.success, "导出成功!", secret).toJson();
-        }
-    }
+//    static String exportTest(File file, HttpServletResponse res) {
+//        res.setContentType("text/html;charset=utf8");
+//        if (file == null) {
+//            return new RetMessage(RetCodeEnum.fail, "导出失败!", null).toJson();
+//        } else {
+//            String fileName = file.getName();
+//            String secret = SignUtil.md5LowerCase(fileName + TimeAssist.getNow(), "utf-8");
+//            PatchController.addFile(secret,file);
+//            return new RetMessage(RetCodeEnum.success, "导出成功!", secret).toJson();
+//        }
+//    }
 }

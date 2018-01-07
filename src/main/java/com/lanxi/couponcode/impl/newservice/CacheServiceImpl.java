@@ -2,6 +2,7 @@ package com.lanxi.couponcode.impl.newservice;
 
 import com.lanxi.couponcode.spi.assist.RedisKeyAssist;
 import com.lanxi.couponcode.spi.consts.annotations.EasyLog;
+import com.lanxi.couponcode.spi.service.RedisService;
 import com.lanxi.util.utils.LoggerUtil;
 import org.springframework.stereotype.Service;
 
@@ -18,7 +19,7 @@ import java.util.List;
 @EasyLog (LoggerUtil.LogLevel.INFO)
 public class CacheServiceImpl implements CacheService {
 
-    @Resource
+    @Resource(name="redisService")
     private RedisService redisService;
 
     @Override

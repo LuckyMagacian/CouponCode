@@ -81,11 +81,20 @@ public interface ArgAssist {
             if (map != null) {
                 return map.getString(n);
             } else {
-                String key    = r.getParameter("secret");
-                String desKey = symmetricalKeyDe.apply(URLDecoder.decode(key,"utf-8"));
-                String argsCipher=r.getParameter("args");
-                String argsStr=argStrDe.apply(desKey,URLDecoder.decode(argsCipher,"utf-8"));
-                map = argStrToMap.apply(argsStr);
+                String keyCipher=r.getParameter("secret");
+                String paramCipher=r.getParameter("args");
+
+                keyCipher= URLDecoder.decode(keyCipher,"utf-8");
+                paramCipher=URLDecoder.decode(paramCipher,"utf-8");
+
+                String keyPlain=ArgAssist.symmetricalKeyDe.apply(keyCipher);
+                String paramPlain=ArgAssist.argStrDe.apply(keyPlain,paramCipher);
+
+//                String key    = r.getParameter("secret");
+//                String desKey = symmetricalKeyDe.apply(URLDecoder.decode(key,"utf-8"));
+//                String argsCipher=r.getParameter("args");
+//                String argsStr=argStrDe.apply(desKey,URLDecoder.decode(argsCipher,"utf-8"));
+                map = argStrToMap.apply(paramPlain);
                 argCache.put(r.toString(), map);
                 return map.getString(n);
             }

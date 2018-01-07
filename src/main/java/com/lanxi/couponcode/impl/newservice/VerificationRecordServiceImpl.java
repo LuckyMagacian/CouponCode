@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.mapper.Wrapper;
 import com.baomidou.mybatisplus.plugins.Page;
 import com.lanxi.couponcode.impl.entity.VerificationRecord;
 import com.lanxi.couponcode.spi.consts.annotations.EasyLog;
+import com.lanxi.couponcode.spi.service.RedisService;
 import com.lanxi.util.utils.LoggerUtil;
 import org.springframework.stereotype.Service;
 
@@ -17,9 +18,9 @@ import java.util.List;
 @EasyLog (LoggerUtil.LogLevel.INFO)
 public class VerificationRecordServiceImpl implements VerificationRecordService {
     @Resource
-    private DaoService daoService;
-    @Resource
-    private RedisService redisService;
+    private DaoService           daoService;
+    @Resource(name="redisService")
+    private RedisService         redisService;
     @Resource
     private RedisEnhancedService redisEnhancedService;
 

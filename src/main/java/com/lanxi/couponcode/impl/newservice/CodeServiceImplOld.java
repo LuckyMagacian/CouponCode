@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.plugins.Page;
 import com.lanxi.couponcode.impl.entity.CodeAlgorithm;
 import com.lanxi.couponcode.impl.entity.CouponCode;
 import com.lanxi.couponcode.spi.consts.enums.CouponCodeStatus;
+import com.lanxi.couponcode.spi.service.RedisService;
 import com.lanxi.util.utils.TimeUtil;
 
 import javax.annotation.Resource;
@@ -18,18 +19,18 @@ import java.util.*;
 
 @Deprecated
 public class CodeServiceImplOld implements CodeServiceOld {
-    @Resource
-    private RedisService redis;
+    @Resource(name="redisService")
+    private RedisService         redis;
     @Resource
     private RedisEnhancedService enhancedRedis;
     @Resource
-    private ConfigService config;
+    private ConfigService        config;
     @Resource
-    private DaoService daoService;
+    private DaoService           daoService;
     @Resource
     private CodeAlgorithmService algorithmService;
     @Resource
-    private RedisCodeService redisCodeService;
+    private RedisCodeService     redisCodeService;
     /**
      * 串码长度
      */

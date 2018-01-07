@@ -1,6 +1,5 @@
 package com.lanxi.couponcode.view;
 
-import com.lanxi.couponcode.impl.newservice.RedisServiceImpl;
 import com.lanxi.couponcode.spi.assist.RedisKeyAssist;
 import com.lanxi.couponcode.spi.assist.RetMessage;
 import com.lanxi.couponcode.spi.consts.annotations.EasyLog;
@@ -8,6 +7,8 @@ import com.lanxi.couponcode.spi.consts.annotations.LoginCheck;
 import com.lanxi.couponcode.spi.consts.annotations.SetUtf8;
 import com.lanxi.couponcode.spi.consts.enums.RetCodeEnum;
 import com.lanxi.couponcode.spi.service.LoginService;
+import com.lanxi.couponcode.spi.service.RedisService;
+import com.lanxi.util.entity.LogFactory;
 import com.lanxi.util.utils.LoggerUtil;
 import com.lanxi.util.utils.PictureVerifyUtil;
 import org.springframework.stereotype.Controller;
@@ -27,62 +28,82 @@ import static com.lanxi.couponcode.spi.assist.ArgAssist.toLongArg;
 public class LoginController {
     @Resource (name = "loginControllerServiceRef")
     private LoginService loginService;
-    @Resource (name = "redisService")
-    private RedisServiceImpl redisService;
+    @Resource (name = "redisServiceRef")
+    private RedisService redisService;
     private static final long picCodeLife = 600 * 1000L;
 
     @SetUtf8
     @ResponseBody
     @RequestMapping (value = "login", produces = "application/json;charset=utf-8")
     public String login(HttpServletRequest req, HttpServletResponse res) {
-        String phone = getArg.apply(req, "phone");
-        String password = getArg.apply(req, "password");
-        String validateCode = getArg.apply(req, "validateCode");
-        if (validateCode == null) {
-            return new RetMessage<>(RetCodeEnum.fail, "图片验证码校验不通过!", null).toJson();
+        try {
+            String phone = getArg.apply(req, "phone");
+            String password = getArg.apply(req, "password");
+            String validateCode = getArg.apply(req, "validateCode");
+            if (validateCode == null) {
+                return new RetMessage<>(RetCodeEnum.fail, "图片验证码校验不通过!", null).toJson();
+            }
+            String sessionId = req.getRemoteHost() + req.getRemoteUser();
+            String key = RedisKeyAssist.getVerificateCodeKey(sessionId);
+            String cacheCode = redisService.get(key);
+            if (cacheCode == null || !cacheCode.equals(validateCode)) {
+                return new RetMessage<>(RetCodeEnum.fail, "图片验证码错误!", null).toJson();
+            } else {
+                redisService.del(key);
+            }
+            RetMessage<String> retMessage = loginService.login(phone, password, validateCode);
+            return retMessage.toJson();
+        } catch (Exception e) {
+            LogFactory.error(this, "响应时发生异常!", e);
+            return new RetMessage<String>(RetCodeEnum.error,"系统异常,稍后再试!",null).toJson();
         }
-        String sessionId = req.getRemoteHost() + req.getRemoteUser();
-        String key = RedisKeyAssist.getVerificateCodeKey(sessionId);
-        String cacheCode = redisService.get(key);
-        if (cacheCode == null || !cacheCode.equals(validateCode)) {
-            return new RetMessage<>(RetCodeEnum.fail, "图片验证码错误!", null).toJson();
-        } else {
-            redisService.del(key);
-        }
-        RetMessage<String> retMessage = loginService.login(phone, password, validateCode);
-        return retMessage.toJson();
     }
 
     @SetUtf8
     @ResponseBody
     @RequestMapping (value = "loginWechat", produces = "application/json;charset=utf-8")
     public String loginWechat(HttpServletRequest req, HttpServletResponse res) {
-        String phone = getArg.apply(req, "phone");
-        String password = getArg.apply(req, "password");
-        RetMessage<String> retMessage = loginService.login(phone, password, null);
-        return retMessage.toJson();
+        try {
+            String phone = getArg.apply(req, "phone");
+            String password = getArg.apply(req, "password");
+            RetMessage<String> retMessage = loginService.login(phone, password, null);
+            return retMessage.toJson();
+        } catch (Exception e) {
+            LogFactory.error(this,"响应时发生异常!",e);
+            return new RetMessage<String>(RetCodeEnum.error,"系统异常,稍后再试!",null).toJson();
+        }
     }
 
     @SetUtf8
     @ResponseBody
     @RequestMapping (value = "logout", produces = "application/json;charset=utf-8")
     public String logout(HttpServletRequest req, HttpServletResponse res) {
-        String accountIdStr = getArg.apply(req, "accountId");
-        Long accountId = toLongArg.apply(accountIdStr);
-        return loginService.logout(accountId).toJson();
+        try {
+            String accountIdStr = getArg.apply(req, "accountId");
+            Long accountId = toLongArg.apply(accountIdStr);
+            return loginService.logout(accountId).toJson();
+        } catch (Exception e) {
+            LogFactory.error(this,"响应时发生异常!",e);
+            return new RetMessage<String>(RetCodeEnum.error,"系统异常,稍后再试!",null).toJson();
+        }
     }
 
     @SetUtf8
     @ResponseBody
     @RequestMapping (value = "forgetPassword", produces = "application/json;charset=utf-8")
     public String forgetPassword(HttpServletRequest req, HttpServletResponse res) {
-        String phone = getArg.apply(req, "phone");
-        String validateCode = getArg.apply(req, "validateCode");
-        String newPassword = getArg.apply(req, "newPassword");
-        String newRepeat = getArg.apply(req, "newRepeat");
-        String accountIdStr = getArg.apply(req, "accountId");
-        Long accountId = toLongArg.apply(accountIdStr);
-        return loginService.forgetPassword(phone, validateCode, newPassword, newRepeat, accountId).toJson();
+        try {
+            String phone = getArg.apply(req, "phone");
+            String validateCode = getArg.apply(req, "validateCode");
+            String newPassword = getArg.apply(req, "newPassword");
+            String newRepeat = getArg.apply(req, "newRepeat");
+            String accountIdStr = getArg.apply(req, "accountId");
+            Long accountId = toLongArg.apply(accountIdStr);
+            return loginService.forgetPassword(phone, validateCode, newPassword, newRepeat, accountId).toJson();
+        } catch (Exception e) {
+            LogFactory.error(this,"响应时发生异常!",e);
+            return new RetMessage<String>(RetCodeEnum.error,"系统异常,稍后再试!",null).toJson();
+        }
     }
 
     @SetUtf8
@@ -90,37 +111,56 @@ public class LoginController {
     @ResponseBody
     @RequestMapping (value = "changePassword", produces = "application/json;charset=utf-8")
     public String changePassword(HttpServletRequest req, HttpServletResponse res) {
-        String oldPasswd = getArg.apply(req, "oldPasswd");
-        String newPasswd = getArg.apply(req, "newPasswd");
-        String newRepeat = getArg.apply(req, "newRepeat");
-        String accountIdStr = getArg.apply(req, "accountId");
-        Long accountId = toLongArg.apply(accountIdStr);
-        return loginService.changePassword(oldPasswd, newPasswd, newRepeat, accountId).toJson();
+        try {
+            String oldPasswd = getArg.apply(req, "oldPasswd");
+            String newPasswd = getArg.apply(req, "newPasswd");
+            String newRepeat = getArg.apply(req, "newRepeat");
+            String accountIdStr = getArg.apply(req, "accountId");
+            Long accountId = toLongArg.apply(accountIdStr);
+            return loginService.changePassword(oldPasswd, newPasswd, newRepeat, accountId).toJson();
+        } catch (Exception e) {
+            LogFactory.error(this,"响应时发生异常!",e);
+            return new RetMessage<String>(RetCodeEnum.error,"系统异常,稍后再试!",null).toJson();
+        }
     }
 
     @SetUtf8
     @ResponseBody
     @RequestMapping (value = "sendValidateCode", produces = "application/json;charset=utf-8")
     public String sendValidateCode(HttpServletRequest req, HttpServletResponse res) {
-        String phone = getArg.apply(req, "phone");
-        return loginService.sendValidateCode(phone).toJson();
+        try {
+            String phone = getArg.apply(req, "phone");
+            return loginService.sendValidateCode(phone).toJson();
+        } catch (Exception e) {
+            LogFactory.error(this,"响应时发生异常!",e);
+            return new RetMessage<String>(RetCodeEnum.error,"系统异常,稍后再试!",null).toJson();
+        }
     }
 
     @RequestMapping (value = "getPicCode")
     public void getPicValidateCode(HttpServletRequest req, HttpServletResponse res) {
-        String sessionId = req.getRemoteHost() + req.getRemoteUser();
-        String code = PictureVerifyUtil.sendVerifyCode(res);
-        String key = RedisKeyAssist.getVerificateCodeKey(sessionId);
-        redisService.set(key, code, picCodeLife);
+        try {
+            String sessionId = req.getRemoteHost() + req.getRemoteUser();
+            String code = PictureVerifyUtil.sendVerifyCode(res);
+            String key = RedisKeyAssist.getVerificateCodeKey(sessionId);
+            redisService.set(key, code, picCodeLife);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @SetUtf8
     @ResponseBody
     @RequestMapping (value = "weChatLogin", produces = "application/json;charset=utf-8")
     public String weChatlogin(HttpServletRequest req, HttpServletResponse res) {
-        String phone = getArg.apply(req, "phone");
-        String password = getArg.apply(req, "password");
-        RetMessage<String> retMessage = loginService.login(phone, password, null);
-        return retMessage.toJson();
+        try {
+            String phone = getArg.apply(req, "phone");
+            String password = getArg.apply(req, "password");
+            RetMessage<String> retMessage = loginService.login(phone, password, null);
+            return retMessage.toJson();
+        } catch (Exception e) {
+            LogFactory.error(this,"响应时发生异常!",e);
+            return new RetMessage<String>(RetCodeEnum.error,"系统异常,稍后再试!",null).toJson();
+        }
     }
 }

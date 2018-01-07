@@ -12,7 +12,7 @@ import java.io.Serializable;
  * @author yangyuanjian
  */
 public enum CommodityStatus implements Serializable, Gettype {
-    shelved(1), unshelved(2), deleted(3), test(4), cancellation(9);
+    shelved(1), unshelved(2), deleted(3), test(4),shelvedWait(5),unshelvedWait(6), cancellation(9);
     private String value;
 
     private CommodityStatus(int value) {

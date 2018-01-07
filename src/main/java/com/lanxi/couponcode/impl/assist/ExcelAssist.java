@@ -1,9 +1,15 @@
 package com.lanxi.couponcode.impl.assist;
 
 
-import com.lanxi.couponcode.spi.config.HiddenMap;
-import com.lanxi.couponcode.spi.config.HiddenMapExcel;
+import com.lanxi.couponcode.spi.assist.RetMessage;
+import com.lanxi.couponcode.spi.assist.TimeAssist;
+import com.lanxi.couponcode.impl.config.HiddenMapExcel;
+import com.lanxi.couponcode.spi.consts.enums.RetCodeEnum;
+import com.lanxi.couponcode.view.PatchController;
+import com.lanxi.util.utils.SignUtil;
 
+import javax.servlet.http.HttpServletResponse;
+import java.io.File;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.util.*;
@@ -99,4 +105,15 @@ public interface ExcelAssist {
               });
         return values;
     }
+//    static String exportTest(File file, HttpServletResponse res) {
+//        res.setContentType("text/html;charset=utf8");
+//        if (file == null) {
+//            return new RetMessage(RetCodeEnum.fail, "导出失败!", null).toJson();
+//        } else {
+//            String fileName = file.getName();
+//            String secret = SignUtil.md5LowerCase(fileName + TimeAssist.getNow(), "utf-8");
+//            PatchController.addFile(secret, file);
+//            return new RetMessage(RetCodeEnum.success, "导出成功!", secret).toJson();
+//        }
+//    }
 }

@@ -5,13 +5,13 @@ import com.baomidou.mybatisplus.plugins.Page;
 import com.baomidou.mybatisplus.toolkit.IdWorker;
 import com.lanxi.couponcode.impl.entity.*;
 import com.lanxi.couponcode.impl.newservice.*;
-import com.lanxi.couponcode.spi.assist.FillAssist;
+import com.lanxi.couponcode.impl.assist.FillAssist;
 import com.lanxi.couponcode.spi.assist.RetMessage;
 import com.lanxi.couponcode.spi.assist.TimeAssist;
 import com.lanxi.couponcode.spi.config.ConstConfig;
-import com.lanxi.couponcode.spi.config.HiddenMap;
 import com.lanxi.couponcode.spi.consts.enums.*;
 import com.lanxi.couponcode.spi.defaultInterfaces.ToJson;
+import com.lanxi.couponcode.spi.service.RedisService;
 import com.lanxi.util.entity.LogFactory;
 import com.lanxi.util.utils.SignUtil;
 import org.springframework.stereotype.Controller;
@@ -25,7 +25,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import static com.lanxi.couponcode.impl.assist.PredicateAssist.*;
 
@@ -35,15 +34,15 @@ import static com.lanxi.couponcode.impl.assist.PredicateAssist.*;
 @Controller ("accountControllerService")
 public class AccountController implements com.lanxi.couponcode.spi.service.AccountService {
     @Resource
-    private MerchantService merchantService;
+    private MerchantService      merchantService;
     @Resource
-    private ShopService shopService;
+    private ShopService          shopService;
     @Resource
-    private AccountService accountService;
+    private AccountService       accountService;
     @Resource
     private OperateRecordService operateRecordService;
     @Resource
-    private RedisService redisService;
+    private RedisService         redisService;
     @Resource
     private RedisEnhancedService redisEnhancedService;
 
@@ -109,6 +108,8 @@ public class AccountController implements com.lanxi.couponcode.spi.service.Accou
             account.setPhone(phone);
             account.setStatus(AccountStatus.normal);
             account.setMerchantName(merchantName);
+            account.setShopId(shopId);
+            account.setShopName(shopName);
             if (s != null) {
                 account.setMerchantId(a.getMerchantId());
                 account.setShopId(shopId);
@@ -132,7 +133,8 @@ public class AccountController implements com.lanxi.couponcode.spi.service.Accou
                 record.setType(ot);
                 record.setOperateTime(TimeAssist.getNow());
                 record.setOperateResult("success");
-                record.setDescription("添加账户[" + account.getAccountId() + "]");
+//                record.setDescription("添加账户[" + account.getAccountId() + "]");
+                record.setDescription("添加账户");
                 record.setMerchantId(account.getMerchantId());
                 record.setShopId(account.getShopId());
                 record.setMerchantName(account.getMerchantName());
@@ -210,11 +212,12 @@ public class AccountController implements com.lanxi.couponcode.spi.service.Accou
                 record.setType(ot);
                 record.setOperateTime(TimeAssist.getNow());
                 record.setOperateResult("success");
-                record.setDescription("添加账户[" + account.getAccountId() + "]");
-                record.setMerchantId(account.getMerchantId());
-                record.setShopId(account.getShopId());
-                record.setMerchantName(account.getMerchantName());
-                record.setShopName(account.getShopName());
+                record.setDescription("添加账户");
+//                record.setDescription("添加账户[" + account.getAccountId() + "]");
+                record.setMerchantId(a.getMerchantId());
+                record.setShopId(a.getShopId());
+                record.setMerchantName(a.getMerchantName());
+                record.setShopName(a.getShopName());
                 operateRecordService.addRecord(record);
             }
             if (!result) {
@@ -281,11 +284,12 @@ public class AccountController implements com.lanxi.couponcode.spi.service.Accou
                 record.setType(OperateType.createEmployee);
                 record.setOperateTime(TimeAssist.getNow());
                 record.setOperateResult("success");
-                record.setDescription("添加账户[" + account.getAccountId() + "]");
-                record.setMerchantId(account.getMerchantId());
-                record.setShopId(account.getShopId());
-                record.setMerchantName(account.getMerchantName());
-                record.setShopName(account.getShopName());
+//                record.setDescription("添加账户[" + account.getAccountId() + "]");
+                record.setDescription("添加账户");
+                record.setMerchantId(a.getMerchantId());
+                record.setShopId(a.getShopId());
+                record.setMerchantName(a.getMerchantName());
+                record.setShopName(a.getShopName());
                 operateRecordService.addRecord(record);
             }
             if (!result) {
@@ -369,11 +373,12 @@ public class AccountController implements com.lanxi.couponcode.spi.service.Accou
                 record.setType(ot);
                 record.setOperateTime(TimeAssist.getNow());
                 record.setOperateResult("success");
-                record.setDescription("添加账户[" + account.getAccountId() + "]");
-                record.setMerchantId(account.getMerchantId());
-                record.setShopId(account.getShopId());
-                record.setMerchantName(account.getMerchantName());
-                record.setShopName(account.getShopName());
+                record.setDescription("添加账户");
+//                record.setDescription("添加账户[" + a.getAccountId() + "]");
+                record.setMerchantId(a.getMerchantId());
+                record.setShopId(a.getShopId());
+                record.setMerchantName(a.getMerchantName());
+                record.setShopName(a.getShopName());
                 operateRecordService.addRecord(record);
             }
             if (!result) {
@@ -401,6 +406,13 @@ public class AccountController implements com.lanxi.couponcode.spi.service.Accou
             } else {
                 Account a = accountService.queryAccountById(operaterId);
                 Account b = accountService.queryAccountById(accountId);
+                Merchant m=merchantService.queryMerchantParticularsById(a.getMerchantId());
+                message = checkMerchant.apply(m, OperateType.exportClearRecord);
+                if (notNull.test(message))
+                    return message;
+                message=checkAccount.apply(a,OperateType.freezeAccount);
+                if(notNull.test(message))
+                    return message;
                 if (AccountType.merchantManager.equals(b.getAccountType())) {
                     message = checkAccount.apply(a, OperateType.freezeMerchantManager);
                     if (notNull.test(message))
@@ -436,11 +448,12 @@ public class AccountController implements com.lanxi.couponcode.spi.service.Accou
                     record.setType(ot);
                     record.setOperateTime(TimeAssist.getNow());
                     record.setOperateResult("success");
-                    record.setDescription("冻结账户[" + account.getAccountId() + "]");
-                    record.setMerchantId(account.getMerchantId());
-                    record.setShopId(account.getShopId());
-                    record.setMerchantName(account.getMerchantName());
-                    record.setShopName(account.getShopName());
+                    record.setDescription("冻结账户");
+//                    record.setDescription("冻结账户[" + a.getAccountId() + "]");
+                    record.setMerchantId(a.getMerchantId());
+                    record.setShopId(a.getShopId());
+                    record.setMerchantName(a.getMerchantName());
+                    record.setShopName(a.getShopName());
                     operateRecordService.addRecord(record);
                 }
                 if (!result) {
@@ -472,6 +485,10 @@ public class AccountController implements com.lanxi.couponcode.spi.service.Accou
                 OperateType ot = null;
                 Account a = accountService.queryAccountById(operaterId);
                 Account b = accountService.queryAccountById(accountId);
+                Merchant m=merchantService.queryMerchantParticularsById(a.getMerchantId());
+                message = checkMerchant.apply(m, OperateType.unfreezeAccount);
+                if (notNull.test(message))
+                    return message;
                 if (AccountType.merchantManager.equals(b.getAccountType())) {
                     message = checkAccount.apply(a, OperateType.unfreezeMerchantManager);
                     if (notNull.test(message))
@@ -506,11 +523,12 @@ public class AccountController implements com.lanxi.couponcode.spi.service.Accou
                     record.setType(ot);
                     record.setOperateTime(TimeAssist.getNow());
                     record.setOperateResult("success");
-                    record.setDescription("开启账户[" + account.getAccountId() + "]");
-                    record.setMerchantId(account.getMerchantId());
-                    record.setShopId(account.getShopId());
-                    record.setMerchantName(account.getMerchantName());
-                    record.setShopName(account.getShopName());
+//                    record.setDescription("开启账户[" + a.getAccountId() + "]");
+                    record.setDescription("开启账户");
+                    record.setMerchantId(a.getMerchantId());
+                    record.setShopId(a.getShopId());
+                    record.setMerchantName(a.getMerchantName());
+                    record.setShopName(a.getShopName());
                     operateRecordService.addRecord(record);
                 }
                 if (!result) {
@@ -577,11 +595,12 @@ public class AccountController implements com.lanxi.couponcode.spi.service.Accou
                     record.setType(ot);
                     record.setOperateTime(TimeAssist.getNow());
                     record.setOperateResult("success");
-                    record.setDescription("删除账户[" + account.getAccountId() + "]");
-                    record.setMerchantId(account.getMerchantId());
-                    record.setShopId(account.getShopId());
-                    record.setMerchantName(account.getMerchantName());
-                    record.setShopName(account.getShopName());
+//                    record.setDescription("删除账户[" + a.getAccountId() + "]");
+                    record.setDescription("删除账户");
+                    record.setMerchantId(a.getMerchantId());
+                    record.setShopId(a.getShopId());
+                    record.setMerchantName(a.getMerchantName());
+                    record.setShopName(a.getShopName());
                     operateRecordService.addRecord(record);
                 } else {
                     retMessage.setRetCode(RetCodeEnum.exception.getValue());
@@ -778,7 +797,7 @@ public class AccountController implements com.lanxi.couponcode.spi.service.Accou
             Page<Account> pageObj = new Page<>(pageNum, pageSize);
             EntityWrapper<Account> wrapper = new EntityWrapper<Account>();
             if (phone != null && !phone.isEmpty()) {
-                wrapper.eq("phone", phone);
+                wrapper.like("phone", phone);
             }
             if (type == null) {
 				wrapper.in("account_type",AccountType.shopManager+","+AccountType.shopEmployee);

@@ -4,10 +4,11 @@ import com.alibaba.fastjson.JSON;
 import com.baomidou.mybatisplus.activerecord.Model;
 import com.lanxi.couponcode.impl.entity.*;
 import com.lanxi.couponcode.impl.newcontroller.CodeController;
+import com.lanxi.couponcode.impl.newcontroller.LoginController;
 import com.lanxi.couponcode.impl.newcontroller.OperateRecordController;
 import com.lanxi.couponcode.impl.newservice.DaoService;
 import com.lanxi.couponcode.impl.newservice.MerchantServiceImpl;
-import com.lanxi.couponcode.spi.assist.FillAssist;
+import com.lanxi.couponcode.impl.assist.FillAssist;
 import com.lanxi.couponcode.spi.consts.enums.AccountType;
 import com.lanxi.couponcode.spi.consts.enums.ClearStatus;
 import com.lanxi.couponcode.spi.service.ClearService;
@@ -165,6 +166,10 @@ public class TestSpring {
         VerificationRecord record = new VerificationRecord();
         FillAssist.fillEntityFieldAll(record);
         record.insert();
+    }
+    @Test
+    public void test15(){
+        ac.getBean(LoginController.class).sendValidateCode("15068610940");
     }
 
 }

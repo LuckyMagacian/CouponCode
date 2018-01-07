@@ -209,6 +209,8 @@ public interface PredicateAssist {
             case cancelShop:
                 if (isMerchantManager.negate().test(a))
                     return new RetMessage(RetCodeEnum.fail, "非商户管理员无权操作!", null);
+                else
+                    return null;
             case queryShop:
                 if (notAdmin.test(a) && isMerchantManager.negate().test(a))
                     return new RetMessage(RetCodeEnum.fail, "非管理员及商户管理员无权操作!", null);
@@ -233,6 +235,8 @@ public interface PredicateAssist {
             case cancelShopManager:
                 if (isMerchantManager.negate().test(a))
                     return new RetMessage(RetCodeEnum.fail, "非商户管理员无权操作!", null);
+                else
+                    return null;
             case queryShopManager:
                 if (notAdmin.test(a) && isMerchantManager.negate().test(a))
                     return new RetMessage(RetCodeEnum.fail, "非管理员及商户管理员无权操作!", null);
@@ -259,6 +263,8 @@ public interface PredicateAssist {
             case cancelCommodity:
                 if (notAdmin.test(a))
                     return new RetMessage(RetCodeEnum.fail, "非管理员无权操作!", null);
+                else
+                    return null;
             case createCommodity:
             case queryCommodity:
             case deleteCommodity:
@@ -293,11 +299,15 @@ public interface PredicateAssist {
             case deleteAccount:
             case modifyAccount:
             case cancelAccount:
-                if (notAdmin.test(a))
-                    return new RetMessage(RetCodeEnum.fail, "非管理员无权操作!", null);
+//                if (notAdmin.test(a))
+//                    return new RetMessage(RetCodeEnum.fail, "非管理员无权操作!", null);
+//                else
+//                    return null;
             case queryAccount:
                 if (isMerchantManager.negate().test(a) && notAdmin.test(a))
                     return new RetMessage(RetCodeEnum.fail, "非管理员,商户管理员无权操作!", null);
+                else
+                    return null;
             case queryAccountInfo:
                 if (isMerchantManager.negate().test(a) && notAdmin.test(a) && notShopManager.test(a))
                     return new RetMessage(RetCodeEnum.fail, "非管理员,商户管理员,门店管理员无权操作!", null);
@@ -359,6 +369,9 @@ public interface PredicateAssist {
             return new RetMessage(RetCodeEnum.fail, "操作类型为空!", null);
         switch (o) {
             case createCouponCode:
+                if (!CommodityStatus.shelved.equals(c.getStatus()))
+                    return new RetMessage(RetCodeEnum.fail, "非上架状态,无法生成!", null);
+                return null;
             case requestModifyCommodity:
             case requestShelveCommodity:
             case shelveCommodity:
@@ -428,8 +441,8 @@ public interface PredicateAssist {
             case queryRequest:
                 return null;
             default:
-                if (MerchantStatus.normal.equals(m))
-                    return new RetMessage(RetCodeEnum.fail, "非正常状态!无法操作!", null);
+                if (!MerchantStatus.normal.equals(m.getMerchantStatus()))
+                    return new RetMessage(RetCodeEnum.fail, "商户处于冻结状态无法操作!", null);
         }
         return null;
     };

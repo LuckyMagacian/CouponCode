@@ -10,16 +10,14 @@ import com.lanxi.couponcode.spi.consts.annotations.EasyLog;
 import com.lanxi.couponcode.spi.consts.enums.ClearStatus;
 import com.lanxi.couponcode.spi.consts.enums.CouponCodeStatus;
 import com.lanxi.couponcode.spi.service.QuartzService;
+import com.lanxi.couponcode.spi.service.RedisService;
 import com.lanxi.util.entity.LogFactory;
 import com.lanxi.util.utils.LoggerUtil;
 import org.springframework.stereotype.Controller;
 
 import javax.annotation.Resource;
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -32,19 +30,19 @@ import java.util.stream.Collectors;
 @EasyLog (LoggerUtil.LogLevel.INFO)
 public class QuartzController implements QuartzService {
     @Resource
-    private RedisService redisService;
+    private RedisService         redisService;
     @Resource
     private RedisEnhancedService redisEnhancedService;
     @Resource
-    private CommodityService commodityService;
+    private CommodityService     commodityService;
     @Resource
-    private CodeService codeService;
+    private CodeService          codeService;
     @Resource
-    private ClearService clearService;
+    private ClearService         clearService;
     @Resource
-    private MerchantService merchantService;
+    private MerchantService      merchantService;
     @Resource
-    private LockService lockService;
+    private LockService          lockService;
 
     @Override
     public void codeOverTime() {
@@ -59,6 +57,7 @@ public class QuartzController implements QuartzService {
 //                if (locks.get(i) == null || !locks.get(i))
 //                    continue;
                 codeService.overTimeCode(list.get(i));
+                LogFactory.info(this,"串码过期:"+list.get(i));
             }
         } catch (Exception e) {
             LogFactory.info(this, "串码过期quartz异常!", e);
@@ -78,17 +77,18 @@ public class QuartzController implements QuartzService {
         EntityWrapper<CouponCode> wrapper = new EntityWrapper<>();
         wrapper.eq("clear_status", ClearStatus.uncleared.getValue());
         wrapper.isNotNull("final_time");
-        wrapper.ge("final_time", TimeAssist.getTodayBegin());
-        wrapper.le("final_time", TimeAssist.getToodayEnd());
-        List codeStatus = new ArrayList(Arrays.asList(CouponCodeStatus.values()));
+        wrapper.ge("final_time", TimeAssist.getLastdayBegin());
+        wrapper.le("final_time", TimeAssist.getLastdayEnd());
+        List<CouponCodeStatus> codeStatus = new ArrayList(Arrays.asList(CouponCodeStatus.values()));
         codeStatus.remove(CouponCodeStatus.undestroyed);
         codeStatus.remove(CouponCodeStatus.test);
-        wrapper.in("code_status", codeStatus);
+        wrapper.in("code_status", codeStatus.stream().map(e->e.getValue()).collect(Collectors.toList()));
         //查找所有清算状态为未清算的,串码状态不是未核销及测试的串码
         List<CouponCode> list = codeService.queryCodes(wrapper, null);
-        List<Boolean> locks = null;
+
+//        List<Boolean> locks = null;
         try {
-            locks = lockService.lock(list);
+//            locks = lockService.lock(list);
             //按商户id分组
             Map<Long, List<CouponCode>> mapByMerchant = list.stream().collect(Collectors.groupingBy(e -> e.getMerchantId()));
             //遍历map
@@ -106,20 +106,24 @@ public class QuartzController implements QuartzService {
                     Long commodityId = f.getKey();
                     Commodity commodity = commodityService.queryCommodity(commodityId);
                     List<CouponCode> commodityCodes = f.getValue();
-                    //按状态分组
-                    Map<CouponCodeStatus, List<CouponCode>> statusCodes = commodityCodes.parallelStream().collect(Collectors.groupingBy(g -> CouponCodeStatus.getType(g.getCodeStatus())));
+//                    按状态分
+                    Map<CouponCodeStatus, List<CouponCode>> statusCodes = commodityCodes.stream().collect(Collectors.groupingBy(g -> CouponCodeStatus.getType(g.getCodeStatus())));
                     //创建商户商品日计算记录
                     CommodityClearRecord record = new CommodityClearRecord();
                     record.setRecordId(IdWorker.getId());
-                    record.setRecordTime(TimeAssist.getNow());
+                    record.setRecordTime(TimeAssist.getLastdayBegin());
                     //配置商品及商户信息
                     record.setCommodityId(commodity.getCommodityId());
                     record.setCommodityName(commodity.getCommodityName());
                     record.setCommodityType(commodity.getType());
                     record.setMerchantId(merchant.getMerchantId());
                     record.setMerchantName(merchant.getMerchantName());
+
                     //根据串码状态配置串码数量
-                    Function<CouponCodeStatus, Integer> statusToSize = (s) -> statusCodes.get(s).size();
+                    Function<CouponCodeStatus, Integer> statusToSize = (s) -> {
+                        Collection<CouponCode> temp=statusCodes.get(s);
+                        return temp==null?0:temp.size();
+                    };
                     record.setVerificateNum(statusToSize.apply(CouponCodeStatus.destroyed));
                     record.setCancelationNum(statusToSize.apply(CouponCodeStatus.cancellation));
                     record.setOvertimeNum(statusToSize.apply(CouponCodeStatus.overtime));
@@ -137,7 +141,7 @@ public class QuartzController implements QuartzService {
                 //创建商户日结算记录
                 ClearDailyRecord dailyRecord = new ClearDailyRecord();
                 dailyRecord.setRecordId(IdWorker.getId());
-                dailyRecord.setRecordTime(TimeAssist.getNow());
+                dailyRecord.setRecordTime(TimeAssist.getLastdayBegin());
                 //配置商户信息
                 dailyRecord.setMerchantId(merchant.getMerchantId());
                 dailyRecord.setMerchantName(merchant.getMerchantName());
@@ -171,6 +175,7 @@ public class QuartzController implements QuartzService {
                 dailyRecord.setShowTotal(dailyRecord.getVerificateCost());
                 dailyRecord.setCancelationCost(statusToSumCost.apply(CouponCodeStatus.cancellation));
                 dailyRecord.setOvertimeCost(statusToSumCost.apply(CouponCodeStatus.overtime));
+                dailyRecord.setCommodityClearRecords(commodityClearRecords);
                 dailyRecord.setClearStatus(ClearStatus.uncleared);
                 //插入到日结算表,若成功,所有该日结算记录相关的串码都更新为已结算
                 boolean result = clearService.addClearDailyRecord(dailyRecord);
@@ -180,13 +185,14 @@ public class QuartzController implements QuartzService {
                         one.setClearTime(TimeAssist.getNow());
                         one.updateById();
                     });
+                    LogFactory.info(this,"生成日结算记录:"+dailyRecord);
                 }
             });
         } catch (Exception e) {
             LogFactory.error(this, "日结算日志quartz异常!", e);
         } finally {
-            if (list != null && locks != null)
-                lockService.unlock(list);
+//            if (list != null && locks != null)
+//                lockService.unlock(list);
         }
 
     }
@@ -208,16 +214,23 @@ public class QuartzController implements QuartzService {
             BigDecimal showTotal = dailyRecords.stream().map(f -> f.getVerificateCost()).reduce(new BigDecimal(0), (a, b) -> a.add(b));
             //生成结算记录插入数据库
             ClearRecord record = new ClearRecord();
-            record.setTimeStart(TimeAssist.getLastMonth());
-            record.setTimeStop(TimeAssist.getLastMonth());
+            record.setTimeStart(TimeAssist.timeFixZero(TimeAssist.getLastMonth()));
+            record.setTimeStop(TimeAssist.timeFixNine(TimeAssist.getLastMonth()));
             record.setRecordId(IdWorker.getId());
             record.setMerchantId(merchantId);
             record.setMerchantName(merchant.getMerchantName());
             record.setDailyRecordIds(dailyRecords.stream().map(f -> f.getRecordId()).collect(Collectors.toList()));
             record.setCreateTime(TimeAssist.getNow());
-            record.setTimeStart(TimeAssist.timeFixZero(TimeAssist.getLastMonth()));
+            record.setShowTotal(showTotal);
             record.setClearStatus(ClearStatus.uncleared);
-            record.insert();
+            boolean result=record.insert();
+            LogFactory.info(this,"生成月结算记录:"+record);
+            if(result){
+                dailyRecords.stream().forEach(r->{
+                    r.setClearStatus(ClearStatus.cleard);
+                    r.updateById();
+                });
+            }
         });
 
     }

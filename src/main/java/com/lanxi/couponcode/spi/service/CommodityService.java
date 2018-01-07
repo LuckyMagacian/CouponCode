@@ -34,6 +34,7 @@ public interface CommodityService {
                                         @HiddenArg Long operaterId);
 
     RetMessage<Boolean> shelveCommodity(@HiddenArg Long commodityId,
+                                        BigDecimal sellPrice,
                                         @HiddenArg Long operaterId);
 
     RetMessage<Boolean> unshelveCommodity(@HiddenArg Long commodityId,
@@ -80,6 +81,7 @@ public interface CommodityService {
                                                     @HiddenArg Long operaterId);
 
     RetMessage<Serializable> queryAllCommodityIds(Long operaterId);
+    RetMessage<Serializable> queryAllCommodityIds(Long merchantId,CommodityStatus status,Long operaterId);
 
     RetMessage<String> queryCommodity(Long commodityId, Long operaterId);
 }

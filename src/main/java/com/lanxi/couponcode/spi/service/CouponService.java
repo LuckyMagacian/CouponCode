@@ -3,6 +3,8 @@ package com.lanxi.couponcode.spi.service;
 import com.lanxi.couponcode.spi.assist.RetMessage;
 import com.lanxi.couponcode.spi.consts.annotations.HiddenArg;
 import com.lanxi.couponcode.spi.consts.annotations.RealReturnType;
+import com.lanxi.couponcode.spi.consts.enums.CouponCodeStatus;
+import com.lanxi.couponcode.spi.consts.enums.GenerateType;
 import com.lanxi.couponcode.spi.consts.enums.VerificationType;
 
 import java.io.File;
@@ -20,6 +22,8 @@ public interface CouponService {
                                   Long code,
                                   Long codeId,
                                   Long commodityId,
+                                  CouponCodeStatus status,
+                                  GenerateType type,
                                   @HiddenArg Integer pageNum,
                                   @HiddenArg Integer pageSize,
                                   @HiddenArg Long operaterId
@@ -32,6 +36,8 @@ public interface CouponService {
                                       Long code,
                                       Long codeId,
                                       Long commodityId,
+                                      CouponCodeStatus status,
+                                      GenerateType type,
                                       @HiddenArg Long operaterId);
 
     RetMessage<Boolean> destroyCode(@HiddenArg Long codeId,

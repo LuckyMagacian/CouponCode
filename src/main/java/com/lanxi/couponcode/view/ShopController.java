@@ -1,10 +1,13 @@
 package com.lanxi.couponcode.view;
 
+import com.lanxi.couponcode.spi.assist.RetMessage;
 import com.lanxi.couponcode.spi.consts.annotations.EasyLog;
 import com.lanxi.couponcode.spi.consts.annotations.LoginCheck;
 import com.lanxi.couponcode.spi.consts.annotations.SetUtf8;
 import com.lanxi.couponcode.spi.consts.enums.AccountType;
+import com.lanxi.couponcode.spi.consts.enums.RetCodeEnum;
 import com.lanxi.couponcode.spi.service.AccountService;
+import com.lanxi.util.entity.LogFactory;
 import com.lanxi.util.utils.LoggerUtil;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -33,13 +36,18 @@ public class ShopController {
     @ResponseBody
     @RequestMapping (value = "addAccount", produces = "application/json;charset=utf-8")
     public String addAccount(HttpServletRequest req, HttpServletResponse res) {
-        String userName = getArg.apply(req, "userName");
-        String phone = getArg.apply(req, "phone");
-        String operaterIdStr = getArg.apply(req, "operaterId");
-        String typeStr = getArg.apply(req, "type");
-        Long operaterId = parseArg(operaterIdStr, Long.class);
-//        AccountType type = AccountType.getType(typeStr) ;
-        return accountService.shopAddAccount(AccountType.shopEmployee, userName, phone, operaterId).toJson();
+        try {
+            String userName = getArg.apply(req, "userName");
+            String phone = getArg.apply(req, "phone");
+            String operaterIdStr = getArg.apply(req, "operaterId");
+            String typeStr = getArg.apply(req, "type");
+            Long operaterId = parseArg(operaterIdStr, Long.class);
+            //        AccountType type = AccountType.getType(typeStr) ;
+            return accountService.shopAddAccount(AccountType.shopEmployee, userName, phone, operaterId).toJson();
+        } catch (Exception e) {
+            LogFactory.error(this, "响应时发生异常!", e);
+            return new RetMessage<String>(RetCodeEnum.error, "系统异常,稍后再试!", null).toJson();
+        }
     }
 
     /* 门店管理员查询账户 */
@@ -48,15 +56,20 @@ public class ShopController {
     @ResponseBody
     @RequestMapping (value = "queryAccounts", produces = "application/json;charset=utf-8")
     public String queryAccounts(HttpServletRequest req, HttpServletResponse res) {
-        String operaterIdStr = getArg.apply(req, "operaterId");
-        Long operaterId = parseArg(operaterIdStr, Long.class);
-        String pageNumStr = getArg.apply(req, "pageNum");
-        String pageSizeStr = getArg.apply(req, "pageSize");
-        Integer pageNum = parseArg(pageNumStr, Integer.class);
-        Integer pageSize = parseArg(pageSizeStr, Integer.class);
-        String shopIdStr = getArg.apply(req, "shopId");
-        Long shopId = parseArg(shopIdStr, Long.class);
-        return accountService.queryShopAccounts(shopId, operaterId, pageNum, pageSize).toJson();
+        try {
+            String operaterIdStr = getArg.apply(req, "operaterId");
+            Long operaterId = parseArg(operaterIdStr, Long.class);
+            String pageNumStr = getArg.apply(req, "pageNum");
+            String pageSizeStr = getArg.apply(req, "pageSize");
+            Integer pageNum = parseArg(pageNumStr, Integer.class);
+            Integer pageSize = parseArg(pageSizeStr, Integer.class);
+            String shopIdStr = getArg.apply(req, "shopId");
+            Long shopId = parseArg(shopIdStr, Long.class);
+            return accountService.queryShopAccounts(shopId, operaterId, pageNum, pageSize).toJson();
+        } catch (Exception e) {
+            LogFactory.error(this,"响应时发生异常!",e);
+            return new RetMessage<String>(RetCodeEnum.error,"系统异常,稍后再试!",null).toJson();
+        }
     }
 
     /* 冻结账户 */
@@ -65,11 +78,16 @@ public class ShopController {
     @ResponseBody
     @RequestMapping (value = "freezeAccount", produces = "application/json;charset=utf-8")
     public String freezeAccount(HttpServletRequest req, HttpServletResponse res) {
-        String operaterIdStr = getArg.apply(req, "operaterId");
-        Long operaterId = parseArg(operaterIdStr, Long.class);
-        String accountIdStr = getArg.apply(req, "accountId");
-        Long accountId = parseArg(accountIdStr, Long.class);
-        return accountService.freezeAccount(accountId, operaterId).toJson();
+        try {
+            String operaterIdStr = getArg.apply(req, "operaterId");
+            Long operaterId = parseArg(operaterIdStr, Long.class);
+            String accountIdStr = getArg.apply(req, "accountId");
+            Long accountId = parseArg(accountIdStr, Long.class);
+            return accountService.freezeAccount(accountId, operaterId).toJson();
+        } catch (Exception e) {
+            LogFactory.error(this,"响应时发生异常!",e);
+            return new RetMessage<String>(RetCodeEnum.error,"系统异常,稍后再试!",null).toJson();
+        }
     }
 
     /* 开启账户 */
@@ -78,11 +96,16 @@ public class ShopController {
     @ResponseBody
     @RequestMapping (value = "unfreezeAccount", produces = "application/json;charset=utf-8")
     public String unfreezeAccount(HttpServletRequest req, HttpServletResponse res) {
-        String operaterIdStr = getArg.apply(req, "operaterId");
-        Long operaterId = parseArg(operaterIdStr, Long.class);
-        String accountIdStr = getArg.apply(req, "accountId");
-        Long accountId = parseArg(accountIdStr, Long.class);
-        return accountService.unfreezeAccount(accountId, operaterId).toJson();
+        try {
+            String operaterIdStr = getArg.apply(req, "operaterId");
+            Long operaterId = parseArg(operaterIdStr, Long.class);
+            String accountIdStr = getArg.apply(req, "accountId");
+            Long accountId = parseArg(accountIdStr, Long.class);
+            return accountService.unfreezeAccount(accountId, operaterId).toJson();
+        } catch (Exception e) {
+            LogFactory.error(this,"响应时发生异常!",e);
+            return new RetMessage<String>(RetCodeEnum.error,"系统异常,稍后再试!",null).toJson();
+        }
     }
 
     /* 删除账户 */
@@ -91,10 +114,15 @@ public class ShopController {
     @ResponseBody
     @RequestMapping (value = "delAccount", produces = "application/json;charset=utf-8")
     public String deleteAccount(HttpServletRequest req, HttpServletResponse res) {
-        String operaterIdStr = getArg.apply(req, "operaterId");
-        Long operaterId = parseArg(operaterIdStr, Long.class);
-        String accountIdStr = getArg.apply(req, "accountId");
-        Long accountId = parseArg(accountIdStr, Long.class);
-        return accountService.delAccount(accountId, operaterId).toJson();
+        try {
+            String operaterIdStr = getArg.apply(req, "operaterId");
+            Long operaterId = parseArg(operaterIdStr, Long.class);
+            String accountIdStr = getArg.apply(req, "accountId");
+            Long accountId = parseArg(accountIdStr, Long.class);
+            return accountService.delAccount(accountId, operaterId).toJson();
+        } catch (Exception e) {
+            LogFactory.error(this,"响应时发生异常!",e);
+            return new RetMessage<String>(RetCodeEnum.error,"系统异常,稍后再试!",null).toJson();
+        }
     }
 }

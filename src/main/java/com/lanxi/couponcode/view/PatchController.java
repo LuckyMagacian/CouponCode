@@ -15,6 +15,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * Created by yangyuanjian on 12/18/2017.
@@ -23,7 +24,7 @@ import java.util.Map;
 @RequestMapping ("patch")
 @EasyLog (LoggerUtil.LogLevel.INFO)
 public class PatchController {
-    private static final Map<String, File> map = new HashMap<>();
+    private static final Map<String, File> map = new ConcurrentHashMap<>();
     @Resource(name="quartzControllerServiceRef")
     private QuartzService quartzService;
     @RequestMapping ("export")
@@ -55,7 +56,7 @@ public class PatchController {
     }
 
 
-    public synchronized static void addFile(String key, File file) {
+    public static void addFile(String key, File file) {
         map.put(key, file);
     }
 }

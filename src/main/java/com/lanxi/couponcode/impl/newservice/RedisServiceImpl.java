@@ -1,6 +1,7 @@
 package com.lanxi.couponcode.impl.newservice;
 
 import com.lanxi.couponcode.spi.consts.annotations.EasyLog;
+import com.lanxi.couponcode.spi.service.RedisService;
 import com.lanxi.util.entity.LogFactory;
 import com.lanxi.util.utils.LoggerUtil;
 import org.springframework.core.annotation.Order;

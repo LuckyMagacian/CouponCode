@@ -96,11 +96,18 @@ public interface TimeAssist {
         return getNow().substring(0, 8) + "000000";
     }
 
+    static String getLastdayBegin(){
+        return LocalDateTime.now().minusDays(1).format(formatter).substring(0,8)+"000000";
+    }
+    static String getLastdayEnd(){
+        return LocalDateTime.now().minusDays(1).format(formatter).substring(0,8)+"999999";
+    }
+
     static String getLastMonth() {
         return LocalDateTime.now().minusMonths(1).format(formatter).substring(0, 6);
     }
 
-    static String getToodayEnd() {
+    static String getTodayEnd() {
         return getNow().substring(0, 8) + "999999";
     }
 
