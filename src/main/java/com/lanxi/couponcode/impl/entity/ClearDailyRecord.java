@@ -1,6 +1,7 @@
 package com.lanxi.couponcode.impl.entity;
 
 import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.activerecord.Model;
 import com.baomidou.mybatisplus.annotations.TableField;
 import com.baomidou.mybatisplus.annotations.TableId;
@@ -11,6 +12,7 @@ import com.lanxi.couponcode.spi.defaultInterfaces.ToJson;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -214,7 +216,26 @@ public class ClearDailyRecord extends Model<ClearDailyRecord> implements CommonD
     }
 
     public void setCommodityClearRecords(String commodityClearRecords) {
-        this.commodityClearRecords = JSONArray.parseArray(commodityClearRecords, CommodityClearRecord.class);
+        List<CommodityClearRecord> list=new ArrayList<>();
+        List<JSONObject> jarray =JSONArray.parseArray(commodityClearRecords,JSONObject.class);
+        for(JSONObject each:jarray){
+            CommodityClearRecord record=new CommodityClearRecord();
+            record.setCommodityType(each.getString("commodityType"));
+            record.setCancelationCost(each.getBigDecimal("cancelationCost"));
+            record.setCancelationNum(each.getInteger("cancelationNum"));
+            record.setCommodityId(each.getLong("commodityId"));
+            record.setCommodityName(each.getString("commodityName"));
+            record.setMerchantId(each.getLong("merchantId"));
+            record.setMerchantName(each.getString("merchantName"));
+            record.setOvertimeCost(each.getBigDecimal("overtimeCost"));
+            record.setOvertimeNum(each.getInteger("overtimeNum"));
+            record.setRecordId(each.getLong("recordId"));
+            record.setRecordTime(each.getString("recordTime"));
+            record.setVerificateCost(each.getBigDecimal("verificateCost"));
+            record.setVerificateNum(each.getInteger("verificateNum"));
+            list.add(record);
+        }
+        this.commodityClearRecords=list;
     }
 
 

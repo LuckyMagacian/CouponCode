@@ -2,7 +2,8 @@ package com.lanxi.couponcode.view;
 
 import com.lanxi.couponcode.spi.aop.CheckLogin;
 import com.lanxi.couponcode.spi.assist.FileAssit;
-import com.lanxi.couponcode.view.assist.FillAssist;
+import com.lanxi.couponcode.spi.assist.FileDelete;
+import com.lanxi.couponcode.view.assist.FileAssist;
 import com.lanxi.couponcode.spi.assist.RetMessage;
 import com.lanxi.couponcode.spi.consts.annotations.Comment;
 import com.lanxi.couponcode.spi.consts.annotations.EasyLog;
@@ -89,7 +90,7 @@ public class MerchantManageController {
                     .toJson();
         } catch (Exception e) {
             LogFactory.error(this,"响应时发生异常!",e);
-            return new RetMessage<String>(RetCodeEnum.error,"系统异常,稍后再试!",null).toJson();
+            return new RetMessage<String>(RetCodeEnum.error,"系统繁忙,稍后再试!",null).toJson();
         }
     }
 
@@ -121,6 +122,7 @@ public class MerchantManageController {
                     }
                     os.close();
                     result = merchantService.organizingInstitutionBarCodePicUpLoad(file2, operaterId, merchantId).toJson();
+                    FileDelete.add(file2);
                 }
             } catch (Exception e) {
                 LogFactory.error(this, "上传组织机构代码证时发生异常");
@@ -129,7 +131,7 @@ public class MerchantManageController {
             return result;
         } catch (Exception e) {
             LogFactory.error(this,"响应时发生异常!",e);
-            return new RetMessage<String>(RetCodeEnum.error,"系统异常,稍后再试!",null).toJson();
+            return new RetMessage<String>(RetCodeEnum.error,"系统繁忙,稍后再试!",null).toJson();
         }
     }
 
@@ -159,6 +161,7 @@ public class MerchantManageController {
                     }
                     os.close();
                     result = merchantService.businessLicensePicUpLoad(file2, operaterId, merchantId).toJson();
+                    FileDelete.add(file2);
                 }
             } catch (Exception e) {
                 LogFactory.error(this, "上传组织机构代码证时发生异常");
@@ -167,7 +170,7 @@ public class MerchantManageController {
             return result;
         } catch (Exception e) {
             LogFactory.error(this,"响应时发生异常!",e);
-            return new RetMessage<String>(RetCodeEnum.error,"系统异常,稍后再试!",null).toJson();
+            return new RetMessage<String>(RetCodeEnum.error,"系统繁忙,稍后再试!",null).toJson();
         }
     }
 
@@ -197,6 +200,7 @@ public class MerchantManageController {
                     }
                     os.close();
                     result = merchantService.otherPicUpLoad(file2, operaterId, merchantId).toJson();
+                    FileDelete.add(file2);
                 }
             } catch (Exception e) {
                 LogFactory.error(this, "上传组织机构代码证时发生异常");
@@ -205,7 +209,7 @@ public class MerchantManageController {
             return result;
         } catch (Exception e) {
             LogFactory.error(this,"响应时发生异常!",e);
-            return new RetMessage<String>(RetCodeEnum.error,"系统异常,稍后再试!",null).toJson();
+            return new RetMessage<String>(RetCodeEnum.error,"系统繁忙,稍后再试!",null).toJson();
         }
     }
 
@@ -239,7 +243,7 @@ public class MerchantManageController {
                     .toJson();
         } catch (Exception e) {
             LogFactory.error(this,"响应时发生异常!",e);
-            return new RetMessage<String>(RetCodeEnum.error,"系统异常,稍后再试!",null).toJson();
+            return new RetMessage<String>(RetCodeEnum.error,"系统繁忙,稍后再试!",null).toJson();
         }
     }
 
@@ -274,7 +278,7 @@ public class MerchantManageController {
             return result;
         } catch (Exception e) {
             LogFactory.error(this,"响应时发生异常!",e);
-            return new RetMessage<String>(RetCodeEnum.error,"系统异常,稍后再试!",null).toJson();
+            return new RetMessage<String>(RetCodeEnum.error,"系统繁忙,稍后再试!",null).toJson();
         }
     }
 
@@ -310,7 +314,7 @@ public class MerchantManageController {
             return result;
         } catch (Exception e) {
             LogFactory.error(this,"响应时发生异常!",e);
-            return new RetMessage<String>(RetCodeEnum.error,"系统异常,稍后再试!",null).toJson();
+            return new RetMessage<String>(RetCodeEnum.error,"系统繁忙,稍后再试!",null).toJson();
         }
     }
 
@@ -346,7 +350,7 @@ public class MerchantManageController {
             return result;
         } catch (Exception e) {
             LogFactory.error(this,"响应时发生异常!",e);
-            return new RetMessage<String>(RetCodeEnum.error,"系统异常,稍后再试!",null).toJson();
+            return new RetMessage<String>(RetCodeEnum.error,"系统繁忙,稍后再试!",null).toJson();
         }
     }
 
@@ -364,7 +368,7 @@ public class MerchantManageController {
             return shopService.freezeShop(shopId, operaterId).toJson();
         } catch (Exception e) {
             LogFactory.error(this,"响应时发生异常!",e);
-            return new RetMessage<String>(RetCodeEnum.error,"系统异常,稍后再试!",null).toJson();
+            return new RetMessage<String>(RetCodeEnum.error,"系统繁忙,稍后再试!",null).toJson();
         }
     }
 
@@ -382,7 +386,7 @@ public class MerchantManageController {
             return shopService.unfreezeShop(shopId, operaterId).toJson();
         } catch (Exception e) {
             LogFactory.error(this,"响应时发生异常!",e);
-            return new RetMessage<String>(RetCodeEnum.error,"系统异常,稍后再试!",null).toJson();
+            return new RetMessage<String>(RetCodeEnum.error,"系统繁忙,稍后再试!",null).toJson();
         }
     }
 
@@ -405,7 +409,7 @@ public class MerchantManageController {
                     .toJson();
         } catch (Exception e) {
             LogFactory.error(this,"响应时发生异常!",e);
-            return new RetMessage<String>(RetCodeEnum.error,"系统异常,稍后再试!",null).toJson();
+            return new RetMessage<String>(RetCodeEnum.error,"系统繁忙,稍后再试!",null).toJson();
         }
     }
 
@@ -432,7 +436,7 @@ public class MerchantManageController {
                     .toJson();
         } catch (Exception e) {
             LogFactory.error(this,"响应时发生异常!",e);
-            return new RetMessage<String>(RetCodeEnum.error,"系统异常,稍后再试!",null).toJson();
+            return new RetMessage<String>(RetCodeEnum.error,"系统繁忙,稍后再试!",null).toJson();
         }
 
     }
@@ -457,10 +461,10 @@ public class MerchantManageController {
             Long operaterId = toLongArg.apply(operaterIdStr);
             Long merchantId = toLongArg.apply(merchantIdStr);
             File file = shopService.queryShopsExport(shopName, shopAddress, shopStatus, pageNum, pageSize, merchantId, operaterId).getDetail();
-            return FillAssist.exportTest(file, res);
+            return FileAssist.exportTest(file, res);
         } catch (Exception e) {
             LogFactory.error(this,"响应时发生异常!",e);
-            return new RetMessage<String>(RetCodeEnum.error,"系统异常,稍后再试!",null).toJson();
+            return new RetMessage<String>(RetCodeEnum.error,"系统繁忙,稍后再试!",null).toJson();
         }
         //        try {
 //            FileAssit.write(file,res.getOutputStream());
@@ -491,7 +495,7 @@ public class MerchantManageController {
             return accountService.merchantAddAccount(type, userName, phone, shopName, shopId, operaterId).toJson();
         } catch (Exception e) {
             LogFactory.error(this,"响应时发生异常!",e);
-            return new RetMessage<String>(RetCodeEnum.error,"系统异常,稍后再试!",null).toJson();
+            return new RetMessage<String>(RetCodeEnum.error,"系统繁忙,稍后再试!",null).toJson();
         }
     }
 
@@ -519,7 +523,7 @@ public class MerchantManageController {
                     .toJson();
         } catch (Exception e) {
             LogFactory.error(this,"响应时发生异常!",e);
-            return new RetMessage<String>(RetCodeEnum.error,"系统异常,稍后再试!",null).toJson();
+            return new RetMessage<String>(RetCodeEnum.error,"系统繁忙,稍后再试!",null).toJson();
         }
     }
 
@@ -537,7 +541,7 @@ public class MerchantManageController {
             return accountService.freezeAccount(accountId, operaterId).toJson();
         } catch (Exception e) {
             LogFactory.error(this,"响应时发生异常!",e);
-            return new RetMessage<String>(RetCodeEnum.error,"系统异常,稍后再试!",null).toJson();
+            return new RetMessage<String>(RetCodeEnum.error,"系统繁忙,稍后再试!",null).toJson();
         }
     }
 
@@ -555,7 +559,7 @@ public class MerchantManageController {
             return accountService.unfreezeAccount(accountId, operaterId).toJson();
         } catch (Exception e) {
             LogFactory.error(this,"响应时发生异常!",e);
-            return new RetMessage<String>(RetCodeEnum.error,"系统异常,稍后再试!",null).toJson();
+            return new RetMessage<String>(RetCodeEnum.error,"系统繁忙,稍后再试!",null).toJson();
         }
     }
 
@@ -573,7 +577,7 @@ public class MerchantManageController {
             return accountService.delAccount(accountId, operaterId).toJson();
         } catch (Exception e) {
             LogFactory.error(this,"响应时发生异常!",e);
-            return new RetMessage<String>(RetCodeEnum.error,"系统异常,稍后再试!",null).toJson();
+            return new RetMessage<String>(RetCodeEnum.error,"系统繁忙,稍后再试!",null).toJson();
         }
     }
 
@@ -598,7 +602,7 @@ public class MerchantManageController {
                 return codeService.destroyCode(codeId, operaterId).toJson();
         } catch (Exception e) {
             LogFactory.error(this,"响应时发生异常!",e);
-            return new RetMessage<String>(RetCodeEnum.error,"系统异常,稍后再试!",null).toJson();
+            return new RetMessage<String>(RetCodeEnum.error,"系统繁忙,稍后再试!",null).toJson();
         }
     }
 
@@ -615,7 +619,7 @@ public class MerchantManageController {
             return codeService.postoneCode(codeId, operaterId).toJson();
         } catch (Exception e) {
             LogFactory.error(this,"响应时发生异常!",e);
-            return new RetMessage<String>(RetCodeEnum.error,"系统异常,稍后再试!",null).toJson();
+            return new RetMessage<String>(RetCodeEnum.error,"系统繁忙,稍后再试!",null).toJson();
         }
     }
 
@@ -637,7 +641,7 @@ public class MerchantManageController {
                 return codeService.couponCodeInfo(codeId, operaterId).toJson();
         } catch (Exception e) {
             LogFactory.error(this,"响应时发生异常!",e);
-            return new RetMessage<String>(RetCodeEnum.error,"系统异常,稍后再试!",null).toJson();
+            return new RetMessage<String>(RetCodeEnum.error,"系统繁忙,稍后再试!",null).toJson();
         }
     }
 //    @SetUtf8
@@ -687,7 +691,7 @@ public class MerchantManageController {
             return clearService.queryDailyRecords(timeStart, timeEnd, clearStatus, pageNum, pageSize, operaterId).toJson();
         } catch (Exception e) {
             LogFactory.error(this,"响应时发生异常!",e);
-            return new RetMessage<String>(RetCodeEnum.error,"系统异常,稍后再试!",null).toJson();
+            return new RetMessage<String>(RetCodeEnum.error,"系统繁忙,稍后再试!",null).toJson();
         }
     }
 
@@ -704,7 +708,7 @@ public class MerchantManageController {
             return clearService.queryDailyRecordInfo(recordId, operaterId).toJson();
         } catch (Exception e) {
             LogFactory.error(this,"响应时发生异常!",e);
-            return new RetMessage<String>(RetCodeEnum.error,"系统异常,稍后再试!",null).toJson();
+            return new RetMessage<String>(RetCodeEnum.error,"系统繁忙,稍后再试!",null).toJson();
         }
     }
 
@@ -732,7 +736,7 @@ public class MerchantManageController {
                     .toJson();
         } catch (Exception e) {
             LogFactory.error(this,"响应时发生异常!",e);
-            return new RetMessage<String>(RetCodeEnum.error,"系统异常,稍后再试!",null).toJson();
+            return new RetMessage<String>(RetCodeEnum.error,"系统繁忙,稍后再试!",null).toJson();
         }
     }
 
@@ -750,7 +754,7 @@ public class MerchantManageController {
             return clearService.queryRecordInfo(recordId, operaterId).toJson();
         } catch (Exception e) {
             LogFactory.error(this,"响应时发生异常!",e);
-            return new RetMessage<String>(RetCodeEnum.error,"系统异常,稍后再试!",null).toJson();
+            return new RetMessage<String>(RetCodeEnum.error,"系统繁忙,稍后再试!",null).toJson();
         }
     }
 
@@ -782,7 +786,7 @@ public class MerchantManageController {
                     accountType, name, phone, pageNum, pageSize, operaterId).toJson();
         } catch (Exception e) {
             LogFactory.error(this,"响应时发生异常!",e);
-            return new RetMessage<String>(RetCodeEnum.error,"系统异常,稍后再试!",null).toJson();
+            return new RetMessage<String>(RetCodeEnum.error,"系统繁忙,稍后再试!",null).toJson();
         }
     }
 
@@ -799,7 +803,7 @@ public class MerchantManageController {
             return operateRecordService.queryOperateRecordInfo(recordId, operaterId).toJson();
         } catch (Exception e) {
             LogFactory.error(this,"响应时发生异常!",e);
-            return new RetMessage<String>(RetCodeEnum.error,"系统异常,稍后再试!",null).toJson();
+            return new RetMessage<String>(RetCodeEnum.error,"系统繁忙,稍后再试!",null).toJson();
         }
     }
 
@@ -822,7 +826,7 @@ public class MerchantManageController {
                     .toJson();
         } catch (Exception e) {
             LogFactory.error(this,"响应时发生异常!",e);
-            return new RetMessage<String>(RetCodeEnum.error,"系统异常,稍后再试!",null).toJson();
+            return new RetMessage<String>(RetCodeEnum.error,"系统繁忙,稍后再试!",null).toJson();
         }
     }
 
@@ -854,7 +858,7 @@ public class MerchantManageController {
             return result;
         } catch (Exception e) {
             LogFactory.error(this,"响应时发生异常!",e);
-            return new RetMessage<String>(RetCodeEnum.error,"系统异常,稍后再试!",null).toJson();
+            return new RetMessage<String>(RetCodeEnum.error,"系统繁忙,稍后再试!",null).toJson();
         }
     }
 
@@ -883,7 +887,7 @@ public class MerchantManageController {
             return verificationRecordService.queryShopVerificationRecords(timeStart, timeEnd, shopName, code, commodityName, phone, type, pageNum, pageSize, operaterId).toJson();
         } catch (Exception e) {
             LogFactory.error(this,"响应时发生异常!",e);
-            return new RetMessage<String>(RetCodeEnum.error,"系统异常,稍后再试!",null).toJson();
+            return new RetMessage<String>(RetCodeEnum.error,"系统繁忙,稍后再试!",null).toJson();
         }
     }
 
@@ -900,7 +904,7 @@ public class MerchantManageController {
             return verificationRecordService.queryVerificationRecordInfo(recordId, operaterId).toJson();
         } catch (Exception e) {
             LogFactory.error(this,"响应时发生异常!",e);
-            return new RetMessage<String>(RetCodeEnum.error,"系统异常,稍后再试!",null).toJson();
+            return new RetMessage<String>(RetCodeEnum.error,"系统繁忙,稍后再试!",null).toJson();
         }
     }
     @SetUtf8
@@ -939,7 +943,7 @@ public class MerchantManageController {
             return commodityService.merchantQueryCommodities(commodityName, commodityType, commodityStatus, pageNum, pageSize, commodityId, operaterId).toJson();
         } catch (Exception e) {
             LogFactory.error(this,"响应时发生异常!",e);
-            return new RetMessage<String>(RetCodeEnum.error,"系统异常,稍后再试!",null).toJson();
+            return new RetMessage<String>(RetCodeEnum.error,"系统繁忙,稍后再试!",null).toJson();
         }
     }
 
@@ -958,10 +962,10 @@ public class MerchantManageController {
             CommodityStatus commodityStatus = CommodityStatus.getType(commodityStatusStr);
             Long operaterId = toLongArg.apply(operaterIdStr);
             File file = commodityService.merchantQueryCommoditiesExport(commodityName, commodityType, commodityStatus, commodityId, operaterId).getDetail();
-            return FillAssist.exportTest(file, res);
+            return FileAssist.exportTest(file, res);
         } catch (Exception e) {
             LogFactory.error(this,"响应时发生异常!",e);
-            return new RetMessage<String>(RetCodeEnum.error,"系统异常,稍后再试!",null).toJson();
+            return new RetMessage<String>(RetCodeEnum.error,"系统繁忙,稍后再试!",null).toJson();
         }
         //        FileAssit.export(file,res);
     }
@@ -990,7 +994,7 @@ public class MerchantManageController {
             return requestService.queryCommodityRequest(commodityName, commodityType, operateType, status, timeStart, timeEnd, pageNum, pageSize, operaterId).toJson();
         } catch (Exception e) {
             LogFactory.error(this,"响应时发生异常!",e);
-            return new RetMessage<String>(RetCodeEnum.error,"系统异常,稍后再试!",null).toJson();
+            return new RetMessage<String>(RetCodeEnum.error,"系统繁忙,稍后再试!",null).toJson();
         }
     }
 
@@ -1021,7 +1025,7 @@ public class MerchantManageController {
             return requestService.requestAddCommodity(commodityName, commodityType, facePrice, costPrice, sellPrice, lifeTime, useDestription, operaterId, null).toJson();
         } catch (Exception e) {
             LogFactory.error(this,"响应时发生异常!",e);
-            return new RetMessage<String>(RetCodeEnum.error,"系统异常,稍后再试!",null).toJson();
+            return new RetMessage<String>(RetCodeEnum.error,"系统繁忙,稍后再试!",null).toJson();
         }
     }
 
@@ -1047,7 +1051,7 @@ public class MerchantManageController {
             return requestService.requestModifyCommodity(costPrice, facePrice, sellPrice, lifeTime, commodityId, operaterId).toJson();
         } catch (Exception e) {
             LogFactory.error(this,"响应时发生异常!",e);
-            return new RetMessage<String>(RetCodeEnum.error,"系统异常,稍后再试!",null).toJson();
+            return new RetMessage<String>(RetCodeEnum.error,"系统繁忙,稍后再试!",null).toJson();
         }
     }
 
@@ -1064,7 +1068,7 @@ public class MerchantManageController {
             return requestService.requestShelveCommodity(commodityId, operaterId).toJson();
         } catch (Exception e) {
             LogFactory.error(this,"响应时发生异常!",e);
-            return new RetMessage<String>(RetCodeEnum.error,"系统异常,稍后再试!",null).toJson();
+            return new RetMessage<String>(RetCodeEnum.error,"系统繁忙,稍后再试!",null).toJson();
         }
     }
 
@@ -1081,7 +1085,7 @@ public class MerchantManageController {
             return requestService.requestUnshelveCommodity(commodityId, operaterId).toJson();
         } catch (Exception e) {
             LogFactory.error(this,"响应时发生异常!",e);
-            return new RetMessage<String>(RetCodeEnum.error,"系统异常,稍后再试!",null).toJson();
+            return new RetMessage<String>(RetCodeEnum.error,"系统繁忙,稍后再试!",null).toJson();
         }
     }
 
@@ -1098,7 +1102,7 @@ public class MerchantManageController {
             return requestService.requestDelCommodity(commodityId, operaterId).toJson();
         } catch (Exception e) {
             LogFactory.error(this,"响应时发生异常!",e);
-            return new RetMessage<String>(RetCodeEnum.error,"系统异常,稍后再试!",null).toJson();
+            return new RetMessage<String>(RetCodeEnum.error,"系统繁忙,稍后再试!",null).toJson();
         }
     }
 
@@ -1115,7 +1119,7 @@ public class MerchantManageController {
             return requestService.queryRequest(requestId, operaterId).toJson();
         } catch (Exception e) {
             LogFactory.error(this,"响应时发生异常!",e);
-            return new RetMessage<String>(RetCodeEnum.error,"系统异常,稍后再试!",null).toJson();
+            return new RetMessage<String>(RetCodeEnum.error,"系统繁忙,稍后再试!",null).toJson();
         }
     }
 
@@ -1132,7 +1136,7 @@ public class MerchantManageController {
             return commodityService.queryCommodity(commodityId, operaterId).toJson();
         } catch (Exception e) {
             LogFactory.error(this,"响应时发生异常!",e);
-            return new RetMessage<String>(RetCodeEnum.error,"系统异常,稍后再试!",null).toJson();
+            return new RetMessage<String>(RetCodeEnum.error,"系统繁忙,稍后再试!",null).toJson();
         }
     }
 
@@ -1149,7 +1153,7 @@ public class MerchantManageController {
             return merchantService.queryMerchantInfo(operaterId, merchantId).toJson();
         } catch (Exception e) {
             LogFactory.error(this,"响应时发生异常!",e);
-            return new RetMessage<String>(RetCodeEnum.error,"系统异常,稍后再试!",null).toJson();
+            return new RetMessage<String>(RetCodeEnum.error,"系统繁忙,稍后再试!",null).toJson();
         }
     }
 
@@ -1169,10 +1173,10 @@ public class MerchantManageController {
             Long operaterId = parseArg(operaterIdStr, Long.class);
             InvoiceStatus invoiceStatus = InvoiceStatus.getType(invoiceStatusStr);
             RetMessage<File> retMessage = clearService.exoirtDailyRecords(timeStart, timeEnd, clearStatus, invoiceStatus, operaterId);
-            return FillAssist.exportTest(retMessage.getDetail(), res);
+            return FileAssist.exportTest(retMessage.getDetail(), res);
         } catch (Exception e) {
             LogFactory.error(this,"响应时发生异常!",e);
-            return new RetMessage<String>(RetCodeEnum.error,"系统异常,稍后再试!",null).toJson();
+            return new RetMessage<String>(RetCodeEnum.error,"系统繁忙,稍后再试!",null).toJson();
         }
         //        FileAssit.export(retMessage,res);
     }
@@ -1201,10 +1205,10 @@ public class MerchantManageController {
             Long operaterId = toLongArg.apply(operaterIdStr);
 
             RetMessage<File> retMessage = verificationRecordService.exportShopVerificationRecords(timeStart, timeEnd, shopName, code, commodityName, phone, type, operaterId);
-            return FillAssist.exportTest(retMessage.getDetail(), res);
+            return FileAssist.exportTest(retMessage.getDetail(), res);
         } catch (Exception e) {
             LogFactory.error(this,"响应时发生异常!",e);
-            return new RetMessage<String>(RetCodeEnum.error,"系统异常,稍后再试!",null).toJson();
+            return new RetMessage<String>(RetCodeEnum.error,"系统繁忙,稍后再试!",null).toJson();
         }
         //        FileAssit.export(retMessage,res);
     }
@@ -1229,7 +1233,7 @@ public class MerchantManageController {
                 return codeService.verificateCode(codeId, operaterId, verifyType).toJson();
         } catch (Exception e) {
             LogFactory.error(this,"响应时发生异常!",e);
-            return new RetMessage<String>(RetCodeEnum.error,"系统异常,稍后再试!",null).toJson();
+            return new RetMessage<String>(RetCodeEnum.error,"系统繁忙,稍后再试!",null).toJson();
         }
     }
 
@@ -1249,10 +1253,10 @@ public class MerchantManageController {
             Long operaterId = parseArg(operaterIdStr, Long.class);
             InvoiceStatus invoiceStatus = InvoiceStatus.getType(invoiceStatusStr);
             RetMessage<File> retMessage = clearService.exportClearRecords(timeStart, timeEnd, clearStatus, invoiceStatus, operaterId);
-            return FillAssist.exportTest(retMessage.getDetail(), res);
+            return FileAssist.exportTest(retMessage.getDetail(), res);
         } catch (Exception e) {
             LogFactory.error(this,"响应时发生异常!",e);
-            return new RetMessage<String>(RetCodeEnum.error,"系统异常,稍后再试!",null).toJson();
+            return new RetMessage<String>(RetCodeEnum.error,"系统繁忙,稍后再试!",null).toJson();
         }
         //        FileAssit.export(retMessage,res);
     }
@@ -1270,14 +1274,26 @@ public class MerchantManageController {
             String pageSizeStr = getArg.apply(req, "pageSize");
             String operaterIdStr = getArg.apply(req, "operaterId");
 
+            //###
+            String shopName=getArg.apply(req,"shopName");
+
+
+
+
+
+
+
             ClearStatus clearStatus = ClearStatus.getType(clearStatusStr);
             Long operaterId = parseArg(operaterIdStr, Long.class);
             Integer pageNum = parseArg(pageNumStr, Integer.class);
             Integer pageSize = parseArg(pageSizeStr, Integer.class);
-            return clearService.statsticDailyRecords(timeStart, timeEnd, clearStatus, pageNum, pageSize, operaterId).toJson();
+
+
+            return  verificationRecordService.statisticVerifyRecord(shopName,timeStart,timeEnd,pageNum,pageSize,null,operaterId).toJson();
+//            return clearService.statsticDailyRecords(timeStart, timeEnd, clearStatus, pageNum, pageSize, operaterId).toJson();
         } catch (Exception e) {
             LogFactory.error(this,"响应时发生异常!",e);
-            return new RetMessage<String>(RetCodeEnum.error,"系统异常,稍后再试!",null).toJson();
+            return new RetMessage<String>(RetCodeEnum.error,"系统繁忙,稍后再试!",null).toJson();
         }
     }
 
@@ -1292,13 +1308,22 @@ public class MerchantManageController {
             String clearStatusStr = getArg.apply(req, "clearStatus");
             String operaterIdStr = getArg.apply(req, "operaterId");
 
+
+
+            //###
+            String shopName=getArg.apply(req,"shopName");
+
+
             ClearStatus clearStatus = ClearStatus.getType(clearStatusStr);
             Long operaterId = parseArg(operaterIdStr, Long.class);
-            RetMessage<File> retMessage = clearService.exportStatsticDailyRecords(timeStart, timeEnd, clearStatus, operaterId);
-            return FillAssist.exportTest(retMessage.getDetail(), res);
+//            RetMessage<File> retMessage = clearService.exportStatsticDailyRecords(timeStart, timeEnd, clearStatus, operaterId);
+            RetMessage<File> retMessage = verificationRecordService.exportStatisticVerifyRecord(shopName,timeStart,timeEnd,null,operaterId);
+            return FileAssist.exportTest(retMessage.getDetail(), res);
+
+
         } catch (Exception e) {
             LogFactory.error(this,"响应时发生异常!",e);
-            return new RetMessage<String>(RetCodeEnum.error,"系统异常,稍后再试!",null).toJson();
+            return new RetMessage<String>(RetCodeEnum.error,"系统繁忙,稍后再试!",null).toJson();
         }
         //        FileAssit.export(retMessage,res);
     }
@@ -1314,7 +1339,7 @@ public class MerchantManageController {
             return shopService.queruAllShopIds(operaterId).toJson();
         } catch (Exception e) {
             LogFactory.error(this,"响应时发生异常!",e);
-            return new RetMessage<String>(RetCodeEnum.error,"系统异常,稍后再试!",null).toJson();
+            return new RetMessage<String>(RetCodeEnum.error,"系统繁忙,稍后再试!",null).toJson();
         }
     }
 
@@ -1342,7 +1367,7 @@ public class MerchantManageController {
             return commodityService.modifyCommodity(costPrice, facePrice, sellPrice, lifeTime, useDetail, commodityId, operaterId).toJson();
         } catch (Exception e) {
             LogFactory.error(this,"响应时发生异常!",e);
-            return new RetMessage<String>(RetCodeEnum.error,"系统异常,稍后再试!",null).toJson();
+            return new RetMessage<String>(RetCodeEnum.error,"系统繁忙,稍后再试!",null).toJson();
         }
     }
 
@@ -1374,7 +1399,7 @@ public class MerchantManageController {
             return commodityService.addCommodity(commodityName, commodityType, facePrice, costPrice, sellPrice, lifeTime, merchantNameStr, useDestription, null, operaterId).toJson();
         } catch (Exception e) {
             LogFactory.error(this,"响应时发生异常!",e);
-            return new RetMessage<String>(RetCodeEnum.error,"系统异常,稍后再试!",null).toJson();
+            return new RetMessage<String>(RetCodeEnum.error,"系统繁忙,稍后再试!",null).toJson();
         }
     }
     @SetUtf8
@@ -1390,7 +1415,7 @@ public class MerchantManageController {
             return commodityService.delCommodity(commodityId, operaterId).toJson();
         } catch (Exception e) {
             LogFactory.error(this,"响应时发生异常!",e);
-            return new RetMessage<String>(RetCodeEnum.error,"系统异常,稍后再试!",null).toJson();
+            return new RetMessage<String>(RetCodeEnum.error,"系统繁忙,稍后再试!",null).toJson();
         }
     }
 

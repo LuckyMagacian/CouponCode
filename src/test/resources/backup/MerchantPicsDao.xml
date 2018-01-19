@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN" "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+<mapper namespace="com.lanxi.couponcode.impl.dao.MerchantPicsDao">
+    <select id="getCount" parameterType="java.lang.Long" resultType="java.lang.Integer">
+        SELECT
+          count(1)
+        FROM
+          merchant_pics
+        WHERE
+          merchant_id = #{merchantId}
+    </select>
+
+    <select id="getOrganizingInstitutionBarCodePic" parameterType="java.lang.Long" resultType="java.sql.Blob">
+      SELECT
+        organizing_institution_bar_code_pic
+      FROM
+        merchant_pics
+      WHERE
+        merchant_id = #{merchantId}
+    </select>
+
+    <select id="getBusinessLicensePic" parameterType="java.lang.Long" resultType="java.sql.Blob">
+        SELECT
+            business_license_pic
+        FROM
+          merchant_pics
+        WHERE
+          merchant_id = #{merchantId}
+    </select>
+
+    <select id="getotherPic" parameterType="java.lang.Long" resultType="java.sql.Blob">
+        SELECT
+            other_pic
+        FROM
+          merchant_pics
+        WHERE
+          merchant_id = #{merchantId}
+    </select>
+
+    <insert id="addMerchantPics" parameterType="com.lanxi.couponcode.impl.entity.MerchantPics">
+        INSERT INTO
+          merchant_pics
+        VALUES
+          (#{merchantId},#{organizingInstitutionBarCodePic},#{businessLicensePic},#{otherPic})
+    </insert>
+
+    <update id="updateOrganizingInstitutionBarCodePic">
+      UPDATE
+        merchant_pics
+      SET
+        organizing_institution_bar_code_pic=#{1}
+      WHERE
+        merchant_id=#{0}
+    </update>
+
+    <update id="updateBusinessLicensePic">
+        UPDATE
+          merchant_pics
+        SET
+          business_license_pic=#{1}
+        WHERE
+          merchant_id=#{0}
+    </update>
+
+    <update id="updateotherPic">
+        UPDATE
+          merchant_pics
+        SET
+          other_pic=#{1}
+        WHERE
+          merchant_id=#{0}
+    </update>
+</mapper>

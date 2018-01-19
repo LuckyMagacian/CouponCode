@@ -100,6 +100,11 @@ public class VerificationRecord extends AbstractVerificationRecord {
      */
     @TableField ("face_price")
     private BigDecimal facePrice;
+    /**
+     * 面值
+     */
+    @TableField ("cost_price")
+    private BigDecimal costPrice;
 
     @Override
     protected Serializable pkVal() {
@@ -250,6 +255,14 @@ public class VerificationRecord extends AbstractVerificationRecord {
         this.facePrice = facePrice;
     }
 
+    public BigDecimal getCostPrice() {
+        return costPrice;
+    }
+
+    public void setCostPrice(BigDecimal costPrice) {
+        this.costPrice = costPrice;
+    }
+
     @Override public String toString() {
         final StringBuffer sb = new StringBuffer("VerificationRecord{");
         sb.append("recordId=").append(recordId);
@@ -268,6 +281,7 @@ public class VerificationRecord extends AbstractVerificationRecord {
         sb.append(", shopInfo='").append(shopInfo).append('\'');
         sb.append(", commodityType='").append(commodityType).append('\'');
         sb.append(", facePrice=").append(facePrice);
+        sb.append(", costPrice=").append(costPrice);
         sb.append('}');
         return sb.toString();
     }

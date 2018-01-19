@@ -38,7 +38,7 @@ public interface OrderService {
                                    String Remark);
 
     RetMessage<String> queryOrders(String StartDate, String EndDate, String Phone, Long orderId, Long SkuCode,
-                                   String SRC, OrderStatus orderStatus, Integer pageNum, Integer pageSize, Long operaterId);
+                                   String SRC, OrderStatus orderStatus, Integer pageNum, Integer pageSize,String commodityName, Long operaterId);
 
     RetMessage<File> orderExport(String StartDate, String EndDate, String Phone, Long orderId, Long SkuCode,
                                  String SRC, OrderStatus orderStatus, Long operaterId);

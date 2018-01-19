@@ -55,7 +55,7 @@ public class LoginController {
             return retMessage.toJson();
         } catch (Exception e) {
             LogFactory.error(this, "响应时发生异常!", e);
-            return new RetMessage<String>(RetCodeEnum.error,"系统异常,稍后再试!",null).toJson();
+            return new RetMessage<String>(RetCodeEnum.error,"系统繁忙,稍后再试!",null).toJson();
         }
     }
 
@@ -70,7 +70,7 @@ public class LoginController {
             return retMessage.toJson();
         } catch (Exception e) {
             LogFactory.error(this,"响应时发生异常!",e);
-            return new RetMessage<String>(RetCodeEnum.error,"系统异常,稍后再试!",null).toJson();
+            return new RetMessage<String>(RetCodeEnum.error,"系统繁忙,稍后再试!",null).toJson();
         }
     }
 
@@ -84,7 +84,7 @@ public class LoginController {
             return loginService.logout(accountId).toJson();
         } catch (Exception e) {
             LogFactory.error(this,"响应时发生异常!",e);
-            return new RetMessage<String>(RetCodeEnum.error,"系统异常,稍后再试!",null).toJson();
+            return new RetMessage<String>(RetCodeEnum.error,"系统繁忙,稍后再试!",null).toJson();
         }
     }
 
@@ -102,7 +102,7 @@ public class LoginController {
             return loginService.forgetPassword(phone, validateCode, newPassword, newRepeat, accountId).toJson();
         } catch (Exception e) {
             LogFactory.error(this,"响应时发生异常!",e);
-            return new RetMessage<String>(RetCodeEnum.error,"系统异常,稍后再试!",null).toJson();
+            return new RetMessage<String>(RetCodeEnum.error,"系统繁忙,稍后再试!",null).toJson();
         }
     }
 
@@ -120,7 +120,7 @@ public class LoginController {
             return loginService.changePassword(oldPasswd, newPasswd, newRepeat, accountId).toJson();
         } catch (Exception e) {
             LogFactory.error(this,"响应时发生异常!",e);
-            return new RetMessage<String>(RetCodeEnum.error,"系统异常,稍后再试!",null).toJson();
+            return new RetMessage<String>(RetCodeEnum.error,"系统繁忙,稍后再试!",null).toJson();
         }
     }
 
@@ -133,7 +133,7 @@ public class LoginController {
             return loginService.sendValidateCode(phone).toJson();
         } catch (Exception e) {
             LogFactory.error(this,"响应时发生异常!",e);
-            return new RetMessage<String>(RetCodeEnum.error,"系统异常,稍后再试!",null).toJson();
+            return new RetMessage<String>(RetCodeEnum.error,"系统繁忙,稍后再试!",null).toJson();
         }
     }
 
@@ -160,7 +160,7 @@ public class LoginController {
             return retMessage.toJson();
         } catch (Exception e) {
             LogFactory.error(this,"响应时发生异常!",e);
-            return new RetMessage<String>(RetCodeEnum.error,"系统异常,稍后再试!",null).toJson();
+            return new RetMessage<String>(RetCodeEnum.error,"系统繁忙,稍后再试!",null).toJson();
         }
     }
 }

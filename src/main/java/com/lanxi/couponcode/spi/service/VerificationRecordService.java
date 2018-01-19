@@ -61,4 +61,7 @@ public interface VerificationRecordService {
                                                    @HiddenArg Long operaterId);
 
     RetMessage<String> queryVerifyRecordsAndStatstis(Long accountId,String operateTime, Long operaterId);
+
+    RetMessage<String> statisticVerifyRecord(String shopName,String timeStart,String timeStop,Integer pageNum,Integer pageSize,Long merchantId,Long operaterId);
+    RetMessage<File> exportStatisticVerifyRecord(String shopName,String timeStart,String timeStop,Long merchantId,Long operaterId);
 }

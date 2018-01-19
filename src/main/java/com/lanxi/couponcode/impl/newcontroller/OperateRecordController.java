@@ -66,6 +66,7 @@ public class OperateRecordController implements com.lanxi.couponcode.spi.service
         //-----------------------------------------------------------------执行--------------------------------------------------------------
         Page<OperateRecord> page = new Page<>(pageNum, pageSize);
         EntityWrapper<OperateRecord> wrapper = new EntityWrapper<>();
+        wrapper.orderBy("operate_time",false);
         if (type != null)
             wrapper.eq("operate_type", type.getValue());
         if (targetType != null)
@@ -125,6 +126,7 @@ public class OperateRecordController implements com.lanxi.couponcode.spi.service
         //-----------------------------------------------------------------执行--------------------------------------------------------------
         Page<OperateRecord> page = new Page<>(pageNum, pageSize);
         EntityWrapper<OperateRecord> wrapper = new EntityWrapper<>();
+        wrapper.orderBy("operate_time",false);
         if (type != null)
             wrapper.eq("operate_type", type.getValue());
         if (targetType != null)
@@ -179,6 +181,7 @@ public class OperateRecordController implements com.lanxi.couponcode.spi.service
             return message;
         Page<OperateRecord> page = new Page<>(pageNum, pageSize);
         EntityWrapper<OperateRecord> wrapper = new EntityWrapper<>();
+        wrapper.orderBy("operate_time",false);
         if (type != null)
             wrapper.eq("operate_type", type.getValue());
         if (targetType != null)

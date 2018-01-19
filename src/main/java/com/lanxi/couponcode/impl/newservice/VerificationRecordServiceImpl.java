@@ -42,4 +42,5 @@ public class VerificationRecordServiceImpl implements VerificationRecordService 
         else
             return daoService.getVerificationRecordDao().selectPage(page, wrapper);
     }
+
 }

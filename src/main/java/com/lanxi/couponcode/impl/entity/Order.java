@@ -156,6 +156,8 @@ public class Order extends AbstractOrder{
 	}
 
 	public void setCode(String code) {
+		if(code.endsWith("|"))
+			code=code.substring(0,code.lastIndexOf("|"));
 		this.code = code;
 	}
 

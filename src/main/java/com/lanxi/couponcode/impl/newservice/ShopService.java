@@ -33,6 +33,8 @@ import java.util.List;
      List<String> importShops(File file,
                                     Long merchantId,
                                     Long operaterId,
+                                    String username,
+                                    String merchantName,
                                     String merchantStatus);
 
     /*冻结门店*/

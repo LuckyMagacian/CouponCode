@@ -46,7 +46,7 @@ public class ShopController {
             return accountService.shopAddAccount(AccountType.shopEmployee, userName, phone, operaterId).toJson();
         } catch (Exception e) {
             LogFactory.error(this, "响应时发生异常!", e);
-            return new RetMessage<String>(RetCodeEnum.error, "系统异常,稍后再试!", null).toJson();
+            return new RetMessage<String>(RetCodeEnum.error, "系统繁忙,稍后再试!", null).toJson();
         }
     }
 
@@ -68,7 +68,7 @@ public class ShopController {
             return accountService.queryShopAccounts(shopId, operaterId, pageNum, pageSize).toJson();
         } catch (Exception e) {
             LogFactory.error(this,"响应时发生异常!",e);
-            return new RetMessage<String>(RetCodeEnum.error,"系统异常,稍后再试!",null).toJson();
+            return new RetMessage<String>(RetCodeEnum.error,"系统繁忙,稍后再试!",null).toJson();
         }
     }
 
@@ -86,7 +86,7 @@ public class ShopController {
             return accountService.freezeAccount(accountId, operaterId).toJson();
         } catch (Exception e) {
             LogFactory.error(this,"响应时发生异常!",e);
-            return new RetMessage<String>(RetCodeEnum.error,"系统异常,稍后再试!",null).toJson();
+            return new RetMessage<String>(RetCodeEnum.error,"系统繁忙,稍后再试!",null).toJson();
         }
     }
 
@@ -104,7 +104,7 @@ public class ShopController {
             return accountService.unfreezeAccount(accountId, operaterId).toJson();
         } catch (Exception e) {
             LogFactory.error(this,"响应时发生异常!",e);
-            return new RetMessage<String>(RetCodeEnum.error,"系统异常,稍后再试!",null).toJson();
+            return new RetMessage<String>(RetCodeEnum.error,"系统繁忙,稍后再试!",null).toJson();
         }
     }
 
@@ -122,7 +122,7 @@ public class ShopController {
             return accountService.delAccount(accountId, operaterId).toJson();
         } catch (Exception e) {
             LogFactory.error(this,"响应时发生异常!",e);
-            return new RetMessage<String>(RetCodeEnum.error,"系统异常,稍后再试!",null).toJson();
+            return new RetMessage<String>(RetCodeEnum.error,"系统繁忙,稍后再试!",null).toJson();
         }
     }
 }

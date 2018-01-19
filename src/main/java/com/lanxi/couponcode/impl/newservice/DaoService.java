@@ -32,5 +32,7 @@ import com.lanxi.couponcode.impl.dao.*;
       ClearDailyRecordDao getClearDailyRecordDao();
 
       ClearRecordDao getClearRecordDao();
+
+//      MerchantPicsDao getMerchantPicsDao();
     
 }

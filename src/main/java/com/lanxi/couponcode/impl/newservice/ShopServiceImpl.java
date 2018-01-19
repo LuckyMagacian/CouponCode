@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.plugins.Page;
 import com.baomidou.mybatisplus.toolkit.IdWorker;
 import com.lanxi.couponcode.impl.assist.ExcelAssist;
+import com.lanxi.couponcode.impl.entity.Account;
 import com.lanxi.couponcode.spi.assist.TimeAssist;
 import com.lanxi.couponcode.impl.config.HiddenMap;
 import com.lanxi.couponcode.spi.config.Path;
@@ -104,8 +105,7 @@ public class ShopServiceImpl implements ShopService {
     }
 
     @Override
-    public List<String> importShops(File file, Long merchantId, Long operaterId, String merchantStatus) {
-
+    public List<String> importShops(File file, Long merchantId, Long operaterId,String username,String merchantName, String merchantStatus) {
         Shop shop = null;
         List<String> list = new ArrayList<String>();
         try {
@@ -125,7 +125,7 @@ public class ShopServiceImpl implements ShopService {
                 // 获取数据的总行数
                 int total = sheet.getLastRowNum();
                 // int[] num=new int[total-1];
-                for (int i = 1; i <= total; i++) {
+                for (int i = 2; i <= total; i++) {
                     // 获得第i行对象
                     Row row = sheet.getRow(i);
                     shop = new Shop();
@@ -138,7 +138,7 @@ public class ShopServiceImpl implements ShopService {
                     // Cell cell=row.getCell(1);
                     try {
                         // 当客服电话为座机时
-                        shop.setServicetel(row.getCell(3).getStringCellValue());
+                        shop.setServicetel(row.getCell(4).getStringCellValue());
                     } catch (NullPointerException e) {
                         // 当客服电话为空的时候
                         LogFactory.info(this, "第[" + j + "]个sheet的第[" + i + "]个门店客服电话为空");
@@ -150,21 +150,25 @@ public class ShopServiceImpl implements ShopService {
                     if (isRepeat(row.getCell(1).getStringCellValue(), merchantId)) {
                         shop.setShopName(row.getCell(1).getStringCellValue());
                         shop.setShopAddress(row.getCell(2).getStringCellValue());
+                        shop.setMinuteShopAddress(row.getCell(3).getStringCellValue());
                         shop.setCreateTime(LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMddHHmmss")));
                         shop.setShopId(IdWorker.getId());
+                        shop.setAddId(operaterId);
+                        shop.setAddName(username);
+                        shop.setMerchantName(merchantName);
                         LogFactory.info(this,
-                                "批量添加门店----获取到第[" + j + "]个sheet第[" + i + "]个门店信息+[" + shop + "]开始尝试添加\n");
+                                "获取到第[" + j + "]个sheet第[" + i + "]个门店信息+[" + shop + "]开始尝试添加\n");
                         Integer var = dao.getShopDao().insert(shop);
 						if (var > 0) {
 						} else {
-                            list.add("批量添加门店----第[" + j + "]个sheet第[" + i + "]个门店添加失败");
+                            list.add("第[" + j + "]个sheet第[" + i + "]个门店添加失败");
                             // num[i-1]=i;
                             LogFactory.debug(this, "批量添加门店----第[" + j + "]个sheet第[" + i + "]个门店添加失败\n");
                         }
                     } else {
-                        list.add("批量添加门店----第[" + j + "]个sheet第[" + i + "]个门店添加失败");
+                        list.add("第[" + j + "]个sheet第[" + i + "]个门店添加失败:门店已存在!");
                         // num[i-1]=i;
-                        LogFactory.debug(this, "批量添加门店----第[" + j + "]个sheet第[" + i + "]个门店添加失败\n");
+                        LogFactory.debug(this, "第[" + j + "]个sheet第[" + i + "]个门店添加失败\n");
                     }
 
 
@@ -302,6 +306,8 @@ public class ShopServiceImpl implements ShopService {
             File file = new File("导出门店" + TimeAssist.getNow() + ".xls");
             OutputStream os = new FileOutputStream(file);
             ExcelUtil.exportExcelFile(ExcelAssist.toStringList(list, Shop.class, HiddenMap.getMerchantManagerFieldCN),os);
+            file.length();
+            os.flush();
             os.close();
             return file;
         } catch (Exception e) {
@@ -342,7 +348,7 @@ public class ShopServiceImpl implements ShopService {
         try {
 			File file = new File(ShopServiceImpl.class.getClassLoader().
 					getResource("").getPath()+Path.excelTemplatePath.
-					replace("classpath:","")+"template.xlsx");
+					replace("classpath:","")+"template.xls");
             is = new FileInputStream(file);
 			file2 = new File(file.getName());
             os = new FileOutputStream(file2);

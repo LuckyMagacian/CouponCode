@@ -79,7 +79,6 @@ public class Shop extends AbstractShop {
 
     @Override
     protected Serializable pkVal() {
-        // TODO Auto-generated method stub
         return this.shopId;
     }
 

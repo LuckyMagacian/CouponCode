@@ -419,7 +419,7 @@ public interface HiddenMapExcel {
         COUPON_CODE_STATUS.put("1", "已核销");
         COUPON_CODE_STATUS.put("2", "未核销");
         COUPON_CODE_STATUS.put("3", "已过期");
-        COUPON_CODE_STATUS.put("5", "已注销");
+        COUPON_CODE_STATUS.put("9", "已注销");
         //-----------------------------------------------------------------校验--------------------------------------------------------------
         GENEERATE_TYPE.put("1", "手动生成");
         GENEERATE_TYPE.put("0", "自动生成");

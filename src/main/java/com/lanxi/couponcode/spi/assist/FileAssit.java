@@ -43,18 +43,19 @@ public interface FileAssit {
 
     static void export(RetMessage<File> retMessage, HttpServletResponse res) {
         try {
+
             if (!retMessage.getRetCode().equals(RetCodeEnum.success)) {
-                res.setContentType("text/html;charset=utf8");
-                res.getOutputStream().write(new RetMessage(RetCodeEnum.fail, "导出失败!", null).toJson().getBytes("utf-8"));
+                res.setContentType("application/octet-stream");
+                res.getOutputStream().write(new RetMessage(RetCodeEnum.fail, "export fail !!", null).toJson().getBytes("utf-8"));
             } else {
-                res.setContentType("octets/stream");
+                res.setContentType("application/octet-stream");
                 res.setHeader("Content-Disposition", "attachment;fileName=" + URLEncoder.encode(retMessage.getDetail().getName(), "utf-8"));
                 FileAssit.write(retMessage.getDetail(), res.getOutputStream());
             }
         } catch (IOException e) {
             try {
-                res.setContentType("text/html;charset=utf8");
-                res.getOutputStream().write(new RetMessage(RetCodeEnum.error, "导出异常!", null).toJson().getBytes("utf-8"));
+                res.setContentType("application/octet-stream");
+                res.getOutputStream().write(new RetMessage(RetCodeEnum.error, "an exception occupied  , please try again later !!!", null).toJson().getBytes("utf-8"));
             } catch (IOException e1) {
                 LogFactory.info(FileAssit.class, "导出文件时发生异常!", e);
             }
@@ -64,14 +65,19 @@ public interface FileAssit {
     static void export(File file, HttpServletResponse res) {
         try {
             res.setContentType("application/octet-stream");
-            res.setHeader("Content-Disposition", "attachment;fileName=" + URLEncoder.encode(file.getName(), "utf-8"));
-            FileAssit.write(file, res.getOutputStream());
+            res.setHeader("Content-Disposition", "attachment;fileName="+URLEncoder.encode(file.getName(), "utf-8"));
+            if(file==null||file.length()==0){//!file.exists()||
+                res.getOutputStream().write(new RetMessage(RetCodeEnum.fail, "server is busy , please try again later !!", null).toJson().getBytes("utf-8"));
+                return;
+            }else{
+                FileAssit.write(file, res.getOutputStream());
+                FileDelete.add(file);
+            }
         } catch (IOException e) {
             try {
-                res.setContentType("text/html;charset=utf8");
-                res.getOutputStream().write(new RetMessage(RetCodeEnum.error, "导出异常!", null).toJson().getBytes("utf-8"));
+                res.getOutputStream().write(new RetMessage(RetCodeEnum.error, "an exception occupied  , please try again later !!!", null).toJson().getBytes("utf-8"));
             } catch (IOException e1) {
-                LogFactory.info(FileAssit.class, "导出文件时发生异常!", e);
+                LogFactory.error(FileAssit.class, "导出文件时发生异常!", e);
             }
         }
     }

@@ -8,7 +8,8 @@ import java.io.Serializable;
  * unshelved 2 下架<br>
  * deleted 3 删除<br>
  * test 4 测试<br>
- *
+ * shelvedwait 从下架变更为上架状态的过渡<br>
+ * unshelvedwairt 从上架变更为下架的过渡<br>
  * @author yangyuanjian
  */
 public enum CommodityStatus implements Serializable, Gettype {

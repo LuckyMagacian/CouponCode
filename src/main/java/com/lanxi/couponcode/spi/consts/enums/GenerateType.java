@@ -6,7 +6,7 @@ import java.io.Serializable;
  * Created by yangyuanjian on 12/11/2017.
  */
 public enum GenerateType implements Serializable, Gettype {
-    hand(1), auto(0);
+    auto(1),hand(0);
     private String value;
 
     GenerateType(int value) {

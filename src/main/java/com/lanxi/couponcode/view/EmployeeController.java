@@ -52,7 +52,7 @@ public class EmployeeController {
                 return codeService.verificateCode(codeId, operaterId, verifyType).toJson();
         } catch (Exception e) {
             LogFactory.error(this, "响应时发生异常!", e);
-            return new RetMessage<String>(RetCodeEnum.error, "系统异常,稍后再试!", null).toJson();
+            return new RetMessage<String>(RetCodeEnum.error, "系统繁忙,稍后再试!", null).toJson();
         }
     }
 
@@ -75,7 +75,7 @@ public class EmployeeController {
             return codeService.couponCodeInfo(null, code, operaterId).toJson();
         } catch (Exception e) {
             LogFactory.error(this,"响应时发生异常!",e);
-            return new RetMessage<String>(RetCodeEnum.error,"系统异常,稍后再试!",null).toJson();
+            return new RetMessage<String>(RetCodeEnum.error,"系统繁忙,稍后再试!",null).toJson();
         }
         //        else
 //            return codeService.couponCodeInfo(codeId,operaterId).toJson();

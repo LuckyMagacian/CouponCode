@@ -38,6 +38,8 @@ public class DaoServiceImpl implements DaoService {
     private ClearRecordDao clearRecordDao;
     @Resource
     private ClearDailyRecordDao clearDailyRecordDao;
+//    @Resource
+//    private MerchantPicsDao merchantPicsDao;
 
     public AccountDao getAccountDao() {
         return accountDao;
@@ -93,6 +95,10 @@ public class DaoServiceImpl implements DaoService {
         return clearRecordDao;
     }
 
+//    @Override public MerchantPicsDao getMerchantPicsDao() {
+//        return merchantPicsDao;
+//    }
+
     public void setAccountDao(AccountDao accountDao) {
         this.accountDao = accountDao;
     }
@@ -144,4 +150,8 @@ public class DaoServiceImpl implements DaoService {
     public void setClearDailyRecordDao(ClearDailyRecordDao clearDailyRecordDao) {
         this.clearDailyRecordDao = clearDailyRecordDao;
     }
+
+//    public void setMerchantPicsDao(MerchantPicsDao merchantPicsDao) {
+//        this.merchantPicsDao = merchantPicsDao;
+//    }
 }

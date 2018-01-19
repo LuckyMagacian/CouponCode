@@ -20,6 +20,8 @@ import java.util.stream.Stream;
  * Created by yangyuanjian on 12/12/2017.
  */
 public interface ExcelAssist {
+        List<String> specialField=new ArrayList<>();
+
     //    private Workbook workbook;
     //
     //    private Boolean readSkipFirstLine  = null;
@@ -50,8 +52,17 @@ public interface ExcelAssist {
     //    }
 
     static <T> List<List<String>> toStringList(List<T> list,Class clazz, BiFunction<Class, String, String> map) {
+        if(specialField.isEmpty()){
+            specialField.add("commodityInfo");
+            specialField.add("commodityClearRecords");
+            specialField.add("dailyRecordIds");
+            specialField.add("otherPic");
+            specialField.add("businessLicensePic");
+            specialField.add("organizingInstitutionBarCodePic");
+        }
 //        if (list == null || list.isEmpty())
 //            throw new IllegalArgumentException("arg : list can't be null or empty !");
+
         List<List<String>> data     = new ArrayList<>();
         List<String>       headName = new ArrayList<>();
         Field[]            fields   = clazz.getDeclaredFields();
@@ -61,6 +72,8 @@ public interface ExcelAssist {
             if (Modifier.isStatic(fields[i].getModifiers()))
                 continue;
             if(map.apply(clazz,fieldName)==null)
+                continue;
+            if(specialField.contains(fieldName))
                 continue;
             String showName = map.apply(clazz, fieldName);
             headName.add(showName);
@@ -89,6 +102,7 @@ public interface ExcelAssist {
         Stream.of(fields)
               .filter(f -> map.apply(obj.getClass(), f.getName()) != null)
               .filter(f -> !Modifier.isStatic(f.getModifiers()))
+              .filter(f-> !specialField.contains(f.getName()))
               .peek(f -> f.setAccessible(true))
               .forEach(f -> {
                   try {

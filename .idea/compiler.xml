@@ -15,6 +15,6 @@
     </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
-    <option name="ADDITIONAL_OPTIONS_STRING" value="-parameters" />
+    <option name="ADDITIONAL_OPTIONS_STRING" value="--release 8 -parameters  " />
   </component>
 </project>

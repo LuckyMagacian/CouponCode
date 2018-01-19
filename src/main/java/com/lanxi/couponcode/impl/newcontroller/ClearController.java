@@ -7,6 +7,7 @@ import com.lanxi.couponcode.impl.assist.ExcelAssist;
 import com.lanxi.couponcode.impl.entity.*;
 import com.lanxi.couponcode.impl.newservice.*;
 import com.lanxi.couponcode.impl.assist.FillAssist;
+import com.lanxi.couponcode.spi.assist.FileDelete;
 import com.lanxi.couponcode.spi.assist.RetMessage;
 import com.lanxi.couponcode.spi.assist.TimeAssist;
 import com.lanxi.couponcode.impl.config.HiddenMap;
@@ -73,6 +74,7 @@ public class ClearController implements com.lanxi.couponcode.spi.service.ClearSe
         if (message != null)
             return message;
         EntityWrapper<ClearDailyRecord> wrapper = new EntityWrapper<>();
+        wrapper.orderBy("record_time",false);
         notNullAndEmpty(merchantName).ifPresent(e -> wrapper.like("merchant_name", e));
         notNullAndEmpty(timeStart).ifPresent(e -> wrapper.ge("record_time", timeFixZero(timeStart)));
         notNullAndEmpty(timeStop).ifPresent(e -> wrapper.le("record_time", timeFixNine(timeStop)));
@@ -102,6 +104,7 @@ public class ClearController implements com.lanxi.couponcode.spi.service.ClearSe
         }
         EntityWrapper<ClearDailyRecord> wrapper = new EntityWrapper<>();
         wrapper.eq("merchant_id", account.getMerchantId());
+        wrapper.orderBy("record_time",false);
         notNullAndEmpty(timeStart).ifPresent(e -> wrapper.ge("record_time", timeFixZero(timeStart)));
         notNullAndEmpty(timeStop).ifPresent(e -> wrapper.le("record_time", timeFixNine(timeStop)));
         notNUll(clearStatus).ifPresent(e -> wrapper.eq("clear_status", clearStatus.getValue()));
@@ -144,6 +147,7 @@ public class ClearController implements com.lanxi.couponcode.spi.service.ClearSe
             return message;
         }
         EntityWrapper<ClearRecord> wrapper = new EntityWrapper<>();
+        wrapper.orderBy("clear_time",false);
         notNullAndEmpty(merchantName).ifPresent(e -> wrapper.like("merchant_name", e));
         notNullAndEmpty(timeStart).ifPresent(e -> wrapper.ge("create_time", timeFixZero(timeStart)));
         notNullAndEmpty(timeStop).ifPresent(e -> wrapper.le("create_time", timeFixNine(timeStop)));
@@ -172,6 +176,7 @@ public class ClearController implements com.lanxi.couponcode.spi.service.ClearSe
         if (message != null)
             return message;
         EntityWrapper<ClearRecord> wrapper = new EntityWrapper<>();
+        wrapper.orderBy("clear_time",false);
         notNullAndEmpty(merchantName).ifPresent(e -> wrapper.eq("merchant_name", merchantName));
         notNUll(timeStart).ifPresent(e -> wrapper.ge("create_time", TimeAssist.timeFixZero(timeStart)));
         notNUll(timeStop).ifPresent(e -> wrapper.le("create_time", TimeAssist.timeFixNine(e)));
@@ -181,6 +186,7 @@ public class ClearController implements com.lanxi.couponcode.spi.service.ClearSe
 //        FillAssist.returnDeal.accept(HiddenMap.ADMIN_REQUEST,records);
         try {
             File file = new File("结算记录导出" + TimeAssist.getNow() + ".xls");
+            FileDelete.add(file);
             ExcelUtil.exportExcelFile(ExcelAssist.toStringList(records,ClearRecord.class,HiddenMap.getAdminFieldCN), new FileOutputStream(file));
 //            ExcelUtil.exportExcelFile(records, null, new FileOutputStream(file));
             return new RetMessage<>(RetCodeEnum.success, "操作成功!", file);
@@ -205,6 +211,7 @@ public class ClearController implements com.lanxi.couponcode.spi.service.ClearSe
         }
 
         EntityWrapper<ClearRecord> wrapper = new EntityWrapper<>();
+        wrapper.orderBy("clear_time",false);
         wrapper.eq("merchant_id", account.getMerchantId());
         notNullAndEmpty(timeStart).ifPresent(e -> wrapper.ge("create_time", timeFixZero(timeStart)));
         notNullAndEmpty(timeStop).ifPresent(e -> wrapper.le("create_time", timeFixNine(timeStop)));
@@ -236,6 +243,7 @@ public class ClearController implements com.lanxi.couponcode.spi.service.ClearSe
         if (notNull.test(message))
             return message;
         EntityWrapper<ClearRecord> wrapper = new EntityWrapper<>();
+        wrapper.orderBy("clear_time",false);
         wrapper.eq("merchant_id", account.getMerchantId());
         notNUll(timeStart).ifPresent(e -> wrapper.ge("create_time", TimeAssist.timeFixZero(timeStart)));
         notNUll(timeStop).ifPresent(e -> wrapper.le("create_time", TimeAssist.timeFixNine(e)));
@@ -244,6 +252,7 @@ public class ClearController implements com.lanxi.couponcode.spi.service.ClearSe
         List<ClearRecord> records = clearService.queryClearRecords(wrapper, null);
         try {
             File file = new File("结算记录导出" + TimeAssist.getNow() + ".xls");
+            FileDelete.add(file);
             ExcelUtil.exportExcelFile(ExcelAssist.toStringList(records,ClearRecord.class ,HiddenMap.getMerchantManagerFieldCN), new FileOutputStream(file));
             return new RetMessage<>(RetCodeEnum.success, "操作成功!", file);
         } catch (FileNotFoundException e) {
@@ -429,6 +438,7 @@ public class ClearController implements com.lanxi.couponcode.spi.service.ClearSe
         if (message != null)
             return message;
         EntityWrapper<ClearDailyRecord> wrapper = new EntityWrapper<>();
+        wrapper.orderBy("record_time",false);
         notNullAndEmpty(merchantName).ifPresent(e -> wrapper.like("merchant_name", e));
         notNullAndEmpty(timeStart).ifPresent(e -> wrapper.ge("record_time", timeFixZero(timeStart)));
         notNullAndEmpty(timeStop).ifPresent(e -> wrapper.le("record_time", timeFixNine(timeStop)));
@@ -471,6 +481,7 @@ public class ClearController implements com.lanxi.couponcode.spi.service.ClearSe
         if (message != null)
             return message;
         EntityWrapper<ClearDailyRecord> wrapper = new EntityWrapper<>();
+        wrapper.orderBy("record_time",false);
         notNullAndEmpty(merchantName).ifPresent(e -> wrapper.like("merchant_name", e));
         notNullAndEmpty(timeStart).ifPresent(e -> wrapper.ge("record_time", timeFixZero(timeStart)));
         notNullAndEmpty(timeStop).ifPresent(e -> wrapper.le("record_time", timeFixNine(timeStop)));
@@ -498,6 +509,7 @@ public class ClearController implements com.lanxi.couponcode.spi.service.ClearSe
         list.add(new ClearDailyRecord());
         list.add(sum);
         File file = new File("日结算记录统计导出" + TimeAssist.getNow() + ".xls");
+        FileDelete.add(file);
         try {
             ExcelUtil.exportExcelFile(ExcelAssist.toStringList(list,ClearDailyRecord.class,HiddenMap.getAdminFieldCN), new FileOutputStream(file));
             return new RetMessage<>(RetCodeEnum.success, "操作成功!", file);
@@ -519,6 +531,7 @@ public class ClearController implements com.lanxi.couponcode.spi.service.ClearSe
         if (notNull.test(message))
             return message;
         EntityWrapper<ClearDailyRecord> wrapper = new EntityWrapper<>();
+        wrapper.orderBy("record_time",false);
         wrapper.eq("merchant_id", account.getMerchantId());
         notNullAndEmpty(timeStart).ifPresent(e -> wrapper.ge("record_time", timeFixZero(timeStart)));
         notNullAndEmpty(timeStop).ifPresent(e -> wrapper.le("record_time", timeFixNine(timeStop)));
@@ -566,6 +579,7 @@ public class ClearController implements com.lanxi.couponcode.spi.service.ClearSe
             return message;
         EntityWrapper<ClearDailyRecord> wrapper = new EntityWrapper<>();
         wrapper.eq("merchant_id", account.getMerchantId());
+        wrapper.orderBy("record_time",false);
         notNullAndEmpty(timeStart).ifPresent(e -> wrapper.ge("record_time", timeFixZero(timeStart)));
         notNullAndEmpty(timeStop).ifPresent(e -> wrapper.le("record_time", timeFixNine(timeStop)));
         notNUll(clearStatus).ifPresent(e -> wrapper.eq("clear_status", clearStatus.getValue()));
@@ -592,6 +606,7 @@ public class ClearController implements com.lanxi.couponcode.spi.service.ClearSe
         list.add(new ClearDailyRecord());
         list.add(sum);
         File file = new File("日结算记录统计" + TimeAssist.getNow() + ".xls");
+        FileDelete.add(file);
         try {
             ExcelUtil.exportExcelFile(ExcelAssist.toStringList(list,ClearDailyRecord.class ,HiddenMap.getMerchantManagerFieldCN), new FileOutputStream(file));
             return new RetMessage<>(RetCodeEnum.success, "操作成功!", file);
@@ -617,8 +632,10 @@ public class ClearController implements com.lanxi.couponcode.spi.service.ClearSe
         notNullAndEmpty(timeStart).ifPresent(e -> wrapper.ge("record_time", timeFixZero(timeStart)));
         notNullAndEmpty(timeStop).ifPresent(e -> wrapper.le("record_time", timeFixNine(timeStop)));
         notNUll(clearStatus).ifPresent(e -> wrapper.eq("clear_status", clearStatus.getValue()));
+        wrapper.orderBy("record_time",false);
         List<ClearDailyRecord> list = clearService.queryDailyRecords(wrapper, null);
         File file = new File("日结算记录导出" + TimeAssist.getNow() + ".xls");
+        FileDelete.add(file);
         try {
             ExcelUtil.exportExcelFile(ExcelAssist.toStringList(list,ClearDailyRecord.class ,HiddenMap.getMerchantManagerFieldCN), new FileOutputStream(file));
             return new RetMessage<>(RetCodeEnum.success, "操作成功!", file);
@@ -639,8 +656,10 @@ public class ClearController implements com.lanxi.couponcode.spi.service.ClearSe
         notNullAndEmpty(timeStart).ifPresent(e -> wrapper.ge("record_time", timeFixZero(timeStart)));
         notNullAndEmpty(timeStop).ifPresent(e -> wrapper.le("record_time", timeFixNine(timeStop)));
         notNUll(clearStatus).ifPresent(e -> wrapper.eq("clear_status", clearStatus.getValue()));
+        wrapper.orderBy("record_time",false);
         List<ClearDailyRecord> list = clearService.queryDailyRecords(wrapper, null);
         File file = new File("日结算记录导出" + TimeAssist.getNow() + ".xls");
+        FileDelete.add(file);
         try {
             ExcelUtil.exportExcelFile(ExcelAssist.toStringList(list,ClearDailyRecord.class,HiddenMap.getAdminFieldCN), new FileOutputStream(file));
             return new RetMessage<>(RetCodeEnum.success, "操作成功!", file);

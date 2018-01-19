@@ -33,7 +33,7 @@
     <!-- dubbo 服务配置 -->
     <dubbo:application name="coupon-code-all"></dubbo:application>
     <!-- 测试注册中心 -->
-    <dubbo:registry address="zookeeper://192.168.17.154:2181" id="zk"></dubbo:registry>
+    <dubbo:registry address="zookeeper://192.168.17.154:2181" id="zk" timeout="5000"></dubbo:registry>
     <!--<dubbo:registry address="redis://192.168.17.154:6379" id="rs"></dubbo:registry>-->
     <!-- 生产注册中心    
     <dubbo:registry address="zookeeper://10.23.73.28:2181"></dubbo:registry>
@@ -47,56 +47,71 @@
 
     <!-- 项目业务部分-->
     <dubbo:service interface="com.lanxi.couponcode.spi.service.AccountService" ref="accountControllerService"
+                   timeout="5000"
                    registry="zk"></dubbo:service>
-    <dubbo:service interface="com.lanxi.couponcode.spi.service.CouponService" ref="codeControllerService"
+    <dubbo:service interface="com.lanxi.couponcode.spi.service.CouponService" ref="codeControllerService" timeout="5000"
                    registry="zk"></dubbo:service>
-    <dubbo:service interface="com.lanxi.couponcode.spi.service.ClearService" ref="clearControllerService"
+    <dubbo:service interface="com.lanxi.couponcode.spi.service.ClearService" ref="clearControllerService" timeout="5000"
                    registry="zk"></dubbo:service>
-    <dubbo:service interface="com.lanxi.couponcode.spi.service.OperateRecordService"
+    <dubbo:service interface="com.lanxi.couponcode.spi.service.OperateRecordService" timeout="5000"
                    ref="operateRecordControllerService" registry="zk"></dubbo:service>
     <dubbo:service interface="com.lanxi.couponcode.spi.service.RequestService" ref="requestControllerService"
+                   timeout="5000"
                    registry="zk"></dubbo:service>
-    <dubbo:service interface="com.lanxi.couponcode.spi.service.VerificationRecordService"
+    <dubbo:service interface="com.lanxi.couponcode.spi.service.VerificationRecordService" timeout="5000"
                    ref="verificationRecordControllerService" registry="zk"></dubbo:service>
     <dubbo:service interface="com.lanxi.couponcode.spi.service.MerchantService" ref="merchantControllerService"
+                   timeout="5000"
                    registry="zk"></dubbo:service>
-    <dubbo:service interface="com.lanxi.couponcode.spi.service.ShopService" ref="shopControllerService"
+    <dubbo:service interface="com.lanxi.couponcode.spi.service.ShopService" ref="shopControllerService" timeout="5000"
                    registry="zk"></dubbo:service>
-    <dubbo:service interface="com.lanxi.couponcode.spi.service.LoginService" ref="loginControllerService"
+    <dubbo:service interface="com.lanxi.couponcode.spi.service.LoginService" ref="loginControllerService" timeout="5000"
                    registry="zk"></dubbo:service>
-    <dubbo:service interface="com.lanxi.couponcode.spi.service.OrderService" ref="orderControllerService"
+    <dubbo:service interface="com.lanxi.couponcode.spi.service.OrderService" ref="orderControllerService" timeout="5000"
                    registry="zk"></dubbo:service>
     <dubbo:service interface="com.lanxi.couponcode.spi.service.CommodityService" ref="commodityControllerService"
+                   timeout="5000"
                    registry="zk"></dubbo:service>
     <dubbo:service interface="com.lanxi.couponcode.spi.service.QuartzService" ref="quartzControllerService"
+                   timeout="5000"
                    registry="zk"></dubbo:service>
-    <dubbo:service interface="com.lanxi.couponcode.spi.service.RedisService" ref="redisService"
+    <dubbo:service interface="com.lanxi.couponcode.spi.service.RedisService" ref="redisService" timeout="5000"
                    registry="zk"></dubbo:service>
 
     <dubbo:reference interface="com.lanxi.couponcode.spi.service.AccountService" id="accountControllerServiceRef"
+                     timeout="5000"
                      check="false" registry="zk"></dubbo:reference>
     <dubbo:reference interface="com.lanxi.couponcode.spi.service.CouponService" id="codeControllerServiceRef"
+                     timeout="5000"
                      check="false" registry="zk"></dubbo:reference>
     <dubbo:reference interface="com.lanxi.couponcode.spi.service.ClearService" id="clearControllerServiceRef"
+                     timeout="5000"
                      check="false" registry="zk"></dubbo:reference>
-    <dubbo:reference interface="com.lanxi.couponcode.spi.service.OperateRecordService"
+    <dubbo:reference interface="com.lanxi.couponcode.spi.service.OperateRecordService" timeout="5000"
                      id="operateRecordControllerServiceRef" check="false" registry="zk"></dubbo:reference>
     <dubbo:reference interface="com.lanxi.couponcode.spi.service.RequestService" id="requestControllerServiceRef"
+                     timeout="5000"
                      check="false" registry="zk"></dubbo:reference>
-    <dubbo:reference interface="com.lanxi.couponcode.spi.service.VerificationRecordService"
+    <dubbo:reference interface="com.lanxi.couponcode.spi.service.VerificationRecordService" timeout="5000"
                      id="verificationRecordControllerServiceRef" check="false" registry="zk"></dubbo:reference>
     <dubbo:reference interface="com.lanxi.couponcode.spi.service.MerchantService" id="merchantControllerServiceRef"
+                     timeout="5000"
                      check="false" registry="zk"></dubbo:reference>
     <dubbo:reference interface="com.lanxi.couponcode.spi.service.ShopService" id="shopControllerServiceRef"
+                     timeout="5000"
                      check="false" registry="zk"></dubbo:reference>
     <dubbo:reference interface="com.lanxi.couponcode.spi.service.LoginService" id="loginControllerServiceRef"
+                     timeout="5000"
                      check="false" registry="zk"></dubbo:reference>
     <dubbo:reference interface="com.lanxi.couponcode.spi.service.OrderService" id="orderControllerServiceRef"
+                     timeout="5000"
                      check="false" registry="zk"></dubbo:reference>
     <dubbo:reference interface="com.lanxi.couponcode.spi.service.CommodityService" id="commodityControllerServiceRef"
+                     timeout="5000"
                      check="false" registry="zk"></dubbo:reference>
     <dubbo:reference interface="com.lanxi.couponcode.spi.service.QuartzService" id="quartzControllerServiceRef"
+                     timeout="5000"
                      check="false" registry="zk"></dubbo:reference>
-    <dubbo:reference interface="com.lanxi.couponcode.spi.service.RedisService" id="redisServiceRef"
+    <dubbo:reference interface="com.lanxi.couponcode.spi.service.RedisService" id="redisServiceRef" timeout="5000"
                      check="false" registry="zk"></dubbo:reference>
 </beans>

@@ -9,6 +9,7 @@ import com.lanxi.couponcode.impl.entity.OperateRecord;
 import com.lanxi.couponcode.impl.entity.Shop;
 import com.lanxi.couponcode.impl.newservice.*;
 import com.lanxi.couponcode.impl.assist.FillAssist;
+import com.lanxi.couponcode.spi.assist.FileDelete;
 import com.lanxi.couponcode.spi.assist.RetMessage;
 import com.lanxi.couponcode.spi.assist.TimeAssist;
 import com.lanxi.couponcode.spi.config.ConstConfig;
@@ -55,7 +56,6 @@ public class ShopController implements com.lanxi.couponcode.spi.service.ShopServ
         RetMessage<Boolean> retMessage = new RetMessage<Boolean>();
         Boolean result = false;
         Shop shop = null;
-        // TODO 校验权限
         try {
             Account a = accountService.queryAccountById(operaterId);
             RetMessage message = checkAccount.apply(a, OperateType.createShop);
@@ -117,10 +117,10 @@ public class ShopController implements com.lanxi.couponcode.spi.service.ShopServ
 
     @Override
     public RetMessage<Boolean> importShops(File file, Long merchantId, Long operaterId) {
+
         RetMessage<Boolean> retMessage = new RetMessage<Boolean>();
         Boolean result = false;
         List<String> list = null;
-        // TODO 校验
         try {
             Account a = accountService.queryAccountById(operaterId);
             RetMessage message = checkAccount.apply(a, OperateType.importShops);
@@ -131,7 +131,7 @@ public class ShopController implements com.lanxi.couponcode.spi.service.ShopServ
             if (notNull.test(message))
                 return message;
             if (file.getName().endsWith(".xlsx") || file.getName().endsWith(".xls")) {
-                list = shopService.importShops(file, m.getMerchantId(), operaterId, m.getMerchantStatus());
+                list = shopService.importShops(file, m.getMerchantId(), operaterId,a.getUserName(),m.getMerchantName(), m.getMerchantStatus());
                 if (list != null && list.size() == 0) {
                     result = true;
                     retMessage.setDetail(result);
@@ -170,6 +170,7 @@ public class ShopController implements com.lanxi.couponcode.spi.service.ShopServ
             LogFactory.error(this, "导入文件时发生异常", e);
             retMessage.setAll(RetCodeEnum.error, "导入文件时发生异常", result);
         }
+        FileDelete.add(file);
         return retMessage;
     }
 
@@ -177,7 +178,6 @@ public class ShopController implements com.lanxi.couponcode.spi.service.ShopServ
     public RetMessage<Boolean> freezeShop(Long shopId, Long operaterId) {
         RetMessage<Boolean> retMessage = new RetMessage<Boolean>();
         Boolean result = false;
-        // TODO 校验
         try {
             Account a = accountService.queryAccountById(operaterId);
             RetMessage message = checkAccount.apply(a, OperateType.freezeShop);
@@ -231,7 +231,6 @@ public class ShopController implements com.lanxi.couponcode.spi.service.ShopServ
     public RetMessage<Boolean> unfreezeShop(Long shopId, Long operaterId) {
         RetMessage<Boolean> retMessage = new RetMessage<Boolean>();
         Boolean result = false;
-        // TODO 校验
         try {
             Account a = accountService.queryAccountById(operaterId);
             RetMessage message = checkAccount.apply(a, OperateType.unfreezeShop);
@@ -282,7 +281,6 @@ public class ShopController implements com.lanxi.couponcode.spi.service.ShopServ
                                         Integer pageNum, Integer pageSize, Long operaterId) {
         RetMessage<String> retMessage = new RetMessage<String>();
         List<Shop> shops = null;
-        // TODO 校验
         try {
             Account a = accountService.queryAccountById(operaterId);
             RetMessage message = checkAccount.apply(a, OperateType.queryShop);
@@ -298,6 +296,7 @@ public class ShopController implements com.lanxi.couponcode.spi.service.ShopServ
             Page<Shop> pageObj = new Page<>(pageNum, pageSize);
             EntityWrapper<Shop> wrapper = new EntityWrapper<Shop>();
             if (pageObj != null) {
+                wrapper.orderBy("create_time",false);
                 if (shopName != null && !shopName.isEmpty()) {
                     wrapper.like("shop_name", shopName);
                 }
@@ -340,7 +339,6 @@ public class ShopController implements com.lanxi.couponcode.spi.service.ShopServ
                                         Long merchantId, Long operaterId) {
         RetMessage<String> retMessage = new RetMessage<String>();
         List<Shop> shops = null;
-        // TODO 校验
         try {
             Account a = accountService.queryAccountById(operaterId);
             RetMessage message = checkAccount.apply(a, OperateType.queryShop);
@@ -351,7 +349,7 @@ public class ShopController implements com.lanxi.couponcode.spi.service.ShopServ
                     return message;
             }
             EntityWrapper<Shop> wrapper = new EntityWrapper<Shop>();
-
+            wrapper.orderBy("create_time",false);
             if (shopName != null && !shopName.isEmpty()) {
                 wrapper.like("shop_name", shopName);
             }
@@ -391,7 +389,6 @@ public class ShopController implements com.lanxi.couponcode.spi.service.ShopServ
                                           String serviceTel, Long shopId, Long operaterId) {
         RetMessage<Boolean> retMessage = new RetMessage<Boolean>();
         Boolean result = false;
-        // TODO 校验
         try {
             Account a = accountService.queryAccountById(operaterId);
             RetMessage message = checkAccount.apply(a, OperateType.modifyShop);
@@ -459,7 +456,6 @@ public class ShopController implements com.lanxi.couponcode.spi.service.ShopServ
     public RetMessage<File> queryShopsExport(String shopName, String shopAddress, ShopStatus status, Integer pageNum,
                                              Integer pageSize, Long merchantId, Long operaterId) {
         RetMessage<File> retMessage = new RetMessage<File>();
-        // TODO 校验
         try {
             Account a = accountService.queryAccountById(operaterId);
             RetMessage message = checkAccount.apply(a, OperateType.exportShop);
@@ -477,6 +473,7 @@ public class ShopController implements com.lanxi.couponcode.spi.service.ShopServ
 //			Page<Shop> pageObj = new Page<>(pageNum, pageSize);
 
             EntityWrapper<Shop> wrapper = new EntityWrapper<Shop>();
+            wrapper.orderBy("create_time",false);
             if (shopName != null && !shopName.isEmpty()) {
                 wrapper.like("shop_name", shopName);
             }
@@ -490,6 +487,8 @@ public class ShopController implements com.lanxi.couponcode.spi.service.ShopServ
             wrapper.eq("merchant_id", a.getMerchantId());
             LogFactory.info(this, "条件装饰结果[" + wrapper + "]\n");
             File file = shopService.queryShopsExport(wrapper, null);
+            file.length();
+            FileDelete.add(file);
             if (file != null) {
                 retMessage.setAll(RetCodeEnum.success, "导出成功", file);
             } else {
@@ -513,6 +512,7 @@ public class ShopController implements com.lanxi.couponcode.spi.service.ShopServ
 //            if (notNull.test(message))
 //                return message;
             File file = shopService.downloadExcelTemplate();
+            FileDelete.add(file);
             if (file != null) {
                 retMessage.setAll(RetCodeEnum.success, "下载Excel模板成功", file);
             } else {
@@ -567,6 +567,7 @@ public class ShopController implements com.lanxi.couponcode.spi.service.ShopServ
             }
             Page<Shop> pageObj = new Page<>(pageNum, pageSize);
             EntityWrapper<Shop> wrapper = new EntityWrapper<>();
+            wrapper.orderBy("create_time",false);
             if (merchantName != null && !merchantName.isEmpty()) {
                 wrapper.like("merchant_name", merchantName);
             }

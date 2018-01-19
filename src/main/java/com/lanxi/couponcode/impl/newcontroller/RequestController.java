@@ -22,6 +22,7 @@ import com.lanxi.util.utils.BeanUtil;
 import com.lanxi.util.utils.LoggerUtil;
 import com.lanxi.util.utils.TimeUtil;
 import org.springframework.stereotype.Controller;
+import org.springframework.test.annotation.Commit;
 
 import static com.lanxi.couponcode.impl.assist.PredicateAssist.*;
 
@@ -69,6 +70,7 @@ public class RequestController implements com.lanxi.couponcode.spi.service.Reque
                                                 Long commodityId,
                                                 Page<Request> page ) {
         EntityWrapper<Request> wrapper = new EntityWrapper<>( );
+        wrapper.orderBy("request_time",false);
         if (timeStart != null && ! timeStart.isEmpty( )) {
             while (timeStart.length( ) < 14)
                 timeStart += "0";
@@ -169,18 +171,19 @@ public class RequestController implements com.lanxi.couponcode.spi.service.Reque
         Request request = requestService.queryRequestInfo(requestId);
         Boolean lock    = null;
         try {
-            lock = lockService.lock(request);
-            if (lock == null || ! lock)
-                return new RetMessage<>(RetCodeEnum.fail, "请求不存在或正被处理,拒绝失败!", null);
+//            lock = lockService.lock(request);
+//            if (lock == null || ! lock)
+//                return new RetMessage<>(RetCodeEnum.fail, "请求不存在或正被处理,拒绝失败!", null);
             message = checkRequest.apply(request, OperateType.passRequest);
             if (message != null)
                 return message;
-            Merchant merchant = merchantService.queryMerchantParticularsById(account.getMerchantId( ));
+            Merchant merchant = merchantService.queryMerchantParticularsById(request.getMerchantId( ));
             message = checkMerchant.apply(merchant, OperateType.passRequest);
             if (message != null)
                 return message;
             String    commodityJson = request.getCommodityInfo( );
             Commodity commodity     = JSON.parseObject(commodityJson, Commodity.class);
+            commodity.setType(JSON.parseObject(commodityJson).getString("type"));
             if (! RequestOperateType.createCommodity.equals(request.getType( ))) {
                 Long commodityId = commodity.getCommodityId( );
                 if (commodityId == null)
@@ -210,6 +213,8 @@ public class RequestController implements com.lanxi.couponcode.spi.service.Reque
             request.setReason(reason);
             //TODO 通过时将reason置为null
             request.setReason(null);
+            //更新售价到请求的商品信息里
+            request.setCommodityInfo(FillAssist.keepEntityField(HiddenMap.REQUEST_COMMODITY_ADMIN.keySet(),BeanUtil.deepCopy(commodity)).toJson());
             Boolean result = requestService.passRequest(request);
 
 
@@ -269,7 +274,7 @@ public class RequestController implements com.lanxi.couponcode.spi.service.Reque
                         record.setType(OperateType.unshelveCommodity);
                         record.setDescription("下架商品");
                         //                        record.setDescription("下架商品[" + commodity.getCommodityId() + "]");
-                        flag = commodityService.shelveCommodity(commodity);
+                        flag = commodityService.unshelveCommodity(commodity);
                     }
                     ;
                     break;
@@ -277,7 +282,7 @@ public class RequestController implements com.lanxi.couponcode.spi.service.Reque
                         record.setType(OperateType.shelveCommodity);
                         record.setDescription("上架商品");
                         //                        record.setDescription("上架商品[" + commodity.getCommodityId() + "]");
-                        flag = commodityService.unshelveCommodity(commodity);
+                        flag = commodityService.shelveCommodity(commodity);
                     }
                     ;
                     break;
@@ -307,8 +312,8 @@ public class RequestController implements com.lanxi.couponcode.spi.service.Reque
             LogFactory.info(this, "通过请求异常!", e);
             return new RetMessage<>(RetCodeEnum.error, "系统异常!", null);
         } finally {
-            if (lock != null)
-                lockService.unlock(request);
+//            if (lock != null)
+//                lockService.unlock(request);
         }
     }
 
@@ -321,15 +326,25 @@ public class RequestController implements com.lanxi.couponcode.spi.service.Reque
         if (message != null)
             return message;
         Request request = requestService.queryRequestInfo(requestId);
-        Boolean lock    = null;
+        Commodity commodity=commodityService.queryCommodity(request.getCommodityId());
+        if(CommodityStatus.shelvedWait.equals(commodity.getStatus())){
+            commodity.setStatus(CommodityStatus.unshelved);
+        }
+        if(CommodityStatus.unshelvedWait.equals(commodity.getStatus())){
+            commodity.setStatus(CommodityStatus.shelved);
+        }
+        commodity.updateById();
+        // 不加锁
+        Boolean lock    = commodity.updateById();
         try {
-            lock = lockService.lock(request);
+//            lock = lockService.lock(request);
+//            lock=true;
             if (lock == null || ! lock)
                 return new RetMessage<>(RetCodeEnum.fail, "请求不存在或正被处理,拒绝失败!", null);
             message = checkRequest.apply(request, OperateType.rejectRequest);
             if (message != null)
                 return message;
-            Merchant merchant = merchantService.queryMerchantParticularsById(account.getMerchantId( ));
+            Merchant merchant = merchantService.queryMerchantParticularsById(request.getMerchantId( ));
             message = checkMerchant.apply(merchant, OperateType.rejectRequest);
             if (message != null)
                 return message;

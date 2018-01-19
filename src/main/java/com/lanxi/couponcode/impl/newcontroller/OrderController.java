@@ -15,6 +15,7 @@ import javax.annotation.Resource;
 import com.lanxi.couponcode.impl.assist.ExcelAssist;
 import com.lanxi.couponcode.impl.assist.FillAssist;
 import com.lanxi.couponcode.impl.config.HiddenMap;
+import com.lanxi.couponcode.spi.assist.FileDelete;
 import com.lanxi.couponcode.spi.consts.annotations.CheckArg;
 import com.lanxi.couponcode.spi.consts.enums.*;
 import com.lanxi.couponcode.spi.service.RedisService;
@@ -302,6 +303,7 @@ public class OrderController implements com.lanxi.couponcode.spi.service.OrderSe
 					&& !Phone.isEmpty() && Remark != null && !Remark.isEmpty()) {
 				List<Order> orders = null;
 				EntityWrapper<Order> wrapper = new EntityWrapper<Order>();
+				wrapper.orderBy("create_time",false);
 				wrapper.eq("phone", Phone);
 				wrapper.like("remark", Remark);
 				wrapper.ge("work_date", StartDate);
@@ -325,12 +327,13 @@ public class OrderController implements com.lanxi.couponcode.spi.service.OrderSe
 
 	@Override
 	public RetMessage<String> queryOrders(String StartDate, String EndDate, String Phone, Long orderId, Long SkuCode,
-			String SRC, OrderStatus orderStatus, Integer pageNum, Integer pageSize, Long operaterId) {
+			String SRC, OrderStatus orderStatus, Integer pageNum, Integer pageSize,String commodityName, Long operaterId) {
 		try {
 			Account a = accountService.queryAccountById(operaterId);
 			if (a == null || notAdmin.test(a))
 				return new RetMessage<>(RetCodeEnum.fail, "非管理员不能执行此操作", null);
 			EntityWrapper<Order> wrapper = new EntityWrapper<>();
+			wrapper.orderBy("create_time",false);
 			if (StartDate != null && !StartDate.isEmpty()) {
 				while (StartDate.length() < 14)
 					StartDate += "0";
@@ -342,7 +345,7 @@ public class OrderController implements com.lanxi.couponcode.spi.service.OrderSe
 				wrapper.le("create_time", EndDate);
 			}
 			if (Phone != null && !Phone.isEmpty()) {
-				wrapper.eq("phone", Phone);
+				wrapper.like("phone", Phone);
 			}
 			if (orderId != null) {
 				wrapper.eq("order_id", orderId);
@@ -350,7 +353,7 @@ public class OrderController implements com.lanxi.couponcode.spi.service.OrderSe
 			if (SkuCode != null) {
 				wrapper.eq("commodity_id", SkuCode);
 			}
-			if (SRC != null) {
+			if (SRC != null&& !SRC.isEmpty()) {
 				wrapper.eq("src", SRC);
 			}
 			if (orderStatus != null) {
@@ -358,6 +361,9 @@ public class OrderController implements com.lanxi.couponcode.spi.service.OrderSe
 			}
 			if (pageNum != null) {
 				pageSize = pageSize == null ? ConstConfig.DEFAULT_PAGE_SIZE : pageSize;
+			}
+			if(commodityName!=null&&commodityName.isEmpty()){
+				wrapper.like("commodity_name",commodityName);
 			}
 			Page<Order> pageObj = new Page<>(pageNum, pageSize);
 			List<Order> list = orderService.queryOrders(wrapper, pageObj);
@@ -383,6 +389,7 @@ public class OrderController implements com.lanxi.couponcode.spi.service.OrderSe
 			if (a == null || notAdmin.test(a))
 				return new RetMessage<>(RetCodeEnum.fail, "非管理员不能执行此操作", null);
 			EntityWrapper<Order> wrapper = new EntityWrapper<>();
+			wrapper.orderBy("create_time",false);
 			if (StartDate != null && !StartDate.isEmpty()) {
 				while (StartDate.length() < 14)
 					StartDate += "0";
@@ -428,6 +435,7 @@ public class OrderController implements com.lanxi.couponcode.spi.service.OrderSe
 				map.put("orderStatus", "状态");
 				map.put("successNum", "成功数量");
 				File file = new File("订单导出" + TimeAssist.getNow() + ".xls");
+				FileDelete.add(file);
 				OutputStream os = new FileOutputStream(file);
 				ExcelUtil.exportExcelFile(ExcelAssist.toStringList(list, Order.class,HiddenMap.getAdminFieldCN), new FileOutputStream(file));
 				os.close();

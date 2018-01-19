@@ -7,6 +7,7 @@ import com.lanxi.couponcode.impl.assist.ExcelAssist;
 import com.lanxi.couponcode.impl.entity.*;
 import com.lanxi.couponcode.impl.newservice.*;
 import com.lanxi.couponcode.impl.assist.FillAssist;
+import com.lanxi.couponcode.spi.assist.FileDelete;
 import com.lanxi.couponcode.spi.assist.RetMessage;
 import com.lanxi.couponcode.spi.assist.TimeAssist;
 import com.lanxi.couponcode.impl.config.HiddenMap;
@@ -153,13 +154,14 @@ public class CommodityController implements com.lanxi.couponcode.spi.service.Com
         RetMessage message = checkAccount.apply(account, OperateType.modifyCommodity);
         if (message != null)
             return message;
-        Merchant m=merchantService.queryMerchantParticularsById(account.getMerchantId());
+
+        Commodity commodity = commodityService.queryCommodity(commodityId);
+        if (commodity == null || CommodityStatus.deleted.equals(commodity.getStatus( )))
+            return new RetMessage<>(RetCodeEnum.fail, "商品不存在!", null);
+        Merchant m=merchantService.queryMerchantParticularsById(commodity.getMerchantId());
         message = checkMerchant.apply(m, OperateType.exportClearRecord);
         if (notNull.test(message))
             return message;
-        Commodity commodity = commodityService.queryCommodity(commodityId);
-        if (commodity == null || CommodityStatus.deleted.equals(commodity.getStatus( )))
-            return new RetMessage<>(RetCodeEnum.fail, "不存在!", null);
         if (! CommodityStatus.unshelved.equals(commodity.getStatus( ))) {
             return new RetMessage<>(RetCodeEnum.fail, "非下架状态!无法修改!", null);
         }
@@ -349,7 +351,7 @@ public class CommodityController implements com.lanxi.couponcode.spi.service.Com
             return message;
         Page<Commodity> page = new Page<>(pageNum, pageSize);
         List<Commodity> list = queryCommoditiesHidden(merchantName, commodityName, commodityType, commodityStatus, timeStart, timeEnd, commodityId, page);
-        FillAssist.returnDeal.accept(FillAssist.getMap.apply(AccountType.merchantManager, Commodity.class), list);
+        FillAssist.returnDeal.accept(FillAssist.getMap.apply(AccountType.admin, Commodity.class), list);
         //需要分页信息
         Map<String, Object> map = new HashMap<>( );
         map.put("page", page);
@@ -375,9 +377,9 @@ public class CommodityController implements com.lanxi.couponcode.spi.service.Com
         if (message != null)
             return message;
         List<Commodity> list = queryCommoditiesHidden(merchantName, commodityName, commodityType, commodityStatus, timeStart, timeEnd, commodityId, null);
-        // TODO 配置要显示的内容
         Map<String, String> map  = new HashMap<>( );
         File                file = new File("商品导出" + TimeAssist.getNow( ) + ".xls");
+        FileDelete.add(file);
         try {
             ExcelUtil.exportExcelFile(ExcelAssist.toStringList(list, Commodity.class, HiddenMap.getAdminFieldCN), new FileOutputStream(file));
         } catch (FileNotFoundException e) {
@@ -403,7 +405,6 @@ public class CommodityController implements com.lanxi.couponcode.spi.service.Com
         if (message != null)
             return message;
         Merchant merchant = merchantService.queryMerchantParticularsById(account.getMerchantId( ));
-        //TODO 校验
         Page<Commodity> page = new Page<>(pageNum, pageSize);
         List<Commodity> list = queryCommoditiesHidden(merchant.getMerchantName( ), commodityName, type, status, null, null, commodityId, page);
         Map<String,String> map1=FillAssist.getMap.apply(AccountType.merchantManager, Commodity.class);
@@ -433,11 +434,10 @@ public class CommodityController implements com.lanxi.couponcode.spi.service.Com
         message = checkMerchant.apply(merchant, OperateType.exportClearRecord);
         if (notNull.test(message))
             return message;
-        //TODO 校验
         List<Commodity> list = queryCommoditiesHidden(merchant.getMerchantName( ), commodityName, type, status, null, null, commodityId, null);
-        // TODO 配置要显示的内容
         Map<String, String> map  = new HashMap<>( );
         File                file = new File("商品查询导出" + TimeAssist.getNow( ) + ".xls");
+        FileDelete.add(file);
         try {
             ExcelUtil.exportExcelFile(ExcelAssist.toStringList(list, Commodity.class, HiddenMap.getMerchantManagerFieldCN), new FileOutputStream(file));
         } catch (FileNotFoundException e) {
@@ -459,15 +459,16 @@ public class CommodityController implements com.lanxi.couponcode.spi.service.Com
                                                      Long commodityId,
                                                      Page<Commodity> page ) {
         EntityWrapper<Commodity> wrapper = new EntityWrapper<>( );
+        wrapper.orderBy("add_time",false);
         if (timeStart != null && ! timeStart.isEmpty( )) {
             while (timeStart.length( ) < 14)
                 timeStart += "0";
-            wrapper.ge("create_time", timeStart);
+            wrapper.ge("add_time", timeStart);
         }
         if (timeEnd != null && ! timeEnd.isEmpty( )) {
             while (timeEnd.length( ) < 14)
                 timeEnd += "9";
-            wrapper.le("create_time", timeEnd);
+            wrapper.le("add_time", timeEnd);
         }
         if (merchantName != null)
             wrapper.like("merchant_name", merchantName);
@@ -506,11 +507,18 @@ public class CommodityController implements com.lanxi.couponcode.spi.service.Com
     @Override
     public RetMessage<Serializable> queryAllCommodityIds (Long merchantId,CommodityStatus status, Long operaterId) {
         Account account = accountService.queryAccountById(operaterId);
-        if (isAdmin.negate( ).test(account))
+        if (isAdmin.negate( ).test(account)&&isMerchantManager.negate().test(account))
             return new RetMessage<>(RetCodeEnum.fail, "非管理员商户管理员无权操作!", null);
         Map<Long, String> map = new HashMap<>( );
         commodityService.queryAll( )
                         .parallelStream( )
+                        .filter(e->{
+                            if(isMerchantManager.test(account)){
+                                return e.getMerchantId().equals(account.getMerchantId());
+                            }else{
+                                return true;
+                            }
+                        })
                         .filter(e-> merchantId==null||e.getMerchantId().equals(merchantId))
                         .filter(e ->status==null|| status.equals( e.getStatus( )))
                         .filter(e->!CommodityStatus.deleted.equals(e.getStatus()))

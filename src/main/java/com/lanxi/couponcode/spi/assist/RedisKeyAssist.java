@@ -153,4 +153,8 @@ public interface RedisKeyAssist {
     static String getProjectKey(final String keyOrigin) {
         return ARTIFCAT + keyOrigin;
     }
+
+    static String getWrontTimeKey(final long operateId){
+        return ARTIFCAT+"wrong-time-"+operateId;
+    };
 }

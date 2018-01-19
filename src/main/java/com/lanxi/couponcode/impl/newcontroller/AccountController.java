@@ -51,7 +51,6 @@ public class AccountController implements com.lanxi.couponcode.spi.service.Accou
                                           Long merchantId, Long shopId, String shopName, Long operaterId) {
         RetMessage<Boolean> retMessage = new RetMessage<Boolean>();
         Boolean result = false;
-        // TODO 校验
         try {
             RetMessage message = null;
             Account a = accountService.queryAccountById(operaterId);
@@ -310,7 +309,6 @@ public class AccountController implements com.lanxi.couponcode.spi.service.Accou
                                                   Long shopId, Long operaterId) {
         RetMessage<Boolean> retMessage = new RetMessage<Boolean>();
         Boolean result = false;
-        // TODO 权限校验
         try {
             Account a = accountService.queryAccountById(operaterId);
             Merchant m = merchantService.queryMerchantParticularsById(a.getMerchantId());
@@ -397,7 +395,6 @@ public class AccountController implements com.lanxi.couponcode.spi.service.Accou
     public RetMessage<Boolean> freezeAccount(Long accountId, Long operaterId) {
         RetMessage<Boolean> retMessage = new RetMessage<Boolean>();
         Boolean result = false;
-        // TODO 权限校验
         try {
             RetMessage message = null;
             OperateType ot = null;
@@ -406,10 +403,10 @@ public class AccountController implements com.lanxi.couponcode.spi.service.Accou
             } else {
                 Account a = accountService.queryAccountById(operaterId);
                 Account b = accountService.queryAccountById(accountId);
-                Merchant m=merchantService.queryMerchantParticularsById(a.getMerchantId());
-                message = checkMerchant.apply(m, OperateType.exportClearRecord);
-                if (notNull.test(message))
-                    return message;
+//                Merchant m=merchantService.queryMerchantParticularsById(a.getMerchantId());
+//                message = checkMerchant.apply(m, OperateType.exportClearRecord);
+//                if (notNull.test(message))
+//                    return message;
                 message=checkAccount.apply(a,OperateType.freezeAccount);
                 if(notNull.test(message))
                     return message;
@@ -437,7 +434,6 @@ public class AccountController implements com.lanxi.couponcode.spi.service.Accou
                 if (result) {
                     retMessage.setRetCode(RetCodeEnum.success.getValue());
                     retMessage.setRetMessage("冻结账户成功");
-                    // TODO 添加操作记录
                     OperateRecord record = new OperateRecord();
                     record.setRecordId(IdWorker.getId());
                     record.setOperaterId(operaterId);
@@ -476,7 +472,6 @@ public class AccountController implements com.lanxi.couponcode.spi.service.Accou
 
         RetMessage<Boolean> retMessage = new RetMessage<Boolean>();
         Boolean result = false;
-        // TODO 权限校验
         try {
             if (operaterId.equals(accountId)) {
                 return new RetMessage<>(RetCodeEnum.fail, "不能对自己的账号进行此操作", null);
@@ -549,7 +544,6 @@ public class AccountController implements com.lanxi.couponcode.spi.service.Accou
     public RetMessage<Boolean> delAccount(Long accountId, Long operaterId) {
         RetMessage<Boolean> retMessage = new RetMessage<Boolean>();
         Boolean result = false;
-        // TODO 校验权限
         try {
             if (operaterId.equals(accountId)) {
                 return new RetMessage<>(RetCodeEnum.fail, "不能对自己的账号进行此操作", null);
@@ -622,7 +616,6 @@ public class AccountController implements com.lanxi.couponcode.spi.service.Accou
                                             Long operaterId) {
         RetMessage<String> retMessage = new RetMessage<String>();
         List<Account> accounts = null;
-        // TODO 校验
         try {
             RetMessage message = null;
             Account a = accountService.queryAccountById(operaterId);
@@ -687,6 +680,7 @@ public class AccountController implements com.lanxi.couponcode.spi.service.Accou
             } else {
                 wrapper.in("status", AccountStatus.normal.getValue() + "," + AccountStatus.freeze.getValue());
             }
+            wrapper.orderBy("add_time",false);
             LogFactory.info(this, "条件装饰结果[" + wrapper + "]\n");
             accounts = accountService.queryAccounts(wrapper, pageObj);
             if (accounts != null && accounts.size() > 0) {
@@ -714,7 +708,6 @@ public class AccountController implements com.lanxi.couponcode.spi.service.Accou
                                             AccountStatus status, Integer pageNum, Integer pageSize, Long operaterId) {
         RetMessage<String> retMessage = new RetMessage<String>();
         List<Account> accounts = null;
-        // TODO 校验
         try {
             Account a = accountService.queryAccountById(operaterId);
             RetMessage message = checkAccount.apply(a, OperateType.queryAccount);
@@ -748,6 +741,7 @@ public class AccountController implements com.lanxi.couponcode.spi.service.Accou
             } else {
                 wrapper.in("status", AccountStatus.normal + "," + AccountStatus.freeze);
             }
+            wrapper.orderBy("add_time",false);
             LogFactory.info(this, "条件装饰结果[" + wrapper + "]\n");
             accounts = accountService.queryAccounts(wrapper, pageObj);
             if (accounts != null && accounts.size() > 0) {
@@ -775,7 +769,6 @@ public class AccountController implements com.lanxi.couponcode.spi.service.Accou
                                                     AccountStatus status, Integer pageNum, Integer pageSize, Long operaterId) {
         RetMessage<String> retMessage = new RetMessage<String>();
         List<Account> accounts = null;
-        // TODO 校验
         try {
             Account a = accountService.queryAccountById(operaterId);
             RetMessage message = checkAccount.apply(a, OperateType.queryShopManager);
@@ -813,6 +806,7 @@ public class AccountController implements com.lanxi.couponcode.spi.service.Accou
             if (shopId!=null)
                 wrapper.eq("shop_id",shopId);
             wrapper.eq("merchant_id", a.getMerchantId());
+            wrapper.orderBy("add_time",false);
             LogFactory.info(this, "条件装饰结果[" + wrapper + "]\n");
             accounts = accountService.queryAccounts(wrapper, pageObj);
             FillAssist.returnDeal.accept(FillAssist.getMap.apply(AccountType.merchantManager,Account.class), accounts);
@@ -840,7 +834,6 @@ public class AccountController implements com.lanxi.couponcode.spi.service.Accou
         RetMessage<String> retMessage = new RetMessage<String>();
         Account account2 = null;
         String result = null;
-        // TODO 校验
         try {
             Account a = accountService.queryAccountById(operaterId);
             RetMessage message = checkAccount.apply(a, OperateType.queryAccountInfo);
@@ -870,7 +863,6 @@ public class AccountController implements com.lanxi.couponcode.spi.service.Accou
     public RetMessage<String> queryShopAccounts(Long shopId, Long operaterId, Integer pageNum, Integer pageSize) {
         RetMessage<String> retMessage = new RetMessage<String>();
         List<Account> accounts = null;
-        // TODO 校验
         try {
             Account a = accountService.queryAccountById(operaterId);
             RetMessage message = checkAccount.apply(a, OperateType.queryEmployee);
@@ -891,6 +883,7 @@ public class AccountController implements com.lanxi.couponcode.spi.service.Accou
 			wrapper.in("account_type",AccountType.shopManager+","+AccountType.shopEmployee);
             wrapper.eq("shop_id", a.getShopId());
             wrapper.in("status", AccountStatus.normal.getValue() + "," + AccountStatus.freeze.getValue());
+            wrapper.orderBy("add_time",false);
             LogFactory.info(this, "条件装饰结果[" + wrapper + "]\n");
             accounts = accountService.queryAccounts(wrapper, pageObj);
             FillAssist.returnDeal.accept(FillAssist.getMap.apply(AccountType.shopManager,Account.class), accounts);

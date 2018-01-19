@@ -322,7 +322,7 @@ public interface HiddenMap {
         ADMIN_COMMODITY.put("sellPrice", "商品销售价");
         ADMIN_COMMODITY.put("costPrice", "商品成本价");
         ADMIN_COMMODITY.put("lifeTime", "商品有效期");
-        ADMIN_COMMODITY.put("description", "使用说明");
+//        ADMIN_COMMODITY.put("description", "使用说明");
         ADMIN_COMMODITY.put("useDetail", "使用说明");
 
         ADMIN_OPERATE.put("operateTime", "操作时间");
@@ -375,6 +375,7 @@ public interface HiddenMap {
         ADMIN_ORDER.put("skuCode", "商品编号");
         ADMIN_ORDER.put("code", "串码");
         ADMIN_ORDER.put("successNum", "交易成功笔数");
+        ADMIN_ORDER.put("type", "商品类别");
         ADMIN_ORDER.put("codeCreateTime", "串码生成时间");
         ADMIN_ORDER.put("endTime", "串码过期时间");
 
@@ -416,6 +417,7 @@ public interface HiddenMap {
         MERCHANTMANAGER_CODE.put("lifeTime", "有效期(单位天)");
         MERCHANTMANAGER_CODE.put("codeStatus", "串码状态");
         MERCHANTMANAGER_CODE.put("commodityInfo", "商品详情");
+        MERCHANTMANAGER_CODE.put("overTime", "过期时间");
 
         MERCHANTMANAGER_DAILY_CLEAR.put("merchantName", "商户名称");
         MERCHANTMANAGER_DAILY_CLEAR.put("overtimeNum", "过期数量");
@@ -462,7 +464,7 @@ public interface HiddenMap {
 //        MERCHANTMANAGER_COMMODITY.put("sellPrice", "商品销售价");
         MERCHANTMANAGER_COMMODITY.put("costPrice", "商品成本价");
         MERCHANTMANAGER_COMMODITY.put("lifeTime", "商品有效期");
-        MERCHANTMANAGER_COMMODITY.put("description", "使用说明");
+//        MERCHANTMANAGER_COMMODITY.put("description", "使用说明");
         MERCHANTMANAGER_COMMODITY.put("useDetail", "使用说明");
 
         MERCHANTMANAGER_OPERATE.put("operateTime", "操作时间");
@@ -528,6 +530,24 @@ public interface HiddenMap {
     Map<String, String> SHOPMANAGER_VERIFY         = new HashMap<>();
 
     static void initShopManager() {
+        SHOPMANAGER_ACCOUNT.put("merchantName","商户名称");
+        SHOPMANAGER_ACCOUNT.put("shopName", "门店名称");
+        SHOPMANAGER_ACCOUNT.put("userName", "用户姓名");
+        SHOPMANAGER_ACCOUNT.put("phone", "用户手机号码");
+        SHOPMANAGER_ACCOUNT.put("accountType", "账户类型");
+        SHOPMANAGER_ACCOUNT.put("status", "账户状态");
+        SHOPMANAGER_ACCOUNT.put("accountId", "账户编号");
+
+
+        SHOPMANAGER_VERIFY.put("recordId", "记录编号");
+        SHOPMANAGER_VERIFY.put("commodityName", "商品名称");
+        SHOPMANAGER_VERIFY.put("code", "串码");
+        SHOPMANAGER_VERIFY.put("verficateTime", "核销时间");
+        SHOPMANAGER_VERIFY.put("verificationType", "验证方式");
+        SHOPMANAGER_VERIFY.put("operaterPhone", "操作者手机号码");
+        SHOPMANAGER_VERIFY.put("recordId", "记录编号");
+        SHOPMANAGER_VERIFY.put("facePrice", "商品面值");
+        SHOPMANAGER_VERIFY.put("merchantId", "商户编号");
     }
 
     Map<String, String> EMPLOYEE_ACCOUNT        = new HashMap<>();
@@ -544,6 +564,12 @@ public interface HiddenMap {
     Map<String, String> EMPLOYEE_VERIFY         = new HashMap<>();
 
     static void initShopEmployee() {
+        EMPLOYEE_CODE.put("code", "串码");
+        EMPLOYEE_CODE.put("commodityName", "商品名称");
+        EMPLOYEE_CODE.put("lifeTime", "有效期(单位天)");
+        EMPLOYEE_CODE.put("codeStatus", "串码状态");
+        EMPLOYEE_CODE.put("commodityInfo", "商品详情");
+        EMPLOYEE_CODE.put("overTime", "过期时间");
 
     }
 
@@ -556,7 +582,9 @@ public interface HiddenMap {
         CODE_COMMODITY.put("type","商品类型");
         CODE_COMMODITY.put("facePrice","面值");
         CODE_COMMODITY.put("costPrice","成本价");
+        CODE_COMMODITY.put("sellPrice","销售价");
 
+        REQUEST_COMMODITY_ADMIN.put("commodityId","商品编号");
         REQUEST_COMMODITY_ADMIN.put("commodityName","商品名称");
         REQUEST_COMMODITY_ADMIN.put("type","商品类型");
         REQUEST_COMMODITY_ADMIN.put("sellPrice","销售价");
@@ -565,12 +593,14 @@ public interface HiddenMap {
         REQUEST_COMMODITY_ADMIN.put("lifeTime","有效期");
         REQUEST_COMMODITY_ADMIN.put("useDetail","使用说明");
 
+        REQUEST_COMMODITY_MERCHANT.put("commodityId","商品编号");
         REQUEST_COMMODITY_MERCHANT.put("commodityName","商品名称");
         REQUEST_COMMODITY_MERCHANT.put("type","商品类型");
         REQUEST_COMMODITY_MERCHANT.put("facePrice","面值");
         REQUEST_COMMODITY_MERCHANT.put("costPrice","成本价");
         REQUEST_COMMODITY_MERCHANT.put("lifeTime","有效期");
         REQUEST_COMMODITY_MERCHANT.put("useDetail","使用说明");
+
 
         DAILY_RECORD_COMMODITY.put("commodityId","商品编号");
         DAILY_RECORD_COMMODITY.put("commodityName","商品名称");

@@ -20,10 +20,15 @@ import org.junit.Test;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Modifier;
 import java.math.BigDecimal;
+import java.sql.Blob;
+import java.sql.SQLException;
 import java.util.Random;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.function.Function;
@@ -171,6 +176,13 @@ public class TestSpring {
     public void test15(){
         ac.getBean(LoginController.class).sendValidateCode("15068610940");
     }
-
+    @Test
+    public void test16() throws IOException, SQLException {
+//        DaoService daoService=ac.getBean(DaoService.class);
+//        System.out.println(daoService.getMerchantPicsDao());
+//        Blob             blob = daoService.getMerchantPicsDao().getBusinessLicensePic(1001L);
+//        FileOutputStream fout = new FileOutputStream(new File("blob.jpg"));
+//        fout.write(blob.getBytes(1, (int)blob.length()));
+    }
 }
 
