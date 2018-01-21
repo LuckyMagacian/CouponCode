@@ -38,7 +38,18 @@ public class DaoServiceImpl implements DaoService {
     private ClearRecordDao clearRecordDao;
     @Resource
     private ClearDailyRecordDao clearDailyRecordDao;
-//    @Resource
+    @Resource
+    private ShopDailyVerifyStatsicDao shopDailyVerifyStatsicDao;
+
+    @Override
+    public ShopDailyVerifyStatsicDao getShopDailyVerifyStatsicDao() {
+        return shopDailyVerifyStatsicDao;
+    }
+
+    public void setShopDailyVerifyStatsicDao(ShopDailyVerifyStatsicDao shopDailyVerifyStatsicDao) {
+        this.shopDailyVerifyStatsicDao = shopDailyVerifyStatsicDao;
+    }
+    //    @Resource
 //    private MerchantPicsDao merchantPicsDao;
 
     public AccountDao getAccountDao() {

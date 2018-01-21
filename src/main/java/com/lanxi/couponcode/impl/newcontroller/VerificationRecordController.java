@@ -337,12 +337,13 @@ public class VerificationRecordController implements com.lanxi.couponcode.spi.se
         }
         List<VerificationRecord>   records = verificationRecordService.queryVerificationRecords(wrapper, page);
         //将系统管理员核销的处理并按门店编号分组
-        Map<String,List<VerificationRecord>> map= records.stream().map(r->{
+        Map<Long,List<VerificationRecord>> map= records.stream().map(r->{
             if(r.getShopId()==null){
+                r.setShopId(1L);
                 r.setShopName("管理员操作");
             }
             return r;
-        }).collect(Collectors.groupingBy(r->r.getShopName()));
+        }).collect(Collectors.groupingBy(r->r.getShopId()));
 
         Map<String,Map<String,Object>> result=new HashMap<>();
 
@@ -352,15 +353,17 @@ public class VerificationRecordController implements com.lanxi.couponcode.spi.se
         map.entrySet()
            .stream()
            .forEach(e->{
-               String shopNameTemp=e.getKey();
+               Long shopId=e.getKey();
                BigDecimal verCost=new BigDecimal(0);
                List<VerificationRecord> list=e.getValue();
                int verNum=list.size();
                verCost=list.stream().map(r->r.getCostPrice()==null?new BigDecimal(0):r.getCostPrice()).reduce(verCost,(a,b)->a.add(b));
                Map<String,Object> tempMap=new HashMap<>();
+               String shopNameTemp=list.get(0).getShopName();
                tempMap.put("verfyNum",verNum);
                tempMap.put("verfyCost",verCost);
-               result.put(shopNameTemp,tempMap);
+               tempMap.put("shopName",shopNameTemp);
+               result.put(shopId+"",tempMap);
            });
         Map<String,Object> tempMap=new HashMap<>();
         tempMap.put("totalNum",totalNum);

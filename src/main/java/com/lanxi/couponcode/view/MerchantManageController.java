@@ -55,7 +55,8 @@ public class MerchantManageController {
     private ShopService shopService;
     @Resource (name = "commodityControllerServiceRef")
     private CommodityService commodityService;
-
+    @Resource(name = "shopVerifyService")
+    private ShopDailyVerifyStatsticService shopDailyVerifyStatsticService;
     @Comment ("aop注解-用于处理文件上传时的参数问题")
     @Resource
     private CheckLogin checkLogin;
@@ -682,13 +683,14 @@ public class MerchantManageController {
             String pageNumStr = getArg.apply(req, "pageNum");
             String pageSizeStr = getArg.apply(req, "pageSize");
             String operaterIdStr = getArg.apply(req, "operaterId");
-
-            ClearStatus clearStatus = ClearStatus.getType(clearStatusStr);
+            String shopName=getArg.apply(req,"shopName");
+//            ClearStatus clearStatus = ClearStatus.getType(clearStatusStr);
             Long operaterId = parseArg(operaterIdStr, Long.class);
             Integer pageNum = parseArg(pageNumStr, Integer.class);
             Integer pageSize = parseArg(pageSizeStr, Integer.class);
 
-            return clearService.queryDailyRecords(timeStart, timeEnd, clearStatus, pageNum, pageSize, operaterId).toJson();
+            return shopDailyVerifyStatsticService.queryStatsticsList(shopName,null,timeStart,timeEnd,pageNum,pageSize,operaterId).toJson();
+//            return clearService.queryDailyRecords(timeStart, timeEnd, clearStatus, pageNum, pageSize, operaterId).toJson();
         } catch (Exception e) {
             LogFactory.error(this,"响应时发生异常!",e);
             return new RetMessage<String>(RetCodeEnum.error,"系统繁忙,稍后再试!",null).toJson();
@@ -705,7 +707,8 @@ public class MerchantManageController {
             String operaterIdStr = getArg.apply(req, "operaterId");
             Long recordId = parseArg(recordIdStr, Long.class);
             Long operaterId = parseArg(operaterIdStr, Long.class);
-            return clearService.queryDailyRecordInfo(recordId, operaterId).toJson();
+            return  shopDailyVerifyStatsticService.queryStatsticsInfo(recordId,operaterId).toJson();
+//            return clearService.queryDailyRecordInfo(recordId, operaterId).toJson();
         } catch (Exception e) {
             LogFactory.error(this,"响应时发生异常!",e);
             return new RetMessage<String>(RetCodeEnum.error,"系统繁忙,稍后再试!",null).toJson();
@@ -1168,11 +1171,12 @@ public class MerchantManageController {
             String clearStatusStr = getArg.apply(req, "clearStatus");
             String invoiceStatusStr = getArg.apply(req, "invoiceStatus");
             String operaterIdStr = getArg.apply(req, "operaterId");
-
-            ClearStatus clearStatus = ClearStatus.getType(clearStatusStr);
+            String shopName=getArg.apply(req,"shopName");
+//            ClearStatus clearStatus = ClearStatus.getType(clearStatusStr);
             Long operaterId = parseArg(operaterIdStr, Long.class);
             InvoiceStatus invoiceStatus = InvoiceStatus.getType(invoiceStatusStr);
-            RetMessage<File> retMessage = clearService.exoirtDailyRecords(timeStart, timeEnd, clearStatus, invoiceStatus, operaterId);
+            RetMessage<File> retMessage =shopDailyVerifyStatsticService.exportStatsticsList(shopName,null,timeStart,timeEnd,operaterId);
+//            RetMessage<File> retMessage = clearService.exoirtDailyRecords(timeStart, timeEnd, clearStatus, invoiceStatus, operaterId);
             return FileAssist.exportTest(retMessage.getDetail(), res);
         } catch (Exception e) {
             LogFactory.error(this,"响应时发生异常!",e);

@@ -26,40 +26,42 @@ import java.util.stream.Collectors;
  * Created by yangyuanjian on 2017/11/23.
  */
 @CheckArg
-@Controller("quartzControllerService")
-@EasyLog(LoggerUtil.LogLevel.INFO)
+@Controller ("quartzControllerService")
+@EasyLog (LoggerUtil.LogLevel.INFO)
 public class QuartzController implements QuartzService {
     @Resource
-    private RedisService         redisService;
+    private RedisService              redisService;
     @Resource
-    private RedisEnhancedService redisEnhancedService;
+    private RedisEnhancedService      redisEnhancedService;
     @Resource
-    private CommodityService     commodityService;
+    private CommodityService          commodityService;
     @Resource
-    private CodeService          codeService;
+    private CodeService               codeService;
     @Resource
-    private ClearService         clearService;
+    private ClearService              clearService;
     @Resource
-    private MerchantService      merchantService;
+    private MerchantService           merchantService;
     @Resource
-    private LockService          lockService;
+    private LockService               lockService;
+    @Resource
+    private VerificationRecordService verifyService;
 
     @Override
-    public void codeOverTime() {
+    public synchronized void codeOverTime() {
         EntityWrapper<CouponCode> wrapper = new EntityWrapper<>();
         wrapper.le("over_time", TimeAssist.getTodayBegin());
         wrapper.eq("code_status", CouponCodeStatus.undestroyed.getValue());
         List<CouponCode> list = codeService.queryCodes(wrapper, null);
         //        List<Boolean> locks = null;
-        try{
+        try {
             //            locks = lockService.lock(list);
-            for(int i = 0; i < list.size(); i++){
+            for (int i = 0; i < list.size(); i++) {
                 //                if (locks.get(i) == null || !locks.get(i))
                 //                    continue;
                 codeService.overTimeCode(list.get(i));
-                LogFactory.info(this, "串码过期:"+list.get(i));
+                LogFactory.info(this, "串码过期:" + list.get(i));
             }
-        }catch(Exception e){
+        } catch (Exception e) {
             LogFactory.info(this, "串码过期quartz异常!", e);
         }
         //        finally {
@@ -73,7 +75,7 @@ public class QuartzController implements QuartzService {
      * 清算状态为未清算的,过期时间或核销时间或
      */
     @Override
-    public void addClearDailyRecord() {
+    public synchronized void addClearDailyRecord() {
         EntityWrapper<CouponCode> wrapper = new EntityWrapper<>();
         wrapper.eq("clear_status", ClearStatus.uncleared.getValue());
         wrapper.isNotNull("final_time");
@@ -87,7 +89,7 @@ public class QuartzController implements QuartzService {
         List<CouponCode> list = codeService.queryCodes(wrapper, null);
 
         //        List<Boolean> locks = null;
-        try{
+        try {
             //            locks = lockService.lock(list);
             //按商户id分组
             Map<Long, List<CouponCode>> mapByMerchant = list.stream().collect(Collectors.groupingBy(e -> e.getMerchantId()));
@@ -181,25 +183,25 @@ public class QuartzController implements QuartzService {
                 dailyRecord.setClearStatus(ClearStatus.uncleared);
                 //插入到日结算表,若成功,所有该日结算记录相关的串码都更新为已结算
                 boolean result = clearService.addClearDailyRecord(dailyRecord);
-                if (result){
+                if (result) {
                     merchantCodes.stream().forEach(one -> {
                         one.setClearStatus(ClearStatus.cleard);
                         one.setClearTime(TimeAssist.getNow());
                         one.updateById();
                     });
-                    LogFactory.info(this, "生成日结算记录:"+dailyRecord);
+                    LogFactory.info(this, "生成日结算记录:" + dailyRecord);
                 }
             });
-        }catch(Exception e){
+        } catch (Exception e) {
             LogFactory.error(this, "日结算日志quartz异常!", e);
-        }finally{
+        } finally {
             //            if (list != null && locks != null)
             //                lockService.unlock(list);
         }
 
     }
 
-    public void addClearRecords() {
+    public synchronized void addClearRecords() {
         //查上个月的记录
         EntityWrapper<ClearDailyRecord> wrapper = new EntityWrapper();
         wrapper.eq("clear_status", ClearStatus.uncleared.getValue());
@@ -226,8 +228,8 @@ public class QuartzController implements QuartzService {
             record.setShowTotal(showTotal);
             record.setClearStatus(ClearStatus.uncleared);
             boolean result = record.insert();
-            LogFactory.info(this, "生成月结算记录:"+record);
-            if (result){
+            LogFactory.info(this, "生成月结算记录:" + record);
+            if (result) {
                 dailyRecords.stream().forEach(r -> {
                     r.setClearStatus(ClearStatus.cleard);
                     r.updateById();
@@ -235,5 +237,65 @@ public class QuartzController implements QuartzService {
             }
         });
 
+    }
+
+    /**
+     * 目标:
+     * 商户号
+     * 门店号
+     * 记录
+     * <p>
+     * 1 获取昨日的核销记录
+     * 2 按商户分组
+     * 3 按门店分组
+     */
+    public synchronized void addShopVerifyRecords() {
+        List<VerificationRecord>          records = null;
+        EntityWrapper<VerificationRecord> wrapper = new EntityWrapper<>();
+        wrapper.ge("verficate_time", TimeAssist.getLastdayBegin());
+        wrapper.le("verficate_time", TimeAssist.getLastdayEnd());
+        wrapper.orderBy("verficate_time", false);
+        records = verifyService.queryVerificationRecords(wrapper, null);
+
+        //按商户分组
+        Map<Long, List<VerificationRecord>> groupByMerchant = records.stream()
+                                                                     .collect(Collectors.groupingBy(e -> e.getMerchantId()));
+        groupByMerchant.entrySet()
+                       .stream()
+                       .forEach(e -> {
+                           Long                     merchantId  = e.getKey();
+                           List<VerificationRecord> shopRecords = e.getValue();
+                           //按门店分组
+                           Map<Long, List<VerificationRecord>> groupByShop = shopRecords.stream()
+                                                                                        .peek(f -> {
+                                                                                            if (f.getShopId() == null) {
+                                                                                                f.setShopId(0L);
+                                                                                                f.setShopName("商户管理员核销");
+                                                                                            }
+                                                                                        })
+                                                                                        .collect(Collectors.groupingBy(f -> f.getShopId()));
+                           groupByShop.entrySet()
+                                      .stream()
+                                      .forEach(f -> {
+                                          Long                     shopId   = f.getKey();
+                                          List<VerificationRecord> value    = f.getValue();
+                                          String                   shopName = value.get(0).getShopName();
+
+
+                                          ShopDailyVerifyStatsitc statsitc = new ShopDailyVerifyStatsitc();
+                                          statsitc.setMerchantId(merchantId);
+                                          statsitc.setRecordId(IdWorker.getId());
+                                          statsitc.setRecordTime(TimeAssist.getNow());
+                                          statsitc.setTradeTime(TimeAssist.getLastdayBegin().substring(0, 8));
+
+                                          statsitc.setShopId(shopId);
+                                          statsitc.setShopName(shopName);
+                                          statsitc.setVerifyNum(value.size());
+                                          BigDecimal sum = new BigDecimal(0);
+                                          sum = value.stream().map(g -> g.getCostPrice()).reduce(sum, (a, b) -> a.add(b));
+                                          statsitc.setVerifyCostSum(sum);
+                                          statsitc.insert();
+                                      });
+                       });
     }
 }

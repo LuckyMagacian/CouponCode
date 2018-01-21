@@ -77,6 +77,9 @@
                    registry="zk"></dubbo:service>
     <dubbo:service interface="com.lanxi.couponcode.spi.service.RedisService" ref="redisService" timeout="5000"
                    registry="zk"></dubbo:service>
+    <dubbo:service interface="com.lanxi.couponcode.spi.service.ShopDailyVerifyStatsticService" ref="shopVerifyService" timeout="5000"
+                   registry="zk"></dubbo:service>
+
 
     <dubbo:reference interface="com.lanxi.couponcode.spi.service.AccountService" id="accountControllerServiceRef"
                      timeout="5000"
@@ -113,5 +116,7 @@
                      timeout="5000"
                      check="false" registry="zk"></dubbo:reference>
     <dubbo:reference interface="com.lanxi.couponcode.spi.service.RedisService" id="redisServiceRef" timeout="5000"
+                     check="false" registry="zk"></dubbo:reference>
+    <dubbo:reference interface="com.lanxi.couponcode.spi.service.ShopDailyVerifyStatsticService" id="shopVerifyService" timeout="5000"
                      check="false" registry="zk"></dubbo:reference>
 </beans>

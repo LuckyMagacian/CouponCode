@@ -33,6 +33,8 @@ import com.lanxi.couponcode.impl.dao.*;
 
       ClearRecordDao getClearRecordDao();
 
+      ShopDailyVerifyStatsicDao getShopDailyVerifyStatsicDao();
+
 //      MerchantPicsDao getMerchantPicsDao();
     
 }

@@ -25,7 +25,7 @@ public interface HiddenMap {
     Map<String, String> ALL_REQUEST        = new HashMap<>();
     Map<String, String> ALL_SHOP           = new HashMap<>();
     Map<String, String> ALL_VERIFY         = new HashMap<>();
-
+    Map<String,String>  All_SHOP_VERIFY    = new HashMap<>();
     static void initAll() {
         //-----------------------------------------------------------------账户--------------------------------------------------------------
         ALL_ACCOUNT.put("accountId", "账户编号");
@@ -250,6 +250,15 @@ public interface HiddenMap {
         ALL_VERIFY.put("verificationType", "验证方式");
         ALL_VERIFY.put("clearStatus", "清算状态");
         ALL_VERIFY.put("shopInfo", "门店详情");
+        //-----------------------------------------------------------------校验--------------------------------------------------------------
+        All_SHOP_VERIFY.put("recordId","记录编号");
+        All_SHOP_VERIFY.put("merchantId","商户编号");
+        All_SHOP_VERIFY.put("shopId","门店编号");
+        All_SHOP_VERIFY.put("shopName","门店名称");
+        All_SHOP_VERIFY.put("tradeTime","交易时间");
+        All_SHOP_VERIFY.put("recordTime","记录时间");
+        All_SHOP_VERIFY.put("verifyNum","核销总量");
+        All_SHOP_VERIFY.put("verifyCostSum","核销总成本");
     }
 
     Map<String, String> ADMIN_ACCOUNT        = new HashMap<>();
@@ -402,7 +411,7 @@ public interface HiddenMap {
     Map<String, String> MERCHANTMANAGER_REQUEST        = new HashMap<>();
     Map<String, String> MERCHANTMANAGER_SHOP           = new HashMap<>();
     Map<String, String> MERCHANTMANAGER_VERIFY         = new HashMap<>();
-
+    Map<String,String>  MERCHANTMANAGER_SHOP_VERIFY    = new HashMap<>();
     static void initMerchant() {
         MERCHANTMANAGER_ACCOUNT.put("merchantName","商户名称");
         MERCHANTMANAGER_ACCOUNT.put("shopName", "门店名称");
@@ -514,6 +523,14 @@ public interface HiddenMap {
         MERCHANTMANAGER_MERCHANT.put("businessLicensePic", "工商营业执照");
         MERCHANTMANAGER_MERCHANT.put("otherPic", "其他证明材料");
 
+        MERCHANTMANAGER_SHOP_VERIFY.put("recordId","记录编号");
+        MERCHANTMANAGER_SHOP_VERIFY.put("merchantId","商户编号");
+        MERCHANTMANAGER_SHOP_VERIFY.put("shopId","门店编号");
+        MERCHANTMANAGER_SHOP_VERIFY.put("shopName","门店名称");
+        MERCHANTMANAGER_SHOP_VERIFY.put("tradeTime","交易时间");
+        MERCHANTMANAGER_SHOP_VERIFY.put("recordTime","记录时间");
+        MERCHANTMANAGER_SHOP_VERIFY.put("verifyNum","核销总量");
+        MERCHANTMANAGER_SHOP_VERIFY.put("verifyCostSum","核销总成本");
     }
 
     Map<String, String> SHOPMANAGER_ACCOUNT        = new HashMap<>();
@@ -697,6 +714,8 @@ public interface HiddenMap {
             return MERCHANTMANAGER_SHOP.get(f);
         else if (VerificationRecord.class.equals(c))
             return MERCHANTMANAGER_VERIFY.get(f);
+        else if(ShopDailyVerifyStatsitc.class.equals(c))
+            return MERCHANTMANAGER_SHOP_VERIFY.get(f);
         else
             return null;
     };
